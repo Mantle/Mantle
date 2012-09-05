@@ -20,6 +20,20 @@
                ReferencedContainer = "container:Maverick.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "D042FC8615F72BC7004E8054"
+               BuildableName = "Maverick iOS Tests.octest"
+               BlueprintName = "Maverick iOS Tests"
+               ReferencedContainer = "container:Maverick.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction

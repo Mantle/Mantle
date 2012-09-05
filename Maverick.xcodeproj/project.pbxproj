@@ -18,6 +18,8 @@
 		D042FC8815F72BC7004E8054 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D042FC5515F72B23004E8054 /* SenTestingKit.framework */; };
 		D042FC8B15F72BC7004E8054 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D042FC4415F72B23004E8054 /* Foundation.framework */; };
 		D042FC8E15F72BC7004E8054 /* libMaverick.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D042FC7915F72BC7004E8054 /* libMaverick.a */; };
+		D042FCC915F72E5F004E8054 /* MaverickTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D042FC6215F72B23004E8054 /* MaverickTests.m */; };
+		D042FCCA15F72E61004E8054 /* Maverick.m in Sources */ = {isa = PBXBuildFile; fileRef = D042FC4D15F72B23004E8054 /* Maverick.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -447,6 +449,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D042FCCA15F72E61004E8054 /* Maverick.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -454,6 +457,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D042FCC915F72E5F004E8054 /* MaverickTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
