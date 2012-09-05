@@ -34,6 +34,8 @@
 		D090E63715F730D1005282F9 /* NSSet+MAVHigherOrderAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = D090E62C15F730D1005282F9 /* NSSet+MAVHigherOrderAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D090E63815F730D1005282F9 /* NSSet+MAVHigherOrderAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D090E62D15F730D1005282F9 /* NSSet+MAVHigherOrderAdditions.m */; };
 		D090E63915F730D1005282F9 /* NSSet+MAVHigherOrderAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D090E62D15F730D1005282F9 /* NSSet+MAVHigherOrderAdditions.m */; };
+		D090E63E15F73269005282F9 /* EXTScope.m in Sources */ = {isa = PBXBuildFile; fileRef = D090E63C15F73265005282F9 /* EXTScope.m */; };
+		D090E63F15F73269005282F9 /* EXTScope.m in Sources */ = {isa = PBXBuildFile; fileRef = D090E63C15F73265005282F9 /* EXTScope.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -189,6 +191,9 @@
 		D090E62B15F730D1005282F9 /* NSOrderedSet+MAVHigherOrderAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSOrderedSet+MAVHigherOrderAdditions.m"; sourceTree = "<group>"; };
 		D090E62C15F730D1005282F9 /* NSSet+MAVHigherOrderAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSSet+MAVHigherOrderAdditions.h"; sourceTree = "<group>"; };
 		D090E62D15F730D1005282F9 /* NSSet+MAVHigherOrderAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSSet+MAVHigherOrderAdditions.m"; sourceTree = "<group>"; };
+		D090E63B15F73265005282F9 /* EXTScope.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = EXTScope.h; path = extobjc/EXTScope.h; sourceTree = "<group>"; };
+		D090E63C15F73265005282F9 /* EXTScope.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = EXTScope.m; path = extobjc/EXTScope.m; sourceTree = "<group>"; };
+		D090E63D15F73265005282F9 /* metamacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = metamacros.h; path = extobjc/metamacros.h; sourceTree = "<group>"; };
 		D0C92DE115F72F6A00387438 /* MaverickTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MaverickTests-Prefix.pch"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -262,6 +267,7 @@
 			children = (
 				D042FCCB15F72EE8004E8054 /* Expecta.xcodeproj */,
 				D042FCEE15F72EF1004E8054 /* Specta.xcodeproj */,
+				D090E63A15F73249005282F9 /* libextobjc */,
 				D042FC4315F72B23004E8054 /* CoreData.framework */,
 				D042FC4415F72B23004E8054 /* Foundation.framework */,
 				D042FC5515F72B23004E8054 /* SenTestingKit.framework */,
@@ -406,6 +412,16 @@
 				D090E62D15F730D1005282F9 /* NSSet+MAVHigherOrderAdditions.m */,
 			);
 			name = Extensions;
+			sourceTree = "<group>";
+		};
+		D090E63A15F73249005282F9 /* libextobjc */ = {
+			isa = PBXGroup;
+			children = (
+				D090E63B15F73265005282F9 /* EXTScope.h */,
+				D090E63C15F73265005282F9 /* EXTScope.m */,
+				D090E63D15F73265005282F9 /* metamacros.h */,
+			);
+			path = libextobjc;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -664,6 +680,7 @@
 				D090E63215F730D1005282F9 /* NSDictionary+MAVHigherOrderAdditions.m in Sources */,
 				D090E63515F730D1005282F9 /* NSOrderedSet+MAVHigherOrderAdditions.m in Sources */,
 				D090E63815F730D1005282F9 /* NSSet+MAVHigherOrderAdditions.m in Sources */,
+				D090E63E15F73269005282F9 /* EXTScope.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -683,6 +700,7 @@
 				D090E63315F730D1005282F9 /* NSDictionary+MAVHigherOrderAdditions.m in Sources */,
 				D090E63615F730D1005282F9 /* NSOrderedSet+MAVHigherOrderAdditions.m in Sources */,
 				D090E63915F730D1005282F9 /* NSSet+MAVHigherOrderAdditions.m in Sources */,
+				D090E63F15F73269005282F9 /* EXTScope.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
