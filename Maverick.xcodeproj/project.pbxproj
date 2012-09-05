@@ -14,6 +14,10 @@
 		D042FC6015F72B23004E8054 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D042FC5E15F72B23004E8054 /* InfoPlist.strings */; };
 		D042FC6315F72B23004E8054 /* MaverickTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D042FC6215F72B23004E8054 /* MaverickTests.m */; };
 		D042FC7415F72B90004E8054 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D042FC4415F72B23004E8054 /* Foundation.framework */; };
+		D042FC7A15F72BC7004E8054 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D042FC4415F72B23004E8054 /* Foundation.framework */; };
+		D042FC8815F72BC7004E8054 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D042FC5515F72B23004E8054 /* SenTestingKit.framework */; };
+		D042FC8B15F72BC7004E8054 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D042FC4415F72B23004E8054 /* Foundation.framework */; };
+		D042FC8E15F72BC7004E8054 /* libMaverick.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D042FC7915F72BC7004E8054 /* libMaverick.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -24,7 +28,26 @@
 			remoteGlobalIDString = D042FC3B15F72B23004E8054;
 			remoteInfo = Maverick;
 		};
+		D042FC8C15F72BC7004E8054 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D042FC3215F72B23004E8054 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D042FC7815F72BC7004E8054;
+			remoteInfo = Maverick;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		D042FC7715F72BC7004E8054 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/${PRODUCT_NAME}";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		D042FC3C15F72B23004E8054 /* Maverick.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Maverick.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -41,6 +64,8 @@
 		D042FC5F15F72B23004E8054 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D042FC6115F72B23004E8054 /* MaverickTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MaverickTests.h; sourceTree = "<group>"; };
 		D042FC6215F72B23004E8054 /* MaverickTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MaverickTests.m; sourceTree = "<group>"; };
+		D042FC7915F72BC7004E8054 /* libMaverick.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMaverick.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		D042FC8715F72BC7004E8054 /* MaverickTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MaverickTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +83,24 @@
 			files = (
 				D042FC5615F72B23004E8054 /* SenTestingKit.framework in Frameworks */,
 				D042FC5A15F72B23004E8054 /* Maverick.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D042FC7615F72BC7004E8054 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D042FC7A15F72BC7004E8054 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D042FC8315F72BC7004E8054 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D042FC8815F72BC7004E8054 /* SenTestingKit.framework in Frameworks */,
+				D042FC8B15F72BC7004E8054 /* Foundation.framework in Frameworks */,
+				D042FC8E15F72BC7004E8054 /* libMaverick.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -79,6 +122,8 @@
 			children = (
 				D042FC3C15F72B23004E8054 /* Maverick.framework */,
 				D042FC5415F72B23004E8054 /* MaverickTests.octest */,
+				D042FC7915F72BC7004E8054 /* libMaverick.a */,
+				D042FC8715F72BC7004E8054 /* MaverickTests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -182,6 +227,42 @@
 			productReference = D042FC5415F72B23004E8054 /* MaverickTests.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
+		D042FC7815F72BC7004E8054 /* Maverick iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D042FC9815F72BC7004E8054 /* Build configuration list for PBXNativeTarget "Maverick iOS" */;
+			buildPhases = (
+				D042FC7515F72BC7004E8054 /* Sources */,
+				D042FC7615F72BC7004E8054 /* Frameworks */,
+				D042FC7715F72BC7004E8054 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Maverick iOS";
+			productName = Maverick;
+			productReference = D042FC7915F72BC7004E8054 /* libMaverick.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		D042FC8615F72BC7004E8054 /* Maverick iOS Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D042FC9B15F72BC7004E8054 /* Build configuration list for PBXNativeTarget "Maverick iOS Tests" */;
+			buildPhases = (
+				D042FC8215F72BC7004E8054 /* Sources */,
+				D042FC8315F72BC7004E8054 /* Frameworks */,
+				D042FC8415F72BC7004E8054 /* Resources */,
+				D042FC8515F72BC7004E8054 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D042FC8D15F72BC7004E8054 /* PBXTargetDependency */,
+			);
+			name = "Maverick iOS Tests";
+			productName = MaverickTests;
+			productReference = D042FC8715F72BC7004E8054 /* MaverickTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -205,6 +286,8 @@
 			targets = (
 				D042FC3B15F72B23004E8054 /* Maverick Mac */,
 				D042FC5315F72B23004E8054 /* Maverick Mac Tests */,
+				D042FC7815F72BC7004E8054 /* Maverick iOS */,
+				D042FC8615F72BC7004E8054 /* Maverick iOS Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -226,10 +309,30 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D042FC8415F72BC7004E8054 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
 		D042FC5215F72B23004E8054 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+		D042FC8515F72BC7004E8054 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -261,6 +364,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D042FC7515F72BC7004E8054 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D042FC8215F72BC7004E8054 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -268,6 +385,11 @@
 			isa = PBXTargetDependency;
 			target = D042FC3B15F72B23004E8054 /* Maverick Mac */;
 			targetProxy = D042FC5815F72B23004E8054 /* PBXContainerItemProxy */;
+		};
+		D042FC8D15F72BC7004E8054 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D042FC7815F72BC7004E8054 /* Maverick iOS */;
+			targetProxy = D042FC8C15F72BC7004E8054 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -396,6 +518,78 @@
 			};
 			name = Release;
 		};
+		D042FC9915F72BC7004E8054 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				DSTROOT = /tmp/Maverick.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Maverick/Maverick-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = Maverick;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		D042FC9A15F72BC7004E8054 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				DSTROOT = /tmp/Maverick.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Maverick/Maverick-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = Maverick;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		D042FC9C15F72BC7004E8054 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Maverick/Maverick-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				INFOPLIST_FILE = "MaverickTests/MaverickTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		D042FC9D15F72BC7004E8054 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Maverick/Maverick-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				INFOPLIST_FILE = "MaverickTests/MaverickTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -425,6 +619,22 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		D042FC9815F72BC7004E8054 /* Build configuration list for PBXNativeTarget "Maverick iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D042FC9915F72BC7004E8054 /* Debug */,
+				D042FC9A15F72BC7004E8054 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		D042FC9B15F72BC7004E8054 /* Build configuration list for PBXNativeTarget "Maverick iOS Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D042FC9C15F72BC7004E8054 /* Debug */,
+				D042FC9D15F72BC7004E8054 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};

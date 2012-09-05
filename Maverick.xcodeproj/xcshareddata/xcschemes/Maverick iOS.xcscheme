@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D042FC3B15F72B23004E8054"
-               BuildableName = "Maverick.framework"
-               BlueprintName = "Maverick Mac"
+               BlueprintIdentifier = "D042FC7815F72BC7004E8054"
+               BuildableName = "libMaverick.a"
+               BlueprintName = "Maverick iOS"
                ReferencedContainer = "container:Maverick.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -32,9 +32,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D042FC5315F72B23004E8054"
-               BuildableName = "Maverick Mac Tests.octest"
-               BlueprintName = "Maverick Mac Tests"
+               BlueprintIdentifier = "D042FC8615F72BC7004E8054"
+               BuildableName = "MaverickTests.octest"
+               BlueprintName = "Maverick iOS Tests"
                ReferencedContainer = "container:Maverick.xcodeproj">
             </BuildableReference>
          </TestableReference>
