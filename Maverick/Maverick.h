@@ -6,8 +6,7 @@
 //  Copyright (c) 2012 GitHub. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-
-@interface Maverick : NSObject
-
-@end
+#import "NSArray+MAVHigherOrderAdditions.h"
+#import "NSDictionary+MAVHigherOrderAdditions.h"
+#import "NSOrderedSet+MAVHigherOrderAdditions.h"
+#import "NSSet+MAVHigherOrderAdditions.h"
