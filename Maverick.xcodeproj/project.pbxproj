@@ -12,14 +12,18 @@
 		D042FC5615F72B23004E8054 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D042FC5515F72B23004E8054 /* SenTestingKit.framework */; };
 		D042FC5A15F72B23004E8054 /* Maverick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D042FC3C15F72B23004E8054 /* Maverick.framework */; };
 		D042FC6015F72B23004E8054 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D042FC5E15F72B23004E8054 /* InfoPlist.strings */; };
-		D042FC6315F72B23004E8054 /* MaverickTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D042FC6215F72B23004E8054 /* MaverickTests.m */; };
+		D042FC6315F72B23004E8054 /* MaverickSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D042FC6215F72B23004E8054 /* MaverickSpec.m */; };
 		D042FC7415F72B90004E8054 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D042FC4415F72B23004E8054 /* Foundation.framework */; };
 		D042FC7A15F72BC7004E8054 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D042FC4415F72B23004E8054 /* Foundation.framework */; };
 		D042FC8815F72BC7004E8054 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D042FC5515F72B23004E8054 /* SenTestingKit.framework */; };
 		D042FC8B15F72BC7004E8054 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D042FC4415F72B23004E8054 /* Foundation.framework */; };
 		D042FC8E15F72BC7004E8054 /* libMaverick.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D042FC7915F72BC7004E8054 /* libMaverick.a */; };
-		D042FCC915F72E5F004E8054 /* MaverickTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D042FC6215F72B23004E8054 /* MaverickTests.m */; };
+		D042FCC915F72E5F004E8054 /* MaverickSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D042FC6215F72B23004E8054 /* MaverickSpec.m */; };
 		D042FCCA15F72E61004E8054 /* Maverick.m in Sources */ = {isa = PBXBuildFile; fileRef = D042FC4D15F72B23004E8054 /* Maverick.m */; };
+		D042FD0415F72F04004E8054 /* libExpecta.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D042FCE715F72EED004E8054 /* libExpecta.a */; };
+		D042FD0515F72F04004E8054 /* libSpecta.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D042FCF915F72EF1004E8054 /* libSpecta.a */; };
+		D042FD0A15F72F0D004E8054 /* libExpecta-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D042FCE915F72EED004E8054 /* libExpecta-iOS.a */; };
+		D042FD0B15F72F0D004E8054 /* libSpecta-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D042FCFB15F72EF1004E8054 /* libSpecta-iOS.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +40,90 @@
 			proxyType = 1;
 			remoteGlobalIDString = D042FC7815F72BC7004E8054;
 			remoteInfo = Maverick;
+		};
+		D042FCE615F72EED004E8054 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D042FCCB15F72EE8004E8054 /* Expecta.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E9ACDF0C13B2DD520010F4D7;
+			remoteInfo = Expecta;
+		};
+		D042FCE815F72EED004E8054 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D042FCCB15F72EE8004E8054 /* Expecta.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E93067CE13B2E6D100EA26FF;
+			remoteInfo = "Expecta-iOS";
+		};
+		D042FCEA15F72EED004E8054 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D042FCCB15F72EE8004E8054 /* Expecta.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E9ACDF1D13B2DD520010F4D7;
+			remoteInfo = ExpectaTests;
+		};
+		D042FCEC15F72EED004E8054 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D042FCCB15F72EE8004E8054 /* Expecta.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E93067DA13B2E6D100EA26FF;
+			remoteInfo = "Expecta-iOSTests";
+		};
+		D042FCF815F72EF1004E8054 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D042FCEE15F72EF1004E8054 /* Specta.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E9D96A2614B6B8AB007D9521;
+			remoteInfo = Specta;
+		};
+		D042FCFA15F72EF1004E8054 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D042FCEE15F72EF1004E8054 /* Specta.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E9B777A414BA294B00D8DC76;
+			remoteInfo = "Specta-iOS";
+		};
+		D042FCFC15F72EF1004E8054 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D042FCEE15F72EF1004E8054 /* Specta.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E9D96A3A14B6B8AB007D9521;
+			remoteInfo = SpectaTests;
+		};
+		D042FCFE15F72EF1004E8054 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D042FCEE15F72EF1004E8054 /* Specta.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E9B777B314BA294C00D8DC76;
+			remoteInfo = "Specta-iOSTests";
+		};
+		D042FD0015F72EFF004E8054 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D042FCCB15F72EE8004E8054 /* Expecta.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = E9ACDF0B13B2DD520010F4D7;
+			remoteInfo = Expecta;
+		};
+		D042FD0215F72EFF004E8054 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D042FCEE15F72EF1004E8054 /* Specta.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = E9D96A2514B6B8AB007D9521;
+			remoteInfo = Specta;
+		};
+		D042FD0615F72F09004E8054 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D042FCCB15F72EE8004E8054 /* Expecta.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = E93067CD13B2E6D100EA26FF;
+			remoteInfo = "Expecta-iOS";
+		};
+		D042FD0815F72F09004E8054 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D042FCEE15F72EF1004E8054 /* Specta.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = E9B777A314BA294B00D8DC76;
+			remoteInfo = "Specta-iOS";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -64,8 +152,7 @@
 		D042FC5515F72B23004E8054 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		D042FC5D15F72B23004E8054 /* MaverickTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MaverickTests-Info.plist"; sourceTree = "<group>"; };
 		D042FC5F15F72B23004E8054 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		D042FC6115F72B23004E8054 /* MaverickTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MaverickTests.h; sourceTree = "<group>"; };
-		D042FC6215F72B23004E8054 /* MaverickTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MaverickTests.m; sourceTree = "<group>"; };
+		D042FC6215F72B23004E8054 /* MaverickSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MaverickSpec.m; sourceTree = "<group>"; };
 		D042FC7915F72BC7004E8054 /* libMaverick.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMaverick.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D042FC8715F72BC7004E8054 /* Maverick iOS Tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Maverick iOS Tests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D042FCA015F72C16004E8054 /* Common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
@@ -83,6 +170,9 @@
 		D042FCB015F72C16004E8054 /* Mac-Framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Mac-Framework.xcconfig"; sourceTree = "<group>"; };
 		D042FCB115F72C16004E8054 /* Mac-StaticLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Mac-StaticLibrary.xcconfig"; sourceTree = "<group>"; };
 		D042FCB215F72C16004E8054 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		D042FCCB15F72EE8004E8054 /* Expecta.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Expecta.xcodeproj; path = MaverickTests/expecta/Expecta.xcodeproj; sourceTree = "<group>"; };
+		D042FCEE15F72EF1004E8054 /* Specta.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Specta.xcodeproj; path = MaverickTests/specta/Specta.xcodeproj; sourceTree = "<group>"; };
+		D0C92DE115F72F6A00387438 /* MaverickTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MaverickTests-Prefix.pch"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +188,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D042FD0415F72F04004E8054 /* libExpecta.a in Frameworks */,
+				D042FD0515F72F04004E8054 /* libSpecta.a in Frameworks */,
 				D042FC5615F72B23004E8054 /* SenTestingKit.framework in Frameworks */,
 				D042FC5A15F72B23004E8054 /* Maverick.framework in Frameworks */,
 			);
@@ -115,6 +207,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D042FD0A15F72F0D004E8054 /* libExpecta-iOS.a in Frameworks */,
+				D042FD0B15F72F0D004E8054 /* libSpecta-iOS.a in Frameworks */,
 				D042FC8815F72BC7004E8054 /* SenTestingKit.framework in Frameworks */,
 				D042FC8B15F72BC7004E8054 /* Foundation.framework in Frameworks */,
 				D042FC8E15F72BC7004E8054 /* libMaverick.a in Frameworks */,
@@ -149,6 +243,8 @@
 		D042FC3E15F72B23004E8054 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D042FCCB15F72EE8004E8054 /* Expecta.xcodeproj */,
+				D042FCEE15F72EF1004E8054 /* Specta.xcodeproj */,
 				D042FC4315F72B23004E8054 /* CoreData.framework */,
 				D042FC4415F72B23004E8054 /* Foundation.framework */,
 				D042FC5515F72B23004E8054 /* SenTestingKit.framework */,
@@ -179,8 +275,7 @@
 		D042FC5B15F72B23004E8054 /* MaverickTests */ = {
 			isa = PBXGroup;
 			children = (
-				D042FC6115F72B23004E8054 /* MaverickTests.h */,
-				D042FC6215F72B23004E8054 /* MaverickTests.m */,
+				D042FC6215F72B23004E8054 /* MaverickSpec.m */,
 				D042FC5C15F72B23004E8054 /* Supporting Files */,
 			);
 			path = MaverickTests;
@@ -189,6 +284,7 @@
 		D042FC5C15F72B23004E8054 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				D0C92DE115F72F6A00387438 /* MaverickTests-Prefix.pch */,
 				D042FC5D15F72B23004E8054 /* MaverickTests-Info.plist */,
 				D042FC5E15F72B23004E8054 /* InfoPlist.strings */,
 			);
@@ -258,6 +354,28 @@
 			path = "Mac OS X";
 			sourceTree = "<group>";
 		};
+		D042FCE015F72EED004E8054 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D042FCE715F72EED004E8054 /* libExpecta.a */,
+				D042FCE915F72EED004E8054 /* libExpecta-iOS.a */,
+				D042FCEB15F72EED004E8054 /* ExpectaTests.octest */,
+				D042FCED15F72EED004E8054 /* Expecta-iOSTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D042FCEF15F72EF1004E8054 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D042FCF915F72EF1004E8054 /* libSpecta.a */,
+				D042FCFB15F72EF1004E8054 /* libSpecta-iOS.a */,
+				D042FCFD15F72EF1004E8054 /* SpectaTests.octest */,
+				D042FCFF15F72EF1004E8054 /* Specta-iOSTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -301,6 +419,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				D042FD0115F72EFF004E8054 /* PBXTargetDependency */,
+				D042FD0315F72EFF004E8054 /* PBXTargetDependency */,
 				D042FC5915F72B23004E8054 /* PBXTargetDependency */,
 			);
 			name = "Maverick Mac Tests";
@@ -337,6 +457,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				D042FD0715F72F09004E8054 /* PBXTargetDependency */,
+				D042FD0915F72F09004E8054 /* PBXTargetDependency */,
 				D042FC8D15F72BC7004E8054 /* PBXTargetDependency */,
 			);
 			name = "Maverick iOS Tests";
@@ -363,6 +485,16 @@
 			mainGroup = D042FC3015F72B23004E8054;
 			productRefGroup = D042FC3D15F72B23004E8054 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = D042FCE015F72EED004E8054 /* Products */;
+					ProjectRef = D042FCCB15F72EE8004E8054 /* Expecta.xcodeproj */;
+				},
+				{
+					ProductGroup = D042FCEF15F72EF1004E8054 /* Products */;
+					ProjectRef = D042FCEE15F72EF1004E8054 /* Specta.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				D042FC3B15F72B23004E8054 /* Maverick Mac */,
@@ -372,6 +504,65 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		D042FCE715F72EED004E8054 /* libExpecta.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libExpecta.a;
+			remoteRef = D042FCE615F72EED004E8054 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D042FCE915F72EED004E8054 /* libExpecta-iOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libExpecta-iOS.a";
+			remoteRef = D042FCE815F72EED004E8054 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D042FCEB15F72EED004E8054 /* ExpectaTests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = ExpectaTests.octest;
+			remoteRef = D042FCEA15F72EED004E8054 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D042FCED15F72EED004E8054 /* Expecta-iOSTests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "Expecta-iOSTests.octest";
+			remoteRef = D042FCEC15F72EED004E8054 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D042FCF915F72EF1004E8054 /* libSpecta.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSpecta.a;
+			remoteRef = D042FCF815F72EF1004E8054 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D042FCFB15F72EF1004E8054 /* libSpecta-iOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libSpecta-iOS.a";
+			remoteRef = D042FCFA15F72EF1004E8054 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D042FCFD15F72EF1004E8054 /* SpectaTests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = SpectaTests.octest;
+			remoteRef = D042FCFC15F72EF1004E8054 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D042FCFF15F72EF1004E8054 /* Specta-iOSTests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "Specta-iOSTests.octest";
+			remoteRef = D042FCFE15F72EF1004E8054 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		D042FC3A15F72B23004E8054 /* Resources */ = {
@@ -441,7 +632,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D042FC6315F72B23004E8054 /* MaverickTests.m in Sources */,
+				D042FC6315F72B23004E8054 /* MaverickSpec.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -457,7 +648,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D042FCC915F72E5F004E8054 /* MaverickTests.m in Sources */,
+				D042FCC915F72E5F004E8054 /* MaverickSpec.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -473,6 +664,26 @@
 			isa = PBXTargetDependency;
 			target = D042FC7815F72BC7004E8054 /* Maverick iOS */;
 			targetProxy = D042FC8C15F72BC7004E8054 /* PBXContainerItemProxy */;
+		};
+		D042FD0115F72EFF004E8054 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Expecta;
+			targetProxy = D042FD0015F72EFF004E8054 /* PBXContainerItemProxy */;
+		};
+		D042FD0315F72EFF004E8054 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Specta;
+			targetProxy = D042FD0215F72EFF004E8054 /* PBXContainerItemProxy */;
+		};
+		D042FD0715F72F09004E8054 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Expecta-iOS";
+			targetProxy = D042FD0615F72F09004E8054 /* PBXContainerItemProxy */;
+		};
+		D042FD0915F72F09004E8054 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Specta-iOS";
+			targetProxy = D042FD0815F72F09004E8054 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -553,8 +764,13 @@
 			baseConfigurationReference = D042FCAD15F72C16004E8054 /* Mac-Application.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
-				GCC_PREFIX_HEADER = "Maverick/Maverick-Prefix.pch";
+				GCC_PREFIX_HEADER = "MaverickTests/MaverickTests-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					MaverickTests/specta/src,
+					"MaverickTests/expecta/src/**",
+				);
 				INFOPLIST_FILE = "MaverickTests/MaverickTests-Info.plist";
+				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = octest;
 			};
@@ -565,8 +781,13 @@
 			baseConfigurationReference = D042FCAD15F72C16004E8054 /* Mac-Application.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
-				GCC_PREFIX_HEADER = "Maverick/Maverick-Prefix.pch";
+				GCC_PREFIX_HEADER = "MaverickTests/MaverickTests-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					MaverickTests/specta/src,
+					"MaverickTests/expecta/src/**",
+				);
 				INFOPLIST_FILE = "MaverickTests/MaverickTests-Info.plist";
+				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = octest;
 			};
@@ -605,8 +826,13 @@
 					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
 					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
 				);
-				GCC_PREFIX_HEADER = "Maverick/Maverick-Prefix.pch";
+				GCC_PREFIX_HEADER = "MaverickTests/MaverickTests-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					MaverickTests/specta/src,
+					"MaverickTests/expecta/src/**",
+				);
 				INFOPLIST_FILE = "MaverickTests/MaverickTests-Info.plist";
+				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = octest;
 			};
@@ -621,8 +847,13 @@
 					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
 					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
 				);
-				GCC_PREFIX_HEADER = "Maverick/Maverick-Prefix.pch";
+				GCC_PREFIX_HEADER = "MaverickTests/MaverickTests-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					MaverickTests/specta/src,
+					"MaverickTests/expecta/src/**",
+				);
 				INFOPLIST_FILE = "MaverickTests/MaverickTests-Info.plist";
+				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = octest;
 			};
@@ -659,8 +890,13 @@
 			baseConfigurationReference = D042FCAD15F72C16004E8054 /* Mac-Application.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
-				GCC_PREFIX_HEADER = "Maverick/Maverick-Prefix.pch";
+				GCC_PREFIX_HEADER = "MaverickTests/MaverickTests-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					MaverickTests/specta/src,
+					"MaverickTests/expecta/src/**",
+				);
 				INFOPLIST_FILE = "MaverickTests/MaverickTests-Info.plist";
+				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = octest;
 			};
@@ -687,8 +923,13 @@
 					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
 					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
 				);
-				GCC_PREFIX_HEADER = "Maverick/Maverick-Prefix.pch";
+				GCC_PREFIX_HEADER = "MaverickTests/MaverickTests-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					MaverickTests/specta/src,
+					"MaverickTests/expecta/src/**",
+				);
 				INFOPLIST_FILE = "MaverickTests/MaverickTests-Info.plist";
+				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = octest;
 			};
