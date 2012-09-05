@@ -22,7 +22,7 @@
  * @param block A predicate block that determines whether to include or exclude
  * a given object.
  */
-- (id)filterUsingBlock:(BOOL(^)(id obj))block;
+- (id)mav_filterUsingBlock:(BOOL(^)(id obj))block;
 
 /**
  * Returns an array of filtered objects for which `block` returns true, applying `opts` while filtering.
@@ -31,7 +31,7 @@
  * @param block A predicate block that determines whether to include or exclude
  * a given object.
  */
-- (id)filterWithOptions:(NSEnumerationOptions)opts usingBlock:(BOOL(^)(id obj))block;
+- (id)mav_filterWithOptions:(NSEnumerationOptions)opts usingBlock:(BOOL(^)(id obj))block;
 
 /**
  * Returns an array of filtered objects for which `block` returns `YES`, and
@@ -46,7 +46,7 @@
  * collection. If this block returns `NO`, the object will be added to
  * `failedObjects`.
  */
-- (id)filterWithFailedObjects:(NSArray **)failedObjects usingBlock:(BOOL(^)(id obj))block;
+- (id)mav_filterWithFailedObjects:(NSArray **)failedObjects usingBlock:(BOOL(^)(id obj))block;
 
 /**
  * Returns an array of filtered objects for which `block` returns `YES`, and
@@ -62,7 +62,7 @@
  * collection. If this block returns `NO`, the object will be added to
  * `failedObjects`.
  */
-- (id)filterWithOptions:(NSEnumerationOptions)opts failedObjects:(NSArray **)failedObjects usingBlock:(BOOL(^)(id obj))block;
+- (id)mav_filterWithOptions:(NSEnumerationOptions)opts failedObjects:(NSArray **)failedObjects usingBlock:(BOOL(^)(id obj))block;
 
 /**
  * Reduces the receiver to a single value from left to right, using the given
@@ -83,7 +83,7 @@
  * @param block A block that describes how to combine elements of the receiver.
  * If the receiver is empty, this block will never be invoked.
  */
-- (id)foldLeftWithValue:(id)startingValue usingBlock:(id (^)(id left, id right))block;
+- (id)mav_foldLeftWithValue:(id)startingValue usingBlock:(id (^)(id left, id right))block;
 
 /**
  * Reduces the receiver to a single value from right to left, using the given
@@ -104,7 +104,7 @@
  * @param block A block that describes how to combine elements of the receiver.
  * If the receiver is empty, this block will never be invoked.
  */
-- (id)foldRightWithValue:(id)startingValue usingBlock:(id (^)(id left, id right))block;
+- (id)mav_foldRightWithValue:(id)startingValue usingBlock:(id (^)(id left, id right))block;
 
 /**
  * Transforms each object in the receiver with the given predicate, returning
@@ -119,7 +119,7 @@
  * you need the arrays to match in size, ensure that the given block returns
  * `NSNull` or `EXTNil` instead of `nil`.
  */
-- (id)mapUsingBlock:(id (^)(id obj))block;
+- (id)mav_mapUsingBlock:(id (^)(id obj))block;
 
 /**
  * Transforms each object in the receiver with the given predicate, according to
@@ -136,7 +136,7 @@
  * you need the arrays to match in size, ensure that the given block returns
  * `NSNull` or `EXTNil` instead of `nil`.
  */
-- (id)mapWithOptions:(NSEnumerationOptions)opts usingBlock:(id (^)(id obj))block;
+- (id)mav_mapWithOptions:(NSEnumerationOptions)opts usingBlock:(id (^)(id obj))block;
 
 /**
  * Returns the first object in the receiver that passes the given test, or `nil`
@@ -145,7 +145,7 @@
  * @param predicate The test to apply to each element in the receiver. This block
  * should return whether the object passed the test.
  */
-- (id)objectPassingTest:(BOOL (^)(id obj, NSUInteger index, BOOL *stop))predicate;
+- (id)mav_objectPassingTest:(BOOL (^)(id obj, NSUInteger index, BOOL *stop))predicate;
 
 /**
  * Returns the first object in the receiver that passes the given test, or `nil`
@@ -155,6 +155,6 @@
  * @param predicate The test to apply to each element in the receiver. This block
  * should return whether the object passed the test.
  */
-- (id)objectWithOptions:(NSEnumerationOptions)opts passingTest:(BOOL (^)(id obj, NSUInteger index, BOOL *stop))predicate;
+- (id)mav_objectWithOptions:(NSEnumerationOptions)opts passingTest:(BOOL (^)(id obj, NSUInteger index, BOOL *stop))predicate;
 
 @end

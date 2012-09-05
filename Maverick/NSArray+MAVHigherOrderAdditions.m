@@ -15,19 +15,19 @@
 
 @implementation NSArray (MAVHigherOrderAdditions)
 
-- (id)filterUsingBlock:(BOOL(^)(id obj))block {
-    return [self filterWithOptions:0 usingBlock:block];
+- (id)mav_filterUsingBlock:(BOOL(^)(id obj))block {
+    return [self mav_filterWithOptions:0 usingBlock:block];
 }
 
-- (id)filterWithOptions:(NSEnumerationOptions)opts usingBlock:(BOOL(^)(id obj))block {
-    return [self filterWithOptions:opts failedObjects:NULL usingBlock:block];
+- (id)mav_filterWithOptions:(NSEnumerationOptions)opts usingBlock:(BOOL(^)(id obj))block {
+    return [self mav_filterWithOptions:opts failedObjects:NULL usingBlock:block];
 }
 
-- (id)filterWithFailedObjects:(NSArray **)failedObjects usingBlock:(BOOL(^)(id obj))block; {
-    return [self filterWithOptions:0 failedObjects:failedObjects usingBlock:block];
+- (id)mav_filterWithFailedObjects:(NSArray **)failedObjects usingBlock:(BOOL(^)(id obj))block; {
+    return [self mav_filterWithOptions:0 failedObjects:failedObjects usingBlock:block];
 }
 
-- (id)filterWithOptions:(NSEnumerationOptions)opts failedObjects:(NSArray **)failedObjects usingBlock:(BOOL(^)(id obj))block; {
+- (id)mav_filterWithOptions:(NSEnumerationOptions)opts failedObjects:(NSArray **)failedObjects usingBlock:(BOOL(^)(id obj))block; {
     NSIndexSet *successIndexes = [self indexesOfObjectsWithOptions:opts passingTest:^(id obj, NSUInteger idx, BOOL *stop) {
         return block(obj);
     }];
@@ -64,7 +64,7 @@
     }
 }
 
-- (id)foldLeftWithValue:(id)startingValue usingBlock:(id (^)(id left, id right))block; {
+- (id)mav_foldLeftWithValue:(id)startingValue usingBlock:(id (^)(id left, id right))block; {
     __block id value = startingValue;
 
     [self enumerateObjectsUsingBlock:^(id obj, NSUInteger index, BOOL *stop){
@@ -74,7 +74,7 @@
     return value;
 }
 
-- (id)foldRightWithValue:(id)startingValue usingBlock:(id (^)(id left, id right))block; {
+- (id)mav_foldRightWithValue:(id)startingValue usingBlock:(id (^)(id left, id right))block; {
     __block id value = startingValue;
 
     [self enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(id obj, NSUInteger index, BOOL *stop){
@@ -84,11 +84,11 @@
     return value;
 }
 
-- (id)mapUsingBlock:(id (^)(id obj))block; {
-    return [self mapWithOptions:0 usingBlock:block];
+- (id)mav_mapUsingBlock:(id (^)(id obj))block; {
+    return [self mav_mapWithOptions:0 usingBlock:block];
 }
 
-- (id)mapWithOptions:(NSEnumerationOptions)opts usingBlock:(id (^)(id obj))block; {
+- (id)mav_mapWithOptions:(NSEnumerationOptions)opts usingBlock:(id (^)(id obj))block; {
     NSUInteger originalCount = [self count];
 
     BOOL concurrent = (opts & NSEnumerationConcurrent);
@@ -169,11 +169,11 @@
     return [NSArray arrayWithObjects:(id *)objects count:actualCount];
 }
 
-- (id)objectPassingTest:(BOOL (^)(id obj, NSUInteger index, BOOL *stop))predicate; {
-    return [self objectWithOptions:0 passingTest:predicate];
+- (id)mav_objectPassingTest:(BOOL (^)(id obj, NSUInteger index, BOOL *stop))predicate; {
+    return [self mav_objectWithOptions:0 passingTest:predicate];
 }
 
-- (id)objectWithOptions:(NSEnumerationOptions)opts passingTest:(BOOL (^)(id obj, NSUInteger index, BOOL *stop))predicate; {
+- (id)mav_objectWithOptions:(NSEnumerationOptions)opts passingTest:(BOOL (^)(id obj, NSUInteger index, BOOL *stop))predicate; {
     NSUInteger index = [self indexOfObjectWithOptions:opts passingTest:predicate];
     if (index == NSNotFound)
         return nil;

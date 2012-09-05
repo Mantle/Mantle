@@ -23,7 +23,7 @@
  * @param block A predicate block that determines whether to include or exclude
  * a given key-value pair.
  */
-- (NSDictionary *)filterEntriesUsingBlock:(BOOL (^)(id key, id value))block;
+- (NSDictionary *)mav_filterEntriesUsingBlock:(BOOL (^)(id key, id value))block;
 
 /**
  * Filters the keys and values of the receiver with the given predicate,
@@ -34,7 +34,7 @@
  * @param block A predicate block that determines whether to include or exclude
  * a given key-value pair.
  */
-- (NSDictionary *)filterEntriesWithOptions:(NSEnumerationOptions)opts usingBlock:(BOOL (^)(id key, id value))block;
+- (NSDictionary *)mav_filterEntriesWithOptions:(NSEnumerationOptions)opts usingBlock:(BOOL (^)(id key, id value))block;
 
 /**
  * Returns an dictionary of filtered entries for which `block` returns `YES`,
@@ -49,7 +49,7 @@
  * returned collection. If this block returns `NO`, the object will be added to
  * `failedEntries`.
  */
-- (NSDictionary *)filterEntriesWithFailedEntries:(NSDictionary **)failedEntries usingBlock:(BOOL(^)(id key, id value))block;
+- (NSDictionary *)mav_filterEntriesWithFailedEntries:(NSDictionary **)failedEntries usingBlock:(BOOL(^)(id key, id value))block;
 
 /**
  * Returns an dictionary of filtered entries for which `block` returns `YES`,
@@ -65,7 +65,7 @@
  * returned collection. If this block returns `NO`, the object will be added to
  * `failedEntries`.
  */
-- (NSDictionary *)filterEntriesWithOptions:(NSEnumerationOptions)opts failedEntries:(NSDictionary **)failedEntries usingBlock:(BOOL(^)(id key, id value))block;
+- (NSDictionary *)mav_filterEntriesWithOptions:(NSEnumerationOptions)opts failedEntries:(NSDictionary **)failedEntries usingBlock:(BOOL(^)(id key, id value))block;
 
 /**
  * Reduces the receiver to a single value, using the given block.
@@ -91,7 +91,7 @@
  * the algorithm used for `block` must work irrespective of the order that the
  * dictionary's elements are processed, as dictionaries are unordered.
  */
-- (id)foldEntriesWithValue:(id)startingValue usingBlock:(id (^)(id left, id rightKey, id rightValue))block;
+- (id)mav_foldEntriesWithValue:(id)startingValue usingBlock:(id (^)(id left, id rightKey, id rightValue))block;
 
 /**
  * Transforms each value in the receiver with the given predicate, returning
@@ -106,7 +106,7 @@
  * receiver. If you need the dictionaries to match in size, ensure that the
  * given block returns `NSNull` or `EXTNil` instead of `nil`.
  */
-- (NSDictionary *)mapValuesUsingBlock:(id (^)(id key, id value))block;
+- (NSDictionary *)mav_mapValuesUsingBlock:(id (^)(id key, id value))block;
 
 /**
  * Transforms each value in the receiver with the given predicate, according to
@@ -123,7 +123,7 @@
  * receiver. If you need the dictionaries to match in size, ensure that the
  * given block returns `NSNull` or `EXTNil` instead of `nil`.
  */
-- (NSDictionary *)mapValuesWithOptions:(NSEnumerationOptions)opts usingBlock:(id (^)(id key, id value))block;
+- (NSDictionary *)mav_mapValuesWithOptions:(NSEnumerationOptions)opts usingBlock:(id (^)(id key, id value))block;
 
 /**
  * Returns the key of an entry in the receiver that passes the given test, or
@@ -132,7 +132,7 @@
  * @param predicate The test to apply to each entry in the receiver. This block
  * should return whether the entry passed the test.
  */
-- (id)keyOfEntryPassingTest:(BOOL (^)(id key, id obj, BOOL *stop))predicate;
+- (id)mav_keyOfEntryPassingTest:(BOOL (^)(id key, id obj, BOOL *stop))predicate;
 
 /**
  * Returns the key of an entry in the receiver that passes the given test, or
@@ -142,6 +142,6 @@
  * @param predicate The test to apply to each entry in the receiver. This block
  * should return whether the entry passed the test.
  */
-- (id)keyOfEntryWithOptions:(NSEnumerationOptions)opts passingTest:(BOOL (^)(id key, id obj, BOOL *stop))predicate;
+- (id)mav_keyOfEntryWithOptions:(NSEnumerationOptions)opts passingTest:(BOOL (^)(id key, id obj, BOOL *stop))predicate;
 
 @end
