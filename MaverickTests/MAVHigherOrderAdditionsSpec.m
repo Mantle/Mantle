@@ -112,10 +112,11 @@ describe(@"dictionary", ^{
 
 	describe(@"successful mapping", ^{
 		id mapBlock = ^ id (id key, id value){
-			if ([key isKindOfClass:[NSString class]] && [key hasPrefix:@"ba"])
+			if ([key isKindOfClass:[NSString class]] && [key hasPrefix:@"ba"]) {
 				return [value stringByAppendingString:@"buzz"];
-			else
+			} else {
 				return [NSNull null];
+			}
 		};
 
 		NSDictionary *mappedDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -147,10 +148,11 @@ describe(@"dictionary", ^{
 
 	it(@"should remove elements when mapping block returns nil", ^{
 		id removingMapBlock = ^ id (id key, id value){
-			if ([key isKindOfClass:[NSString class]] && [key hasPrefix:@"b"])
+			if ([key isKindOfClass:[NSString class]] && [key hasPrefix:@"b"]) {
 				return [@"buzz" stringByAppendingString:value];
-			else
+			} else {
 				return nil;
+			}
 		};
 
 		NSDictionary *mappedDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -165,16 +167,14 @@ describe(@"dictionary", ^{
 
 	describe(@"folding", ^{
 		id foldBlock = ^(NSString *soFar, id nextKey, NSString *nextValue){
-			if (![nextKey isKindOfClass:[NSString class]])
-				return soFar;
+			if (![nextKey isKindOfClass:[NSString class]]) return soFar;
+			if (![nextValue isKindOfClass:[NSString class]]) nextValue = @"null";
 
-			if (![nextValue isKindOfClass:[NSString class]])
-				nextValue = @"null";
-
-			if ([nextValue compare:soFar options:0 range:NSMakeRange(1, nextValue.length - 1)] == NSOrderedDescending)
+			if ([nextValue compare:soFar options:0 range:NSMakeRange(1, nextValue.length - 1)] == NSOrderedDescending) {
 				return [nextValue substringFromIndex:1];
-			else
+			} else {
 				return soFar;
+			}
 		};
 
 		NSString *startingValue = @"aaaa";
@@ -416,10 +416,11 @@ describe(@"non-empty collection", ^{
 
 		it(@"should remove elements when mapping block returns nil", ^{
 			id removingMapBlock = ^ id (NSString *str){
-				if ([str hasPrefix:@"ba"])
+				if ([str hasPrefix:@"ba"]) {
 					return [str stringByAppendingString:@"buzz"];
-				else
+				} else {
 					return nil;
+				}
 			};
 
 			id correspondingFilterBlock = ^(NSString *str){

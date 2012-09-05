@@ -36,8 +36,7 @@
         NSMutableArray *mutableSuccess = [[NSMutableArray alloc] initWithCapacity:[successIndexes count]];
 
         NSMutableArray *mutableFailed = nil;
-        if (failedObjects)
-            mutableFailed = [[NSMutableArray alloc] initWithCapacity:[self count] - [successIndexes count] - 1];
+        if (failedObjects != NULL) mutableFailed = [[NSMutableArray alloc] initWithCapacity:[self count] - [successIndexes count] - 1];
 
         [self enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(id obj, NSUInteger index, BOOL *stop){
             if ([successIndexes containsIndex:index])
@@ -46,12 +45,11 @@
                 [mutableFailed addObject:obj];
         }];
 
-        if (failedObjects)
-            *failedObjects = [mutableFailed copy];
+        if (failedObjects != NULL) *failedObjects = [mutableFailed copy];
 
         return [mutableSuccess copy];
     } else {
-        if (failedObjects) {
+        if (failedObjects != NULL) {
             NSUInteger totalCount = self.count;
 
             NSMutableIndexSet *failedIndexes = [[NSMutableIndexSet alloc] initWithIndexesInRange:NSMakeRange(0, totalCount)];
@@ -95,7 +93,7 @@
     BOOL reverse = (opts & NSEnumerationReverse);
 
     __strong volatile id *objects = (__strong id *)calloc(originalCount, sizeof(*objects));
-    if (!objects) {
+    if (objects == NULL) {
         return nil;
     }
 
@@ -126,7 +124,7 @@
         [self enumerateObjectsWithOptions:opts usingBlock:^(id obj, NSUInteger index, BOOL *stop){
             id result = block(obj);
             
-            if (!result) {
+            if (result == nil) {
                 if (concurrent) {
                     // indicate that the array will need compaction, because it now has
                     // nil values in it

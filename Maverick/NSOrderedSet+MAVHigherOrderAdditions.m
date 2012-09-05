@@ -37,18 +37,17 @@
         NSMutableOrderedSet *mutableSuccess = [[NSMutableOrderedSet alloc] initWithCapacity:[successIndexes count]];
 
         NSMutableOrderedSet *mutableFailed = nil;
-        if (failedObjects)
-            mutableFailed = [[NSMutableOrderedSet alloc] initWithCapacity:[self count] - [successIndexes count] - 1];
+        if (failedObjects != NULL) mutableFailed = [[NSMutableOrderedSet alloc] initWithCapacity:[self count] - [successIndexes count] - 1];
 
         [self enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(id obj, NSUInteger index, BOOL *stop){
-            if ([successIndexes containsIndex:index])
+            if ([successIndexes containsIndex:index]) {
                 [mutableSuccess addObject:obj];
-            else
+            } else {
                 [mutableFailed addObject:obj];
+			}
         }];
 
-        if (failedObjects)
-            *failedObjects = [mutableFailed copy];
+        if (failedObjects != NULL) *failedObjects = [mutableFailed copy];
 
         return [mutableSuccess copy];
     } else {
@@ -88,7 +87,7 @@
     BOOL reverse = (opts & NSEnumerationReverse);
 
     __strong volatile id *objects = (__strong id *)calloc(originalCount, sizeof(*objects));
-    if (!objects) {
+    if (objects == NULL) {
         return nil;
     }
 
@@ -119,7 +118,7 @@
         [self enumerateObjectsWithOptions:opts usingBlock:^(id obj, NSUInteger index, BOOL *stop){
             id result = block(obj);
             
-            if (!result) {
+            if (result == nil) {
                 if (concurrent) {
                     // indicate that the array will need compaction, because it now has
                     // nil values in it
@@ -131,8 +130,7 @@
                 return;
             }
 
-            if (reverse)
-                index = originalCount - index - 1;
+            if (reverse) index = originalCount - index - 1;
 
             // only need to store into the array on success, since it was filled
             // with zeroes on allocation
@@ -168,10 +166,11 @@
 
 - (id)mav_objectWithOptions:(NSEnumerationOptions)opts passingTest:(BOOL (^)(id obj, NSUInteger index, BOOL *stop))predicate; {
     NSUInteger index = [self indexOfObjectWithOptions:opts passingTest:predicate];
-    if (index == NSNotFound)
+    if (index == NSNotFound) {
         return nil;
-    else
+    } else {
         return [self objectAtIndex:index];
+	}
 }
 
 @end

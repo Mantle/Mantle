@@ -39,7 +39,7 @@
     // note that we don't need to retain the objects, since the set is already
     // doing so
     __unsafe_unretained volatile id *objects = (__unsafe_unretained id *)calloc(originalCount, sizeof(*objects));
-    if (!objects) {
+    if (objects == NULL) {
         return nil;
     }
 
@@ -78,7 +78,7 @@
     NSUInteger successCount = (NSUInteger)nextSuccessIndex;
     NSUInteger failureCount = originalCount - 1 - (NSUInteger)nextFailureIndex;
 
-    if (failedObjects) {
+    if (failedObjects != NULL) {
         *failedObjects = [NSSet setWithObjects:(__unsafe_unretained id *)(objects + nextFailureIndex + 1) count:failureCount];
     }
 
@@ -104,7 +104,7 @@
     BOOL concurrent = (opts & NSEnumerationConcurrent);
 
     __strong volatile id *objects = (__strong id *)calloc(originalCount, sizeof(*objects));
-    if (!objects) {
+    if (objects == NULL) {
         return nil;
     }
 
@@ -127,7 +127,7 @@
     [self enumerateObjectsWithOptions:opts usingBlock:^(id obj, BOOL *stop){
         id result = block(obj);
         
-        if (!result) {
+        if (result == nil) {
             // don't increment the index, go on to the next object
             return;
         }
@@ -158,8 +158,7 @@
 
     [self enumerateObjectsWithOptions:opts usingBlock:^(id obj, BOOL *stop){
         BOOL passed = predicate(obj, stop);
-        if (!passed)
-            return;
+        if (!passed) return;
 
         if (concurrent) {
             // we don't use a barrier because it doesn't really matter if we

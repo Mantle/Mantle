@@ -44,7 +44,7 @@
     // note that we don't need to retain the objects, since the dictionary is already
     // doing so
     __unsafe_unretained volatile id *keys = (__unsafe_unretained id *)calloc(originalCount, sizeof(*keys));
-    if (!keys) {
+    if (keys == NULL) {
         return nil;
     }
 
@@ -58,7 +58,7 @@
     // note that we don't need to retain the objects, since the dictionary is already
     // doing so
     __unsafe_unretained volatile id *values = (__unsafe_unretained id *)calloc(originalCount, sizeof(*values));
-    if (!values) {
+    if (values == NULL) {
         return nil;
     }
 
@@ -128,7 +128,7 @@
     // we don't need to retain the individual keys, since the original
     // dictionary is already doing so, and the keys themselves won't change
     __unsafe_unretained volatile id *keys = (__unsafe_unretained id *)calloc(originalCount, sizeof(*keys));
-    if (!keys) {
+    if (keys == NULL) {
         return nil;
     }
 
@@ -137,7 +137,7 @@
     };
 
     __strong volatile id *values = (__strong id *)calloc(originalCount, sizeof(*values));
-    if (!values) {
+    if (values == NULL) {
         return nil;
     }
 
@@ -160,7 +160,7 @@
     [self enumerateKeysAndObjectsWithOptions:opts usingBlock:^(id key, id value, BOOL *stop){
         id newValue = block(key, value);
         
-        if (!newValue) {
+        if (newValue == nil) {
             // don't increment the index, go on to the next object
             return;
         }
@@ -193,8 +193,7 @@
 
     [self enumerateKeysAndObjectsWithOptions:opts usingBlock:^(id key, id obj, BOOL *stop){
         BOOL passed = predicate(key, obj, stop);
-        if (!passed)
-            return;
+        if (!passed) return;
 
         if (concurrent) {
             // we don't use a barrier because it doesn't really matter if we
