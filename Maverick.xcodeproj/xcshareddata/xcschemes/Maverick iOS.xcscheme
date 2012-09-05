@@ -33,7 +33,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D042FC8615F72BC7004E8054"
-               BuildableName = "MaverickTests.octest"
+               BuildableName = "Maverick iOS Tests.octest"
                BlueprintName = "Maverick iOS Tests"
                ReferencedContainer = "container:Maverick.xcodeproj">
             </BuildableReference>
@@ -56,7 +56,7 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
-      buildConfiguration = "Release"
+      buildConfiguration = "Profile"
       debugDocumentVersioning = "YES">
    </ProfileAction>
    <AnalyzeAction

@@ -58,14 +58,29 @@
 		D042FC4B15F72B23004E8054 /* Maverick-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Maverick-Prefix.pch"; sourceTree = "<group>"; };
 		D042FC4C15F72B23004E8054 /* Maverick.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Maverick.h; sourceTree = "<group>"; };
 		D042FC4D15F72B23004E8054 /* Maverick.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Maverick.m; sourceTree = "<group>"; };
-		D042FC5415F72B23004E8054 /* MaverickTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MaverickTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D042FC5415F72B23004E8054 /* Maverick Mac Tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Maverick Mac Tests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D042FC5515F72B23004E8054 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		D042FC5D15F72B23004E8054 /* MaverickTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MaverickTests-Info.plist"; sourceTree = "<group>"; };
 		D042FC5F15F72B23004E8054 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D042FC6115F72B23004E8054 /* MaverickTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MaverickTests.h; sourceTree = "<group>"; };
 		D042FC6215F72B23004E8054 /* MaverickTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MaverickTests.m; sourceTree = "<group>"; };
 		D042FC7915F72BC7004E8054 /* libMaverick.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMaverick.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		D042FC8715F72BC7004E8054 /* MaverickTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MaverickTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D042FC8715F72BC7004E8054 /* Maverick iOS Tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Maverick iOS Tests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D042FCA015F72C16004E8054 /* Common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
+		D042FCA215F72C16004E8054 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
+		D042FCA315F72C16004E8054 /* Profile.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Profile.xcconfig; sourceTree = "<group>"; };
+		D042FCA415F72C16004E8054 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
+		D042FCA615F72C16004E8054 /* Application.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Application.xcconfig; sourceTree = "<group>"; };
+		D042FCA715F72C16004E8054 /* StaticLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = StaticLibrary.xcconfig; sourceTree = "<group>"; };
+		D042FCA915F72C16004E8054 /* iOS-Application.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "iOS-Application.xcconfig"; sourceTree = "<group>"; };
+		D042FCAA15F72C16004E8054 /* iOS-Base.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "iOS-Base.xcconfig"; sourceTree = "<group>"; };
+		D042FCAB15F72C16004E8054 /* iOS-StaticLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "iOS-StaticLibrary.xcconfig"; sourceTree = "<group>"; };
+		D042FCAD15F72C16004E8054 /* Mac-Application.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Mac-Application.xcconfig"; sourceTree = "<group>"; };
+		D042FCAE15F72C16004E8054 /* Mac-Base.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Mac-Base.xcconfig"; sourceTree = "<group>"; };
+		D042FCAF15F72C16004E8054 /* Mac-DynamicLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Mac-DynamicLibrary.xcconfig"; sourceTree = "<group>"; };
+		D042FCB015F72C16004E8054 /* Mac-Framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Mac-Framework.xcconfig"; sourceTree = "<group>"; };
+		D042FCB115F72C16004E8054 /* Mac-StaticLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Mac-StaticLibrary.xcconfig"; sourceTree = "<group>"; };
+		D042FCB215F72C16004E8054 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +128,7 @@
 				D042FC4515F72B23004E8054 /* Maverick */,
 				D042FC5B15F72B23004E8054 /* MaverickTests */,
 				D042FC3E15F72B23004E8054 /* Frameworks */,
+				D042FC9E15F72C16004E8054 /* Configuration */,
 				D042FC3D15F72B23004E8054 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -121,9 +137,9 @@
 			isa = PBXGroup;
 			children = (
 				D042FC3C15F72B23004E8054 /* Maverick.framework */,
-				D042FC5415F72B23004E8054 /* MaverickTests.octest */,
+				D042FC5415F72B23004E8054 /* Maverick Mac Tests.octest */,
 				D042FC7915F72BC7004E8054 /* libMaverick.a */,
-				D042FC8715F72BC7004E8054 /* MaverickTests.octest */,
+				D042FC8715F72BC7004E8054 /* Maverick iOS Tests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -177,6 +193,69 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		D042FC9E15F72C16004E8054 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				D042FC9F15F72C16004E8054 /* Base */,
+				D042FCA815F72C16004E8054 /* iOS */,
+				D042FCAC15F72C16004E8054 /* Mac OS X */,
+				D042FCB215F72C16004E8054 /* README.md */,
+			);
+			name = Configuration;
+			path = libextobjc/Configuration;
+			sourceTree = "<group>";
+		};
+		D042FC9F15F72C16004E8054 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				D042FCA015F72C16004E8054 /* Common.xcconfig */,
+				D042FCA115F72C16004E8054 /* Configurations */,
+				D042FCA515F72C16004E8054 /* Targets */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		D042FCA115F72C16004E8054 /* Configurations */ = {
+			isa = PBXGroup;
+			children = (
+				D042FCA215F72C16004E8054 /* Debug.xcconfig */,
+				D042FCA315F72C16004E8054 /* Profile.xcconfig */,
+				D042FCA415F72C16004E8054 /* Release.xcconfig */,
+			);
+			path = Configurations;
+			sourceTree = "<group>";
+		};
+		D042FCA515F72C16004E8054 /* Targets */ = {
+			isa = PBXGroup;
+			children = (
+				D042FCA615F72C16004E8054 /* Application.xcconfig */,
+				D042FCA715F72C16004E8054 /* StaticLibrary.xcconfig */,
+			);
+			path = Targets;
+			sourceTree = "<group>";
+		};
+		D042FCA815F72C16004E8054 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				D042FCA915F72C16004E8054 /* iOS-Application.xcconfig */,
+				D042FCAA15F72C16004E8054 /* iOS-Base.xcconfig */,
+				D042FCAB15F72C16004E8054 /* iOS-StaticLibrary.xcconfig */,
+			);
+			path = iOS;
+			sourceTree = "<group>";
+		};
+		D042FCAC15F72C16004E8054 /* Mac OS X */ = {
+			isa = PBXGroup;
+			children = (
+				D042FCAD15F72C16004E8054 /* Mac-Application.xcconfig */,
+				D042FCAE15F72C16004E8054 /* Mac-Base.xcconfig */,
+				D042FCAF15F72C16004E8054 /* Mac-DynamicLibrary.xcconfig */,
+				D042FCB015F72C16004E8054 /* Mac-Framework.xcconfig */,
+				D042FCB115F72C16004E8054 /* Mac-StaticLibrary.xcconfig */,
+			);
+			path = "Mac OS X";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -224,7 +303,7 @@
 			);
 			name = "Maverick Mac Tests";
 			productName = MaverickTests;
-			productReference = D042FC5415F72B23004E8054 /* MaverickTests.octest */;
+			productReference = D042FC5415F72B23004E8054 /* Maverick Mac Tests.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
 		D042FC7815F72BC7004E8054 /* Maverick iOS */ = {
@@ -260,7 +339,7 @@
 			);
 			name = "Maverick iOS Tests";
 			productName = MaverickTests;
-			productReference = D042FC8715F72BC7004E8054 /* MaverickTests.octest */;
+			productReference = D042FC8715F72BC7004E8054 /* Maverick iOS Tests.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -415,61 +494,35 @@
 /* Begin XCBuildConfiguration section */
 		D042FC6415F72B23004E8054 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D042FCA215F72C16004E8054 /* Debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
-				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 			};
 			name = Debug;
 		};
 		D042FC6515F72B23004E8054 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D042FCA415F72C16004E8054 /* Release.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
-				SDKROOT = macosx;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 			};
 			name = Release;
 		};
 		D042FC6715F72B23004E8054 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D042FCB015F72C16004E8054 /* Mac-Framework.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Maverick/Maverick-Prefix.pch";
 				INFOPLIST_FILE = "Maverick/Maverick-Info.plist";
 				PRODUCT_NAME = Maverick;
@@ -479,12 +532,11 @@
 		};
 		D042FC6815F72B23004E8054 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D042FCB015F72C16004E8054 /* Mac-Framework.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Maverick/Maverick-Prefix.pch";
 				INFOPLIST_FILE = "Maverick/Maverick-Info.plist";
 				PRODUCT_NAME = Maverick;
@@ -494,10 +546,9 @@
 		};
 		D042FC6A15F72B23004E8054 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D042FCAD15F72C16004E8054 /* Mac-Application.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Maverick/Maverick-Prefix.pch";
 				INFOPLIST_FILE = "MaverickTests/MaverickTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -507,10 +558,9 @@
 		};
 		D042FC6B15F72B23004E8054 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D042FCAD15F72C16004E8054 /* Mac-Application.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Maverick/Maverick-Prefix.pch";
 				INFOPLIST_FILE = "MaverickTests/MaverickTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -520,75 +570,125 @@
 		};
 		D042FC9915F72BC7004E8054 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D042FCAB15F72C16004E8054 /* iOS-StaticLibrary.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				DSTROOT = /tmp/Maverick.dst;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Maverick/Maverick-Prefix.pch";
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = Maverick;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
 			};
 			name = Debug;
 		};
 		D042FC9A15F72BC7004E8054 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D042FCAB15F72C16004E8054 /* iOS-StaticLibrary.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				DSTROOT = /tmp/Maverick.dst;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Maverick/Maverick-Prefix.pch";
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = Maverick;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
 		D042FC9C15F72BC7004E8054 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D042FCA915F72C16004E8054 /* iOS-Application.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
 					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
 				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Maverick/Maverick-Prefix.pch";
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "MaverickTests/MaverickTests-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
 				WRAPPER_EXTENSION = octest;
 			};
 			name = Debug;
 		};
 		D042FC9D15F72BC7004E8054 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D042FCA915F72C16004E8054 /* iOS-Application.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
 					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
 				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Maverick/Maverick-Prefix.pch";
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "MaverickTests/MaverickTests-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = octest;
 			};
 			name = Release;
+		};
+		D042FCC415F72E0C004E8054 /* Profile */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D042FCA315F72C16004E8054 /* Profile.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+			};
+			name = Profile;
+		};
+		D042FCC515F72E0C004E8054 /* Profile */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D042FCB015F72C16004E8054 /* Mac-Framework.xcconfig */;
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_PREFIX_HEADER = "Maverick/Maverick-Prefix.pch";
+				INFOPLIST_FILE = "Maverick/Maverick-Info.plist";
+				PRODUCT_NAME = Maverick;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Profile;
+		};
+		D042FCC615F72E0C004E8054 /* Profile */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D042FCAD15F72C16004E8054 /* Mac-Application.xcconfig */;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
+				GCC_PREFIX_HEADER = "Maverick/Maverick-Prefix.pch";
+				INFOPLIST_FILE = "MaverickTests/MaverickTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Profile;
+		};
+		D042FCC715F72E0C004E8054 /* Profile */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D042FCAB15F72C16004E8054 /* iOS-StaticLibrary.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				DSTROOT = /tmp/Maverick.dst;
+				GCC_PREFIX_HEADER = "Maverick/Maverick-Prefix.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = Maverick;
+			};
+			name = Profile;
+		};
+		D042FCC815F72E0C004E8054 /* Profile */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D042FCA915F72C16004E8054 /* iOS-Application.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PREFIX_HEADER = "Maverick/Maverick-Prefix.pch";
+				INFOPLIST_FILE = "MaverickTests/MaverickTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Profile;
 		};
 /* End XCBuildConfiguration section */
 
@@ -598,6 +698,7 @@
 			buildConfigurations = (
 				D042FC6415F72B23004E8054 /* Debug */,
 				D042FC6515F72B23004E8054 /* Release */,
+				D042FCC415F72E0C004E8054 /* Profile */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -607,6 +708,7 @@
 			buildConfigurations = (
 				D042FC6715F72B23004E8054 /* Debug */,
 				D042FC6815F72B23004E8054 /* Release */,
+				D042FCC515F72E0C004E8054 /* Profile */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -616,6 +718,7 @@
 			buildConfigurations = (
 				D042FC6A15F72B23004E8054 /* Debug */,
 				D042FC6B15F72B23004E8054 /* Release */,
+				D042FCC615F72E0C004E8054 /* Profile */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -625,16 +728,20 @@
 			buildConfigurations = (
 				D042FC9915F72BC7004E8054 /* Debug */,
 				D042FC9A15F72BC7004E8054 /* Release */,
+				D042FCC715F72E0C004E8054 /* Profile */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D042FC9B15F72BC7004E8054 /* Build configuration list for PBXNativeTarget "Maverick iOS Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D042FC9C15F72BC7004E8054 /* Debug */,
 				D042FC9D15F72BC7004E8054 /* Release */,
+				D042FCC815F72E0C004E8054 /* Profile */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
