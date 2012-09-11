@@ -37,16 +37,24 @@
 	NSDictionary *defaultValues = [self.class defaultValuesForKeys];
 	if (defaultValues != nil) [self setValuesForKeysWithDictionary:defaultValues];
 
+	NSDictionary *keysByProperty = [self.class dictionaryKeysByPropertyKey];
+	NSMutableDictionary *propertiesByKey = [NSMutableDictionary dictionaryWithCapacity:keysByProperty.count];
+	[keysByProperty enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *value, BOOL *stop){
+		[propertiesByKey setObject:key forKey:value];
+	}];
+
 	for (NSString *key in dictionary) {
+		NSString *propertyKey = [propertiesByKey objectForKey:key] ?: key;
+
 		// Mark this as being autoreleased, because validateValue may return
 		// a new object to be stored in this variable (and we don't want ARC to
 		// double-free or leak the old or new values).
 		__autoreleasing id value = [dictionary objectForKey:key];
 		
 		if ([value isEqual:[NSNull null]]) value = nil;
-		if (![self validateValue:&value forKey:key error:NULL]) return nil;
+		if (![self validateValue:&value forKey:propertyKey error:NULL]) return nil;
 
-		[self setValue:value forKey:key];
+		[self setValue:value forKey:propertyKey];
 	}
 
 	return self;
@@ -76,9 +84,13 @@
 	}
 }
 
-#pragma mark Property Values
+#pragma mark Dictionary Representation
 
 + (NSDictionary *)defaultValuesForKeys {
+	return @{};
+}
+
++ (NSDictionary *)dictionaryKeysByPropertyKey {
 	return @{};
 }
 
@@ -90,7 +102,17 @@
 		[keys addObject:key];
 	}];
 
-	return [self dictionaryWithValuesForKeys:keys.allObjects];
+	NSDictionary *dictionary = [self dictionaryWithValuesForKeys:keys.allObjects];
+
+	NSDictionary *mapping = [self.class dictionaryKeysByPropertyKey];
+	NSMutableDictionary *mappedDictionary = [NSMutableDictionary dictionaryWithCapacity:dictionary.count];
+
+	[dictionary enumerateKeysAndObjectsUsingBlock:^(NSString *key, id value, BOOL *stop){
+		NSString *mappedKey = [mapping objectForKey:key] ?: key;
+		[mappedDictionary setObject:value forKey:mappedKey];
+	}];
+
+	return [mappedDictionary copy];
 }
 
 #pragma mark NSCopying

@@ -9,6 +9,8 @@
 @interface MAVTestModel : MAVModel
 
 // Must be less than 10 characters.
+//
+// Represented as "username" in dictionary representations.
 @property (nonatomic, copy, readonly) NSString *name;
 
 // Defaults to 1.

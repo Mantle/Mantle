@@ -22,12 +22,12 @@ describe(@"subclass", ^{
 		expect(model.name).to.beNil();
 		expect(model.count).to.equal(1);
 
-		NSDictionary *expectedValues = @{ @"name": [NSNull null], @"count": @(1) };
+		NSDictionary *expectedValues = @{ @"username": [NSNull null], @"count": @(1) };
 		expect(model.dictionaryRepresentation).to.equal(expectedValues);
 	});
 
 	describe(@"with a dictionary of values", ^{
-		NSDictionary *values = @{ @"name": @"foobar", @"count": @(5) };
+		NSDictionary *values = @{ @"username": @"foobar", @"count": @(5) };
 
 		__block MAVTestModel *model;
 
@@ -71,7 +71,7 @@ describe(@"subclass", ^{
 
 	describe(@"validation", ^{
 		it(@"should fail to initialize if validation fails", ^{
-			MAVTestModel *model = [[MAVTestModel alloc] initWithDictionary:@{ @"name": @"this is too long a name" }];
+			MAVTestModel *model = [[MAVTestModel alloc] initWithDictionary:@{ @"username": @"this is too long a name" }];
 			expect(model).to.beNil();
 		});
 

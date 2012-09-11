@@ -14,6 +14,10 @@
 	return @{ @"count": @(1) };
 }
 
++ (NSDictionary *)dictionaryKeysByPropertyKey {
+	return @{ @"name": @"username" };
+}
+
 - (BOOL)validateName:(NSString **)name error:(NSError **)error {
 	return [*name length] < 10;
 }
