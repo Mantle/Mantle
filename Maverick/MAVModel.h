@@ -25,7 +25,8 @@
 + (instancetype)modelWithDictionary:(NSDictionary *)dictionary;
 
 // Initializes the receiver using the keys and values in the given dictionary,
-// mapped using +dictionaryKeysByPropertyKey.
+// mapped using +dictionaryKeysByPropertyKey. Any NSNull values will be
+// converted to nil before being used.
 //
 // KVC validation methods will be automatically invoked when using this
 // initializer. Validation can be used to verify values or convert between
