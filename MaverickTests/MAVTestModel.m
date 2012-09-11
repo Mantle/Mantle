@@ -14,4 +14,16 @@
 	return @{ @"count": @(1) };
 }
 
+- (BOOL)validateName:(NSString **)name error:(NSError **)error {
+	return [*name length] < 10;
+}
+
+- (BOOL)validateCount:(id *)count error:(NSError **)error {
+	if ([*count isKindOfClass:[NSString class]]) {
+		*count = [NSNumber numberWithInteger:[*count integerValue]];
+	}
+
+	return YES;
+}
+
 @end

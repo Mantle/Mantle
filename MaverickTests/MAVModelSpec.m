@@ -68,6 +68,21 @@ describe(@"subclass", ^{
 			expect(model).to.equal(unarchivedModel);
 		});
 	});
+
+	describe(@"validation", ^{
+		it(@"should fail to initialize if validation fails", ^{
+			MAVTestModel *model = [[MAVTestModel alloc] initWithDictionary:@{ @"name": @"this is too long a name" }];
+			expect(model).to.beNil();
+		});
+
+		it(@"should use values returned by validation", ^{
+			// Our KVC validation method should parse the string and turn it
+			// into a number.
+			MAVTestModel *model = [[MAVTestModel alloc] initWithDictionary:@{ @"count": @"50" }];
+			expect(model).notTo.beNil();
+			expect(model.count).to.equal(50);
+		});
+	});
 });
 
 SpecEnd

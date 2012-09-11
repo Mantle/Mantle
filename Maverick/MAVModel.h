@@ -23,6 +23,10 @@
 // Initializes the receiver using the keys and values in the given dictionary
 // (which should correspond to properties on the receiver).
 //
+// KVC validation methods will be automatically invoked when using this
+// initializer. Validation can be used to verify values or convert between
+// types.
+//
 // This is the designated initializer for this class.
 - (id)initWithDictionary:(NSDictionary *)dict;
 

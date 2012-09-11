@@ -30,14 +30,24 @@
 	return [self initWithDictionary:nil];
 }
 
-- (id)initWithDictionary:(NSDictionary *)dict {
+- (id)initWithDictionary:(NSDictionary *)dictionary {
 	self = [super init];
 	if (self == nil) return nil;
 
 	NSDictionary *defaultValues = [self.class defaultValuesForKeys];
 	if (defaultValues != nil) [self setValuesForKeysWithDictionary:defaultValues];
 
-	if (dict != nil) [self setValuesForKeysWithDictionary:dict];
+	for (NSString *key in dictionary) {
+		// Mark this as being autoreleased, because validateValue may return
+		// a new object to be stored in this variable (and we don't want ARC to
+		// double-free or leak the old or new values).
+		__autoreleasing id value = [dictionary objectForKey:key];
+		
+		if ([value isEqual:[NSNull null]]) value = nil;
+		if (![self validateValue:&value forKey:key error:NULL]) return nil;
+
+		[self setValue:value forKey:key];
+	}
 
 	return self;
 }
