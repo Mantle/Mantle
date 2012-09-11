@@ -47,7 +47,7 @@ static NSString * const MAVModelVersionKey = @"MAVModelVersion";
 
 	NSDictionary *keysByProperty = [self.class dictionaryKeysByPropertyKey];
 	for (NSString *key in dictionary) {
-		NSString *propertyKey = [keysByProperty mav_keyOfEntryPassingTest:^ BOOL (NSString *propertyKey, NSString *dictionaryKey, BOOL *stop){
+		NSString *propertyKey = [keysByProperty mav_keyOfEntryPassingTest:^(NSString *propertyKey, NSString *dictionaryKey, BOOL *stop) {
 			return [dictionaryKey isEqualToString:key];
 		}];
 
@@ -94,7 +94,7 @@ static NSString * const MAVModelVersionKey = @"MAVModelVersion";
 + (NSSet *)propertyKeys {
 	NSMutableSet *keys = [NSMutableSet set];
 
-	[self.class enumeratePropertiesUsingBlock:^(objc_property_t property, BOOL *stop){
+	[self.class enumeratePropertiesUsingBlock:^(objc_property_t property, BOOL *stop) {
 		NSString *key = @(property_getName(property));
 		[keys addObject:key];
 	}];
@@ -119,7 +119,7 @@ static NSString * const MAVModelVersionKey = @"MAVModelVersion";
 	NSDictionary *mapping = [self.class dictionaryKeysByPropertyKey];
 	NSMutableDictionary *mappedDictionary = [NSMutableDictionary dictionaryWithCapacity:dictionary.count];
 
-	[dictionary enumerateKeysAndObjectsUsingBlock:^(NSString *key, id value, BOOL *stop){
+	[dictionary enumerateKeysAndObjectsUsingBlock:^(NSString *key, id value, BOOL *stop) {
 		NSString *mappedKey = [mapping objectForKey:key] ?: key;
 		[mappedDictionary setObject:value forKey:mappedKey];
 	}];
