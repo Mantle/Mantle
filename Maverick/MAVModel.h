@@ -72,4 +72,17 @@
 // The default implementation returns `dictionary` without any changes.
 + (NSDictionary *)migrateDictionaryRepresentation:(NSDictionary *)dictionary fromVersion:(NSUInteger)fromVersion;
 
+// Merges the value of the given key on the receiver with the value of the same
+// key from the given model object.
+//
+// The default implementation of this method looks for a `<key>MergedFromModel:`
+// method on the receiver, and invokes it if found. Otherwise, the value for the
+// given key on `model` is returned (unless `model` is nil, in which case the
+// value from the receiver is used).
+- (id)valueForKey:(NSString *)key mergedFromModel:(MAVModel *)model;
+
+// Returns a copy of the receiver merged with the given model object, using
+// -valueForKey:mergedWithModel: for each @property key on the receiver.
+- (instancetype)modelByMergingFromModel:(MAVModel *)model;
+
 @end

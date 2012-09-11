@@ -91,6 +91,17 @@ static NSString * const MAVModelVersionKey = @"MAVModelVersion";
 	}
 }
 
++ (NSSet *)propertyKeys {
+	NSMutableSet *keys = [NSMutableSet set];
+
+	[self.class enumeratePropertiesUsingBlock:^(objc_property_t property, BOOL *stop){
+		NSString *key = @(property_getName(property));
+		[keys addObject:key];
+	}];
+
+	return keys;
+}
+
 #pragma mark Dictionary Representation
 
 + (NSDictionary *)defaultValuesForKeys {
@@ -102,13 +113,7 @@ static NSString * const MAVModelVersionKey = @"MAVModelVersion";
 }
 
 - (NSDictionary *)dictionaryRepresentation {
-	NSMutableSet *keys = [NSMutableSet set];
-
-	[self.class enumeratePropertiesUsingBlock:^(objc_property_t property, BOOL *stop){
-		NSString *key = @(property_getName(property));
-		[keys addObject:key];
-	}];
-
+	NSSet *keys = [self.class propertyKeys];
 	NSDictionary *dictionary = [self dictionaryWithValuesForKeys:keys.allObjects];
 
 	NSDictionary *mapping = [self.class dictionaryKeysByPropertyKey];
@@ -133,6 +138,48 @@ static NSString * const MAVModelVersionKey = @"MAVModelVersion";
 	NSParameterAssert(fromVersion < self.modelVersion);
 
 	return dictionary;
+}
+
+#pragma mark Merging
+
+- (id)valueForKey:(NSString *)key mergedFromModel:(MAVModel *)model {
+	NSParameterAssert(key != nil);
+
+	SEL selector = NSSelectorFromString([key stringByAppendingString:@"MergedFromModel:"]);
+	if (![self respondsToSelector:selector]) {
+		return [(model ?: self) valueForKey:key];
+	}
+
+	NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:selector]];
+	invocation.target = self;
+	invocation.selector = selector;
+
+	[invocation setArgument:&model atIndex:2];
+	[invocation invoke];
+
+	__unsafe_unretained id mergedValue = nil;
+	[invocation getReturnValue:&mergedValue];
+
+	return mergedValue;
+}
+
+- (instancetype)modelByMergingFromModel:(MAVModel *)model {
+	NSParameterAssert(model == nil || [model isKindOfClass:self.class]);
+
+	NSSet *keys = [self.class propertyKeys];
+	NSDictionary *dictionaryKeysByPropertyKey = [self.class dictionaryKeysByPropertyKey];
+
+	NSMutableDictionary *mergedValues = [NSMutableDictionary dictionaryWithCapacity:keys.count];
+
+	for (NSString *key in keys) {
+		id mergedValue = [self valueForKey:key mergedFromModel:model];
+		if (mergedValue == nil) mergedValue = [NSNull null];
+
+		NSString *mappedKey = [dictionaryKeysByPropertyKey objectForKey:key] ?: key;
+		[mergedValues setObject:mergedValue forKey:mappedKey];
+	}
+
+	return [self.class modelWithDictionary:mergedValues];
 }
 
 #pragma mark NSCopying

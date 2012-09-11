@@ -54,4 +54,8 @@ static NSUInteger modelVersion = 1;
 	return YES;
 }
 
+- (id)countMergedFromModel:(MAVTestModel *)model {
+	return @(self.count + model.count);
+}
+
 @end

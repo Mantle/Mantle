@@ -116,6 +116,20 @@ describe(@"subclass", ^{
 			expect(newModel.dictionaryRepresentation).to.equal(newValues);
 		});
 	});
+
+	it(@"should merge two models together", ^{
+		MAVTestModel *target = [[MAVTestModel alloc] initWithDictionary:@{ @"username": @"foo", @"count": @(5) }];
+		expect(target).notTo.beNil();
+
+		MAVTestModel *source = [[MAVTestModel alloc] initWithDictionary:@{ @"username": @"bar", @"count": @(3) }];
+		expect(source).notTo.beNil();
+
+		MAVTestModel *merged = [target modelByMergingFromModel:source];
+		expect(merged).notTo.beNil();
+
+		expect(merged.name).to.equal(@"bar");
+		expect(merged.count).to.equal(8);
+	});
 });
 
 SpecEnd
