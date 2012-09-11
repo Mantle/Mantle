@@ -20,6 +20,10 @@
 //
 @interface MAVModel : NSObject <NSCoding, NSCopying>
 
+// Creates and returns a new instance of the receiver, initialized using
+// -initWithDictionary:.
++ (instancetype)modelWithDictionary:(NSDictionary *)dictionary;
+
 // Initializes the receiver using the keys and values in the given dictionary,
 // mapped using +dictionaryKeysByPropertyKey.
 //
@@ -28,7 +32,7 @@
 // types.
 //
 // This is the designated initializer for this class.
-- (instancetype)initWithDictionary:(NSDictionary *)dict;
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 
 // Can be overridden by subclasses to specify default values for properties on
 // this class.

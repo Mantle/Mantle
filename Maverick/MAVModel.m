@@ -30,6 +30,10 @@ static NSString * const MAVModelVersionKey = @"MAVModelVersion";
 
 #pragma mark Lifecycle
 
++ (instancetype)modelWithDictionary:(NSDictionary *)dictionary {
+	return [[self alloc] initWithDictionary:dictionary];
+}
+
 - (instancetype)init {
 	return [self initWithDictionary:nil];
 }
