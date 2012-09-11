@@ -56,4 +56,16 @@
 // This property must never return nil.
 @property (nonatomic, copy, readonly) NSDictionary *dictionaryRepresentation;
 
+// The version of this model subclass.
+//
+// The default implementation returns 0.
++ (NSUInteger)modelVersion;
+
+// Invoked from -initWithCoder: if an older version of the receiver is
+// unarchived. The new, migrated dictionary representation should be returned.
+// If nil is returned, unarchival will fail.
+//
+// The default implementation returns `dictionary` without any changes.
++ (NSDictionary *)migrateDictionaryRepresentation:(NSDictionary *)dictionary fromVersion:(NSUInteger)fromVersion;
+
 @end

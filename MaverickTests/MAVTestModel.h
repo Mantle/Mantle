@@ -8,6 +8,10 @@
 
 @interface MAVTestModel : MAVModel
 
+// Defaults to 1. This changes the behavior of some of the receiver's methods to
+// emulate a migration.
++ (void)setModelVersion:(NSUInteger)version;
+
 // Must be less than 10 characters.
 //
 // Represented as "username" in dictionary representations.

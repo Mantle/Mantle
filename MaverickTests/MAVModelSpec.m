@@ -30,7 +30,6 @@ describe(@"subclass", ^{
 		NSDictionary *values = @{ @"username": @"foobar", @"count": @(5) };
 
 		__block MAVTestModel *model;
-
 		beforeEach(^{
 			model = [[MAVTestModel alloc] initWithDictionary:values];
 			expect(model).notTo.beNil();
@@ -81,6 +80,40 @@ describe(@"subclass", ^{
 			MAVTestModel *model = [[MAVTestModel alloc] initWithDictionary:@{ @"count": @"50" }];
 			expect(model).notTo.beNil();
 			expect(model.count).to.equal(50);
+		});
+	});
+
+	describe(@"migration", ^{
+		beforeAll(^{
+			[MAVTestModel setModelVersion:0];
+		});
+
+		afterAll(^{
+			[MAVTestModel setModelVersion:1];
+		});
+
+		NSDictionary *oldValues = @{ @"mav_name": @"foobar", @"mav_count": @(5) };
+		NSDictionary *newValues = @{ @"username": @"M: foobar", @"count": @(5) };
+
+		__block MAVTestModel *oldModel;
+		beforeEach(^{
+			oldModel = [[MAVTestModel alloc] initWithDictionary:oldValues];
+			expect(oldModel).notTo.beNil();
+		});
+
+		it(@"should use an older model version for its dictionary representation", ^{
+			expect(oldModel.dictionaryRepresentation).to.equal(oldValues);
+		});
+
+		it(@"should unarchive an older model version", ^{
+			NSData *data = [NSKeyedArchiver archivedDataWithRootObject:oldModel];
+			expect(data).notTo.beNil();
+
+			[MAVTestModel setModelVersion:1];
+
+			MAVTestModel *newModel = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+			expect(newModel).notTo.beNil();
+			expect(newModel.dictionaryRepresentation).to.equal(newValues);
 		});
 	});
 });

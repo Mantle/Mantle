@@ -12,6 +12,9 @@
 #import "NSDictionary+MAVHigherOrderAdditions.h"
 #import <objc/runtime.h>
 
+// Used in archives to store the modelVersion of the archived instance.
+static NSString * const MAVModelVersionKey = @"MAVModelVersion";
+
 @interface MAVModel ()
 
 // Enumerates all properties of the receiver's class hierarchy, starting at the
@@ -115,6 +118,19 @@
 	return [mappedDictionary copy];
 }
 
+#pragma mark Versioning and Migration
+
++ (NSUInteger)modelVersion {
+	return 0;
+}
+
++ (NSDictionary *)migrateDictionaryRepresentation:(NSDictionary *)dictionary fromVersion:(NSUInteger)fromVersion {
+	NSParameterAssert(dictionary != nil);
+	NSParameterAssert(fromVersion < self.modelVersion);
+
+	return dictionary;
+}
+
 #pragma mark NSCopying
 
 - (id)copyWithZone:(NSZone *)zone {
@@ -124,14 +140,26 @@
 #pragma mark NSCoding
 
 - (id)initWithCoder:(NSCoder *)coder {
-	NSDictionary *dict = [coder decodeObjectForKey:@keypath(self.dictionaryRepresentation)];
-	if (dict == nil) return nil;
+	NSDictionary *dictionary = [coder decodeObjectForKey:@keypath(self.dictionaryRepresentation)];
+	if (dictionary == nil) return nil;
 
-	return [self initWithDictionary:dict];
+	NSNumber *version = [coder decodeObjectForKey:MAVModelVersionKey];
+	if (version == nil) {
+		NSLog(@"Warning: decoding a dictionary representation without a version: %@", dictionary);
+	} else if (version.unsignedIntegerValue > [self.class modelVersion]) {
+		// Don't try to decode newer versions.
+		return nil;
+	} else if (version.unsignedIntegerValue < [self.class modelVersion]) {
+		dictionary = [self.class migrateDictionaryRepresentation:dictionary fromVersion:version.unsignedIntegerValue];
+		if (dictionary == nil) return nil;
+	}
+
+	return [self initWithDictionary:dictionary];
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
 	[coder encodeObject:self.dictionaryRepresentation forKey:@keypath(self.dictionaryRepresentation)];
+	[coder encodeObject:@([self.class modelVersion]) forKey:MAVModelVersionKey];
 }
 
 #pragma mark NSObject
