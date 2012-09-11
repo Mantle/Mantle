@@ -84,7 +84,7 @@
 - (id)valueForKey:(NSString *)key mergedFromModel:(MAVModel *)model;
 
 // Returns a copy of the receiver merged with the given model object, using
-// -valueForKey:mergedWithModel: for each @property key on the receiver.
+// -valueForKey:mergedFromModel: for each @property key on the receiver.
 - (instancetype)modelByMergingFromModel:(MAVModel *)model;
 
 @end
