@@ -29,7 +29,8 @@
 //
 // KVC validation methods will be automatically invoked when using this
 // initializer. Validation can be used to verify values or convert between
-// types.
+// types. If any values fail validation, initialization will fail and nil will
+// be returned.
 //
 // This is the designated initializer for this class.
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
