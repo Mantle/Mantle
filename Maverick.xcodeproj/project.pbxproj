@@ -183,6 +183,7 @@
 		D042FCB215F72C16004E8054 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		D042FCCB15F72EE8004E8054 /* Expecta.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Expecta.xcodeproj; path = MaverickTests/expecta/Expecta.xcodeproj; sourceTree = "<group>"; };
 		D042FCEE15F72EF1004E8054 /* Specta.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Specta.xcodeproj; path = MaverickTests/specta/Specta.xcodeproj; sourceTree = "<group>"; };
+		D0760EA015FFC8080060F550 /* EXTKeyPathCoding.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = EXTKeyPathCoding.h; path = extobjc/EXTKeyPathCoding.h; sourceTree = "<group>"; };
 		D090E62615F730D1005282F9 /* NSArray+MAVHigherOrderAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+MAVHigherOrderAdditions.h"; sourceTree = "<group>"; };
 		D090E62715F730D1005282F9 /* NSArray+MAVHigherOrderAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+MAVHigherOrderAdditions.m"; sourceTree = "<group>"; };
 		D090E62815F730D1005282F9 /* NSDictionary+MAVHigherOrderAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+MAVHigherOrderAdditions.h"; sourceTree = "<group>"; };
@@ -418,6 +419,7 @@
 		D090E63A15F73249005282F9 /* libextobjc */ = {
 			isa = PBXGroup;
 			children = (
+				D0760EA015FFC8080060F550 /* EXTKeyPathCoding.h */,
 				D090E63B15F73265005282F9 /* EXTScope.h */,
 				D090E63C15F73265005282F9 /* EXTScope.m */,
 				D090E63D15F73265005282F9 /* metamacros.h */,
