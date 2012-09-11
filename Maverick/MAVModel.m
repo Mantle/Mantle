@@ -9,6 +9,7 @@
 #import "MAVModel.h"
 #import "EXTKeyPathCoding.h"
 #import "EXTScope.h"
+#import "NSDictionary+MAVHigherOrderAdditions.h"
 #import <objc/runtime.h>
 
 @interface MAVModel ()
@@ -38,13 +39,12 @@
 	if (defaultValues != nil) [self setValuesForKeysWithDictionary:defaultValues];
 
 	NSDictionary *keysByProperty = [self.class dictionaryKeysByPropertyKey];
-	NSMutableDictionary *propertiesByKey = [NSMutableDictionary dictionaryWithCapacity:keysByProperty.count];
-	[keysByProperty enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *value, BOOL *stop){
-		[propertiesByKey setObject:key forKey:value];
-	}];
-
 	for (NSString *key in dictionary) {
-		NSString *propertyKey = [propertiesByKey objectForKey:key] ?: key;
+		NSString *propertyKey = [keysByProperty mav_keyOfEntryPassingTest:^ BOOL (NSString *propertyKey, NSString *dictionaryKey, BOOL *stop){
+			return [dictionaryKey isEqualToString:key];
+		}];
+
+		propertyKey = propertyKey ?: key;
 
 		// Mark this as being autoreleased, because validateValue may return
 		// a new object to be stored in this variable (and we don't want ARC to
