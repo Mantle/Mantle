@@ -30,11 +30,11 @@ static NSString * const MAVModelVersionKey = @"MAVModelVersion";
 
 #pragma mark Lifecycle
 
-- (id)init {
+- (instancetype)init {
 	return [self initWithDictionary:nil];
 }
 
-- (id)initWithDictionary:(NSDictionary *)dictionary {
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary {
 	self = [super init];
 	if (self == nil) return nil;
 
@@ -133,13 +133,13 @@ static NSString * const MAVModelVersionKey = @"MAVModelVersion";
 
 #pragma mark NSCopying
 
-- (id)copyWithZone:(NSZone *)zone {
+- (instancetype)copyWithZone:(NSZone *)zone {
 	return self;
 }
 
 #pragma mark NSCoding
 
-- (id)initWithCoder:(NSCoder *)coder {
+- (instancetype)initWithCoder:(NSCoder *)coder {
 	NSDictionary *dictionary = [coder decodeObjectForKey:@keypath(self.dictionaryRepresentation)];
 	if (dictionary == nil) return nil;
 

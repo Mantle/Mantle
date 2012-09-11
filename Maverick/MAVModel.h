@@ -28,7 +28,7 @@
 // types.
 //
 // This is the designated initializer for this class.
-- (id)initWithDictionary:(NSDictionary *)dict;
+- (instancetype)initWithDictionary:(NSDictionary *)dict;
 
 // Can be overridden by subclasses to specify default values for properties on
 // this class.
