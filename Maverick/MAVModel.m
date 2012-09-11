@@ -1,0 +1,122 @@
+//
+//  MAVModel.m
+//  Maverick
+//
+//  Created by Justin Spahr-Summers on 2012-09-11.
+//  Copyright (c) 2012 GitHub. All rights reserved.
+//
+
+#import "MAVModel.h"
+#import "EXTKeyPathCoding.h"
+#import "EXTScope.h"
+#import <objc/runtime.h>
+
+@interface MAVModel ()
+
+// Enumerates all properties of the receiver's class hierarchy, starting at the
+// receiver, and continuing up until (but not including) MAVModel.
+//
+// The given block will be invoked multiple times for any properties declared on
+// multiple classes in the hierarchy.
++ (void)enumeratePropertiesUsingBlock:(void (^)(objc_property_t property, BOOL *stop))block;
+
+@end
+
+@implementation MAVModel
+
+#pragma mark Lifecycle
+
+- (id)init {
+	return [self initWithDictionary:nil];
+}
+
+- (id)initWithDictionary:(NSDictionary *)dict {
+	self = [super init];
+	if (self == nil) return nil;
+
+	NSDictionary *defaultValues = [self.class defaultValuesForKeys];
+	if (defaultValues != nil) [self setValuesForKeysWithDictionary:defaultValues];
+
+	if (dict != nil) [self setValuesForKeysWithDictionary:dict];
+
+	return self;
+}
+
+#pragma mark Reflection
+
++ (void)enumeratePropertiesUsingBlock:(void (^)(objc_property_t property, BOOL *stop))block {
+	Class cls = self;
+	BOOL stop = NO;
+
+	while (!stop && ![cls isEqual:[MAVModel class]]) {
+		unsigned count = 0;
+		objc_property_t *properties = class_copyPropertyList(cls, &count);
+		if (properties == NULL) continue;
+
+		@onExit {
+			free(properties);
+		};
+
+		for (unsigned i = 0; i < count; i++) {
+			block(properties[i], &stop);
+			if (stop) break;
+		}
+
+		cls = cls.superclass;
+	}
+}
+
+#pragma mark Property Values
+
++ (NSDictionary *)defaultValuesForKeys {
+	return @{};
+}
+
+- (NSDictionary *)dictionaryRepresentation {
+	NSMutableSet *keys = [NSMutableSet set];
+
+	[self.class enumeratePropertiesUsingBlock:^(objc_property_t property, BOOL *stop){
+		NSString *key = @(property_getName(property));
+		[keys addObject:key];
+	}];
+
+	return [self dictionaryWithValuesForKeys:keys.allObjects];
+}
+
+#pragma mark NSCopying
+
+- (id)copyWithZone:(NSZone *)zone {
+	return self;
+}
+
+#pragma mark NSCoding
+
+- (id)initWithCoder:(NSCoder *)coder {
+	NSDictionary *dict = [coder decodeObjectForKey:@keypath(self.dictionaryRepresentation)];
+	if (dict == nil) return nil;
+
+	return [self initWithDictionary:dict];
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+	[coder encodeObject:self.dictionaryRepresentation forKey:@keypath(self.dictionaryRepresentation)];
+}
+
+#pragma mark NSObject
+
+- (NSString *)description {
+	return [NSString stringWithFormat:@"<%@: %p> %@", self.class, self, self.dictionaryRepresentation];
+}
+
+- (NSUInteger)hash {
+	return self.dictionaryRepresentation.hash;
+}
+
+- (BOOL)isEqual:(MAVModel *)model {
+	if (self == model) return YES;
+	if (![model isMemberOfClass:self.class]) return NO;
+
+	return [self.dictionaryRepresentation isEqualToDictionary:model.dictionaryRepresentation];
+}
+
+@end

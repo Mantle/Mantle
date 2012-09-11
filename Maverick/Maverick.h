@@ -6,6 +6,7 @@
 //  Copyright (c) 2012 GitHub. All rights reserved.
 //
 
+#import "MAVModel.h"
 #import "NSArray+MAVHigherOrderAdditions.h"
 #import "NSDictionary+MAVHigherOrderAdditions.h"
 #import "NSOrderedSet+MAVHigherOrderAdditions.h"
