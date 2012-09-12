@@ -60,7 +60,7 @@ static NSString * const MAVModelVersionKey = @"MAVModelVersion";
 			NSValueTransformer *transformer = [self.class propertyTransformerForKey:propertyKey];
 			if (transformer != nil) value = [transformer transformedValue:value];
 
-			if (![self validateValue:&value forKey:propertyKey error:NULL]) return NO;
+			if (![self validateValue:&value forKey:propertyKey error:NULL]) return nil;
 
 			value = value ?: [NSNull null];
 			[properties setObject:value forKey:propertyKey];
