@@ -8,6 +8,8 @@
 
 #import "MAVValueTransformer.h"
 
+NSString * const MAVURLValueTransformerName = @"MAVURLValueTransformerName";
+
 //
 // Any MAVValueTransformer supporting reverse transformation. Necessary because
 // +allowsReverseTransformation is a class method.
@@ -67,6 +69,25 @@
 @end
 
 @implementation MAVReversibleValueTransformer
+
+#pragma mark Class Initialization
+
+// Set up common transformers in this subclass so that we can be sure that both
+// classes have been properly loaded.
++ (void)load {
+	MAVValueTransformer *URLValueTransformer = [self
+		reversibleTransformerWithForwardBlock:^ id (NSString *str) {
+			if (![str isKindOfClass:[NSString class]]) return nil;
+			return [NSURL URLWithString:str];
+		}
+
+		reverseBlock:^ id (NSURL *URL) {
+			if (![URL isKindOfClass:[NSURL class]]) return nil;
+			return URL.absoluteString;
+		}];
+	
+	[NSValueTransformer setValueTransformer:URLValueTransformer forName:MAVURLValueTransformerName];
+}
 
 #pragma mark Lifecycle
 
