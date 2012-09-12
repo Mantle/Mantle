@@ -46,12 +46,14 @@ static NSUInteger modelVersion = 1;
 	return [*name length] < 10;
 }
 
-- (BOOL)validateCount:(id *)count error:(NSError **)error {
-	if ([*count isKindOfClass:[NSString class]]) {
-		*count = [NSNumber numberWithInteger:[*count integerValue]];
-	}
-
-	return YES;
++ (NSValueTransformer *)propertyTransformerForCount {
+	return [MAVValueTransformer
+		reversibleTransformerWithForwardBlock:^(NSString *str) {
+			return @(str.integerValue);
+		}
+		reverseBlock:^(NSNumber *num) {
+			return num.stringValue;
+		}];
 }
 
 - (id)countMergedFromModel:(MAVTestModel *)model {

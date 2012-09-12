@@ -22,12 +22,12 @@ describe(@"subclass", ^{
 		expect(model.name).to.beNil();
 		expect(model.count).to.equal(1);
 
-		NSDictionary *expectedValues = @{ @"username": [NSNull null], @"count": @(1) };
+		NSDictionary *expectedValues = @{ @"username": [NSNull null], @"count": @"1" };
 		expect(model.dictionaryRepresentation).to.equal(expectedValues);
 	});
 
 	describe(@"with a dictionary of values", ^{
-		NSDictionary *values = @{ @"username": @"foobar", @"count": @(5) };
+		NSDictionary *values = @{ @"username": @"foobar", @"count": @"5" };
 
 		__block MAVTestModel *model;
 		beforeEach(^{
@@ -68,19 +68,9 @@ describe(@"subclass", ^{
 		});
 	});
 
-	describe(@"validation", ^{
-		it(@"should fail to initialize if validation fails", ^{
-			MAVTestModel *model = [[MAVTestModel alloc] initWithDictionary:@{ @"username": @"this is too long a name" }];
-			expect(model).to.beNil();
-		});
-
-		it(@"should use values returned by validation", ^{
-			// Our KVC validation method should parse the string and turn it
-			// into a number.
-			MAVTestModel *model = [[MAVTestModel alloc] initWithDictionary:@{ @"count": @"50" }];
-			expect(model).notTo.beNil();
-			expect(model.count).to.equal(50);
-		});
+	it(@"should fail to initialize if validation fails", ^{
+		MAVTestModel *model = [[MAVTestModel alloc] initWithDictionary:@{ @"username": @"this is too long a name" }];
+		expect(model).to.beNil();
 	});
 
 	describe(@"migration", ^{
@@ -92,8 +82,8 @@ describe(@"subclass", ^{
 			[MAVTestModel setModelVersion:1];
 		});
 
-		NSDictionary *oldValues = @{ @"mav_name": @"foobar", @"mav_count": @(5) };
-		NSDictionary *newValues = @{ @"username": @"M: foobar", @"count": @(5) };
+		NSDictionary *oldValues = @{ @"mav_name": @"foobar", @"mav_count": @"5" };
+		NSDictionary *newValues = @{ @"username": @"M: foobar", @"count": @"5" };
 
 		__block MAVTestModel *oldModel;
 		beforeEach(^{
@@ -118,10 +108,10 @@ describe(@"subclass", ^{
 	});
 
 	it(@"should merge two models together", ^{
-		MAVTestModel *target = [[MAVTestModel alloc] initWithDictionary:@{ @"username": @"foo", @"count": @(5) }];
+		MAVTestModel *target = [[MAVTestModel alloc] initWithDictionary:@{ @"username": @"foo", @"count": @"5" }];
 		expect(target).notTo.beNil();
 
-		MAVTestModel *source = [[MAVTestModel alloc] initWithDictionary:@{ @"username": @"bar", @"count": @(3) }];
+		MAVTestModel *source = [[MAVTestModel alloc] initWithDictionary:@{ @"username": @"bar", @"count": @"3" }];
 		expect(source).notTo.beNil();
 
 		MAVTestModel *merged = [target modelByMergingFromModel:source];

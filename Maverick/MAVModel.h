@@ -25,13 +25,12 @@
 + (instancetype)modelWithDictionary:(NSDictionary *)dictionary;
 
 // Initializes the receiver using the keys and values in the given dictionary,
-// mapped using +dictionaryKeysByPropertyKey. Any NSNull values will be
-// converted to nil before being used.
+// mapped using +dictionaryKeysByPropertyKey and +propertyTransformerForKey:.
+// Any NSNull values will be converted to nil before being used.
 //
-// KVC validation methods will be automatically invoked when using this
-// initializer. Validation can be used to verify values or convert between
-// types. If any values fail validation, initialization will fail and nil will
-// be returned.
+// After transformation, KVC validation methods will be automatically invoked.
+// If any values fail validation, initialization will fail and nil will be
+// returned.
 //
 // This is the designated initializer for this class.
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
@@ -51,6 +50,16 @@
 //
 // The default implementation returns an empty dictionary.
 + (NSDictionary *)dictionaryKeysByPropertyKey;
+
+// Returns a value transformer for converting -initWithDictionary: values to the
+// given @property key. If reversible, the transformer will also be used to
+// convert the property value back for the dictionaryRepresentation. If nil is
+// returned, no transformation is performed.
+//
+// The default implementation of this method looks for
+// a `propertyTransformerFor<Key>:` method on the receiver, and invokes it if
+// found. Otherwise, nil is returned.
++ (NSValueTransformer *)propertyTransformerForKey:(NSString *)key;
 
 // A dictionary representing the properties of the receiver, mapped using
 // +dictionaryKeysByPropertyKey.

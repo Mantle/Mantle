@@ -59,6 +59,10 @@ static NSString * const MAVModelVersionKey = @"MAVModelVersion";
 		__autoreleasing id value = [dictionary objectForKey:key];
 		
 		if ([value isEqual:[NSNull null]]) value = nil;
+
+		NSValueTransformer *transformer = [self.class propertyTransformerForKey:propertyKey];
+		if (transformer != nil) value = [transformer transformedValue:value];
+
 		if (![self validateValue:&value forKey:propertyKey error:NULL]) return nil;
 
 		[self setValue:value forKey:propertyKey];
@@ -112,6 +116,26 @@ static NSString * const MAVModelVersionKey = @"MAVModelVersion";
 	return @{};
 }
 
++ (NSValueTransformer *)propertyTransformerForKey:(NSString *)key {
+	NSParameterAssert(key.length > 0);
+
+	NSString *methodName = [NSString stringWithFormat:@"propertyTransformerFor%@%@", [key substringToIndex:1].uppercaseString, [key substringFromIndex:1]];
+	SEL selector = NSSelectorFromString(methodName);
+	if (![self respondsToSelector:selector]) {
+		return nil;
+	}
+
+	NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:selector]];
+	invocation.target = self;
+	invocation.selector = selector;
+	[invocation invoke];
+
+	__unsafe_unretained id transformer = nil;
+	[invocation getReturnValue:&transformer];
+
+	return transformer;
+}
+
 - (NSDictionary *)dictionaryRepresentation {
 	NSSet *keys = [self.class propertyKeys];
 	NSDictionary *dictionary = [self dictionaryWithValuesForKeys:keys.allObjects];
@@ -120,6 +144,9 @@ static NSString * const MAVModelVersionKey = @"MAVModelVersion";
 	NSMutableDictionary *mappedDictionary = [NSMutableDictionary dictionaryWithCapacity:dictionary.count];
 
 	[dictionary enumerateKeysAndObjectsUsingBlock:^(NSString *key, id value, BOOL *stop) {
+		NSValueTransformer *transformer = [self.class propertyTransformerForKey:key];
+		if ([transformer.class allowsReverseTransformation]) value = [transformer reverseTransformedValue:value];
+
 		NSString *mappedKey = [mapping objectForKey:key] ?: key;
 		[mappedDictionary setObject:value forKey:mappedKey];
 	}];
