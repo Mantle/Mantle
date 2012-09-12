@@ -28,6 +28,11 @@
 		D0760EC515FFCA250060F550 /* MAVModelSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D0760EC315FFCA250060F550 /* MAVModelSpec.m */; };
 		D0760EC915FFCA4E0060F550 /* MAVTestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D0760EC815FFCA4E0060F550 /* MAVTestModel.m */; };
 		D0760ECA15FFCA4E0060F550 /* MAVTestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D0760EC815FFCA4E0060F550 /* MAVTestModel.m */; };
+		D08B5AAE16002694001FE685 /* MAVValueTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = D08B5AAC16002694001FE685 /* MAVValueTransformer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D08B5AAF16002694001FE685 /* MAVValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = D08B5AAD16002694001FE685 /* MAVValueTransformer.m */; };
+		D08B5AB016002694001FE685 /* MAVValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = D08B5AAD16002694001FE685 /* MAVValueTransformer.m */; };
+		D08B5AB216002A23001FE685 /* MAVValueTransformerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D08B5AB116002A23001FE685 /* MAVValueTransformerSpec.m */; };
+		D08B5AB316002A23001FE685 /* MAVValueTransformerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D08B5AB116002A23001FE685 /* MAVValueTransformerSpec.m */; };
 		D090E62E15F730D1005282F9 /* NSArray+MAVHigherOrderAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = D090E62615F730D1005282F9 /* NSArray+MAVHigherOrderAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D090E62F15F730D1005282F9 /* NSArray+MAVHigherOrderAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D090E62715F730D1005282F9 /* NSArray+MAVHigherOrderAdditions.m */; };
 		D090E63015F730D1005282F9 /* NSArray+MAVHigherOrderAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D090E62715F730D1005282F9 /* NSArray+MAVHigherOrderAdditions.m */; };
@@ -196,6 +201,9 @@
 		D0760EC315FFCA250060F550 /* MAVModelSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAVModelSpec.m; sourceTree = "<group>"; };
 		D0760EC715FFCA4E0060F550 /* MAVTestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAVTestModel.h; sourceTree = "<group>"; };
 		D0760EC815FFCA4E0060F550 /* MAVTestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAVTestModel.m; sourceTree = "<group>"; };
+		D08B5AAC16002694001FE685 /* MAVValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAVValueTransformer.h; sourceTree = "<group>"; };
+		D08B5AAD16002694001FE685 /* MAVValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAVValueTransformer.m; sourceTree = "<group>"; };
+		D08B5AB116002A23001FE685 /* MAVValueTransformerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAVValueTransformerSpec.m; sourceTree = "<group>"; };
 		D090E62615F730D1005282F9 /* NSArray+MAVHigherOrderAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+MAVHigherOrderAdditions.h"; sourceTree = "<group>"; };
 		D090E62715F730D1005282F9 /* NSArray+MAVHigherOrderAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+MAVHigherOrderAdditions.m"; sourceTree = "<group>"; };
 		D090E62815F730D1005282F9 /* NSDictionary+MAVHigherOrderAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+MAVHigherOrderAdditions.h"; sourceTree = "<group>"; };
@@ -421,6 +429,8 @@
 			children = (
 				D0760E7615FFBF330060F550 /* MAVModel.h */,
 				D0760E7715FFBF330060F550 /* MAVModel.m */,
+				D08B5AAC16002694001FE685 /* MAVValueTransformer.h */,
+				D08B5AAD16002694001FE685 /* MAVValueTransformer.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -430,6 +440,7 @@
 			children = (
 				D090E66015F73315005282F9 /* MAVHigherOrderAdditionsSpec.m */,
 				D0760EC315FFCA250060F550 /* MAVModelSpec.m */,
+				D08B5AB116002A23001FE685 /* MAVValueTransformerSpec.m */,
 			);
 			name = Specs;
 			sourceTree = "<group>";
@@ -473,6 +484,7 @@
 				D090E63715F730D1005282F9 /* NSSet+MAVHigherOrderAdditions.h in Headers */,
 				D0760E0515FFBD440060F550 /* Maverick.h in Headers */,
 				D0760E7815FFBF330060F550 /* MAVModel.h in Headers */,
+				D08B5AAE16002694001FE685 /* MAVValueTransformer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -720,6 +732,7 @@
 				D090E63815F730D1005282F9 /* NSSet+MAVHigherOrderAdditions.m in Sources */,
 				D090E63E15F73269005282F9 /* EXTScope.m in Sources */,
 				D0760E7915FFBF330060F550 /* MAVModel.m in Sources */,
+				D08B5AAF16002694001FE685 /* MAVValueTransformer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -730,6 +743,7 @@
 				D090E66115F73315005282F9 /* MAVHigherOrderAdditionsSpec.m in Sources */,
 				D0760EC415FFCA250060F550 /* MAVModelSpec.m in Sources */,
 				D0760EC915FFCA4E0060F550 /* MAVTestModel.m in Sources */,
+				D08B5AB216002A23001FE685 /* MAVValueTransformerSpec.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -743,6 +757,7 @@
 				D090E63915F730D1005282F9 /* NSSet+MAVHigherOrderAdditions.m in Sources */,
 				D090E63F15F73269005282F9 /* EXTScope.m in Sources */,
 				D0760E7A15FFBF330060F550 /* MAVModel.m in Sources */,
+				D08B5AB016002694001FE685 /* MAVValueTransformer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -753,6 +768,7 @@
 				D090E66215F73315005282F9 /* MAVHigherOrderAdditionsSpec.m in Sources */,
 				D0760EC515FFCA250060F550 /* MAVModelSpec.m in Sources */,
 				D0760ECA15FFCA4E0060F550 /* MAVTestModel.m in Sources */,
+				D08B5AB316002A23001FE685 /* MAVValueTransformerSpec.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
