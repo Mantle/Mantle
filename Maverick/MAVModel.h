@@ -20,7 +20,7 @@
 //
 @interface MAVModel : NSObject <NSCoding, NSCopying>
 
-// Creates and returns a new instance of the receiver, initialized using
+// Returns a new instance of the receiver initialized using
 // -initWithDictionary:.
 + (instancetype)modelWithDictionary:(NSDictionary *)dictionary;
 
@@ -29,8 +29,8 @@
 // Any NSNull values will be converted to nil before being used.
 //
 // After transformation, KVC validation methods will be automatically invoked.
-// If any values fail validation, initialization will fail and nil will be
-// returned.
+//
+// Returns an initialized model object, or nil if validation failed.
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 
 // Initializes the receiver, using KVC to set properties of the receiver
@@ -40,30 +40,30 @@
 // This is the designated initializer for this class.
 - (instancetype)initWithPropertyKeysAndValues:(NSDictionary *)propertyKeysAndValues;
 
-// Can be overridden by subclasses to specify default values for properties on
-// this class.
+// Specifies default values for properties on this class. Subclasses overriding
+// this method should combine their values with those of super.
 //
-// The keys of this dictionary should match @property keys, _not_ dictionary
+// The keys of this dictionary should match @property keys, _not_ the dictionary
 // keys specified by +dictionaryKeysByPropertyKey.
 //
-// The default implementation returns an empty dictionary.
+// Returns an empty dictionary.
 + (NSDictionary *)defaultValuesForKeys;
 
-// Can be overridden by subclasses to map @property keys (the keys in the
-// returned dictionary) to different keys for -initWithDictionary: and
-// -dictionaryRepresentation (the values).
+// Specifies how to map @property keys to different keys for
+// -initWithDictionary: and -dictionaryRepresentation. Subclasses overriding
+// this method should combine their values with those of super.
 //
-// The default implementation returns an empty dictionary.
+// Returns an empty dictionary.
 + (NSDictionary *)dictionaryKeysByPropertyKey;
 
-// Returns a value transformer for converting -initWithDictionary: values to the
-// given @property key. If reversible, the transformer will also be used to
-// convert the property value back for the dictionaryRepresentation. If nil is
-// returned, no transformation is performed.
+// Specifies how to convert -initWithDictionary: values to the given @property
+// key. If reversible, the transformer will also be used to convert the property
+// value back for the -dictionaryRepresentation.
 //
-// The default implementation of this method looks for
-// a `propertyTransformerFor<Key>:` method on the receiver, and invokes it if
-// found. Otherwise, nil is returned.
+// By default, this method looks for a `propertyTransformerFor<Key>:` method on
+// the receiver, and invokes it if found.
+//
+// Returns a value transformer, or nil if no transformation should be performed.
 + (NSValueTransformer *)propertyTransformerForKey:(NSString *)key;
 
 // A dictionary representing the properties of the receiver, mapped using
@@ -73,28 +73,31 @@
 // (except for those on MAVModel) and combines their values into a dictionary.
 // Any nil values will be represented by NSNull.
 //
-// This property must never return nil.
+// This property must never be nil.
 @property (nonatomic, copy, readonly) NSDictionary *dictionaryRepresentation;
 
 // The version of this model subclass.
 //
-// The default implementation returns 0.
+// Returns 0.
 + (NSUInteger)modelVersion;
 
-// Invoked from -initWithCoder: if an older version of the receiver is
-// unarchived. The new, migrated dictionary representation should be returned.
-// If nil is returned, unarchival will fail.
+// Migrates a dictionary representation from an older model version. This method
+// will be invoked from -initWithCoder: if an older version of the receiver is
+// unarchived.
 //
-// The default implementation returns `dictionary` without any changes.
+// Returns `dictionary` without any changes. Subclasses may return nil if
+// unarchiving should fail.
 + (NSDictionary *)migrateDictionaryRepresentation:(NSDictionary *)dictionary fromVersion:(NSUInteger)fromVersion;
 
 // Merges the value of the given key on the receiver with the value of the same
-// key from the given model object.
+// key from the given model object, giving precedence to the other model object.
 //
-// The default implementation of this method looks for a `<key>MergedFromModel:`
-// method on the receiver, and invokes it if found. Otherwise, the value for the
-// given key on `model` is returned (unless `model` is nil, in which case the
-// value from the receiver is used).
+// By default, this method looks for a `<key>MergedFromModel:` method on the
+// receiver, and invokes it if found.
+//
+// Returns the merged value. If `<key>MergedFromModel:` is not implemented, the
+// value for the given key on `model` is returned (unless `model` is nil, in
+// which case the value from the receiver is used).
 - (id)valueForKey:(NSString *)key mergedFromModel:(MAVModel *)model;
 
 // Returns a copy of the receiver merged with the given model object, using
