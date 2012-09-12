@@ -10,6 +10,9 @@
 
 typedef id (^MAVValueTransformerBlock)(id);
 
+// The name for a value transformer that converts strings into URLs and back.
+extern NSString * const MAVURLValueTransformerName;
+
 //
 // A value transformer supporting block-based transformation.
 //
