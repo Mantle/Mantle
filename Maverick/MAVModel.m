@@ -35,17 +35,13 @@ static NSString * const MAVModelVersionKey = @"MAVModelVersion";
 }
 
 - (instancetype)init {
-	return [self initWithDictionary:nil];
+	return [self initWithPropertyKeysAndValues:nil];
 }
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
-	self = [super init];
-	if (self == nil) return nil;
-
-	NSDictionary *defaultValues = [self.class defaultValuesForKeys];
-	if (defaultValues != nil) [self setValuesForKeysWithDictionary:defaultValues];
-
 	NSDictionary *keysByProperty = [self.class dictionaryKeysByPropertyKey];
+	NSMutableDictionary *properties = [NSMutableDictionary dictionaryWithCapacity:dictionary.count];
+
 	for (NSString *key in dictionary) {
 		NSString *propertyKey = [keysByProperty mav_keyOfEntryPassingTest:^(NSString *propertyKey, NSString *dictionaryKey, BOOL *stop) {
 			return [dictionaryKey isEqualToString:key];
@@ -60,17 +56,33 @@ static NSString * const MAVModelVersionKey = @"MAVModelVersion";
 		
 		if ([value isEqual:[NSNull null]]) value = nil;
 
-		#if DEBUG
-			if (![self setTransformedAndValidatedValue:value forKey:propertyKey]) return nil;
-		#else
-			// Only catch exceptions in Release builds.
-			@try {
-				if (![self setTransformedAndValidatedValue:value forKey:propertyKey]) return nil;
-			} @catch (NSException *ex) {
-				NSLog(@"*** Caught exception setting value for key \"%@\" (dictionary key \"%@\") from dictionary %@", propertyKey, key, dictionary);
-			}
-		#endif
+		@try {
+			NSValueTransformer *transformer = [self.class propertyTransformerForKey:propertyKey];
+			if (transformer != nil) value = [transformer transformedValue:value];
+
+			if (![self validateValue:&value forKey:propertyKey error:NULL]) return NO;
+
+			value = value ?: [NSNull null];
+			[properties setObject:value forKey:propertyKey];
+		} @catch (NSException *ex) {
+			NSLog(@"*** Caught exception setting value for key \"%@\" (dictionary key \"%@\") from dictionary %@", propertyKey, key, dictionary);
+
+			#if DEBUG
+			@throw ex;
+			#endif
+		}
 	}
+
+	return [self initWithPropertyKeysAndValues:properties];
+}
+
+- (instancetype)initWithPropertyKeysAndValues:(NSDictionary *)propertyKeysAndValues {
+	self = [super init];
+	if (self == nil) return nil;
+
+	NSDictionary *defaultValues = [self.class defaultValuesForKeys];
+	if (defaultValues != nil) [self setValuesForKeysWithDictionary:defaultValues];
+	if (propertyKeysAndValues != nil) [self setValuesForKeysWithDictionary:propertyKeysAndValues];
 
 	return self;
 }
@@ -156,16 +168,6 @@ static NSString * const MAVModelVersionKey = @"MAVModelVersion";
 	}];
 
 	return [mappedDictionary copy];
-}
-
-- (BOOL)setTransformedAndValidatedValue:(id)value forKey:(NSString *)propertyKey {
-	NSValueTransformer *transformer = [self.class propertyTransformerForKey:propertyKey];
-	if (transformer != nil) value = [transformer transformedValue:value];
-
-	if (![self validateValue:&value forKey:propertyKey error:NULL]) return NO;
-
-	[self setValue:value forKey:propertyKey];
-	return YES;
 }
 
 #pragma mark Versioning and Migration

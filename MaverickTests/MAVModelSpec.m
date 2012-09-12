@@ -26,6 +26,18 @@ describe(@"subclass", ^{
 		expect(model.dictionaryRepresentation).to.equal(expectedValues);
 	});
 
+	it(@"should initialize with property values", ^{
+		NSDictionary *values = @{ @"name": @"foobar", @"count": @(5) };
+
+		MAVTestModel *model = [[MAVTestModel alloc] initWithPropertyKeysAndValues:values];
+		expect(model).notTo.beNil();
+
+		expect(model.name).to.equal(@"foobar");
+		expect(model.count).to.equal(5);
+
+		expect([model dictionaryWithValuesForKeys:values.allKeys]).to.equal(values);
+	});
+
 	describe(@"with a dictionary of values", ^{
 		NSDictionary *values = @{ @"username": @"foobar", @"count": @"5" };
 

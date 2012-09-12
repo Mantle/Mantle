@@ -31,9 +31,14 @@
 // After transformation, KVC validation methods will be automatically invoked.
 // If any values fail validation, initialization will fail and nil will be
 // returned.
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary;
+
+// Initializes the receiver, using KVC to set properties of the receiver
+// according to the values in the given dictionary. Any NSNull values will be
+// converted to nil before being used.
 //
 // This is the designated initializer for this class.
-- (instancetype)initWithDictionary:(NSDictionary *)dictionary;
+- (instancetype)initWithPropertyKeysAndValues:(NSDictionary *)propertyKeysAndValues;
 
 // Can be overridden by subclasses to specify default values for properties on
 // this class.
