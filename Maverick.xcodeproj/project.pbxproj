@@ -21,6 +21,18 @@
 		D042FD0A15F72F0D004E8054 /* libExpecta-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D042FCE915F72EED004E8054 /* libExpecta-iOS.a */; };
 		D042FD0B15F72F0D004E8054 /* libSpecta-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D042FCFB15F72EF1004E8054 /* libSpecta-iOS.a */; };
 		D0760E0515FFBD440060F550 /* Maverick.h in Headers */ = {isa = PBXBuildFile; fileRef = D042FC4C15F72B23004E8054 /* Maverick.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D0760E7815FFBF330060F550 /* MAVModel.h in Headers */ = {isa = PBXBuildFile; fileRef = D0760E7615FFBF330060F550 /* MAVModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D0760E7915FFBF330060F550 /* MAVModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D0760E7715FFBF330060F550 /* MAVModel.m */; };
+		D0760E7A15FFBF330060F550 /* MAVModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D0760E7715FFBF330060F550 /* MAVModel.m */; };
+		D0760EC415FFCA250060F550 /* MAVModelSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D0760EC315FFCA250060F550 /* MAVModelSpec.m */; };
+		D0760EC515FFCA250060F550 /* MAVModelSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D0760EC315FFCA250060F550 /* MAVModelSpec.m */; };
+		D0760EC915FFCA4E0060F550 /* MAVTestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D0760EC815FFCA4E0060F550 /* MAVTestModel.m */; };
+		D0760ECA15FFCA4E0060F550 /* MAVTestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D0760EC815FFCA4E0060F550 /* MAVTestModel.m */; };
+		D08B5AAE16002694001FE685 /* MAVValueTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = D08B5AAC16002694001FE685 /* MAVValueTransformer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D08B5AAF16002694001FE685 /* MAVValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = D08B5AAD16002694001FE685 /* MAVValueTransformer.m */; };
+		D08B5AB016002694001FE685 /* MAVValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = D08B5AAD16002694001FE685 /* MAVValueTransformer.m */; };
+		D08B5AB216002A23001FE685 /* MAVValueTransformerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D08B5AB116002A23001FE685 /* MAVValueTransformerSpec.m */; };
+		D08B5AB316002A23001FE685 /* MAVValueTransformerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D08B5AB116002A23001FE685 /* MAVValueTransformerSpec.m */; };
 		D090E62E15F730D1005282F9 /* NSArray+MAVHigherOrderAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = D090E62615F730D1005282F9 /* NSArray+MAVHigherOrderAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D090E62F15F730D1005282F9 /* NSArray+MAVHigherOrderAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D090E62715F730D1005282F9 /* NSArray+MAVHigherOrderAdditions.m */; };
 		D090E63015F730D1005282F9 /* NSArray+MAVHigherOrderAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D090E62715F730D1005282F9 /* NSArray+MAVHigherOrderAdditions.m */; };
@@ -183,6 +195,15 @@
 		D042FCB215F72C16004E8054 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		D042FCCB15F72EE8004E8054 /* Expecta.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Expecta.xcodeproj; path = MaverickTests/expecta/Expecta.xcodeproj; sourceTree = "<group>"; };
 		D042FCEE15F72EF1004E8054 /* Specta.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Specta.xcodeproj; path = MaverickTests/specta/Specta.xcodeproj; sourceTree = "<group>"; };
+		D0760E7615FFBF330060F550 /* MAVModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAVModel.h; sourceTree = "<group>"; };
+		D0760E7715FFBF330060F550 /* MAVModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAVModel.m; sourceTree = "<group>"; };
+		D0760EA015FFC8080060F550 /* EXTKeyPathCoding.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = EXTKeyPathCoding.h; path = extobjc/EXTKeyPathCoding.h; sourceTree = "<group>"; };
+		D0760EC315FFCA250060F550 /* MAVModelSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAVModelSpec.m; sourceTree = "<group>"; };
+		D0760EC715FFCA4E0060F550 /* MAVTestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAVTestModel.h; sourceTree = "<group>"; };
+		D0760EC815FFCA4E0060F550 /* MAVTestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAVTestModel.m; sourceTree = "<group>"; };
+		D08B5AAC16002694001FE685 /* MAVValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAVValueTransformer.h; sourceTree = "<group>"; };
+		D08B5AAD16002694001FE685 /* MAVValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAVValueTransformer.m; sourceTree = "<group>"; };
+		D08B5AB116002A23001FE685 /* MAVValueTransformerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAVValueTransformerSpec.m; sourceTree = "<group>"; };
 		D090E62615F730D1005282F9 /* NSArray+MAVHigherOrderAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+MAVHigherOrderAdditions.h"; sourceTree = "<group>"; };
 		D090E62715F730D1005282F9 /* NSArray+MAVHigherOrderAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+MAVHigherOrderAdditions.m"; sourceTree = "<group>"; };
 		D090E62815F730D1005282F9 /* NSDictionary+MAVHigherOrderAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+MAVHigherOrderAdditions.h"; sourceTree = "<group>"; };
@@ -280,6 +301,7 @@
 			isa = PBXGroup;
 			children = (
 				D042FC4C15F72B23004E8054 /* Maverick.h */,
+				D0760E7015FFBF020060F550 /* Classes */,
 				D090E62515F730B2005282F9 /* Extensions */,
 				D042FC4615F72B23004E8054 /* Supporting Files */,
 			);
@@ -299,7 +321,7 @@
 		D042FC5B15F72B23004E8054 /* MaverickTests */ = {
 			isa = PBXGroup;
 			children = (
-				D090E66015F73315005282F9 /* MAVHigherOrderAdditionsSpec.m */,
+				D0760EC615FFCA3E0060F550 /* Specs */,
 				D042FC5C15F72B23004E8054 /* Supporting Files */,
 			);
 			path = MaverickTests;
@@ -308,6 +330,8 @@
 		D042FC5C15F72B23004E8054 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				D0760EC715FFCA4E0060F550 /* MAVTestModel.h */,
+				D0760EC815FFCA4E0060F550 /* MAVTestModel.m */,
 				D0C92DE115F72F6A00387438 /* MaverickTests-Prefix.pch */,
 				D042FC5D15F72B23004E8054 /* MaverickTests-Info.plist */,
 				D042FC5E15F72B23004E8054 /* InfoPlist.strings */,
@@ -400,6 +424,27 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		D0760E7015FFBF020060F550 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				D0760E7615FFBF330060F550 /* MAVModel.h */,
+				D0760E7715FFBF330060F550 /* MAVModel.m */,
+				D08B5AAC16002694001FE685 /* MAVValueTransformer.h */,
+				D08B5AAD16002694001FE685 /* MAVValueTransformer.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		D0760EC615FFCA3E0060F550 /* Specs */ = {
+			isa = PBXGroup;
+			children = (
+				D090E66015F73315005282F9 /* MAVHigherOrderAdditionsSpec.m */,
+				D0760EC315FFCA250060F550 /* MAVModelSpec.m */,
+				D08B5AB116002A23001FE685 /* MAVValueTransformerSpec.m */,
+			);
+			name = Specs;
+			sourceTree = "<group>";
+		};
 		D090E62515F730B2005282F9 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -418,6 +463,7 @@
 		D090E63A15F73249005282F9 /* libextobjc */ = {
 			isa = PBXGroup;
 			children = (
+				D0760EA015FFC8080060F550 /* EXTKeyPathCoding.h */,
 				D090E63B15F73265005282F9 /* EXTScope.h */,
 				D090E63C15F73265005282F9 /* EXTScope.m */,
 				D090E63D15F73265005282F9 /* metamacros.h */,
@@ -437,6 +483,8 @@
 				D090E63415F730D1005282F9 /* NSOrderedSet+MAVHigherOrderAdditions.h in Headers */,
 				D090E63715F730D1005282F9 /* NSSet+MAVHigherOrderAdditions.h in Headers */,
 				D0760E0515FFBD440060F550 /* Maverick.h in Headers */,
+				D0760E7815FFBF330060F550 /* MAVModel.h in Headers */,
+				D08B5AAE16002694001FE685 /* MAVValueTransformer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -683,6 +731,8 @@
 				D090E63515F730D1005282F9 /* NSOrderedSet+MAVHigherOrderAdditions.m in Sources */,
 				D090E63815F730D1005282F9 /* NSSet+MAVHigherOrderAdditions.m in Sources */,
 				D090E63E15F73269005282F9 /* EXTScope.m in Sources */,
+				D0760E7915FFBF330060F550 /* MAVModel.m in Sources */,
+				D08B5AAF16002694001FE685 /* MAVValueTransformer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -691,6 +741,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				D090E66115F73315005282F9 /* MAVHigherOrderAdditionsSpec.m in Sources */,
+				D0760EC415FFCA250060F550 /* MAVModelSpec.m in Sources */,
+				D0760EC915FFCA4E0060F550 /* MAVTestModel.m in Sources */,
+				D08B5AB216002A23001FE685 /* MAVValueTransformerSpec.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -703,6 +756,8 @@
 				D090E63615F730D1005282F9 /* NSOrderedSet+MAVHigherOrderAdditions.m in Sources */,
 				D090E63915F730D1005282F9 /* NSSet+MAVHigherOrderAdditions.m in Sources */,
 				D090E63F15F73269005282F9 /* EXTScope.m in Sources */,
+				D0760E7A15FFBF330060F550 /* MAVModel.m in Sources */,
+				D08B5AB016002694001FE685 /* MAVValueTransformer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -711,6 +766,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				D090E66215F73315005282F9 /* MAVHigherOrderAdditionsSpec.m in Sources */,
+				D0760EC515FFCA250060F550 /* MAVModelSpec.m in Sources */,
+				D0760ECA15FFCA4E0060F550 /* MAVTestModel.m in Sources */,
+				D08B5AB316002A23001FE685 /* MAVValueTransformerSpec.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
