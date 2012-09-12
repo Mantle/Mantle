@@ -39,7 +39,7 @@ static NSString * const MAVModelVersionKey = @"MAVModelVersion";
 }
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
-	NSDictionary *keysByProperty = [self.class dictionaryKeysByPropertyKey];
+	NSDictionary *keysByProperty = self.class.dictionaryKeysByPropertyKey;
 	NSMutableDictionary *properties = [NSMutableDictionary dictionaryWithCapacity:dictionary.count];
 
 	for (NSString *key in dictionary) {
@@ -80,7 +80,7 @@ static NSString * const MAVModelVersionKey = @"MAVModelVersion";
 	self = [super init];
 	if (self == nil) return nil;
 
-	NSDictionary *defaultValues = [self.class defaultValuesForKeys];
+	NSDictionary *defaultValues = self.class.defaultValuesForKeys;
 	if (defaultValues != nil) [self setValuesForKeysWithDictionary:defaultValues];
 	if (propertyKeysAndValues != nil) [self setValuesForKeysWithDictionary:propertyKeysAndValues];
 
@@ -153,10 +153,10 @@ static NSString * const MAVModelVersionKey = @"MAVModelVersion";
 }
 
 - (NSDictionary *)dictionaryRepresentation {
-	NSSet *keys = [self.class propertyKeys];
+	NSSet *keys = self.class.propertyKeys;
 	NSDictionary *dictionary = [self dictionaryWithValuesForKeys:keys.allObjects];
 
-	NSDictionary *mapping = [self.class dictionaryKeysByPropertyKey];
+	NSDictionary *mapping = self.class.dictionaryKeysByPropertyKey;
 	NSMutableDictionary *mappedDictionary = [NSMutableDictionary dictionaryWithCapacity:dictionary.count];
 
 	[dictionary enumerateKeysAndObjectsUsingBlock:^(NSString *key, id value, BOOL *stop) {
@@ -209,8 +209,8 @@ static NSString * const MAVModelVersionKey = @"MAVModelVersion";
 - (instancetype)modelByMergingFromModel:(MAVModel *)model {
 	NSParameterAssert(model == nil || [model isKindOfClass:self.class]);
 
-	NSSet *keys = [self.class propertyKeys];
-	NSDictionary *dictionaryKeysByPropertyKey = [self.class dictionaryKeysByPropertyKey];
+	NSSet *keys = self.class.propertyKeys;
+	NSDictionary *dictionaryKeysByPropertyKey = self.class.dictionaryKeysByPropertyKey;
 
 	NSMutableDictionary *mergedValues = [NSMutableDictionary dictionaryWithCapacity:keys.count];
 
@@ -240,10 +240,10 @@ static NSString * const MAVModelVersionKey = @"MAVModelVersion";
 	NSNumber *version = [coder decodeObjectForKey:MAVModelVersionKey];
 	if (version == nil) {
 		NSLog(@"Warning: decoding a dictionary representation without a version: %@", dictionary);
-	} else if (version.unsignedIntegerValue > [self.class modelVersion]) {
+	} else if (version.unsignedIntegerValue > self.class.modelVersion) {
 		// Don't try to decode newer versions.
 		return nil;
-	} else if (version.unsignedIntegerValue < [self.class modelVersion]) {
+	} else if (version.unsignedIntegerValue < self.class.modelVersion) {
 		dictionary = [self.class migrateDictionaryRepresentation:dictionary fromVersion:version.unsignedIntegerValue];
 		if (dictionary == nil) return nil;
 	}
@@ -253,7 +253,7 @@ static NSString * const MAVModelVersionKey = @"MAVModelVersion";
 
 - (void)encodeWithCoder:(NSCoder *)coder {
 	[coder encodeObject:self.dictionaryRepresentation forKey:@keypath(self.dictionaryRepresentation)];
-	[coder encodeObject:@([self.class modelVersion]) forKey:MAVModelVersionKey];
+	[coder encodeObject:@(self.class.modelVersion) forKey:MAVModelVersionKey];
 }
 
 #pragma mark NSObject
