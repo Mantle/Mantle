@@ -22,7 +22,7 @@ describe(@"subclass", ^{
 		expect(model.name).to.beNil();
 		expect(model.count).to.equal(1);
 
-		NSDictionary *expectedValues = @{ @"username": [NSNull null], @"count": @"1" };
+		NSDictionary *expectedValues = @{ @"username": NSNull.null, @"count": @"1" };
 		expect(model.dictionaryRepresentation).to.equal(expectedValues);
 	});
 

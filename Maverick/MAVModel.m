@@ -54,7 +54,7 @@ static NSString * const MAVModelVersionKey = @"MAVModelVersion";
 		// double-free or leak the old or new values).
 		__autoreleasing id value = [dictionary objectForKey:key];
 		
-		if ([value isEqual:[NSNull null]]) value = nil;
+		if ([value isEqual:NSNull.null]) value = nil;
 
 		@try {
 			NSValueTransformer *transformer = [self.class propertyTransformerForKey:propertyKey];
@@ -62,7 +62,7 @@ static NSString * const MAVModelVersionKey = @"MAVModelVersion";
 
 			if (![self validateValue:&value forKey:propertyKey error:NULL]) return nil;
 
-			value = value ?: [NSNull null];
+			value = value ?: NSNull.null;
 			[properties setObject:value forKey:propertyKey];
 		} @catch (NSException *ex) {
 			NSLog(@"*** Caught exception setting value for key \"%@\" (dictionary key \"%@\") from dictionary %@", propertyKey, key, dictionary);
@@ -93,7 +93,7 @@ static NSString * const MAVModelVersionKey = @"MAVModelVersion";
 	Class cls = self;
 	BOOL stop = NO;
 
-	while (!stop && ![cls isEqual:[MAVModel class]]) {
+	while (!stop && ![cls isEqual:MAVModel.class]) {
 		unsigned count = 0;
 		objc_property_t *properties = class_copyPropertyList(cls, &count);
 		if (properties == NULL) continue;
@@ -216,7 +216,7 @@ static NSString * const MAVModelVersionKey = @"MAVModelVersion";
 
 	for (NSString *key in keys) {
 		id mergedValue = [self valueForKey:key mergedFromModel:model];
-		if (mergedValue == nil) mergedValue = [NSNull null];
+		if (mergedValue == nil) mergedValue = NSNull.null;
 
 		NSString *mappedKey = [dictionaryKeysByPropertyKey objectForKey:key] ?: key;
 		[mergedValues setObject:mergedValue forKey:mappedKey];
