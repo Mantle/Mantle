@@ -80,7 +80,6 @@ NSString * const MAVURLValueTransformerName = @"MAVURLValueTransformerName";
 			if (![str isKindOfClass:[NSString class]]) return nil;
 			return [NSURL URLWithString:str];
 		}
-
 		reverseBlock:^ id (NSURL *URL) {
 			if (![URL isKindOfClass:[NSURL class]]) return nil;
 			return URL.absoluteString;
