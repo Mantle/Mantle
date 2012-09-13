@@ -48,4 +48,18 @@ it(@"should return a reversible transformer with forward and reverse blocks", ^{
 	expect([transformer reverseTransformedValue:@"foobar"]).to.equal(@"foo");
 });
 
+describe(@"predefined transformers", ^{
+	it(@"should define a URL value transformer", ^{
+		NSValueTransformer *transformer = [NSValueTransformer valueTransformerForName:MAVURLValueTransformerName];
+		expect(transformer).notTo.beNil();
+
+		NSString *URLString = @"http://www.github.com/";
+		expect([transformer transformedValue:URLString]).to.equal([NSURL URLWithString:URLString]);
+		expect([transformer reverseTransformedValue:[NSURL URLWithString:URLString]]).to.equal(URLString);
+
+		expect([transformer transformedValue:nil]).to.beNil();
+		expect([transformer reverseTransformedValue:nil]).to.beNil();
+	});
+});
+
 SpecEnd
