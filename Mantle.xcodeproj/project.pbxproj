@@ -273,8 +273,8 @@
 		D042FC3015F72B23004E8054 = {
 			isa = PBXGroup;
 			children = (
-				D042FC4515F72B23004E8054 /* Maverick */,
-				D042FC5B15F72B23004E8054 /* MaverickTests */,
+				D042FC4515F72B23004E8054 /* Mantle */,
+				D042FC5B15F72B23004E8054 /* MantleTests */,
 				D042FC3E15F72B23004E8054 /* Frameworks */,
 				D042FC9E15F72C16004E8054 /* Configuration */,
 				D042FC3D15F72B23004E8054 /* Products */,
@@ -305,7 +305,7 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		D042FC4515F72B23004E8054 /* Maverick */ = {
+		D042FC4515F72B23004E8054 /* Mantle */ = {
 			isa = PBXGroup;
 			children = (
 				D042FC4C15F72B23004E8054 /* Maverick.h */,
@@ -313,7 +313,7 @@
 				D090E62515F730B2005282F9 /* Extensions */,
 				D042FC4615F72B23004E8054 /* Supporting Files */,
 			);
-			path = Maverick;
+			path = Mantle;
 			sourceTree = "<group>";
 		};
 		D042FC4615F72B23004E8054 /* Supporting Files */ = {
@@ -326,13 +326,13 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		D042FC5B15F72B23004E8054 /* MaverickTests */ = {
+		D042FC5B15F72B23004E8054 /* MantleTests */ = {
 			isa = PBXGroup;
 			children = (
 				D0760EC615FFCA3E0060F550 /* Specs */,
 				D042FC5C15F72B23004E8054 /* Supporting Files */,
 			);
-			path = MaverickTests;
+			path = MantleTests;
 			sourceTree = "<group>";
 		};
 		D042FC5C15F72B23004E8054 /* Supporting Files */ = {

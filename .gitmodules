@@ -1,9 +1,9 @@
 [submodule "libextobjc"]
 	path = libextobjc
 	url = git://github.com/jspahrsummers/libextobjc.git
-[submodule "MaverickTests/specta"]
-	path = MaverickTests/specta
-	url = git://github.com/github/specta.git
-[submodule "MaverickTests/expecta"]
-	path = MaverickTests/expecta
+[submodule "MantleTests/expecta"]
+	path = MantleTests/expecta
 	url = git://github.com/github/expecta.git
+[submodule "MantleTests/specta"]
+	path = MantleTests/specta
+	url = git://github.com/github/specta.git
