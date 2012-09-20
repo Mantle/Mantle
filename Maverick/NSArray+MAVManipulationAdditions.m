@@ -7,6 +7,7 @@
 //
 
 #import "NSArray+MAVManipulationAdditions.h"
+#import "NSArray+MAVHigherOrderAdditions.h"
 
 @implementation NSArray (MAVManipulationAdditions)
 
@@ -15,9 +16,9 @@
 }
 
 - (instancetype)mav_arrayByRemovingObject:(id)object {
-	NSMutableArray *copied = [self mutableCopy];
-	[copied removeObject:object];
-	return [copied copy];
+	return [self mav_filterUsingBlock:^ BOOL (id arrayObject) {
+		return ![arrayObject isEqual:object];
+	}];
 }
 
 - (instancetype)mav_arrayWithoutFirstObject {
