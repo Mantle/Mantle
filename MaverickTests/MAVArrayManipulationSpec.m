@@ -28,6 +28,12 @@ describe(@"-mav_arrayByRemovingObject:", ^{
 		NSArray *expected = @[ @2, @3 ];
 		expect([array mav_arrayByRemovingObject:@1]).to.equal(expected);
 	});
+
+	it(@"should return a new array without all occurrences of the object", ^{
+		NSArray *array = @[ @1, @2, @3, @1, @1 ];
+		NSArray *expected = @[ @2, @3 ];
+		expect([array mav_arrayByRemovingObject:@1]).to.equal(expected);
+	});
 	
 	it(@"should return an equivalent array if it doesn't contain the object", ^{
 		NSArray *array = @[ @1, @2, @3 ];
