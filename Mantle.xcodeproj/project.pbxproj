@@ -14,13 +14,13 @@
 		88080C1E160A719D00CCABF2 /* MAVArrayManipulationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88080C1C160A719D00CCABF2 /* MAVArrayManipulationSpec.m */; };
 		D042FC4A15F72B23004E8054 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D042FC4815F72B23004E8054 /* InfoPlist.strings */; };
 		D042FC5615F72B23004E8054 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D042FC5515F72B23004E8054 /* SenTestingKit.framework */; };
-		D042FC5A15F72B23004E8054 /* Maverick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D042FC3C15F72B23004E8054 /* Maverick.framework */; };
+		D042FC5A15F72B23004E8054 /* Mantle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D042FC3C15F72B23004E8054 /* Mantle.framework */; };
 		D042FC6015F72B23004E8054 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D042FC5E15F72B23004E8054 /* InfoPlist.strings */; };
 		D042FC7415F72B90004E8054 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D042FC4415F72B23004E8054 /* Foundation.framework */; };
 		D042FC7A15F72BC7004E8054 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D042FC4415F72B23004E8054 /* Foundation.framework */; };
 		D042FC8815F72BC7004E8054 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D042FC5515F72B23004E8054 /* SenTestingKit.framework */; };
 		D042FC8B15F72BC7004E8054 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D042FC4415F72B23004E8054 /* Foundation.framework */; };
-		D042FC8E15F72BC7004E8054 /* libMaverick.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D042FC7915F72BC7004E8054 /* libMaverick.a */; };
+		D042FC8E15F72BC7004E8054 /* libMantle.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D042FC7915F72BC7004E8054 /* libMantle.a */; };
 		D042FD0415F72F04004E8054 /* libExpecta.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D042FCE715F72EED004E8054 /* libExpecta.a */; };
 		D042FD0515F72F04004E8054 /* libSpecta.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D042FCF915F72EF1004E8054 /* libSpecta.a */; };
 		D042FD0A15F72F0D004E8054 /* libExpecta-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D042FCE915F72EED004E8054 /* libExpecta-iOS.a */; };
@@ -173,19 +173,19 @@
 		88080C16160A706900CCABF2 /* NSArray+MAVManipulationAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+MAVManipulationAdditions.h"; sourceTree = "<group>"; };
 		88080C17160A706900CCABF2 /* NSArray+MAVManipulationAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+MAVManipulationAdditions.m"; sourceTree = "<group>"; };
 		88080C1C160A719D00CCABF2 /* MAVArrayManipulationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAVArrayManipulationSpec.m; sourceTree = "<group>"; };
-		D042FC3C15F72B23004E8054 /* Maverick.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Maverick.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D042FC3C15F72B23004E8054 /* Mantle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Mantle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D042FC4315F72B23004E8054 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		D042FC4415F72B23004E8054 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D042FC4715F72B23004E8054 /* Maverick-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Maverick-Info.plist"; sourceTree = "<group>"; };
 		D042FC4915F72B23004E8054 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D042FC4B15F72B23004E8054 /* Maverick-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Maverick-Prefix.pch"; sourceTree = "<group>"; };
 		D042FC4C15F72B23004E8054 /* Maverick.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Maverick.h; sourceTree = "<group>"; };
-		D042FC5415F72B23004E8054 /* Maverick Mac Tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Maverick Mac Tests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D042FC5415F72B23004E8054 /* Mantle Mac Tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Mantle Mac Tests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D042FC5515F72B23004E8054 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		D042FC5D15F72B23004E8054 /* MaverickTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MaverickTests-Info.plist"; sourceTree = "<group>"; };
 		D042FC5F15F72B23004E8054 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		D042FC7915F72BC7004E8054 /* libMaverick.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMaverick.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		D042FC8715F72BC7004E8054 /* Maverick iOS Tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Maverick iOS Tests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D042FC7915F72BC7004E8054 /* libMantle.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMantle.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		D042FC8715F72BC7004E8054 /* Mantle iOS Tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Mantle iOS Tests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D042FCA015F72C16004E8054 /* Common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
 		D042FCA215F72C16004E8054 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		D042FCA315F72C16004E8054 /* Profile.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Profile.xcconfig; sourceTree = "<group>"; };
@@ -243,7 +243,7 @@
 				D042FD0415F72F04004E8054 /* libExpecta.a in Frameworks */,
 				D042FD0515F72F04004E8054 /* libSpecta.a in Frameworks */,
 				D042FC5615F72B23004E8054 /* SenTestingKit.framework in Frameworks */,
-				D042FC5A15F72B23004E8054 /* Maverick.framework in Frameworks */,
+				D042FC5A15F72B23004E8054 /* Mantle.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -263,7 +263,7 @@
 				D042FD0B15F72F0D004E8054 /* libSpecta-iOS.a in Frameworks */,
 				D042FC8815F72BC7004E8054 /* SenTestingKit.framework in Frameworks */,
 				D042FC8B15F72BC7004E8054 /* Foundation.framework in Frameworks */,
-				D042FC8E15F72BC7004E8054 /* libMaverick.a in Frameworks */,
+				D042FC8E15F72BC7004E8054 /* libMantle.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -284,10 +284,10 @@
 		D042FC3D15F72B23004E8054 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D042FC3C15F72B23004E8054 /* Maverick.framework */,
-				D042FC5415F72B23004E8054 /* Maverick Mac Tests.octest */,
-				D042FC7915F72BC7004E8054 /* libMaverick.a */,
-				D042FC8715F72BC7004E8054 /* Maverick iOS Tests.octest */,
+				D042FC3C15F72B23004E8054 /* Mantle.framework */,
+				D042FC5415F72B23004E8054 /* Mantle Mac Tests.octest */,
+				D042FC7915F72BC7004E8054 /* libMantle.a */,
+				D042FC8715F72BC7004E8054 /* Mantle iOS Tests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -503,9 +503,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		D042FC3B15F72B23004E8054 /* Maverick Mac */ = {
+		D042FC3B15F72B23004E8054 /* Mantle Mac */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D042FC6615F72B23004E8054 /* Build configuration list for PBXNativeTarget "Maverick Mac" */;
+			buildConfigurationList = D042FC6615F72B23004E8054 /* Build configuration list for PBXNativeTarget "Mantle Mac" */;
 			buildPhases = (
 				D042FC3715F72B23004E8054 /* Sources */,
 				D042FC3815F72B23004E8054 /* Frameworks */,
@@ -516,14 +516,14 @@
 			);
 			dependencies = (
 			);
-			name = "Maverick Mac";
+			name = "Mantle Mac";
 			productName = Maverick;
-			productReference = D042FC3C15F72B23004E8054 /* Maverick.framework */;
+			productReference = D042FC3C15F72B23004E8054 /* Mantle.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		D042FC5315F72B23004E8054 /* Maverick Mac Tests */ = {
+		D042FC5315F72B23004E8054 /* Mantle Mac Tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D042FC6915F72B23004E8054 /* Build configuration list for PBXNativeTarget "Maverick Mac Tests" */;
+			buildConfigurationList = D042FC6915F72B23004E8054 /* Build configuration list for PBXNativeTarget "Mantle Mac Tests" */;
 			buildPhases = (
 				D042FC4F15F72B23004E8054 /* Sources */,
 				D042FC5015F72B23004E8054 /* Frameworks */,
@@ -537,14 +537,14 @@
 				D042FD0315F72EFF004E8054 /* PBXTargetDependency */,
 				D042FC5915F72B23004E8054 /* PBXTargetDependency */,
 			);
-			name = "Maverick Mac Tests";
+			name = "Mantle Mac Tests";
 			productName = MaverickTests;
-			productReference = D042FC5415F72B23004E8054 /* Maverick Mac Tests.octest */;
+			productReference = D042FC5415F72B23004E8054 /* Mantle Mac Tests.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
-		D042FC7815F72BC7004E8054 /* Maverick iOS */ = {
+		D042FC7815F72BC7004E8054 /* Mantle iOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D042FC9815F72BC7004E8054 /* Build configuration list for PBXNativeTarget "Maverick iOS" */;
+			buildConfigurationList = D042FC9815F72BC7004E8054 /* Build configuration list for PBXNativeTarget "Mantle iOS" */;
 			buildPhases = (
 				D042FC7515F72BC7004E8054 /* Sources */,
 				D042FC7615F72BC7004E8054 /* Frameworks */,
@@ -554,14 +554,14 @@
 			);
 			dependencies = (
 			);
-			name = "Maverick iOS";
+			name = "Mantle iOS";
 			productName = Maverick;
-			productReference = D042FC7915F72BC7004E8054 /* libMaverick.a */;
+			productReference = D042FC7915F72BC7004E8054 /* libMantle.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		D042FC8615F72BC7004E8054 /* Maverick iOS Tests */ = {
+		D042FC8615F72BC7004E8054 /* Mantle iOS Tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D042FC9B15F72BC7004E8054 /* Build configuration list for PBXNativeTarget "Maverick iOS Tests" */;
+			buildConfigurationList = D042FC9B15F72BC7004E8054 /* Build configuration list for PBXNativeTarget "Mantle iOS Tests" */;
 			buildPhases = (
 				D042FC8215F72BC7004E8054 /* Sources */,
 				D042FC8315F72BC7004E8054 /* Frameworks */,
@@ -575,9 +575,9 @@
 				D042FD0915F72F09004E8054 /* PBXTargetDependency */,
 				D042FC8D15F72BC7004E8054 /* PBXTargetDependency */,
 			);
-			name = "Maverick iOS Tests";
+			name = "Mantle iOS Tests";
 			productName = MaverickTests;
-			productReference = D042FC8715F72BC7004E8054 /* Maverick iOS Tests.octest */;
+			productReference = D042FC8715F72BC7004E8054 /* Mantle iOS Tests.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -589,7 +589,7 @@
 				LastUpgradeCheck = 0440;
 				ORGANIZATIONNAME = GitHub;
 			};
-			buildConfigurationList = D042FC3515F72B23004E8054 /* Build configuration list for PBXProject "Maverick" */;
+			buildConfigurationList = D042FC3515F72B23004E8054 /* Build configuration list for PBXProject "Mantle" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -611,10 +611,10 @@
 			);
 			projectRoot = "";
 			targets = (
-				D042FC3B15F72B23004E8054 /* Maverick Mac */,
-				D042FC5315F72B23004E8054 /* Maverick Mac Tests */,
-				D042FC7815F72BC7004E8054 /* Maverick iOS */,
-				D042FC8615F72BC7004E8054 /* Maverick iOS Tests */,
+				D042FC3B15F72B23004E8054 /* Mantle Mac */,
+				D042FC5315F72B23004E8054 /* Mantle Mac Tests */,
+				D042FC7815F72BC7004E8054 /* Mantle iOS */,
+				D042FC8615F72BC7004E8054 /* Mantle iOS Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -793,12 +793,12 @@
 /* Begin PBXTargetDependency section */
 		D042FC5915F72B23004E8054 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = D042FC3B15F72B23004E8054 /* Maverick Mac */;
+			target = D042FC3B15F72B23004E8054 /* Mantle Mac */;
 			targetProxy = D042FC5815F72B23004E8054 /* PBXContainerItemProxy */;
 		};
 		D042FC8D15F72BC7004E8054 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = D042FC7815F72BC7004E8054 /* Maverick iOS */;
+			target = D042FC7815F72BC7004E8054 /* Mantle iOS */;
 			targetProxy = D042FC8C15F72BC7004E8054 /* PBXContainerItemProxy */;
 		};
 		D042FD0115F72EFF004E8054 /* PBXTargetDependency */ = {
@@ -874,9 +874,9 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
-				GCC_PREFIX_HEADER = "Maverick/Maverick-Prefix.pch";
-				INFOPLIST_FILE = "Maverick/Maverick-Info.plist";
-				PRODUCT_NAME = Maverick;
+				GCC_PREFIX_HEADER = "$PRODUCT_NAME/$PRODUCT_NAME-Prefix.pch";
+				INFOPLIST_FILE = "$PRODUCT_NAME/$PRODUCT_NAME-Info.plist";
+				PRODUCT_NAME = Mantle;
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Debug;
@@ -888,9 +888,9 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
-				GCC_PREFIX_HEADER = "Maverick/Maverick-Prefix.pch";
-				INFOPLIST_FILE = "Maverick/Maverick-Info.plist";
-				PRODUCT_NAME = Maverick;
+				GCC_PREFIX_HEADER = "$PRODUCT_NAME/$PRODUCT_NAME-Prefix.pch";
+				INFOPLIST_FILE = "$PRODUCT_NAME/$PRODUCT_NAME-Info.plist";
+				PRODUCT_NAME = Mantle;
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Release;
@@ -902,10 +902,10 @@
 				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
 				GCC_PREFIX_HEADER = "MaverickTests/MaverickTests-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
-					MaverickTests/specta/src,
-					"MaverickTests/expecta/src/**",
+					MantleTests/specta/src,
+					"MantleTests/expecta/src/**",
 				);
-				INFOPLIST_FILE = "MaverickTests/MaverickTests-Info.plist";
+				INFOPLIST_FILE = "MantleTests/MantleTests-Info.plist";
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = octest;
@@ -919,10 +919,10 @@
 				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
 				GCC_PREFIX_HEADER = "MaverickTests/MaverickTests-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
-					MaverickTests/specta/src,
-					"MaverickTests/expecta/src/**",
+					MantleTests/specta/src,
+					"MantleTests/expecta/src/**",
 				);
-				INFOPLIST_FILE = "MaverickTests/MaverickTests-Info.plist";
+				INFOPLIST_FILE = "MantleTests/MantleTests-Info.plist";
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = octest;
@@ -934,10 +934,10 @@
 			baseConfigurationReference = D042FCAB15F72C16004E8054 /* iOS-StaticLibrary.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				DSTROOT = /tmp/Maverick.dst;
-				GCC_PREFIX_HEADER = "Maverick/Maverick-Prefix.pch";
+				DSTROOT = /tmp/$PRODUCT_NAME.dst;
+				GCC_PREFIX_HEADER = "$PRODUCT_NAME/$PRODUCT_NAME-Prefix.pch";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = Maverick;
+				PRODUCT_NAME = Mantle;
 			};
 			name = Debug;
 		};
@@ -946,10 +946,10 @@
 			baseConfigurationReference = D042FCAB15F72C16004E8054 /* iOS-StaticLibrary.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				DSTROOT = /tmp/Maverick.dst;
-				GCC_PREFIX_HEADER = "Maverick/Maverick-Prefix.pch";
+				DSTROOT = /tmp/$PRODUCT_NAME.dst;
+				GCC_PREFIX_HEADER = "$PRODUCT_NAME/$PRODUCT_NAME-Prefix.pch";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = Maverick;
+				PRODUCT_NAME = Mantle;
 			};
 			name = Release;
 		};
@@ -962,12 +962,12 @@
 					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
 					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
 				);
-				GCC_PREFIX_HEADER = "MaverickTests/MaverickTests-Prefix.pch";
+				GCC_PREFIX_HEADER = "MantleTests/MantleTests-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
-					MaverickTests/specta/src,
-					"MaverickTests/expecta/src/**",
+					MantleTests/specta/src,
+					"MantleTests/expecta/src/**",
 				);
-				INFOPLIST_FILE = "MaverickTests/MaverickTests-Info.plist";
+				INFOPLIST_FILE = "MantleTests/MantleTests-Info.plist";
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = octest;
@@ -983,12 +983,12 @@
 					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
 					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
 				);
-				GCC_PREFIX_HEADER = "MaverickTests/MaverickTests-Prefix.pch";
+				GCC_PREFIX_HEADER = "MantleTests/MantleTests-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
-					MaverickTests/specta/src,
-					"MaverickTests/expecta/src/**",
+					MantleTests/specta/src,
+					"MantleTests/expecta/src/**",
 				);
-				INFOPLIST_FILE = "MaverickTests/MaverickTests-Info.plist";
+				INFOPLIST_FILE = "MantleTests/MantleTests-Info.plist";
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = octest;
@@ -1014,9 +1014,9 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
-				GCC_PREFIX_HEADER = "Maverick/Maverick-Prefix.pch";
-				INFOPLIST_FILE = "Maverick/Maverick-Info.plist";
-				PRODUCT_NAME = Maverick;
+				GCC_PREFIX_HEADER = "$PRODUCT_NAME/$PRODUCT_NAME-Prefix.pch";
+				INFOPLIST_FILE = "$PRODUCT_NAME/$PRODUCT_NAME-Info.plist";
+				PRODUCT_NAME = Mantle;
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Profile;
@@ -1028,10 +1028,10 @@
 				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
 				GCC_PREFIX_HEADER = "MaverickTests/MaverickTests-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
-					MaverickTests/specta/src,
-					"MaverickTests/expecta/src/**",
+					MantleTests/specta/src,
+					"MantleTests/expecta/src/**",
 				);
-				INFOPLIST_FILE = "MaverickTests/MaverickTests-Info.plist";
+				INFOPLIST_FILE = "MantleTests/MantleTests-Info.plist";
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = octest;
@@ -1043,10 +1043,10 @@
 			baseConfigurationReference = D042FCAB15F72C16004E8054 /* iOS-StaticLibrary.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				DSTROOT = /tmp/Maverick.dst;
-				GCC_PREFIX_HEADER = "Maverick/Maverick-Prefix.pch";
+				DSTROOT = /tmp/$PRODUCT_NAME.dst;
+				GCC_PREFIX_HEADER = "$PRODUCT_NAME/$PRODUCT_NAME-Prefix.pch";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = Maverick;
+				PRODUCT_NAME = Mantle;
 			};
 			name = Profile;
 		};
@@ -1059,12 +1059,12 @@
 					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
 					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
 				);
-				GCC_PREFIX_HEADER = "MaverickTests/MaverickTests-Prefix.pch";
+				GCC_PREFIX_HEADER = "MantleTests/MantleTests-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
-					MaverickTests/specta/src,
-					"MaverickTests/expecta/src/**",
+					MantleTests/specta/src,
+					"MantleTests/expecta/src/**",
 				);
-				INFOPLIST_FILE = "MaverickTests/MaverickTests-Info.plist";
+				INFOPLIST_FILE = "MantleTests/MantleTests-Info.plist";
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = octest;
@@ -1074,7 +1074,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		D042FC3515F72B23004E8054 /* Build configuration list for PBXProject "Maverick" */ = {
+		D042FC3515F72B23004E8054 /* Build configuration list for PBXProject "Mantle" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D042FC6415F72B23004E8054 /* Debug */,
@@ -1084,7 +1084,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D042FC6615F72B23004E8054 /* Build configuration list for PBXNativeTarget "Maverick Mac" */ = {
+		D042FC6615F72B23004E8054 /* Build configuration list for PBXNativeTarget "Mantle Mac" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D042FC6715F72B23004E8054 /* Debug */,
@@ -1094,7 +1094,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D042FC6915F72B23004E8054 /* Build configuration list for PBXNativeTarget "Maverick Mac Tests" */ = {
+		D042FC6915F72B23004E8054 /* Build configuration list for PBXNativeTarget "Mantle Mac Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D042FC6A15F72B23004E8054 /* Debug */,
@@ -1104,7 +1104,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D042FC9815F72BC7004E8054 /* Build configuration list for PBXNativeTarget "Maverick iOS" */ = {
+		D042FC9815F72BC7004E8054 /* Build configuration list for PBXNativeTarget "Mantle iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D042FC9915F72BC7004E8054 /* Debug */,
@@ -1114,7 +1114,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D042FC9B15F72BC7004E8054 /* Build configuration list for PBXNativeTarget "Maverick iOS Tests" */ = {
+		D042FC9B15F72BC7004E8054 /* Build configuration list for PBXNativeTarget "Mantle iOS Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D042FC9C15F72BC7004E8054 /* Debug */,
