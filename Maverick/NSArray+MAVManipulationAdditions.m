@@ -21,13 +21,13 @@
 	}];
 }
 
-- (instancetype)mav_arrayWithoutFirstObject {
+- (instancetype)mav_arrayByRemovingFirstObject {
 	if (self.count == 0) return self;
 
 	return [self subarrayWithRange:NSMakeRange(1, self.count - 1)];
 }
 
-- (instancetype)mav_arrayWithoutLastObject {
+- (instancetype)mav_arrayByRemovingLastObject {
 	if (self.count == 0) return self;
 
 	return [self subarrayWithRange:NSMakeRange(0, self.count - 1)];

@@ -18,10 +18,10 @@
 
 // Returns a new array without the first object. If the array is empty, it
 // returns the empty array.
-- (instancetype)mav_arrayWithoutFirstObject;
+- (instancetype)mav_arrayByRemovingFirstObject;
 
 // Returns a new array without the last object. If the array is empty, it
 // returns the empty array.
-- (instancetype)mav_arrayWithoutLastObject;
+- (instancetype)mav_arrayByRemovingLastObject;
 
 @end

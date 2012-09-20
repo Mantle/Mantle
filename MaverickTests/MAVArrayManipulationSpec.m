@@ -35,29 +35,29 @@ describe(@"-mav_arrayByRemovingObject:", ^{
 	});
 });
 
-describe(@"-mav_arrayWithoutFirstObject", ^{
+describe(@"-mav_arrayByRemovingFirstObject", ^{
 	it(@"should return the array without the first object", ^{
 		NSArray *array = @[ @1, @2, @3 ];
 		NSArray *expected = @[ @2, @3 ];
-		expect(array.mav_arrayWithoutFirstObject).to.equal(expected);
+		expect(array.mav_arrayByRemovingFirstObject).to.equal(expected);
 	});
 
 	it(@"should return the same array if it's empty", ^{
 		NSArray *array = @[];
-		expect(array.mav_arrayWithoutFirstObject).to.equal(array);
+		expect(array.mav_arrayByRemovingFirstObject).to.equal(array);
 	});
 });
 
-describe(@"-mav_arrayWithoutLastObject", ^{
+describe(@"-mav_arrayByRemovingLastObject", ^{
 	it(@"should return the array without the last object", ^{
 		NSArray *array = @[ @1, @2, @3 ];
 		NSArray *expected = @[ @1, @2 ];
-		expect(array.mav_arrayWithoutLastObject).to.equal(expected);
+		expect(array.mav_arrayByRemovingLastObject).to.equal(expected);
 	});
 
 	it(@"should return the same array if it's empty", ^{
 		NSArray *array = @[];
-		expect(array.mav_arrayWithoutLastObject).to.equal(array);
+		expect(array.mav_arrayByRemovingLastObject).to.equal(array);
 	});
 });
 
