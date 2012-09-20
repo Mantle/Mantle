@@ -15,11 +15,11 @@
 
 @implementation NSDictionary (MTLHigherOrderAdditions)
 
-- (NSDictionary *)mav_filterEntriesUsingBlock:(BOOL (^)(id key, id value))block; {
-    return [self mav_filterEntriesWithOptions:0 usingBlock:block];
+- (NSDictionary *)mtl_filterEntriesUsingBlock:(BOOL (^)(id key, id value))block; {
+    return [self mtl_filterEntriesWithOptions:0 usingBlock:block];
 }
 
-- (NSDictionary *)mav_filterEntriesWithOptions:(NSEnumerationOptions)opts usingBlock:(BOOL (^)(id key, id value))block; {
+- (NSDictionary *)mtl_filterEntriesWithOptions:(NSEnumerationOptions)opts usingBlock:(BOOL (^)(id key, id value))block; {
     NSSet *matchingKeys = [self keysOfEntriesWithOptions:opts passingTest:^(id key, id value, BOOL *stop){
         return block(key, value);
     }];
@@ -30,11 +30,11 @@
     return [NSDictionary dictionaryWithObjects:values forKeys:keys];
 }
 
-- (NSDictionary *)mav_filterEntriesWithFailedEntries:(NSDictionary **)failedEntries usingBlock:(BOOL(^)(id key, id value))block; {
-    return [self mav_filterEntriesWithOptions:0 failedEntries:failedEntries usingBlock:block];
+- (NSDictionary *)mtl_filterEntriesWithFailedEntries:(NSDictionary **)failedEntries usingBlock:(BOOL(^)(id key, id value))block; {
+    return [self mtl_filterEntriesWithOptions:0 failedEntries:failedEntries usingBlock:block];
 }
 
-- (NSDictionary *)mav_filterEntriesWithOptions:(NSEnumerationOptions)opts failedEntries:(NSDictionary **)failedEntries usingBlock:(BOOL(^)(id key, id value))block; {
+- (NSDictionary *)mtl_filterEntriesWithOptions:(NSEnumerationOptions)opts failedEntries:(NSDictionary **)failedEntries usingBlock:(BOOL(^)(id key, id value))block; {
     NSUInteger originalCount = [self count];
     BOOL concurrent = (opts & NSEnumerationConcurrent);
 
@@ -107,7 +107,7 @@
     return [NSDictionary dictionaryWithObjects:(id *)values forKeys:(id *)keys count:successCount];
 }
 
-- (id)mav_foldEntriesWithValue:(id)startingValue usingBlock:(id (^)(id left, id rightKey, id rightValue))block; {
+- (id)mtl_foldEntriesWithValue:(id)startingValue usingBlock:(id (^)(id left, id rightKey, id rightValue))block; {
     __block id value = startingValue;
     
     [self enumerateKeysAndObjectsUsingBlock:^(id dictionaryKey, id dictionaryValue, BOOL *stop){
@@ -117,11 +117,11 @@
     return value;
 }
 
-- (NSDictionary *)mav_mapValuesUsingBlock:(id (^)(id key, id value))block; {
-    return [self mav_mapValuesWithOptions:0 usingBlock:block];
+- (NSDictionary *)mtl_mapValuesUsingBlock:(id (^)(id key, id value))block; {
+    return [self mtl_mapValuesWithOptions:0 usingBlock:block];
 }
 
-- (NSDictionary *)mav_mapValuesWithOptions:(NSEnumerationOptions)opts usingBlock:(id (^)(id key, id value))block; {
+- (NSDictionary *)mtl_mapValuesWithOptions:(NSEnumerationOptions)opts usingBlock:(id (^)(id key, id value))block; {
     NSUInteger originalCount = [self count];
     BOOL concurrent = (opts & NSEnumerationConcurrent);
 
@@ -181,11 +181,11 @@
     return [NSDictionary dictionaryWithObjects:(id *)values forKeys:(id *)keys count:(NSUInteger)nextIndex];
 }
 
-- (id)mav_keyOfEntryPassingTest:(BOOL (^)(id key, id obj, BOOL *stop))predicate; {
-    return [self mav_keyOfEntryWithOptions:0 passingTest:predicate];
+- (id)mtl_keyOfEntryPassingTest:(BOOL (^)(id key, id obj, BOOL *stop))predicate; {
+    return [self mtl_keyOfEntryWithOptions:0 passingTest:predicate];
 }
 
-- (id)mav_keyOfEntryWithOptions:(NSEnumerationOptions)opts passingTest:(BOOL (^)(id key, id obj, BOOL *stop))predicate; {
+- (id)mtl_keyOfEntryWithOptions:(NSEnumerationOptions)opts passingTest:(BOOL (^)(id key, id obj, BOOL *stop))predicate; {
     BOOL concurrent = (opts & NSEnumerationConcurrent);
 
     void * volatile match = NULL;

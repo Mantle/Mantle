@@ -34,19 +34,19 @@ describe(@"dictionary", ^{
 		];
 
 		it(@"should filter", ^{
-			expect([dictionary mav_filterEntriesUsingBlock:filterBlock]).to.equal(filteredDictionary);
+			expect([dictionary mtl_filterEntriesUsingBlock:filterBlock]).to.equal(filteredDictionary);
 		});
 
 		it(@"should filter concurrently", ^{
-			expect([dictionary mav_filterEntriesWithOptions:NSEnumerationConcurrent usingBlock:filterBlock]).to.equal(filteredDictionary);
+			expect([dictionary mtl_filterEntriesWithOptions:NSEnumerationConcurrent usingBlock:filterBlock]).to.equal(filteredDictionary);
 		});
 
 		it(@"should filter in reverse", ^{
-			expect([dictionary mav_filterEntriesWithOptions:NSEnumerationReverse usingBlock:filterBlock]).to.equal(filteredDictionary);
+			expect([dictionary mtl_filterEntriesWithOptions:NSEnumerationReverse usingBlock:filterBlock]).to.equal(filteredDictionary);
 		});
 
 		it(@"should filter to empty dictionary", ^{
-			expect([[NSDictionary dictionary] mav_filterEntriesUsingBlock:filterBlock]).to.equal([NSDictionary dictionary]);
+			expect([[NSDictionary dictionary] mtl_filterEntriesUsingBlock:filterBlock]).to.equal([NSDictionary dictionary]);
 		});
 
 		NSDictionary *failedDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -59,29 +59,29 @@ describe(@"dictionary", ^{
 
 		it(@"should partition", ^{
 			__block id failedObjects = nil;
-			expect([dictionary mav_filterEntriesWithFailedEntries:&failedObjects usingBlock:filterBlock]).to.equal(filteredDictionary);
+			expect([dictionary mtl_filterEntriesWithFailedEntries:&failedObjects usingBlock:filterBlock]).to.equal(filteredDictionary);
 			expect(failedObjects).to.equal(failedDictionary);
 		});
 
 		it(@"should partition concurrently", ^{
 			__block id failedObjects = nil;
-			expect([dictionary mav_filterEntriesWithOptions:NSEnumerationConcurrent failedEntries:&failedObjects usingBlock:filterBlock]).to.equal(filteredDictionary);
+			expect([dictionary mtl_filterEntriesWithOptions:NSEnumerationConcurrent failedEntries:&failedObjects usingBlock:filterBlock]).to.equal(filteredDictionary);
 			expect(failedObjects).to.equal(failedDictionary);
 		});
 
 		it(@"should partition in reverse", ^{
 			__block id failedObjects = nil;
-			expect([dictionary mav_filterEntriesWithOptions:NSEnumerationReverse failedEntries:&failedObjects usingBlock:filterBlock]).to.equal(filteredDictionary);
+			expect([dictionary mtl_filterEntriesWithOptions:NSEnumerationReverse failedEntries:&failedObjects usingBlock:filterBlock]).to.equal(filteredDictionary);
 			expect(failedObjects).to.equal(failedDictionary);
 		});
 
 		it(@"should partition even without failed entries", ^{
-			expect([dictionary mav_filterEntriesWithFailedEntries:NULL usingBlock:filterBlock]).to.equal(filteredDictionary);
+			expect([dictionary mtl_filterEntriesWithFailedEntries:NULL usingBlock:filterBlock]).to.equal(filteredDictionary);
 		});
 
 		it(@"should partition to empty dictionary", ^{
 			__block id failedObjects;
-			expect([[NSDictionary dictionary] mav_filterEntriesWithFailedEntries:&failedObjects usingBlock:filterBlock]).to.equal([NSDictionary dictionary]);
+			expect([[NSDictionary dictionary] mtl_filterEntriesWithFailedEntries:&failedObjects usingBlock:filterBlock]).to.equal([NSDictionary dictionary]);
 			expect(failedObjects).to.equal([NSDictionary dictionary]);
 		});
 	});
@@ -91,12 +91,12 @@ describe(@"dictionary", ^{
 	};
 
 	it(@"should filter to empty dictionary when not successful", ^{
-		expect([dictionary mav_filterEntriesUsingBlock:unsuccessfulFilterBlock]).to.equal([NSDictionary dictionary]);
+		expect([dictionary mtl_filterEntriesUsingBlock:unsuccessfulFilterBlock]).to.equal([NSDictionary dictionary]);
 	});
 
 	it(@"should partition to empty dictionary when not successful", ^{
 		__block id failedObjects = nil;
-		expect([dictionary mav_filterEntriesWithFailedEntries:&failedObjects usingBlock:unsuccessfulFilterBlock]).to.equal([NSDictionary dictionary]);
+		expect([dictionary mtl_filterEntriesWithFailedEntries:&failedObjects usingBlock:unsuccessfulFilterBlock]).to.equal([NSDictionary dictionary]);
 		expect(failedObjects).to.equal(dictionary);
 	});
 
@@ -106,7 +106,7 @@ describe(@"dictionary", ^{
 		};
 
 		__block id failedObjects = nil;
-		expect([dictionary mav_filterEntriesWithFailedEntries:&failedObjects usingBlock:successfulFilterBlock]).to.equal(dictionary);
+		expect([dictionary mtl_filterEntriesWithFailedEntries:&failedObjects usingBlock:successfulFilterBlock]).to.equal(dictionary);
 		expect(failedObjects).to.equal([NSDictionary dictionary]);
 	});
 
@@ -130,19 +130,19 @@ describe(@"dictionary", ^{
 		];
 
 		it(@"should map", ^{
-			expect([dictionary mav_mapValuesUsingBlock:mapBlock]).to.equal(mappedDictionary);
+			expect([dictionary mtl_mapValuesUsingBlock:mapBlock]).to.equal(mappedDictionary);
 		});
 
 		it(@"should map concurrently", ^{
-			expect([dictionary mav_mapValuesWithOptions:NSEnumerationConcurrent usingBlock:mapBlock]).to.equal(mappedDictionary);
+			expect([dictionary mtl_mapValuesWithOptions:NSEnumerationConcurrent usingBlock:mapBlock]).to.equal(mappedDictionary);
 		});
 
 		it(@"should map in reverse", ^{
-			expect([dictionary mav_mapValuesWithOptions:NSEnumerationReverse usingBlock:mapBlock]).to.equal(mappedDictionary);
+			expect([dictionary mtl_mapValuesWithOptions:NSEnumerationReverse usingBlock:mapBlock]).to.equal(mappedDictionary);
 		});
 
 		it(@"should map to empty dictionary", ^{
-			expect([[NSDictionary dictionary] mav_mapValuesUsingBlock:mapBlock]).to.equal([NSDictionary dictionary]);
+			expect([[NSDictionary dictionary] mtl_mapValuesUsingBlock:mapBlock]).to.equal([NSDictionary dictionary]);
 		});
 	});
 
@@ -162,7 +162,7 @@ describe(@"dictionary", ^{
 			nil
 		];
 
-		expect([dictionary mav_mapValuesUsingBlock:removingMapBlock]).to.equal(mappedDictionary);
+		expect([dictionary mtl_mapValuesUsingBlock:removingMapBlock]).to.equal(mappedDictionary);
 	});
 
 	describe(@"folding", ^{
@@ -181,15 +181,15 @@ describe(@"dictionary", ^{
 		NSString *result = @"uzz";
 
 		it(@"should fold", ^{
-			expect([dictionary mav_foldEntriesWithValue:startingValue usingBlock:foldBlock]).to.equal(result);
+			expect([dictionary mtl_foldEntriesWithValue:startingValue usingBlock:foldBlock]).to.equal(result);
 		});
 
 		it(@"should with nil", ^{
-			expect([dictionary mav_foldEntriesWithValue:nil usingBlock:foldBlock]).to.equal(result);
+			expect([dictionary mtl_foldEntriesWithValue:nil usingBlock:foldBlock]).to.equal(result);
 		});
 
 		it(@"should fold to starting value", ^{
-			expect([[NSDictionary dictionary] mav_foldEntriesWithValue:startingValue usingBlock:foldBlock]).to.equal(startingValue);
+			expect([[NSDictionary dictionary] mtl_foldEntriesWithValue:startingValue usingBlock:foldBlock]).to.equal(startingValue);
 		});
 	});
 
@@ -201,15 +201,15 @@ describe(@"dictionary", ^{
 		id key = [NSNumber numberWithInt:20];
 
 		it(@"should return key passing test", ^{
-			expect([dictionary mav_keyOfEntryPassingTest:testBlock]).to.equal(key);
+			expect([dictionary mtl_keyOfEntryPassingTest:testBlock]).to.equal(key);
 		});
 
 		it(@"should return key passing test concurrently", ^{
-			expect([dictionary mav_keyOfEntryWithOptions:NSEnumerationConcurrent passingTest:testBlock]).to.equal(key);
+			expect([dictionary mtl_keyOfEntryWithOptions:NSEnumerationConcurrent passingTest:testBlock]).to.equal(key);
 		});
 
 		it(@"should return key passing test in reverse", ^{
-			expect([dictionary mav_keyOfEntryWithOptions:NSEnumerationReverse passingTest:testBlock]).to.equal(key);
+			expect([dictionary mtl_keyOfEntryWithOptions:NSEnumerationReverse passingTest:testBlock]).to.equal(key);
 		});
 	});
 	
@@ -218,7 +218,7 @@ describe(@"dictionary", ^{
 			return YES;
 		};
 
-		expect([[NSDictionary dictionary] mav_keyOfEntryPassingTest:testBlock]).to.beNil();
+		expect([[NSDictionary dictionary] mtl_keyOfEntryPassingTest:testBlock]).to.beNil();
 	});
 
 	it(@"should not return a key when entry test fails", ^{
@@ -226,7 +226,7 @@ describe(@"dictionary", ^{
 			return [key isEqual:@"quux"];
 		};
 
-		expect([dictionary mav_keyOfEntryPassingTest:testBlock]).to.beNil();
+		expect([dictionary mtl_keyOfEntryPassingTest:testBlock]).to.beNil();
 	});
 
 	it(@"should not return a key when stopping test", ^{
@@ -241,7 +241,7 @@ describe(@"dictionary", ^{
 			return NO;
 		};
 
-		expect([dictionary mav_keyOfEntryPassingTest:testBlock]).to.beNil();
+		expect([dictionary mtl_keyOfEntryPassingTest:testBlock]).to.beNil();
 	});
 });
 
@@ -288,65 +288,65 @@ describe(@"non-empty collection", ^{
 		NSSet *failedSet = [NSSet setWithObjects:@"foo", @"baz", nil];
 
 		it(@"should filter", ^{
-			expect([array mav_filterUsingBlock:filterBlock]).to.equal(filteredArray);
-			expect([orderedSet mav_filterUsingBlock:filterBlock]).to.equal(filteredOrderedSet);
-			expect([set mav_filterUsingBlock:filterBlock]).to.equal(filteredSet);
+			expect([array mtl_filterUsingBlock:filterBlock]).to.equal(filteredArray);
+			expect([orderedSet mtl_filterUsingBlock:filterBlock]).to.equal(filteredOrderedSet);
+			expect([set mtl_filterUsingBlock:filterBlock]).to.equal(filteredSet);
 		});
 
 		it(@"should filter concurrently", ^{
-			expect([array mav_filterWithOptions:NSEnumerationConcurrent usingBlock:filterBlock]).to.equal(filteredArray);
-			expect([orderedSet mav_filterWithOptions:NSEnumerationConcurrent usingBlock:filterBlock]).to.equal(filteredOrderedSet);
-			expect([set mav_filterWithOptions:NSEnumerationConcurrent usingBlock:filterBlock]).to.equal(filteredSet);
+			expect([array mtl_filterWithOptions:NSEnumerationConcurrent usingBlock:filterBlock]).to.equal(filteredArray);
+			expect([orderedSet mtl_filterWithOptions:NSEnumerationConcurrent usingBlock:filterBlock]).to.equal(filteredOrderedSet);
+			expect([set mtl_filterWithOptions:NSEnumerationConcurrent usingBlock:filterBlock]).to.equal(filteredSet);
 		});
 
 		it(@"should filter in reverse", ^{
-			expect([array mav_filterWithOptions:NSEnumerationReverse usingBlock:filterBlock]).to.equal([[filteredArray reverseObjectEnumerator] allObjects]);
-			expect([[orderedSet mav_filterWithOptions:NSEnumerationReverse usingBlock:filterBlock] array]).to.equal([[filteredOrderedSet reverseObjectEnumerator] allObjects]);
-			expect([set mav_filterWithOptions:NSEnumerationReverse usingBlock:filterBlock]).to.equal(filteredSet);
+			expect([array mtl_filterWithOptions:NSEnumerationReverse usingBlock:filterBlock]).to.equal([[filteredArray reverseObjectEnumerator] allObjects]);
+			expect([[orderedSet mtl_filterWithOptions:NSEnumerationReverse usingBlock:filterBlock] array]).to.equal([[filteredOrderedSet reverseObjectEnumerator] allObjects]);
+			expect([set mtl_filterWithOptions:NSEnumerationReverse usingBlock:filterBlock]).to.equal(filteredSet);
 		});
 
 		it(@"should partition even without failed objects", ^{
-			expect([array mav_filterWithFailedObjects:NULL usingBlock:filterBlock]).to.equal(filteredArray);
-			expect([orderedSet mav_filterWithFailedObjects:NULL usingBlock:filterBlock]).to.equal(filteredOrderedSet);
-			expect([set mav_filterWithFailedObjects:NULL usingBlock:filterBlock]).to.equal(filteredSet);
+			expect([array mtl_filterWithFailedObjects:NULL usingBlock:filterBlock]).to.equal(filteredArray);
+			expect([orderedSet mtl_filterWithFailedObjects:NULL usingBlock:filterBlock]).to.equal(filteredOrderedSet);
+			expect([set mtl_filterWithFailedObjects:NULL usingBlock:filterBlock]).to.equal(filteredSet);
 		});
 
 		it(@"should partition", ^{
 			__block id failedObjects = nil;
 
-			expect([array mav_filterWithFailedObjects:&failedObjects usingBlock:filterBlock]).to.equal(filteredArray);
+			expect([array mtl_filterWithFailedObjects:&failedObjects usingBlock:filterBlock]).to.equal(filteredArray);
 			expect(failedObjects).to.equal(failedArray);
 
-			expect([orderedSet mav_filterWithFailedObjects:&failedObjects usingBlock:filterBlock]).to.equal(filteredOrderedSet);
+			expect([orderedSet mtl_filterWithFailedObjects:&failedObjects usingBlock:filterBlock]).to.equal(filteredOrderedSet);
 			expect(failedObjects).to.equal(failedOrderedSet);
 
-			expect([set mav_filterWithFailedObjects:&failedObjects usingBlock:filterBlock]).to.equal(filteredSet);
+			expect([set mtl_filterWithFailedObjects:&failedObjects usingBlock:filterBlock]).to.equal(filteredSet);
 			expect(failedObjects).to.equal(failedSet);
 		});
 
 		it(@"should partition concurrently", ^{
 			__block id failedObjects = nil;
 
-			expect([array mav_filterWithOptions:NSEnumerationConcurrent failedObjects:&failedObjects usingBlock:filterBlock]).to.equal(filteredArray);
+			expect([array mtl_filterWithOptions:NSEnumerationConcurrent failedObjects:&failedObjects usingBlock:filterBlock]).to.equal(filteredArray);
 			expect(failedObjects).to.equal(failedArray);
 
-			expect([orderedSet mav_filterWithOptions:NSEnumerationConcurrent failedObjects:&failedObjects usingBlock:filterBlock]).to.equal(filteredOrderedSet);
+			expect([orderedSet mtl_filterWithOptions:NSEnumerationConcurrent failedObjects:&failedObjects usingBlock:filterBlock]).to.equal(filteredOrderedSet);
 			expect(failedObjects).to.equal(failedOrderedSet);
 
-			expect([set mav_filterWithOptions:NSEnumerationConcurrent failedObjects:&failedObjects usingBlock:filterBlock]).to.equal(filteredSet);
+			expect([set mtl_filterWithOptions:NSEnumerationConcurrent failedObjects:&failedObjects usingBlock:filterBlock]).to.equal(filteredSet);
 			expect(failedObjects).to.equal(failedSet);
 		});
 
 		it(@"should partition in reverse", ^{
 			__block id failedObjects = nil;
 
-			expect([array mav_filterWithOptions:NSEnumerationReverse failedObjects:&failedObjects usingBlock:filterBlock]).to.equal(filteredArray.reverseObjectEnumerator.allObjects);
+			expect([array mtl_filterWithOptions:NSEnumerationReverse failedObjects:&failedObjects usingBlock:filterBlock]).to.equal(filteredArray.reverseObjectEnumerator.allObjects);
 			expect(failedObjects).to.equal(failedArray.reverseObjectEnumerator.allObjects);
 
-			expect([[orderedSet mav_filterWithOptions:NSEnumerationReverse failedObjects:&failedObjects usingBlock:filterBlock] allObjects]).to.equal(filteredOrderedSet.reverseObjectEnumerator.allObjects);
+			expect([[orderedSet mtl_filterWithOptions:NSEnumerationReverse failedObjects:&failedObjects usingBlock:filterBlock] allObjects]).to.equal(filteredOrderedSet.reverseObjectEnumerator.allObjects);
 			expect([failedObjects allObjects]).to.equal(failedOrderedSet.reverseObjectEnumerator.allObjects);
 
-			expect([set mav_filterWithOptions:NSEnumerationReverse failedObjects:&failedObjects usingBlock:filterBlock]).to.equal(filteredSet);
+			expect([set mtl_filterWithOptions:NSEnumerationReverse failedObjects:&failedObjects usingBlock:filterBlock]).to.equal(filteredSet);
 			expect(failedObjects).to.equal(failedSet);
 		});
 	});
@@ -356,21 +356,21 @@ describe(@"non-empty collection", ^{
 	};
 
 	it(@"should filter to empty collection when not successful", ^{
-		expect([array mav_filterUsingBlock:unsuccessfulFilterBlock]).to.equal([NSArray array]);
-		expect([orderedSet mav_filterUsingBlock:unsuccessfulFilterBlock]).to.equal([NSOrderedSet orderedSet]);
-		expect([set mav_filterUsingBlock:unsuccessfulFilterBlock]).to.equal([NSSet set]);
+		expect([array mtl_filterUsingBlock:unsuccessfulFilterBlock]).to.equal([NSArray array]);
+		expect([orderedSet mtl_filterUsingBlock:unsuccessfulFilterBlock]).to.equal([NSOrderedSet orderedSet]);
+		expect([set mtl_filterUsingBlock:unsuccessfulFilterBlock]).to.equal([NSSet set]);
 	});
 
 	it(@"should partition to empty collection when not successful", ^{
 		__block id failedObjects = nil;
 
-		expect([array mav_filterWithFailedObjects:&failedObjects usingBlock:unsuccessfulFilterBlock]).to.equal([NSArray array]);
+		expect([array mtl_filterWithFailedObjects:&failedObjects usingBlock:unsuccessfulFilterBlock]).to.equal([NSArray array]);
 		expect(failedObjects).to.equal(array);
 
-		expect([orderedSet mav_filterWithFailedObjects:&failedObjects usingBlock:unsuccessfulFilterBlock]).to.equal([NSOrderedSet orderedSet]);
+		expect([orderedSet mtl_filterWithFailedObjects:&failedObjects usingBlock:unsuccessfulFilterBlock]).to.equal([NSOrderedSet orderedSet]);
 		expect(failedObjects).to.equal(orderedSet);
 
-		expect([set mav_filterWithFailedObjects:&failedObjects usingBlock:unsuccessfulFilterBlock]).to.equal([NSSet set]);
+		expect([set mtl_filterWithFailedObjects:&failedObjects usingBlock:unsuccessfulFilterBlock]).to.equal([NSSet set]);
 		expect(failedObjects).to.equal(set);
 	});
 
@@ -381,13 +381,13 @@ describe(@"non-empty collection", ^{
 
 		__block id failedObjects = nil;
 
-		expect([array mav_filterWithFailedObjects:&failedObjects usingBlock:successfulFilterBlock]).to.equal(array);
+		expect([array mtl_filterWithFailedObjects:&failedObjects usingBlock:successfulFilterBlock]).to.equal(array);
 		expect(failedObjects).to.equal([NSArray array]);
 
-		expect([orderedSet mav_filterWithFailedObjects:&failedObjects usingBlock:successfulFilterBlock]).to.equal(orderedSet);
+		expect([orderedSet mtl_filterWithFailedObjects:&failedObjects usingBlock:successfulFilterBlock]).to.equal(orderedSet);
 		expect(failedObjects).to.equal([NSOrderedSet orderedSet]);
 
-		expect([set mav_filterWithFailedObjects:&failedObjects usingBlock:successfulFilterBlock]).to.equal(set);
+		expect([set mtl_filterWithFailedObjects:&failedObjects usingBlock:successfulFilterBlock]).to.equal(set);
 		expect(failedObjects).to.equal([NSSet set]);
 	});
 
@@ -397,21 +397,21 @@ describe(@"non-empty collection", ^{
 		NSSet *mappedSet = [NSSet setWithObjects:@"foobuzz", @"barbuzz", @"bazbuzz", @"bozzbuzz", nil];
 
 		it(@"should map", ^{
-			expect([array mav_mapUsingBlock:mapBlock]).to.equal(mappedArray);
-			expect([orderedSet mav_mapUsingBlock:mapBlock]).to.equal(mappedOrderedSet);
-			expect([set mav_mapUsingBlock:mapBlock]).to.equal(mappedSet);
+			expect([array mtl_mapUsingBlock:mapBlock]).to.equal(mappedArray);
+			expect([orderedSet mtl_mapUsingBlock:mapBlock]).to.equal(mappedOrderedSet);
+			expect([set mtl_mapUsingBlock:mapBlock]).to.equal(mappedSet);
 		});
 
 		it(@"should map concurrently", ^{
-			expect([array mav_mapWithOptions:NSEnumerationConcurrent usingBlock:mapBlock]).to.equal(mappedArray);
-			expect([orderedSet mav_mapWithOptions:NSEnumerationConcurrent usingBlock:mapBlock]).to.equal(mappedOrderedSet);
-			expect([set mav_mapWithOptions:NSEnumerationConcurrent usingBlock:mapBlock]).to.equal(mappedSet);
+			expect([array mtl_mapWithOptions:NSEnumerationConcurrent usingBlock:mapBlock]).to.equal(mappedArray);
+			expect([orderedSet mtl_mapWithOptions:NSEnumerationConcurrent usingBlock:mapBlock]).to.equal(mappedOrderedSet);
+			expect([set mtl_mapWithOptions:NSEnumerationConcurrent usingBlock:mapBlock]).to.equal(mappedSet);
 		});
 
 		it(@"should map in reverse", ^{
-			expect([array mav_mapWithOptions:NSEnumerationReverse usingBlock:mapBlock]).to.equal(mappedArray.reverseObjectEnumerator.allObjects);
-			expect([[orderedSet mav_mapWithOptions:NSEnumerationReverse usingBlock:mapBlock] allObjects]).to.equal(mappedOrderedSet.reverseObjectEnumerator.allObjects);
-			expect([set mav_mapWithOptions:NSEnumerationReverse usingBlock:mapBlock]).to.equal(mappedSet);
+			expect([array mtl_mapWithOptions:NSEnumerationReverse usingBlock:mapBlock]).to.equal(mappedArray.reverseObjectEnumerator.allObjects);
+			expect([[orderedSet mtl_mapWithOptions:NSEnumerationReverse usingBlock:mapBlock] allObjects]).to.equal(mappedOrderedSet.reverseObjectEnumerator.allObjects);
+			expect([set mtl_mapWithOptions:NSEnumerationReverse usingBlock:mapBlock]).to.equal(mappedSet);
 		});
 
 		it(@"should remove elements when mapping block returns nil", ^{
@@ -427,9 +427,9 @@ describe(@"non-empty collection", ^{
 				return [str hasPrefix:@"ba"];
 			};
 
-			expect([array mav_mapUsingBlock:removingMapBlock]).to.equal([mappedArray mav_filterUsingBlock:correspondingFilterBlock]);
-			expect([orderedSet mav_mapUsingBlock:removingMapBlock]).to.equal([mappedOrderedSet mav_filterUsingBlock:correspondingFilterBlock]);
-			expect([set mav_mapUsingBlock:removingMapBlock]).to.equal([mappedSet mav_filterUsingBlock:correspondingFilterBlock]);
+			expect([array mtl_mapUsingBlock:removingMapBlock]).to.equal([mappedArray mtl_filterUsingBlock:correspondingFilterBlock]);
+			expect([orderedSet mtl_mapUsingBlock:removingMapBlock]).to.equal([mappedOrderedSet mtl_filterUsingBlock:correspondingFilterBlock]);
+			expect([set mtl_mapUsingBlock:removingMapBlock]).to.equal([mappedSet mtl_filterUsingBlock:correspondingFilterBlock]);
 		});
 	});
 
@@ -438,9 +438,9 @@ describe(@"non-empty collection", ^{
 			return nil;
 		};
 
-		expect([array mav_mapUsingBlock:removingMapBlock]).to.equal([NSArray array]);
-		expect([orderedSet mav_mapUsingBlock:removingMapBlock]).to.equal([NSOrderedSet orderedSet]);
-		expect([set mav_mapUsingBlock:removingMapBlock]).to.equal([NSSet set]);
+		expect([array mtl_mapUsingBlock:removingMapBlock]).to.equal([NSArray array]);
+		expect([orderedSet mtl_mapUsingBlock:removingMapBlock]).to.equal([NSOrderedSet orderedSet]);
+		expect([set mtl_mapUsingBlock:removingMapBlock]).to.equal([NSSet set]);
 	});
 
 	describe(@"successful object passing test", ^{
@@ -449,21 +449,21 @@ describe(@"non-empty collection", ^{
 		NSString *unorderedObject = @"foo";
 
 		it(@"should return object passing test", ^{
-			expect([array mav_objectPassingTest:orderedTestBlock]).to.equal([array objectAtIndex:arrayIndex]);
-			expect([orderedSet mav_objectPassingTest:orderedTestBlock]).to.equal([orderedSet objectAtIndex:orderedSetIndex]);
-			expect([set mav_objectPassingTest:unorderedTestBlock]).to.equal(unorderedObject);
+			expect([array mtl_objectPassingTest:orderedTestBlock]).to.equal([array objectAtIndex:arrayIndex]);
+			expect([orderedSet mtl_objectPassingTest:orderedTestBlock]).to.equal([orderedSet objectAtIndex:orderedSetIndex]);
+			expect([set mtl_objectPassingTest:unorderedTestBlock]).to.equal(unorderedObject);
 		});
 
 		it(@"should return object passing test concurrently", ^{
-			expect([array mav_objectWithOptions:NSEnumerationConcurrent passingTest:orderedTestBlock]).to.equal([array objectAtIndex:arrayIndex]);
-			expect([orderedSet mav_objectWithOptions:NSEnumerationConcurrent passingTest:orderedTestBlock]).to.equal([orderedSet objectAtIndex:orderedSetIndex]);
-			expect([set mav_objectWithOptions:NSEnumerationConcurrent passingTest:unorderedTestBlock]).to.equal(unorderedObject);
+			expect([array mtl_objectWithOptions:NSEnumerationConcurrent passingTest:orderedTestBlock]).to.equal([array objectAtIndex:arrayIndex]);
+			expect([orderedSet mtl_objectWithOptions:NSEnumerationConcurrent passingTest:orderedTestBlock]).to.equal([orderedSet objectAtIndex:orderedSetIndex]);
+			expect([set mtl_objectWithOptions:NSEnumerationConcurrent passingTest:unorderedTestBlock]).to.equal(unorderedObject);
 		});
 
 		it(@"should return object passing test in reverse", ^{
-			expect([array mav_objectWithOptions:NSEnumerationReverse passingTest:orderedTestBlock]).to.equal([array objectAtIndex:array.count - arrayIndex - 1]);
-			expect([orderedSet mav_objectWithOptions:NSEnumerationReverse passingTest:orderedTestBlock]).to.equal([orderedSet objectAtIndex:orderedSet.count - orderedSetIndex - 1]);
-			expect([set mav_objectWithOptions:NSEnumerationReverse passingTest:unorderedTestBlock]).to.equal(unorderedObject);
+			expect([array mtl_objectWithOptions:NSEnumerationReverse passingTest:orderedTestBlock]).to.equal([array objectAtIndex:array.count - arrayIndex - 1]);
+			expect([orderedSet mtl_objectWithOptions:NSEnumerationReverse passingTest:orderedTestBlock]).to.equal([orderedSet objectAtIndex:orderedSet.count - orderedSetIndex - 1]);
+			expect([set mtl_objectWithOptions:NSEnumerationReverse passingTest:unorderedTestBlock]).to.equal(unorderedObject);
 		});
 	});
 
@@ -476,9 +476,9 @@ describe(@"non-empty collection", ^{
 			return [str hasPrefix:@"quu"];
 		};
 
-		expect([array mav_objectPassingTest:orderedTestBlock]).to.beNil();
-		expect([orderedSet mav_objectPassingTest:orderedTestBlock]).to.beNil();
-		expect([set mav_objectPassingTest:unorderedTestBlock]).to.beNil();
+		expect([array mtl_objectPassingTest:orderedTestBlock]).to.beNil();
+		expect([orderedSet mtl_objectPassingTest:orderedTestBlock]).to.beNil();
+		expect([set mtl_objectPassingTest:unorderedTestBlock]).to.beNil();
 	});
 
 	it(@"should not return object passing test when stopping test", ^{
@@ -496,9 +496,9 @@ describe(@"non-empty collection", ^{
 			return ![str isEqualToString:[set anyObject]];
 		};
 		
-		expect([array mav_objectPassingTest:orderedTestBlock]).to.beNil();
-		expect([orderedSet mav_objectPassingTest:orderedTestBlock]).to.beNil();
-		expect([set mav_objectPassingTest:unorderedTestBlock]).to.beNil();
+		expect([array mtl_objectPassingTest:orderedTestBlock]).to.beNil();
+		expect([orderedSet mtl_objectPassingTest:orderedTestBlock]).to.beNil();
+		expect([set mtl_objectPassingTest:unorderedTestBlock]).to.beNil();
 	});
 
 	describe(@"successful left folding", ^{
@@ -509,15 +509,15 @@ describe(@"non-empty collection", ^{
 		NSString *setResult = @"ozz";
 
 		it(@"should fold", ^{
-			expect([array mav_foldLeftWithValue:startingValue usingBlock:leftFoldBlock]).to.equal(arrayResult);
-			expect([orderedSet mav_foldLeftWithValue:startingValue usingBlock:leftFoldBlock]).to.equal(orderedSetResult);
-			expect([set mav_foldWithValue:startingValue usingBlock:leftFoldBlock]).to.equal(setResult);
+			expect([array mtl_foldLeftWithValue:startingValue usingBlock:leftFoldBlock]).to.equal(arrayResult);
+			expect([orderedSet mtl_foldLeftWithValue:startingValue usingBlock:leftFoldBlock]).to.equal(orderedSetResult);
+			expect([set mtl_foldWithValue:startingValue usingBlock:leftFoldBlock]).to.equal(setResult);
 		});
 
 		it(@"should fold with nil", ^{
-			expect([array mav_foldLeftWithValue:nil usingBlock:leftFoldBlock]).to.equal(arrayResult);
-			expect([orderedSet mav_foldLeftWithValue:nil usingBlock:leftFoldBlock]).to.equal(orderedSetResult);
-			expect([set mav_foldWithValue:nil usingBlock:leftFoldBlock]).to.equal(setResult);
+			expect([array mtl_foldLeftWithValue:nil usingBlock:leftFoldBlock]).to.equal(arrayResult);
+			expect([orderedSet mtl_foldLeftWithValue:nil usingBlock:leftFoldBlock]).to.equal(orderedSetResult);
+			expect([set mtl_foldWithValue:nil usingBlock:leftFoldBlock]).to.equal(setResult);
 		});
 	});
 
@@ -527,60 +527,60 @@ describe(@"non-empty collection", ^{
 		NSString *arrayResult = @"Auaao";
 		NSString *orderedSetResult = @"Aiaao";
 
-		expect([array mav_foldRightWithValue:startingValue usingBlock:rightFoldBlock]).to.equal(arrayResult);
-		expect([orderedSet mav_foldRightWithValue:startingValue usingBlock:rightFoldBlock]).to.equal(orderedSetResult);
+		expect([array mtl_foldRightWithValue:startingValue usingBlock:rightFoldBlock]).to.equal(arrayResult);
+		expect([orderedSet mtl_foldRightWithValue:startingValue usingBlock:rightFoldBlock]).to.equal(orderedSetResult);
 	});
 
 	it(@"should right fold with nil", ^{
-		expect([array mav_foldRightWithValue:nil usingBlock:rightFoldBlock]).to.beNil();
-		expect([orderedSet mav_foldRightWithValue:nil usingBlock:rightFoldBlock]).to.beNil();
+		expect([array mtl_foldRightWithValue:nil usingBlock:rightFoldBlock]).to.beNil();
+		expect([orderedSet mtl_foldRightWithValue:nil usingBlock:rightFoldBlock]).to.beNil();
 	});
 });
 
 describe(@"empty collection", ^{
 	it(@"should filter to empty collection", ^{
-		expect([[NSArray array] mav_filterUsingBlock:filterBlock]).to.equal([NSArray array]);
-		expect([[NSOrderedSet orderedSet] mav_filterUsingBlock:filterBlock]).to.equal([NSOrderedSet orderedSet]);
-		expect([[NSSet set] mav_filterUsingBlock:filterBlock]).to.equal([NSSet set]);
+		expect([[NSArray array] mtl_filterUsingBlock:filterBlock]).to.equal([NSArray array]);
+		expect([[NSOrderedSet orderedSet] mtl_filterUsingBlock:filterBlock]).to.equal([NSOrderedSet orderedSet]);
+		expect([[NSSet set] mtl_filterUsingBlock:filterBlock]).to.equal([NSSet set]);
 	});
 
 	it(@"should partition to empty collection", ^{
 		__block id failedObjects = nil;
-		expect([[NSArray array] mav_filterWithFailedObjects:&failedObjects usingBlock:filterBlock]).to.equal([NSArray array]);
+		expect([[NSArray array] mtl_filterWithFailedObjects:&failedObjects usingBlock:filterBlock]).to.equal([NSArray array]);
 		expect(failedObjects).to.equal([NSArray array]);
 
-		expect([[NSOrderedSet orderedSet] mav_filterWithFailedObjects:&failedObjects usingBlock:filterBlock]).to.equal([NSOrderedSet orderedSet]);
+		expect([[NSOrderedSet orderedSet] mtl_filterWithFailedObjects:&failedObjects usingBlock:filterBlock]).to.equal([NSOrderedSet orderedSet]);
 		expect(failedObjects).to.equal([NSOrderedSet orderedSet]);
 
-		expect([[NSSet set] mav_filterWithFailedObjects:&failedObjects usingBlock:filterBlock]).to.equal([NSSet set]);
+		expect([[NSSet set] mtl_filterWithFailedObjects:&failedObjects usingBlock:filterBlock]).to.equal([NSSet set]);
 		expect(failedObjects).to.equal([NSSet set]);
 	});
 
 	it(@"should map to empty collection", ^{
-		expect([[NSArray array] mav_mapUsingBlock:mapBlock]).to.equal([NSArray array]);
-		expect([[NSOrderedSet orderedSet] mav_mapUsingBlock:mapBlock]).to.equal([NSOrderedSet orderedSet]);
-		expect([[NSSet set] mav_mapUsingBlock:mapBlock]).to.equal([NSSet set]);
+		expect([[NSArray array] mtl_mapUsingBlock:mapBlock]).to.equal([NSArray array]);
+		expect([[NSOrderedSet orderedSet] mtl_mapUsingBlock:mapBlock]).to.equal([NSOrderedSet orderedSet]);
+		expect([[NSSet set] mtl_mapUsingBlock:mapBlock]).to.equal([NSSet set]);
 	});
 
 	it(@"should not return object passing test", ^{
-		expect([[NSArray array] mav_objectPassingTest:orderedTestBlock]).to.beNil();
-		expect([[NSOrderedSet orderedSet] mav_objectPassingTest:orderedTestBlock]).to.beNil();
-		expect([[NSSet set] mav_objectPassingTest:unorderedTestBlock]).to.beNil();
+		expect([[NSArray array] mtl_objectPassingTest:orderedTestBlock]).to.beNil();
+		expect([[NSOrderedSet orderedSet] mtl_objectPassingTest:orderedTestBlock]).to.beNil();
+		expect([[NSSet set] mtl_objectPassingTest:unorderedTestBlock]).to.beNil();
 	});
 
 	it(@"should fold left to starting value", ^{
 		id value = @"foobar";
 
-		expect([[NSArray array] mav_foldLeftWithValue:value usingBlock:leftFoldBlock]).to.equal(value);
-		expect([[NSOrderedSet orderedSet] mav_foldLeftWithValue:value usingBlock:leftFoldBlock]).to.equal(value);
-		expect([[NSSet set] mav_foldWithValue:value usingBlock:leftFoldBlock]).to.equal(value);
+		expect([[NSArray array] mtl_foldLeftWithValue:value usingBlock:leftFoldBlock]).to.equal(value);
+		expect([[NSOrderedSet orderedSet] mtl_foldLeftWithValue:value usingBlock:leftFoldBlock]).to.equal(value);
+		expect([[NSSet set] mtl_foldWithValue:value usingBlock:leftFoldBlock]).to.equal(value);
 	});
 
 	it(@"should fold right to starting value", ^{
 		id value = @"foobar";
 
-		expect([[NSArray array] mav_foldRightWithValue:value usingBlock:rightFoldBlock]).to.equal(value);
-		expect([[NSOrderedSet orderedSet] mav_foldRightWithValue:value usingBlock:rightFoldBlock]).to.equal(value);
+		expect([[NSArray array] mtl_foldRightWithValue:value usingBlock:rightFoldBlock]).to.equal(value);
+		expect([[NSOrderedSet orderedSet] mtl_foldRightWithValue:value usingBlock:rightFoldBlock]).to.equal(value);
 	});
 });
 

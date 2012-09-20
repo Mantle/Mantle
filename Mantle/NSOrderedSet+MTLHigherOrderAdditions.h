@@ -23,7 +23,7 @@
  * @param block A predicate block that determines whether to include or exclude
  * a given object.
  */
-- (id)mav_filterUsingBlock:(BOOL (^)(id obj))block;
+- (id)mtl_filterUsingBlock:(BOOL (^)(id obj))block;
 
 /**
  * Filters the objects of the receiver with the given predicate, according to
@@ -34,7 +34,7 @@
  * @param block A predicate block that determines whether to include or exclude
  * a given object.
  */
-- (id)mav_filterWithOptions:(NSEnumerationOptions)opts usingBlock:(BOOL (^)(id obj))block;
+- (id)mtl_filterWithOptions:(NSEnumerationOptions)opts usingBlock:(BOOL (^)(id obj))block;
 
 /**
  * Returns an ordered set of filtered objects for which `block` returns `YES`, and
@@ -49,7 +49,7 @@
  * collection. If this block returns `NO`, the object will be added to
  * `failedObjects`.
  */
-- (id)mav_filterWithFailedObjects:(NSOrderedSet **)failedObjects usingBlock:(BOOL(^)(id obj))block;
+- (id)mtl_filterWithFailedObjects:(NSOrderedSet **)failedObjects usingBlock:(BOOL(^)(id obj))block;
 
 /**
  * Returns an ordered set of filtered objects for which `block` returns `YES`, and
@@ -65,7 +65,7 @@
  * collection. If this block returns `NO`, the object will be added to
  * `failedObjects`.
  */
-- (id)mav_filterWithOptions:(NSEnumerationOptions)opts failedObjects:(NSOrderedSet **)failedObjects usingBlock:(BOOL(^)(id obj))block;
+- (id)mtl_filterWithOptions:(NSEnumerationOptions)opts failedObjects:(NSOrderedSet **)failedObjects usingBlock:(BOOL(^)(id obj))block;
 
 /**
  * Reduces the receiver to a single value from left to right, using the given
@@ -86,7 +86,7 @@
  * @param block A block that describes how to combine elements of the receiver.
  * If the receiver is empty, this block will never be invoked.
  */
-- (id)mav_foldLeftWithValue:(id)startingValue usingBlock:(id (^)(id left, id right))block;
+- (id)mtl_foldLeftWithValue:(id)startingValue usingBlock:(id (^)(id left, id right))block;
 
 /**
  * Reduces the receiver to a single value from right to left, using the given
@@ -107,7 +107,7 @@
  * @param block A block that describes how to combine elements of the receiver.
  * If the receiver is empty, this block will never be invoked.
  */
-- (id)mav_foldRightWithValue:(id)startingValue usingBlock:(id (^)(id left, id right))block;
+- (id)mtl_foldRightWithValue:(id)startingValue usingBlock:(id (^)(id left, id right))block;
 
 /**
  * Transforms each object in the receiver with the given predicate, returning
@@ -120,7 +120,7 @@
  * @warning Because ordered sets only contain unique objects, the number of
  * objects in the result may be less than the number of objects in the receiver.
  */
-- (id)mav_mapUsingBlock:(id (^)(id obj))block;
+- (id)mtl_mapUsingBlock:(id (^)(id obj))block;
 
 /**
  * Transforms each object in the receiver with the given predicate, according to
@@ -135,7 +135,7 @@
  * @warning Because ordered sets only contain unique objects, the number of
  * objects in the result may be less than the number of objects in the receiver.
  */
-- (id)mav_mapWithOptions:(NSEnumerationOptions)opts usingBlock:(id (^)(id obj))block;
+- (id)mtl_mapWithOptions:(NSEnumerationOptions)opts usingBlock:(id (^)(id obj))block;
 
 /**
  * Returns the first object in the receiver that passes the given test, or `nil`
@@ -144,7 +144,7 @@
  * @param predicate The test to apply to each element in the receiver. This block
  * should return whether the object passed the test.
  */
-- (id)mav_objectPassingTest:(BOOL (^)(id obj, NSUInteger index, BOOL *stop))predicate;
+- (id)mtl_objectPassingTest:(BOOL (^)(id obj, NSUInteger index, BOOL *stop))predicate;
 
 /**
  * Returns the first object in the receiver that passes the given test, or `nil`
@@ -154,6 +154,6 @@
  * @param predicate The test to apply to each element in the receiver. This block
  * should return whether the object passed the test.
  */
-- (id)mav_objectWithOptions:(NSEnumerationOptions)opts passingTest:(BOOL (^)(id obj, NSUInteger index, BOOL *stop))predicate;
+- (id)mtl_objectWithOptions:(NSEnumerationOptions)opts passingTest:(BOOL (^)(id obj, NSUInteger index, BOOL *stop))predicate;
 
 @end

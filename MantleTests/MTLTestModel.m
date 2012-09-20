@@ -26,7 +26,7 @@ static NSUInteger modelVersion = 1;
 
 + (NSDictionary *)dictionaryKeysByPropertyKey {
 	if (modelVersion == 0) {
-		return @{ @"name": @"mav_name", @"count": @"mav_count" };
+		return @{ @"name": @"mtl_name", @"count": @"mtl_count" };
 	} else {
 		return @{ @"name": @"username" };
 	}
@@ -37,8 +37,8 @@ static NSUInteger modelVersion = 1;
 	NSParameterAssert(fromVersion == 0);
 
 	return @{
-		@"username": [@"M: " stringByAppendingString:[dictionary objectForKey:@"mav_name"]],
-		@"count": [dictionary objectForKey:@"mav_count"]
+		@"username": [@"M: " stringByAppendingString:[dictionary objectForKey:@"mtl_name"]],
+		@"count": [dictionary objectForKey:@"mtl_count"]
 	};
 }
 

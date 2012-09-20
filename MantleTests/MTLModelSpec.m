@@ -94,7 +94,7 @@ describe(@"subclass", ^{
 			[MTLTestModel setModelVersion:1];
 		});
 
-		NSDictionary *oldValues = @{ @"mav_name": @"foobar", @"mav_count": @"5" };
+		NSDictionary *oldValues = @{ @"mtl_name": @"foobar", @"mtl_count": @"5" };
 		NSDictionary *newValues = @{ @"username": @"M: foobar", @"count": @"5" };
 
 		__block MTLTestModel *oldModel;

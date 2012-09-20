@@ -23,7 +23,7 @@
  * @param block A predicate block that determines whether to include or exclude
  * a given object.
  */
-- (id)mav_filterUsingBlock:(BOOL (^)(id obj))block;
+- (id)mtl_filterUsingBlock:(BOOL (^)(id obj))block;
 
 /**
  * Filters the objects of the receiver with the given predicate, according to
@@ -33,7 +33,7 @@
  * @param block A predicate block that determines whether to include or exclude
  * a given object.
  */
-- (id)mav_filterWithOptions:(NSEnumerationOptions)opts usingBlock:(BOOL (^)(id obj))block;
+- (id)mtl_filterWithOptions:(NSEnumerationOptions)opts usingBlock:(BOOL (^)(id obj))block;
 
 /**
  * Returns an set of filtered objects for which `block` returns `YES`, and
@@ -48,7 +48,7 @@
  * collection. If this block returns `NO`, the object will be added to
  * `failedObjects`.
  */
-- (id)mav_filterWithFailedObjects:(NSSet **)failedObjects usingBlock:(BOOL(^)(id obj))block;
+- (id)mtl_filterWithFailedObjects:(NSSet **)failedObjects usingBlock:(BOOL(^)(id obj))block;
 
 /**
  * Returns an set of filtered objects for which `block` returns `YES`, and
@@ -64,7 +64,7 @@
  * collection. If this block returns `NO`, the object will be added to
  * `failedObjects`.
  */
-- (id)mav_filterWithOptions:(NSEnumerationOptions)opts failedObjects:(NSSet **)failedObjects usingBlock:(BOOL(^)(id obj))block;
+- (id)mtl_filterWithOptions:(NSEnumerationOptions)opts failedObjects:(NSSet **)failedObjects usingBlock:(BOOL(^)(id obj))block;
 
 /**
  * Reduces the receiver to a single value, using the given block.
@@ -88,7 +88,7 @@
  * the algorithm used for `block` must work irrespective of the order that the
  * set's elements are processed, as sets are unordered.
  */
-- (id)mav_foldWithValue:(id)startingValue usingBlock:(id (^)(id left, id right))block;
+- (id)mtl_foldWithValue:(id)startingValue usingBlock:(id (^)(id left, id right))block;
 
 /**
  * Transforms each object in the receiver with the given predicate, returning
@@ -101,7 +101,7 @@
  * @warning Because sets only contain unique objects, the number of objects in
  * the result may be less than the number of objects in the receiver.
  */
-- (id)mav_mapUsingBlock:(id (^)(id obj))block;
+- (id)mtl_mapUsingBlock:(id (^)(id obj))block;
 
 /**
  * Transforms each object in the receiver with the given predicate, according to
@@ -116,7 +116,7 @@
  * @warning Because sets only contain unique objects, the number of objects in
  * the result may be less than the number of objects in the receiver.
  */
-- (id)mav_mapWithOptions:(NSEnumerationOptions)opts usingBlock:(id (^)(id obj))block;
+- (id)mtl_mapWithOptions:(NSEnumerationOptions)opts usingBlock:(id (^)(id obj))block;
 
 /**
  * Returns an object in the receiver that passes the given test, or `nil` if no
@@ -125,7 +125,7 @@
  * @param predicate The test to apply to each element in the receiver. This block
  * should return whether the object passed the test.
  */
-- (id)mav_objectPassingTest:(BOOL (^)(id obj, BOOL *stop))predicate;
+- (id)mtl_objectPassingTest:(BOOL (^)(id obj, BOOL *stop))predicate;
 
 /**
  * Returns an object in the receiver that passes the given test, or `nil` if no
@@ -135,6 +135,6 @@
  * @param predicate The test to apply to each element in the receiver. This block
  * should return whether the object passed the test.
  */
-- (id)mav_objectWithOptions:(NSEnumerationOptions)opts passingTest:(BOOL (^)(id obj, BOOL *stop))predicate;
+- (id)mtl_objectWithOptions:(NSEnumerationOptions)opts passingTest:(BOOL (^)(id obj, BOOL *stop))predicate;
 
 @end

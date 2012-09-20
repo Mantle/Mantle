@@ -11,23 +11,23 @@
 
 @implementation NSArray (MTLManipulationAdditions)
 
-- (id)mav_firstObject {
+- (id)mtl_firstObject {
 	return self.count > 0 ? [self objectAtIndex:0] : nil;
 }
 
-- (instancetype)mav_arrayByRemovingObject:(id)object {
-	return [self mav_filterUsingBlock:^ BOOL (id arrayObject) {
+- (instancetype)mtl_arrayByRemovingObject:(id)object {
+	return [self mtl_filterUsingBlock:^ BOOL (id arrayObject) {
 		return ![arrayObject isEqual:object];
 	}];
 }
 
-- (instancetype)mav_arrayByRemovingFirstObject {
+- (instancetype)mtl_arrayByRemovingFirstObject {
 	if (self.count == 0) return self;
 
 	return [self subarrayWithRange:NSMakeRange(1, self.count - 1)];
 }
 
-- (instancetype)mav_arrayByRemovingLastObject {
+- (instancetype)mtl_arrayByRemovingLastObject {
 	if (self.count == 0) return self;
 
 	return [self subarrayWithRange:NSMakeRange(0, self.count - 1)];

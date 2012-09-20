@@ -43,7 +43,7 @@ static NSString * const MTLModelVersionKey = @"MTLModelVersion";
 	NSMutableDictionary *properties = [NSMutableDictionary dictionaryWithCapacity:dictionary.count];
 
 	for (NSString *key in dictionary) {
-		NSString *propertyKey = [keysByProperty mav_keyOfEntryPassingTest:^(NSString *propertyKey, NSString *dictionaryKey, BOOL *stop) {
+		NSString *propertyKey = [keysByProperty mtl_keyOfEntryPassingTest:^(NSString *propertyKey, NSString *dictionaryKey, BOOL *stop) {
 			return [dictionaryKey isEqualToString:key];
 		}];
 
