@@ -50,6 +50,10 @@
 		D090E63F15F73269005282F9 /* EXTScope.m in Sources */ = {isa = PBXBuildFile; fileRef = D090E63C15F73265005282F9 /* EXTScope.m */; };
 		D090E66115F73315005282F9 /* MTLHigherOrderAdditionsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D090E66015F73315005282F9 /* MTLHigherOrderAdditionsSpec.m */; };
 		D090E66215F73315005282F9 /* MTLHigherOrderAdditionsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D090E66015F73315005282F9 /* MTLHigherOrderAdditionsSpec.m */; };
+		D0D46A0D160BC98600AB468D /* libExpecta.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0D469DD160BC93400AB468D /* libExpecta.a */; };
+		D0D46A0E160BC98600AB468D /* libSpecta.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0D469EE160BC93E00AB468D /* libSpecta.a */; };
+		D0D46A13160BC98E00AB468D /* libExpecta-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0D469DF160BC93400AB468D /* libExpecta-iOS.a */; };
+		D0D46A14160BC98E00AB468D /* libSpecta-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0D469F0160BC93E00AB468D /* libSpecta-iOS.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -122,6 +126,34 @@
 			proxyType = 2;
 			remoteGlobalIDString = E9B777B314BA294C00D8DC76;
 			remoteInfo = "Specta-iOSTests";
+		};
+		D0D46A09160BC98100AB468D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D042FCCB15F72EE8004E8054 /* Expecta.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = E9ACDF0B13B2DD520010F4D7;
+			remoteInfo = Expecta;
+		};
+		D0D46A0B160BC98100AB468D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D042FCEE15F72EF1004E8054 /* Specta.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = E9D96A2514B6B8AB007D9521;
+			remoteInfo = Specta;
+		};
+		D0D46A0F160BC98B00AB468D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D042FCCB15F72EE8004E8054 /* Expecta.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = E93067CD13B2E6D100EA26FF;
+			remoteInfo = "Expecta-iOS";
+		};
+		D0D46A11160BC98B00AB468D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D042FCEE15F72EF1004E8054 /* Specta.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = E9B777A314BA294B00D8DC76;
+			remoteInfo = "Specta-iOS";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -208,6 +240,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D0D46A0D160BC98600AB468D /* libExpecta.a in Frameworks */,
+				D0D46A0E160BC98600AB468D /* libSpecta.a in Frameworks */,
 				D042FC5615F72B23004E8054 /* SenTestingKit.framework in Frameworks */,
 				D042FC5A15F72B23004E8054 /* Mantle.framework in Frameworks */,
 			);
@@ -225,6 +259,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D0D46A13160BC98E00AB468D /* libExpecta-iOS.a in Frameworks */,
+				D0D46A14160BC98E00AB468D /* libSpecta-iOS.a in Frameworks */,
 				D042FC8815F72BC7004E8054 /* SenTestingKit.framework in Frameworks */,
 				D042FC8B15F72BC7004E8054 /* Foundation.framework in Frameworks */,
 				D042FC8E15F72BC7004E8054 /* libMantle.a in Frameworks */,
@@ -497,6 +533,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				D0D46A0A160BC98100AB468D /* PBXTargetDependency */,
+				D0D46A0C160BC98100AB468D /* PBXTargetDependency */,
 				D042FC5915F72B23004E8054 /* PBXTargetDependency */,
 			);
 			name = "Mantle Mac Tests";
@@ -533,6 +571,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				D0D46A10160BC98B00AB468D /* PBXTargetDependency */,
+				D0D46A12160BC98B00AB468D /* PBXTargetDependency */,
 				D042FC8D15F72BC7004E8054 /* PBXTargetDependency */,
 			);
 			name = "Mantle iOS Tests";
@@ -760,6 +800,26 @@
 			isa = PBXTargetDependency;
 			target = D042FC7815F72BC7004E8054 /* Mantle iOS */;
 			targetProxy = D042FC8C15F72BC7004E8054 /* PBXContainerItemProxy */;
+		};
+		D0D46A0A160BC98100AB468D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Expecta;
+			targetProxy = D0D46A09160BC98100AB468D /* PBXContainerItemProxy */;
+		};
+		D0D46A0C160BC98100AB468D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Specta;
+			targetProxy = D0D46A0B160BC98100AB468D /* PBXContainerItemProxy */;
+		};
+		D0D46A10160BC98B00AB468D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Expecta-iOS";
+			targetProxy = D0D46A0F160BC98B00AB468D /* PBXContainerItemProxy */;
+		};
+		D0D46A12160BC98B00AB468D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Specta-iOS";
+			targetProxy = D0D46A11160BC98B00AB468D /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
