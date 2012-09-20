@@ -840,7 +840,7 @@
 			baseConfigurationReference = D042FCAD15F72C16004E8054 /* Mac-Application.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
-				GCC_PREFIX_HEADER = "MaverickTests/MaverickTests-Prefix.pch";
+				GCC_PREFIX_HEADER = "MantleTests/MantleTests-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
 					MantleTests/specta/src,
 					"MantleTests/expecta/src/**",
@@ -857,7 +857,7 @@
 			baseConfigurationReference = D042FCAD15F72C16004E8054 /* Mac-Application.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
-				GCC_PREFIX_HEADER = "MaverickTests/MaverickTests-Prefix.pch";
+				GCC_PREFIX_HEADER = "MantleTests/MantleTests-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
 					MantleTests/specta/src,
 					"MantleTests/expecta/src/**",
@@ -966,7 +966,7 @@
 			baseConfigurationReference = D042FCAD15F72C16004E8054 /* Mac-Application.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
-				GCC_PREFIX_HEADER = "MaverickTests/MaverickTests-Prefix.pch";
+				GCC_PREFIX_HEADER = "MantleTests/MantleTests-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
 					MantleTests/specta/src,
 					"MantleTests/expecta/src/**",
