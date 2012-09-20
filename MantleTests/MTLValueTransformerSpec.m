@@ -1,15 +1,15 @@
 //
-//  MAVValueTransformerSpec.m
-//  Maverick
+//  MTLValueTransformerSpec.m
+//  Mantle
 //
 //  Created by Justin Spahr-Summers on 2012-09-11.
 //  Copyright (c) 2012 GitHub. All rights reserved.
 //
 
-SpecBegin(MAVValueTransformer)
+SpecBegin(MTLValueTransformer)
 
 it(@"should return a forward transformer with a block", ^{
-	MAVValueTransformer *transformer = [MAVValueTransformer transformerWithBlock:^(NSString *str) {
+	MTLValueTransformer *transformer = [MTLValueTransformer transformerWithBlock:^(NSString *str) {
 		return [str stringByAppendingString:@"bar"];
 	}];
 
@@ -21,7 +21,7 @@ it(@"should return a forward transformer with a block", ^{
 });
 
 it(@"should return a reversible transformer with a block", ^{
-	MAVValueTransformer *transformer = [MAVValueTransformer reversibleTransformerWithBlock:^(NSString *str) {
+	MTLValueTransformer *transformer = [MTLValueTransformer reversibleTransformerWithBlock:^(NSString *str) {
 		return [str stringByAppendingString:@"bar"];
 	}];
 
@@ -33,7 +33,7 @@ it(@"should return a reversible transformer with a block", ^{
 });
 
 it(@"should return a reversible transformer with forward and reverse blocks", ^{
-	MAVValueTransformer *transformer = [MAVValueTransformer
+	MTLValueTransformer *transformer = [MTLValueTransformer
 		reversibleTransformerWithForwardBlock:^(NSString *str) {
 			return [str stringByAppendingString:@"bar"];
 		}
@@ -50,7 +50,7 @@ it(@"should return a reversible transformer with forward and reverse blocks", ^{
 
 describe(@"predefined transformers", ^{
 	it(@"should define a URL value transformer", ^{
-		NSValueTransformer *transformer = [NSValueTransformer valueTransformerForName:MAVURLValueTransformerName];
+		NSValueTransformer *transformer = [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
 		expect(transformer).notTo.beNil();
 
 		NSString *URLString = @"http://www.github.com/";
