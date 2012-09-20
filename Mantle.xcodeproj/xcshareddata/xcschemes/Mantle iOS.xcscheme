@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D042FC7815F72BC7004E8054"
-               BuildableName = "libMaverick.a"
-               BlueprintName = "Maverick iOS"
-               ReferencedContainer = "container:Maverick.xcodeproj">
+               BuildableName = "libMantle.a"
+               BlueprintName = "Mantle iOS"
+               ReferencedContainer = "container:Mantle.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -29,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D042FC8615F72BC7004E8054"
-               BuildableName = "Maverick iOS Tests.octest"
-               BlueprintName = "Maverick iOS Tests"
-               ReferencedContainer = "container:Maverick.xcodeproj">
+               BuildableName = "Mantle iOS Tests.octest"
+               BlueprintName = "Mantle iOS Tests"
+               ReferencedContainer = "container:Mantle.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -47,9 +47,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D042FC8615F72BC7004E8054"
-               BuildableName = "Maverick iOS Tests.octest"
-               BlueprintName = "Maverick iOS Tests"
-               ReferencedContainer = "container:Maverick.xcodeproj">
+               BuildableName = "Mantle iOS Tests.octest"
+               BlueprintName = "Mantle iOS Tests"
+               ReferencedContainer = "container:Mantle.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>

@@ -1,6 +1,6 @@
 //
-//  NSDictionary+MAVHigherOrderAdditions.h
-//  Maverick
+//  NSDictionary+MTLHigherOrderAdditions.h
+//  Mantle
 //
 //  Created by Justin Spahr-Summers on 15.12.11.
 //  Copyright (c) 2012 GitHub. All rights reserved.
@@ -14,7 +14,7 @@
 /**
  * Higher-order functions for `NSDictionary`.
  */
-@interface NSDictionary (MAVHigherOrderAdditions)
+@interface NSDictionary (MTLHigherOrderAdditions)
 
 /**
  * Filters the keys and values of the receiver with the given predicate,

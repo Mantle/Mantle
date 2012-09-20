@@ -1,15 +1,15 @@
 //
-//  NSArray+MAVManipulationAdditions.m
-//  Maverick
+//  NSArray+MTLManipulationAdditions.m
+//  Mantle
 //
 //  Created by Josh Abernathy on 9/19/12.
 //  Copyright (c) 2012 GitHub. All rights reserved.
 //
 
-#import "NSArray+MAVManipulationAdditions.h"
-#import "NSArray+MAVHigherOrderAdditions.h"
+#import "NSArray+MTLManipulationAdditions.h"
+#import "NSArray+MTLHigherOrderAdditions.h"
 
-@implementation NSArray (MAVManipulationAdditions)
+@implementation NSArray (MTLManipulationAdditions)
 
 - (id)mav_firstObject {
 	return self.count > 0 ? [self objectAtIndex:0] : nil;

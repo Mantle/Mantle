@@ -1,6 +1,6 @@
 //
-//  NSOrderedSet+MAVHigherOrderAdditions.m
-//  Maverick
+//  NSOrderedSet+MTLHigherOrderAdditions.m
+//  Mantle
 //
 //  Created by Justin Spahr-Summers on 15.12.11.
 //  Copyright (c) 2012 GitHub. All rights reserved.
@@ -9,12 +9,12 @@
 //  See the LICENSE file for more information.
 //
 
-#import "NSOrderedSet+MAVHigherOrderAdditions.h"
+#import "NSOrderedSet+MTLHigherOrderAdditions.h"
 #import "EXTScope.h"
-#import "NSArray+MAVHigherOrderAdditions.h"
+#import "NSArray+MTLHigherOrderAdditions.h"
 #import <libkern/OSAtomic.h>
 
-@implementation NSOrderedSet (MAVHigherOrderAdditions)
+@implementation NSOrderedSet (MTLHigherOrderAdditions)
 
 - (id)mav_filterUsingBlock:(BOOL(^)(id obj))block {
     return [self mav_filterWithOptions:0 usingBlock:block];

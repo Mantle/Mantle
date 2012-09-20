@@ -1,24 +1,24 @@
 //
-//  MAVModel.m
-//  Maverick
+//  MTLModel.m
+//  Mantle
 //
 //  Created by Justin Spahr-Summers on 2012-09-11.
 //  Copyright (c) 2012 GitHub. All rights reserved.
 //
 
-#import "MAVModel.h"
+#import "MTLModel.h"
 #import "EXTKeyPathCoding.h"
 #import "EXTScope.h"
-#import "NSDictionary+MAVHigherOrderAdditions.h"
+#import "NSDictionary+MTLHigherOrderAdditions.h"
 #import <objc/runtime.h>
 
 // Used in archives to store the modelVersion of the archived instance.
-static NSString * const MAVModelVersionKey = @"MAVModelVersion";
+static NSString * const MTLModelVersionKey = @"MTLModelVersion";
 
-@interface MAVModel ()
+@interface MTLModel ()
 
 // Enumerates all properties of the receiver's class hierarchy, starting at the
-// receiver, and continuing up until (but not including) MAVModel.
+// receiver, and continuing up until (but not including) MTLModel.
 //
 // The given block will be invoked multiple times for any properties declared on
 // multiple classes in the hierarchy.
@@ -26,7 +26,7 @@ static NSString * const MAVModelVersionKey = @"MAVModelVersion";
 
 @end
 
-@implementation MAVModel
+@implementation MTLModel
 
 #pragma mark Lifecycle
 
@@ -93,7 +93,7 @@ static NSString * const MAVModelVersionKey = @"MAVModelVersion";
 	Class cls = self;
 	BOOL stop = NO;
 
-	while (!stop && ![cls isEqual:MAVModel.class]) {
+	while (!stop && ![cls isEqual:MTLModel.class]) {
 		unsigned count = 0;
 		objc_property_t *properties = class_copyPropertyList(cls, &count);
 		if (properties == NULL) continue;
@@ -185,7 +185,7 @@ static NSString * const MAVModelVersionKey = @"MAVModelVersion";
 
 #pragma mark Merging
 
-- (id)valueForKey:(NSString *)key mergedFromModel:(MAVModel *)model {
+- (id)valueForKey:(NSString *)key mergedFromModel:(MTLModel *)model {
 	NSParameterAssert(key != nil);
 
 	SEL selector = NSSelectorFromString([key stringByAppendingString:@"MergedFromModel:"]);
@@ -206,7 +206,7 @@ static NSString * const MAVModelVersionKey = @"MAVModelVersion";
 	return mergedValue;
 }
 
-- (instancetype)modelByMergingFromModel:(MAVModel *)model {
+- (instancetype)modelByMergingFromModel:(MTLModel *)model {
 	NSParameterAssert(model == nil || [model isKindOfClass:self.class]);
 
 	NSSet *keys = self.class.propertyKeys;
@@ -237,7 +237,7 @@ static NSString * const MAVModelVersionKey = @"MAVModelVersion";
 	NSDictionary *dictionary = [coder decodeObjectForKey:@keypath(self.dictionaryRepresentation)];
 	if (dictionary == nil) return nil;
 
-	NSNumber *version = [coder decodeObjectForKey:MAVModelVersionKey];
+	NSNumber *version = [coder decodeObjectForKey:MTLModelVersionKey];
 	if (version == nil) {
 		NSLog(@"Warning: decoding a dictionary representation without a version: %@", dictionary);
 	} else if (version.unsignedIntegerValue > self.class.modelVersion) {
@@ -253,7 +253,7 @@ static NSString * const MAVModelVersionKey = @"MAVModelVersion";
 
 - (void)encodeWithCoder:(NSCoder *)coder {
 	[coder encodeObject:self.dictionaryRepresentation forKey:@keypath(self.dictionaryRepresentation)];
-	[coder encodeObject:@(self.class.modelVersion) forKey:MAVModelVersionKey];
+	[coder encodeObject:@(self.class.modelVersion) forKey:MTLModelVersionKey];
 }
 
 #pragma mark NSObject
@@ -266,7 +266,7 @@ static NSString * const MAVModelVersionKey = @"MAVModelVersion";
 	return self.dictionaryRepresentation.hash;
 }
 
-- (BOOL)isEqual:(MAVModel *)model {
+- (BOOL)isEqual:(MTLModel *)model {
 	if (self == model) return YES;
 	if (![model isMemberOfClass:self.class]) return NO;
 

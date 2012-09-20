@@ -1,6 +1,6 @@
 //
-//  MAVModel.h
-//  Maverick
+//  MTLModel.h
+//  Mantle
 //
 //  Created by Justin Spahr-Summers on 2012-09-11.
 //  Copyright (c) 2012 GitHub. All rights reserved.
@@ -18,7 +18,7 @@
 // The default implementations of <NSCoding>, -hash, and -isEqual: all make use
 // of the dictionaryRepresentation property.
 //
-@interface MAVModel : NSObject <NSCoding, NSCopying>
+@interface MTLModel : NSObject <NSCoding, NSCopying>
 
 // Returns a new instance of the receiver initialized using
 // -initWithDictionary:.
@@ -70,7 +70,7 @@
 // +dictionaryKeysByPropertyKey.
 //
 // The default implementation of this property finds all @property declarations
-// (except for those on MAVModel) and combines their values into a dictionary.
+// (except for those on MTLModel) and combines their values into a dictionary.
 // Any nil values will be represented by NSNull.
 //
 // This property must never be nil.
@@ -98,10 +98,10 @@
 // Returns the merged value. If `<key>MergedFromModel:` is not implemented, the
 // value for the given key on `model` is returned (unless `model` is nil, in
 // which case the value from the receiver is used).
-- (id)valueForKey:(NSString *)key mergedFromModel:(MAVModel *)model;
+- (id)valueForKey:(NSString *)key mergedFromModel:(MTLModel *)model;
 
 // Returns a copy of the receiver merged with the given model object, using
 // -valueForKey:mergedFromModel: for each @property key on the receiver.
-- (instancetype)modelByMergingFromModel:(MAVModel *)model;
+- (instancetype)modelByMergingFromModel:(MTLModel *)model;
 
 @end

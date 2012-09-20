@@ -1,6 +1,6 @@
 //
-//  NSSet+MAVHigherOrderAdditions.m
-//  Maverick
+//  NSSet+MTLHigherOrderAdditions.m
+//  Mantle
 //
 //  Created by Justin Spahr-Summers on 15.12.11.
 //  Copyright (c) 2012 GitHub. All rights reserved.
@@ -9,11 +9,11 @@
 //  See the LICENSE file for more information.
 //
 
-#import "NSSet+MAVHigherOrderAdditions.h"
+#import "NSSet+MTLHigherOrderAdditions.h"
 #import "EXTScope.h"
 #import <libkern/OSAtomic.h>
 
-@implementation NSSet (MAVHigherOrderAdditions)
+@implementation NSSet (MTLHigherOrderAdditions)
 
 - (id)mav_filterUsingBlock:(BOOL (^)(id obj))block; {
     return [self mav_filterWithOptions:0 usingBlock:block];

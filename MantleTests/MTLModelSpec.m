@@ -1,22 +1,22 @@
 //
-//  MAVModelSpec.m
-//  Maverick
+//  MTLModelSpec.m
+//  Mantle
 //
 //  Created by Justin Spahr-Summers on 2012-09-11.
 //  Copyright (c) 2012 GitHub. All rights reserved.
 //
 
-#import "MAVTestModel.h"
+#import "MTLTestModel.h"
 
-SpecBegin(MAVModel)
+SpecBegin(MTLModel)
 
 it(@"should have empty default values", ^{
-	expect([MAVModel defaultValuesForKeys]).to.equal(@{});
+	expect([MTLModel defaultValuesForKeys]).to.equal(@{});
 });
 
 describe(@"subclass", ^{
 	it(@"should initialize with default values", ^{
-		MAVTestModel *model = [[MAVTestModel alloc] init];
+		MTLTestModel *model = [[MTLTestModel alloc] init];
 		expect(model).notTo.beNil();
 
 		expect(model.name).to.beNil();
@@ -29,7 +29,7 @@ describe(@"subclass", ^{
 	it(@"should initialize with property values", ^{
 		NSDictionary *values = @{ @"name": @"foobar", @"count": @(5) };
 
-		MAVTestModel *model = [[MAVTestModel alloc] initWithPropertyKeysAndValues:values];
+		MTLTestModel *model = [[MTLTestModel alloc] initWithPropertyKeysAndValues:values];
 		expect(model).notTo.beNil();
 
 		expect(model.name).to.equal(@"foobar");
@@ -41,9 +41,9 @@ describe(@"subclass", ^{
 	describe(@"with a dictionary of values", ^{
 		NSDictionary *values = @{ @"username": @"foobar", @"count": @"5" };
 
-		__block MAVTestModel *model;
+		__block MTLTestModel *model;
 		beforeEach(^{
-			model = [[MAVTestModel alloc] initWithDictionary:values];
+			model = [[MTLTestModel alloc] initWithDictionary:values];
 			expect(model).notTo.beNil();
 		});
 
@@ -57,13 +57,13 @@ describe(@"subclass", ^{
 		it(@"should compare equal to matching model", ^{
 			expect(model).to.equal(model);
 
-			MAVTestModel *matchingModel = [[MAVTestModel alloc] initWithDictionary:values];
+			MTLTestModel *matchingModel = [[MTLTestModel alloc] initWithDictionary:values];
 			expect(model).to.equal(matchingModel);
 			expect(model.hash).to.equal(matchingModel.hash);
 		});
 
 		it(@"should not compare equal to different model", ^{
-			MAVTestModel *differentModel = [[MAVTestModel alloc] init];
+			MTLTestModel *differentModel = [[MTLTestModel alloc] init];
 			expect(model).notTo.equal(differentModel);
 		});
 
@@ -75,31 +75,31 @@ describe(@"subclass", ^{
 			NSData *data = [NSKeyedArchiver archivedDataWithRootObject:model];
 			expect(data).notTo.beNil();
 
-			MAVTestModel *unarchivedModel = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+			MTLTestModel *unarchivedModel = [NSKeyedUnarchiver unarchiveObjectWithData:data];
 			expect(model).to.equal(unarchivedModel);
 		});
 	});
 
 	it(@"should fail to initialize if validation fails", ^{
-		MAVTestModel *model = [[MAVTestModel alloc] initWithDictionary:@{ @"username": @"this is too long a name" }];
+		MTLTestModel *model = [[MTLTestModel alloc] initWithDictionary:@{ @"username": @"this is too long a name" }];
 		expect(model).to.beNil();
 	});
 
 	describe(@"migration", ^{
 		beforeAll(^{
-			[MAVTestModel setModelVersion:0];
+			[MTLTestModel setModelVersion:0];
 		});
 
 		afterAll(^{
-			[MAVTestModel setModelVersion:1];
+			[MTLTestModel setModelVersion:1];
 		});
 
 		NSDictionary *oldValues = @{ @"mav_name": @"foobar", @"mav_count": @"5" };
 		NSDictionary *newValues = @{ @"username": @"M: foobar", @"count": @"5" };
 
-		__block MAVTestModel *oldModel;
+		__block MTLTestModel *oldModel;
 		beforeEach(^{
-			oldModel = [[MAVTestModel alloc] initWithDictionary:oldValues];
+			oldModel = [[MTLTestModel alloc] initWithDictionary:oldValues];
 			expect(oldModel).notTo.beNil();
 		});
 
@@ -111,22 +111,22 @@ describe(@"subclass", ^{
 			NSData *data = [NSKeyedArchiver archivedDataWithRootObject:oldModel];
 			expect(data).notTo.beNil();
 
-			[MAVTestModel setModelVersion:1];
+			[MTLTestModel setModelVersion:1];
 
-			MAVTestModel *newModel = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+			MTLTestModel *newModel = [NSKeyedUnarchiver unarchiveObjectWithData:data];
 			expect(newModel).notTo.beNil();
 			expect(newModel.dictionaryRepresentation).to.equal(newValues);
 		});
 	});
 
 	it(@"should merge two models together", ^{
-		MAVTestModel *target = [[MAVTestModel alloc] initWithDictionary:@{ @"username": @"foo", @"count": @"5" }];
+		MTLTestModel *target = [[MTLTestModel alloc] initWithDictionary:@{ @"username": @"foo", @"count": @"5" }];
 		expect(target).notTo.beNil();
 
-		MAVTestModel *source = [[MAVTestModel alloc] initWithDictionary:@{ @"username": @"bar", @"count": @"3" }];
+		MTLTestModel *source = [[MTLTestModel alloc] initWithDictionary:@{ @"username": @"bar", @"count": @"3" }];
 		expect(source).notTo.beNil();
 
-		MAVTestModel *merged = [target modelByMergingFromModel:source];
+		MTLTestModel *merged = [target modelByMergingFromModel:source];
 		expect(merged).notTo.beNil();
 
 		expect(merged.name).to.equal(@"bar");

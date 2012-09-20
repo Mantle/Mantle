@@ -1,6 +1,6 @@
 //
-//  NSOrderedSet+MAVHigherOrderAdditions.h
-//  Maverick
+//  NSOrderedSet+MTLHigherOrderAdditions.h
+//  Mantle
 //
 //  Created by Justin Spahr-Summers on 15.12.11.
 //  Copyright (c) 2012 GitHub. All rights reserved.
@@ -14,7 +14,7 @@
 /**
  * Higher-order functions for `NSOrderedSet`.
  */
-@interface NSOrderedSet (MAVHigherOrderAdditions)
+@interface NSOrderedSet (MTLHigherOrderAdditions)
 
 /**
  * Filters the objects of the receiver with the given predicate, returning a new

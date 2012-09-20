@@ -1,6 +1,6 @@
 //
-//  NSArray+MAVHigherOrderAdditions.m
-//  Maverick
+//  NSArray+MTLHigherOrderAdditions.m
+//  Mantle
 //
 //  Created by Josh Vera on 12/7/11.
 //  Copyright (c) 2012 GitHub. All rights reserved.
@@ -9,11 +9,11 @@
 //  See the LICENSE file for more information.
 //
 
-#import "NSArray+MAVHigherOrderAdditions.h"
+#import "NSArray+MTLHigherOrderAdditions.h"
 #import "EXTScope.h"
 #import <libkern/OSAtomic.h>
 
-@implementation NSArray (MAVHigherOrderAdditions)
+@implementation NSArray (MTLHigherOrderAdditions)
 
 - (id)mav_filterUsingBlock:(BOOL(^)(id obj))block {
     return [self mav_filterWithOptions:0 usingBlock:block];

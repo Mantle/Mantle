@@ -1,6 +1,6 @@
 //
-//  NSArray+MAVHigherOrderAdditions.h
-//  Maverick
+//  NSArray+MTLHigherOrderAdditions.h
+//  Mantle
 //
 //  Created by Josh Vera on 12/7/11.
 //  Copyright (c) 2012 GitHub. All rights reserved.
@@ -14,7 +14,7 @@
 /**
  * Higher-order functions for `NSArray`.
  */
-@interface NSArray (MAVHigherOrderAdditions)
+@interface NSArray (MTLHigherOrderAdditions)
 
 /**
  * Returns an array of filtered objects for which `block` returns true.

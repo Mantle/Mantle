@@ -1,6 +1,6 @@
 //
-//  NSDictionary+MAVHigherOrderAdditions.m
-//  Maverick
+//  NSDictionary+MTLHigherOrderAdditions.m
+//  Mantle
 //
 //  Created by Justin Spahr-Summers on 15.12.11.
 //  Copyright (c) 2012 GitHub. All rights reserved.
@@ -9,11 +9,11 @@
 //  See the LICENSE file for more information.
 //
 
-#import "NSDictionary+MAVHigherOrderAdditions.h"
+#import "NSDictionary+MTLHigherOrderAdditions.h"
 #import "EXTScope.h"
 #import <libkern/OSAtomic.h>
 
-@implementation NSDictionary (MAVHigherOrderAdditions)
+@implementation NSDictionary (MTLHigherOrderAdditions)
 
 - (NSDictionary *)mav_filterEntriesUsingBlock:(BOOL (^)(id key, id value))block; {
     return [self mav_filterEntriesWithOptions:0 usingBlock:block];

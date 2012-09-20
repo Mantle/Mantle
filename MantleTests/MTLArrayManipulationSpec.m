@@ -1,14 +1,14 @@
 //
-//  MAVArrayManipulationSpec.m
-//  Maverick
+//  MTLArrayManipulationSpec.m
+//  Mantle
 //
 //  Created by Josh Abernathy on 9/19/12.
 //  Copyright (c) 2012 GitHub. All rights reserved.
 //
 
-#import "NSArray+MAVManipulationAdditions.h"
+#import "NSArray+MTLManipulationAdditions.h"
 
-SpecBegin(MAVArrayManipulationAdditions)
+SpecBegin(MTLArrayManipulationAdditions)
 
 describe(@"-mav_firstObject", ^{
 	it(@"should return the first object", ^{

@@ -1,10 +1,10 @@
 //
-// Prefix header for all source files of the 'MaverickTests' target in the 'Maverick' project
+// Prefix header for all source files of the 'MantleTests' target in the 'Mantle' project
 //
 
 #ifdef __OBJC__
 	#import <Foundation/Foundation.h>
-    #import "Maverick.h"
+    #import "Mantle.h"
 
     #import "Specta.h"
 

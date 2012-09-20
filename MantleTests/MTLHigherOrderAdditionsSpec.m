@@ -1,6 +1,6 @@
 //
-//  MAVHigherOrderAdditionsTests.m
-//  Maverick
+//  MTLHigherOrderAdditionsTests.m
+//  Mantle
 //
 //  Created by Justin Spahr-Summers on 23.01.12.
 //  Copyright (c) 2012 GitHub. All rights reserved.
@@ -9,7 +9,7 @@
 //  See the LICENSE file for more information.
 //
 
-SpecBegin(MAVHigherOrderAdditions)
+SpecBegin(MTLHigherOrderAdditions)
 
 describe(@"dictionary", ^{
 	NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:

@@ -1,5 +1,5 @@
 //
-// Prefix header for all source files of the 'Maverick' target in the 'Maverick' project
+// Prefix header for all source files of the 'Mantle' target in the 'Mantle' project
 //
 
 #ifdef __OBJC__
