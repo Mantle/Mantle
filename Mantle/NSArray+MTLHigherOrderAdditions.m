@@ -1,86 +1,92 @@
 //
-//  NSOrderedSet+MAVHigherOrderAdditions.m
-//  Maverick
+//  NSArray+MTLHigherOrderAdditions.m
+//  Mantle
 //
-//  Created by Justin Spahr-Summers on 15.12.11.
+//  Created by Josh Vera on 12/7/11.
 //  Copyright (c) 2012 GitHub. All rights reserved.
 //
 //  Portions copyright (c) 2011 Bitswift. All rights reserved.
 //  See the LICENSE file for more information.
 //
 
-#import "NSOrderedSet+MAVHigherOrderAdditions.h"
+#import "NSArray+MTLHigherOrderAdditions.h"
 #import "EXTScope.h"
-#import "NSArray+MAVHigherOrderAdditions.h"
 #import <libkern/OSAtomic.h>
 
-@implementation NSOrderedSet (MAVHigherOrderAdditions)
+@implementation NSArray (MTLHigherOrderAdditions)
 
-- (id)mav_filterUsingBlock:(BOOL(^)(id obj))block {
-    return [self mav_filterWithOptions:0 usingBlock:block];
+- (id)mtl_filterUsingBlock:(BOOL(^)(id obj))block {
+    return [self mtl_filterWithOptions:0 usingBlock:block];
 }
 
-- (id)mav_filterWithOptions:(NSEnumerationOptions)opts usingBlock:(BOOL(^)(id obj))block {
-    return [self mav_filterWithOptions:opts failedObjects:NULL usingBlock:block];
+- (id)mtl_filterWithOptions:(NSEnumerationOptions)opts usingBlock:(BOOL(^)(id obj))block {
+    return [self mtl_filterWithOptions:opts failedObjects:NULL usingBlock:block];
 }
 
-- (id)mav_filterWithFailedObjects:(NSOrderedSet **)failedObjects usingBlock:(BOOL(^)(id obj))block; {
-    return [self mav_filterWithOptions:0 failedObjects:failedObjects usingBlock:block];
+- (id)mtl_filterWithFailedObjects:(NSArray **)failedObjects usingBlock:(BOOL(^)(id obj))block; {
+    return [self mtl_filterWithOptions:0 failedObjects:failedObjects usingBlock:block];
 }
 
-- (id)mav_filterWithOptions:(NSEnumerationOptions)opts failedObjects:(NSOrderedSet **)failedObjects usingBlock:(BOOL(^)(id obj))block; {
+- (id)mtl_filterWithOptions:(NSEnumerationOptions)opts failedObjects:(NSArray **)failedObjects usingBlock:(BOOL(^)(id obj))block; {
     NSIndexSet *successIndexes = [self indexesOfObjectsWithOptions:opts passingTest:^(id obj, NSUInteger idx, BOOL *stop) {
         return block(obj);
     }];
 
     if (opts & NSEnumerationReverse) {
-        NSMutableOrderedSet *mutableSuccess = [[NSMutableOrderedSet alloc] initWithCapacity:[successIndexes count]];
+        NSMutableArray *mutableSuccess = [[NSMutableArray alloc] initWithCapacity:[successIndexes count]];
 
-        NSMutableOrderedSet *mutableFailed = nil;
-        if (failedObjects != NULL) mutableFailed = [[NSMutableOrderedSet alloc] initWithCapacity:[self count] - [successIndexes count] - 1];
+        NSMutableArray *mutableFailed = nil;
+        if (failedObjects != NULL) mutableFailed = [[NSMutableArray alloc] initWithCapacity:[self count] - [successIndexes count] - 1];
 
         [self enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(id obj, NSUInteger index, BOOL *stop){
-            if ([successIndexes containsIndex:index]) {
+            if ([successIndexes containsIndex:index])
                 [mutableSuccess addObject:obj];
-            } else {
+            else
                 [mutableFailed addObject:obj];
-			}
         }];
 
         if (failedObjects != NULL) *failedObjects = [mutableFailed copy];
 
         return [mutableSuccess copy];
     } else {
-        if (failedObjects) {
+        if (failedObjects != NULL) {
             NSUInteger totalCount = self.count;
 
             NSMutableIndexSet *failedIndexes = [[NSMutableIndexSet alloc] initWithIndexesInRange:NSMakeRange(0, totalCount)];
             [failedIndexes removeIndexes:successIndexes];
 
-            *failedObjects = [NSOrderedSet orderedSetWithArray:[self objectsAtIndexes:failedIndexes]];
+            *failedObjects = [self objectsAtIndexes:failedIndexes];
         }
 
-        return [NSOrderedSet orderedSetWithArray:[self objectsAtIndexes:successIndexes]];
+        return [self objectsAtIndexes:successIndexes];
     }
 }
 
-- (id)mav_foldLeftWithValue:(id)startingValue usingBlock:(id (^)(id left, id right))block; {
-    // a fold on an ordered set is equivalent to a fold on that set represented
-    // as an array
-    return [[self array] mav_foldLeftWithValue:startingValue usingBlock:block];
+- (id)mtl_foldLeftWithValue:(id)startingValue usingBlock:(id (^)(id left, id right))block; {
+    __block id value = startingValue;
+
+    [self enumerateObjectsUsingBlock:^(id obj, NSUInteger index, BOOL *stop){
+        value = block(value, obj);
+    }];
+
+    return value;
 }
 
-- (id)mav_foldRightWithValue:(id)startingValue usingBlock:(id (^)(id left, id right))block; {
-    // a fold on an ordered set is equivalent to a fold on that set represented
-    // as an array
-    return [[self array] mav_foldRightWithValue:startingValue usingBlock:block];
+- (id)mtl_foldRightWithValue:(id)startingValue usingBlock:(id (^)(id left, id right))block; {
+    __block id value = startingValue;
+
+    [self enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(id obj, NSUInteger index, BOOL *stop){
+        value = block(obj, value);
+    }];
+
+    return value;
 }
 
-- (id)mav_mapUsingBlock:(id (^)(id obj))block; {
-    return [self mav_mapWithOptions:0 usingBlock:block];
+- (id)mtl_mapUsingBlock:(id (^)(id obj))block; {
+    return [self mtl_mapWithOptions:0 usingBlock:block];
 }
 
-- (id)mav_mapWithOptions:(NSEnumerationOptions)opts usingBlock:(id (^)(id obj))block; {
+- (id)mtl_mapWithOptions:(NSEnumerationOptions)opts usingBlock:(id (^)(id obj))block; {
     NSUInteger originalCount = [self count];
 
     BOOL concurrent = (opts & NSEnumerationConcurrent);
@@ -107,7 +113,7 @@
 
     // if this gets incremented while enumerating, 'objects' contains some
     // (indeterminate) number of nil values, and must be compacted before
-    // creating an NSOrderedSet
+    // creating an NSArray
     volatile int32_t needsCompaction = 0;
 
     {
@@ -130,7 +136,8 @@
                 return;
             }
 
-            if (reverse) index = originalCount - index - 1;
+            if (reverse)
+                index = originalCount - index - 1;
 
             // only need to store into the array on success, since it was filled
             // with zeroes on allocation
@@ -157,20 +164,19 @@
         }
     }
 
-    return [NSOrderedSet orderedSetWithObjects:(id *)objects count:actualCount];
+    return [NSArray arrayWithObjects:(id *)objects count:actualCount];
 }
 
-- (id)mav_objectPassingTest:(BOOL (^)(id obj, NSUInteger index, BOOL *stop))predicate; {
-    return [self mav_objectWithOptions:0 passingTest:predicate];
+- (id)mtl_objectPassingTest:(BOOL (^)(id obj, NSUInteger index, BOOL *stop))predicate; {
+    return [self mtl_objectWithOptions:0 passingTest:predicate];
 }
 
-- (id)mav_objectWithOptions:(NSEnumerationOptions)opts passingTest:(BOOL (^)(id obj, NSUInteger index, BOOL *stop))predicate; {
+- (id)mtl_objectWithOptions:(NSEnumerationOptions)opts passingTest:(BOOL (^)(id obj, NSUInteger index, BOOL *stop))predicate; {
     NSUInteger index = [self indexOfObjectWithOptions:opts passingTest:predicate];
-    if (index == NSNotFound) {
+    if (index == NSNotFound)
         return nil;
-    } else {
+    else
         return [self objectAtIndex:index];
-	}
 }
 
 @end

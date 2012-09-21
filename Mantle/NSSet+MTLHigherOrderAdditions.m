@@ -1,6 +1,6 @@
 //
-//  NSSet+MAVHigherOrderAdditions.m
-//  Maverick
+//  NSSet+MTLHigherOrderAdditions.m
+//  Mantle
 //
 //  Created by Justin Spahr-Summers on 15.12.11.
 //  Copyright (c) 2012 GitHub. All rights reserved.
@@ -9,27 +9,27 @@
 //  See the LICENSE file for more information.
 //
 
-#import "NSSet+MAVHigherOrderAdditions.h"
+#import "NSSet+MTLHigherOrderAdditions.h"
 #import "EXTScope.h"
 #import <libkern/OSAtomic.h>
 
-@implementation NSSet (MAVHigherOrderAdditions)
+@implementation NSSet (MTLHigherOrderAdditions)
 
-- (id)mav_filterUsingBlock:(BOOL (^)(id obj))block; {
-    return [self mav_filterWithOptions:0 usingBlock:block];
+- (id)mtl_filterUsingBlock:(BOOL (^)(id obj))block; {
+    return [self mtl_filterWithOptions:0 usingBlock:block];
 }
 
-- (id)mav_filterWithOptions:(NSEnumerationOptions)opts usingBlock:(BOOL (^)(id obj))block; {
+- (id)mtl_filterWithOptions:(NSEnumerationOptions)opts usingBlock:(BOOL (^)(id obj))block; {
     return [self objectsWithOptions:opts passingTest:^(id obj, BOOL *stop){
         return block(obj);
     }];
 }
 
-- (id)mav_filterWithFailedObjects:(NSSet **)failedObjects usingBlock:(BOOL(^)(id obj))block; {
-    return [self mav_filterWithOptions:0 failedObjects:failedObjects usingBlock:block];
+- (id)mtl_filterWithFailedObjects:(NSSet **)failedObjects usingBlock:(BOOL(^)(id obj))block; {
+    return [self mtl_filterWithOptions:0 failedObjects:failedObjects usingBlock:block];
 }
 
-- (id)mav_filterWithOptions:(NSEnumerationOptions)opts failedObjects:(NSSet **)failedObjects usingBlock:(BOOL(^)(id obj))block; {
+- (id)mtl_filterWithOptions:(NSEnumerationOptions)opts failedObjects:(NSSet **)failedObjects usingBlock:(BOOL(^)(id obj))block; {
     NSUInteger originalCount = [self count];
     BOOL concurrent = (opts & NSEnumerationConcurrent);
 
@@ -85,7 +85,7 @@
     return [NSSet setWithObjects:(id *)objects count:successCount];
 }
 
-- (id)mav_foldWithValue:(id)startingValue usingBlock:(id (^)(id left, id right))block; {
+- (id)mtl_foldWithValue:(id)startingValue usingBlock:(id (^)(id left, id right))block; {
     __block id value = startingValue;
 
     [self enumerateObjectsUsingBlock:^(id obj, BOOL *stop){
@@ -95,11 +95,11 @@
     return value;
 }
 
-- (id)mav_mapUsingBlock:(id (^)(id obj))block; {
-    return [self mav_mapWithOptions:0 usingBlock:block];
+- (id)mtl_mapUsingBlock:(id (^)(id obj))block; {
+    return [self mtl_mapWithOptions:0 usingBlock:block];
 }
 
-- (id)mav_mapWithOptions:(NSEnumerationOptions)opts usingBlock:(id (^)(id obj))block; {
+- (id)mtl_mapWithOptions:(NSEnumerationOptions)opts usingBlock:(id (^)(id obj))block; {
     NSUInteger originalCount = [self count];
     BOOL concurrent = (opts & NSEnumerationConcurrent);
 
@@ -146,11 +146,11 @@
     return [NSSet setWithObjects:(id *)objects count:(NSUInteger)nextIndex];
 }
 
-- (id)mav_objectPassingTest:(BOOL (^)(id obj, BOOL *stop))predicate; {
-    return [self mav_objectWithOptions:0 passingTest:predicate];
+- (id)mtl_objectPassingTest:(BOOL (^)(id obj, BOOL *stop))predicate; {
+    return [self mtl_objectWithOptions:0 passingTest:predicate];
 }
 
-- (id)mav_objectWithOptions:(NSEnumerationOptions)opts passingTest:(BOOL (^)(id obj, BOOL *stop))predicate; {
+- (id)mtl_objectWithOptions:(NSEnumerationOptions)opts passingTest:(BOOL (^)(id obj, BOOL *stop))predicate; {
     BOOL concurrent = (opts & NSEnumerationConcurrent);
 
     void * volatile match = NULL;

@@ -7,53 +7,53 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		88080C18160A706900CCABF2 /* NSArray+MAVManipulationAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 88080C16160A706900CCABF2 /* NSArray+MAVManipulationAdditions.h */; };
-		88080C19160A706900CCABF2 /* NSArray+MAVManipulationAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 88080C17160A706900CCABF2 /* NSArray+MAVManipulationAdditions.m */; };
-		88080C1A160A706900CCABF2 /* NSArray+MAVManipulationAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 88080C17160A706900CCABF2 /* NSArray+MAVManipulationAdditions.m */; };
-		88080C1D160A719D00CCABF2 /* MAVArrayManipulationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88080C1C160A719D00CCABF2 /* MAVArrayManipulationSpec.m */; };
-		88080C1E160A719D00CCABF2 /* MAVArrayManipulationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88080C1C160A719D00CCABF2 /* MAVArrayManipulationSpec.m */; };
+		88080C18160A706900CCABF2 /* NSArray+MTLManipulationAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 88080C16160A706900CCABF2 /* NSArray+MTLManipulationAdditions.h */; };
+		88080C19160A706900CCABF2 /* NSArray+MTLManipulationAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 88080C17160A706900CCABF2 /* NSArray+MTLManipulationAdditions.m */; };
+		88080C1A160A706900CCABF2 /* NSArray+MTLManipulationAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 88080C17160A706900CCABF2 /* NSArray+MTLManipulationAdditions.m */; };
+		88080C1D160A719D00CCABF2 /* MTLArrayManipulationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88080C1C160A719D00CCABF2 /* MTLArrayManipulationSpec.m */; };
+		88080C1E160A719D00CCABF2 /* MTLArrayManipulationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88080C1C160A719D00CCABF2 /* MTLArrayManipulationSpec.m */; };
 		D042FC4A15F72B23004E8054 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D042FC4815F72B23004E8054 /* InfoPlist.strings */; };
 		D042FC5615F72B23004E8054 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D042FC5515F72B23004E8054 /* SenTestingKit.framework */; };
-		D042FC5A15F72B23004E8054 /* Maverick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D042FC3C15F72B23004E8054 /* Maverick.framework */; };
+		D042FC5A15F72B23004E8054 /* Mantle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D042FC3C15F72B23004E8054 /* Mantle.framework */; };
 		D042FC6015F72B23004E8054 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D042FC5E15F72B23004E8054 /* InfoPlist.strings */; };
 		D042FC7415F72B90004E8054 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D042FC4415F72B23004E8054 /* Foundation.framework */; };
 		D042FC7A15F72BC7004E8054 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D042FC4415F72B23004E8054 /* Foundation.framework */; };
 		D042FC8815F72BC7004E8054 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D042FC5515F72B23004E8054 /* SenTestingKit.framework */; };
 		D042FC8B15F72BC7004E8054 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D042FC4415F72B23004E8054 /* Foundation.framework */; };
-		D042FC8E15F72BC7004E8054 /* libMaverick.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D042FC7915F72BC7004E8054 /* libMaverick.a */; };
-		D042FD0415F72F04004E8054 /* libExpecta.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D042FCE715F72EED004E8054 /* libExpecta.a */; };
-		D042FD0515F72F04004E8054 /* libSpecta.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D042FCF915F72EF1004E8054 /* libSpecta.a */; };
-		D042FD0A15F72F0D004E8054 /* libExpecta-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D042FCE915F72EED004E8054 /* libExpecta-iOS.a */; };
-		D042FD0B15F72F0D004E8054 /* libSpecta-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D042FCFB15F72EF1004E8054 /* libSpecta-iOS.a */; };
-		D0760E0515FFBD440060F550 /* Maverick.h in Headers */ = {isa = PBXBuildFile; fileRef = D042FC4C15F72B23004E8054 /* Maverick.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D0760E7815FFBF330060F550 /* MAVModel.h in Headers */ = {isa = PBXBuildFile; fileRef = D0760E7615FFBF330060F550 /* MAVModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D0760E7915FFBF330060F550 /* MAVModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D0760E7715FFBF330060F550 /* MAVModel.m */; };
-		D0760E7A15FFBF330060F550 /* MAVModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D0760E7715FFBF330060F550 /* MAVModel.m */; };
-		D0760EC415FFCA250060F550 /* MAVModelSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D0760EC315FFCA250060F550 /* MAVModelSpec.m */; };
-		D0760EC515FFCA250060F550 /* MAVModelSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D0760EC315FFCA250060F550 /* MAVModelSpec.m */; };
-		D0760EC915FFCA4E0060F550 /* MAVTestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D0760EC815FFCA4E0060F550 /* MAVTestModel.m */; };
-		D0760ECA15FFCA4E0060F550 /* MAVTestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D0760EC815FFCA4E0060F550 /* MAVTestModel.m */; };
-		D08B5AAE16002694001FE685 /* MAVValueTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = D08B5AAC16002694001FE685 /* MAVValueTransformer.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D08B5AAF16002694001FE685 /* MAVValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = D08B5AAD16002694001FE685 /* MAVValueTransformer.m */; };
-		D08B5AB016002694001FE685 /* MAVValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = D08B5AAD16002694001FE685 /* MAVValueTransformer.m */; };
-		D08B5AB216002A23001FE685 /* MAVValueTransformerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D08B5AB116002A23001FE685 /* MAVValueTransformerSpec.m */; };
-		D08B5AB316002A23001FE685 /* MAVValueTransformerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D08B5AB116002A23001FE685 /* MAVValueTransformerSpec.m */; };
-		D090E62E15F730D1005282F9 /* NSArray+MAVHigherOrderAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = D090E62615F730D1005282F9 /* NSArray+MAVHigherOrderAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D090E62F15F730D1005282F9 /* NSArray+MAVHigherOrderAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D090E62715F730D1005282F9 /* NSArray+MAVHigherOrderAdditions.m */; };
-		D090E63015F730D1005282F9 /* NSArray+MAVHigherOrderAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D090E62715F730D1005282F9 /* NSArray+MAVHigherOrderAdditions.m */; };
-		D090E63115F730D1005282F9 /* NSDictionary+MAVHigherOrderAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = D090E62815F730D1005282F9 /* NSDictionary+MAVHigherOrderAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D090E63215F730D1005282F9 /* NSDictionary+MAVHigherOrderAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D090E62915F730D1005282F9 /* NSDictionary+MAVHigherOrderAdditions.m */; };
-		D090E63315F730D1005282F9 /* NSDictionary+MAVHigherOrderAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D090E62915F730D1005282F9 /* NSDictionary+MAVHigherOrderAdditions.m */; };
-		D090E63415F730D1005282F9 /* NSOrderedSet+MAVHigherOrderAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = D090E62A15F730D1005282F9 /* NSOrderedSet+MAVHigherOrderAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D090E63515F730D1005282F9 /* NSOrderedSet+MAVHigherOrderAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D090E62B15F730D1005282F9 /* NSOrderedSet+MAVHigherOrderAdditions.m */; };
-		D090E63615F730D1005282F9 /* NSOrderedSet+MAVHigherOrderAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D090E62B15F730D1005282F9 /* NSOrderedSet+MAVHigherOrderAdditions.m */; };
-		D090E63715F730D1005282F9 /* NSSet+MAVHigherOrderAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = D090E62C15F730D1005282F9 /* NSSet+MAVHigherOrderAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D090E63815F730D1005282F9 /* NSSet+MAVHigherOrderAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D090E62D15F730D1005282F9 /* NSSet+MAVHigherOrderAdditions.m */; };
-		D090E63915F730D1005282F9 /* NSSet+MAVHigherOrderAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D090E62D15F730D1005282F9 /* NSSet+MAVHigherOrderAdditions.m */; };
+		D042FC8E15F72BC7004E8054 /* libMantle.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D042FC7915F72BC7004E8054 /* libMantle.a */; };
+		D0760E0515FFBD440060F550 /* Mantle.h in Headers */ = {isa = PBXBuildFile; fileRef = D042FC4C15F72B23004E8054 /* Mantle.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D0760E7815FFBF330060F550 /* MTLModel.h in Headers */ = {isa = PBXBuildFile; fileRef = D0760E7615FFBF330060F550 /* MTLModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D0760E7915FFBF330060F550 /* MTLModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D0760E7715FFBF330060F550 /* MTLModel.m */; };
+		D0760E7A15FFBF330060F550 /* MTLModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D0760E7715FFBF330060F550 /* MTLModel.m */; };
+		D0760EC415FFCA250060F550 /* MTLModelSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D0760EC315FFCA250060F550 /* MTLModelSpec.m */; };
+		D0760EC515FFCA250060F550 /* MTLModelSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D0760EC315FFCA250060F550 /* MTLModelSpec.m */; };
+		D0760EC915FFCA4E0060F550 /* MTLTestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D0760EC815FFCA4E0060F550 /* MTLTestModel.m */; };
+		D0760ECA15FFCA4E0060F550 /* MTLTestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D0760EC815FFCA4E0060F550 /* MTLTestModel.m */; };
+		D08B5AAE16002694001FE685 /* MTLValueTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = D08B5AAC16002694001FE685 /* MTLValueTransformer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D08B5AAF16002694001FE685 /* MTLValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = D08B5AAD16002694001FE685 /* MTLValueTransformer.m */; };
+		D08B5AB016002694001FE685 /* MTLValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = D08B5AAD16002694001FE685 /* MTLValueTransformer.m */; };
+		D08B5AB216002A23001FE685 /* MTLValueTransformerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D08B5AB116002A23001FE685 /* MTLValueTransformerSpec.m */; };
+		D08B5AB316002A23001FE685 /* MTLValueTransformerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D08B5AB116002A23001FE685 /* MTLValueTransformerSpec.m */; };
+		D090E62E15F730D1005282F9 /* NSArray+MTLHigherOrderAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = D090E62615F730D1005282F9 /* NSArray+MTLHigherOrderAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D090E62F15F730D1005282F9 /* NSArray+MTLHigherOrderAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D090E62715F730D1005282F9 /* NSArray+MTLHigherOrderAdditions.m */; };
+		D090E63015F730D1005282F9 /* NSArray+MTLHigherOrderAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D090E62715F730D1005282F9 /* NSArray+MTLHigherOrderAdditions.m */; };
+		D090E63115F730D1005282F9 /* NSDictionary+MTLHigherOrderAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = D090E62815F730D1005282F9 /* NSDictionary+MTLHigherOrderAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D090E63215F730D1005282F9 /* NSDictionary+MTLHigherOrderAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D090E62915F730D1005282F9 /* NSDictionary+MTLHigherOrderAdditions.m */; };
+		D090E63315F730D1005282F9 /* NSDictionary+MTLHigherOrderAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D090E62915F730D1005282F9 /* NSDictionary+MTLHigherOrderAdditions.m */; };
+		D090E63415F730D1005282F9 /* NSOrderedSet+MTLHigherOrderAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = D090E62A15F730D1005282F9 /* NSOrderedSet+MTLHigherOrderAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D090E63515F730D1005282F9 /* NSOrderedSet+MTLHigherOrderAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D090E62B15F730D1005282F9 /* NSOrderedSet+MTLHigherOrderAdditions.m */; };
+		D090E63615F730D1005282F9 /* NSOrderedSet+MTLHigherOrderAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D090E62B15F730D1005282F9 /* NSOrderedSet+MTLHigherOrderAdditions.m */; };
+		D090E63715F730D1005282F9 /* NSSet+MTLHigherOrderAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = D090E62C15F730D1005282F9 /* NSSet+MTLHigherOrderAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D090E63815F730D1005282F9 /* NSSet+MTLHigherOrderAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D090E62D15F730D1005282F9 /* NSSet+MTLHigherOrderAdditions.m */; };
+		D090E63915F730D1005282F9 /* NSSet+MTLHigherOrderAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D090E62D15F730D1005282F9 /* NSSet+MTLHigherOrderAdditions.m */; };
 		D090E63E15F73269005282F9 /* EXTScope.m in Sources */ = {isa = PBXBuildFile; fileRef = D090E63C15F73265005282F9 /* EXTScope.m */; };
 		D090E63F15F73269005282F9 /* EXTScope.m in Sources */ = {isa = PBXBuildFile; fileRef = D090E63C15F73265005282F9 /* EXTScope.m */; };
-		D090E66115F73315005282F9 /* MAVHigherOrderAdditionsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D090E66015F73315005282F9 /* MAVHigherOrderAdditionsSpec.m */; };
-		D090E66215F73315005282F9 /* MAVHigherOrderAdditionsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D090E66015F73315005282F9 /* MAVHigherOrderAdditionsSpec.m */; };
+		D090E66115F73315005282F9 /* MTLHigherOrderAdditionsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D090E66015F73315005282F9 /* MTLHigherOrderAdditionsSpec.m */; };
+		D090E66215F73315005282F9 /* MTLHigherOrderAdditionsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D090E66015F73315005282F9 /* MTLHigherOrderAdditionsSpec.m */; };
+		D0D46A0D160BC98600AB468D /* libExpecta.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0D469DD160BC93400AB468D /* libExpecta.a */; };
+		D0D46A0E160BC98600AB468D /* libSpecta.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0D469EE160BC93E00AB468D /* libSpecta.a */; };
+		D0D46A13160BC98E00AB468D /* libExpecta-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0D469DF160BC93400AB468D /* libExpecta-iOS.a */; };
+		D0D46A14160BC98E00AB468D /* libSpecta-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0D469F0160BC93E00AB468D /* libSpecta-iOS.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,84 +71,84 @@
 			remoteGlobalIDString = D042FC7815F72BC7004E8054;
 			remoteInfo = Maverick;
 		};
-		D042FCE615F72EED004E8054 /* PBXContainerItemProxy */ = {
+		D0D469DC160BC93400AB468D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D042FCCB15F72EE8004E8054 /* Expecta.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = E9ACDF0C13B2DD520010F4D7;
 			remoteInfo = Expecta;
 		};
-		D042FCE815F72EED004E8054 /* PBXContainerItemProxy */ = {
+		D0D469DE160BC93400AB468D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D042FCCB15F72EE8004E8054 /* Expecta.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = E93067CE13B2E6D100EA26FF;
 			remoteInfo = "Expecta-iOS";
 		};
-		D042FCEA15F72EED004E8054 /* PBXContainerItemProxy */ = {
+		D0D469E0160BC93400AB468D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D042FCCB15F72EE8004E8054 /* Expecta.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = E9ACDF1D13B2DD520010F4D7;
 			remoteInfo = ExpectaTests;
 		};
-		D042FCEC15F72EED004E8054 /* PBXContainerItemProxy */ = {
+		D0D469E2160BC93400AB468D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D042FCCB15F72EE8004E8054 /* Expecta.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = E93067DA13B2E6D100EA26FF;
 			remoteInfo = "Expecta-iOSTests";
 		};
-		D042FCF815F72EF1004E8054 /* PBXContainerItemProxy */ = {
+		D0D469ED160BC93E00AB468D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D042FCEE15F72EF1004E8054 /* Specta.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = E9D96A2614B6B8AB007D9521;
 			remoteInfo = Specta;
 		};
-		D042FCFA15F72EF1004E8054 /* PBXContainerItemProxy */ = {
+		D0D469EF160BC93E00AB468D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D042FCEE15F72EF1004E8054 /* Specta.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = E9B777A414BA294B00D8DC76;
 			remoteInfo = "Specta-iOS";
 		};
-		D042FCFC15F72EF1004E8054 /* PBXContainerItemProxy */ = {
+		D0D469F1160BC93E00AB468D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D042FCEE15F72EF1004E8054 /* Specta.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = E9D96A3A14B6B8AB007D9521;
 			remoteInfo = SpectaTests;
 		};
-		D042FCFE15F72EF1004E8054 /* PBXContainerItemProxy */ = {
+		D0D469F3160BC93E00AB468D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D042FCEE15F72EF1004E8054 /* Specta.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = E9B777B314BA294C00D8DC76;
 			remoteInfo = "Specta-iOSTests";
 		};
-		D042FD0015F72EFF004E8054 /* PBXContainerItemProxy */ = {
+		D0D46A09160BC98100AB468D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D042FCCB15F72EE8004E8054 /* Expecta.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = E9ACDF0B13B2DD520010F4D7;
 			remoteInfo = Expecta;
 		};
-		D042FD0215F72EFF004E8054 /* PBXContainerItemProxy */ = {
+		D0D46A0B160BC98100AB468D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D042FCEE15F72EF1004E8054 /* Specta.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = E9D96A2514B6B8AB007D9521;
 			remoteInfo = Specta;
 		};
-		D042FD0615F72F09004E8054 /* PBXContainerItemProxy */ = {
+		D0D46A0F160BC98B00AB468D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D042FCCB15F72EE8004E8054 /* Expecta.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = E93067CD13B2E6D100EA26FF;
 			remoteInfo = "Expecta-iOS";
 		};
-		D042FD0815F72F09004E8054 /* PBXContainerItemProxy */ = {
+		D0D46A11160BC98B00AB468D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D042FCEE15F72EF1004E8054 /* Specta.xcodeproj */;
 			proxyType = 1;
@@ -170,22 +170,22 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		88080C16160A706900CCABF2 /* NSArray+MAVManipulationAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+MAVManipulationAdditions.h"; sourceTree = "<group>"; };
-		88080C17160A706900CCABF2 /* NSArray+MAVManipulationAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+MAVManipulationAdditions.m"; sourceTree = "<group>"; };
-		88080C1C160A719D00CCABF2 /* MAVArrayManipulationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAVArrayManipulationSpec.m; sourceTree = "<group>"; };
-		D042FC3C15F72B23004E8054 /* Maverick.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Maverick.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		88080C16160A706900CCABF2 /* NSArray+MTLManipulationAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+MTLManipulationAdditions.h"; sourceTree = "<group>"; };
+		88080C17160A706900CCABF2 /* NSArray+MTLManipulationAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+MTLManipulationAdditions.m"; sourceTree = "<group>"; };
+		88080C1C160A719D00CCABF2 /* MTLArrayManipulationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLArrayManipulationSpec.m; sourceTree = "<group>"; };
+		D042FC3C15F72B23004E8054 /* Mantle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Mantle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D042FC4315F72B23004E8054 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		D042FC4415F72B23004E8054 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		D042FC4715F72B23004E8054 /* Maverick-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Maverick-Info.plist"; sourceTree = "<group>"; };
+		D042FC4715F72B23004E8054 /* Mantle-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Mantle-Info.plist"; sourceTree = "<group>"; };
 		D042FC4915F72B23004E8054 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		D042FC4B15F72B23004E8054 /* Maverick-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Maverick-Prefix.pch"; sourceTree = "<group>"; };
-		D042FC4C15F72B23004E8054 /* Maverick.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Maverick.h; sourceTree = "<group>"; };
-		D042FC5415F72B23004E8054 /* Maverick Mac Tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Maverick Mac Tests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D042FC4B15F72B23004E8054 /* Mantle-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Mantle-Prefix.pch"; sourceTree = "<group>"; };
+		D042FC4C15F72B23004E8054 /* Mantle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Mantle.h; sourceTree = "<group>"; };
+		D042FC5415F72B23004E8054 /* Mantle Mac Tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Mantle Mac Tests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D042FC5515F72B23004E8054 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		D042FC5D15F72B23004E8054 /* MaverickTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MaverickTests-Info.plist"; sourceTree = "<group>"; };
+		D042FC5D15F72B23004E8054 /* MantleTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MantleTests-Info.plist"; sourceTree = "<group>"; };
 		D042FC5F15F72B23004E8054 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		D042FC7915F72BC7004E8054 /* libMaverick.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMaverick.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		D042FC8715F72BC7004E8054 /* Maverick iOS Tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Maverick iOS Tests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D042FC7915F72BC7004E8054 /* libMantle.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMantle.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		D042FC8715F72BC7004E8054 /* Mantle iOS Tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Mantle iOS Tests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D042FCA015F72C16004E8054 /* Common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
 		D042FCA215F72C16004E8054 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		D042FCA315F72C16004E8054 /* Profile.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Profile.xcconfig; sourceTree = "<group>"; };
@@ -201,30 +201,30 @@
 		D042FCB015F72C16004E8054 /* Mac-Framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Mac-Framework.xcconfig"; sourceTree = "<group>"; };
 		D042FCB115F72C16004E8054 /* Mac-StaticLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Mac-StaticLibrary.xcconfig"; sourceTree = "<group>"; };
 		D042FCB215F72C16004E8054 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
-		D042FCCB15F72EE8004E8054 /* Expecta.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Expecta.xcodeproj; path = MaverickTests/expecta/Expecta.xcodeproj; sourceTree = "<group>"; };
-		D042FCEE15F72EF1004E8054 /* Specta.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Specta.xcodeproj; path = MaverickTests/specta/Specta.xcodeproj; sourceTree = "<group>"; };
-		D0760E7615FFBF330060F550 /* MAVModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAVModel.h; sourceTree = "<group>"; };
-		D0760E7715FFBF330060F550 /* MAVModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAVModel.m; sourceTree = "<group>"; };
+		D042FCCB15F72EE8004E8054 /* Expecta.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Expecta.xcodeproj; path = MantleTests/expecta/Expecta.xcodeproj; sourceTree = "<group>"; };
+		D042FCEE15F72EF1004E8054 /* Specta.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Specta.xcodeproj; path = MantleTests/specta/Specta.xcodeproj; sourceTree = "<group>"; };
+		D0760E7615FFBF330060F550 /* MTLModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTLModel.h; sourceTree = "<group>"; };
+		D0760E7715FFBF330060F550 /* MTLModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLModel.m; sourceTree = "<group>"; };
 		D0760EA015FFC8080060F550 /* EXTKeyPathCoding.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = EXTKeyPathCoding.h; path = extobjc/EXTKeyPathCoding.h; sourceTree = "<group>"; };
-		D0760EC315FFCA250060F550 /* MAVModelSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAVModelSpec.m; sourceTree = "<group>"; };
-		D0760EC715FFCA4E0060F550 /* MAVTestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAVTestModel.h; sourceTree = "<group>"; };
-		D0760EC815FFCA4E0060F550 /* MAVTestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAVTestModel.m; sourceTree = "<group>"; };
-		D08B5AAC16002694001FE685 /* MAVValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAVValueTransformer.h; sourceTree = "<group>"; };
-		D08B5AAD16002694001FE685 /* MAVValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAVValueTransformer.m; sourceTree = "<group>"; };
-		D08B5AB116002A23001FE685 /* MAVValueTransformerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAVValueTransformerSpec.m; sourceTree = "<group>"; };
-		D090E62615F730D1005282F9 /* NSArray+MAVHigherOrderAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+MAVHigherOrderAdditions.h"; sourceTree = "<group>"; };
-		D090E62715F730D1005282F9 /* NSArray+MAVHigherOrderAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+MAVHigherOrderAdditions.m"; sourceTree = "<group>"; };
-		D090E62815F730D1005282F9 /* NSDictionary+MAVHigherOrderAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+MAVHigherOrderAdditions.h"; sourceTree = "<group>"; };
-		D090E62915F730D1005282F9 /* NSDictionary+MAVHigherOrderAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+MAVHigherOrderAdditions.m"; sourceTree = "<group>"; };
-		D090E62A15F730D1005282F9 /* NSOrderedSet+MAVHigherOrderAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSOrderedSet+MAVHigherOrderAdditions.h"; sourceTree = "<group>"; };
-		D090E62B15F730D1005282F9 /* NSOrderedSet+MAVHigherOrderAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSOrderedSet+MAVHigherOrderAdditions.m"; sourceTree = "<group>"; };
-		D090E62C15F730D1005282F9 /* NSSet+MAVHigherOrderAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSSet+MAVHigherOrderAdditions.h"; sourceTree = "<group>"; };
-		D090E62D15F730D1005282F9 /* NSSet+MAVHigherOrderAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSSet+MAVHigherOrderAdditions.m"; sourceTree = "<group>"; };
+		D0760EC315FFCA250060F550 /* MTLModelSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLModelSpec.m; sourceTree = "<group>"; };
+		D0760EC715FFCA4E0060F550 /* MTLTestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTLTestModel.h; sourceTree = "<group>"; };
+		D0760EC815FFCA4E0060F550 /* MTLTestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLTestModel.m; sourceTree = "<group>"; };
+		D08B5AAC16002694001FE685 /* MTLValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTLValueTransformer.h; sourceTree = "<group>"; };
+		D08B5AAD16002694001FE685 /* MTLValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLValueTransformer.m; sourceTree = "<group>"; };
+		D08B5AB116002A23001FE685 /* MTLValueTransformerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLValueTransformerSpec.m; sourceTree = "<group>"; };
+		D090E62615F730D1005282F9 /* NSArray+MTLHigherOrderAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+MTLHigherOrderAdditions.h"; sourceTree = "<group>"; };
+		D090E62715F730D1005282F9 /* NSArray+MTLHigherOrderAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+MTLHigherOrderAdditions.m"; sourceTree = "<group>"; };
+		D090E62815F730D1005282F9 /* NSDictionary+MTLHigherOrderAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+MTLHigherOrderAdditions.h"; sourceTree = "<group>"; };
+		D090E62915F730D1005282F9 /* NSDictionary+MTLHigherOrderAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+MTLHigherOrderAdditions.m"; sourceTree = "<group>"; };
+		D090E62A15F730D1005282F9 /* NSOrderedSet+MTLHigherOrderAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSOrderedSet+MTLHigherOrderAdditions.h"; sourceTree = "<group>"; };
+		D090E62B15F730D1005282F9 /* NSOrderedSet+MTLHigherOrderAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSOrderedSet+MTLHigherOrderAdditions.m"; sourceTree = "<group>"; };
+		D090E62C15F730D1005282F9 /* NSSet+MTLHigherOrderAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSSet+MTLHigherOrderAdditions.h"; sourceTree = "<group>"; };
+		D090E62D15F730D1005282F9 /* NSSet+MTLHigherOrderAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSSet+MTLHigherOrderAdditions.m"; sourceTree = "<group>"; };
 		D090E63B15F73265005282F9 /* EXTScope.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = EXTScope.h; path = extobjc/EXTScope.h; sourceTree = "<group>"; };
 		D090E63C15F73265005282F9 /* EXTScope.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = EXTScope.m; path = extobjc/EXTScope.m; sourceTree = "<group>"; };
 		D090E63D15F73265005282F9 /* metamacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = metamacros.h; path = extobjc/metamacros.h; sourceTree = "<group>"; };
-		D090E66015F73315005282F9 /* MAVHigherOrderAdditionsSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAVHigherOrderAdditionsSpec.m; sourceTree = "<group>"; };
-		D0C92DE115F72F6A00387438 /* MaverickTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MaverickTests-Prefix.pch"; sourceTree = "<group>"; };
+		D090E66015F73315005282F9 /* MTLHigherOrderAdditionsSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLHigherOrderAdditionsSpec.m; sourceTree = "<group>"; };
+		D0C92DE115F72F6A00387438 /* MantleTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MantleTests-Prefix.pch"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -240,10 +240,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D042FD0415F72F04004E8054 /* libExpecta.a in Frameworks */,
-				D042FD0515F72F04004E8054 /* libSpecta.a in Frameworks */,
+				D0D46A0D160BC98600AB468D /* libExpecta.a in Frameworks */,
+				D0D46A0E160BC98600AB468D /* libSpecta.a in Frameworks */,
 				D042FC5615F72B23004E8054 /* SenTestingKit.framework in Frameworks */,
-				D042FC5A15F72B23004E8054 /* Maverick.framework in Frameworks */,
+				D042FC5A15F72B23004E8054 /* Mantle.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -259,11 +259,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D042FD0A15F72F0D004E8054 /* libExpecta-iOS.a in Frameworks */,
-				D042FD0B15F72F0D004E8054 /* libSpecta-iOS.a in Frameworks */,
+				D0D46A13160BC98E00AB468D /* libExpecta-iOS.a in Frameworks */,
+				D0D46A14160BC98E00AB468D /* libSpecta-iOS.a in Frameworks */,
 				D042FC8815F72BC7004E8054 /* SenTestingKit.framework in Frameworks */,
 				D042FC8B15F72BC7004E8054 /* Foundation.framework in Frameworks */,
-				D042FC8E15F72BC7004E8054 /* libMaverick.a in Frameworks */,
+				D042FC8E15F72BC7004E8054 /* libMantle.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -273,8 +273,8 @@
 		D042FC3015F72B23004E8054 = {
 			isa = PBXGroup;
 			children = (
-				D042FC4515F72B23004E8054 /* Maverick */,
-				D042FC5B15F72B23004E8054 /* MaverickTests */,
+				D042FC4515F72B23004E8054 /* Mantle */,
+				D042FC5B15F72B23004E8054 /* MantleTests */,
 				D042FC3E15F72B23004E8054 /* Frameworks */,
 				D042FC9E15F72C16004E8054 /* Configuration */,
 				D042FC3D15F72B23004E8054 /* Products */,
@@ -284,10 +284,10 @@
 		D042FC3D15F72B23004E8054 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D042FC3C15F72B23004E8054 /* Maverick.framework */,
-				D042FC5415F72B23004E8054 /* Maverick Mac Tests.octest */,
-				D042FC7915F72BC7004E8054 /* libMaverick.a */,
-				D042FC8715F72BC7004E8054 /* Maverick iOS Tests.octest */,
+				D042FC3C15F72B23004E8054 /* Mantle.framework */,
+				D042FC5415F72B23004E8054 /* Mantle Mac Tests.octest */,
+				D042FC7915F72BC7004E8054 /* libMantle.a */,
+				D042FC8715F72BC7004E8054 /* Mantle iOS Tests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -305,43 +305,43 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		D042FC4515F72B23004E8054 /* Maverick */ = {
+		D042FC4515F72B23004E8054 /* Mantle */ = {
 			isa = PBXGroup;
 			children = (
-				D042FC4C15F72B23004E8054 /* Maverick.h */,
+				D042FC4C15F72B23004E8054 /* Mantle.h */,
 				D0760E7015FFBF020060F550 /* Classes */,
 				D090E62515F730B2005282F9 /* Extensions */,
 				D042FC4615F72B23004E8054 /* Supporting Files */,
 			);
-			path = Maverick;
+			path = Mantle;
 			sourceTree = "<group>";
 		};
 		D042FC4615F72B23004E8054 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				D042FC4715F72B23004E8054 /* Maverick-Info.plist */,
+				D042FC4715F72B23004E8054 /* Mantle-Info.plist */,
 				D042FC4815F72B23004E8054 /* InfoPlist.strings */,
-				D042FC4B15F72B23004E8054 /* Maverick-Prefix.pch */,
+				D042FC4B15F72B23004E8054 /* Mantle-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		D042FC5B15F72B23004E8054 /* MaverickTests */ = {
+		D042FC5B15F72B23004E8054 /* MantleTests */ = {
 			isa = PBXGroup;
 			children = (
 				D0760EC615FFCA3E0060F550 /* Specs */,
 				D042FC5C15F72B23004E8054 /* Supporting Files */,
 			);
-			path = MaverickTests;
+			path = MantleTests;
 			sourceTree = "<group>";
 		};
 		D042FC5C15F72B23004E8054 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				D0760EC715FFCA4E0060F550 /* MAVTestModel.h */,
-				D0760EC815FFCA4E0060F550 /* MAVTestModel.m */,
-				D0C92DE115F72F6A00387438 /* MaverickTests-Prefix.pch */,
-				D042FC5D15F72B23004E8054 /* MaverickTests-Info.plist */,
+				D0760EC715FFCA4E0060F550 /* MTLTestModel.h */,
+				D0760EC815FFCA4E0060F550 /* MTLTestModel.m */,
+				D0C92DE115F72F6A00387438 /* MantleTests-Prefix.pch */,
+				D042FC5D15F72B23004E8054 /* MantleTests-Info.plist */,
 				D042FC5E15F72B23004E8054 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
@@ -410,35 +410,13 @@
 			path = "Mac OS X";
 			sourceTree = "<group>";
 		};
-		D042FCE015F72EED004E8054 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				D042FCE715F72EED004E8054 /* libExpecta.a */,
-				D042FCE915F72EED004E8054 /* libExpecta-iOS.a */,
-				D042FCEB15F72EED004E8054 /* ExpectaTests.octest */,
-				D042FCED15F72EED004E8054 /* Expecta-iOSTests.octest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		D042FCEF15F72EF1004E8054 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				D042FCF915F72EF1004E8054 /* libSpecta.a */,
-				D042FCFB15F72EF1004E8054 /* libSpecta-iOS.a */,
-				D042FCFD15F72EF1004E8054 /* SpectaTests.octest */,
-				D042FCFF15F72EF1004E8054 /* Specta-iOSTests.octest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		D0760E7015FFBF020060F550 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				D0760E7615FFBF330060F550 /* MAVModel.h */,
-				D0760E7715FFBF330060F550 /* MAVModel.m */,
-				D08B5AAC16002694001FE685 /* MAVValueTransformer.h */,
-				D08B5AAD16002694001FE685 /* MAVValueTransformer.m */,
+				D0760E7615FFBF330060F550 /* MTLModel.h */,
+				D0760E7715FFBF330060F550 /* MTLModel.m */,
+				D08B5AAC16002694001FE685 /* MTLValueTransformer.h */,
+				D08B5AAD16002694001FE685 /* MTLValueTransformer.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -446,10 +424,10 @@
 		D0760EC615FFCA3E0060F550 /* Specs */ = {
 			isa = PBXGroup;
 			children = (
-				D090E66015F73315005282F9 /* MAVHigherOrderAdditionsSpec.m */,
-				D0760EC315FFCA250060F550 /* MAVModelSpec.m */,
-				D08B5AB116002A23001FE685 /* MAVValueTransformerSpec.m */,
-				88080C1C160A719D00CCABF2 /* MAVArrayManipulationSpec.m */,
+				D090E66015F73315005282F9 /* MTLHigherOrderAdditionsSpec.m */,
+				D0760EC315FFCA250060F550 /* MTLModelSpec.m */,
+				D08B5AB116002A23001FE685 /* MTLValueTransformerSpec.m */,
+				88080C1C160A719D00CCABF2 /* MTLArrayManipulationSpec.m */,
 			);
 			name = Specs;
 			sourceTree = "<group>";
@@ -457,16 +435,16 @@
 		D090E62515F730B2005282F9 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				D090E62615F730D1005282F9 /* NSArray+MAVHigherOrderAdditions.h */,
-				D090E62715F730D1005282F9 /* NSArray+MAVHigherOrderAdditions.m */,
-				D090E62815F730D1005282F9 /* NSDictionary+MAVHigherOrderAdditions.h */,
-				D090E62915F730D1005282F9 /* NSDictionary+MAVHigherOrderAdditions.m */,
-				D090E62A15F730D1005282F9 /* NSOrderedSet+MAVHigherOrderAdditions.h */,
-				D090E62B15F730D1005282F9 /* NSOrderedSet+MAVHigherOrderAdditions.m */,
-				D090E62C15F730D1005282F9 /* NSSet+MAVHigherOrderAdditions.h */,
-				D090E62D15F730D1005282F9 /* NSSet+MAVHigherOrderAdditions.m */,
-				88080C16160A706900CCABF2 /* NSArray+MAVManipulationAdditions.h */,
-				88080C17160A706900CCABF2 /* NSArray+MAVManipulationAdditions.m */,
+				D090E62615F730D1005282F9 /* NSArray+MTLHigherOrderAdditions.h */,
+				D090E62715F730D1005282F9 /* NSArray+MTLHigherOrderAdditions.m */,
+				D090E62815F730D1005282F9 /* NSDictionary+MTLHigherOrderAdditions.h */,
+				D090E62915F730D1005282F9 /* NSDictionary+MTLHigherOrderAdditions.m */,
+				D090E62A15F730D1005282F9 /* NSOrderedSet+MTLHigherOrderAdditions.h */,
+				D090E62B15F730D1005282F9 /* NSOrderedSet+MTLHigherOrderAdditions.m */,
+				D090E62C15F730D1005282F9 /* NSSet+MTLHigherOrderAdditions.h */,
+				D090E62D15F730D1005282F9 /* NSSet+MTLHigherOrderAdditions.m */,
+				88080C16160A706900CCABF2 /* NSArray+MTLManipulationAdditions.h */,
+				88080C17160A706900CCABF2 /* NSArray+MTLManipulationAdditions.m */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -482,6 +460,28 @@
 			path = libextobjc;
 			sourceTree = "<group>";
 		};
+		D0D469D6160BC93400AB468D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D0D469DD160BC93400AB468D /* libExpecta.a */,
+				D0D469DF160BC93400AB468D /* libExpecta-iOS.a */,
+				D0D469E1160BC93400AB468D /* ExpectaTests.octest */,
+				D0D469E3160BC93400AB468D /* Expecta-iOSTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D0D469E7160BC93E00AB468D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D0D469EE160BC93E00AB468D /* libSpecta.a */,
+				D0D469F0160BC93E00AB468D /* libSpecta-iOS.a */,
+				D0D469F2160BC93E00AB468D /* SpectaTests.octest */,
+				D0D469F4160BC93E00AB468D /* Specta-iOSTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -489,23 +489,23 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D090E62E15F730D1005282F9 /* NSArray+MAVHigherOrderAdditions.h in Headers */,
-				D090E63115F730D1005282F9 /* NSDictionary+MAVHigherOrderAdditions.h in Headers */,
-				D090E63415F730D1005282F9 /* NSOrderedSet+MAVHigherOrderAdditions.h in Headers */,
-				D090E63715F730D1005282F9 /* NSSet+MAVHigherOrderAdditions.h in Headers */,
-				D0760E0515FFBD440060F550 /* Maverick.h in Headers */,
-				D0760E7815FFBF330060F550 /* MAVModel.h in Headers */,
-				D08B5AAE16002694001FE685 /* MAVValueTransformer.h in Headers */,
-				88080C18160A706900CCABF2 /* NSArray+MAVManipulationAdditions.h in Headers */,
+				D090E62E15F730D1005282F9 /* NSArray+MTLHigherOrderAdditions.h in Headers */,
+				D090E63115F730D1005282F9 /* NSDictionary+MTLHigherOrderAdditions.h in Headers */,
+				D090E63415F730D1005282F9 /* NSOrderedSet+MTLHigherOrderAdditions.h in Headers */,
+				D090E63715F730D1005282F9 /* NSSet+MTLHigherOrderAdditions.h in Headers */,
+				D0760E0515FFBD440060F550 /* Mantle.h in Headers */,
+				D0760E7815FFBF330060F550 /* MTLModel.h in Headers */,
+				D08B5AAE16002694001FE685 /* MTLValueTransformer.h in Headers */,
+				88080C18160A706900CCABF2 /* NSArray+MTLManipulationAdditions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		D042FC3B15F72B23004E8054 /* Maverick Mac */ = {
+		D042FC3B15F72B23004E8054 /* Mantle Mac */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D042FC6615F72B23004E8054 /* Build configuration list for PBXNativeTarget "Maverick Mac" */;
+			buildConfigurationList = D042FC6615F72B23004E8054 /* Build configuration list for PBXNativeTarget "Mantle Mac" */;
 			buildPhases = (
 				D042FC3715F72B23004E8054 /* Sources */,
 				D042FC3815F72B23004E8054 /* Frameworks */,
@@ -516,14 +516,14 @@
 			);
 			dependencies = (
 			);
-			name = "Maverick Mac";
+			name = "Mantle Mac";
 			productName = Maverick;
-			productReference = D042FC3C15F72B23004E8054 /* Maverick.framework */;
+			productReference = D042FC3C15F72B23004E8054 /* Mantle.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		D042FC5315F72B23004E8054 /* Maverick Mac Tests */ = {
+		D042FC5315F72B23004E8054 /* Mantle Mac Tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D042FC6915F72B23004E8054 /* Build configuration list for PBXNativeTarget "Maverick Mac Tests" */;
+			buildConfigurationList = D042FC6915F72B23004E8054 /* Build configuration list for PBXNativeTarget "Mantle Mac Tests" */;
 			buildPhases = (
 				D042FC4F15F72B23004E8054 /* Sources */,
 				D042FC5015F72B23004E8054 /* Frameworks */,
@@ -533,18 +533,18 @@
 			buildRules = (
 			);
 			dependencies = (
-				D042FD0115F72EFF004E8054 /* PBXTargetDependency */,
-				D042FD0315F72EFF004E8054 /* PBXTargetDependency */,
+				D0D46A0A160BC98100AB468D /* PBXTargetDependency */,
+				D0D46A0C160BC98100AB468D /* PBXTargetDependency */,
 				D042FC5915F72B23004E8054 /* PBXTargetDependency */,
 			);
-			name = "Maverick Mac Tests";
+			name = "Mantle Mac Tests";
 			productName = MaverickTests;
-			productReference = D042FC5415F72B23004E8054 /* Maverick Mac Tests.octest */;
+			productReference = D042FC5415F72B23004E8054 /* Mantle Mac Tests.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
-		D042FC7815F72BC7004E8054 /* Maverick iOS */ = {
+		D042FC7815F72BC7004E8054 /* Mantle iOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D042FC9815F72BC7004E8054 /* Build configuration list for PBXNativeTarget "Maverick iOS" */;
+			buildConfigurationList = D042FC9815F72BC7004E8054 /* Build configuration list for PBXNativeTarget "Mantle iOS" */;
 			buildPhases = (
 				D042FC7515F72BC7004E8054 /* Sources */,
 				D042FC7615F72BC7004E8054 /* Frameworks */,
@@ -554,14 +554,14 @@
 			);
 			dependencies = (
 			);
-			name = "Maverick iOS";
+			name = "Mantle iOS";
 			productName = Maverick;
-			productReference = D042FC7915F72BC7004E8054 /* libMaverick.a */;
+			productReference = D042FC7915F72BC7004E8054 /* libMantle.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		D042FC8615F72BC7004E8054 /* Maverick iOS Tests */ = {
+		D042FC8615F72BC7004E8054 /* Mantle iOS Tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D042FC9B15F72BC7004E8054 /* Build configuration list for PBXNativeTarget "Maverick iOS Tests" */;
+			buildConfigurationList = D042FC9B15F72BC7004E8054 /* Build configuration list for PBXNativeTarget "Mantle iOS Tests" */;
 			buildPhases = (
 				D042FC8215F72BC7004E8054 /* Sources */,
 				D042FC8315F72BC7004E8054 /* Frameworks */,
@@ -571,13 +571,13 @@
 			buildRules = (
 			);
 			dependencies = (
-				D042FD0715F72F09004E8054 /* PBXTargetDependency */,
-				D042FD0915F72F09004E8054 /* PBXTargetDependency */,
+				D0D46A10160BC98B00AB468D /* PBXTargetDependency */,
+				D0D46A12160BC98B00AB468D /* PBXTargetDependency */,
 				D042FC8D15F72BC7004E8054 /* PBXTargetDependency */,
 			);
-			name = "Maverick iOS Tests";
+			name = "Mantle iOS Tests";
 			productName = MaverickTests;
-			productReference = D042FC8715F72BC7004E8054 /* Maverick iOS Tests.octest */;
+			productReference = D042FC8715F72BC7004E8054 /* Mantle iOS Tests.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -589,7 +589,7 @@
 				LastUpgradeCheck = 0440;
 				ORGANIZATIONNAME = GitHub;
 			};
-			buildConfigurationList = D042FC3515F72B23004E8054 /* Build configuration list for PBXProject "Maverick" */;
+			buildConfigurationList = D042FC3515F72B23004E8054 /* Build configuration list for PBXProject "Mantle" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -601,79 +601,79 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = D042FCE015F72EED004E8054 /* Products */;
+					ProductGroup = D0D469D6160BC93400AB468D /* Products */;
 					ProjectRef = D042FCCB15F72EE8004E8054 /* Expecta.xcodeproj */;
 				},
 				{
-					ProductGroup = D042FCEF15F72EF1004E8054 /* Products */;
+					ProductGroup = D0D469E7160BC93E00AB468D /* Products */;
 					ProjectRef = D042FCEE15F72EF1004E8054 /* Specta.xcodeproj */;
 				},
 			);
 			projectRoot = "";
 			targets = (
-				D042FC3B15F72B23004E8054 /* Maverick Mac */,
-				D042FC5315F72B23004E8054 /* Maverick Mac Tests */,
-				D042FC7815F72BC7004E8054 /* Maverick iOS */,
-				D042FC8615F72BC7004E8054 /* Maverick iOS Tests */,
+				D042FC3B15F72B23004E8054 /* Mantle Mac */,
+				D042FC5315F72B23004E8054 /* Mantle Mac Tests */,
+				D042FC7815F72BC7004E8054 /* Mantle iOS */,
+				D042FC8615F72BC7004E8054 /* Mantle iOS Tests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		D042FCE715F72EED004E8054 /* libExpecta.a */ = {
+		D0D469DD160BC93400AB468D /* libExpecta.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libExpecta.a;
-			remoteRef = D042FCE615F72EED004E8054 /* PBXContainerItemProxy */;
+			remoteRef = D0D469DC160BC93400AB468D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		D042FCE915F72EED004E8054 /* libExpecta-iOS.a */ = {
+		D0D469DF160BC93400AB468D /* libExpecta-iOS.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = "libExpecta-iOS.a";
-			remoteRef = D042FCE815F72EED004E8054 /* PBXContainerItemProxy */;
+			remoteRef = D0D469DE160BC93400AB468D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		D042FCEB15F72EED004E8054 /* ExpectaTests.octest */ = {
+		D0D469E1160BC93400AB468D /* ExpectaTests.octest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = ExpectaTests.octest;
-			remoteRef = D042FCEA15F72EED004E8054 /* PBXContainerItemProxy */;
+			remoteRef = D0D469E0160BC93400AB468D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		D042FCED15F72EED004E8054 /* Expecta-iOSTests.octest */ = {
+		D0D469E3160BC93400AB468D /* Expecta-iOSTests.octest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = "Expecta-iOSTests.octest";
-			remoteRef = D042FCEC15F72EED004E8054 /* PBXContainerItemProxy */;
+			remoteRef = D0D469E2160BC93400AB468D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		D042FCF915F72EF1004E8054 /* libSpecta.a */ = {
+		D0D469EE160BC93E00AB468D /* libSpecta.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libSpecta.a;
-			remoteRef = D042FCF815F72EF1004E8054 /* PBXContainerItemProxy */;
+			remoteRef = D0D469ED160BC93E00AB468D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		D042FCFB15F72EF1004E8054 /* libSpecta-iOS.a */ = {
+		D0D469F0160BC93E00AB468D /* libSpecta-iOS.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = "libSpecta-iOS.a";
-			remoteRef = D042FCFA15F72EF1004E8054 /* PBXContainerItemProxy */;
+			remoteRef = D0D469EF160BC93E00AB468D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		D042FCFD15F72EF1004E8054 /* SpectaTests.octest */ = {
+		D0D469F2160BC93E00AB468D /* SpectaTests.octest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = SpectaTests.octest;
-			remoteRef = D042FCFC15F72EF1004E8054 /* PBXContainerItemProxy */;
+			remoteRef = D0D469F1160BC93E00AB468D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		D042FCFF15F72EF1004E8054 /* Specta-iOSTests.octest */ = {
+		D0D469F4160BC93E00AB468D /* Specta-iOSTests.octest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = "Specta-iOSTests.octest";
-			remoteRef = D042FCFE15F72EF1004E8054 /* PBXContainerItemProxy */;
+			remoteRef = D0D469F3160BC93E00AB468D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -738,14 +738,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D090E62F15F730D1005282F9 /* NSArray+MAVHigherOrderAdditions.m in Sources */,
-				D090E63215F730D1005282F9 /* NSDictionary+MAVHigherOrderAdditions.m in Sources */,
-				D090E63515F730D1005282F9 /* NSOrderedSet+MAVHigherOrderAdditions.m in Sources */,
-				D090E63815F730D1005282F9 /* NSSet+MAVHigherOrderAdditions.m in Sources */,
+				D090E62F15F730D1005282F9 /* NSArray+MTLHigherOrderAdditions.m in Sources */,
+				D090E63215F730D1005282F9 /* NSDictionary+MTLHigherOrderAdditions.m in Sources */,
+				D090E63515F730D1005282F9 /* NSOrderedSet+MTLHigherOrderAdditions.m in Sources */,
+				D090E63815F730D1005282F9 /* NSSet+MTLHigherOrderAdditions.m in Sources */,
 				D090E63E15F73269005282F9 /* EXTScope.m in Sources */,
-				D0760E7915FFBF330060F550 /* MAVModel.m in Sources */,
-				D08B5AAF16002694001FE685 /* MAVValueTransformer.m in Sources */,
-				88080C19160A706900CCABF2 /* NSArray+MAVManipulationAdditions.m in Sources */,
+				D0760E7915FFBF330060F550 /* MTLModel.m in Sources */,
+				D08B5AAF16002694001FE685 /* MTLValueTransformer.m in Sources */,
+				88080C19160A706900CCABF2 /* NSArray+MTLManipulationAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -753,11 +753,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D090E66115F73315005282F9 /* MAVHigherOrderAdditionsSpec.m in Sources */,
-				D0760EC415FFCA250060F550 /* MAVModelSpec.m in Sources */,
-				D0760EC915FFCA4E0060F550 /* MAVTestModel.m in Sources */,
-				D08B5AB216002A23001FE685 /* MAVValueTransformerSpec.m in Sources */,
-				88080C1D160A719D00CCABF2 /* MAVArrayManipulationSpec.m in Sources */,
+				D090E66115F73315005282F9 /* MTLHigherOrderAdditionsSpec.m in Sources */,
+				D0760EC415FFCA250060F550 /* MTLModelSpec.m in Sources */,
+				D0760EC915FFCA4E0060F550 /* MTLTestModel.m in Sources */,
+				D08B5AB216002A23001FE685 /* MTLValueTransformerSpec.m in Sources */,
+				88080C1D160A719D00CCABF2 /* MTLArrayManipulationSpec.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -765,14 +765,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D090E63015F730D1005282F9 /* NSArray+MAVHigherOrderAdditions.m in Sources */,
-				D090E63315F730D1005282F9 /* NSDictionary+MAVHigherOrderAdditions.m in Sources */,
-				D090E63615F730D1005282F9 /* NSOrderedSet+MAVHigherOrderAdditions.m in Sources */,
-				D090E63915F730D1005282F9 /* NSSet+MAVHigherOrderAdditions.m in Sources */,
+				D090E63015F730D1005282F9 /* NSArray+MTLHigherOrderAdditions.m in Sources */,
+				D090E63315F730D1005282F9 /* NSDictionary+MTLHigherOrderAdditions.m in Sources */,
+				D090E63615F730D1005282F9 /* NSOrderedSet+MTLHigherOrderAdditions.m in Sources */,
+				D090E63915F730D1005282F9 /* NSSet+MTLHigherOrderAdditions.m in Sources */,
 				D090E63F15F73269005282F9 /* EXTScope.m in Sources */,
-				D0760E7A15FFBF330060F550 /* MAVModel.m in Sources */,
-				D08B5AB016002694001FE685 /* MAVValueTransformer.m in Sources */,
-				88080C1A160A706900CCABF2 /* NSArray+MAVManipulationAdditions.m in Sources */,
+				D0760E7A15FFBF330060F550 /* MTLModel.m in Sources */,
+				D08B5AB016002694001FE685 /* MTLValueTransformer.m in Sources */,
+				88080C1A160A706900CCABF2 /* NSArray+MTLManipulationAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -780,11 +780,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D090E66215F73315005282F9 /* MAVHigherOrderAdditionsSpec.m in Sources */,
-				D0760EC515FFCA250060F550 /* MAVModelSpec.m in Sources */,
-				D0760ECA15FFCA4E0060F550 /* MAVTestModel.m in Sources */,
-				D08B5AB316002A23001FE685 /* MAVValueTransformerSpec.m in Sources */,
-				88080C1E160A719D00CCABF2 /* MAVArrayManipulationSpec.m in Sources */,
+				D090E66215F73315005282F9 /* MTLHigherOrderAdditionsSpec.m in Sources */,
+				D0760EC515FFCA250060F550 /* MTLModelSpec.m in Sources */,
+				D0760ECA15FFCA4E0060F550 /* MTLTestModel.m in Sources */,
+				D08B5AB316002A23001FE685 /* MTLValueTransformerSpec.m in Sources */,
+				88080C1E160A719D00CCABF2 /* MTLArrayManipulationSpec.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -793,33 +793,33 @@
 /* Begin PBXTargetDependency section */
 		D042FC5915F72B23004E8054 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = D042FC3B15F72B23004E8054 /* Maverick Mac */;
+			target = D042FC3B15F72B23004E8054 /* Mantle Mac */;
 			targetProxy = D042FC5815F72B23004E8054 /* PBXContainerItemProxy */;
 		};
 		D042FC8D15F72BC7004E8054 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = D042FC7815F72BC7004E8054 /* Maverick iOS */;
+			target = D042FC7815F72BC7004E8054 /* Mantle iOS */;
 			targetProxy = D042FC8C15F72BC7004E8054 /* PBXContainerItemProxy */;
 		};
-		D042FD0115F72EFF004E8054 /* PBXTargetDependency */ = {
+		D0D46A0A160BC98100AB468D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = Expecta;
-			targetProxy = D042FD0015F72EFF004E8054 /* PBXContainerItemProxy */;
+			targetProxy = D0D46A09160BC98100AB468D /* PBXContainerItemProxy */;
 		};
-		D042FD0315F72EFF004E8054 /* PBXTargetDependency */ = {
+		D0D46A0C160BC98100AB468D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = Specta;
-			targetProxy = D042FD0215F72EFF004E8054 /* PBXContainerItemProxy */;
+			targetProxy = D0D46A0B160BC98100AB468D /* PBXContainerItemProxy */;
 		};
-		D042FD0715F72F09004E8054 /* PBXTargetDependency */ = {
+		D0D46A10160BC98B00AB468D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "Expecta-iOS";
-			targetProxy = D042FD0615F72F09004E8054 /* PBXContainerItemProxy */;
+			targetProxy = D0D46A0F160BC98B00AB468D /* PBXContainerItemProxy */;
 		};
-		D042FD0915F72F09004E8054 /* PBXTargetDependency */ = {
+		D0D46A12160BC98B00AB468D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "Specta-iOS";
-			targetProxy = D042FD0815F72F09004E8054 /* PBXContainerItemProxy */;
+			targetProxy = D0D46A11160BC98B00AB468D /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -874,9 +874,9 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
-				GCC_PREFIX_HEADER = "Maverick/Maverick-Prefix.pch";
-				INFOPLIST_FILE = "Maverick/Maverick-Info.plist";
-				PRODUCT_NAME = Maverick;
+				GCC_PREFIX_HEADER = "$PRODUCT_NAME/$PRODUCT_NAME-Prefix.pch";
+				INFOPLIST_FILE = "$PRODUCT_NAME/$PRODUCT_NAME-Info.plist";
+				PRODUCT_NAME = Mantle;
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Debug;
@@ -888,9 +888,9 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
-				GCC_PREFIX_HEADER = "Maverick/Maverick-Prefix.pch";
-				INFOPLIST_FILE = "Maverick/Maverick-Info.plist";
-				PRODUCT_NAME = Maverick;
+				GCC_PREFIX_HEADER = "$PRODUCT_NAME/$PRODUCT_NAME-Prefix.pch";
+				INFOPLIST_FILE = "$PRODUCT_NAME/$PRODUCT_NAME-Info.plist";
+				PRODUCT_NAME = Mantle;
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Release;
@@ -900,12 +900,12 @@
 			baseConfigurationReference = D042FCAD15F72C16004E8054 /* Mac-Application.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
-				GCC_PREFIX_HEADER = "MaverickTests/MaverickTests-Prefix.pch";
+				GCC_PREFIX_HEADER = "MantleTests/MantleTests-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
-					MaverickTests/specta/src,
-					"MaverickTests/expecta/src/**",
+					MantleTests/specta/src,
+					"MantleTests/expecta/src/**",
 				);
-				INFOPLIST_FILE = "MaverickTests/MaverickTests-Info.plist";
+				INFOPLIST_FILE = "MantleTests/MantleTests-Info.plist";
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = octest;
@@ -917,12 +917,12 @@
 			baseConfigurationReference = D042FCAD15F72C16004E8054 /* Mac-Application.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
-				GCC_PREFIX_HEADER = "MaverickTests/MaverickTests-Prefix.pch";
+				GCC_PREFIX_HEADER = "MantleTests/MantleTests-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
-					MaverickTests/specta/src,
-					"MaverickTests/expecta/src/**",
+					MantleTests/specta/src,
+					"MantleTests/expecta/src/**",
 				);
-				INFOPLIST_FILE = "MaverickTests/MaverickTests-Info.plist";
+				INFOPLIST_FILE = "MantleTests/MantleTests-Info.plist";
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = octest;
@@ -934,10 +934,10 @@
 			baseConfigurationReference = D042FCAB15F72C16004E8054 /* iOS-StaticLibrary.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				DSTROOT = /tmp/Maverick.dst;
-				GCC_PREFIX_HEADER = "Maverick/Maverick-Prefix.pch";
+				DSTROOT = /tmp/$PRODUCT_NAME.dst;
+				GCC_PREFIX_HEADER = "$PRODUCT_NAME/$PRODUCT_NAME-Prefix.pch";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = Maverick;
+				PRODUCT_NAME = Mantle;
 			};
 			name = Debug;
 		};
@@ -946,10 +946,10 @@
 			baseConfigurationReference = D042FCAB15F72C16004E8054 /* iOS-StaticLibrary.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				DSTROOT = /tmp/Maverick.dst;
-				GCC_PREFIX_HEADER = "Maverick/Maverick-Prefix.pch";
+				DSTROOT = /tmp/$PRODUCT_NAME.dst;
+				GCC_PREFIX_HEADER = "$PRODUCT_NAME/$PRODUCT_NAME-Prefix.pch";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = Maverick;
+				PRODUCT_NAME = Mantle;
 			};
 			name = Release;
 		};
@@ -962,12 +962,12 @@
 					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
 					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
 				);
-				GCC_PREFIX_HEADER = "MaverickTests/MaverickTests-Prefix.pch";
+				GCC_PREFIX_HEADER = "MantleTests/MantleTests-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
-					MaverickTests/specta/src,
-					"MaverickTests/expecta/src/**",
+					MantleTests/specta/src,
+					"MantleTests/expecta/src/**",
 				);
-				INFOPLIST_FILE = "MaverickTests/MaverickTests-Info.plist";
+				INFOPLIST_FILE = "MantleTests/MantleTests-Info.plist";
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = octest;
@@ -983,12 +983,12 @@
 					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
 					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
 				);
-				GCC_PREFIX_HEADER = "MaverickTests/MaverickTests-Prefix.pch";
+				GCC_PREFIX_HEADER = "MantleTests/MantleTests-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
-					MaverickTests/specta/src,
-					"MaverickTests/expecta/src/**",
+					MantleTests/specta/src,
+					"MantleTests/expecta/src/**",
 				);
-				INFOPLIST_FILE = "MaverickTests/MaverickTests-Info.plist";
+				INFOPLIST_FILE = "MantleTests/MantleTests-Info.plist";
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = octest;
@@ -1014,9 +1014,9 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
-				GCC_PREFIX_HEADER = "Maverick/Maverick-Prefix.pch";
-				INFOPLIST_FILE = "Maverick/Maverick-Info.plist";
-				PRODUCT_NAME = Maverick;
+				GCC_PREFIX_HEADER = "$PRODUCT_NAME/$PRODUCT_NAME-Prefix.pch";
+				INFOPLIST_FILE = "$PRODUCT_NAME/$PRODUCT_NAME-Info.plist";
+				PRODUCT_NAME = Mantle;
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Profile;
@@ -1026,12 +1026,12 @@
 			baseConfigurationReference = D042FCAD15F72C16004E8054 /* Mac-Application.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
-				GCC_PREFIX_HEADER = "MaverickTests/MaverickTests-Prefix.pch";
+				GCC_PREFIX_HEADER = "MantleTests/MantleTests-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
-					MaverickTests/specta/src,
-					"MaverickTests/expecta/src/**",
+					MantleTests/specta/src,
+					"MantleTests/expecta/src/**",
 				);
-				INFOPLIST_FILE = "MaverickTests/MaverickTests-Info.plist";
+				INFOPLIST_FILE = "MantleTests/MantleTests-Info.plist";
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = octest;
@@ -1043,10 +1043,10 @@
 			baseConfigurationReference = D042FCAB15F72C16004E8054 /* iOS-StaticLibrary.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				DSTROOT = /tmp/Maverick.dst;
-				GCC_PREFIX_HEADER = "Maverick/Maverick-Prefix.pch";
+				DSTROOT = /tmp/$PRODUCT_NAME.dst;
+				GCC_PREFIX_HEADER = "$PRODUCT_NAME/$PRODUCT_NAME-Prefix.pch";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = Maverick;
+				PRODUCT_NAME = Mantle;
 			};
 			name = Profile;
 		};
@@ -1059,12 +1059,12 @@
 					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
 					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
 				);
-				GCC_PREFIX_HEADER = "MaverickTests/MaverickTests-Prefix.pch";
+				GCC_PREFIX_HEADER = "MantleTests/MantleTests-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
-					MaverickTests/specta/src,
-					"MaverickTests/expecta/src/**",
+					MantleTests/specta/src,
+					"MantleTests/expecta/src/**",
 				);
-				INFOPLIST_FILE = "MaverickTests/MaverickTests-Info.plist";
+				INFOPLIST_FILE = "MantleTests/MantleTests-Info.plist";
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = octest;
@@ -1074,7 +1074,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		D042FC3515F72B23004E8054 /* Build configuration list for PBXProject "Maverick" */ = {
+		D042FC3515F72B23004E8054 /* Build configuration list for PBXProject "Mantle" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D042FC6415F72B23004E8054 /* Debug */,
@@ -1084,7 +1084,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D042FC6615F72B23004E8054 /* Build configuration list for PBXNativeTarget "Maverick Mac" */ = {
+		D042FC6615F72B23004E8054 /* Build configuration list for PBXNativeTarget "Mantle Mac" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D042FC6715F72B23004E8054 /* Debug */,
@@ -1094,7 +1094,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D042FC6915F72B23004E8054 /* Build configuration list for PBXNativeTarget "Maverick Mac Tests" */ = {
+		D042FC6915F72B23004E8054 /* Build configuration list for PBXNativeTarget "Mantle Mac Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D042FC6A15F72B23004E8054 /* Debug */,
@@ -1104,7 +1104,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D042FC9815F72BC7004E8054 /* Build configuration list for PBXNativeTarget "Maverick iOS" */ = {
+		D042FC9815F72BC7004E8054 /* Build configuration list for PBXNativeTarget "Mantle iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D042FC9915F72BC7004E8054 /* Debug */,
@@ -1114,7 +1114,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D042FC9B15F72BC7004E8054 /* Build configuration list for PBXNativeTarget "Maverick iOS Tests" */ = {
+		D042FC9B15F72BC7004E8054 /* Build configuration list for PBXNativeTarget "Mantle iOS Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D042FC9C15F72BC7004E8054 /* Debug */,

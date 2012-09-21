@@ -1,6 +1,6 @@
 //
-//  MAVValueTransformer.h
-//  Maverick
+//  MTLValueTransformer.h
+//  Mantle
 //
 //  Created by Justin Spahr-Summers on 2012-09-11.
 //  Copyright (c) 2012 GitHub. All rights reserved.
@@ -8,25 +8,25 @@
 
 #import <Foundation/Foundation.h>
 
-typedef id (^MAVValueTransformerBlock)(id);
+typedef id (^MTLValueTransformerBlock)(id);
 
 // The name for a value transformer that converts strings into URLs and back.
-extern NSString * const MAVURLValueTransformerName;
+extern NSString * const MTLURLValueTransformerName;
 
 //
 // A value transformer supporting block-based transformation.
 //
-@interface MAVValueTransformer : NSValueTransformer
+@interface MTLValueTransformer : NSValueTransformer
 
 // Returns a transformer which transforms values using the given block. Reverse
 // transformations will not be allowed.
-+ (instancetype)transformerWithBlock:(MAVValueTransformerBlock)transformationBlock;
++ (instancetype)transformerWithBlock:(MTLValueTransformerBlock)transformationBlock;
 
 // Returns a transformer which transforms values using the given block, for
 // forward or reverse transformations.
-+ (instancetype)reversibleTransformerWithBlock:(MAVValueTransformerBlock)transformationBlock;
++ (instancetype)reversibleTransformerWithBlock:(MTLValueTransformerBlock)transformationBlock;
 
 // Returns a transformer which transforms values using the given blocks.
-+ (instancetype)reversibleTransformerWithForwardBlock:(MAVValueTransformerBlock)forwardBlock reverseBlock:(MAVValueTransformerBlock)reverseBlock;
++ (instancetype)reversibleTransformerWithForwardBlock:(MTLValueTransformerBlock)forwardBlock reverseBlock:(MTLValueTransformerBlock)reverseBlock;
 
 @end

@@ -1,12 +1,12 @@
 //
-//  MAVTestModel.h
-//  Maverick
+//  MTLTestModel.h
+//  Mantle
 //
 //  Created by Justin Spahr-Summers on 2012-09-11.
 //  Copyright (c) 2012 GitHub. All rights reserved.
 //
 
-@interface MAVTestModel : MAVModel
+@interface MTLTestModel : MTLModel
 
 // Defaults to 1. This changes the behavior of some of the receiver's methods to
 // emulate a migration.

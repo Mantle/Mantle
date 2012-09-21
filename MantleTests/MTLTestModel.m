@@ -1,16 +1,16 @@
 //
-//  MAVTestModel.m
-//  Maverick
+//  MTLTestModel.m
+//  Mantle
 //
 //  Created by Justin Spahr-Summers on 2012-09-11.
 //  Copyright (c) 2012 GitHub. All rights reserved.
 //
 
-#import "MAVTestModel.h"
+#import "MTLTestModel.h"
 
 static NSUInteger modelVersion = 1;
 
-@implementation MAVTestModel
+@implementation MTLTestModel
 
 + (void)setModelVersion:(NSUInteger)version {
 	modelVersion = version;
@@ -26,7 +26,7 @@ static NSUInteger modelVersion = 1;
 
 + (NSDictionary *)dictionaryKeysByPropertyKey {
 	if (modelVersion == 0) {
-		return @{ @"name": @"mav_name", @"count": @"mav_count" };
+		return @{ @"name": @"mtl_name", @"count": @"mtl_count" };
 	} else {
 		return @{ @"name": @"username" };
 	}
@@ -37,8 +37,8 @@ static NSUInteger modelVersion = 1;
 	NSParameterAssert(fromVersion == 0);
 
 	return @{
-		@"username": [@"M: " stringByAppendingString:[dictionary objectForKey:@"mav_name"]],
-		@"count": [dictionary objectForKey:@"mav_count"]
+		@"username": [@"M: " stringByAppendingString:[dictionary objectForKey:@"mtl_name"]],
+		@"count": [dictionary objectForKey:@"mtl_count"]
 	};
 }
 
@@ -47,7 +47,7 @@ static NSUInteger modelVersion = 1;
 }
 
 + (NSValueTransformer *)propertyTransformerForCount {
-	return [MAVValueTransformer
+	return [MTLValueTransformer
 		reversibleTransformerWithForwardBlock:^(NSString *str) {
 			return @(str.integerValue);
 		}
@@ -56,7 +56,7 @@ static NSUInteger modelVersion = 1;
 		}];
 }
 
-- (id)countMergedFromModel:(MAVTestModel *)model {
+- (id)countMergedFromModel:(MTLTestModel *)model {
 	return @(self.count + model.count);
 }
 

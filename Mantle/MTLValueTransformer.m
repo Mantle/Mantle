@@ -1,46 +1,46 @@
 //
-//  MAVValueTransformer.m
-//  Maverick
+//  MTLValueTransformer.m
+//  Mantle
 //
 //  Created by Justin Spahr-Summers on 2012-09-11.
 //  Copyright (c) 2012 GitHub. All rights reserved.
 //
 
-#import "MAVValueTransformer.h"
+#import "MTLValueTransformer.h"
 
-NSString * const MAVURLValueTransformerName = @"MAVURLValueTransformerName";
+NSString * const MTLURLValueTransformerName = @"MTLURLValueTransformerName";
 
 //
-// Any MAVValueTransformer supporting reverse transformation. Necessary because
+// Any MTLValueTransformer supporting reverse transformation. Necessary because
 // +allowsReverseTransformation is a class method.
 //
-@interface MAVReversibleValueTransformer : MAVValueTransformer
+@interface MTLReversibleValueTransformer : MTLValueTransformer
 @end
 
-@interface MAVValueTransformer ()
+@interface MTLValueTransformer ()
 
-@property (nonatomic, copy, readonly) MAVValueTransformerBlock forwardBlock;
-@property (nonatomic, copy, readonly) MAVValueTransformerBlock reverseBlock;
+@property (nonatomic, copy, readonly) MTLValueTransformerBlock forwardBlock;
+@property (nonatomic, copy, readonly) MTLValueTransformerBlock reverseBlock;
 
 @end
 
-@implementation MAVValueTransformer
+@implementation MTLValueTransformer
 
 #pragma mark Lifecycle
 
-+ (instancetype)transformerWithBlock:(MAVValueTransformerBlock)transformationBlock {
++ (instancetype)transformerWithBlock:(MTLValueTransformerBlock)transformationBlock {
 	return [[self alloc] initWithForwardBlock:transformationBlock reverseBlock:nil];
 }
 
-+ (instancetype)reversibleTransformerWithBlock:(MAVValueTransformerBlock)transformationBlock {
++ (instancetype)reversibleTransformerWithBlock:(MTLValueTransformerBlock)transformationBlock {
 	return [self reversibleTransformerWithForwardBlock:transformationBlock reverseBlock:transformationBlock];
 }
 
-+ (instancetype)reversibleTransformerWithForwardBlock:(MAVValueTransformerBlock)forwardBlock reverseBlock:(MAVValueTransformerBlock)reverseBlock {
-	return [[MAVReversibleValueTransformer alloc] initWithForwardBlock:forwardBlock reverseBlock:reverseBlock];
++ (instancetype)reversibleTransformerWithForwardBlock:(MTLValueTransformerBlock)forwardBlock reverseBlock:(MTLValueTransformerBlock)reverseBlock {
+	return [[MTLReversibleValueTransformer alloc] initWithForwardBlock:forwardBlock reverseBlock:reverseBlock];
 }
 
-- (id)initWithForwardBlock:(MAVValueTransformerBlock)forwardBlock reverseBlock:(MAVValueTransformerBlock)reverseBlock {
+- (id)initWithForwardBlock:(MTLValueTransformerBlock)forwardBlock reverseBlock:(MTLValueTransformerBlock)reverseBlock {
 	NSParameterAssert(forwardBlock != nil);
 
 	self = [super init];
@@ -68,14 +68,14 @@ NSString * const MAVURLValueTransformerName = @"MAVURLValueTransformerName";
 
 @end
 
-@implementation MAVReversibleValueTransformer
+@implementation MTLReversibleValueTransformer
 
 #pragma mark Class Initialization
 
 // Set up common transformers in this subclass so that we can be sure that both
 // classes have been properly loaded.
 + (void)load {
-	MAVValueTransformer *URLValueTransformer = [self
+	MTLValueTransformer *URLValueTransformer = [self
 		reversibleTransformerWithForwardBlock:^ id (NSString *str) {
 			if (![str isKindOfClass:[NSString class]]) return nil;
 			return [NSURL URLWithString:str];
@@ -85,12 +85,12 @@ NSString * const MAVURLValueTransformerName = @"MAVURLValueTransformerName";
 			return URL.absoluteString;
 		}];
 	
-	[NSValueTransformer setValueTransformer:URLValueTransformer forName:MAVURLValueTransformerName];
+	[NSValueTransformer setValueTransformer:URLValueTransformer forName:MTLURLValueTransformerName];
 }
 
 #pragma mark Lifecycle
 
-- (id)initWithForwardBlock:(MAVValueTransformerBlock)forwardBlock reverseBlock:(MAVValueTransformerBlock)reverseBlock {
+- (id)initWithForwardBlock:(MTLValueTransformerBlock)forwardBlock reverseBlock:(MTLValueTransformerBlock)reverseBlock {
 	NSParameterAssert(reverseBlock != nil);
 	return [super initWithForwardBlock:forwardBlock reverseBlock:reverseBlock];
 }
