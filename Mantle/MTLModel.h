@@ -54,6 +54,9 @@
 // -initWithExternalRepresentation: and -externalRepresentation. Subclasses
 // overriding this method should combine their values with those of super.
 //
+// Any keys not present in the dictionary are assumed to be the same for
+// @property declarations and the external representation.
+//
 // Returns an empty dictionary.
 + (NSDictionary *)externalRepresentationKeysByPropertyKey;
 
@@ -67,11 +70,14 @@
 // Returns a value transformer, or nil if no transformation should be performed.
 + (NSValueTransformer *)transformerForKey:(NSString *)key;
 
+// Returns all the keys for all @property declarations, except for those on
+// MTLModel itself.
++ (NSSet *)propertyKeys;
+
 // A dictionary representing the properties of the receiver.
 //
-// The default implementation of this property finds all @property declarations
-// (except for those on MTLModel itself) and combines their values into
-// a dictionary, with any nil values represented by NSNull.
+// The default implementation combines the values corresponding to all
+// +propertyKeys into a dictionary, with any nil values represented by NSNull.
 //
 // This property must never be nil.
 @property (nonatomic, copy, readonly) NSDictionary *dictionaryValue;
@@ -106,7 +112,7 @@
 - (void)mergeValueForKey:(NSString *)key fromModel:(MTLModel *)model;
 
 // Merges the values of the given model object into the receiver, using
-// -mergeValueForKey:fromModel: for each @property declared on the receiver.
+// -mergeValueForKey:fromModel: for each key in +propertyKeys.
 //
 // `model` must be an instance of the receiver's class or a subclass thereof.
 - (void)mergeValuesForKeysFromModel:(MTLModel *)model;
