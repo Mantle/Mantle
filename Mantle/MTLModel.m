@@ -51,7 +51,7 @@ static NSString * const MTLModelVersionKey = @"MTLModelVersion";
 		// Mark this as being autoreleased, because validateValue may return
 		// a new object to be stored in this variable (and we don't want ARC to
 		// double-free or leak the old or new values).
-		__autoreleasing id value = dictionary[key];
+		__autoreleasing id value = [dictionary objectForKey:key];
 	
 		if ([value isEqual:NSNull.null]) value = nil;
 
@@ -91,7 +91,7 @@ static NSString * const MTLModelVersionKey = @"MTLModelVersion";
 				value = [transformer transformedValue:value] ?: NSNull.null;
 			}
 
-			properties[propertyKey] = value;
+			[properties setObject:value forKey:propertyKey];
 		} @catch (NSException *ex) {
 			NSLog(@"*** Caught exception transforming external key \"%@\" from %@ using transformer %@: %@", externalKey, externalRepresentation, transformer, ex);
 
@@ -179,8 +179,8 @@ static NSString * const MTLModelVersionKey = @"MTLModelVersion";
 			value = [transformer reverseTransformedValue:value] ?: NSNull.null;
 		}
 
-		NSString *externalKey = externalKeysByPropertyKey[propertyKey] ?: propertyKey;
-		mappedDictionary[externalKey] = value;
+		NSString *externalKey = [externalKeysByPropertyKey objectForKey:propertyKey] ?: propertyKey;
+		[mappedDictionary setObject:value forKey:externalKey];
 	}];
 
 	return [mappedDictionary copy];

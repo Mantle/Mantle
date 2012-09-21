@@ -41,8 +41,8 @@ static NSUInteger modelVersion = 1;
 	NSParameterAssert(fromVersion == 0);
 
 	return @{
-		@"username": [@"M: " stringByAppendingString:dictionary[@"mtl_name"]],
-		@"count": dictionary[@"mtl_count"]
+		@"username": [@"M: " stringByAppendingString:[dictionary objectForKey:@"mtl_name"]],
+		@"count": [dictionary objectForKey:@"mtl_count"]
 	};
 }
 
