@@ -19,8 +19,8 @@
 @interface MTLModel : NSObject <NSCoding, NSCopying>
 
 // Returns a new instance of the receiver initialized using
-// -initWithDictionaryValue:.
-+ (instancetype)modelWithDictionaryValue:(NSDictionary *)dictionaryValue;
+// -initWithDictionary:.
++ (instancetype)modelWithDictionary:(NSDictionary *)dictionaryValue;
 
 // Returns a new instance of the receiver initialized using
 // -initWithExternalRepresentation:.
@@ -38,9 +38,9 @@
 // methods will be automatically invoked for all of the properties given.
 //
 // Returns an initialized model object, or nil if validation failed.
-- (instancetype)initWithDictionaryValue:(NSDictionary *)dictionaryValue;
+- (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue;
 
-// Invokes -initWithDictionaryValue: after mapping the given external
+// Invokes -initWithDictionary: after mapping the given external
 // representation using +externalRepresentationKeysByPropertyKey and
 // +transformerForPropertyKey:.
 //
