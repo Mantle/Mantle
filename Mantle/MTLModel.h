@@ -26,8 +26,13 @@
 // -initWithExternalRepresentation:.
 + (instancetype)modelWithExternalRepresentation:(NSDictionary *)externalRepresentation;
 
-// Initializes the receiver using the property keys and values in the given
-// dictionary.
+// Initializes the receiver with default values.
+//
+// This is the designated initializer for this class.
+- (instancetype)init;
+
+// Initializes the receiver using key-value coding, setting the keys and values
+// in the given dictionary.
 //
 // Any NSNull values will be converted to nil before being used. KVC validation
 // methods will be automatically invoked for all of the properties given.
