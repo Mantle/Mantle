@@ -23,3 +23,6 @@
 @property (nonatomic, assign) NSUInteger count;
 
 @end
+
+@interface MTLEmptyTestModel : MTLModel
+@end

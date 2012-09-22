@@ -145,6 +145,10 @@ describe(@"subclass", ^{
 		expect(target.name).to.equal(@"bar");
 		expect(target.count).to.equal(8);
 	});
+
+	it(@"should not loop infinitely in +propertyKeys without any properties", ^{
+		expect(MTLEmptyTestModel.propertyKeys).to.equal([NSSet set]);
+	});
 });
 
 SpecEnd

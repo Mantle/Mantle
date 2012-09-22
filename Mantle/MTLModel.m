@@ -113,6 +113,8 @@ static NSString * const MTLModelVersionKey = @"MTLModelVersion";
 	while (!stop && ![cls isEqual:MTLModel.class]) {
 		unsigned count = 0;
 		objc_property_t *properties = class_copyPropertyList(cls, &count);
+
+		cls = cls.superclass;
 		if (properties == NULL) continue;
 
 		@onExit {
@@ -123,8 +125,6 @@ static NSString * const MTLModelVersionKey = @"MTLModelVersion";
 			block(properties[i], &stop);
 			if (stop) break;
 		}
-
-		cls = cls.superclass;
 	}
 }
 
