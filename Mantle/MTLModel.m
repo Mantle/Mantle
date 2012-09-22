@@ -75,12 +75,18 @@ static NSString * const MTLModelVersionKey = @"MTLModelVersion";
 	NSDictionary *externalKeysByPropertyKey = self.class.externalRepresentationKeysByPropertyKey;
 	NSMutableDictionary *properties = [NSMutableDictionary dictionaryWithCapacity:externalRepresentation.count];
 
+	NSSet *propertyKeys = self.class.propertyKeys;
+
 	[externalRepresentation enumerateKeysAndObjectsUsingBlock:^(NSString *externalKey, id value, BOOL *stop) {
 		NSString *propertyKey = [externalKeysByPropertyKey mtl_keyOfEntryPassingTest:^(id _, NSString *key, BOOL *stop) {
 			return [externalKey isEqualToString:key];
 		}];
 
 		propertyKey = propertyKey ?: externalKey;
+		if (![propertyKeys containsObject:propertyKey]) {
+			// Ignore unrecognized keys.
+			return;
+		}
 
 		NSValueTransformer *transformer = [self.class transformerForKey:propertyKey];
 		@try {

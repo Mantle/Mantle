@@ -35,6 +35,19 @@ describe(@"subclass", ^{
 		expect(model.externalRepresentation).to.equal(values);
 	});
 
+	it(@"should ignore unrecognized external representation keys", ^{
+		NSDictionary *values = @{ @"foobar": @"foo", @"count": @"2", @"_": NSNull.null, @"username": @"buzz" };
+
+		MTLTestModel *model = [[MTLTestModel alloc] initWithExternalRepresentation:values];
+		expect(model).notTo.beNil();
+
+		expect(model.name).to.equal(@"buzz");
+		expect(model.count).to.equal(2);
+
+		NSDictionary *expectedValues = @{ @"count": @"2", @"username": @"buzz" };
+		expect(model.externalRepresentation).to.equal(expectedValues);
+	});
+
 	describe(@"with a dictionary of values", ^{
 		NSDictionary *values = @{ @"name": @"foobar", @"count": @(5) };
 
