@@ -12,9 +12,9 @@
 // An abstract base class for model objects, using reflection to provide
 // sensible default behaviors.
 //
-// The default implementations of <NSCopying>, -hash, and -isEqual: all make use
-// of the dictionaryValue property. The default implementation of <NSCoding>
-// will archive and unarchive the externalRepresentation of the instance.
+// The default implementations of <NSCopying>, -hash, and -isEqual: make use of
+// the +propertyKeys method. The default implementation of <NSCoding> will
+// archive and unarchive the externalRepresentation of the instance.
 //
 @interface MTLModel : NSObject <NSCoding, NSCopying>
 

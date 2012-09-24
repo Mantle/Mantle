@@ -282,7 +282,13 @@ static void *MTLModelCachedPropertyKeysKey = &MTLModelCachedPropertyKeysKey;
 }
 
 - (NSUInteger)hash {
-	return self.dictionaryValue.hash;
+	NSUInteger value = 0;
+
+	for (NSString *key in self.class.propertyKeys) {
+		value ^= [[self valueForKey:key] hash];
+	}
+
+	return value;
 }
 
 - (BOOL)isEqual:(MTLModel *)model {
