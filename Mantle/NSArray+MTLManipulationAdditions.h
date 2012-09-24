@@ -14,14 +14,14 @@
 @property (nonatomic, readonly, strong) id mtl_firstObject;
 
 // Returns a new array without all instances of the given object.
-- (instancetype)mtl_arrayByRemovingObject:(id)object;
+- (NSArray *)mtl_arrayByRemovingObject:(id)object;
 
 // Returns a new array without the first object. If the array is empty, it
 // returns the empty array.
-- (instancetype)mtl_arrayByRemovingFirstObject;
+- (NSArray *)mtl_arrayByRemovingFirstObject;
 
 // Returns a new array without the last object. If the array is empty, it
 // returns the empty array.
-- (instancetype)mtl_arrayByRemovingLastObject;
+- (NSArray *)mtl_arrayByRemovingLastObject;
 
 @end

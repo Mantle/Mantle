@@ -424,10 +424,10 @@
 		D0760EC615FFCA3E0060F550 /* Specs */ = {
 			isa = PBXGroup;
 			children = (
+				88080C1C160A719D00CCABF2 /* MTLArrayManipulationSpec.m */,
 				D090E66015F73315005282F9 /* MTLHigherOrderAdditionsSpec.m */,
 				D0760EC315FFCA250060F550 /* MTLModelSpec.m */,
 				D08B5AB116002A23001FE685 /* MTLValueTransformerSpec.m */,
-				88080C1C160A719D00CCABF2 /* MTLArrayManipulationSpec.m */,
 			);
 			name = Specs;
 			sourceTree = "<group>";
@@ -437,14 +437,14 @@
 			children = (
 				D090E62615F730D1005282F9 /* NSArray+MTLHigherOrderAdditions.h */,
 				D090E62715F730D1005282F9 /* NSArray+MTLHigherOrderAdditions.m */,
+				88080C16160A706900CCABF2 /* NSArray+MTLManipulationAdditions.h */,
+				88080C17160A706900CCABF2 /* NSArray+MTLManipulationAdditions.m */,
 				D090E62815F730D1005282F9 /* NSDictionary+MTLHigherOrderAdditions.h */,
 				D090E62915F730D1005282F9 /* NSDictionary+MTLHigherOrderAdditions.m */,
 				D090E62A15F730D1005282F9 /* NSOrderedSet+MTLHigherOrderAdditions.h */,
 				D090E62B15F730D1005282F9 /* NSOrderedSet+MTLHigherOrderAdditions.m */,
 				D090E62C15F730D1005282F9 /* NSSet+MTLHigherOrderAdditions.h */,
 				D090E62D15F730D1005282F9 /* NSSet+MTLHigherOrderAdditions.m */,
-				88080C16160A706900CCABF2 /* NSArray+MTLManipulationAdditions.h */,
-				88080C17160A706900CCABF2 /* NSArray+MTLManipulationAdditions.m */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
