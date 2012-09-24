@@ -15,6 +15,9 @@
 // Used in archives to store the modelVersion of the archived instance.
 static NSString * const MTLModelVersionKey = @"MTLModelVersion";
 
+// Used to cache the reflection performed in +propertyKeys.
+static void *MTLModelCachedPropertyKeysKey = &MTLModelCachedPropertyKeysKey;
+
 @interface MTLModel ()
 
 // Enumerates all properties of the receiver's class hierarchy, starting at the
@@ -135,12 +138,19 @@ static NSString * const MTLModelVersionKey = @"MTLModelVersion";
 }
 
 + (NSSet *)propertyKeys {
+	NSSet *cachedKeys = objc_getAssociatedObject(self, MTLModelCachedPropertyKeysKey);
+	if (cachedKeys != nil) return cachedKeys;
+
 	NSMutableSet *keys = [NSMutableSet set];
 
-	[self.class enumeratePropertiesUsingBlock:^(objc_property_t property, BOOL *stop) {
+	[self enumeratePropertiesUsingBlock:^(objc_property_t property, BOOL *stop) {
 		NSString *key = @(property_getName(property));
 		[keys addObject:key];
 	}];
+
+	// It doesn't really matter if we replace another thread's work, since we do
+	// it atomically and the result should be the same.
+	objc_setAssociatedObject(self, MTLModelCachedPropertyKeysKey, keys, OBJC_ASSOCIATION_COPY);
 
 	return keys;
 }
