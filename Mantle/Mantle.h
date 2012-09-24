@@ -9,6 +9,7 @@
 #import "MTLModel.h"
 #import "MTLValueTransformer.h"
 #import "NSArray+MTLHigherOrderAdditions.h"
+#import "NSArray+MTLManipulationAdditions.h"
 #import "NSDictionary+MTLHigherOrderAdditions.h"
 #import "NSOrderedSet+MTLHigherOrderAdditions.h"
 #import "NSSet+MTLHigherOrderAdditions.h"
