@@ -295,7 +295,15 @@ static void *MTLModelCachedPropertyKeysKey = &MTLModelCachedPropertyKeysKey;
 	if (self == model) return YES;
 	if (![model isMemberOfClass:self.class]) return NO;
 
-	return [self.dictionaryValue isEqualToDictionary:model.dictionaryValue];
+	for (NSString *key in self.class.propertyKeys) {
+		id selfValue = [self valueForKey:key];
+		id modelValue = [model valueForKey:key];
+
+		BOOL valuesEqual = ((selfValue == nil && modelValue == nil) || [selfValue isEqual:modelValue]);
+		if (!valuesEqual) return NO;
+	}
+
+	return YES;
 }
 
 @end
