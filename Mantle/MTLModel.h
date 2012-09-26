@@ -32,7 +32,8 @@
 - (instancetype)init;
 
 // Initializes the receiver using key-value coding, setting the keys and values
-// in the given dictionary.
+// in the given dictionary. If `dictionaryValue` is nil, this method is equivalent
+// to -init.
 //
 // Any NSNull values will be converted to nil before being used. KVC validation
 // methods will be automatically invoked for all of the properties given.
@@ -47,7 +48,8 @@
 // Any NSNull values will be converted to nil before being used. KVC validation
 // methods will be automatically invoked for any transformed values.
 //
-// Returns an initialized model object, or nil if validation failed.
+// Returns an initialized model object, or nil if validation failed or
+// `externalRepresentation` was nil.
 - (instancetype)initWithExternalRepresentation:(NSDictionary *)externalRepresentation;
 
 // Specifies how to map @property keys to different keys for

@@ -75,6 +75,8 @@ static void *MTLModelCachedPropertyKeysKey = &MTLModelCachedPropertyKeysKey;
 }
 
 - (instancetype)initWithExternalRepresentation:(NSDictionary *)externalRepresentation {
+	if (externalRepresentation == nil) return nil;
+
 	NSDictionary *externalKeysByPropertyKey = self.class.externalRepresentationKeysByPropertyKey;
 	NSMutableDictionary *properties = [NSMutableDictionary dictionaryWithCapacity:externalRepresentation.count];
 

@@ -23,6 +23,14 @@ describe(@"subclass", ^{
 		expect([model dictionaryWithValuesForKeys:expectedValues.allKeys]).to.equal(expectedValues);
 	});
 
+	it(@"should initialize to default values with a nil dictionary", ^{
+		MTLTestModel *dictionaryModel = [[MTLTestModel alloc] initWithDictionary:nil];
+		expect(dictionaryModel).notTo.beNil();
+
+		MTLTestModel *defaultModel = [[MTLTestModel alloc] init];
+		expect(dictionaryModel).to.equal(defaultModel);
+	});
+
 	it(@"should initialize with an external representation", ^{
 		NSDictionary *values = @{ @"username": NSNull.null, @"count": @"5" };
 
@@ -33,6 +41,11 @@ describe(@"subclass", ^{
 		expect(model.count).to.equal(5);
 
 		expect(model.externalRepresentation).to.equal(values);
+	});
+
+	it(@"should fail to initialize with a nil external representation", ^{
+		MTLTestModel *model = [[MTLTestModel alloc] initWithExternalRepresentation:nil];
+		expect(model).to.beNil();
 	});
 
 	it(@"should ignore unrecognized external representation keys", ^{
