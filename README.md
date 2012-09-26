@@ -14,6 +14,12 @@ Once you have the code, check out [MTLModel](https://github.com/github/Mantle/bl
 
 Even without `MTLModel`, the framework contains general conveniences to support creating and using a model layer. Check out the documentation in category headers for more information.
 
+## Contributing
+
+Fork this repository, make it awesomer (preferably in a branch named for the topic), send a pull request!
+
+All contributions should match our [coding conventions](https://github.com/github/objective-c-conventions).
+
 ## License
 
 Mantle is released under the MIT license. See [LICENSE.md](https://github.com/github/Mantle/blob/master/LICENSE.md).
