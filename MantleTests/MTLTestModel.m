@@ -20,11 +20,15 @@ static NSUInteger modelVersion = 1;
 	return modelVersion;
 }
 
-+ (NSDictionary *)defaultValuesForKeys {
-	return @{ @"count": @(1) };
+- (instancetype)init {
+	self = [super init];
+	if (self == nil) return nil;
+
+	self.count = 1;
+	return self;
 }
 
-+ (NSDictionary *)dictionaryKeysByPropertyKey {
++ (NSDictionary *)externalRepresentationKeysByPropertyKey {
 	if (modelVersion == 0) {
 		return @{ @"name": @"mtl_name", @"count": @"mtl_count" };
 	} else {
@@ -32,7 +36,7 @@ static NSUInteger modelVersion = 1;
 	}
 }
 
-+ (NSDictionary *)migrateDictionaryRepresentation:(NSDictionary *)dictionary fromVersion:(NSUInteger)fromVersion {
++ (NSDictionary *)migrateExternalRepresentation:(NSDictionary *)dictionary fromVersion:(NSUInteger)fromVersion {
 	NSParameterAssert(dictionary != nil);
 	NSParameterAssert(fromVersion == 0);
 
@@ -46,7 +50,7 @@ static NSUInteger modelVersion = 1;
 	return [*name length] < 10;
 }
 
-+ (NSValueTransformer *)propertyTransformerForCount {
++ (NSValueTransformer *)countTransformer {
 	return [MTLValueTransformer
 		reversibleTransformerWithForwardBlock:^(NSString *str) {
 			return @(str.integerValue);
@@ -56,8 +60,11 @@ static NSUInteger modelVersion = 1;
 		}];
 }
 
-- (id)countMergedFromModel:(MTLTestModel *)model {
-	return @(self.count + model.count);
+- (void)mergeCountFromModel:(MTLTestModel *)model {
+	self.count += model.count;
 }
 
+@end
+
+@implementation MTLEmptyTestModel
 @end
