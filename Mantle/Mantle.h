@@ -14,3 +14,4 @@
 #import "NSDictionary+MTLManipulationAdditions.h"
 #import "NSOrderedSet+MTLHigherOrderAdditions.h"
 #import "NSSet+MTLHigherOrderAdditions.h"
+#import "NSValueTransformer+MTLPredefinedTransformerAdditions.h"

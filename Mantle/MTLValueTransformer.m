@@ -8,8 +8,6 @@
 
 #import "MTLValueTransformer.h"
 
-NSString * const MTLURLValueTransformerName = @"MTLURLValueTransformerName";
-
 //
 // Any MTLValueTransformer supporting reverse transformation. Necessary because
 // +allowsReverseTransformation is a class method.
@@ -69,24 +67,6 @@ NSString * const MTLURLValueTransformerName = @"MTLURLValueTransformerName";
 @end
 
 @implementation MTLReversibleValueTransformer
-
-#pragma mark Class Initialization
-
-// Set up common transformers in this subclass so that we can be sure that both
-// classes have been properly loaded.
-+ (void)load {
-	MTLValueTransformer *URLValueTransformer = [self
-		reversibleTransformerWithForwardBlock:^ id (NSString *str) {
-			if (![str isKindOfClass:[NSString class]]) return nil;
-			return [NSURL URLWithString:str];
-		}
-		reverseBlock:^ id (NSURL *URL) {
-			if (![URL isKindOfClass:[NSURL class]]) return nil;
-			return URL.absoluteString;
-		}];
-	
-	[NSValueTransformer setValueTransformer:URLValueTransformer forName:MTLURLValueTransformerName];
-}
 
 #pragma mark Lifecycle
 
