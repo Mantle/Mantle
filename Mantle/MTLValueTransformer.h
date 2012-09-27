@@ -10,9 +10,6 @@
 
 typedef id (^MTLValueTransformerBlock)(id);
 
-// The name for a value transformer that converts strings into URLs and back.
-extern NSString * const MTLURLValueTransformerName;
-
 //
 // A value transformer supporting block-based transformation.
 //
