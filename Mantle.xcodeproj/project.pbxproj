@@ -50,6 +50,11 @@
 		D090E63F15F73269005282F9 /* EXTScope.m in Sources */ = {isa = PBXBuildFile; fileRef = D090E63C15F73265005282F9 /* EXTScope.m */; };
 		D090E66115F73315005282F9 /* MTLHigherOrderAdditionsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D090E66015F73315005282F9 /* MTLHigherOrderAdditionsSpec.m */; };
 		D090E66215F73315005282F9 /* MTLHigherOrderAdditionsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D090E66015F73315005282F9 /* MTLHigherOrderAdditionsSpec.m */; };
+		D0C27CF6161107E5002FE587 /* MTLDictionaryManipulationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D0C27CF5161107E5002FE587 /* MTLDictionaryManipulationSpec.m */; };
+		D0C27CF7161107E5002FE587 /* MTLDictionaryManipulationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D0C27CF5161107E5002FE587 /* MTLDictionaryManipulationSpec.m */; };
+		D0C27D0A16110973002FE587 /* NSDictionary+MTLManipulationAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = D0C27D0816110973002FE587 /* NSDictionary+MTLManipulationAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D0C27D0B16110973002FE587 /* NSDictionary+MTLManipulationAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D0C27D0916110973002FE587 /* NSDictionary+MTLManipulationAdditions.m */; };
+		D0C27D0C16110973002FE587 /* NSDictionary+MTLManipulationAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D0C27D0916110973002FE587 /* NSDictionary+MTLManipulationAdditions.m */; };
 		D0D46A0D160BC98600AB468D /* libExpecta.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0D469DD160BC93400AB468D /* libExpecta.a */; };
 		D0D46A0E160BC98600AB468D /* libSpecta.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0D469EE160BC93E00AB468D /* libSpecta.a */; };
 		D0D46A13160BC98E00AB468D /* libExpecta-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0D469DF160BC93400AB468D /* libExpecta-iOS.a */; };
@@ -224,6 +229,9 @@
 		D090E63C15F73265005282F9 /* EXTScope.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = EXTScope.m; path = extobjc/EXTScope.m; sourceTree = "<group>"; };
 		D090E63D15F73265005282F9 /* metamacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = metamacros.h; path = extobjc/metamacros.h; sourceTree = "<group>"; };
 		D090E66015F73315005282F9 /* MTLHigherOrderAdditionsSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLHigherOrderAdditionsSpec.m; sourceTree = "<group>"; };
+		D0C27CF5161107E5002FE587 /* MTLDictionaryManipulationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLDictionaryManipulationSpec.m; sourceTree = "<group>"; };
+		D0C27D0816110973002FE587 /* NSDictionary+MTLManipulationAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+MTLManipulationAdditions.h"; sourceTree = "<group>"; };
+		D0C27D0916110973002FE587 /* NSDictionary+MTLManipulationAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+MTLManipulationAdditions.m"; sourceTree = "<group>"; };
 		D0C92DE115F72F6A00387438 /* MantleTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MantleTests-Prefix.pch"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -425,6 +433,7 @@
 			isa = PBXGroup;
 			children = (
 				88080C1C160A719D00CCABF2 /* MTLArrayManipulationSpec.m */,
+				D0C27CF5161107E5002FE587 /* MTLDictionaryManipulationSpec.m */,
 				D090E66015F73315005282F9 /* MTLHigherOrderAdditionsSpec.m */,
 				D0760EC315FFCA250060F550 /* MTLModelSpec.m */,
 				D08B5AB116002A23001FE685 /* MTLValueTransformerSpec.m */,
@@ -441,6 +450,8 @@
 				88080C17160A706900CCABF2 /* NSArray+MTLManipulationAdditions.m */,
 				D090E62815F730D1005282F9 /* NSDictionary+MTLHigherOrderAdditions.h */,
 				D090E62915F730D1005282F9 /* NSDictionary+MTLHigherOrderAdditions.m */,
+				D0C27D0816110973002FE587 /* NSDictionary+MTLManipulationAdditions.h */,
+				D0C27D0916110973002FE587 /* NSDictionary+MTLManipulationAdditions.m */,
 				D090E62A15F730D1005282F9 /* NSOrderedSet+MTLHigherOrderAdditions.h */,
 				D090E62B15F730D1005282F9 /* NSOrderedSet+MTLHigherOrderAdditions.m */,
 				D090E62C15F730D1005282F9 /* NSSet+MTLHigherOrderAdditions.h */,
@@ -497,6 +508,7 @@
 				D0760E7815FFBF330060F550 /* MTLModel.h in Headers */,
 				D08B5AAE16002694001FE685 /* MTLValueTransformer.h in Headers */,
 				88080C18160A706900CCABF2 /* NSArray+MTLManipulationAdditions.h in Headers */,
+				D0C27D0A16110973002FE587 /* NSDictionary+MTLManipulationAdditions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -746,6 +758,7 @@
 				D0760E7915FFBF330060F550 /* MTLModel.m in Sources */,
 				D08B5AAF16002694001FE685 /* MTLValueTransformer.m in Sources */,
 				88080C19160A706900CCABF2 /* NSArray+MTLManipulationAdditions.m in Sources */,
+				D0C27D0B16110973002FE587 /* NSDictionary+MTLManipulationAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -758,6 +771,7 @@
 				D0760EC915FFCA4E0060F550 /* MTLTestModel.m in Sources */,
 				D08B5AB216002A23001FE685 /* MTLValueTransformerSpec.m in Sources */,
 				88080C1D160A719D00CCABF2 /* MTLArrayManipulationSpec.m in Sources */,
+				D0C27CF6161107E5002FE587 /* MTLDictionaryManipulationSpec.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -773,6 +787,7 @@
 				D0760E7A15FFBF330060F550 /* MTLModel.m in Sources */,
 				D08B5AB016002694001FE685 /* MTLValueTransformer.m in Sources */,
 				88080C1A160A706900CCABF2 /* NSArray+MTLManipulationAdditions.m in Sources */,
+				D0C27D0C16110973002FE587 /* NSDictionary+MTLManipulationAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -785,6 +800,7 @@
 				D0760ECA15FFCA4E0060F550 /* MTLTestModel.m in Sources */,
 				D08B5AB316002A23001FE685 /* MTLValueTransformerSpec.m in Sources */,
 				88080C1E160A719D00CCABF2 /* MTLArrayManipulationSpec.m in Sources */,
+				D0C27CF7161107E5002FE587 /* MTLDictionaryManipulationSpec.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
