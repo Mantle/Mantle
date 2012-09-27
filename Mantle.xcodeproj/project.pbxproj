@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		88080C18160A706900CCABF2 /* NSArray+MTLManipulationAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 88080C16160A706900CCABF2 /* NSArray+MTLManipulationAdditions.h */; };
+		88080C18160A706900CCABF2 /* NSArray+MTLManipulationAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 88080C16160A706900CCABF2 /* NSArray+MTLManipulationAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88080C19160A706900CCABF2 /* NSArray+MTLManipulationAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 88080C17160A706900CCABF2 /* NSArray+MTLManipulationAdditions.m */; };
 		88080C1A160A706900CCABF2 /* NSArray+MTLManipulationAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 88080C17160A706900CCABF2 /* NSArray+MTLManipulationAdditions.m */; };
 		88080C1D160A719D00CCABF2 /* MTLArrayManipulationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88080C1C160A719D00CCABF2 /* MTLArrayManipulationSpec.m */; };
