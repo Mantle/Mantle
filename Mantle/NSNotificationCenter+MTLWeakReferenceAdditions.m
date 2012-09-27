@@ -43,8 +43,8 @@
 		if (observerObject == nil) return;
 
 		NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[observerObject methodSignatureForSelector:selector]];
-		[invocation setTarget:observerObject];
-		[invocation setSelector:selector];
+		invocation.target = observerObject;
+		invocation.selector = selector;
 		[invocation setArgument:&notification atIndex:2];
 		[invocation invoke];
 	}];
