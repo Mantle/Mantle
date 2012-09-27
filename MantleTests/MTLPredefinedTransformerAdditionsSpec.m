@@ -45,4 +45,40 @@ describe(@"external representation transformer", ^{
 	});
 });
 
+describe(@"external representation array transformer", ^{
+	__block NSArray *models;
+	__block NSArray *externalRepresentations;
+	__block NSValueTransformer *transformer;
+
+	before(^{
+		NSMutableArray *uniqueModels = [NSMutableArray array];
+		for (NSUInteger i = 0; i < 10; i++) {
+			MTLTestModel *model = [[MTLTestModel alloc] init];
+			model.count = i;
+
+			[uniqueModels addObject:model];
+		}
+
+		models = [uniqueModels copy];
+		externalRepresentations = [uniqueModels mtl_mapUsingBlock:^(MTLTestModel *model) {
+			return model.externalRepresentation;
+		}];
+
+		expect(models).notTo.beNil();
+		expect(externalRepresentations).notTo.beNil();
+
+		transformer = [NSValueTransformer mtl_externalRepresentationArrayTransformerWithModelClass:MTLTestModel.class];
+		expect(transformer).notTo.beNil();
+	});
+
+	it(@"should transform external representations into models", ^{
+		expect([transformer transformedValue:externalRepresentations]).to.equal(models);
+	});
+
+	it(@"should transform models into external representations", ^{
+		expect([transformer.class allowsReverseTransformation]).to.beTruthy();
+		expect([transformer reverseTransformedValue:models]).to.equal(externalRepresentations);
+	});
+});
+
 SpecEnd
