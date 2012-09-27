@@ -66,6 +66,11 @@
 		D0D46A0E160BC98600AB468D /* libSpecta.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0D469EE160BC93E00AB468D /* libSpecta.a */; };
 		D0D46A13160BC98E00AB468D /* libExpecta-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0D469DF160BC93400AB468D /* libExpecta-iOS.a */; };
 		D0D46A14160BC98E00AB468D /* libSpecta-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0D469F0160BC93E00AB468D /* libSpecta-iOS.a */; };
+		D0F117491614C5600092520B /* NSValueTransformer+MTLPredefinedTransformerAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = D0F117471614C5600092520B /* NSValueTransformer+MTLPredefinedTransformerAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D0F1174A1614C5600092520B /* NSValueTransformer+MTLPredefinedTransformerAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F117481614C5600092520B /* NSValueTransformer+MTLPredefinedTransformerAdditions.m */; };
+		D0F1174B1614C5600092520B /* NSValueTransformer+MTLPredefinedTransformerAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F117481614C5600092520B /* NSValueTransformer+MTLPredefinedTransformerAdditions.m */; };
+		D0F1174D1614C8000092520B /* MTLPredefinedTransformerAdditionsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F1174C1614C8000092520B /* MTLPredefinedTransformerAdditionsSpec.m */; };
+		D0F1174E1614C8000092520B /* MTLPredefinedTransformerAdditionsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F1174C1614C8000092520B /* MTLPredefinedTransformerAdditionsSpec.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -245,6 +250,9 @@
 		D0C27D0816110973002FE587 /* NSDictionary+MTLManipulationAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+MTLManipulationAdditions.h"; sourceTree = "<group>"; };
 		D0C27D0916110973002FE587 /* NSDictionary+MTLManipulationAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+MTLManipulationAdditions.m"; sourceTree = "<group>"; };
 		D0C92DE115F72F6A00387438 /* MantleTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MantleTests-Prefix.pch"; sourceTree = "<group>"; };
+		D0F117471614C5600092520B /* NSValueTransformer+MTLPredefinedTransformerAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSValueTransformer+MTLPredefinedTransformerAdditions.h"; sourceTree = "<group>"; };
+		D0F117481614C5600092520B /* NSValueTransformer+MTLPredefinedTransformerAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSValueTransformer+MTLPredefinedTransformerAdditions.m"; sourceTree = "<group>"; };
+		D0F1174C1614C8000092520B /* MTLPredefinedTransformerAdditionsSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLPredefinedTransformerAdditionsSpec.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -451,6 +459,7 @@
 				D090E66015F73315005282F9 /* MTLHigherOrderAdditionsSpec.m */,
 				D0760EC315FFCA250060F550 /* MTLModelSpec.m */,
 				D064BA2F1613B921004CA27A /* MTLNotificationCenterAdditionsSpec.m */,
+				D0F1174C1614C8000092520B /* MTLPredefinedTransformerAdditionsSpec.m */,
 				D08B5AB116002A23001FE685 /* MTLValueTransformerSpec.m */,
 			);
 			name = Specs;
@@ -473,6 +482,8 @@
 				D090E62B15F730D1005282F9 /* NSOrderedSet+MTLHigherOrderAdditions.m */,
 				D090E62C15F730D1005282F9 /* NSSet+MTLHigherOrderAdditions.h */,
 				D090E62D15F730D1005282F9 /* NSSet+MTLHigherOrderAdditions.m */,
+				D0F117471614C5600092520B /* NSValueTransformer+MTLPredefinedTransformerAdditions.h */,
+				D0F117481614C5600092520B /* NSValueTransformer+MTLPredefinedTransformerAdditions.m */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -527,6 +538,7 @@
 				88080C18160A706900CCABF2 /* NSArray+MTLManipulationAdditions.h in Headers */,
 				D064BA2C1613B36C004CA27A /* NSNotificationCenter+MTLWeakReferenceAdditions.h in Headers */,
 				D0C27D0A16110973002FE587 /* NSDictionary+MTLManipulationAdditions.h in Headers */,
+				D0F117491614C5600092520B /* NSValueTransformer+MTLPredefinedTransformerAdditions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -778,6 +790,7 @@
 				88080C19160A706900CCABF2 /* NSArray+MTLManipulationAdditions.m in Sources */,
 				D064BA2D1613B36C004CA27A /* NSNotificationCenter+MTLWeakReferenceAdditions.m in Sources */,
 				D0C27D0B16110973002FE587 /* NSDictionary+MTLManipulationAdditions.m in Sources */,
+				D0F1174A1614C5600092520B /* NSValueTransformer+MTLPredefinedTransformerAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -793,6 +806,7 @@
 				D064BA301613B921004CA27A /* MTLNotificationCenterAdditionsSpec.m in Sources */,
 				D064BA341613BA75004CA27A /* MTLTestNotificationObserver.m in Sources */,
 				D0C27CF6161107E5002FE587 /* MTLDictionaryManipulationSpec.m in Sources */,
+				D0F1174D1614C8000092520B /* MTLPredefinedTransformerAdditionsSpec.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -810,6 +824,7 @@
 				88080C1A160A706900CCABF2 /* NSArray+MTLManipulationAdditions.m in Sources */,
 				D064BA2E1613B36C004CA27A /* NSNotificationCenter+MTLWeakReferenceAdditions.m in Sources */,
 				D0C27D0C16110973002FE587 /* NSDictionary+MTLManipulationAdditions.m in Sources */,
+				D0F1174B1614C5600092520B /* NSValueTransformer+MTLPredefinedTransformerAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -825,6 +840,7 @@
 				D064BA311613B921004CA27A /* MTLNotificationCenterAdditionsSpec.m in Sources */,
 				D064BA351613BA75004CA27A /* MTLTestNotificationObserver.m in Sources */,
 				D0C27CF7161107E5002FE587 /* MTLDictionaryManipulationSpec.m in Sources */,
+				D0F1174E1614C8000092520B /* MTLPredefinedTransformerAdditionsSpec.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

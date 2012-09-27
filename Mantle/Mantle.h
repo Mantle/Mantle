@@ -15,3 +15,4 @@
 #import "NSNotificationCenter+MTLWeakReferenceAdditions.h"
 #import "NSOrderedSet+MTLHigherOrderAdditions.h"
 #import "NSSet+MTLHigherOrderAdditions.h"
+#import "NSValueTransformer+MTLPredefinedTransformerAdditions.h"
