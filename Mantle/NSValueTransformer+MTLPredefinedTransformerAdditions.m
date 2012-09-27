@@ -7,6 +7,8 @@
 //
 
 #import "NSValueTransformer+MTLPredefinedTransformerAdditions.h"
+#import "NSArray+MTLHigherOrderAdditions.h"
+#import "MTLModel.h"
 #import "MTLValueTransformer.h"
 
 NSString * const MTLURLValueTransformerName = @"MTLURLValueTransformerName";
@@ -27,6 +29,36 @@ NSString * const MTLURLValueTransformerName = @"MTLURLValueTransformerName";
 		}];
 	
 	[NSValueTransformer setValueTransformer:URLValueTransformer forName:MTLURLValueTransformerName];
+}
+
+#pragma mark Customizable Transformers
+
++ (NSValueTransformer *)mtl_externalRepresentationTransformerWithModelClass:(Class)modelClass {
+	NSParameterAssert([modelClass isSubclassOfClass:MTLModel.class]);
+
+	return [MTLValueTransformer
+		reversibleTransformerWithForwardBlock:^(NSDictionary *externalRepresentation) {
+			return [modelClass modelWithExternalRepresentation:externalRepresentation];
+		}
+		reverseBlock:^(MTLModel *model) {
+			return model.externalRepresentation;
+		}];
+}
+
++ (NSValueTransformer *)mtl_externalRepresentationArrayTransformerWithModelClass:(Class)modelClass {
+	NSValueTransformer *individualTransformer = [self mtl_externalRepresentationTransformerWithModelClass:modelClass];
+
+	return [MTLValueTransformer
+		reversibleTransformerWithForwardBlock:^(NSArray *representations) {
+			return [representations mtl_mapUsingBlock:^(NSDictionary *externalRepresentation) {
+				return [individualTransformer transformedValue:externalRepresentation];
+			}];
+		}
+		reverseBlock:^(NSArray *models) {
+			return [models mtl_mapUsingBlock:^(MTLModel *model) {
+				return model.externalRepresentation;
+			}];
+		}];
 }
 
 @end
