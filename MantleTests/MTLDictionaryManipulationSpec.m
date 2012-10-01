@@ -52,6 +52,12 @@ describe(@"-mtl_dictionaryByRemovingEntriesWithKeys:", ^{
 		NSDictionary *expected = @{ @"foo": @"bar" };
 		expect(removed).to.equal(expected);
 	});
+
+	it(@"should return an empty dictionary when it removes all its keys", ^{
+		NSDictionary *removed = [dict mtl_dictionaryByRemovingEntriesWithKeys:dict.allKeys];
+		NSDictionary *expected = @{};
+		expect(removed).to.equal(expected);
+	});
 });
 
 SpecEnd
