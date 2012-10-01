@@ -18,7 +18,7 @@
 	return [result copy];
 }
 
-- (NSDictionary *)mtl_dictionaryByRemovingEntriesWithKeys:(NSArray *)keys {
+- (NSDictionary *)mtl_dictionaryByRemovingEntriesWithKeys:(NSSet *)keys {
 	return [self mtl_filterEntriesUsingBlock:^ BOOL (id key, id value) {
 		return ![keys containsObject:key];
 	}];
