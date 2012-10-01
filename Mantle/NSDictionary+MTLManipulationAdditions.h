@@ -18,4 +18,8 @@
 // those of `dictionary`.
 - (NSDictionary *)mtl_dictionaryByAddingEntriesFromDictionary:(NSDictionary *)dictionary;
 
+// Creates a new dictionary with all the entries for the given keys removed from
+// the receiver.
+- (NSDictionary *)mtl_dictionaryByRemovingEntriesWithKeys:(NSSet *)keys;
+
 @end

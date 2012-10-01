@@ -34,4 +34,30 @@ describe(@"-mtl_dictionaryByAddingEntriesFromDictionary:", ^{
 	});
 });
 
+describe(@"-mtl_dictionaryByRemovingEntriesWithKeys:", ^{
+	NSDictionary *dict = @{ @"foo": @"bar", @(5): NSNull.null };
+
+	it(@"should return the same dictionary when removing keys that don't exist in the receiver", ^{
+		NSDictionary *removed = [dict mtl_dictionaryByRemovingEntriesWithKeys:[NSSet setWithObject:@"hi"]];
+		expect(removed).to.equal(dict);
+	});
+
+	it(@"should return the same dictionary when given a nil array of keys", ^{
+		NSDictionary *removed = [dict mtl_dictionaryByRemovingEntriesWithKeys:nil];
+		expect(removed).to.equal(dict);
+	});
+
+	it(@"should remove all the entries for the given keys", ^{
+		NSDictionary *removed = [dict mtl_dictionaryByRemovingEntriesWithKeys:[NSSet setWithObject:@(5)]];
+		NSDictionary *expected = @{ @"foo": @"bar" };
+		expect(removed).to.equal(expected);
+	});
+
+	it(@"should return an empty dictionary when it removes all its keys", ^{
+		NSDictionary *removed = [dict mtl_dictionaryByRemovingEntriesWithKeys:[NSSet setWithArray:dict.allKeys]];
+		NSDictionary *expected = @{};
+		expect(removed).to.equal(expected);
+	});
+});
+
 SpecEnd

@@ -7,6 +7,7 @@
 //
 
 #import "NSDictionary+MTLManipulationAdditions.h"
+#import "NSDictionary+MTLHigherOrderAdditions.h"
 
 @implementation NSDictionary (MTLManipulationAdditions)
 
@@ -15,6 +16,12 @@
 	[result addEntriesFromDictionary:dictionary];
 
 	return [result copy];
+}
+
+- (NSDictionary *)mtl_dictionaryByRemovingEntriesWithKeys:(NSSet *)keys {
+	return [self mtl_filterEntriesUsingBlock:^ BOOL (id key, id value) {
+		return ![keys containsObject:key];
+	}];
 }
 
 @end
