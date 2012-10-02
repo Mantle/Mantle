@@ -152,17 +152,9 @@ static void *MTLModelCachedPropertyKeysKey = &MTLModelCachedPropertyKeysKey;
 
 #pragma mark Dictionary Representation
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated"
-#pragma clang diagnostic ignored "-Wdeprecated-implementations"
-+ (NSDictionary *)externalRepresentationKeysByPropertyKey {
++ (NSDictionary *)externalRepresentationKeyPathsByPropertyKey {
 	return @{};
 }
-
-+ (NSDictionary *)externalRepresentationKeyPathsByPropertyKey {
-	return self.externalRepresentationKeysByPropertyKey;
-}
-#pragma clang diagnostic pop
 
 + (NSValueTransformer *)transformerForKey:(NSString *)key {
 	SEL selector = NSSelectorFromString([key stringByAppendingString:@"Transformer"]);

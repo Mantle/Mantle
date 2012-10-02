@@ -123,7 +123,4 @@
 // `model` must be an instance of the receiver's class or a subclass thereof.
 - (void)mergeValuesForKeysFromModel:(MTLModel *)model;
 
-// Deprecated! Use +externalRepresentationKeyPathsByPropertyKey instead.
-+ (NSDictionary *)externalRepresentationKeysByPropertyKey __attribute__((deprecated));
-
 @end
