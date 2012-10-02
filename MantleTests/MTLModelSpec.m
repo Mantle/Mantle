@@ -60,6 +60,16 @@ describe(@"subclass", ^{
 		expect(model.externalRepresentation).to.equal(values);
 	});
 
+	it(@"should ignore unrecognized nested key paths in an external representation", ^{
+		NSDictionary *values = @{
+			@"nested": @{ @"name": @"bar", @"stuffToIgnore": @5, @"moreNonsense": NSNull.null }
+		};
+
+		MTLTestModel *model = [[MTLTestModel alloc] initWithExternalRepresentation:values];
+		expect(model).notTo.beNil();
+		expect(model.nestedName).to.equal(@"bar");
+	});
+
 	it(@"should fail to initialize with a nil external representation", ^{
 		MTLTestModel *model = [[MTLTestModel alloc] initWithExternalRepresentation:nil];
 		expect(model).to.beNil();
