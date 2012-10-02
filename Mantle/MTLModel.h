@@ -42,7 +42,7 @@
 - (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue;
 
 // Invokes -initWithDictionary: after mapping the given external
-// representation using +externalRepresentationKeysByPropertyKey and
+// representation using +externalRepresentationKeyPathsByPropertyKey and
 // +transformerForPropertyKey:.
 //
 // Any NSNull values will be converted to nil before being used. KVC validation
@@ -52,7 +52,7 @@
 // `externalRepresentation` was nil.
 - (instancetype)initWithExternalRepresentation:(NSDictionary *)externalRepresentation;
 
-// Specifies how to map @property keys to different keys for
+// Specifies how to map @property keys to different key paths for
 // -initWithExternalRepresentation: and -externalRepresentation. Subclasses
 // overriding this method should combine their values with those of super.
 //
@@ -60,7 +60,7 @@
 // @property declarations and the external representation.
 //
 // Returns an empty dictionary.
-+ (NSDictionary *)externalRepresentationKeysByPropertyKey;
++ (NSDictionary *)externalRepresentationKeyPathsByPropertyKey;
 
 // Specifies how to convert an -initWithExternalRepresentation: value to the
 // given @property key. If reversible, the transformer will also be used to
@@ -85,9 +85,13 @@
 @property (nonatomic, copy, readonly) NSDictionary *dictionaryValue;
 
 // The dictionaryValue of the receiver, mapped using
-// +externalRepresentationKeysByPropertyKey and any reversible transformers
+// +externalRepresentationKeyPathsByPropertyKey and any reversible transformers
 // returned by +transformerForPropertyKey:. The resulting dictionary is suitable
 // for serialization.
+//
+// For any external representation key paths where values along the path are
+// nil (but the final value is not), dictionaries are automatically added so
+// that the value can be correctly set at the complete key path.
 //
 // This property must never be nil.
 @property (nonatomic, copy, readonly) NSDictionary *externalRepresentation;
@@ -118,5 +122,8 @@
 //
 // `model` must be an instance of the receiver's class or a subclass thereof.
 - (void)mergeValuesForKeysFromModel:(MTLModel *)model;
+
+// Deprecated! Use +externalRepresentationKeyPathsByPropertyKey instead.
++ (NSDictionary *)externalRepresentationKeysByPropertyKey __attribute__((deprecated));
 
 @end

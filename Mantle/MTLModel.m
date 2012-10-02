@@ -77,21 +77,14 @@ static void *MTLModelCachedPropertyKeysKey = &MTLModelCachedPropertyKeysKey;
 - (instancetype)initWithExternalRepresentation:(NSDictionary *)externalRepresentation {
 	if (externalRepresentation == nil) return nil;
 
-	NSDictionary *externalKeysByPropertyKey = self.class.externalRepresentationKeysByPropertyKey;
+	NSDictionary *externalKeyPathsByPropertyKey = self.class.externalRepresentationKeyPathsByPropertyKey;
 	NSMutableDictionary *properties = [NSMutableDictionary dictionaryWithCapacity:externalRepresentation.count];
 
-	NSSet *propertyKeys = self.class.propertyKeys;
+	for (NSString *propertyKey in self.class.propertyKeys) {
+		NSString *externalKeyPath = externalKeyPathsByPropertyKey[propertyKey] ?: propertyKey;
 
-	[externalRepresentation enumerateKeysAndObjectsUsingBlock:^(NSString *externalKey, id value, BOOL *stop) {
-		NSString *propertyKey = [externalKeysByPropertyKey mtl_keyOfEntryPassingTest:^(id _, NSString *key, BOOL *stop) {
-			return [externalKey isEqualToString:key];
-		}];
-
-		propertyKey = propertyKey ?: externalKey;
-		if (![propertyKeys containsObject:propertyKey]) {
-			// Ignore unrecognized keys.
-			return;
-		}
+		id value = [externalRepresentation valueForKeyPath:externalKeyPath];
+		if (value == nil) continue;
 
 		NSValueTransformer *transformer = [self.class transformerForKey:propertyKey];
 		@try {
@@ -104,13 +97,13 @@ static void *MTLModelCachedPropertyKeysKey = &MTLModelCachedPropertyKeysKey;
 
 			[properties setObject:value forKey:propertyKey];
 		} @catch (NSException *ex) {
-			NSLog(@"*** Caught exception transforming external key \"%@\" from %@ using transformer %@: %@", externalKey, externalRepresentation, transformer, ex);
+			NSLog(@"*** Caught exception transforming external key path \"%@\" from %@ using transformer %@: %@", externalKeyPath, externalRepresentation, transformer, ex);
 
 			#if DEBUG
 			@throw ex;
 			#endif
 		}
-	}];
+	}
 
 	return [self initWithDictionary:properties];
 }
@@ -159,9 +152,17 @@ static void *MTLModelCachedPropertyKeysKey = &MTLModelCachedPropertyKeysKey;
 
 #pragma mark Dictionary Representation
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 + (NSDictionary *)externalRepresentationKeysByPropertyKey {
 	return @{};
 }
+
++ (NSDictionary *)externalRepresentationKeyPathsByPropertyKey {
+	return self.externalRepresentationKeysByPropertyKey;
+}
+#pragma clang diagnostic pop
 
 + (NSValueTransformer *)transformerForKey:(NSString *)key {
 	SEL selector = NSSelectorFromString([key stringByAppendingString:@"Transformer"]);
@@ -185,7 +186,7 @@ static void *MTLModelCachedPropertyKeysKey = &MTLModelCachedPropertyKeysKey;
 - (NSDictionary *)externalRepresentation {
 	NSDictionary *dictionary = self.dictionaryValue;
 
-	NSDictionary *externalKeysByPropertyKey = self.class.externalRepresentationKeysByPropertyKey;
+	NSDictionary *externalKeyPathsByPropertyKey = self.class.externalRepresentationKeyPathsByPropertyKey;
 	NSMutableDictionary *mappedDictionary = [NSMutableDictionary dictionaryWithCapacity:dictionary.count];
 
 	[dictionary enumerateKeysAndObjectsUsingBlock:^(NSString *propertyKey, id value, BOOL *stop) {
@@ -197,8 +198,25 @@ static void *MTLModelCachedPropertyKeysKey = &MTLModelCachedPropertyKeysKey;
 			value = [transformer reverseTransformedValue:value] ?: NSNull.null;
 		}
 
-		NSString *externalKey = [externalKeysByPropertyKey objectForKey:propertyKey] ?: propertyKey;
-		[mappedDictionary setObject:value forKey:externalKey];
+		NSString *externalKeyPath = externalKeyPathsByPropertyKey[propertyKey] ?: propertyKey;
+		NSArray *keyPathComponents = [externalKeyPath componentsSeparatedByString:@"."];
+
+		if (![value isEqual:NSNull.null]) {
+			// Set up intermediate key paths if the value we'd be setting isn't
+			// nil.
+			id obj = mappedDictionary;
+			for (NSString *component in keyPathComponents) {
+				if ([obj valueForKey:component] == nil) {
+					// Insert an empty mutable dictionary at this spot so that we
+					// can set the whole key path afterward.
+					[obj setValue:[NSMutableDictionary dictionary] forKey:component];
+				}
+
+				obj = [obj valueForKey:component];
+			}
+		}
+
+		[mappedDictionary setValue:value forKeyPath:externalKeyPath];
 	}];
 
 	return [mappedDictionary copy];

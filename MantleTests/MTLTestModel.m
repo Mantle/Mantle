@@ -28,7 +28,7 @@ static NSUInteger modelVersion = 1;
 	return self;
 }
 
-+ (NSDictionary *)externalRepresentationKeysByPropertyKey {
++ (NSDictionary *)externalRepresentationKeyPathsByPropertyKey {
 	if (modelVersion == 0) {
 		return @{ @"name": @"mtl_name", @"count": @"mtl_count" };
 	} else {
