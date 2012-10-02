@@ -22,6 +22,9 @@
 // The external representation for this property is a string.
 @property (nonatomic, assign) NSUInteger count;
 
+// Stored in the external representation as "nested.name".
+@property (nonatomic, copy) NSString *nestedName;
+
 @end
 
 @interface MTLEmptyTestModel : MTLModel
