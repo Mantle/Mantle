@@ -28,11 +28,11 @@ static NSUInteger modelVersion = 1;
 	return self;
 }
 
-+ (NSDictionary *)externalRepresentationKeysByPropertyKey {
++ (NSDictionary *)externalRepresentationKeyPathsByPropertyKey {
 	if (modelVersion == 0) {
-		return @{ @"name": @"mtl_name", @"count": @"mtl_count" };
+		return @{ @"name": @"mtl_name", @"count": @"mtl_count", @"nestedName": @"nested.name" };
 	} else {
-		return @{ @"name": @"username" };
+		return @{ @"name": @"username", @"nestedName": @"nested.name" };
 	}
 }
 

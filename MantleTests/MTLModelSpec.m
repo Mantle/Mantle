@@ -18,7 +18,7 @@ describe(@"subclass", ^{
 		expect(model.name).to.beNil();
 		expect(model.count).to.equal(1);
 
-		NSDictionary *expectedValues = @{ @"name": NSNull.null, @"count": @(1) };
+		NSDictionary *expectedValues = @{ @"name": NSNull.null, @"count": @(1), @"nestedName": NSNull.null };
 		expect(model.dictionaryValue).to.equal(expectedValues);
 		expect([model dictionaryWithValuesForKeys:expectedValues.allKeys]).to.equal(expectedValues);
 	});
@@ -43,6 +43,33 @@ describe(@"subclass", ^{
 		expect(model.externalRepresentation).to.equal(values);
 	});
 
+	it(@"should initialize nested key paths from an external representation", ^{
+		NSDictionary *values = @{
+			@"username": @"foo",
+			@"nested": @{ @"name": @"bar" },
+			@"count": @"0"
+		};
+
+		MTLTestModel *model = [[MTLTestModel alloc] initWithExternalRepresentation:values];
+		expect(model).notTo.beNil();
+
+		expect(model.name).to.equal(@"foo");
+		expect(model.count).to.equal(0);
+		expect(model.nestedName).to.equal(@"bar");
+
+		expect(model.externalRepresentation).to.equal(values);
+	});
+
+	it(@"should ignore unrecognized nested key paths in an external representation", ^{
+		NSDictionary *values = @{
+			@"nested": @{ @"name": @"bar", @"stuffToIgnore": @5, @"moreNonsense": NSNull.null }
+		};
+
+		MTLTestModel *model = [[MTLTestModel alloc] initWithExternalRepresentation:values];
+		expect(model).notTo.beNil();
+		expect(model.nestedName).to.equal(@"bar");
+	});
+
 	it(@"should fail to initialize with a nil external representation", ^{
 		MTLTestModel *model = [[MTLTestModel alloc] initWithExternalRepresentation:nil];
 		expect(model).to.beNil();
@@ -62,7 +89,7 @@ describe(@"subclass", ^{
 	});
 
 	describe(@"with a dictionary of values", ^{
-		NSDictionary *values = @{ @"name": @"foobar", @"count": @(5) };
+		NSDictionary *values = @{ @"name": @"foobar", @"count": @(5), @"nestedName": @"fuzzbuzz" };
 
 		__block MTLTestModel *model;
 		beforeEach(^{
@@ -79,7 +106,12 @@ describe(@"subclass", ^{
 		});
 
 		it(@"should have an external representation", ^{
-			NSDictionary *expectedValues = @{ @"username": @"foobar", @"count": @"5" };
+			NSDictionary *expectedValues = @{
+				@"username": @"foobar",
+				@"count": @"5",
+				@"nested": @{ @"name": @"fuzzbuzz" }
+			};
+
 			expect(model.externalRepresentation).to.equal(expectedValues);
 		});
 
