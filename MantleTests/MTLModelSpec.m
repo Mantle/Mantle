@@ -11,6 +11,11 @@
 SpecBegin(MTLModel)
 
 describe(@"subclass", ^{
+	it(@"should not include dynamic readonly properties in +propertyKeys", ^{
+		NSSet *expectedKeys = [NSSet setWithObjects:@"name", @"count", @"nestedName", nil];
+		expect(MTLTestModel.propertyKeys).to.equal(expectedKeys);
+	});
+
 	it(@"should initialize with default values", ^{
 		MTLTestModel *model = [[MTLTestModel alloc] init];
 		expect(model).notTo.beNil();

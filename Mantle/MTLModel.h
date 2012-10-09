@@ -72,8 +72,8 @@
 // Returns a value transformer, or nil if no transformation should be performed.
 + (NSValueTransformer *)transformerForKey:(NSString *)key;
 
-// Returns all the keys for all @property declarations, except for those on
-// MTLModel itself.
+// Returns the keys for all @property declarations, except for `readonly`
+// properties without ivars, or properties on MTLModel itself.
 + (NSSet *)propertyKeys;
 
 // A dictionary representing the properties of the receiver.

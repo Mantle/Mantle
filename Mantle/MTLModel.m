@@ -8,6 +8,7 @@
 
 #import "MTLModel.h"
 #import "EXTKeyPathCoding.h"
+#import "EXTRuntimeExtensions.h"
 #import "EXTScope.h"
 #import "NSDictionary+MTLHigherOrderAdditions.h"
 #import <objc/runtime.h>
@@ -139,6 +140,11 @@ static void *MTLModelCachedPropertyKeysKey = &MTLModelCachedPropertyKeysKey;
 	NSMutableSet *keys = [NSMutableSet set];
 
 	[self enumeratePropertiesUsingBlock:^(objc_property_t property, BOOL *stop) {
+		ext_propertyAttributes *attributes = ext_copyPropertyAttributes(property);
+		if (attributes->readonly && attributes->ivar == NULL) return;
+
+		free(attributes);
+
 		NSString *key = @(property_getName(property));
 		[keys addObject:key];
 	}];
