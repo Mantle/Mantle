@@ -20,6 +20,10 @@ static NSUInteger modelVersion = 1;
 	return modelVersion;
 }
 
+- (NSString *)dynamicName {
+	return self.name;
+}
+
 - (instancetype)init {
 	self = [super init];
 	if (self == nil) return nil;

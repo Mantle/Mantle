@@ -25,6 +25,9 @@
 // Stored in the external representation as "nested.name".
 @property (nonatomic, copy) NSString *nestedName;
 
+// Should not be stored in the external representation or dictionary value.
+@property (nonatomic, copy, readonly) NSString *dynamicName;
+
 @end
 
 @interface MTLEmptyTestModel : MTLModel
