@@ -21,4 +21,9 @@
 	self.receivedNotification = YES;
 }
 
+- (void)notificationPosted {
+	NSAssert(!self.receivedNotification, @"Should receive a single notification");
+	self.receivedNotification = YES;
+}
+
 @end

@@ -30,6 +30,25 @@ it(@"should send notifications to weak observers", ^{
 	[NSNotificationCenter.defaultCenter postNotificationName:notificationName object:self];
 });
 
+it(@"should support sending notifications to selectors with no arguments", ^{
+	MTLTestNotificationObserver *observer = [[MTLTestNotificationObserver alloc] init];
+	expect(observer).notTo.beNil();
+
+	id token = [NSNotificationCenter.defaultCenter mtl_addWeakObserver:observer selector:@selector(notificationPosted) name:notificationName object:self];
+	expect(token).notTo.beNil();
+
+	expect(observer.receivedNotification).to.beFalsy();
+	[NSNotificationCenter.defaultCenter postNotificationName:notificationName object:self];
+	expect(observer.receivedNotification).to.beTruthy();
+
+	[NSNotificationCenter.defaultCenter removeObserver:token];
+
+	// The observer shouldn't receive this notification. (It'll throw an
+	// assertion if it does.)
+	[NSNotificationCenter.defaultCenter postNotificationName:notificationName object:self];
+});
+
+
 it(@"should unregister from notifications if the observer is deallocated", ^{
 	__weak id weakObserver = nil;
 

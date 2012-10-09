@@ -45,7 +45,11 @@
 		NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[observerObject methodSignatureForSelector:selector]];
 		invocation.target = observerObject;
 		invocation.selector = selector;
-		[invocation setArgument:&notification atIndex:2];
+		// It doesn't make sense to invoke methods with more than a single argument.
+		NSCAssert(invocation.methodSignature.numberOfArguments <= 3, @"%s supports selectors with 1 or 0, %ld provided", __func__, (invocation.methodSignature.numberOfArguments - 2));
+		if (invocation.methodSignature.numberOfArguments == 3) {
+			[invocation setArgument:&notification atIndex:2];
+		}
 		[invocation invoke];
 	}];
 
