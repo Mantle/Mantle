@@ -34,6 +34,8 @@
 	// center.
 	NSAssert([self isEqual:NSNotificationCenter.defaultCenter], @"%s does not support notification centers other than the default", __func__);
 
+	NSAssert([observerObject methodSignatureForSelector:selector].numberOfArguments == 3, @"%s supports selectors with 1 and only 1 argument, %ld provided.", __func__, (long)([observerObject methodSignatureForSelector:selector].numberOfArguments - 2));
+
 	__block id blockObserver;
 
 	@weakify(observerObject);
