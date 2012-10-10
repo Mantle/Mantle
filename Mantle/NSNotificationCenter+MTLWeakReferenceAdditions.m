@@ -34,6 +34,8 @@
 	// center.
 	NSAssert([self isEqual:NSNotificationCenter.defaultCenter], @"%s does not support notification centers other than the default", __func__);
 
+	NSAssert([observerObject methodSignatureForSelector:selector].numberOfArguments == 3, @"%s supports selectors with 1 and only 1 argument, %ld provided.", __func__, (long)([observerObject methodSignatureForSelector:selector].numberOfArguments - 2));
+
 	__block id blockObserver;
 
 	@weakify(observerObject);
@@ -45,7 +47,6 @@
 		NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[observerObject methodSignatureForSelector:selector]];
 		invocation.target = observerObject;
 		invocation.selector = selector;
-		NSCAssert(invocation.methodSignature.numberOfArguments == 3, @"%s supports selectors with 1 and only 1 argument, %ld provided.", __func__, (invocation.methodSignature.numberOfArguments - 2));
 		[invocation setArgument:&notification atIndex:2];
 		[invocation invoke];
 	}];
