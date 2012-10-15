@@ -16,19 +16,19 @@
 
 @implementation NSOrderedSet (MTLHigherOrderAdditions)
 
-- (id)mtl_filterUsingBlock:(BOOL(^)(id obj))block {
+- (NSOrderedSet *)mtl_filterUsingBlock:(BOOL(^)(id obj))block {
     return [self mtl_filterWithOptions:0 usingBlock:block];
 }
 
-- (id)mtl_filterWithOptions:(NSEnumerationOptions)opts usingBlock:(BOOL(^)(id obj))block {
+- (NSOrderedSet *)mtl_filterWithOptions:(NSEnumerationOptions)opts usingBlock:(BOOL(^)(id obj))block {
     return [self mtl_filterWithOptions:opts failedObjects:NULL usingBlock:block];
 }
 
-- (id)mtl_filterWithFailedObjects:(NSOrderedSet **)failedObjects usingBlock:(BOOL(^)(id obj))block; {
+- (NSOrderedSet *)mtl_filterWithFailedObjects:(NSOrderedSet **)failedObjects usingBlock:(BOOL(^)(id obj))block; {
     return [self mtl_filterWithOptions:0 failedObjects:failedObjects usingBlock:block];
 }
 
-- (id)mtl_filterWithOptions:(NSEnumerationOptions)opts failedObjects:(NSOrderedSet **)failedObjects usingBlock:(BOOL(^)(id obj))block; {
+- (NSOrderedSet *)mtl_filterWithOptions:(NSEnumerationOptions)opts failedObjects:(NSOrderedSet **)failedObjects usingBlock:(BOOL(^)(id obj))block; {
     NSIndexSet *successIndexes = [self indexesOfObjectsWithOptions:opts passingTest:^(id obj, NSUInteger idx, BOOL *stop) {
         return block(obj);
     }];
@@ -76,11 +76,11 @@
     return [[self array] mtl_foldRightWithValue:startingValue usingBlock:block];
 }
 
-- (id)mtl_mapUsingBlock:(id (^)(id obj))block; {
+- (NSOrderedSet *)mtl_mapUsingBlock:(id (^)(id obj))block; {
     return [self mtl_mapWithOptions:0 usingBlock:block];
 }
 
-- (id)mtl_mapWithOptions:(NSEnumerationOptions)opts usingBlock:(id (^)(id obj))block; {
+- (NSOrderedSet *)mtl_mapWithOptions:(NSEnumerationOptions)opts usingBlock:(id (^)(id obj))block; {
     NSUInteger originalCount = [self count];
 
     BOOL concurrent = (opts & NSEnumerationConcurrent);
