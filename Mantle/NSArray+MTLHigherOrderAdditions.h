@@ -22,7 +22,7 @@
  * @param block A predicate block that determines whether to include or exclude
  * a given object.
  */
-- (id)mtl_filterUsingBlock:(BOOL(^)(id obj))block;
+- (NSArray *)mtl_filterUsingBlock:(BOOL(^)(id obj))block;
 
 /**
  * Returns an array of filtered objects for which `block` returns true, applying `opts` while filtering.
@@ -31,7 +31,7 @@
  * @param block A predicate block that determines whether to include or exclude
  * a given object.
  */
-- (id)mtl_filterWithOptions:(NSEnumerationOptions)opts usingBlock:(BOOL(^)(id obj))block;
+- (NSArray *)mtl_filterWithOptions:(NSEnumerationOptions)opts usingBlock:(BOOL(^)(id obj))block;
 
 /**
  * Returns an array of filtered objects for which `block` returns `YES`, and
@@ -46,7 +46,7 @@
  * collection. If this block returns `NO`, the object will be added to
  * `failedObjects`.
  */
-- (id)mtl_filterWithFailedObjects:(NSArray **)failedObjects usingBlock:(BOOL(^)(id obj))block;
+- (NSArray *)mtl_filterWithFailedObjects:(NSArray **)failedObjects usingBlock:(BOOL(^)(id obj))block;
 
 /**
  * Returns an array of filtered objects for which `block` returns `YES`, and
@@ -62,7 +62,7 @@
  * collection. If this block returns `NO`, the object will be added to
  * `failedObjects`.
  */
-- (id)mtl_filterWithOptions:(NSEnumerationOptions)opts failedObjects:(NSArray **)failedObjects usingBlock:(BOOL(^)(id obj))block;
+- (NSArray *)mtl_filterWithOptions:(NSEnumerationOptions)opts failedObjects:(NSArray **)failedObjects usingBlock:(BOOL(^)(id obj))block;
 
 /**
  * Reduces the receiver to a single value from left to right, using the given
@@ -119,7 +119,7 @@
  * you need the arrays to match in size, ensure that the given block returns
  * `NSNull` or `EXTNil` instead of `nil`.
  */
-- (id)mtl_mapUsingBlock:(id (^)(id obj))block;
+- (NSArray *)mtl_mapUsingBlock:(id (^)(id obj))block;
 
 /**
  * Transforms each object in the receiver with the given predicate, according to
@@ -136,7 +136,7 @@
  * you need the arrays to match in size, ensure that the given block returns
  * `NSNull` or `EXTNil` instead of `nil`.
  */
-- (id)mtl_mapWithOptions:(NSEnumerationOptions)opts usingBlock:(id (^)(id obj))block;
+- (NSArray *)mtl_mapWithOptions:(NSEnumerationOptions)opts usingBlock:(id (^)(id obj))block;
 
 /**
  * Returns the first object in the receiver that passes the given test, or `nil`

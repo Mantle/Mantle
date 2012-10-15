@@ -23,7 +23,7 @@
  * @param block A predicate block that determines whether to include or exclude
  * a given object.
  */
-- (id)mtl_filterUsingBlock:(BOOL (^)(id obj))block;
+- (NSOrderedSet *)mtl_filterUsingBlock:(BOOL (^)(id obj))block;
 
 /**
  * Filters the objects of the receiver with the given predicate, according to
@@ -34,7 +34,7 @@
  * @param block A predicate block that determines whether to include or exclude
  * a given object.
  */
-- (id)mtl_filterWithOptions:(NSEnumerationOptions)opts usingBlock:(BOOL (^)(id obj))block;
+- (NSOrderedSet *)mtl_filterWithOptions:(NSEnumerationOptions)opts usingBlock:(BOOL (^)(id obj))block;
 
 /**
  * Returns an ordered set of filtered objects for which `block` returns `YES`, and
@@ -49,7 +49,7 @@
  * collection. If this block returns `NO`, the object will be added to
  * `failedObjects`.
  */
-- (id)mtl_filterWithFailedObjects:(NSOrderedSet **)failedObjects usingBlock:(BOOL(^)(id obj))block;
+- (NSOrderedSet *)mtl_filterWithFailedObjects:(NSOrderedSet **)failedObjects usingBlock:(BOOL(^)(id obj))block;
 
 /**
  * Returns an ordered set of filtered objects for which `block` returns `YES`, and
@@ -65,7 +65,7 @@
  * collection. If this block returns `NO`, the object will be added to
  * `failedObjects`.
  */
-- (id)mtl_filterWithOptions:(NSEnumerationOptions)opts failedObjects:(NSOrderedSet **)failedObjects usingBlock:(BOOL(^)(id obj))block;
+- (NSOrderedSet *)mtl_filterWithOptions:(NSEnumerationOptions)opts failedObjects:(NSOrderedSet **)failedObjects usingBlock:(BOOL(^)(id obj))block;
 
 /**
  * Reduces the receiver to a single value from left to right, using the given
@@ -120,7 +120,7 @@
  * @warning Because ordered sets only contain unique objects, the number of
  * objects in the result may be less than the number of objects in the receiver.
  */
-- (id)mtl_mapUsingBlock:(id (^)(id obj))block;
+- (NSOrderedSet *)mtl_mapUsingBlock:(id (^)(id obj))block;
 
 /**
  * Transforms each object in the receiver with the given predicate, according to
@@ -135,7 +135,7 @@
  * @warning Because ordered sets only contain unique objects, the number of
  * objects in the result may be less than the number of objects in the receiver.
  */
-- (id)mtl_mapWithOptions:(NSEnumerationOptions)opts usingBlock:(id (^)(id obj))block;
+- (NSOrderedSet *)mtl_mapWithOptions:(NSEnumerationOptions)opts usingBlock:(id (^)(id obj))block;
 
 /**
  * Returns the first object in the receiver that passes the given test, or `nil`
