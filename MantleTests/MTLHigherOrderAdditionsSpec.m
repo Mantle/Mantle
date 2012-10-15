@@ -343,7 +343,7 @@ describe(@"non-empty collection", ^{
 			expect([array mtl_filterWithOptions:NSEnumerationReverse failedObjects:&failedObjects usingBlock:filterBlock]).to.equal(filteredArray.reverseObjectEnumerator.allObjects);
 			expect(failedObjects).to.equal(failedArray.reverseObjectEnumerator.allObjects);
 
-			expect([[orderedSet mtl_filterWithOptions:NSEnumerationReverse failedObjects:&failedObjects usingBlock:filterBlock] allObjects]).to.equal(filteredOrderedSet.reverseObjectEnumerator.allObjects);
+			expect([orderedSet mtl_filterWithOptions:NSEnumerationReverse failedObjects:&failedObjects usingBlock:filterBlock].array).to.equal(filteredOrderedSet.reverseObjectEnumerator.allObjects);
 			expect([failedObjects allObjects]).to.equal(failedOrderedSet.reverseObjectEnumerator.allObjects);
 
 			expect([set mtl_filterWithOptions:NSEnumerationReverse failedObjects:&failedObjects usingBlock:filterBlock]).to.equal(filteredSet);
@@ -410,7 +410,7 @@ describe(@"non-empty collection", ^{
 
 		it(@"should map in reverse", ^{
 			expect([array mtl_mapWithOptions:NSEnumerationReverse usingBlock:mapBlock]).to.equal(mappedArray.reverseObjectEnumerator.allObjects);
-			expect([[orderedSet mtl_mapWithOptions:NSEnumerationReverse usingBlock:mapBlock] allObjects]).to.equal(mappedOrderedSet.reverseObjectEnumerator.allObjects);
+			expect([orderedSet mtl_mapWithOptions:NSEnumerationReverse usingBlock:mapBlock].array).to.equal(mappedOrderedSet.reverseObjectEnumerator.allObjects);
 			expect([set mtl_mapWithOptions:NSEnumerationReverse usingBlock:mapBlock]).to.equal(mappedSet);
 		});
 
