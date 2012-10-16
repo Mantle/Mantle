@@ -20,6 +20,7 @@
 		D01599CB162CEC5C0015666E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D01599C7162CEAFA0015666E /* CoreGraphics.framework */; };
 		D01599CD162CEF740015666E /* MTLCGGeometryAdditionsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D01599CC162CEF740015666E /* MTLCGGeometryAdditionsSpec.m */; };
 		D01599CE162CEF740015666E /* MTLCGGeometryAdditionsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D01599CC162CEF740015666E /* MTLCGGeometryAdditionsSpec.m */; };
+		D0159A50162CF1E70015666E /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D01599C9162CEB2A0015666E /* ApplicationServices.framework */; };
 		D042FC4A15F72B23004E8054 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D042FC4815F72B23004E8054 /* InfoPlist.strings */; };
 		D042FC5615F72B23004E8054 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D042FC5515F72B23004E8054 /* SenTestingKit.framework */; };
 		D042FC5A15F72B23004E8054 /* Mantle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D042FC3C15F72B23004E8054 /* Mantle.framework */; };
@@ -289,6 +290,7 @@
 				D0D46A0E160BC98600AB468D /* libSpecta.a in Frameworks */,
 				D042FC5615F72B23004E8054 /* SenTestingKit.framework in Frameworks */,
 				D042FC5A15F72B23004E8054 /* Mantle.framework in Frameworks */,
+				D0159A50162CF1E70015666E /* ApplicationServices.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
