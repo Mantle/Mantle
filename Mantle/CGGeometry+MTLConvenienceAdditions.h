@@ -66,7 +66,7 @@ CGRect CGRectGrow (CGRect rect, CGFloat amount, CGRectEdge edge);
 //               `remainder`.
 // edge        - The edge from which division begins, proceeding toward the
 //               opposite edge.
-void CGRectDivideWithPadding (CGRect rect, CGRect//slice, CGRect//remainder, CGFloat sliceAmount, CGFloat padding, CGRectEdge edge);
+void CGRectDivideWithPadding (CGRect rect, CGRect *slice, CGRect *remainder, CGFloat sliceAmount, CGFloat padding, CGRectEdge edge);
 
 // Round down fractional X origins (moving leftward on screen), round
 // up fractional Y origins (moving upward on screen), and round down fractional
