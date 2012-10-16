@@ -90,6 +90,17 @@ describe(@"CGRectRemainder", ^{
 	});
 });
 
+describe(@"CGRectSlice", ^{
+	it(@"should return the rectangle's slice", ^{
+		CGRect rect = CGRectMake(100, 100, 100, 100);
+
+		CGRect result = CGRectSlice(rect, 25, CGRectMaxXEdge);
+		CGRect expectedResult = CGRectMake(175, 100, 25, 100);
+
+		expect(result).to.equal(expectedResult);
+	});
+});
+
 describe(@"CGRectGrow", ^{
 	it(@"should return a larger rectangle", ^{
 		CGRect rect = CGRectMake(100, 100, 100, 100);
