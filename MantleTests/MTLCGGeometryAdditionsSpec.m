@@ -84,7 +84,7 @@ describe(@"CGRectDivideWithPadding", ^{
 		remainder = CGRectZero;
 	});
 
-	it(@"divides with padding", ^{
+	it(@"should divide with padding", ^{
 		CGRect expectedSlice = CGRectMake(50, 50, 40, 100);
 		CGRect expectedRemainder = CGRectMake(90 + 10, 50, 50, 100);
 
@@ -94,24 +94,47 @@ describe(@"CGRectDivideWithPadding", ^{
 		expect(remainder).to.equal(expectedRemainder);
 	});
 
-	it(@"divides with a null slice", ^{
+	it(@"should divide with a null slice", ^{
 		CGRect expectedRemainder = CGRectMake(90 + 10, 50, 50, 100);
 
 		CGRectDivideWithPadding(rect, NULL, &remainder, 40, 10, CGRectMinXEdge);
 		expect(remainder).to.equal(expectedRemainder);
 	});
 
-	it(@"divides with a null remainder", ^{
+	it(@"should divide with a null remainder", ^{
 		CGRect expectedSlice = CGRectMake(50, 50, 40, 100);
 		CGRectDivideWithPadding(rect, &slice, NULL, 40, 10, CGRectMinXEdge);
 		expect(slice).to.equal(expectedSlice);
 	});
 
-	it(@"divides with no space for remainder", ^{
+	it(@"should divide with no space for remainder", ^{
 		CGRect expectedSlice = CGRectMake(50, 50, 95, 100);
 		CGRectDivideWithPadding(rect, &slice, &remainder, 95, 10, CGRectMinXEdge);
 		expect(slice).to.equal(expectedSlice);
 		expect(CGRectIsEmpty(remainder)).to.beTruthy();
+	});
+
+	it(@"should accept raw variables", ^{
+		CGRect expectedSlice = CGRectMake(50, 50, 40, 100);
+		CGRect expectedRemainder = CGRectMake(90 + 10, 50, 50, 100);
+
+		CGRectDivideWithPadding(rect, slice, remainder, 40, 10, CGRectMinXEdge);
+
+		expect(slice).to.equal(expectedSlice);
+		expect(remainder).to.equal(expectedRemainder);
+	});
+
+	it(@"should accept properties", ^{
+		MTLGeometryTestObject *obj = [[MTLGeometryTestObject alloc] init];
+		expect(obj).notTo.beNil();
+
+		CGRect expectedSlice = CGRectMake(50, 50, 40, 100);
+		CGRect expectedRemainder = CGRectMake(90 + 10, 50, 50, 100);
+
+		CGRectDivideWithPadding(rect, obj.slice, obj.remainder, 40, 10, CGRectMinXEdge);
+
+		expect(obj.slice).to.equal(expectedSlice);
+		expect(obj.remainder).to.equal(expectedRemainder);
 	});
 });
 

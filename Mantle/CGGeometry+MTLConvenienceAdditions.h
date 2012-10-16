@@ -83,6 +83,20 @@ CGRect CGRectGrow (CGRect rect, CGFloat amount, CGRectEdge edge);
 //               opposite edge.
 void CGRectDivideWithPadding (CGRect rect, CGRect *slice, CGRect *remainder, CGFloat sliceAmount, CGFloat padding, CGRectEdge edge);
 
+// Extends CGRectDivideWithPadding() to accept the following additional types
+// for the `SLICE` and `REMAINDER` arguments:
+//
+//  - A `CGRect` property
+//  - A `CGRect` variable
+#define CGRectDivideWithPadding(RECT, SLICE, REMAINDER, AMOUNT, PADDING, EDGE) \
+	do { \
+		CGRect _slice, _remainder; \
+		CGRectDivideWithPadding((RECT), &_slice, &_remainder, (AMOUNT), (PADDING), (EDGE)); \
+		\
+		_MTLAssignToRectByReference(SLICE, _slice); \
+		_MTLAssignToRectByReference(REMAINDER, _remainder); \
+	} while (0)
+
 // Round down fractional X origins (moving leftward on screen), round
 // up fractional Y origins (moving upward on screen), and round down fractional
 // sizes, such that the size of the rectangle will never increase just

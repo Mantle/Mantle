@@ -26,6 +26,10 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 // type, so they compile without casting on both OS X and iOS.
 #import <tgmath.h>
 
+// Hide our crazy macros within the implementation.
+#undef CGRectDivide
+#undef CGRectDivideWithPadding
+
 CGPoint CGRectCenterPoint (CGRect rect) {
 	return CGPointMake(CGRectGetMinX(rect) + CGRectGetWidth(rect) / 2, CGRectGetMinY(rect) + CGRectGetHeight(rect) / 2);
 }
