@@ -26,10 +26,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 #import <tgmath.h>
 
 CGPoint CGRectCenterPoint (CGRect rect) {
-	return CGPointMake(
-		CGRectGetMinX(rect) + CGRectGetWidth(rect) / 2,
-		CGRectGetMinY(rect) + CGRectGetHeight(rect) / 2
-	);
+	return CGPointMake(CGRectGetMinX(rect) + CGRectGetWidth(rect) / 2, CGRectGetMinY(rect) + CGRectGetHeight(rect) / 2);
 }
 
 CGRect CGRectRemainder (CGRect rect, CGFloat amount, CGRectEdge edge) {
@@ -49,36 +46,16 @@ CGRect CGRectSlice (CGRect rect, CGFloat amount, CGRectEdge edge) {
 CGRect CGRectGrow (CGRect rect, CGFloat amount, CGRectEdge edge) {
 	switch (edge) {
 		case CGRectMinXEdge:
-			return CGRectMake(
-				CGRectGetMinX(rect) - amount,
-				CGRectGetMinY(rect),
-				CGRectGetWidth(rect) + amount,
-				CGRectGetHeight(rect)
-			);
+			return CGRectMake(CGRectGetMinX(rect) - amount, CGRectGetMinY(rect), CGRectGetWidth(rect) + amount, CGRectGetHeight(rect));
 
 		case CGRectMinYEdge:
-			return CGRectMake(
-				CGRectGetMinX(rect),
-				CGRectGetMinY(rect) - amount,
-				CGRectGetWidth(rect),
-				CGRectGetHeight(rect) + amount
-			);
+			return CGRectMake(CGRectGetMinX(rect), CGRectGetMinY(rect) - amount, CGRectGetWidth(rect), CGRectGetHeight(rect) + amount);
 
 		case CGRectMaxXEdge:
-			return CGRectMake(
-				CGRectGetMinX(rect),
-				CGRectGetMinY(rect),
-				CGRectGetWidth(rect) + amount,
-				CGRectGetHeight(rect)
-			);
+			return CGRectMake(CGRectGetMinX(rect), CGRectGetMinY(rect), CGRectGetWidth(rect) + amount, CGRectGetHeight(rect));
 
 		case CGRectMaxYEdge:
-			return CGRectMake(
-				CGRectGetMinX(rect),
-				CGRectGetMinY(rect),
-				CGRectGetWidth(rect),
-				CGRectGetHeight(rect) + amount
-			);
+			return CGRectMake(CGRectGetMinX(rect), CGRectGetMinY(rect), CGRectGetWidth(rect), CGRectGetHeight(rect) + amount);
 
 		default:
 			NSCAssert(NO, @"Unrecognized CGRectEdge %i", (int)edge);
@@ -91,22 +68,15 @@ void CGRectDivideWithPadding (CGRect rect, CGRect *slicePtr, CGRect *remainderPt
 
 	// slice
 	CGRectDivide(rect, &slice, &rect, sliceAmount, edge);
-	if (slicePtr)
-		*slicePtr = slice;
+	if (slicePtr) *slicePtr = slice;
 
 	// padding / remainder
 	CGRectDivide(rect, &slice, &rect, padding, edge);
-	if (remainderPtr)
-		*remainderPtr = rect;
+	if (remainderPtr) *remainderPtr = rect;
 }
 
 CGRect CGRectFloor(CGRect rect) {
-	return CGRectMake(
-		floor(rect.origin.x),
-		ceil(rect.origin.y),
-		floor(rect.size.width),
-		floor(rect.size.height)
-	);
+	return CGRectMake(floor(rect.origin.x), ceil(rect.origin.y), floor(rect.size.width), floor(rect.size.height));
 }
 
 CGRect CGRectMakeInverted (CGRect containingRect, CGFloat x, CGFloat y, CGFloat width, CGFloat height) {
@@ -115,22 +85,11 @@ CGRect CGRectMakeInverted (CGRect containingRect, CGFloat x, CGFloat y, CGFloat 
 }
 
 CGRect CGRectInvert (CGRect containingRect, CGRect rect) {
-	return CGRectMake(
-		CGRectGetMinX(rect),
-		CGRectGetHeight(containingRect) - CGRectGetMaxY(rect),
-		CGRectGetWidth(rect),
-		CGRectGetHeight(rect)
-	);
+	return CGRectMake(CGRectGetMinX(rect), CGRectGetHeight(containingRect) - CGRectGetMaxY(rect), CGRectGetWidth(rect), CGRectGetHeight(rect));
 }
 
 BOOL CGRectEqualToRectWithAccuracy (CGRect rect, CGRect rect2, CGFloat epsilon) {
-	if (!CGPointEqualToPointWithAccuracy(rect.origin, rect2.origin, epsilon))
-		return NO;
-
-	if (!CGSizeEqualToSizeWithAccuracy(rect.size, rect2.size, epsilon))
-		return NO;
-
-	return YES;
+	return CGPointEqualToPointWithAccuracy(rect.origin, rect2.origin, epsilon) && CGSizeEqualToSizeWithAccuracy(rect.size, rect2.size, epsilon);
 }
 
 CGRect CGRectWithSize (CGSize size) {
@@ -167,8 +126,7 @@ CGFloat CGPointLength(CGPoint point) {
 
 CGPoint CGPointNormalize(CGPoint point) {
 	CGFloat len = CGPointLength(point);
-	if (len > 0)
-		return CGPointScale(point, 1/len);
+	if (len > 0) return CGPointScale(point, 1/len);
 
 	return point;
 }
