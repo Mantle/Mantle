@@ -15,21 +15,21 @@
 
 @implementation NSSet (MTLHigherOrderAdditions)
 
-- (id)mtl_filterUsingBlock:(BOOL (^)(id obj))block; {
+- (NSSet *)mtl_filterUsingBlock:(BOOL (^)(id obj))block; {
     return [self mtl_filterWithOptions:0 usingBlock:block];
 }
 
-- (id)mtl_filterWithOptions:(NSEnumerationOptions)opts usingBlock:(BOOL (^)(id obj))block; {
+- (NSSet *)mtl_filterWithOptions:(NSEnumerationOptions)opts usingBlock:(BOOL (^)(id obj))block; {
     return [self objectsWithOptions:opts passingTest:^(id obj, BOOL *stop){
         return block(obj);
     }];
 }
 
-- (id)mtl_filterWithFailedObjects:(NSSet **)failedObjects usingBlock:(BOOL(^)(id obj))block; {
+- (NSSet *)mtl_filterWithFailedObjects:(NSSet **)failedObjects usingBlock:(BOOL(^)(id obj))block; {
     return [self mtl_filterWithOptions:0 failedObjects:failedObjects usingBlock:block];
 }
 
-- (id)mtl_filterWithOptions:(NSEnumerationOptions)opts failedObjects:(NSSet **)failedObjects usingBlock:(BOOL(^)(id obj))block; {
+- (NSSet *)mtl_filterWithOptions:(NSEnumerationOptions)opts failedObjects:(NSSet **)failedObjects usingBlock:(BOOL(^)(id obj))block; {
     NSUInteger originalCount = [self count];
     BOOL concurrent = (opts & NSEnumerationConcurrent);
 
@@ -95,11 +95,11 @@
     return value;
 }
 
-- (id)mtl_mapUsingBlock:(id (^)(id obj))block; {
+- (NSSet *)mtl_mapUsingBlock:(id (^)(id obj))block; {
     return [self mtl_mapWithOptions:0 usingBlock:block];
 }
 
-- (id)mtl_mapWithOptions:(NSEnumerationOptions)opts usingBlock:(id (^)(id obj))block; {
+- (NSSet *)mtl_mapWithOptions:(NSEnumerationOptions)opts usingBlock:(id (^)(id obj))block; {
     NSUInteger originalCount = [self count];
     BOOL concurrent = (opts & NSEnumerationConcurrent);
 

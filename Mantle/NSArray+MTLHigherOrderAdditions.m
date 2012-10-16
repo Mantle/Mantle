@@ -15,19 +15,19 @@
 
 @implementation NSArray (MTLHigherOrderAdditions)
 
-- (id)mtl_filterUsingBlock:(BOOL(^)(id obj))block {
+- (NSArray *)mtl_filterUsingBlock:(BOOL(^)(id obj))block {
     return [self mtl_filterWithOptions:0 usingBlock:block];
 }
 
-- (id)mtl_filterWithOptions:(NSEnumerationOptions)opts usingBlock:(BOOL(^)(id obj))block {
+- (NSArray *)mtl_filterWithOptions:(NSEnumerationOptions)opts usingBlock:(BOOL(^)(id obj))block {
     return [self mtl_filterWithOptions:opts failedObjects:NULL usingBlock:block];
 }
 
-- (id)mtl_filterWithFailedObjects:(NSArray **)failedObjects usingBlock:(BOOL(^)(id obj))block; {
+- (NSArray *)mtl_filterWithFailedObjects:(NSArray **)failedObjects usingBlock:(BOOL(^)(id obj))block; {
     return [self mtl_filterWithOptions:0 failedObjects:failedObjects usingBlock:block];
 }
 
-- (id)mtl_filterWithOptions:(NSEnumerationOptions)opts failedObjects:(NSArray **)failedObjects usingBlock:(BOOL(^)(id obj))block; {
+- (NSArray *)mtl_filterWithOptions:(NSEnumerationOptions)opts failedObjects:(NSArray **)failedObjects usingBlock:(BOOL(^)(id obj))block; {
     NSIndexSet *successIndexes = [self indexesOfObjectsWithOptions:opts passingTest:^(id obj, NSUInteger idx, BOOL *stop) {
         return block(obj);
     }];
@@ -82,11 +82,11 @@
     return value;
 }
 
-- (id)mtl_mapUsingBlock:(id (^)(id obj))block; {
+- (NSArray *)mtl_mapUsingBlock:(id (^)(id obj))block; {
     return [self mtl_mapWithOptions:0 usingBlock:block];
 }
 
-- (id)mtl_mapWithOptions:(NSEnumerationOptions)opts usingBlock:(id (^)(id obj))block; {
+- (NSArray *)mtl_mapWithOptions:(NSEnumerationOptions)opts usingBlock:(id (^)(id obj))block; {
     NSUInteger originalCount = [self count];
 
     BOOL concurrent = (opts & NSEnumerationConcurrent);
