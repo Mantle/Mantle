@@ -22,6 +22,21 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 #import <CoreGraphics/CoreGraphics.h>
 
+// Extends CGRectDivide() to accept the following additional types for the
+// `SLICE` and `REMAINDER` arguments:
+//
+//  - A `CGRect` property
+//  - A `CGRect` variable
+//  - `NULL`
+#define CGRectDivide(RECT, SLICE, REMAINDER, AMOUNT, EDGE) \
+	do { \
+		CGRect _slice, _remainder; \
+		CGRectDivide((RECT), &_slice, &_remainder, (AMOUNT), (EDGE)); \
+		\
+		_MTLAssignToRectByReference(SLICE, _slice); \
+		_MTLAssignToRectByReference(REMAINDER, _remainder); \
+	} while (0)
+
 // Returns the exact center point of the given rectangle.
 CGPoint CGRectCenterPoint(CGRect rect);
 
@@ -67,6 +82,20 @@ CGRect CGRectGrow(CGRect rect, CGFloat amount, CGRectEdge edge);
 // edge        - The edge from which division begins, proceeding toward the
 //               opposite edge.
 void CGRectDivideWithPadding(CGRect rect, CGRect *slice, CGRect *remainder, CGFloat sliceAmount, CGFloat padding, CGRectEdge edge);
+
+// Extends CGRectDivideWithPadding() to accept the following additional types
+// for the `SLICE` and `REMAINDER` arguments:
+//
+//  - A `CGRect` property
+//  - A `CGRect` variable
+#define CGRectDivideWithPadding(RECT, SLICE, REMAINDER, AMOUNT, PADDING, EDGE) \
+	do { \
+		CGRect _slice, _remainder; \
+		CGRectDivideWithPadding((RECT), &_slice, &_remainder, (AMOUNT), (PADDING), (EDGE)); \
+		\
+		_MTLAssignToRectByReference(SLICE, _slice); \
+		_MTLAssignToRectByReference(REMAINDER, _remainder); \
+	} while (0)
 
 // Round down fractional X origins (moving leftward on screen), round
 // up fractional Y origins (moving upward on screen), and round down fractional
@@ -146,3 +175,38 @@ CGPoint CGPointAdd(CGPoint p1, CGPoint p2);
 
 // Subtracts `p2` from `p1`.
 CGPoint CGPointSubtract(CGPoint p1, CGPoint p2);
+
+// For internal use only.
+//
+// Returns a pointer to a new empty rectangle, suitable for storing unused
+// values.
+#define _MTLEmptyRectPointer \
+	(&(CGRect){ .origin = CGPointZero, .size = CGSizeZero })
+
+// For internal use only.
+//
+// Assigns `RECT` into the first argument, which may be a property, `CGRect`
+// variable, or a pointer to a `CGRect`. If the argument is a pointer and is
+// `NULL`, nothing happens.
+#define _MTLAssignToRectByReference(RECT_OR_PTR, RECT) \
+	/* Switches based on the type of the first argument. */ \
+	(_Generic((RECT_OR_PTR), \
+			CGRect *: *({ \
+				/* Copy the argument into a union so this code compiles even
+				 * when it's not a pointer. */ \
+				union { \
+					__typeof__(RECT_OR_PTR) copy; \
+					CGRect *ptr; \
+				} _u = { .copy = (RECT_OR_PTR) }; \
+				\
+				/* If the argument is NULL, assign into an empty rect instead. */ \
+				_u.ptr ?: _MTLEmptyRectPointer; \
+			}), \
+			\
+			/* void * should only occur for NULL. */ \
+			void *: *_MTLEmptyRectPointer, \
+			\
+			/* For all other cases, assign into the given variable or property
+			 * normally. */ \
+			default: RECT_OR_PTR \
+		) = (RECT))
