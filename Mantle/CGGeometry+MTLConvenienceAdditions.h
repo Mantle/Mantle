@@ -23,18 +23,18 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 #import <CoreGraphics/CoreGraphics.h>
 
 // Returns the exact center point of the given rectangle.
-CGPoint CGRectCenterPoint (CGRect rect);
+CGPoint CGRectCenterPoint(CGRect rect);
 
 // Chops the given amount off of a rectangle's edge.
 //
 // Returns the remainder of the rectangle, or `CGRectZero` if `amount` is
 // greater than or equal to size of the rectangle along the axis being chopped.
-CGRect CGRectRemainder (CGRect rect, CGFloat amount, CGRectEdge edge);
+CGRect CGRectRemainder(CGRect rect, CGFloat amount, CGRectEdge edge);
 
 // Returns a slice consisting of the given amount starting from a rectangle's
 // edge, or the entire rectangle if `amount` is greater than or equal to the
 // size of the rectangle along the axis being sliced.
-CGRect CGRectSlice (CGRect rect, CGFloat amount, CGRectEdge edge);
+CGRect CGRectSlice(CGRect rect, CGFloat amount, CGRectEdge edge);
 
 // Adds the given amount to a rectangle's edge.
 //
@@ -43,7 +43,7 @@ CGRect CGRectSlice (CGRect rect, CGFloat amount, CGRectEdge edge);
 // edge   - The edge from which to grow. Growing is always outward (i.e., using
 //          `CGRectMaxXEdge` will increase the width of the rectangle and leave
 //          the origin unmodified).
-CGRect CGRectGrow (CGRect rect, CGFloat amount, CGRectEdge edge);
+CGRect CGRectGrow(CGRect rect, CGFloat amount, CGRectEdge edge);
 
 // Divides a source rectangle into two component rectangles, skipping the given
 // amount of padding in between them.
@@ -66,7 +66,7 @@ CGRect CGRectGrow (CGRect rect, CGFloat amount, CGRectEdge edge);
 //               `remainder`.
 // edge        - The edge from which division begins, proceeding toward the
 //               opposite edge.
-void CGRectDivideWithPadding (CGRect rect, CGRect *slice, CGRect *remainder, CGFloat sliceAmount, CGFloat padding, CGRectEdge edge);
+void CGRectDivideWithPadding(CGRect rect, CGRect *slice, CGRect *remainder, CGFloat sliceAmount, CGFloat padding, CGRectEdge edge);
 
 // Round down fractional X origins (moving leftward on screen), round
 // up fractional Y origins (moving upward on screen), and round down fractional
@@ -87,7 +87,7 @@ CGRect CGRectFloor(CGRect rect);
 // y              - The Y origin of the rectangle, starting from the top.
 // width          - The width of the rectangle.
 // height         - The height of the rectangle.
-CGRect CGRectMakeInverted (CGRect containingRect, CGFloat x, CGFloat y, CGFloat width, CGFloat height);
+CGRect CGRectMakeInverted(CGRect containingRect, CGFloat x, CGFloat y, CGFloat width, CGFloat height);
 
 // Vertically inverts the coordinates of `rect` within `containingRect`.
 //
@@ -98,16 +98,16 @@ CGRect CGRectMakeInverted (CGRect containingRect, CGFloat x, CGFloat y, CGFloat 
 // containingRect - The rectangle that will "contain" the created rectangle,
 //                  used as a reference to vertically flip the coordinate system.
 // rect           - The rectangle to vertically flip within `containingRect`.
-CGRect CGRectInvert (CGRect containingRect, CGRect rect);
+CGRect CGRectInvert(CGRect containingRect, CGRect rect);
 
 // Returns a rectangle with an origin of `CGPointZero` and the given size.
-CGRect CGRectWithSize (CGSize size);
+CGRect CGRectWithSize(CGSize size);
 
 // Returns whether every side of `rect` is within `epsilon` distance of `rect2`.
-BOOL CGRectEqualToRectWithAccuracy (CGRect rect, CGRect rect2, CGFloat epsilon);
+BOOL CGRectEqualToRectWithAccuracy(CGRect rect, CGRect rect2, CGFloat epsilon);
 
 // Returns whether `size` is within `epsilon` points of `size2`.
-BOOL CGSizeEqualToSizeWithAccuracy (CGSize size, CGSize size2, CGFloat epsilon);
+BOOL CGSizeEqualToSizeWithAccuracy(CGSize size, CGSize size2, CGFloat epsilon);
 
 // Scales the components of `size` by `scale`.
 CGSize CGSizeScale(CGSize size, CGFloat scale);
