@@ -30,25 +30,25 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 #undef CGRectDivide
 #undef CGRectDivideWithPadding
 
-CGPoint CGRectCenterPoint (CGRect rect) {
+CGPoint CGRectCenterPoint(CGRect rect) {
 	return CGPointMake(CGRectGetMinX(rect) + CGRectGetWidth(rect) / 2, CGRectGetMinY(rect) + CGRectGetHeight(rect) / 2);
 }
 
-CGRect CGRectRemainder (CGRect rect, CGFloat amount, CGRectEdge edge) {
+CGRect CGRectRemainder(CGRect rect, CGFloat amount, CGRectEdge edge) {
 	CGRect slice, remainder;
 	CGRectDivide(rect, &slice, &remainder, amount, edge);
 
 	return remainder;
 }
 
-CGRect CGRectSlice (CGRect rect, CGFloat amount, CGRectEdge edge) {
+CGRect CGRectSlice(CGRect rect, CGFloat amount, CGRectEdge edge) {
 	CGRect slice, remainder;
 	CGRectDivide(rect, &slice, &remainder, amount, edge);
 
 	return slice;
 }
 
-CGRect CGRectGrow (CGRect rect, CGFloat amount, CGRectEdge edge) {
+CGRect CGRectGrow(CGRect rect, CGFloat amount, CGRectEdge edge) {
 	switch (edge) {
 		case CGRectMinXEdge:
 			return CGRectMake(CGRectGetMinX(rect) - amount, CGRectGetMinY(rect), CGRectGetWidth(rect) + amount, CGRectGetHeight(rect));
@@ -68,7 +68,7 @@ CGRect CGRectGrow (CGRect rect, CGFloat amount, CGRectEdge edge) {
 	}
 }
 
-void CGRectDivideWithPadding (CGRect rect, CGRect *slicePtr, CGRect *remainderPtr, CGFloat sliceAmount, CGFloat padding, CGRectEdge edge) {
+void CGRectDivideWithPadding(CGRect rect, CGRect *slicePtr, CGRect *remainderPtr, CGFloat sliceAmount, CGFloat padding, CGRectEdge edge) {
 	CGRect slice;
 
 	// slice
@@ -84,24 +84,24 @@ CGRect CGRectFloor(CGRect rect) {
 	return CGRectMake(floor(rect.origin.x), ceil(rect.origin.y), floor(rect.size.width), floor(rect.size.height));
 }
 
-CGRect CGRectMakeInverted (CGRect containingRect, CGFloat x, CGFloat y, CGFloat width, CGFloat height) {
+CGRect CGRectMakeInverted(CGRect containingRect, CGFloat x, CGFloat y, CGFloat width, CGFloat height) {
 	CGRect rect = CGRectMake(x, y, width, height);
 	return CGRectInvert(containingRect, rect);
 }
 
-CGRect CGRectInvert (CGRect containingRect, CGRect rect) {
+CGRect CGRectInvert(CGRect containingRect, CGRect rect) {
 	return CGRectMake(CGRectGetMinX(rect), CGRectGetHeight(containingRect) - CGRectGetMaxY(rect), CGRectGetWidth(rect), CGRectGetHeight(rect));
 }
 
-BOOL CGRectEqualToRectWithAccuracy (CGRect rect, CGRect rect2, CGFloat epsilon) {
+BOOL CGRectEqualToRectWithAccuracy(CGRect rect, CGRect rect2, CGFloat epsilon) {
 	return CGPointEqualToPointWithAccuracy(rect.origin, rect2.origin, epsilon) && CGSizeEqualToSizeWithAccuracy(rect.size, rect2.size, epsilon);
 }
 
-CGRect CGRectWithSize (CGSize size) {
+CGRect CGRectWithSize(CGSize size) {
 	return CGRectMake(0, 0, size.width, size.height);
 }
 
-BOOL CGSizeEqualToSizeWithAccuracy (CGSize size, CGSize size2, CGFloat epsilon) {
+BOOL CGSizeEqualToSizeWithAccuracy(CGSize size, CGSize size2, CGFloat epsilon) {
 	return (fabs(size.width - size2.width) <= epsilon) && (fabs(size.height - size2.height) <= epsilon);
 }
 
