@@ -12,6 +12,8 @@
 		88080C1A160A706900CCABF2 /* NSArray+MTLManipulationAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 88080C17160A706900CCABF2 /* NSArray+MTLManipulationAdditions.m */; };
 		88080C1D160A719D00CCABF2 /* MTLArrayManipulationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88080C1C160A719D00CCABF2 /* MTLArrayManipulationSpec.m */; };
 		88080C1E160A719D00CCABF2 /* MTLArrayManipulationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88080C1C160A719D00CCABF2 /* MTLArrayManipulationSpec.m */; };
+		D0158DC3162D2C1200FF6C90 /* MTLGeometryTestObject.m in Sources */ = {isa = PBXBuildFile; fileRef = D0158DC2162D2C1200FF6C90 /* MTLGeometryTestObject.m */; };
+		D0158DC4162D2C1200FF6C90 /* MTLGeometryTestObject.m in Sources */ = {isa = PBXBuildFile; fileRef = D0158DC2162D2C1200FF6C90 /* MTLGeometryTestObject.m */; };
 		D01599C2162CEA2B0015666E /* CGGeometry+MTLConvenienceAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = D01599C0162CEA2B0015666E /* CGGeometry+MTLConvenienceAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D01599C3162CEA2B0015666E /* CGGeometry+MTLConvenienceAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D01599C1162CEA2B0015666E /* CGGeometry+MTLConvenienceAdditions.m */; };
 		D01599C4162CEA2B0015666E /* CGGeometry+MTLConvenienceAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D01599C1162CEA2B0015666E /* CGGeometry+MTLConvenienceAdditions.m */; };
@@ -201,6 +203,8 @@
 		88080C16160A706900CCABF2 /* NSArray+MTLManipulationAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+MTLManipulationAdditions.h"; sourceTree = "<group>"; };
 		88080C17160A706900CCABF2 /* NSArray+MTLManipulationAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+MTLManipulationAdditions.m"; sourceTree = "<group>"; };
 		88080C1C160A719D00CCABF2 /* MTLArrayManipulationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLArrayManipulationSpec.m; sourceTree = "<group>"; };
+		D0158DC1162D2C1200FF6C90 /* MTLGeometryTestObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTLGeometryTestObject.h; sourceTree = "<group>"; };
+		D0158DC2162D2C1200FF6C90 /* MTLGeometryTestObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLGeometryTestObject.m; sourceTree = "<group>"; };
 		D01599C0162CEA2B0015666E /* CGGeometry+MTLConvenienceAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CGGeometry+MTLConvenienceAdditions.h"; sourceTree = "<group>"; };
 		D01599C1162CEA2B0015666E /* CGGeometry+MTLConvenienceAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CGGeometry+MTLConvenienceAdditions.m"; sourceTree = "<group>"; };
 		D01599C7162CEAFA0015666E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.0.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
@@ -388,6 +392,8 @@
 		D042FC5C15F72B23004E8054 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				D0158DC1162D2C1200FF6C90 /* MTLGeometryTestObject.h */,
+				D0158DC2162D2C1200FF6C90 /* MTLGeometryTestObject.m */,
 				D0760EC715FFCA4E0060F550 /* MTLTestModel.h */,
 				D0760EC815FFCA4E0060F550 /* MTLTestModel.m */,
 				D064BA321613BA75004CA27A /* MTLTestNotificationObserver.h */,
@@ -838,6 +844,7 @@
 				D0C27CF6161107E5002FE587 /* MTLDictionaryManipulationSpec.m in Sources */,
 				D0F1174D1614C8000092520B /* MTLPredefinedTransformerAdditionsSpec.m in Sources */,
 				D01599CD162CEF740015666E /* MTLCGGeometryAdditionsSpec.m in Sources */,
+				D0158DC3162D2C1200FF6C90 /* MTLGeometryTestObject.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -875,6 +882,7 @@
 				D0C27CF7161107E5002FE587 /* MTLDictionaryManipulationSpec.m in Sources */,
 				D0F1174E1614C8000092520B /* MTLPredefinedTransformerAdditionsSpec.m in Sources */,
 				D01599CE162CEF740015666E /* MTLCGGeometryAdditionsSpec.m in Sources */,
+				D0158DC4162D2C1200FF6C90 /* MTLGeometryTestObject.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

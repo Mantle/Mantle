@@ -22,6 +22,21 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 #import <CoreGraphics/CoreGraphics.h>
 
+// Extends CGRectDivide() to accept the following additional types for the
+// `SLICE` and `REMAINDER` arguments:
+//
+//  - A `CGRect` property
+//  - A `CGRect` variable
+//  - `NULL`
+#define CGRectDivide(RECT, SLICE, REMAINDER, AMOUNT, EDGE) \
+	do { \
+		CGRect _slice, _remainder; \
+		CGRectDivide((RECT), &_slice, &_remainder, (AMOUNT), (EDGE)); \
+		\
+		_MTLAssignToRectByReference(SLICE, _slice); \
+		_MTLAssignToRectByReference(REMAINDER, _remainder); \
+	} while (0)
+
 // Returns the exact center point of the given rectangle.
 CGPoint CGRectCenterPoint (CGRect rect);
 
@@ -146,3 +161,27 @@ CGPoint CGPointAdd(CGPoint p1, CGPoint p2);
 
 // Subtracts `p2` from `p1`.
 CGPoint CGPointSubtract(CGPoint p1, CGPoint p2);
+
+// Returns a pointer to a new empty rectangle, suitable for storing unused
+// values.
+#define _MTLEmptyRectPointer \
+	(&(CGRect){ .origin = CGPointZero, .size = CGSizeZero })
+
+// For internal use only.
+//
+// Assigns `RECT` into the first argument, which may be a property, `CGRect`
+// variable, or a pointer to a `CGRect`. If the argument is a pointer and is
+// `NULL`, nothing happens.
+#define _MTLAssignToRectByReference(RECT_OR_PTR, RECT) \
+	(_Generic((RECT_OR_PTR), \
+			CGRect *: *({ \
+				union { \
+					__typeof__(RECT_OR_PTR) copy; \
+					CGRect *ptr; \
+				} _u = { .copy = (RECT_OR_PTR) }; \
+				\
+				_u.ptr ?: _MTLEmptyRectPointer; \
+			}), \
+			void *: *_MTLEmptyRectPointer, \
+			default: RECT_OR_PTR \
+		) = (RECT))

@@ -20,7 +20,43 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 */
 
+#import "MTLGeometryTestObject.h"
+
 SpecBegin(MTLCGGeometryAdditions)
+
+describe(@"CGRectDivide macro", ^{
+	CGRect rect = CGRectMake(10, 20, 30, 40);
+
+	it(@"should accept NULLs", ^{
+		CGRectDivide(rect, NULL, NULL, 10, CGRectMinXEdge);
+	});
+
+	it(@"should accept pointers", ^{
+		CGRect slice, remainder;
+		CGRectDivide(rect, &slice, &remainder, 10, CGRectMinXEdge);
+
+		expect(slice).to.equal(CGRectMake(10, 20, 10, 40));
+		expect(remainder).to.equal(CGRectMake(20, 20, 20, 40));
+	});
+
+	it(@"should accept raw variables", ^{
+		CGRect slice, remainder;
+		CGRectDivide(rect, slice, remainder, 10, CGRectMinXEdge);
+
+		expect(slice).to.equal(CGRectMake(10, 20, 10, 40));
+		expect(remainder).to.equal(CGRectMake(20, 20, 20, 40));
+	});
+
+	it(@"should accept properties", ^{
+		MTLGeometryTestObject *obj = [[MTLGeometryTestObject alloc] init];
+		expect(obj).notTo.beNil();
+
+		CGRectDivide(rect, obj.slice, obj.remainder, 10, CGRectMinXEdge);
+
+		expect(obj.slice).to.equal(CGRectMake(10, 20, 10, 40));
+		expect(obj.remainder).to.equal(CGRectMake(20, 20, 20, 40));
+	});
+});
 
 describe(@"CGRectCenterPoint", ^{
 	it(@"should return the center of a valid rectangle", ^{
