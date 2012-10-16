@@ -176,6 +176,8 @@ CGPoint CGPointAdd(CGPoint p1, CGPoint p2);
 // Subtracts `p2` from `p1`.
 CGPoint CGPointSubtract(CGPoint p1, CGPoint p2);
 
+// For internal use only.
+//
 // Returns a pointer to a new empty rectangle, suitable for storing unused
 // values.
 #define _MTLEmptyRectPointer \
