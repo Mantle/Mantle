@@ -63,8 +63,8 @@ CGRect CGRectGrow (CGRect rect, CGFloat amount, CGRectEdge edge);
  *
  * rect        - The rectangle to divide.
  * slice       - Upon return, the portion of `rect` starting from `edge` and
- *               continuing for `sliceAmount` points. This argument may be NULL to not return
- *               the slice.
+ *				 continuing for `sliceAmount` points. This argument may be NULL
+ *				 to not return the slice.
  * remainder   - Upon return, the portion of `rect` beginning `padding` points
  *               after the end of the `slice`. If `rect` is not large enough to
  *               leave a remainder, this will be `CGRectZero`. This argument may
