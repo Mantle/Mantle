@@ -21,6 +21,10 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 #import "CGGeometry+MTLConvenienceAdditions.h"
 
+// Conditionalizes fmax() and similar floating-point functions based on argument
+// type, so they compile without casting on both OS X and iOS.
+#import <tgmath.h>
+
 CGPoint CGRectCenterPoint (CGRect rect) {
 	return CGPointMake(
 		CGRectGetMinX(rect) + CGRectGetWidth(rect) / 2,
@@ -283,13 +287,13 @@ CGPoint CGPointProject(CGPoint point, CGPoint direction) {
 }
 
 CGPoint CGPointProjectAlongAngle(CGPoint point, CGFloat angleInDegrees) {
-	CGFloat angleInRads = angleInDegrees * M_PI / 180;
+	CGFloat angleInRads = (CGFloat)(angleInDegrees * M_PI / 180);
 	CGPoint direction = CGPointMake(cos(angleInRads), sin(angleInRads));
 	return CGPointProject(point, direction);
 }
 
 CGFloat CGPointAngleInDegrees(CGPoint point) {
-	return atan2(point.y, point.x) * 180 / M_PI;
+	return (CGFloat)(atan2(point.y, point.x) * 180 / M_PI);
 }
 
 CGPoint CGPointAdd(CGPoint p1, CGPoint p2) {
