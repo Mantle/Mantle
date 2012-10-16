@@ -187,15 +187,24 @@ CGPoint CGPointSubtract(CGPoint p1, CGPoint p2);
 // variable, or a pointer to a `CGRect`. If the argument is a pointer and is
 // `NULL`, nothing happens.
 #define _MTLAssignToRectByReference(RECT_OR_PTR, RECT) \
+	/* Switches based on the type of the first argument. */ \
 	(_Generic((RECT_OR_PTR), \
 			CGRect *: *({ \
+				/* Copy the argument into a union so this code compiles even
+				 * when it's not a pointer. */ \
 				union { \
 					__typeof__(RECT_OR_PTR) copy; \
 					CGRect *ptr; \
 				} _u = { .copy = (RECT_OR_PTR) }; \
 				\
+				/* If the argument is NULL, assign into an empty rect instead. */ \
 				_u.ptr ?: _MTLEmptyRectPointer; \
 			}), \
+			\
+			/* void * should only occur for NULL. */ \
 			void *: *_MTLEmptyRectPointer, \
+			\
+			/* For all other cases, assign into the given variable or property
+			 * normally. */ \
 			default: RECT_OR_PTR \
 		) = (RECT))
