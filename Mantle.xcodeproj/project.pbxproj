@@ -12,6 +12,15 @@
 		88080C1A160A706900CCABF2 /* NSArray+MTLManipulationAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 88080C17160A706900CCABF2 /* NSArray+MTLManipulationAdditions.m */; };
 		88080C1D160A719D00CCABF2 /* MTLArrayManipulationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88080C1C160A719D00CCABF2 /* MTLArrayManipulationSpec.m */; };
 		88080C1E160A719D00CCABF2 /* MTLArrayManipulationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88080C1C160A719D00CCABF2 /* MTLArrayManipulationSpec.m */; };
+		D01599C2162CEA2B0015666E /* CGGeometry+MTLConvenienceAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = D01599C0162CEA2B0015666E /* CGGeometry+MTLConvenienceAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D01599C3162CEA2B0015666E /* CGGeometry+MTLConvenienceAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D01599C1162CEA2B0015666E /* CGGeometry+MTLConvenienceAdditions.m */; };
+		D01599C4162CEA2B0015666E /* CGGeometry+MTLConvenienceAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D01599C1162CEA2B0015666E /* CGGeometry+MTLConvenienceAdditions.m */; };
+		D01599C8162CEAFA0015666E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D01599C7162CEAFA0015666E /* CoreGraphics.framework */; };
+		D01599CA162CEB2A0015666E /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D01599C9162CEB2A0015666E /* ApplicationServices.framework */; };
+		D01599CB162CEC5C0015666E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D01599C7162CEAFA0015666E /* CoreGraphics.framework */; };
+		D01599CD162CEF740015666E /* MTLCGGeometryAdditionsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D01599CC162CEF740015666E /* MTLCGGeometryAdditionsSpec.m */; };
+		D01599CE162CEF740015666E /* MTLCGGeometryAdditionsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D01599CC162CEF740015666E /* MTLCGGeometryAdditionsSpec.m */; };
+		D0159A50162CF1E70015666E /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D01599C9162CEB2A0015666E /* ApplicationServices.framework */; };
 		D042FC4A15F72B23004E8054 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D042FC4815F72B23004E8054 /* InfoPlist.strings */; };
 		D042FC5615F72B23004E8054 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D042FC5515F72B23004E8054 /* SenTestingKit.framework */; };
 		D042FC5A15F72B23004E8054 /* Mantle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D042FC3C15F72B23004E8054 /* Mantle.framework */; };
@@ -192,8 +201,12 @@
 		88080C16160A706900CCABF2 /* NSArray+MTLManipulationAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+MTLManipulationAdditions.h"; sourceTree = "<group>"; };
 		88080C17160A706900CCABF2 /* NSArray+MTLManipulationAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+MTLManipulationAdditions.m"; sourceTree = "<group>"; };
 		88080C1C160A719D00CCABF2 /* MTLArrayManipulationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLArrayManipulationSpec.m; sourceTree = "<group>"; };
+		D01599C0162CEA2B0015666E /* CGGeometry+MTLConvenienceAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CGGeometry+MTLConvenienceAdditions.h"; sourceTree = "<group>"; };
+		D01599C1162CEA2B0015666E /* CGGeometry+MTLConvenienceAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CGGeometry+MTLConvenienceAdditions.m"; sourceTree = "<group>"; };
+		D01599C7162CEAFA0015666E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.0.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
+		D01599C9162CEB2A0015666E /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/ApplicationServices.framework; sourceTree = DEVELOPER_DIR; };
+		D01599CC162CEF740015666E /* MTLCGGeometryAdditionsSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLCGGeometryAdditionsSpec.m; sourceTree = "<group>"; };
 		D042FC3C15F72B23004E8054 /* Mantle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Mantle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D042FC4315F72B23004E8054 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		D042FC4415F72B23004E8054 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D042FC4715F72B23004E8054 /* Mantle-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Mantle-Info.plist"; sourceTree = "<group>"; };
 		D042FC4915F72B23004E8054 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -264,6 +277,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D01599CA162CEB2A0015666E /* ApplicationServices.framework in Frameworks */,
 				D042FC7415F72B90004E8054 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -276,6 +290,7 @@
 				D0D46A0E160BC98600AB468D /* libSpecta.a in Frameworks */,
 				D042FC5615F72B23004E8054 /* SenTestingKit.framework in Frameworks */,
 				D042FC5A15F72B23004E8054 /* Mantle.framework in Frameworks */,
+				D0159A50162CF1E70015666E /* ApplicationServices.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -283,6 +298,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D01599C8162CEAFA0015666E /* CoreGraphics.framework in Frameworks */,
 				D042FC7A15F72BC7004E8054 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -291,6 +307,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D01599CB162CEC5C0015666E /* CoreGraphics.framework in Frameworks */,
 				D0D46A13160BC98E00AB468D /* libExpecta-iOS.a in Frameworks */,
 				D0D46A14160BC98E00AB468D /* libSpecta-iOS.a in Frameworks */,
 				D042FC8815F72BC7004E8054 /* SenTestingKit.framework in Frameworks */,
@@ -327,10 +344,11 @@
 		D042FC3E15F72B23004E8054 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D090E63A15F73249005282F9 /* libextobjc */,
 				D042FCCB15F72EE8004E8054 /* Expecta.xcodeproj */,
 				D042FCEE15F72EF1004E8054 /* Specta.xcodeproj */,
-				D090E63A15F73249005282F9 /* libextobjc */,
-				D042FC4315F72B23004E8054 /* CoreData.framework */,
+				D01599C9162CEB2A0015666E /* ApplicationServices.framework */,
+				D01599C7162CEAFA0015666E /* CoreGraphics.framework */,
 				D042FC4415F72B23004E8054 /* Foundation.framework */,
 				D042FC5515F72B23004E8054 /* SenTestingKit.framework */,
 			);
@@ -459,6 +477,7 @@
 			isa = PBXGroup;
 			children = (
 				88080C1C160A719D00CCABF2 /* MTLArrayManipulationSpec.m */,
+				D01599CC162CEF740015666E /* MTLCGGeometryAdditionsSpec.m */,
 				D0C27CF5161107E5002FE587 /* MTLDictionaryManipulationSpec.m */,
 				D090E66015F73315005282F9 /* MTLHigherOrderAdditionsSpec.m */,
 				D0760EC315FFCA250060F550 /* MTLModelSpec.m */,
@@ -472,6 +491,8 @@
 		D090E62515F730B2005282F9 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				D01599C0162CEA2B0015666E /* CGGeometry+MTLConvenienceAdditions.h */,
+				D01599C1162CEA2B0015666E /* CGGeometry+MTLConvenienceAdditions.m */,
 				D090E62615F730D1005282F9 /* NSArray+MTLHigherOrderAdditions.h */,
 				D090E62715F730D1005282F9 /* NSArray+MTLHigherOrderAdditions.m */,
 				88080C16160A706900CCABF2 /* NSArray+MTLManipulationAdditions.h */,
@@ -545,6 +566,7 @@
 				D064BA2C1613B36C004CA27A /* NSNotificationCenter+MTLWeakReferenceAdditions.h in Headers */,
 				D0C27D0A16110973002FE587 /* NSDictionary+MTLManipulationAdditions.h in Headers */,
 				D0F117491614C5600092520B /* NSValueTransformer+MTLPredefinedTransformerAdditions.h in Headers */,
+				D01599C2162CEA2B0015666E /* CGGeometry+MTLConvenienceAdditions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -798,6 +820,7 @@
 				D0C27D0B16110973002FE587 /* NSDictionary+MTLManipulationAdditions.m in Sources */,
 				D0F1174A1614C5600092520B /* NSValueTransformer+MTLPredefinedTransformerAdditions.m in Sources */,
 				D0CA639B1624051A0030AD06 /* EXTRuntimeExtensions.m in Sources */,
+				D01599C3162CEA2B0015666E /* CGGeometry+MTLConvenienceAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -814,6 +837,7 @@
 				D064BA341613BA75004CA27A /* MTLTestNotificationObserver.m in Sources */,
 				D0C27CF6161107E5002FE587 /* MTLDictionaryManipulationSpec.m in Sources */,
 				D0F1174D1614C8000092520B /* MTLPredefinedTransformerAdditionsSpec.m in Sources */,
+				D01599CD162CEF740015666E /* MTLCGGeometryAdditionsSpec.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -833,6 +857,7 @@
 				D0C27D0C16110973002FE587 /* NSDictionary+MTLManipulationAdditions.m in Sources */,
 				D0F1174B1614C5600092520B /* NSValueTransformer+MTLPredefinedTransformerAdditions.m in Sources */,
 				D0CA639C1624051B0030AD06 /* EXTRuntimeExtensions.m in Sources */,
+				D01599C4162CEA2B0015666E /* CGGeometry+MTLConvenienceAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -849,6 +874,7 @@
 				D064BA351613BA75004CA27A /* MTLTestNotificationObserver.m in Sources */,
 				D0C27CF7161107E5002FE587 /* MTLDictionaryManipulationSpec.m in Sources */,
 				D0F1174E1614C8000092520B /* MTLPredefinedTransformerAdditionsSpec.m in Sources */,
+				D01599CE162CEF740015666E /* MTLCGGeometryAdditionsSpec.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
