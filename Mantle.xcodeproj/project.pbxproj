@@ -18,6 +18,8 @@
 		D01599C8162CEAFA0015666E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D01599C7162CEAFA0015666E /* CoreGraphics.framework */; };
 		D01599CA162CEB2A0015666E /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D01599C9162CEB2A0015666E /* ApplicationServices.framework */; };
 		D01599CB162CEC5C0015666E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D01599C7162CEAFA0015666E /* CoreGraphics.framework */; };
+		D01599CD162CEF740015666E /* MTLCGGeometryAdditionsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D01599CC162CEF740015666E /* MTLCGGeometryAdditionsSpec.m */; };
+		D01599CE162CEF740015666E /* MTLCGGeometryAdditionsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D01599CC162CEF740015666E /* MTLCGGeometryAdditionsSpec.m */; };
 		D042FC4A15F72B23004E8054 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D042FC4815F72B23004E8054 /* InfoPlist.strings */; };
 		D042FC5615F72B23004E8054 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D042FC5515F72B23004E8054 /* SenTestingKit.framework */; };
 		D042FC5A15F72B23004E8054 /* Mantle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D042FC3C15F72B23004E8054 /* Mantle.framework */; };
@@ -202,6 +204,7 @@
 		D01599C1162CEA2B0015666E /* CGGeometry+MTLConvenienceAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CGGeometry+MTLConvenienceAdditions.m"; sourceTree = "<group>"; };
 		D01599C7162CEAFA0015666E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.0.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
 		D01599C9162CEB2A0015666E /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/ApplicationServices.framework; sourceTree = DEVELOPER_DIR; };
+		D01599CC162CEF740015666E /* MTLCGGeometryAdditionsSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLCGGeometryAdditionsSpec.m; sourceTree = "<group>"; };
 		D042FC3C15F72B23004E8054 /* Mantle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Mantle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D042FC4415F72B23004E8054 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D042FC4715F72B23004E8054 /* Mantle-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Mantle-Info.plist"; sourceTree = "<group>"; };
@@ -472,6 +475,7 @@
 			isa = PBXGroup;
 			children = (
 				88080C1C160A719D00CCABF2 /* MTLArrayManipulationSpec.m */,
+				D01599CC162CEF740015666E /* MTLCGGeometryAdditionsSpec.m */,
 				D0C27CF5161107E5002FE587 /* MTLDictionaryManipulationSpec.m */,
 				D090E66015F73315005282F9 /* MTLHigherOrderAdditionsSpec.m */,
 				D0760EC315FFCA250060F550 /* MTLModelSpec.m */,
@@ -831,6 +835,7 @@
 				D064BA341613BA75004CA27A /* MTLTestNotificationObserver.m in Sources */,
 				D0C27CF6161107E5002FE587 /* MTLDictionaryManipulationSpec.m in Sources */,
 				D0F1174D1614C8000092520B /* MTLPredefinedTransformerAdditionsSpec.m in Sources */,
+				D01599CD162CEF740015666E /* MTLCGGeometryAdditionsSpec.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -867,6 +872,7 @@
 				D064BA351613BA75004CA27A /* MTLTestNotificationObserver.m in Sources */,
 				D0C27CF7161107E5002FE587 /* MTLDictionaryManipulationSpec.m in Sources */,
 				D0F1174E1614C8000092520B /* MTLPredefinedTransformerAdditionsSpec.m in Sources */,
+				D01599CE162CEF740015666E /* MTLCGGeometryAdditionsSpec.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
