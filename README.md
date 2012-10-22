@@ -8,7 +8,7 @@ This framework is very much a work in progress at the moment, and should be cons
 
 To start building the framework, clone this repository and then run `git submodule update --init --recursive`. This will automatically pull down any dependencies.
 
-Once you have the code, check out [MTLModel](https://github.com/github/Mantle/blob/master/MTLModel.h). `MTLModel` is intended to be a powerful base class for your model objects, and comprises a large part of the framework's utility.
+Once you have the code, check out [MTLModel](https://github.com/github/Mantle/blob/master/Mantle/MTLModel.h). `MTLModel` is intended to be a powerful base class for your model objects, and comprises a large part of the framework's utility.
 
 ## Foundation Additions
 
