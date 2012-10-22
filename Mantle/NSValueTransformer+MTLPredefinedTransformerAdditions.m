@@ -18,17 +18,19 @@ NSString * const MTLURLValueTransformerName = @"MTLURLValueTransformerName";
 #pragma mark Category Loading
 
 + (void)load {
-	MTLValueTransformer *URLValueTransformer = [MTLValueTransformer
-		reversibleTransformerWithForwardBlock:^ id (NSString *str) {
-			if (![str isKindOfClass:NSString.class]) return nil;
-			return [NSURL URLWithString:str];
-		}
-		reverseBlock:^ id (NSURL *URL) {
-			if (![URL isKindOfClass:NSURL.class]) return nil;
-			return URL.absoluteString;
-		}];
-	
-	[NSValueTransformer setValueTransformer:URLValueTransformer forName:MTLURLValueTransformerName];
+	@autoreleasepool {
+		MTLValueTransformer *URLValueTransformer = [MTLValueTransformer
+			reversibleTransformerWithForwardBlock:^ id (NSString *str) {
+				if (![str isKindOfClass:NSString.class]) return nil;
+				return [NSURL URLWithString:str];
+			}
+			reverseBlock:^ id (NSURL *URL) {
+				if (![URL isKindOfClass:NSURL.class]) return nil;
+				return URL.absoluteString;
+			}];
+		
+		[NSValueTransformer setValueTransformer:URLValueTransformer forName:MTLURLValueTransformerName];
+	}
 }
 
 #pragma mark Customizable Transformers
