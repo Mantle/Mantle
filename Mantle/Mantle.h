@@ -6,7 +6,6 @@
 //  Copyright (c) 2012 GitHub. All rights reserved.
 //
 
-#import "CGGeometry+MTLConvenienceAdditions.h"
 #import "MTLModel.h"
 #import "MTLValueTransformer.h"
 #import "NSArray+MTLHigherOrderAdditions.h"
