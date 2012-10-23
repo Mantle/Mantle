@@ -1040,6 +1040,7 @@
 				GCC_PREFIX_HEADER = "$PRODUCT_NAME/$PRODUCT_NAME-Prefix.pch";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = Mantle;
+				VALID_ARCHS = "armv6 armv7 i386 armv7s";
 			};
 			name = Debug;
 		};
@@ -1052,6 +1053,7 @@
 				GCC_PREFIX_HEADER = "$PRODUCT_NAME/$PRODUCT_NAME-Prefix.pch";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = Mantle;
+				VALID_ARCHS = "armv6 armv7 i386 armv7s";
 			};
 			name = Release;
 		};
@@ -1151,6 +1153,7 @@
 				GCC_PREFIX_HEADER = "$PRODUCT_NAME/$PRODUCT_NAME-Prefix.pch";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = Mantle;
+				VALID_ARCHS = "armv6 armv7 i386 armv7s";
 			};
 			name = Profile;
 		};
