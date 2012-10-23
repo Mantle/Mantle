@@ -12,7 +12,16 @@ Pod::Spec.new do |s|
   s.framework    = 'Foundation'
 
   s.ios.deployment_target = '5.0' # there are usages of __weak
+  s.osx.deployment_target = '10.7'
   s.requires_arc = true
 
-  s.dependency 'libextobjc', '~> 0.2'
+  libextobjc_subspecs = %w[
+    EXTScope
+    EXTKeyPathCoding ]
+
+  libextobj_subspecs.each do |subspec|
+    s.dependency "libextobjc/#{subspec}", '~> 0.2'
+  end
+
 end
+
