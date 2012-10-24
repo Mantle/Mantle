@@ -15,13 +15,9 @@ Pod::Spec.new do |s|
   s.osx.deployment_target = '10.7'
   s.requires_arc = true
 
-  libextobjc_subspecs = %w[
-    EXTScope
-    EXTKeyPathCoding ]
-
-  libextobj_subspecs.each do |subspec|
-    s.dependency "libextobjc/#{subspec}", '~> 0.2'
-  end
+  s.dependency 'libextobjc/EXTScope'
+  s.dependency 'libextobjc/EXTKeyPathCoding'
 
 end
+
 
