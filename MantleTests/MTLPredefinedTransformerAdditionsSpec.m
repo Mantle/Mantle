@@ -23,6 +23,27 @@ it(@"should define a URL value transformer", ^{
 	expect([transformer reverseTransformedValue:nil]).to.beNil();
 });
 
+it(@"should define an NSNumber boolean value transformer", ^{
+	NSValueTransformer *transformer = [NSValueTransformer valueTransformerForName:MTLBooleanValueTransformerName];
+	expect(transformer).notTo.beNil();
+	expect([transformer.class allowsReverseTransformation]).to.beTruthy();
+
+	NSNumber *booleanYES = @(1);
+	expect([transformer transformedValue:booleanYES]).to.equal([NSNumber numberWithBOOL:YES]);
+	expect([[transformer transformedValue:booleanYES] class]).to.equal(@"__NSCFBoolean");
+	expect([transformer reverseTransformedValue:booleanYES]).to.equal([NSNumber numberWithBOOL:YES]);
+	expect([[[transformer reverseTransformedValue:booleanYES] class] description]).to.equal(@"__NSCFBoolean");
+
+	NSNumber *booleanNO = @(0);
+	expect([transformer transformedValue:booleanNO]).to.equal([NSNumber numberWithBOOL:NO]);
+	expect([[transformer transformedValue:booleanNO] class]).to.equal(@"__NSCFBoolean");
+	expect([transformer reverseTransformedValue:booleanNO]).to.equal([NSNumber numberWithBOOL:NO]);
+	expect([[[transformer reverseTransformedValue:booleanNO] class] description]).to.equal(@"__NSCFBoolean");
+
+	expect([transformer transformedValue:nil]).to.beNil();
+	expect([transformer reverseTransformedValue:nil]).to.beNil();
+});
+
 describe(@"external representation transformer", ^{
 	__block MTLTestModel *model;
 	__block NSValueTransformer *transformer;

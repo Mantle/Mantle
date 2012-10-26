@@ -11,6 +11,9 @@
 // The name for a value transformer that converts strings into URLs and back.
 extern NSString * const MTLURLValueTransformerName;
 
+// Ensure an NSNumber is backed by NSCFBoolean (for JSON serialization)
+extern NSString * const MTLBooleanValueTransformerName
+
 @interface NSValueTransformer (MTLPredefinedTransformerAdditions)
 
 // Returns a reversible transformer which will convert an external
