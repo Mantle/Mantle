@@ -16,3 +16,4 @@
 #import "NSOrderedSet+MTLHigherOrderAdditions.h"
 #import "NSSet+MTLHigherOrderAdditions.h"
 #import "NSValueTransformer+MTLPredefinedTransformerAdditions.h"
+#import "NSObject+MTLComparisonAdditions.h"
