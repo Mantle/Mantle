@@ -36,6 +36,15 @@ describe(@"MTLEqualObjects", ^{
 	it(@"returns the same value when given symmetric arguments", ^{
 		expect(MTLEqualObjects(obj2, obj1)).to.equal(MTLEqualObjects(obj1, obj2));
 	});
+
+	describe(@"when comparing mutable objects", ^{
+		id mutableObj1 = [obj1 mutableCopy];
+		id mutableObj2 = [obj1 mutableCopy];
+
+		it(@"returns true when given two equal but not identical objects", ^{
+			expect(MTLEqualObjects(mutableObj1, mutableObj2)).to.beTruthy();
+		});
+	});
 });
 
 SpecEnd
