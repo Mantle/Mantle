@@ -11,5 +11,5 @@
 
 #import <Foundation/Foundation.h>
 
-// Returns YES if the objects are equal via -isEqual: or if both are nil.
+// Returns whether both objects are identical or equal via -isEqual:
 BOOL MTLEqualObjects(id obj1, id obj2);
