@@ -32,13 +32,13 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 		
 		[NSValueTransformer setValueTransformer:URLValueTransformer forName:MTLURLValueTransformerName];
 
-		MTLValueTransformer *BooleanValueTransformer = [MTLValueTransformer
+		MTLValueTransformer *booleanValueTransformer = [MTLValueTransformer
 			reversibleTransformerWithBlock:^ id (NSNumber *boolean) {
 				if (![boolean isKindOfClass:NSNumber.class]) return nil;
-				return [NSNumber numberWithBOOL:[boolean boolValue]];
+				return (NSNumber *)(boolean.boolValue ? kCFBooleanTrue : kCFBooleanFalse);
 			}];
 
-		[NSValueTransformer setValueTransformer:BooleanValueTransformer forName:MTLBooleanValueTransformerName];
+		[NSValueTransformer setValueTransformer:booleanValueTransformer forName:MTLBooleanValueTransformerName];
 	}
 }
 

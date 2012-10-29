@@ -24,21 +24,36 @@ it(@"should define a URL value transformer", ^{
 });
 
 it(@"should define an NSNumber boolean value transformer", ^{
+	CFBooleanRef boolTrue, boolFalse;
+
+	// Back these NSNumbers with ints, rather than booleans,
+	// to ensure that the value transformers are actually transforming.
+	NSNumber *booleanYES = @(1);
+	NSNumber *booleanNO = @(0);
+
 	NSValueTransformer *transformer = [NSValueTransformer valueTransformerForName:MTLBooleanValueTransformerName];
 	expect(transformer).notTo.beNil();
 	expect([transformer.class allowsReverseTransformation]).to.beTruthy();
 
-	NSNumber *booleanYES = @(1);
-	expect([transformer transformedValue:booleanYES]).to.equal([NSNumber numberWithBOOL:YES]);
-	expect([[transformer transformedValue:booleanYES] class]).to.equal(@"__NSCFBoolean");
-	expect([transformer reverseTransformedValue:booleanYES]).to.equal([NSNumber numberWithBOOL:YES]);
-	expect([[[transformer reverseTransformedValue:booleanYES] class] description]).to.equal(@"__NSCFBoolean");
+	expect([transformer transformedValue:booleanYES]).to.equal([NSNumber numberWithBool:YES]);
+	boolTrue = (CFBooleanRef)CFBridgingRetain([transformer transformedValue:booleanYES]);
+	expect(boolTrue).to.equal(kCFBooleanTrue);
+	CFRelease(boolTrue);
 
-	NSNumber *booleanNO = @(0);
-	expect([transformer transformedValue:booleanNO]).to.equal([NSNumber numberWithBOOL:NO]);
-	expect([[transformer transformedValue:booleanNO] class]).to.equal(@"__NSCFBoolean");
-	expect([transformer reverseTransformedValue:booleanNO]).to.equal([NSNumber numberWithBOOL:NO]);
-	expect([[[transformer reverseTransformedValue:booleanNO] class] description]).to.equal(@"__NSCFBoolean");
+	expect([transformer reverseTransformedValue:booleanYES]).to.equal([NSNumber numberWithBool:YES]);
+	boolTrue = (CFBooleanRef)CFBridgingRetain([transformer reverseTransformedValue:booleanYES]);
+	expect(boolTrue).to.equal(kCFBooleanTrue);
+	CFRelease(boolTrue);
+
+	expect([transformer transformedValue:booleanNO]).to.equal([NSNumber numberWithBool:NO]);
+	boolFalse = (CFBooleanRef)CFBridgingRetain([transformer reverseTransformedValue:booleanNO]);
+	expect(boolFalse).to.equal(kCFBooleanFalse);
+	CFRelease(boolFalse);
+
+	expect([transformer reverseTransformedValue:booleanNO]).to.equal([NSNumber numberWithBool:NO]);
+	boolFalse = (CFBooleanRef)CFBridgingRetain([transformer reverseTransformedValue:booleanNO]);
+	expect(boolFalse).to.equal(kCFBooleanFalse);
+	CFRelease(boolFalse);
 
 	expect([transformer transformedValue:nil]).to.beNil();
 	expect([transformer reverseTransformedValue:nil]).to.beNil();
