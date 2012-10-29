@@ -290,9 +290,6 @@ make your life easier, including:
    [NSOrderedSet](https://github.com/github/Mantle/blob/master/Mantle/NSOrderedSet%2BMTLHigherOrderAdditions.h),
    and [NSSet](https://github.com/github/Mantle/blob/master/Mantle/NSSet%2BMTLHigherOrderAdditions.h).
  * **[Weak notification center observers](https://github.com/github/Mantle/blob/master/Mantle/NSNotificationCenter%2BMTLWeakReferenceAdditions.h)**
- * **[Convenient geometry
-   functions](https://github.com/github/Mantle/blob/master/Mantle/CGGeometry%2BMTLConvenienceAdditions.h)**
-   for use with `CGRect`, `CGSize`, and `CGPoint`.
 
 There will assuredly be more, as we run into other common pain points!
 
