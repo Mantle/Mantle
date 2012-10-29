@@ -1,6 +1,7 @@
 # Mantle
 
-Mantle makes it easy to write a simple model layer for your Cocoa or Cocoa Touch application.
+Mantle makes it easy to write a simple model layer for your Cocoa or Cocoa Touch
+application.
 
 But wait, what's wrong with the way model objects are usually written in Objective-C?
 
@@ -268,6 +269,15 @@ what gets encoded in `-encodeWithCoder:`. No saving fragile enum values!
 archival. When unarchiving, `+migrateExternalRepresentation:fromVersion:` will
 be invoked if migration is needed, giving you a convenient hook to upgrade old
 data.
+
+## Persistence
+
+Mantle doesn't automatically persist your objects for you. However, `MTLModel`
+does conform to `<NSCoding>`, so model objects can be archived to disk using
+`NSKeyedArchiver`.
+
+If you need something more powerful, or want to avoid keeping your whole model
+in memory at once, Core Data may be a better choice.
 
 ## Other Extensions
 
