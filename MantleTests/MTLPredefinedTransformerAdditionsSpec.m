@@ -34,16 +34,16 @@ it(@"should define an NSNumber boolean value transformer", ^{
 	expect([transformer.class allowsReverseTransformation]).to.beTruthy();
 
 	expect([transformer transformedValue:booleanYES]).to.equal([NSNumber numberWithBool:YES]);
-	expect([transformer transformedValue:booleanYES]).to.equal((NSNumber*)kCFBooleanTrue);
+	expect([transformer transformedValue:booleanYES]).to.equal((id)kCFBooleanTrue);
 
 	expect([transformer reverseTransformedValue:booleanYES]).to.equal([NSNumber numberWithBool:YES]);
-	expect([transformer reverseTransformedValue:booleanYES]).to.equal((NSNumber*)kCFBooleanTrue);
+	expect([transformer reverseTransformedValue:booleanYES]).to.equal((id)kCFBooleanTrue);
 
 	expect([transformer transformedValue:booleanNO]).to.equal([NSNumber numberWithBool:NO]);
-	expect([transformer transformedValue:booleanNO]).to.equal((NSNumber*)kCFBooleanFalse);
+	expect([transformer transformedValue:booleanNO]).to.equal((id)kCFBooleanFalse);
 
 	expect([transformer reverseTransformedValue:booleanNO]).to.equal([NSNumber numberWithBool:NO]);
-	expect([transformer reverseTransformedValue:booleanNO]).to.equal((NSNumber*)kCFBooleanFalse);
+	expect([transformer reverseTransformedValue:booleanNO]).to.equal((id)kCFBooleanFalse);
 
 	expect([transformer transformedValue:nil]).to.beNil();
 	expect([transformer reverseTransformedValue:nil]).to.beNil();
