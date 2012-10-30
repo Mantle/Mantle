@@ -3,9 +3,19 @@
 Mantle makes it easy to write a simple model layer for your Cocoa or Cocoa Touch
 application.
 
-But wait, what's wrong with the way model objects are usually written in Objective-C?
+## Getting Started
+
+Mantle is still new and moving fast, so we may make breaking changes from
+time-to-time, but it has excellent unit test coverage and is already being used
+in GitHub for Mac's production code.
+
+To start building the framework, clone this repository and then run `git
+submodule update --init --recursive`. This will automatically pull down any
+dependencies.
 
 ## The Typical Model Object
+
+What's wrong with the way model objects are usually written in Objective-C?
 
 Let's use the [GitHub API](http://developer.github.com) for demonstration. How
 would one typically represent a [GitHub
@@ -292,16 +302,6 @@ make your life easier, including:
  * **[Weak notification center observers](https://github.com/github/Mantle/blob/master/Mantle/NSNotificationCenter%2BMTLWeakReferenceAdditions.h)**
 
 There will assuredly be more, as we run into other common pain points!
-
-## Getting Started
-
-Mantle is still new and moving fast, so we may make breaking changes from
-time-to-time, but it has excellent unit test coverage and is already being used
-in GitHub for Mac's production code.
-
-To start building the framework, clone this repository and then run `git
-submodule update --init --recursive`. This will automatically pull down any
-dependencies.
 
 ## Contributing
 
