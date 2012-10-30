@@ -12,6 +12,7 @@
 #import "MTLValueTransformer.h"
 
 NSString * const MTLURLValueTransformerName = @"MTLURLValueTransformerName";
+NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerName";
 
 @implementation NSValueTransformer (MTLPredefinedTransformerAdditions)
 
@@ -30,6 +31,14 @@ NSString * const MTLURLValueTransformerName = @"MTLURLValueTransformerName";
 			}];
 		
 		[NSValueTransformer setValueTransformer:URLValueTransformer forName:MTLURLValueTransformerName];
+
+		MTLValueTransformer *booleanValueTransformer = [MTLValueTransformer
+			reversibleTransformerWithBlock:^ id (NSNumber *boolean) {
+				if (![boolean isKindOfClass:NSNumber.class]) return nil;
+				return (NSNumber *)(boolean.boolValue ? kCFBooleanTrue : kCFBooleanFalse);
+			}];
+
+		[NSValueTransformer setValueTransformer:booleanValueTransformer forName:MTLBooleanValueTransformerName];
 	}
 }
 
