@@ -232,7 +232,7 @@ typedef enum : NSUInteger {
     };
 
     return [MTLValueTransformer reversibleTransformerWithForwardBlock:^(NSString *str) {
-        return [states[str] unsignedIntegerValue];
+        return states[str];
     } reverseBlock:^(GHIssueState state) {
         return [states allKeysForObject:@(state)].lastObject;
     }];
