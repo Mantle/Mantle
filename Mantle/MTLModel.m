@@ -141,9 +141,11 @@ static void *MTLModelCachedPropertyKeysKey = &MTLModelCachedPropertyKeysKey;
 
 	[self enumeratePropertiesUsingBlock:^(objc_property_t property, BOOL *stop) {
 		ext_propertyAttributes *attributes = ext_copyPropertyAttributes(property);
-		if (attributes->readonly && attributes->ivar == NULL) return;
+		@onExit {
+			free(attributes);
+		};
 
-		free(attributes);
+		if (attributes->readonly && attributes->ivar == NULL) return;
 
 		NSString *key = @(property_getName(property));
 		[keys addObject:key];
