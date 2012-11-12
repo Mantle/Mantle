@@ -14,3 +14,5 @@ topic), send a pull request!
 
 All code contributions should match our [coding
 conventions](https://github.com/github/objective-c-conventions).
+
+Thanks for contributing! :boom::camel:
