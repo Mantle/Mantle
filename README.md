@@ -303,14 +303,6 @@ make your life easier, including:
 
 There will assuredly be more, as we run into other common pain points!
 
-## Contributing
-
-Fork this repository, make it awesomer (preferably in a branch named for the
-topic), send a pull request!
-
-All contributions should match our [coding
-conventions](https://github.com/github/objective-c-conventions).
-
 ## License
 
 Mantle is released under the MIT license. See
