@@ -1,3 +1,8 @@
+We love that you're interested in contributing to this project!
+
+To make the process as painless as possible, we have just a couple guidelines
+that should make life easier for everyone involved.
+
 ## Prefer Pull Requests
 
 If you know exactly how to implement the feature being suggested or fix the bug
