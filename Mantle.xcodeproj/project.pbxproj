@@ -1050,7 +1050,7 @@
 					"MantleTests/expecta/src/**",
 				);
 				INFOPLIST_FILE = "MantleTests/MantleTests-Info.plist";
-				OTHER_LDFLAGS = "-all_load";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = octest;
 			};
@@ -1071,7 +1071,7 @@
 					"MantleTests/expecta/src/**",
 				);
 				INFOPLIST_FILE = "MantleTests/MantleTests-Info.plist";
-				OTHER_LDFLAGS = "-all_load";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = octest;
 			};
@@ -1149,7 +1149,7 @@
 					"MantleTests/expecta/src/**",
 				);
 				INFOPLIST_FILE = "MantleTests/MantleTests-Info.plist";
-				OTHER_LDFLAGS = "-all_load";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = octest;
 			};
