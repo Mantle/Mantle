@@ -96,6 +96,18 @@
 // This property must never be nil.
 @property (nonatomic, copy, readonly) NSDictionary *externalRepresentation;
 
+// The dictionaryValue of the receiver for the given property keys, mapped using
+// +externalRepresentationKeyPathsByPropertyKey and any reversible transformers
+// returned by +transformerForPropertyKey:. The resulting dictionary is suitable
+// for serialization.
+//
+// For any external representation key paths where values along the path are
+// nil (but the final value is not), dictionaries are automatically added so
+// that the value can be correctly set at the complete key path.
+//
+// This method should never be nil.
+- (NSDictionary *)externalRepresentationForPropertyKeys:(NSArray *)propertyKeys;
+
 // The version of this MTLModel subclass.
 //
 // Returns 0.
