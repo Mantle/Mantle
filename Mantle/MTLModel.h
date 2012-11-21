@@ -105,7 +105,7 @@
 // nil (but the final value is not), dictionaries are automatically added so
 // that the value can be correctly set at the complete key path.
 //
-// This method should never be nil.
+// Returns a dictionary representation of the given keys. Will not be nil.
 - (NSDictionary *)externalRepresentationForPropertyKeys:(NSArray *)propertyKeys;
 
 // The version of this MTLModel subclass.
