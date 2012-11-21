@@ -120,6 +120,16 @@ describe(@"subclass", ^{
 			expect(model.externalRepresentation).to.equal(expectedValues);
 		});
 
+		it(@"should include only requested properties in external representation", ^{
+			NSDictionary *expectedValues = @{
+				@"username": @"foobar",
+				@"nested": @{ @"name": @"fuzzbuzz" }
+			};
+
+			NSDictionary *externalRepresentation = [model externalRepresentationForPropertyKeys:@[@"name", @"nestedName"]];
+			expect(externalRepresentation).to.equal(expectedValues);
+		});
+
 		it(@"should compare equal to a matching model", ^{
 			expect(model).to.equal(model);
 

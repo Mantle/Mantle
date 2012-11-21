@@ -184,7 +184,11 @@ static void *MTLModelCachedPropertyKeysKey = &MTLModelCachedPropertyKeysKey;
 }
 
 - (NSDictionary *)externalRepresentation {
-	NSDictionary *dictionary = self.dictionaryValue;
+	return [self externalRepresentationForPropertyKeys:self.class.propertyKeys.allObjects];
+}
+
+- (NSDictionary *)externalRepresentationForPropertyKeys:(NSArray *)propertyKeys {
+	NSDictionary *dictionary = [self dictionaryWithValuesForKeys:propertyKeys];
 
 	NSDictionary *externalKeyPathsByPropertyKey = self.class.externalRepresentationKeyPathsByPropertyKey;
 	NSMutableDictionary *mappedDictionary = [NSMutableDictionary dictionaryWithCapacity:dictionary.count];
