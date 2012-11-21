@@ -13,3 +13,5 @@ build/*
 xcuserdata
 profile
 *.moved-aside
+# Desktop Servies
+.DS_Store
