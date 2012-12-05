@@ -136,8 +136,9 @@ extern NSString * const MTLModelJSONFormat;
 // Determines how the given property key should be encoded into the specified
 // external representation format.
 //
-// This method is only automatically invoked by -encodeWithCoder:.
-+ (MTLModelEncodingBehavior)encodingBehaviorForPropertyKey:(NSString *)key externalRepresentationFormat:(NSString *)externalRepresentationFormat;
+// This method is automatically invoked by -encodeWithCoder: and
+// -externalRepresentationInFormat:.
+- (MTLModelEncodingBehavior)encodingBehaviorForPropertyKey:(NSString *)key externalRepresentationFormat:(NSString *)externalRepresentationFormat;
 
 // Transforms the receiver's dictionaryValue into the given external
 // representation format, suitable for serialization.
@@ -146,6 +147,11 @@ extern NSString * const MTLModelJSONFormat;
 // +keyPathsByPropertyKeyForExternalRepresentationFormat:, and the values are
 // mapped using any reversible transformers returned by
 // +transformerForPropertyKey:externalRepresentationFormat:.
+//
+// Any keys for which
+// -encodingBehaviorForPropertyKey:externalRepresentationFormat: returns
+// MTLModelEncodingBehaviorNone will be omitted from the returned dictionary.
+// All other keys will be included by default.
 //
 // For any external representation key paths where values along the path are
 // nil (but the final value is not), dictionaries are automatically added so
