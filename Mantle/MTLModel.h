@@ -16,6 +16,11 @@
 //                                         encoded.
 // MTLModelEncodingBehaviorConditional   - The property should be encoded only
 //                                         if unconditionally encoded elsewhere.
+//                                         This is only honored for
+//                                         MTLModelKeyedArchiveFormat by
+//                                         default. For all other cases, it
+//                                         behaves like
+//                                         MTLModelEncodingBehaviorUnconditional.
 typedef enum : NSUInteger {
     MTLModelEncodingBehaviorNone,
     MTLModelEncodingBehaviorUnconditional,
