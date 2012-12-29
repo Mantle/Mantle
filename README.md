@@ -164,8 +164,9 @@ It does, however, come with a couple of pain points:
 If you're just trying to access some JSON objects, Core Data can be a lot of
 work for little gain.
 
-Even if you're using Core Data in your app already, Mantle can still be a
-convenient translation layer between the API and your persisted model objects.
+Nonetheless, if you're using or want to use Core Data in your app already,
+Mantle can still be a convenient translation layer between the API and your managed
+model objects.
 
 ## MTLModel
 
