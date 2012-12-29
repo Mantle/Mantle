@@ -152,13 +152,8 @@ Core Data solves certain problems very well. If you need to execute complex
 queries across your data, handle a huge object graph with lots of relationships,
 or support undo and redo, Core Data is an excellent fit.
 
-It does, however, come with some pain points:
+It does, however, come with a couple of pain points:
 
- * **Concurrency is a huge headache.** It's particularly difficult to pass managed
-   objects between threads. The `NSManagedObjectContextConcurrencyTypes`
-   introduced in OS X 10.7 and iOS 5 don't really address this problem. Instead,
-   object IDs have to be passed around and translated back and forth, which is
-   highly inconvenient.
  * **There's still a lot of boilerplate.** Managed objects reduce some of the
    boilerplate seen above, but Core Data has plenty of its own. Correctly
    setting up a Core Data stack (with a persistent store and persistent store
@@ -168,6 +163,10 @@ It does, however, come with some pain points:
 
 If you're just trying to access some JSON objects, Core Data can be a lot of
 work for little gain.
+
+Nonetheless, if you're using or want to use Core Data in your app already,
+Mantle can still be a convenient translation layer between the API and your managed
+model objects.
 
 ## MTLModel
 
