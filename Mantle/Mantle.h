@@ -6,14 +6,14 @@
 //  Copyright (c) 2012 GitHub. All rights reserved.
 //
 
-#import "MTLModel.h"
-#import "MTLValueTransformer.h"
-#import "NSArray+MTLHigherOrderAdditions.h"
-#import "NSArray+MTLManipulationAdditions.h"
-#import "NSDictionary+MTLHigherOrderAdditions.h"
-#import "NSDictionary+MTLManipulationAdditions.h"
-#import "NSNotificationCenter+MTLWeakReferenceAdditions.h"
-#import "NSOrderedSet+MTLHigherOrderAdditions.h"
-#import "NSSet+MTLHigherOrderAdditions.h"
-#import "NSValueTransformer+MTLPredefinedTransformerAdditions.h"
-#import "NSObject+MTLComparisonAdditions.h"
+#import <Mantle/MTLModel.h>
+#import <Mantle/MTLValueTransformer.h>
+#import <Mantle/NSArray+MTLHigherOrderAdditions.h>
+#import <Mantle/NSArray+MTLManipulationAdditions.h>
+#import <Mantle/NSDictionary+MTLHigherOrderAdditions.h>
+#import <Mantle/NSDictionary+MTLManipulationAdditions.h>
+#import <Mantle/NSNotificationCenter+MTLWeakReferenceAdditions.h>
+#import <Mantle/NSOrderedSet+MTLHigherOrderAdditions.h>
+#import <Mantle/NSSet+MTLHigherOrderAdditions.h>
+#import <Mantle/NSValueTransformer+MTLPredefinedTransformerAdditions.h>
+#import <Mantle/NSObject+MTLComparisonAdditions.h>
