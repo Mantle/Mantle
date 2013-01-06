@@ -78,6 +78,18 @@
 		D0F1174B1614C5600092520B /* NSValueTransformer+MTLPredefinedTransformerAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F117481614C5600092520B /* NSValueTransformer+MTLPredefinedTransformerAdditions.m */; };
 		D0F1174D1614C8000092520B /* MTLPredefinedTransformerAdditionsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F1174C1614C8000092520B /* MTLPredefinedTransformerAdditionsSpec.m */; };
 		D0F1174E1614C8000092520B /* MTLPredefinedTransformerAdditionsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F1174C1614C8000092520B /* MTLPredefinedTransformerAdditionsSpec.m */; };
+		D8A172F81697E87A002CFCC8 /* Mantle.h in Headers */ = {isa = PBXBuildFile; fileRef = D042FC4C15F72B23004E8054 /* Mantle.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D8A172F91697E87A002CFCC8 /* MTLModel.h in Headers */ = {isa = PBXBuildFile; fileRef = D0760E7615FFBF330060F550 /* MTLModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D8A172FA1697E87A002CFCC8 /* MTLValueTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = D08B5AAC16002694001FE685 /* MTLValueTransformer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D8A172FB1697E87A002CFCC8 /* NSArray+MTLHigherOrderAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = D090E62615F730D1005282F9 /* NSArray+MTLHigherOrderAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D8A172FC1697E87A002CFCC8 /* NSArray+MTLManipulationAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 88080C16160A706900CCABF2 /* NSArray+MTLManipulationAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D8A172FD1697E87A002CFCC8 /* NSDictionary+MTLHigherOrderAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = D090E62815F730D1005282F9 /* NSDictionary+MTLHigherOrderAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D8A172FE1697E87A002CFCC8 /* NSDictionary+MTLManipulationAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = D0C27D0816110973002FE587 /* NSDictionary+MTLManipulationAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D8A172FF1697E87A002CFCC8 /* NSNotificationCenter+MTLWeakReferenceAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = D064BA2A1613B36C004CA27A /* NSNotificationCenter+MTLWeakReferenceAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D8A173001697E87A002CFCC8 /* NSOrderedSet+MTLHigherOrderAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = D090E62A15F730D1005282F9 /* NSOrderedSet+MTLHigherOrderAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D8A173011697E87A002CFCC8 /* NSSet+MTLHigherOrderAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = D090E62C15F730D1005282F9 /* NSSet+MTLHigherOrderAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D8A173021697E87A002CFCC8 /* NSValueTransformer+MTLPredefinedTransformerAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = D0F117471614C5600092520B /* NSValueTransformer+MTLPredefinedTransformerAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D8A173031697E87A002CFCC8 /* NSObject+MTLComparisonAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1ED5B5CE163A4E3C0072668E /* NSObject+MTLComparisonAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -180,18 +192,6 @@
 			remoteInfo = "Specta-iOS";
 		};
 /* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		D042FC7715F72BC7004E8054 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "include/${PRODUCT_NAME}";
-			dstSubfolderSpec = 16;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		1ED5B5CB163A4E2B0072668E /* MTLComparisonAdditionsSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLComparisonAdditionsSpec.m; sourceTree = "<group>"; };
@@ -558,6 +558,25 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D8A172F71697E860002CFCC8 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D8A172F81697E87A002CFCC8 /* Mantle.h in Headers */,
+				D8A172F91697E87A002CFCC8 /* MTLModel.h in Headers */,
+				D8A172FA1697E87A002CFCC8 /* MTLValueTransformer.h in Headers */,
+				D8A172FB1697E87A002CFCC8 /* NSArray+MTLHigherOrderAdditions.h in Headers */,
+				D8A172FC1697E87A002CFCC8 /* NSArray+MTLManipulationAdditions.h in Headers */,
+				D8A172FD1697E87A002CFCC8 /* NSDictionary+MTLHigherOrderAdditions.h in Headers */,
+				D8A172FE1697E87A002CFCC8 /* NSDictionary+MTLManipulationAdditions.h in Headers */,
+				D8A172FF1697E87A002CFCC8 /* NSNotificationCenter+MTLWeakReferenceAdditions.h in Headers */,
+				D8A173001697E87A002CFCC8 /* NSOrderedSet+MTLHigherOrderAdditions.h in Headers */,
+				D8A173011697E87A002CFCC8 /* NSSet+MTLHigherOrderAdditions.h in Headers */,
+				D8A173021697E87A002CFCC8 /* NSValueTransformer+MTLPredefinedTransformerAdditions.h in Headers */,
+				D8A173031697E87A002CFCC8 /* NSObject+MTLComparisonAdditions.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
@@ -606,7 +625,7 @@
 			buildPhases = (
 				D042FC7515F72BC7004E8054 /* Sources */,
 				D042FC7615F72BC7004E8054 /* Frameworks */,
-				D042FC7715F72BC7004E8054 /* CopyFiles */,
+				D8A172F71697E860002CFCC8 /* Headers */,
 			);
 			buildRules = (
 			);
@@ -1020,6 +1039,7 @@
 				GCC_PREFIX_HEADER = "$PRODUCT_NAME/$PRODUCT_NAME-Prefix.pch";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = Mantle;
+				PUBLIC_HEADERS_FOLDER_PATH = include/Mantle;
 			};
 			name = Debug;
 		};
@@ -1032,6 +1052,7 @@
 				GCC_PREFIX_HEADER = "$PRODUCT_NAME/$PRODUCT_NAME-Prefix.pch";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = Mantle;
+				PUBLIC_HEADERS_FOLDER_PATH = include/Mantle;
 			};
 			name = Release;
 		};
@@ -1131,6 +1152,7 @@
 				GCC_PREFIX_HEADER = "$PRODUCT_NAME/$PRODUCT_NAME-Prefix.pch";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = Mantle;
+				PUBLIC_HEADERS_FOLDER_PATH = include/Mantle;
 			};
 			name = Profile;
 		};
