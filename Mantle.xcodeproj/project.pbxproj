@@ -968,7 +968,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D042FCB015F72C16004E8054 /* Mac-Framework.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
@@ -983,7 +982,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D042FCB015F72C16004E8054 /* Mac-Framework.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
@@ -998,7 +996,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D042FCAD15F72C16004E8054 /* Mac-Application.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
 				GCC_PREFIX_HEADER = "MantleTests/MantleTests-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -1016,7 +1013,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D042FCAD15F72C16004E8054 /* Mac-Application.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
 				GCC_PREFIX_HEADER = "MantleTests/MantleTests-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -1112,7 +1108,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D042FCB015F72C16004E8054 /* Mac-Framework.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
@@ -1127,7 +1122,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D042FCAD15F72C16004E8054 /* Mac-Application.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
 				GCC_PREFIX_HEADER = "MantleTests/MantleTests-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
