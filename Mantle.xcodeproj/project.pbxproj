@@ -1039,7 +1039,6 @@
 				GCC_PREFIX_HEADER = "$PRODUCT_NAME/$PRODUCT_NAME-Prefix.pch";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = Mantle;
-				PUBLIC_HEADERS_FOLDER_PATH = include/Mantle;
 			};
 			name = Debug;
 		};
@@ -1052,7 +1051,6 @@
 				GCC_PREFIX_HEADER = "$PRODUCT_NAME/$PRODUCT_NAME-Prefix.pch";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = Mantle;
-				PUBLIC_HEADERS_FOLDER_PATH = include/Mantle;
 			};
 			name = Release;
 		};
@@ -1152,7 +1150,6 @@
 				GCC_PREFIX_HEADER = "$PRODUCT_NAME/$PRODUCT_NAME-Prefix.pch";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = Mantle;
-				PUBLIC_HEADERS_FOLDER_PATH = include/Mantle;
 			};
 			name = Profile;
 		};
