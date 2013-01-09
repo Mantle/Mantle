@@ -4,7 +4,7 @@
 
 #ifdef __OBJC__
 	#import <Foundation/Foundation.h>
-    #import "Mantle.h"
+    #import <Mantle/Mantle.h>
 
     #import "Specta.h"
 
