@@ -180,4 +180,14 @@
     return [(__bridge id)match self];
 }
 
+- (BOOL)mtl_anyObjectPassingTest:(BOOL (^)(id obj))predicate {
+	NSParameterAssert(predicate != NULL);
+
+	return [self mtl_objectPassingTest:^(id obj, BOOL *stop) {
+		BOOL passes = predicate(obj);
+		if (passes) *stop = YES;
+		return passes;
+	}] != nil;
+}
+
 @end
