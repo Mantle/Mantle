@@ -137,4 +137,11 @@
  */
 - (id)mtl_objectWithOptions:(NSEnumerationOptions)opts passingTest:(BOOL (^)(id obj, BOOL *stop))predicate;
 
+// Looks for an object for which the predicate block returns YES.
+//
+// predicate - The test to apply to each element in the receiver. Cannot be nil.
+//
+// Returns whether any object in the receiver passes the test.
+- (BOOL)mtl_anyObjectPassingTest:(BOOL (^)(id obj))predicate;
+
 @end

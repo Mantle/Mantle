@@ -501,6 +501,28 @@ describe(@"non-empty collection", ^{
 		expect([set mtl_objectPassingTest:unorderedTestBlock]).to.beNil();
 	});
 
+	describe(@"-mtl_anyObjectPassingTest:", ^{
+		it(@"should return NO when no objects pass the test", ^{
+			id predicate = ^(NSString *string) {
+				return [string hasPrefix:@"quu"];
+			};
+
+			expect([array mtl_anyObjectPassingTest:predicate]).to.beFalsy();
+			expect([orderedSet mtl_anyObjectPassingTest:predicate]).to.beFalsy();
+			expect([set mtl_anyObjectPassingTest:predicate]).to.beFalsy();
+		});
+
+		it(@"should return YES when some object passes the test", ^{
+			id predicate = ^(NSString *string) {
+				return [string hasPrefix:@"foo"];
+			};
+
+			expect([array mtl_anyObjectPassingTest:predicate]).to.beTruthy();
+			expect([orderedSet mtl_anyObjectPassingTest:predicate]).to.beTruthy();
+			expect([set mtl_anyObjectPassingTest:predicate]).to.beTruthy();
+		});
+	});
+
 	describe(@"successful left folding", ^{
 		NSString *startingValue = @"aaaa";
 
