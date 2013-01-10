@@ -173,4 +173,12 @@
 	}
 }
 
+- (BOOL)mtl_anyObjectPassingTest:(BOOL (^)(id obj))predicate {
+	NSParameterAssert(predicate != NULL);
+
+	return [self indexOfObjectPassingTest:^(id obj, NSUInteger idx, BOOL *stop) {
+		return predicate(obj);
+	}] != NSNotFound;
+}
+
 @end
