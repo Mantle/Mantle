@@ -184,7 +184,9 @@
 	NSParameterAssert(predicate != NULL);
 
 	return [self mtl_objectPassingTest:^(id obj, BOOL *stop) {
-		return predicate(obj);
+		BOOL passes = predicate(obj);
+		if (passes) *stop = YES;
+		return passes;
 	}] != nil;
 }
 

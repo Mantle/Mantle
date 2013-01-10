@@ -177,7 +177,9 @@
 	NSParameterAssert(predicate != NULL);
 
 	return [self indexOfObjectPassingTest:^(id obj, NSUInteger idx, BOOL *stop) {
-		return predicate(obj);
+		BOOL passes = predicate(obj);
+		if (passes) *stop = YES;
+		return passes;
 	}] != NSNotFound;
 }
 
