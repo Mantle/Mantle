@@ -274,6 +274,7 @@ static void *MTLModelCachedPropertyKeysKey = &MTLModelCachedPropertyKeysKey;
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
 	NSDictionary *externalRepresentation = nil;
+	NSNumber *version = nil;
 	if ([coder respondsToSelector:@selector(decodeObjectOfClass:forKey:)]) {
 		// There's a bug with NSSecureCoding that prevents using -decodeObjectOfClass:forKey: directly
 		// with container classes. The only workaround is to archive/unarchive the object before
@@ -283,11 +284,11 @@ static void *MTLModelCachedPropertyKeysKey = &MTLModelCachedPropertyKeysKey;
 		NSData *externalRepresentationData = [coder decodeObjectOfClass:[NSData class] forKey:@keypath(self.externalRepresentation)];
 		if (externalRepresentationData)
 			externalRepresentation = [NSKeyedUnarchiver unarchiveObjectWithData:externalRepresentationData];
+		version = [coder decodeObjectOfClass:[NSNumber class] forKey:MTLModelVersionKey];
 	} else {
 		externalRepresentation = [coder decodeObjectForKey:@keypath(self.externalRepresentation)];
+		version = [coder decodeObjectForKey:MTLModelVersionKey];
 	}
-
-	NSNumber *version = [coder decodeObjectForKey:MTLModelVersionKey];
 	if (version == nil) {
 		NSLog(@"Warning: decoding an external representation without a version: %@", externalRepresentation);
 	} else if (version.unsignedIntegerValue > self.class.modelVersion) {
