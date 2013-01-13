@@ -282,7 +282,7 @@ static void *MTLModelCachedPropertyKeysKey = &MTLModelCachedPropertyKeysKey;
 		
 		NSData *externalRepresentationData = [coder decodeObjectOfClass:[NSData class] forKey:@keypath(self.externalRepresentation)];
 		if (externalRepresentationData)
-			externalRepresentationData = [NSKeyedUnarchiver unarchiveObjectWithData:externalRepresentationData];
+			externalRepresentation = [NSKeyedUnarchiver unarchiveObjectWithData:externalRepresentationData];
 	} else {
 		externalRepresentation = [coder decodeObjectForKey:@keypath(self.externalRepresentation)];
 	}
