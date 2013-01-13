@@ -16,7 +16,7 @@
 // the +propertyKeys method. The default implementation of <NSCoding> will
 // archive and unarchive the externalRepresentation of the instance.
 //
-@interface MTLModel : NSObject <NSCoding, NSCopying>
+@interface MTLModel : NSObject <NSSecureCoding, NSCopying>
 
 // Returns a new instance of the receiver initialized using
 // -initWithDictionary:.

@@ -273,10 +273,22 @@ static void *MTLModelCachedPropertyKeysKey = &MTLModelCachedPropertyKeysKey;
 #pragma mark NSCoding
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
-	NSDictionary *externalRepresentation = [coder decodeObjectForKey:@keypath(self.externalRepresentation)];
-	if (externalRepresentation == nil) return nil;
-
-	NSNumber *version = [coder decodeObjectForKey:MTLModelVersionKey];
+	NSDictionary *externalRepresentation = nil;
+	NSNumber *version = nil;
+	if ([coder respondsToSelector:@selector(decodeObjectOfClass:forKey:)]) {
+		// There's a bug with NSSecureCoding that prevents using -decodeObjectOfClass:forKey: directly
+		// with container classes. The only workaround is to archive/unarchive the object before
+		// encoding/decoding. The bug has been filed as rdar://13004578. Report and example project are
+		// available here: https://github.com/indragiek/radars/tree/master/13004578
+		
+		NSData *externalRepresentationData = [coder decodeObjectOfClass:[NSData class] forKey:@keypath(self.externalRepresentation)];
+		if (externalRepresentationData)
+			externalRepresentation = [NSKeyedUnarchiver unarchiveObjectWithData:externalRepresentationData];
+		version = [coder decodeObjectOfClass:[NSNumber class] forKey:MTLModelVersionKey];
+	} else {
+		externalRepresentation = [coder decodeObjectForKey:@keypath(self.externalRepresentation)];
+		version = [coder decodeObjectForKey:MTLModelVersionKey];
+	}
 	if (version == nil) {
 		NSLog(@"Warning: decoding an external representation without a version: %@", externalRepresentation);
 	} else if (version.unsignedIntegerValue > self.class.modelVersion) {
@@ -291,8 +303,20 @@ static void *MTLModelCachedPropertyKeysKey = &MTLModelCachedPropertyKeysKey;
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
-	[coder encodeObject:self.externalRepresentation forKey:@keypath(self.externalRepresentation)];
+	if ([coder respondsToSelector:@selector(decodeObjectOfClass:forKey:)]) {
+		if (self.externalRepresentation) {
+			NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self.externalRepresentation];
+			[coder encodeObject:data forKey:@keypath(self.externalRepresentation)];
+		}
+	} else {
+		[coder encodeObject:self.externalRepresentation forKey:@keypath(self.externalRepresentation)];
+	}
 	[coder encodeObject:@(self.class.modelVersion) forKey:MTLModelVersionKey];
+}
+
++ (BOOL)supportsSecureCoding
+{
+	return YES;
 }
 
 #pragma mark NSObject
