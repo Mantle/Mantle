@@ -52,10 +52,6 @@ extern NSString * const MTLModelJSONFormat;
 // -initWithDictionary:.
 + (instancetype)modelWithDictionary:(NSDictionary *)dictionaryValue;
 
-// Returns a new instance of the receiver initialized using
-// -initWithExternalRepresentation:inFormat:.
-+ (instancetype)modelWithExternalRepresentation:(id)externalRepresentation inFormat:(NSString *)externalRepresentationFormat;
-
 // Initializes the receiver with default values.
 //
 // This is the designated initializer for this class.
@@ -70,6 +66,56 @@ extern NSString * const MTLModelJSONFormat;
 //
 // Returns an initialized model object, or nil if validation failed.
 - (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue;
+
+// Returns a copy of the receiver, initialized using -initWithDictionary: with
+// the receiver's dictionaryValue.
+- (instancetype)copyWithZone:(NSZone *)zone;
+
+// The version of this MTLModel subclass.
+//
+// Returns 0.
++ (NSUInteger)modelVersion;
+
+// Returns the keys for all @property declarations, except for `readonly`
+// properties without backing ivars, or properties on MTLModel itself.
++ (NSSet *)propertyKeys;
+
+// A dictionary representing the properties of the receiver.
+//
+// The default implementation combines the values corresponding to all
+// +propertyKeys into a dictionary, with any nil values represented by NSNull.
+//
+// This property must never be nil.
+@property (nonatomic, copy, readonly) NSDictionary *dictionaryValue;
+
+// Merges the value of the given key on the receiver with the value of the same
+// key from the given model object, giving precedence to the other model object.
+//
+// By default, this method looks for a `-merge<Key>FromModel:` method on the
+// receiver, and invokes it if found. If not found, and `model` is not nil, the
+// value for the given key is taken from `model`.
+- (void)mergeValueForKey:(NSString *)key fromModel:(MTLModel *)model;
+
+// Merges the values of the given model object into the receiver, using
+// -mergeValueForKey:fromModel: for each key in +propertyKeys.
+//
+// `model` must be an instance of the receiver's class or a subclass thereof.
+- (void)mergeValuesForKeysFromModel:(MTLModel *)model;
+
+// Returns a hash of the receiver's dictionaryValue.
+- (NSUInteger)hash;
+
+// Returns whether `model` is of the exact same class as the receiver, and
+// whether its dictionaryValue compares equal to the receiver's.
+- (BOOL)isEqual:(MTLModel *)model;
+
+@end
+
+@interface MTLModel (ExternalRepresentations)
+
+// Returns a new instance of the receiver initialized using
+// -initWithExternalRepresentation:inFormat:.
++ (instancetype)modelWithExternalRepresentation:(id)externalRepresentation inFormat:(NSString *)externalRepresentationFormat;
 
 // Invokes -initWithDictionary: after mapping the given external
 // representation using +keyPathsByPropertyKeyForExternalRepresentationFormat:
@@ -87,10 +133,6 @@ extern NSString * const MTLModelJSONFormat;
 // -migrateExternalRepresentation:inFormat:fromVersion:, and then initializes
 // the receiver with -initWithExternalRepresentation:inFormat:.
 - (instancetype)initWithCoder:(NSCoder *)coder;
-
-// Returns a copy of the receiver, initialized using -initWithDictionary: with
-// the receiver's dictionaryValue.
-- (instancetype)copyWithZone:(NSZone *)zone;
 
 // Serializes the receiver with the given coder.
 //
@@ -121,18 +163,6 @@ extern NSString * const MTLModelJSONFormat;
 //
 // Returns a value transformer, or nil if no transformation should be performed.
 + (NSValueTransformer *)transformerForPropertyKey:(NSString *)key externalRepresentationFormat:(NSString *)externalRepresentationFormat;
-
-// Returns the keys for all @property declarations, except for `readonly`
-// properties without backing ivars, or properties on MTLModel itself.
-+ (NSSet *)propertyKeys;
-
-// A dictionary representing the properties of the receiver.
-//
-// The default implementation combines the values corresponding to all
-// +propertyKeys into a dictionary, with any nil values represented by NSNull.
-//
-// This property must never be nil.
-@property (nonatomic, copy, readonly) NSDictionary *dictionaryValue;
 
 // Determines how the property keys of the class are encoded into the specified
 // external representation format. The values of this dictionary should be boxed
@@ -167,11 +197,6 @@ extern NSString * const MTLModelJSONFormat;
 // that the value can be correctly set at the complete key path.
 - (id)externalRepresentationInFormat:(NSString *)externalRepresentationFormat;
 
-// The version of this MTLModel subclass.
-//
-// Returns 0.
-+ (NSUInteger)modelVersion;
-
 // Migrates an external representation in a specified format from an older model
 // version.
 //
@@ -182,26 +207,9 @@ extern NSString * const MTLModelJSONFormat;
 // nil if unarchiving should fail.
 + (NSDictionary *)migrateExternalRepresentation:(id)externalRepresentation inFormat:(NSString *)externalRepresentationFormat fromVersion:(NSUInteger)fromVersion;
 
-// Merges the value of the given key on the receiver with the value of the same
-// key from the given model object, giving precedence to the other model object.
-//
-// By default, this method looks for a `-merge<Key>FromModel:` method on the
-// receiver, and invokes it if found. If not found, and `model` is not nil, the
-// value for the given key is taken from `model`.
-- (void)mergeValueForKey:(NSString *)key fromModel:(MTLModel *)model;
+@end
 
-// Merges the values of the given model object into the receiver, using
-// -mergeValueForKey:fromModel: for each key in +propertyKeys.
-//
-// `model` must be an instance of the receiver's class or a subclass thereof.
-- (void)mergeValuesForKeysFromModel:(MTLModel *)model;
-
-// Returns a hash of the receiver's dictionaryValue.
-- (NSUInteger)hash;
-
-// Returns whether `model` is of the exact same class as the receiver, and
-// whether its dictionaryValue compares equal to the receiver's.
-- (BOOL)isEqual:(MTLModel *)model;
+@interface MTLModel (Deprecated)
 
 @property (nonatomic, copy, readonly) NSDictionary *externalRepresentation __attribute__((deprecated("Replaced by -externalRepresentationInFormat:")));
 
