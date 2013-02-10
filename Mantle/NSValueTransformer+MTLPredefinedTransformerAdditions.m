@@ -44,15 +44,48 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 
 #pragma mark Customizable Transformers
 
++ (NSValueTransformer *)mtl_JSONTransformerWithModelClass:(Class)modelClass {
+	NSParameterAssert([modelClass isSubclassOfClass:MTLModel.class]);
+
+	return [MTLValueTransformer
+		reversibleTransformerWithForwardBlock:^(id externalRepresentation) {
+			return [modelClass modelWithExternalRepresentation:externalRepresentation inFormat:MTLModelJSONFormat];
+		}
+		reverseBlock:^(MTLModel *model) {
+			return [model externalRepresentationInFormat:MTLModelJSONFormat];
+		}];
+}
+
++ (NSValueTransformer *)mtl_JSONArrayTransformerWithModelClass:(Class)modelClass {
+	NSValueTransformer *individualTransformer = [self mtl_JSONTransformerWithModelClass:modelClass];
+
+	return [MTLValueTransformer
+		reversibleTransformerWithForwardBlock:^(NSArray *representations) {
+			return [representations mtl_mapUsingBlock:^(id externalRepresentation) {
+				return [individualTransformer transformedValue:externalRepresentation];
+			}];
+		}
+		reverseBlock:^(NSArray *models) {
+			return [models mtl_mapUsingBlock:^(MTLModel *model) {
+				return [individualTransformer reverseTransformedValue:model];
+			}];
+		}];
+}
+
+#pragma mark Deprecated methods
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
+
 + (NSValueTransformer *)mtl_externalRepresentationTransformerWithModelClass:(Class)modelClass {
 	NSParameterAssert([modelClass isSubclassOfClass:MTLModel.class]);
 
 	return [MTLValueTransformer
-		reversibleTransformerWithForwardBlock:^(NSDictionary *externalRepresentation) {
-			return [modelClass modelWithExternalRepresentation:externalRepresentation];
+		reversibleTransformerWithForwardBlock:^(id externalRepresentation) {
+			return [modelClass modelWithExternalRepresentation:externalRepresentation inFormat:MTLModelKeyedArchiveFormat];
 		}
 		reverseBlock:^(MTLModel *model) {
-			return model.externalRepresentation;
+			return [model externalRepresentationInFormat:MTLModelKeyedArchiveFormat];
 		}];
 }
 
@@ -61,15 +94,17 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 
 	return [MTLValueTransformer
 		reversibleTransformerWithForwardBlock:^(NSArray *representations) {
-			return [representations mtl_mapUsingBlock:^(NSDictionary *externalRepresentation) {
+			return [representations mtl_mapUsingBlock:^(id externalRepresentation) {
 				return [individualTransformer transformedValue:externalRepresentation];
 			}];
 		}
 		reverseBlock:^(NSArray *models) {
 			return [models mtl_mapUsingBlock:^(MTLModel *model) {
-				return model.externalRepresentation;
+				return [individualTransformer reverseTransformedValue:model];
 			}];
 		}];
 }
+
+#pragma clang diagnostic pop
 
 @end

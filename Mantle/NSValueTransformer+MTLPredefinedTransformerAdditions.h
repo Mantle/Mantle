@@ -22,14 +22,15 @@ extern NSString * const MTLBooleanValueTransformerName;
 
 @interface NSValueTransformer (MTLPredefinedTransformerAdditions)
 
-// Returns a reversible transformer which will convert an external
-// representation dictionary into an instance of the given MTLModel subclass,
-// and vice versa.
-+ (NSValueTransformer *)mtl_externalRepresentationTransformerWithModelClass:(Class)modelClass;
+// Returns a reversible transformer which will convert a JSON dictionary into an
+// instance of the given MTLModel subclass, and vice versa.
++ (NSValueTransformer *)mtl_JSONTransformerWithModelClass:(Class)modelClass;
 
-// Like -mtl_externalRepresentationTransformerWithModelClass:, but converts
-// from an array of external representations to an array of models, and vice
-// versa.
-+ (NSValueTransformer *)mtl_externalRepresentationArrayTransformerWithModelClass:(Class)modelClass;
+// Like -mtl_JSONTransformerWithModelClass:, but converts from an array of JSON
+// dictionaries to an array of models, and vice versa.
++ (NSValueTransformer *)mtl_JSONArrayTransformerWithModelClass:(Class)modelClass;
+
++ (NSValueTransformer *)mtl_externalRepresentationTransformerWithModelClass:(Class)modelClass __attribute__((deprecated("Replaced by +mtl_JSONTransformerWithModelClass:")));
++ (NSValueTransformer *)mtl_externalRepresentationArrayTransformerWithModelClass:(Class)modelClass __attribute__((deprecated("Replaced by +mtl_JSONArrayTransformerWithModelClass:")));
 
 @end
