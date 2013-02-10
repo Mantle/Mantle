@@ -78,6 +78,19 @@ static NSUInteger MTLNewTestModelVersion = 1;
 	self.count += model.count;
 }
 
+- (NSDictionary *)externalRepresentation {
+	NSDictionary *dict = super.externalRepresentation;
+
+	if (self.name != nil) {
+		NSString *nameKey = self.class.externalRepresentationKeyPathsByPropertyKey[@"name"];
+		dict = [dict mtl_dictionaryByAddingEntriesFromDictionary:@{
+			nameKey: (self.name.length > 9 ? [self.name substringToIndex:9] : self.name)
+		}];
+	}
+
+	return dict;
+}
+
 @end
 
 #pragma clang diagnostic pop

@@ -464,6 +464,19 @@ describe(@"MTLOldTestModel", ^{
 			MTLOldTestModel *unarchivedModel = [NSKeyedUnarchiver unarchiveObjectWithData:data];
 			expect(model).to.equal(unarchivedModel);
 		});
+
+		it(@"should invoke -externalRepresentation when archiving", ^{
+			// This name is too long, but should be trimmed by
+			// -externalRepresentation before it makes it into the archive.
+			model.name = @"thisnameistoolong";
+
+			NSData *data = [NSKeyedArchiver archivedDataWithRootObject:model];
+			expect(data).notTo.beNil();
+
+			MTLOldTestModel *unarchivedModel = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+			expect(unarchivedModel).notTo.beNil();
+			expect(unarchivedModel.name).to.equal(@"thisnamei");
+		});
 	});
 
 	it(@"should fail to initialize if dictionary validation fails", ^{

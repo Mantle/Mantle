@@ -19,7 +19,8 @@
 
 // Must be less than 10 characters.
 //
-// The external representation uses a "username" key for this property.
+// The external representation uses a "username" key for this property, and
+// automatically trims it to 9 characters or less.
 @property (nonatomic, copy) NSString *name;
 
 // Defaults to 1. When two models are merged, their counts are added together.

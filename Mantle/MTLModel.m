@@ -403,7 +403,14 @@ static void setValueForKeyPathAddingDictionaries (NSMutableDictionary *dict, NSS
 	NSSet *propertyKeys = self.class.propertyKeys;
 	NSDictionary *encodingBehaviors = [self.class encodingBehaviorsByPropertyKeyForExternalRepresentationFormat:MTLModelKeyedArchiveFormat];
 	NSDictionary *externalKeyPathsByPropertyKey = [self.class keyPathsByPropertyKeyForExternalRepresentationFormat:MTLModelKeyedArchiveFormat];
-	NSDictionary *externalRepresentation = [self externalRepresentationInFormat:MTLModelKeyedArchiveFormat];
+
+	// Call through to this method to support old code that still uses it.
+	// Since MTLModelKeyedArchiveFormat is the default anyways, we'll still get
+	// to -externalRepresentation:inFormat:.
+	#pragma clang diagnostic push
+	#pragma clang diagnostic ignored "-Wdeprecated"
+	NSDictionary *externalRepresentation = self.externalRepresentation;
+	#pragma clang diagnostic pop
 
 	NSMutableArray *archivedKeyPaths = [NSMutableArray arrayWithCapacity:externalRepresentation.count];
 	for (NSString *propertyKey in propertyKeys) {
