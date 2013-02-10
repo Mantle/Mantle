@@ -144,8 +144,8 @@ extern NSString * const MTLModelJSONFormat;
 // super.
 //
 // Returns a dictionary mapping the receiver's +propertyKeys to default encoding
-// behaviors. If a property is `weak` or `unsafe_unretained`, the default
-// behavior is MTLModelEncodingBehaviorConditional; otherwise, the default is
+// behaviors. If a property is `weak`, the default behavior is
+// MTLModelEncodingBehaviorConditional; otherwise, the default is
 // MTLModelEncodingBehaviorUnconditional.
 + (NSDictionary *)encodingBehaviorsByPropertyKeyForExternalRepresentationFormat:(NSString *)externalRepresentationFormat;
 

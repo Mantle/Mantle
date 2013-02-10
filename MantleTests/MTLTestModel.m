@@ -109,6 +109,12 @@ static NSUInteger MTLNewTestModelVersion = 1;
 			@"nestedName": @"nested.name",
 		}];
 	}
+	
+	if (MTLNewTestModelVersion == 0) {
+		keyPaths = [keyPaths mtl_dictionaryByAddingEntriesFromDictionary:@{
+			@"name": @"old_name",
+		}];
+	}
 
 	return keyPaths;
 }
@@ -120,7 +126,7 @@ static NSUInteger MTLNewTestModelVersion = 1;
 		behaviors = [behaviors mtl_dictionaryByAddingEntriesFromDictionary:@{
 			@"nestedName": @(MTLModelEncodingBehaviorNone),
 		}];
-	} else {
+	} else if ([format isEqual:MTLModelJSONFormat]) {
 		// This should be equivalent to replacing its behavior with None.
 		behaviors = [behaviors mtl_dictionaryByRemovingEntriesWithKeys:[NSSet setWithObject:@"otherModel"]];
 	}
@@ -132,13 +138,12 @@ static NSUInteger MTLNewTestModelVersion = 1;
 	NSParameterAssert(externalRepresentation != nil);
 	NSParameterAssert(fromVersion == 0);
 
-	if ([format isEqual:MTLModelJSONFormat]) {
-		NSMutableDictionary *dict = [externalRepresentation mutableCopy];
-		dict[@"name"] = [dict[@"name"] substringToIndex:9];
-		return dict;
-	}
+	NSMutableDictionary *dict = [externalRepresentation mutableCopy];
 
-	return [super migrateExternalRepresentation:externalRepresentation inFormat:format fromVersion:fromVersion];
+	dict[@"name"] = dict[@"old_name"];
+	[dict removeObjectForKey:@"old_name"];
+
+	return [super migrateExternalRepresentation:dict inFormat:format fromVersion:fromVersion];
 }
 
 - (BOOL)validateName:(NSString **)name error:(NSError **)error {

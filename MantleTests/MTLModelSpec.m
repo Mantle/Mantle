@@ -227,7 +227,7 @@ describe(@"MTLNewTestModel", ^{
 		it(@"should ignore unrecognized key paths", ^{
 			NSDictionary *externalRepresentation = @{
 				@"foobar": @"buzz",
-				@"count": @"5",
+				@"count": @5,
 				@"nested": @{ @"name": @"bar", @"stuffToIgnore": @5, @"moreNonsense": NSNull.null },
 				@"_": NSNull.null,
 				@"name": @"foo",
@@ -243,7 +243,7 @@ describe(@"MTLNewTestModel", ^{
 			expect(model.otherModel).to.beIdenticalTo(otherModel);
 
 			NSDictionary *expectedRepresentation = @{
-				@"count": @"5",
+				@"count": @5,
 				@"name": @"foo",
 				@"otherModel": otherModel
 			};
@@ -256,6 +256,7 @@ describe(@"MTLNewTestModel", ^{
 
 			beforeEach(^{
 				model = [[MTLNewTestModel alloc] initWithDictionary:values];
+				model.nestedName = nil;
 				expect(model).notTo.beNil();
 			});
 
@@ -286,16 +287,16 @@ describe(@"MTLNewTestModel", ^{
 	});
 
 	describe(@"migration", ^{
-		beforeAll(^{
+		beforeEach(^{
 			[MTLNewTestModel setModelVersion:0];
 		});
 
-		afterAll(^{
+		afterEach(^{
 			[MTLNewTestModel setModelVersion:1];
 		});
 
-		NSDictionary *oldValues = @{ @"name": @"thisnameiswaytoolong", @"count": @5 };
-		NSDictionary *newValues = @{ @"name": @"thisnameis", @"count": @5 };
+		NSDictionary *oldValues = @{ @"old_name": @"some name", @"count": @5, @"otherModel": NSNull.null };
+		NSDictionary *newValues = @{ @"name": @"some name", @"count": @5, @"otherModel": NSNull.null };
 
 		__block MTLNewTestModel *oldModel;
 		beforeEach(^{
@@ -476,11 +477,11 @@ describe(@"MTLOldTestModel", ^{
 	});
 
 	describe(@"migration", ^{
-		beforeAll(^{
+		beforeEach(^{
 			[MTLOldTestModel setModelVersion:0];
 		});
 
-		afterAll(^{
+		afterEach(^{
 			[MTLOldTestModel setModelVersion:1];
 		});
 

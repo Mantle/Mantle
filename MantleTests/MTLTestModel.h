@@ -48,7 +48,7 @@
 // - MTLModelKeyedArchiveFormat encodes this as-is.
 // - MTLModelJSONFormat encodes this as a `username` key.
 //
-// Both formats will migrate from version 0 by trimming names that are too long.
+// Both formats will migrate from version 0 from an `old_name` key.
 @property (nonatomic, copy) NSString *name;
 
 // Defaults to 1. When two models are merged, their counts are added together.

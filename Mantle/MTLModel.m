@@ -39,16 +39,19 @@ static void setValueForKeyPathAddingDictionaries (NSMutableDictionary *dict, NSS
 
 	NSArray *keyPathComponents = [keyPath componentsSeparatedByString:@"."];
 
-	// Set up intermediate key paths if the value we'd be setting isn't
-	// nil.
-	for (NSString *component in keyPathComponents) {
-		if ([dict valueForKey:component] == nil) {
-			// Insert an empty mutable dictionary at this spot so that we
-			// can set the whole key path afterward.
-			[dict setValue:[NSMutableDictionary dictionary] forKey:component];
-		}
+	if (value != nil && ![value isEqual:NSNull.null]) {
+		// Set up intermediate key paths if the value we'd be setting isn't
+		// nil.
+		id obj = dict;
+		for (NSString *component in keyPathComponents) {
+			if ([obj valueForKey:component] == nil) {
+				// Insert an empty mutable dictionary at this spot so that we
+				// can set the whole key path afterward.
+				[obj setValue:[NSMutableDictionary dictionary] forKey:component];
+			}
 
-		dict = [dict valueForKey:component];
+			obj = [obj valueForKey:component];
+		}
 	}
 
 	[dict setValue:value forKeyPath:keyPath];
@@ -235,6 +238,7 @@ static void setValueForKeyPathAddingDictionaries (NSMutableDictionary *dict, NSS
 	NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:selector]];
 	invocation.target = self;
 	invocation.selector = selector;
+	[invocation setArgument:&externalRepresentationFormat atIndex:2];
 	[invocation invoke];
 
 	__unsafe_unretained id transformer = nil;
@@ -255,7 +259,7 @@ static void setValueForKeyPathAddingDictionaries (NSMutableDictionary *dict, NSS
 			free(attributes);
 		};
 
-		if (attributes->weak || attributes->memoryManagementPolicy == ext_propertyMemoryManagementPolicyAssign) {
+		if (attributes->weak) {
 			behaviors[key] = @(MTLModelEncodingBehaviorConditional);
 		} else {
 			behaviors[key] = @(MTLModelEncodingBehaviorUnconditional);
@@ -288,8 +292,6 @@ static void setValueForKeyPathAddingDictionaries (NSMutableDictionary *dict, NSS
 			if ([value isEqual:NSNull.null]) value = nil;
 			value = [transformer reverseTransformedValue:value] ?: NSNull.null;
 		}
-
-		if ([value isEqual:NSNull.null]) return;
 
 		NSString *externalKeyPath = externalKeyPathsByPropertyKey[propertyKey] ?: propertyKey;
 		setValueForKeyPathAddingDictionaries(mappedDictionary, externalKeyPath, value);
@@ -402,14 +404,17 @@ static void setValueForKeyPathAddingDictionaries (NSMutableDictionary *dict, NSS
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
+	NSSet *propertyKeys = self.class.propertyKeys;
 	NSDictionary *encodingBehaviors = [self.class encodingBehaviorsByPropertyKeyForExternalRepresentationFormat:MTLModelKeyedArchiveFormat];
 	NSDictionary *externalKeyPathsByPropertyKey = [self.class keyPathsByPropertyKeyForExternalRepresentationFormat:MTLModelKeyedArchiveFormat];
 	NSDictionary *externalRepresentation = [self externalRepresentationInFormat:MTLModelKeyedArchiveFormat];
 
 	NSMutableArray *archivedKeyPaths = [NSMutableArray arrayWithCapacity:externalRepresentation.count];
-	[externalKeyPathsByPropertyKey enumerateKeysAndObjectsUsingBlock:^(NSString *propertyKey, NSString *externalKeyPath, BOOL *stop) {
+	for (NSString *propertyKey in propertyKeys) {
+		NSString *externalKeyPath = externalKeyPathsByPropertyKey[propertyKey] ?: propertyKey;
+
 		id value = [externalRepresentation valueForKeyPath:externalKeyPath];
-		if (value == nil) return;
+		if (value == nil) continue;
 
 		MTLModelEncodingBehavior behavior = [encodingBehaviors[propertyKey] unsignedIntegerValue];
 		NSAssert(behavior != MTLModelEncodingBehaviorNone, @"Property \"%@\" should not have MTLModelEncodingBehaviorNone while in external representation: %@", propertyKey, externalRepresentation);
@@ -421,7 +426,7 @@ static void setValueForKeyPathAddingDictionaries (NSMutableDictionary *dict, NSS
 		}
 
 		[archivedKeyPaths addObject:externalKeyPath];
-	}];
+	}
 
 	[coder encodeObject:archivedKeyPaths forKey:MTLModelArchivedKeyPathsKey];
 	[coder encodeObject:@(self.class.modelVersion) forKey:MTLModelVersionKey];
