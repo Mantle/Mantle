@@ -50,11 +50,11 @@ it(@"should define an NSNumber boolean value transformer", ^{
 });
 
 describe(@"external representation transformer", ^{
-	__block MTLTestModel *model;
+	__block MTLOldTestModel *model;
 	__block NSValueTransformer *transformer;
 
 	before(^{
-		model = [[MTLTestModel alloc] init];
+		model = [[MTLOldTestModel alloc] init];
 		expect(model).notTo.beNil();
 
 		transformer = [NSValueTransformer mtl_externalRepresentationTransformerWithModelClass:model.class];
@@ -79,21 +79,21 @@ describe(@"external representation array transformer", ^{
 	before(^{
 		NSMutableArray *uniqueModels = [NSMutableArray array];
 		for (NSUInteger i = 0; i < 10; i++) {
-			MTLTestModel *model = [[MTLTestModel alloc] init];
+			MTLOldTestModel *model = [[MTLOldTestModel alloc] init];
 			model.count = i;
 
 			[uniqueModels addObject:model];
 		}
 
 		models = [uniqueModels copy];
-		externalRepresentations = [uniqueModels mtl_mapUsingBlock:^(MTLTestModel *model) {
+		externalRepresentations = [uniqueModels mtl_mapUsingBlock:^(MTLOldTestModel *model) {
 			return model.externalRepresentation;
 		}];
 
 		expect(models).notTo.beNil();
 		expect(externalRepresentations).notTo.beNil();
 
-		transformer = [NSValueTransformer mtl_externalRepresentationArrayTransformerWithModelClass:MTLTestModel.class];
+		transformer = [NSValueTransformer mtl_externalRepresentationArrayTransformerWithModelClass:MTLOldTestModel.class];
 		expect(transformer).notTo.beNil();
 	});
 

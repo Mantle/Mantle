@@ -13,11 +13,11 @@ SpecBegin(MTLModel)
 describe(@"subclass", ^{
 	it(@"should not include dynamic readonly properties in +propertyKeys", ^{
 		NSSet *expectedKeys = [NSSet setWithObjects:@"name", @"count", @"nestedName", nil];
-		expect(MTLTestModel.propertyKeys).to.equal(expectedKeys);
+		expect(MTLOldTestModel.propertyKeys).to.equal(expectedKeys);
 	});
 
 	it(@"should initialize with default values", ^{
-		MTLTestModel *model = [[MTLTestModel alloc] init];
+		MTLOldTestModel *model = [[MTLOldTestModel alloc] init];
 		expect(model).notTo.beNil();
 
 		expect(model.name).to.beNil();
@@ -29,17 +29,17 @@ describe(@"subclass", ^{
 	});
 
 	it(@"should initialize to default values with a nil dictionary", ^{
-		MTLTestModel *dictionaryModel = [[MTLTestModel alloc] initWithDictionary:nil];
+		MTLOldTestModel *dictionaryModel = [[MTLOldTestModel alloc] initWithDictionary:nil];
 		expect(dictionaryModel).notTo.beNil();
 
-		MTLTestModel *defaultModel = [[MTLTestModel alloc] init];
+		MTLOldTestModel *defaultModel = [[MTLOldTestModel alloc] init];
 		expect(dictionaryModel).to.equal(defaultModel);
 	});
 
 	it(@"should initialize with an external representation", ^{
 		NSDictionary *values = @{ @"username": NSNull.null, @"count": @"5" };
 
-		MTLTestModel *model = [[MTLTestModel alloc] initWithExternalRepresentation:values];
+		MTLOldTestModel *model = [[MTLOldTestModel alloc] initWithExternalRepresentation:values];
 		expect(model).notTo.beNil();
 
 		expect(model.name).to.beNil();
@@ -55,7 +55,7 @@ describe(@"subclass", ^{
 			@"count": @"0"
 		};
 
-		MTLTestModel *model = [[MTLTestModel alloc] initWithExternalRepresentation:values];
+		MTLOldTestModel *model = [[MTLOldTestModel alloc] initWithExternalRepresentation:values];
 		expect(model).notTo.beNil();
 
 		expect(model.name).to.equal(@"foo");
@@ -70,20 +70,20 @@ describe(@"subclass", ^{
 			@"nested": @{ @"name": @"bar", @"stuffToIgnore": @5, @"moreNonsense": NSNull.null }
 		};
 
-		MTLTestModel *model = [[MTLTestModel alloc] initWithExternalRepresentation:values];
+		MTLOldTestModel *model = [[MTLOldTestModel alloc] initWithExternalRepresentation:values];
 		expect(model).notTo.beNil();
 		expect(model.nestedName).to.equal(@"bar");
 	});
 
 	it(@"should fail to initialize with a nil external representation", ^{
-		MTLTestModel *model = [[MTLTestModel alloc] initWithExternalRepresentation:nil];
+		MTLOldTestModel *model = [[MTLOldTestModel alloc] initWithExternalRepresentation:nil];
 		expect(model).to.beNil();
 	});
 
 	it(@"should ignore unrecognized external representation keys", ^{
 		NSDictionary *values = @{ @"foobar": @"foo", @"count": @"2", @"_": NSNull.null, @"username": @"buzz" };
 
-		MTLTestModel *model = [[MTLTestModel alloc] initWithExternalRepresentation:values];
+		MTLOldTestModel *model = [[MTLOldTestModel alloc] initWithExternalRepresentation:values];
 		expect(model).notTo.beNil();
 
 		expect(model.name).to.equal(@"buzz");
@@ -96,9 +96,9 @@ describe(@"subclass", ^{
 	describe(@"with a dictionary of values", ^{
 		NSDictionary *values = @{ @"name": @"foobar", @"count": @(5), @"nestedName": @"fuzzbuzz" };
 
-		__block MTLTestModel *model;
+		__block MTLOldTestModel *model;
 		beforeEach(^{
-			model = [[MTLTestModel alloc] initWithDictionary:values];
+			model = [[MTLOldTestModel alloc] initWithDictionary:values];
 			expect(model).notTo.beNil();
 		});
 
@@ -123,7 +123,7 @@ describe(@"subclass", ^{
 		it(@"should compare equal to a matching model", ^{
 			expect(model).to.equal(model);
 
-			MTLTestModel *matchingModel = [[MTLTestModel alloc] initWithDictionary:values];
+			MTLOldTestModel *matchingModel = [[MTLOldTestModel alloc] initWithDictionary:values];
 			expect(model).to.equal(matchingModel);
 			expect(model.hash).to.equal(matchingModel.hash);
 			expect(model.dictionaryValue).to.equal(matchingModel.dictionaryValue);
@@ -131,14 +131,14 @@ describe(@"subclass", ^{
 		});
 
 		it(@"should not compare equal to different model", ^{
-			MTLTestModel *differentModel = [[MTLTestModel alloc] init];
+			MTLOldTestModel *differentModel = [[MTLOldTestModel alloc] init];
 			expect(model).notTo.equal(differentModel);
 			expect(model.dictionaryValue).notTo.equal(differentModel.dictionaryValue);
 			expect(model.externalRepresentation).notTo.equal(differentModel.externalRepresentation);
 		});
 
 		it(@"should implement <NSCopying>", ^{
-			MTLTestModel *copiedModel = [model copy];
+			MTLOldTestModel *copiedModel = [model copy];
 			expect(copiedModel).to.equal(model);
 			expect(copiedModel == model).to.beFalsy();
 		});
@@ -147,36 +147,36 @@ describe(@"subclass", ^{
 			NSData *data = [NSKeyedArchiver archivedDataWithRootObject:model];
 			expect(data).notTo.beNil();
 
-			MTLTestModel *unarchivedModel = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+			MTLOldTestModel *unarchivedModel = [NSKeyedUnarchiver unarchiveObjectWithData:data];
 			expect(model).to.equal(unarchivedModel);
 		});
 	});
 
 	it(@"should fail to initialize if dictionary validation fails", ^{
-		MTLTestModel *model = [[MTLTestModel alloc] initWithDictionary:@{ @"name": @"this is too long a name" }];
+		MTLOldTestModel *model = [[MTLOldTestModel alloc] initWithDictionary:@{ @"name": @"this is too long a name" }];
 		expect(model).to.beNil();
 	});
 
 	it(@"should fail to initialize if external representation validation fails", ^{
-		MTLTestModel *model = [[MTLTestModel alloc] initWithExternalRepresentation:@{ @"username": @"this is too long a name" }];
+		MTLOldTestModel *model = [[MTLOldTestModel alloc] initWithExternalRepresentation:@{ @"username": @"this is too long a name" }];
 		expect(model).to.beNil();
 	});
 
 	describe(@"migration", ^{
 		beforeAll(^{
-			[MTLTestModel setModelVersion:0];
+			[MTLOldTestModel setModelVersion:0];
 		});
 
 		afterAll(^{
-			[MTLTestModel setModelVersion:1];
+			[MTLOldTestModel setModelVersion:1];
 		});
 
 		NSDictionary *oldValues = @{ @"mtl_name": @"foobar", @"mtl_count": @"5" };
 		NSDictionary *newValues = @{ @"username": @"M: foobar", @"count": @"5" };
 
-		__block MTLTestModel *oldModel;
+		__block MTLOldTestModel *oldModel;
 		beforeEach(^{
-			oldModel = [[MTLTestModel alloc] initWithExternalRepresentation:oldValues];
+			oldModel = [[MTLOldTestModel alloc] initWithExternalRepresentation:oldValues];
 			expect(oldModel).notTo.beNil();
 		});
 
@@ -188,19 +188,19 @@ describe(@"subclass", ^{
 			NSData *data = [NSKeyedArchiver archivedDataWithRootObject:oldModel];
 			expect(data).notTo.beNil();
 
-			[MTLTestModel setModelVersion:1];
+			[MTLOldTestModel setModelVersion:1];
 
-			MTLTestModel *newModel = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+			MTLOldTestModel *newModel = [NSKeyedUnarchiver unarchiveObjectWithData:data];
 			expect(newModel).notTo.beNil();
 			expect(newModel.externalRepresentation).to.equal(newValues);
 		});
 	});
 
 	it(@"should merge two models together", ^{
-		MTLTestModel *target = [[MTLTestModel alloc] initWithDictionary:@{ @"name": @"foo", @"count": @(5) }];
+		MTLOldTestModel *target = [[MTLOldTestModel alloc] initWithDictionary:@{ @"name": @"foo", @"count": @(5) }];
 		expect(target).notTo.beNil();
 
-		MTLTestModel *source = [[MTLTestModel alloc] initWithDictionary:@{ @"name": @"bar", @"count": @(3) }];
+		MTLOldTestModel *source = [[MTLOldTestModel alloc] initWithDictionary:@{ @"name": @"bar", @"count": @(3) }];
 		expect(source).notTo.beNil();
 
 		[target mergeValuesForKeysFromModel:source];
