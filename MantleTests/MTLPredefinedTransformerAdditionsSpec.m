@@ -107,4 +107,68 @@ describe(@"JSON array transformer", ^{
 	});
 });
 
+describe(@"external representation transformers", ^{
+	#pragma clang diagnostic push
+	#pragma clang diagnostic ignored "-Wdeprecated"
+
+	__block NSArray *models;
+	__block NSArray *externalRepresentations;
+
+	before(^{
+		NSMutableArray *uniqueModels = [NSMutableArray array];
+		for (NSUInteger i = 0; i < 10; i++) {
+			MTLOldTestModel *model = [[MTLOldTestModel alloc] init];
+			model.count = i;
+
+			[uniqueModels addObject:model];
+		}
+
+		models = [uniqueModels copy];
+		externalRepresentations = [uniqueModels mtl_mapUsingBlock:^(MTLOldTestModel *model) {
+			return model.externalRepresentation;
+		}];
+
+		expect(models).notTo.beNil();
+		expect(externalRepresentations).notTo.beNil();
+	});
+
+	describe(@"single object transformer", ^{
+		__block NSValueTransformer *transformer;
+
+		beforeEach(^{
+			transformer = [NSValueTransformer mtl_externalRepresentationTransformerWithModelClass:MTLOldTestModel.class];
+			expect(transformer).notTo.beNil();
+		});
+
+		it(@"should transform one external representation into one model", ^{
+			expect([transformer transformedValue:externalRepresentations.lastObject]).to.equal(models.lastObject);
+		});
+
+		it(@"should transform one model into one external representation", ^{
+			expect([transformer.class allowsReverseTransformation]).to.beTruthy();
+			expect([transformer reverseTransformedValue:models.lastObject]).to.equal(externalRepresentations.lastObject);
+		});
+	});
+
+	describe(@"array transformer", ^{
+		__block NSValueTransformer *arrayTransformer;
+
+		beforeEach(^{
+			arrayTransformer = [NSValueTransformer mtl_externalRepresentationArrayTransformerWithModelClass:MTLOldTestModel.class];
+			expect(arrayTransformer).notTo.beNil();
+		});
+
+		it(@"should transform external representations into models", ^{
+			expect([arrayTransformer transformedValue:externalRepresentations]).to.equal(models);
+		});
+
+		it(@"should transform models into external representations", ^{
+			expect([arrayTransformer.class allowsReverseTransformation]).to.beTruthy();
+			expect([arrayTransformer reverseTransformedValue:models]).to.equal(externalRepresentations);
+		});
+	});
+
+	#pragma mark clang diagnostic pop
+});
+
 SpecEnd

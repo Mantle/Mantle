@@ -78,11 +78,31 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 #pragma clang diagnostic ignored "-Wdeprecated-implementations"
 
 + (NSValueTransformer *)mtl_externalRepresentationTransformerWithModelClass:(Class)modelClass {
-	return [self mtl_JSONTransformerWithModelClass:modelClass];
+	NSParameterAssert([modelClass isSubclassOfClass:MTLModel.class]);
+
+	return [MTLValueTransformer
+		reversibleTransformerWithForwardBlock:^(id externalRepresentation) {
+			return [modelClass modelWithExternalRepresentation:externalRepresentation inFormat:MTLModelKeyedArchiveFormat];
+		}
+		reverseBlock:^(MTLModel *model) {
+			return [model externalRepresentationInFormat:MTLModelKeyedArchiveFormat];
+		}];
 }
 
 + (NSValueTransformer *)mtl_externalRepresentationArrayTransformerWithModelClass:(Class)modelClass {
-	return [self mtl_JSONArrayTransformerWithModelClass:modelClass];
+	NSValueTransformer *individualTransformer = [self mtl_externalRepresentationTransformerWithModelClass:modelClass];
+
+	return [MTLValueTransformer
+		reversibleTransformerWithForwardBlock:^(NSArray *representations) {
+			return [representations mtl_mapUsingBlock:^(id externalRepresentation) {
+				return [individualTransformer transformedValue:externalRepresentation];
+			}];
+		}
+		reverseBlock:^(NSArray *models) {
+			return [models mtl_mapUsingBlock:^(MTLModel *model) {
+				return [individualTransformer reverseTransformedValue:model];
+			}];
+		}];
 }
 
 #pragma clang diagnostic pop
