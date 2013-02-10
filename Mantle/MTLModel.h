@@ -29,13 +29,13 @@ typedef enum : NSUInteger {
 
 // An external representation format specifying encoding to or decoding from
 // a keyed archive using NSKeyedArchiver and NSKeyedUnarchiver.
+//
+// This is the format used for the deprecated MTLModel methods which do not
+// accept a format argument.
 extern NSString * const MTLModelKeyedArchiveFormat;
 
 // An external representation format specifying encoding to or decoding from
 // a JSON dictionary.
-//
-// This is the format used for the deprecated MTLModel methods which do not
-// accept a format argument.
 extern NSString * const MTLModelJSONFormat;
 
 // An abstract base class for model objects, using reflection to provide

@@ -209,8 +209,8 @@ static void setValueForKeyPathAddingDictionaries (NSMutableDictionary *dict, NSS
 + (NSDictionary *)keyPathsByPropertyKeyForExternalRepresentationFormat:(NSString *)externalRepresentationFormat {
 	NSParameterAssert(externalRepresentationFormat != nil);
 
-	if ([externalRepresentationFormat isEqual:MTLModelJSONFormat]) {
-		// Use the old API for JSON.
+	if ([externalRepresentationFormat isEqual:MTLModelKeyedArchiveFormat]) {
+		// Use the old API for keyed archives.
 		#pragma clang diagnostic push
 		#pragma clang diagnostic ignored "-Wdeprecated"
 		return self.externalRepresentationKeyPathsByPropertyKey;
@@ -226,9 +226,9 @@ static void setValueForKeyPathAddingDictionaries (NSMutableDictionary *dict, NSS
 
 	SEL selector = NSSelectorFromString([key stringByAppendingString:@"TransformerForExternalRepresentationFormat:"]);
 	if (![self respondsToSelector:selector]) {
-		if (![externalRepresentationFormat isEqual:MTLModelJSONFormat]) return nil;
+		if (![externalRepresentationFormat isEqual:MTLModelKeyedArchiveFormat]) return nil;
 
-		// Use the old API for JSON.
+		// Use the old API for keyed archives.
 		#pragma clang diagnostic push
 		#pragma clang diagnostic ignored "-Wdeprecated"
 		return [self transformerForKey:key];
@@ -311,8 +311,8 @@ static void setValueForKeyPathAddingDictionaries (NSMutableDictionary *dict, NSS
 	NSParameterAssert(externalRepresentationFormat != nil);
 	NSParameterAssert(fromVersion < self.modelVersion);
 
-	if ([externalRepresentationFormat isEqual:MTLModelJSONFormat]) {
-		// Use the old API for JSON.
+	if ([externalRepresentationFormat isEqual:MTLModelKeyedArchiveFormat]) {
+		// Use the old API for keyed archives.
 		#pragma clang diagnostic push
 		#pragma clang diagnostic ignored "-Wdeprecated"
 		return [self migrateExternalRepresentation:externalRepresentation fromVersion:fromVersion];
@@ -390,17 +390,13 @@ static void setValueForKeyPathAddingDictionaries (NSMutableDictionary *dict, NSS
 		if (externalRepresentation == nil) return nil;
 	}
 
-	if ([self methodForSelector:@selector(initWithExternalRepresentation:)] != [MTLModel instanceMethodForSelector:@selector(initWithExternalRepresentation:)]) {
-		// This class has overridden -initWithExternalRepresentation:, which
-		// means it must be old code that has yet to be upgraded. Continue to
-		// invoke that initializer for backwards compatibility.
-		#pragma clang diagnostic push
-		#pragma clang diagnostic ignored "-Wdeprecated"
-		return [self initWithExternalRepresentation:externalRepresentation];
-		#pragma clang diagnostic pop
-	} else {
-		return [self initWithExternalRepresentation:externalRepresentation inFormat:MTLModelKeyedArchiveFormat];
-	}
+	// Call through to this initializer to support old code that still uses it.
+	// Since MTLModelKeyedArchiveFormat is the default anyways, we'll still get
+	// to -initWithExternalRepresentation:inFormat:.
+	#pragma clang diagnostic push
+	#pragma clang diagnostic ignored "-Wdeprecated"
+	return [self initWithExternalRepresentation:externalRepresentation];
+	#pragma clang diagnostic pop
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
@@ -469,15 +465,15 @@ static void setValueForKeyPathAddingDictionaries (NSMutableDictionary *dict, NSS
 #pragma clang diagnostic ignored "-Wdeprecated-implementations"
 
 - (NSDictionary *)externalRepresentation {
-	return [self externalRepresentationInFormat:MTLModelJSONFormat];
+	return [self externalRepresentationInFormat:MTLModelKeyedArchiveFormat];
 }
 
 + (instancetype)modelWithExternalRepresentation:(NSDictionary *)externalRepresentation {
-	return [self modelWithExternalRepresentation:externalRepresentation inFormat:MTLModelJSONFormat];
+	return [self modelWithExternalRepresentation:externalRepresentation inFormat:MTLModelKeyedArchiveFormat];
 }
 
 - (instancetype)initWithExternalRepresentation:(NSDictionary *)externalRepresentation {
-	return [self initWithExternalRepresentation:externalRepresentation inFormat:MTLModelJSONFormat];
+	return [self initWithExternalRepresentation:externalRepresentation inFormat:MTLModelKeyedArchiveFormat];
 }
 
 + (NSDictionary *)migrateExternalRepresentation:(NSDictionary *)dictionary fromVersion:(NSUInteger)fromVersion {
