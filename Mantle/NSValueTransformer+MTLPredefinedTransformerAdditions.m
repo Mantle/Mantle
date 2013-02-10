@@ -44,32 +44,47 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 
 #pragma mark Customizable Transformers
 
-+ (NSValueTransformer *)mtl_externalRepresentationTransformerWithModelClass:(Class)modelClass {
++ (NSValueTransformer *)mtl_JSONTransformerWithModelClass:(Class)modelClass {
 	NSParameterAssert([modelClass isSubclassOfClass:MTLModel.class]);
 
 	return [MTLValueTransformer
-		reversibleTransformerWithForwardBlock:^(NSDictionary *externalRepresentation) {
-			return [modelClass modelWithExternalRepresentation:externalRepresentation];
+		reversibleTransformerWithForwardBlock:^(id externalRepresentation) {
+			return [modelClass modelWithExternalRepresentation:externalRepresentation inFormat:MTLModelJSONFormat];
 		}
 		reverseBlock:^(MTLModel *model) {
-			return model.externalRepresentation;
+			return [model externalRepresentationInFormat:MTLModelJSONFormat];
 		}];
 }
 
-+ (NSValueTransformer *)mtl_externalRepresentationArrayTransformerWithModelClass:(Class)modelClass {
-	NSValueTransformer *individualTransformer = [self mtl_externalRepresentationTransformerWithModelClass:modelClass];
++ (NSValueTransformer *)mtl_JSONArrayTransformerWithModelClass:(Class)modelClass {
+	NSValueTransformer *individualTransformer = [self mtl_JSONTransformerWithModelClass:modelClass];
 
 	return [MTLValueTransformer
 		reversibleTransformerWithForwardBlock:^(NSArray *representations) {
-			return [representations mtl_mapUsingBlock:^(NSDictionary *externalRepresentation) {
+			return [representations mtl_mapUsingBlock:^(id externalRepresentation) {
 				return [individualTransformer transformedValue:externalRepresentation];
 			}];
 		}
 		reverseBlock:^(NSArray *models) {
 			return [models mtl_mapUsingBlock:^(MTLModel *model) {
-				return model.externalRepresentation;
+				return [individualTransformer reverseTransformedValue:model];
 			}];
 		}];
 }
+
+#pragma mark Deprecated methods
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
+
++ (NSValueTransformer *)mtl_externalRepresentationTransformerWithModelClass:(Class)modelClass {
+	return [self mtl_JSONTransformerWithModelClass:modelClass];
+}
+
++ (NSValueTransformer *)mtl_externalRepresentationArrayTransformerWithModelClass:(Class)modelClass {
+	return [self mtl_JSONArrayTransformerWithModelClass:modelClass];
+}
+
+#pragma clang diagnostic pop
 
 @end
