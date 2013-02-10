@@ -35,6 +35,18 @@ describe(@"MTLNewTestModel", ^{
 		expect(MTLNewTestModel.propertyKeys).to.equal(expectedKeys);
 	});
 
+	it(@"should have default encoding behaviors", ^{
+		NSDictionary *behaviors = [MTLNewTestModel encodingBehaviorsByPropertyKeyForExternalRepresentationFormat:@"FakeFormat"];
+		NSDictionary *expected = @{
+			@"name": @(MTLModelEncodingBehaviorUnconditional),
+			@"count": @(MTLModelEncodingBehaviorUnconditional),
+			@"nestedName": @(MTLModelEncodingBehaviorUnconditional),
+			@"otherModel": @(MTLModelEncodingBehaviorConditional),
+		};
+
+		expect(behaviors).to.equal(expected);
+	});
+
 	it(@"should initialize with default values", ^{
 		MTLNewTestModel *model = [[MTLNewTestModel alloc] init];
 		expect(model).notTo.beNil();

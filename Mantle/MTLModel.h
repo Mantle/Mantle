@@ -141,7 +141,13 @@ extern NSString * const MTLModelJSONFormat;
 // external representation format. The values of this dictionary should be boxed
 // MTLModelEncodingBehavior values.
 //
-// For any keys not present in the dictionary:
+// Any keys not present in the dictionary will not be encoded.
+//
+// Subclasses overriding this method should combine their values with those of
+// super.
+//
+// Returns a dictionary mapping the receiver's propertyKeys to the following
+// default values:
 //
 // - If the property is `readonly` and does _not_ have an associated instance
 //   variable, the default behavior is MTLModelEncodingBehaviorNone.
@@ -149,11 +155,6 @@ extern NSString * const MTLModelJSONFormat;
 //   MTLModelEncodingBehaviorConditional.
 // - In all other cases, the default behavior is
 //   MTLModelEncodingBehaviorUnconditional.
-//
-// Subclasses overriding this method should combine their values with those of
-// super.
-//
-// Returns an empty dictionary.
 + (NSDictionary *)encodingBehaviorsByPropertyKeyForExternalRepresentationFormat:(NSString *)externalRepresentationFormat;
 
 // Transforms the receiver's dictionaryValue into the given external

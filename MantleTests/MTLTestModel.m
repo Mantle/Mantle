@@ -121,9 +121,8 @@ static NSUInteger MTLNewTestModelVersion = 1;
 			@"nestedName": @(MTLModelEncodingBehaviorNone),
 		}];
 	} else {
-		behaviors = [behaviors mtl_dictionaryByAddingEntriesFromDictionary:@{
-			@"otherModel": @(MTLModelEncodingBehaviorNone),
-		}];
+		// This should be equivalent to replacing its behavior with None.
+		behaviors = [behaviors mtl_dictionaryByRemovingEntriesWithKeys:[NSSet setWithObject:@"otherModel"]];
 	}
 
 	return behaviors;
