@@ -194,14 +194,7 @@ extern NSString * const MTLModelJSONFormat;
 // whether its dictionaryValue compares equal to the receiver's.
 - (BOOL)isEqual:(MTLModel *)model;
 
-// **This method is deprecated.**
-//
-// Use +keyPathsByPropertyKeyForExternalRepresentationFormat: instead.
-+ (NSDictionary *)externalRepresentationKeyPathsByPropertyKey __attribute__((deprecated));
-
-// **This method is deprecated.**
-//
-// Use +transformerForPropertyKey:externalRepresentationFormat: instead.
-+ (NSValueTransformer *)transformerForKey:(NSString *)key __attribute__((deprecated));
++ (NSDictionary *)externalRepresentationKeyPathsByPropertyKey __attribute__((deprecated("Replaced by +keyPathsByPropertyKeyForExternalRepresentationFormat:")));
++ (NSValueTransformer *)transformerForKey:(NSString *)key __attribute__((deprecated("Replaced by +transformerForPropertyKey:externalRepresentationFormat:")));
 
 @end
