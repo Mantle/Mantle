@@ -13,11 +13,46 @@
 #import "NSDictionary+MTLHigherOrderAdditions.h"
 #import <objc/runtime.h>
 
+NSString * const MTLModelKeyedArchiveFormat = @"MTLModelKeyedArchiveFormat";
+NSString * const MTLModelJSONFormat = @"MTLModelJSONFormat";
+
 // Used in archives to store the modelVersion of the archived instance.
 static NSString * const MTLModelVersionKey = @"MTLModelVersion";
 
+// The key under which the old external representation format was encoded into
+// a keyed archive.
+static NSString * const MTLModelArchivedExternalRepresentationKey = @"externalRepresentation";
+
+// Associated with an NSArray of the key paths that were encoded into the
+// archive by -encodeWithCoder:.
+static NSString * const MTLModelArchivedKeyPathsKey = @"MTLModelArchivedKeyPaths";
+
 // Used to cache the reflection performed in +propertyKeys.
 static void *MTLModelCachedPropertyKeysKey = &MTLModelCachedPropertyKeysKey;
+
+// Sets the value at the given key path in the given dictionary, creating
+// intermediate dictionaries as necessary.
+static void setValueForKeyPathAddingDictionaries (NSMutableDictionary *dict, NSString *keyPath, id value) {
+	NSCParameterAssert(dict != nil);
+	NSCParameterAssert(keyPath);
+	NSCParameterAssert(value != nil);
+
+	NSArray *keyPathComponents = [keyPath componentsSeparatedByString:@"."];
+
+	// Set up intermediate key paths if the value we'd be setting isn't
+	// nil.
+	for (NSString *component in keyPathComponents) {
+		if ([dict valueForKey:component] == nil) {
+			// Insert an empty mutable dictionary at this spot so that we
+			// can set the whole key path afterward.
+			[dict setValue:[NSMutableDictionary dictionary] forKey:component];
+		}
+
+		dict = [dict valueForKey:component];
+	}
+
+	[dict setValue:value forKeyPath:keyPath];
+}
 
 @interface MTLModel ()
 
@@ -38,8 +73,8 @@ static void *MTLModelCachedPropertyKeysKey = &MTLModelCachedPropertyKeysKey;
 	return [[self alloc] initWithDictionary:dictionary];
 }
 
-+ (instancetype)modelWithExternalRepresentation:(NSDictionary *)externalRepresentation {
-	return [[self alloc] initWithExternalRepresentation:externalRepresentation];
++ (instancetype)modelWithExternalRepresentation:(id)externalRepresentation inFormat:(NSString *)externalRepresentationFormat {
+	return [[self alloc] initWithExternalRepresentation:externalRepresentation inFormat:externalRepresentationFormat];
 }
 
 - (instancetype)init {
@@ -66,6 +101,7 @@ static void *MTLModelCachedPropertyKeysKey = &MTLModelCachedPropertyKeysKey;
 		} @catch (NSException *ex) {
 			NSLog(@"*** Caught exception setting key \"%@\" from %@: %@", key, dictionary, ex);
 
+			// Fail fast in Debug builds.
 			#if DEBUG
 			@throw ex;
 			#endif
@@ -75,11 +111,13 @@ static void *MTLModelCachedPropertyKeysKey = &MTLModelCachedPropertyKeysKey;
 	return self;
 }
 
-- (instancetype)initWithExternalRepresentation:(NSDictionary *)externalRepresentation {
+- (instancetype)initWithExternalRepresentation:(id)externalRepresentation inFormat:(NSString *)externalRepresentationFormat {
+	NSParameterAssert(externalRepresentationFormat != nil);
+
 	if (externalRepresentation == nil) return nil;
 
-	NSDictionary *externalKeyPathsByPropertyKey = self.class.externalRepresentationKeyPathsByPropertyKey;
-	NSMutableDictionary *properties = [NSMutableDictionary dictionaryWithCapacity:externalRepresentation.count];
+	NSDictionary *externalKeyPathsByPropertyKey = [self.class keyPathsByPropertyKeyForExternalRepresentationFormat:externalRepresentationFormat];
+	NSMutableDictionary *properties = [NSMutableDictionary dictionaryWithCapacity:[externalRepresentation count]];
 
 	for (NSString *propertyKey in self.class.propertyKeys) {
 		NSString *externalKeyPath = externalKeyPathsByPropertyKey[propertyKey] ?: propertyKey;
@@ -87,7 +125,7 @@ static void *MTLModelCachedPropertyKeysKey = &MTLModelCachedPropertyKeysKey;
 		id value = [externalRepresentation valueForKeyPath:externalKeyPath];
 		if (value == nil) continue;
 
-		NSValueTransformer *transformer = [self.class transformerForKey:propertyKey];
+		NSValueTransformer *transformer = [self.class transformerForPropertyKey:propertyKey externalRepresentationFormat:externalRepresentationFormat];
 		@try {
 			if (transformer != nil) {
 				// Map NSNull -> nil for the transformer, and then back for the
@@ -96,10 +134,11 @@ static void *MTLModelCachedPropertyKeysKey = &MTLModelCachedPropertyKeysKey;
 				value = [transformer transformedValue:value] ?: NSNull.null;
 			}
 
-			[properties setObject:value forKey:propertyKey];
+			properties[propertyKey] = value;
 		} @catch (NSException *ex) {
-			NSLog(@"*** Caught exception transforming external key path \"%@\" from %@ using transformer %@: %@", externalKeyPath, externalRepresentation, transformer, ex);
+			NSLog(@"*** Caught exception transforming external key path \"%@\" in format %@ from %@: %@", externalKeyPath, externalRepresentationFormat, externalRepresentation, ex);
 
+			// Fail fast in Debug builds.
 			#if DEBUG
 			@throw ex;
 			#endif
@@ -158,15 +197,40 @@ static void *MTLModelCachedPropertyKeysKey = &MTLModelCachedPropertyKeysKey;
 	return keys;
 }
 
-#pragma mark Dictionary Representation
-
-+ (NSDictionary *)externalRepresentationKeyPathsByPropertyKey {
-	return @{};
+- (NSDictionary *)dictionaryValue {
+	return [self dictionaryWithValuesForKeys:self.class.propertyKeys.allObjects];
 }
 
-+ (NSValueTransformer *)transformerForKey:(NSString *)key {
-	SEL selector = NSSelectorFromString([key stringByAppendingString:@"Transformer"]);
-	if (![self respondsToSelector:selector]) return nil;
+#pragma mark External Representations
+
++ (NSDictionary *)keyPathsByPropertyKeyForExternalRepresentationFormat:(NSString *)externalRepresentationFormat {
+	NSParameterAssert(externalRepresentationFormat != nil);
+
+	if ([externalRepresentationFormat isEqual:MTLModelJSONFormat]) {
+		// Use the old API for JSON.
+		#pragma clang diagnostic push
+		#pragma clang diagnostic ignored "-Wdeprecated"
+		return self.externalRepresentationKeyPathsByPropertyKey;
+		#pragma clang diagnostic pop
+	} else {
+		return @{};
+	}
+}
+
++ (NSValueTransformer *)transformerForPropertyKey:(NSString *)key externalRepresentationFormat:(NSString *)externalRepresentationFormat {
+	NSParameterAssert(key != nil);
+	NSParameterAssert(externalRepresentationFormat != nil);
+
+	SEL selector = NSSelectorFromString([key stringByAppendingString:@"TransformerForExternalRepresentationFormat:"]);
+	if (![self respondsToSelector:selector]) {
+		if (![externalRepresentationFormat isEqual:MTLModelJSONFormat]) return nil;
+
+		// Use the old API for JSON.
+		#pragma clang diagnostic push
+		#pragma clang diagnostic ignored "-Wdeprecated"
+		return [self transformerForKey:key];
+		#pragma clang diagnostic pop
+	}
 
 	NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:selector]];
 	invocation.target = self;
@@ -179,18 +243,45 @@ static void *MTLModelCachedPropertyKeysKey = &MTLModelCachedPropertyKeysKey;
 	return transformer;
 }
 
-- (NSDictionary *)dictionaryValue {
-	return [self dictionaryWithValuesForKeys:self.class.propertyKeys.allObjects];
++ (NSDictionary *)encodingBehaviorsByPropertyKeyForExternalRepresentationFormat:(NSString *)externalRepresentationFormat {
+	NSSet *propertyKeys = self.propertyKeys;
+	NSMutableDictionary *behaviors = [NSMutableDictionary dictionaryWithCapacity:propertyKeys.count];
+
+	for (NSString *key in propertyKeys) {
+		objc_property_t property = class_getProperty(self, key.UTF8String);
+
+		ext_propertyAttributes *attributes = ext_copyPropertyAttributes(property);
+		@onExit {
+			free(attributes);
+		};
+
+		if (attributes->weak || attributes->memoryManagementPolicy == ext_propertyMemoryManagementPolicyAssign) {
+			behaviors[key] = @(MTLModelEncodingBehaviorConditional);
+		} else {
+			behaviors[key] = @(MTLModelEncodingBehaviorUnconditional);
+		}
+	}
+
+	return behaviors;
 }
 
-- (NSDictionary *)externalRepresentation {
-	NSDictionary *dictionary = self.dictionaryValue;
+- (id)externalRepresentationInFormat:(NSString *)externalRepresentationFormat {
+	NSParameterAssert(externalRepresentationFormat != nil);
 
-	NSDictionary *externalKeyPathsByPropertyKey = self.class.externalRepresentationKeyPathsByPropertyKey;
+	NSDictionary *dictionary = self.dictionaryValue;
+	NSDictionary *externalKeyPathsByPropertyKey = [self.class keyPathsByPropertyKeyForExternalRepresentationFormat:externalRepresentationFormat];
+	NSDictionary *encodingBehaviors = [self.class encodingBehaviorsByPropertyKeyForExternalRepresentationFormat:externalRepresentationFormat];
+
 	NSMutableDictionary *mappedDictionary = [NSMutableDictionary dictionaryWithCapacity:dictionary.count];
 
 	[dictionary enumerateKeysAndObjectsUsingBlock:^(NSString *propertyKey, id value, BOOL *stop) {
-		NSValueTransformer *transformer = [self.class transformerForKey:propertyKey];
+		// Also handles the case of propertyKey not being in the behaviors
+		// dictionary.
+		if ([encodingBehaviors[propertyKey] unsignedIntegerValue] == MTLModelEncodingBehaviorNone) {
+			return;
+		}
+
+		NSValueTransformer *transformer = [self.class transformerForPropertyKey:propertyKey externalRepresentationFormat:externalRepresentationFormat];
 		if ([transformer.class allowsReverseTransformation]) {
 			// Map NSNull -> nil for the transformer, and then back for the
 			// dictionary we're going to insert into.
@@ -198,25 +289,10 @@ static void *MTLModelCachedPropertyKeysKey = &MTLModelCachedPropertyKeysKey;
 			value = [transformer reverseTransformedValue:value] ?: NSNull.null;
 		}
 
+		if ([value isEqual:NSNull.null]) return;
+
 		NSString *externalKeyPath = externalKeyPathsByPropertyKey[propertyKey] ?: propertyKey;
-		NSArray *keyPathComponents = [externalKeyPath componentsSeparatedByString:@"."];
-
-		if (![value isEqual:NSNull.null]) {
-			// Set up intermediate key paths if the value we'd be setting isn't
-			// nil.
-			id obj = mappedDictionary;
-			for (NSString *component in keyPathComponents) {
-				if ([obj valueForKey:component] == nil) {
-					// Insert an empty mutable dictionary at this spot so that we
-					// can set the whole key path afterward.
-					[obj setValue:[NSMutableDictionary dictionary] forKey:component];
-				}
-
-				obj = [obj valueForKey:component];
-			}
-		}
-
-		[mappedDictionary setValue:value forKeyPath:externalKeyPath];
+		setValueForKeyPathAddingDictionaries(mappedDictionary, externalKeyPath, value);
 	}];
 
 	return [mappedDictionary copy];
@@ -228,11 +304,20 @@ static void *MTLModelCachedPropertyKeysKey = &MTLModelCachedPropertyKeysKey;
 	return 0;
 }
 
-+ (NSDictionary *)migrateExternalRepresentation:(NSDictionary *)dictionary fromVersion:(NSUInteger)fromVersion {
-	NSParameterAssert(dictionary != nil);
++ (NSDictionary *)migrateExternalRepresentation:(id)externalRepresentation inFormat:(NSString *)externalRepresentationFormat fromVersion:(NSUInteger)fromVersion {
+	NSParameterAssert(externalRepresentation != nil);
+	NSParameterAssert(externalRepresentationFormat != nil);
 	NSParameterAssert(fromVersion < self.modelVersion);
 
-	return dictionary;
+	if ([externalRepresentationFormat isEqual:MTLModelJSONFormat]) {
+		// Use the old API for JSON.
+		#pragma clang diagnostic push
+		#pragma clang diagnostic ignored "-Wdeprecated"
+		return [self migrateExternalRepresentation:externalRepresentation fromVersion:fromVersion];
+		#pragma clang diagnostic pop
+	} else {
+		return externalRepresentation;
+	}
 }
 
 #pragma mark Merging
@@ -273,7 +358,23 @@ static void *MTLModelCachedPropertyKeysKey = &MTLModelCachedPropertyKeysKey;
 #pragma mark NSCoding
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
-	NSDictionary *externalRepresentation = [coder decodeObjectForKey:@keypath(self.externalRepresentation)];
+	NSArray *archivedKeyPaths = [coder decodeObjectForKey:MTLModelArchivedKeyPathsKey];
+	id externalRepresentation;
+
+	if (archivedKeyPaths != nil) {
+		// New format
+		externalRepresentation = [NSMutableDictionary dictionaryWithCapacity:archivedKeyPaths.count];
+		for (NSString *keyPath in archivedKeyPaths) {
+			id value = [coder decodeObjectForKey:keyPath];
+			if (value == nil) continue;
+
+			setValueForKeyPathAddingDictionaries(externalRepresentation, keyPath, value);
+		}
+	} else {
+		// Old format
+		externalRepresentation = [coder decodeObjectForKey:MTLModelArchivedExternalRepresentationKey];
+	}
+
 	if (externalRepresentation == nil) return nil;
 
 	NSNumber *version = [coder decodeObjectForKey:MTLModelVersionKey];
@@ -283,15 +384,46 @@ static void *MTLModelCachedPropertyKeysKey = &MTLModelCachedPropertyKeysKey;
 		// Don't try to decode newer versions.
 		return nil;
 	} else if (version.unsignedIntegerValue < self.class.modelVersion) {
-		externalRepresentation = [self.class migrateExternalRepresentation:externalRepresentation fromVersion:version.unsignedIntegerValue];
+		externalRepresentation = [self.class migrateExternalRepresentation:externalRepresentation inFormat:MTLModelKeyedArchiveFormat fromVersion:version.unsignedIntegerValue];
 		if (externalRepresentation == nil) return nil;
 	}
 
-	return [self initWithExternalRepresentation:externalRepresentation];
+	if ([self methodForSelector:@selector(initWithExternalRepresentation:)] != [MTLModel instanceMethodForSelector:@selector(initWithExternalRepresentation:)]) {
+		// This class has overridden -initWithExternalRepresentation:, which
+		// means it must be old code that has yet to be upgraded. Continue to
+		// invoke that initializer for backwards compatibility.
+		#pragma clang diagnostic push
+		#pragma clang diagnostic ignored "-Wdeprecated"
+		return [self initWithExternalRepresentation:externalRepresentation];
+		#pragma clang diagnostic pop
+	} else {
+		return [self initWithExternalRepresentation:externalRepresentation inFormat:MTLModelKeyedArchiveFormat];
+	}
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
-	[coder encodeObject:self.externalRepresentation forKey:@keypath(self.externalRepresentation)];
+	NSDictionary *encodingBehaviors = [self.class encodingBehaviorsByPropertyKeyForExternalRepresentationFormat:MTLModelKeyedArchiveFormat];
+	NSDictionary *externalKeyPathsByPropertyKey = [self.class keyPathsByPropertyKeyForExternalRepresentationFormat:MTLModelKeyedArchiveFormat];
+	NSDictionary *externalRepresentation = [self externalRepresentationInFormat:MTLModelKeyedArchiveFormat];
+
+	NSMutableArray *archivedKeyPaths = [NSMutableArray arrayWithCapacity:externalRepresentation.count];
+	[externalKeyPathsByPropertyKey enumerateKeysAndObjectsUsingBlock:^(NSString *propertyKey, NSString *externalKeyPath, BOOL *stop) {
+		id value = [externalRepresentation valueForKeyPath:externalKeyPath];
+		if (value == nil) return;
+
+		MTLModelEncodingBehavior behavior = [encodingBehaviors[propertyKey] unsignedIntegerValue];
+		NSAssert(behavior != MTLModelEncodingBehaviorNone, @"Property \"%@\" should not have MTLModelEncodingBehaviorNone while in external representation: %@", propertyKey, externalRepresentation);
+
+		if (behavior == MTLModelEncodingBehaviorConditional) {
+			[coder encodeConditionalObject:value forKey:externalKeyPath];
+		} else {
+			[coder encodeObject:value forKey:externalKeyPath];
+		}
+
+		[archivedKeyPaths addObject:externalKeyPath];
+	}];
+
+	[coder encodeObject:archivedKeyPaths forKey:MTLModelArchivedKeyPathsKey];
 	[coder encodeObject:@(self.class.modelVersion) forKey:MTLModelVersionKey];
 }
 
@@ -325,5 +457,50 @@ static void *MTLModelCachedPropertyKeysKey = &MTLModelCachedPropertyKeysKey;
 
 	return YES;
 }
+
+#pragma mark Deprecated methods
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
+
+- (NSDictionary *)externalRepresentation {
+	return [self externalRepresentationInFormat:MTLModelJSONFormat];
+}
+
++ (instancetype)modelWithExternalRepresentation:(NSDictionary *)externalRepresentation {
+	return [self modelWithExternalRepresentation:externalRepresentation inFormat:MTLModelJSONFormat];
+}
+
+- (instancetype)initWithExternalRepresentation:(NSDictionary *)externalRepresentation {
+	return [self initWithExternalRepresentation:externalRepresentation inFormat:MTLModelJSONFormat];
+}
+
++ (NSDictionary *)migrateExternalRepresentation:(NSDictionary *)dictionary fromVersion:(NSUInteger)fromVersion {
+	NSParameterAssert(dictionary != nil);
+	NSParameterAssert(fromVersion < self.modelVersion);
+
+	return dictionary;
+}
+
++ (NSDictionary *)externalRepresentationKeyPathsByPropertyKey {
+	return @{};
+}
+
++ (NSValueTransformer *)transformerForKey:(NSString *)key {
+	SEL selector = NSSelectorFromString([key stringByAppendingString:@"Transformer"]);
+	if (![self respondsToSelector:selector]) return nil;
+
+	NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:selector]];
+	invocation.target = self;
+	invocation.selector = selector;
+	[invocation invoke];
+
+	__unsafe_unretained id transformer = nil;
+	[invocation getReturnValue:&transformer];
+
+	return transformer;
+}
+
+#pragma clang diagnostic pop
 
 @end

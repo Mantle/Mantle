@@ -30,7 +30,7 @@ describe(@"MTLNewTestModel", ^{
 		};
 	});
 
-	it(@"should list all properties in +propertyKeys", ^{
+	it(@"should list properties in +propertyKeys", ^{
 		NSSet *expectedKeys = [NSSet setWithObjects:@"name", @"count", @"nestedName", @"otherModel", nil];
 		expect(MTLNewTestModel.propertyKeys).to.equal(expectedKeys);
 	});
@@ -325,7 +325,7 @@ describe(@"MTLOldTestModel", ^{
 	#pragma clang diagnostic ignored "-Wdeprecated"
 
 	it(@"should list all properties in +propertyKeys", ^{
-		NSSet *expectedKeys = [NSSet setWithObjects:@"name", @"count", @"nestedName", @"dynamicName", nil];
+		NSSet *expectedKeys = [NSSet setWithObjects:@"name", @"count", @"nestedName", nil];
 		expect(MTLOldTestModel.propertyKeys).to.equal(expectedKeys);
 	});
 

@@ -92,15 +92,12 @@ extern NSString * const MTLModelJSONFormat;
 // the receiver's dictionaryValue.
 - (instancetype)copyWithZone:(NSZone *)zone;
 
-// Serializes the receiver with the given coder, according to the behaviors
-// specified by +encodingBehaviorsByPropertyKeyForExternalRepresentationFormat:.
+// Serializes the receiver with the given coder.
 //
-// From the receiver's dictionaryValue, this method retrieves any properties
-// that should be encoded, transforms them using
-// +keyPathsByPropertyKeyForExternalRepresentationFormat: and any reversible
-// transformers returned by
-// +transformerForPropertyKey:externalRepresentationFormat:, then encodes them
-// according to the specified MTLModelEncodingBehavior.
+// This method will invoke -externalRepresentationInFormat: with a format of
+// MTLModelKeyedArchiveFormat, then conditionally or unconditionally encode each
+// key in the dictionary, according to the behaviors specified by
+// +encodingBehaviorsByPropertyKeyForExternalRepresentationFormat:.
 - (void)encodeWithCoder:(NSCoder *)coder;
 
 // Specifies how to map @property keys to different key paths in the given
@@ -125,8 +122,8 @@ extern NSString * const MTLModelJSONFormat;
 // Returns a value transformer, or nil if no transformation should be performed.
 + (NSValueTransformer *)transformerForPropertyKey:(NSString *)key externalRepresentationFormat:(NSString *)externalRepresentationFormat;
 
-// Returns the keys for all @property declarations, except for properties on
-// MTLModel itself.
+// Returns the keys for all @property declarations, except for `readonly`
+// properties without backing ivars, or properties on MTLModel itself.
 + (NSSet *)propertyKeys;
 
 // A dictionary representing the properties of the receiver.
@@ -146,15 +143,10 @@ extern NSString * const MTLModelJSONFormat;
 // Subclasses overriding this method should combine their values with those of
 // super.
 //
-// Returns a dictionary mapping the receiver's propertyKeys to the following
-// default values:
-//
-// - If the property is `readonly` and does _not_ have an associated instance
-//   variable, the default behavior is MTLModelEncodingBehaviorNone.
-// - If the property is `weak`, the default behavior is
-//   MTLModelEncodingBehaviorConditional.
-// - In all other cases, the default behavior is
-//   MTLModelEncodingBehaviorUnconditional.
+// Returns a dictionary mapping the receiver's +propertyKeys to default encoding
+// behaviors. If a property is `weak` or `unsafe_unretained`, the default
+// behavior is MTLModelEncodingBehaviorConditional; otherwise, the default is
+// MTLModelEncodingBehaviorUnconditional.
 + (NSDictionary *)encodingBehaviorsByPropertyKeyForExternalRepresentationFormat:(NSString *)externalRepresentationFormat;
 
 // Transforms the receiver's dictionaryValue into the given external
