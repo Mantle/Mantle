@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class MTLModel;
+
 // A MTLModel object that supports being parsed from and serialized to JSON.
 @protocol MTLJSONSerializing
 @optional
