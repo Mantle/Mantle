@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol MTLJSONModel
+@protocol MTLJSONSerializing
 @optional
 
 + (NSDictionary *)JSONKeyPathsByPropertyKey;
@@ -20,7 +20,7 @@
 
 @interface MTLJSONAdapter : NSObject
 
-+ (NSDictionary *)JSONFromModel:(MTLModel<MTLJSONModel> *)model;
++ (NSDictionary *)JSONFromModel:(MTLModel<MTLJSONSerializing> *)model;
 + (id)modelOfClass:(Class)modelClass fromJSON:(NSDictionary *)dict;
 
 @end

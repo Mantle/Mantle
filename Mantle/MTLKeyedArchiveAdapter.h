@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol MTLKeyedArchiveModel
+@protocol MTLKeyedArchiving
 @optional
 
 + (MTLModelEncodingBehavior)encodingBehaviorsByPropertyKey;
@@ -17,7 +17,7 @@
 
 @interface MTLKeyedArchiveAdapter : NSObject <NSCoding>
 
-- (id)initWithModel:(MTLModel<MTLKeyedArchiveModel> *)model;
+- (id)initWithModel:(MTLModel<MTLKeyedArchiving> *)model;
 
 // The decoded model when initialized from a coder.
 @property (nonatomic, strong, readonly) id model;
