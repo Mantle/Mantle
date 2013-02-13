@@ -6,6 +6,8 @@
 //  Copyright (c) 2012 GitHub. All rights reserved.
 //
 
+#import <Mantle/MTLJSONAdapter.h>
+#import <Mantle/MTLKeyedArchiveAdapter.h>
 #import <Mantle/MTLModel.h>
 #import <Mantle/MTLValueTransformer.h>
 #import <Mantle/NSArray+MTLHigherOrderAdditions.h>
