@@ -65,10 +65,7 @@ describe(@"JSON transformers", ^{
 		models = [uniqueModels copy];
 
 		JSONDictionaries = [uniqueModels mtl_mapUsingBlock:^(MTLTestModel *model) {
-			MTLJSONAdapter *adapter = [[MTLJSONAdapter alloc] initWithModel:model];
-			expect(adapter).notTo.beNil();
-
-			NSDictionary *dict = adapter.JSONDictionary;
+			NSDictionary *dict = [MTLJSONAdapter JSONDictionaryFromModel:model];
 			expect(dict).notTo.beNil();
 
 			return dict;

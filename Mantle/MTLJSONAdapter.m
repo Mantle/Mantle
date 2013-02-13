@@ -25,6 +25,18 @@
 
 @implementation MTLJSONAdapter
 
+#pragma mark Convenience methods
+
++ (id)modelOfClass:(Class)modelClass fromJSONDictionary:(NSDictionary *)JSONDictionary {
+	MTLJSONAdapter *adapter = [[self alloc] initWithJSONDictionary:JSONDictionary modelClass:modelClass];
+	return adapter.model;
+}
+
++ (NSDictionary *)JSONDictionaryFromModel:(MTLModel<MTLJSONSerializing> *)model {
+	MTLJSONAdapter *adapter = [[self alloc] initWithModel:model];
+	return adapter.JSONDictionary;
+}
+
 #pragma mark Lifecycle
 
 - (id)init {
