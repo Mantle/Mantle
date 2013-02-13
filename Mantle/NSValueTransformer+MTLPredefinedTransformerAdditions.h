@@ -48,7 +48,7 @@ extern NSString * const MTLBooleanValueTransformerName;
 
 @interface NSValueTransformer (UnavailableMTLPredefinedTransformerAdditions)
 
-+ (NSValueTransformer *)mtl_externalRepresentationTransformerWithModelClass:(Class)modelClass __attribute__((unavailable("Replaced by +mtl_JSONDictionaryTransformerWithModelClass:")));
-+ (NSValueTransformer *)mtl_externalRepresentationArrayTransformerWithModelClass:(Class)modelClass __attribute__((unavailable("Replaced by +mtl_JSONArrayTransformerWithModelClass:")));
++ (NSValueTransformer *)mtl_externalRepresentationTransformerWithModelClass:(Class)modelClass __attribute__((deprecated("Replaced by +mtl_JSONDictionaryTransformerWithModelClass:")));
++ (NSValueTransformer *)mtl_externalRepresentationArrayTransformerWithModelClass:(Class)modelClass __attribute__((deprecated("Replaced by +mtl_JSONArrayTransformerWithModelClass:")));
 
 @end
