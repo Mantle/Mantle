@@ -49,7 +49,7 @@ describe(@"archiving", ^{
 			expect(data).notTo.beNil();
 
 			MTLTestModel *unarchivedModel = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-			expect(unarchivedModel).to.equal(model);
+			expect(unarchivedModel).notTo.beNil();
 
 			return unarchivedModel;
 		} copy];
@@ -64,7 +64,10 @@ describe(@"archiving", ^{
 		
 		MTLTestModel *unarchivedModel = archiveAndUnarchiveModel();
 		expect(unarchivedModel.nestedName).to.beNil();
-		expect(unarchivedModel.dictionaryValue).to.equal(values);
+		expect(unarchivedModel).notTo.equal(model);
+
+		model.nestedName = nil;
+		expect(unarchivedModel).to.equal(model);
 	});
 
 	it(@"should not archive conditional properties if not encoded elsewhere", ^{
@@ -74,7 +77,6 @@ describe(@"archiving", ^{
 		MTLTestModel *unarchivedModel = archiveAndUnarchiveModel();
 		expect(unarchivedModel.weakModel).to.beNil();
 		expect(unarchivedModel.unretainedModel).to.beNil();
-		expect(unarchivedModel.dictionaryValue).to.equal(values);
 	});
 
 	it(@"should archive conditional properties if encoded elsewhere", ^{
@@ -88,7 +90,7 @@ describe(@"archiving", ^{
 		expect(objects.count).to.equal(2);
 		expect(objects[1]).to.equal(emptyModel);
 		
-		MTLTestModel *unarchivedModel = objects[1];
+		MTLTestModel *unarchivedModel = objects[0];
 		expect(unarchivedModel).to.equal(model);
 		expect(unarchivedModel.weakModel).to.equal(emptyModel);
 		expect(unarchivedModel.unretainedModel).to.equal(emptyModel);
@@ -119,6 +121,8 @@ describe(@"archiving", ^{
 			@"name": @"foobar",
 			@"count": @5,
 			@"nestedName": @"fuzzbuzz",
+			@"weakModel": NSNull.null,
+			@"unretainedModel": NSNull.null,
 		};
 		
 		expect(unarchivedModel.dictionaryValue).to.equal(expectedValues);

@@ -23,8 +23,14 @@ it(@"should initialize from JSON", ^{
 	expect(model).notTo.beNil();
 	expect(model.name).to.beNil();
 	expect(model.count).to.equal(5);
+	
+	NSDictionary *JSONDictionary = @{
+		@"username": NSNull.null,
+		@"count": @"5",
+		@"nested": @{ @"name": NSNull.null },
+	};
 
-	expect(adapter.JSONDictionary).to.equal(values);
+	expect(adapter.JSONDictionary).to.equal(JSONDictionary);
 });
 
 it(@"should initialize from a model", ^{
@@ -40,6 +46,7 @@ it(@"should initialize from a model", ^{
 	NSDictionary *JSONDictionary = @{
 		@"username": @"foobar",
 		@"count": @"5",
+		@"nested": @{ @"name": NSNull.null },
 	};
 
 	expect(adapter.JSONDictionary).to.equal(JSONDictionary);

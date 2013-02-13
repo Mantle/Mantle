@@ -85,9 +85,8 @@ static NSUInteger modelVersion = 1;
 - (id)decodeValueForKey:(NSString *)key withCoder:(NSCoder *)coder modelVersion:(NSUInteger)fromVersion {
 	NSParameterAssert(key != nil);
 	NSParameterAssert(coder != nil);
-	NSParameterAssert(fromVersion == 0);
 
-	if ([key isEqual:@"name"]) {
+	if ([key isEqual:@"name"] && fromVersion == 0) {
 		return [@"M: " stringByAppendingString:[coder decodeObjectForKey:@"mtl_name"]];
 	}
 

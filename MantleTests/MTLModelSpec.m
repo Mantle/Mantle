@@ -15,7 +15,7 @@ it(@"should not loop infinitely in +propertyKeys without any properties", ^{
 });
 
 it(@"should not include dynamic readonly properties in +propertyKeys", ^{
-	NSSet *expectedKeys = [NSSet setWithObjects:@"name", @"count", @"nestedName", nil];
+	NSSet *expectedKeys = [NSSet setWithObjects:@"name", @"count", @"nestedName", @"weakModel", @"unretainedModel", nil];
 	expect(MTLTestModel.propertyKeys).to.equal(expectedKeys);
 });
 
