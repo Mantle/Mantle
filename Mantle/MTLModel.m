@@ -11,6 +11,11 @@
 #import "EXTScope.h"
 #import <objc/runtime.h>
 
+// This coupling is needed for backwards compatibility in MTLModel's deprecated
+// methods.
+#import "MTLJSONAdapter.h"
+#import "MTLModel+NSCoding.h"
+
 // Used to cache the reflection performed in +propertyKeys.
 static void *MTLModelCachedPropertyKeysKey = &MTLModelCachedPropertyKeysKey;
 
