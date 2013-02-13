@@ -20,7 +20,7 @@
 
 @interface MTLJSONAdapter : NSObject
 
-+ (NSDictionary *)JSONFromModel:(MTLModel<MTLJSONSerializing> *)model;
-+ (id)modelOfClass:(Class)modelClass fromJSON:(NSDictionary *)dict;
++ (NSDictionary *)JSONDictionaryFromModel:(MTLModel<MTLJSONSerializing> *)model;
++ (id)modelOfClass:(Class)modelClass fromJSONDictionary:(NSDictionary *)dict;
 
 @end
