@@ -10,17 +10,17 @@
 
 // Defines how a MTLModel property key should be encoded into an archive.
 //
+// MTLModelEncodingBehaviorExcluded      - The property should never be encoded.
 // MTLModelEncodingBehaviorUnconditional - The property should always be
 //                                         encoded.
 // MTLModelEncodingBehaviorConditional   - The object should be encoded only
 //                                         if unconditionally encoded elsewhere.
 //                                         This should only be used for object
 //                                         properties.
-// MTLModelEncodingBehaviorExcluded      - The property should never be encoded.
 typedef enum : NSUInteger {
+    MTLModelEncodingBehaviorExcluded = 0,
     MTLModelEncodingBehaviorUnconditional,
     MTLModelEncodingBehaviorConditional,
-    MTLModelEncodingBehaviorExcluded
 } MTLModelEncodingBehavior;
 
 // Implements default archiving and unarchiving behaviors for MTLModel.
