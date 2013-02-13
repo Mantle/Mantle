@@ -74,6 +74,9 @@ typedef enum : NSUInteger {
 // This version number is saved in archives so that later model changes can be
 // made backwards-compatible with old versions.
 //
+// Subclasses should override this method to return a higher version number
+// whenever a breaking change is made to the model.
+//
 // Returns 0.
 + (NSUInteger)modelVersion;
 
