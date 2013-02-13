@@ -9,6 +9,20 @@
 #import "MTLJSONAdapter.h"
 #import "MTLModel.h"
 
+@interface MTLJSONAdapter ()
+
+// Looks up the NSValueTransformer that should be used for the given key.
+//
+// key		  - The property key to transform from or to. This argument must not
+//				be nil.
+// modelClass - The MTLModel subclass from which to retrieve the transformer.
+//				This argument must not be nil.
+//
+// Returns a transformer to use, or nil to not transform the property.
+- (NSValueTransformer *)JSONTransformerForKey:(NSString *)key modelClass:(Class)modelClass;
+
+@end
+
 @implementation MTLJSONAdapter
 
 #pragma mark Lifecycle
@@ -39,14 +53,12 @@
 		if (value == nil) continue;
 
 		@try {
-			if ([modelClass respondsToSelector:@selector(JSONTransformerForKey:)]) {
-				NSValueTransformer *transformer = [modelClass JSONTransformerForKey:propertyKey];
-				if (transformer != nil) {
-					// Map NSNull -> nil for the transformer, and then back for the
-					// dictionary we're going to insert into.
-					if ([value isEqual:NSNull.null]) value = nil;
-					value = [transformer transformedValue:value] ?: NSNull.null;
-				}
+			NSValueTransformer *transformer = [self JSONTransformerForKey:propertyKey modelClass:modelClass];
+			if (transformer != nil) {
+				// Map NSNull -> nil for the transformer, and then back for the
+				// dictionary we're going to insert into.
+				if ([value isEqual:NSNull.null]) value = nil;
+				value = [transformer transformedValue:value] ?: NSNull.null;
 			}
 
 			dictionaryValue[propertyKey] = value;
@@ -89,14 +101,12 @@
 	NSMutableDictionary *JSONDictionary = [[NSMutableDictionary alloc] initWithCapacity:dictionaryValue.count];
 
 	[dictionaryValue enumerateKeysAndObjectsUsingBlock:^(NSString *propertyKey, id value, BOOL *stop) {
-		if ([self.model.class respondsToSelector:@selector(JSONTransformerForKey:)]) {
-			NSValueTransformer *transformer = [self.model.class JSONTransformerForKey:propertyKey];
-			if ([transformer.class allowsReverseTransformation]) {
-				// Map NSNull -> nil for the transformer, and then back for the
-				// dictionaryValue we're going to insert into.
-				if ([value isEqual:NSNull.null]) value = nil;
-				value = [transformer reverseTransformedValue:value] ?: NSNull.null;
-			}
+		NSValueTransformer *transformer = [self JSONTransformerForKey:propertyKey modelClass:self.model.class];
+		if ([transformer.class allowsReverseTransformation]) {
+			// Map NSNull -> nil for the transformer, and then back for the
+			// dictionaryValue we're going to insert into.
+			if ([value isEqual:NSNull.null]) value = nil;
+			value = [transformer reverseTransformedValue:value] ?: NSNull.null;
 		}
 
 		NSString *JSONKeyPath = JSONKeyPathsByPropertyKey[propertyKey] ?: propertyKey;
@@ -118,6 +128,29 @@
 	}];
 
 	return [JSONDictionary copy];
+}
+
+- (NSValueTransformer *)JSONTransformerForKey:(NSString *)key modelClass:(Class)modelClass {
+	NSParameterAssert(key != nil);
+	NSParameterAssert(modelClass != nil);
+
+	SEL selector = NSSelectorFromString([key stringByAppendingString:@"JSONTransformer"]);
+	if ([modelClass respondsToSelector:selector]) {
+		NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[modelClass methodSignatureForSelector:selector]];
+		invocation.target = modelClass;
+		invocation.selector = selector;
+		[invocation invoke];
+
+		id result = nil;
+		[invocation getReturnValue:&result];
+		return result;
+	}
+
+	if ([modelClass respondsToSelector:@selector(JSONTransformerForKey:)]) {
+		return [modelClass JSONTransformerForKey:key];
+	}
+
+	return nil;
 }
 
 @end
