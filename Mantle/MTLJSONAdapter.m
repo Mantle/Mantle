@@ -11,25 +11,28 @@
 
 @interface MTLJSONAdapter ()
 
+// The MTLModel subclass being parsed, or the class of `model` if parsing has
+// completed.
+@property (nonatomic, strong, readonly) Class modelClass;
+
+// A cached copy of the return value of +JSONKeyPathsByPropertyKey.
+@property (nonatomic, copy, readonly) NSDictionary *JSONKeyPathsByPropertyKey;
+
 // Looks up the NSValueTransformer that should be used for the given key.
 //
 // key		  - The property key to transform from or to. This argument must not
 //				be nil.
-// modelClass - The MTLModel subclass from which to retrieve the transformer.
-//				This argument must not be nil.
 //
 // Returns a transformer to use, or nil to not transform the property.
-- (NSValueTransformer *)JSONTransformerForKey:(NSString *)key modelClass:(Class)modelClass;
+- (NSValueTransformer *)JSONTransformerForKey:(NSString *)key;
 
 // Looks up the JSON key path that corresponds to the given key.
 //
 // key		  - The property key to retrieve the corresponding JSON key path
 //				for. This argument must not be nil.
-// modelClass - The MTLModel subclass from which to retrieve the key path.
-//				This argument must not be nil.
 //
 // Returns a key path to use, or nil to omit the property from JSON.
-- (NSString *)JSONKeyPathForKey:(NSString *)key modelClass:(Class)modelClass;
+- (NSString *)JSONKeyPathForKey:(NSString *)key;
 
 @end
 
@@ -61,17 +64,31 @@
 
 	if (JSONDictionary == nil) return nil;
 
+	if ([modelClass respondsToSelector:@selector(classForParsingJSONDictionary:)]) {
+		modelClass = [modelClass classForParsingJSONDictionary:JSONDictionary];
+		if (modelClass == nil) return nil;
+
+		NSAssert([modelClass isSubclassOfClass:MTLModel.class], @"Class %@ returned from +classForParsingJSONDictionary: is not a subclass of MTLModel", modelClass);
+		NSAssert([modelClass conformsToProtocol:@protocol(MTLJSONSerializing)], @"Class %@ returned from +classForParsingJSONDictionary: does not conform to <MTLJSONSerializing>", modelClass);
+	}
+
+	self = [super init];
+	if (self == nil) return nil;
+
+	_modelClass = modelClass;
+	_JSONKeyPathsByPropertyKey = [[modelClass JSONKeyPathsByPropertyKey] copy];
+
 	NSMutableDictionary *dictionaryValue = [[NSMutableDictionary alloc] initWithCapacity:JSONDictionary.count];
 
-	for (NSString *propertyKey in [modelClass propertyKeys]) {
-		NSString *JSONKeyPath = [self JSONKeyPathForKey:propertyKey modelClass:modelClass];
+	for (NSString *propertyKey in [self.modelClass propertyKeys]) {
+		NSString *JSONKeyPath = [self JSONKeyPathForKey:propertyKey];
 		if (JSONKeyPath == nil) continue;
 
 		id value = [JSONDictionary valueForKeyPath:JSONKeyPath];
 		if (value == nil) continue;
 
 		@try {
-			NSValueTransformer *transformer = [self JSONTransformerForKey:propertyKey modelClass:modelClass];
+			NSValueTransformer *transformer = [self JSONTransformerForKey:propertyKey];
 			if (transformer != nil) {
 				// Map NSNull -> nil for the transformer, and then back for the
 				// dictionary we're going to insert into.
@@ -90,10 +107,10 @@
 		}
 	}
 
-	id model = [modelClass modelWithDictionary:dictionaryValue];
-	if (model == nil) return nil;
+	_model = [self.modelClass modelWithDictionary:dictionaryValue];
+	if (_model == nil) return nil;
 
-	return [self initWithModel:model];
+	return self;
 }
 
 - (id)initWithModel:(MTLModel<MTLJSONSerializing> *)model {
@@ -103,6 +120,8 @@
 	if (self == nil) return nil;
 
 	_model = model;
+	_modelClass = model.class;
+	_JSONKeyPathsByPropertyKey = [[model.class JSONKeyPathsByPropertyKey] copy];
 
 	return self;
 }
@@ -114,10 +133,10 @@
 	NSMutableDictionary *JSONDictionary = [[NSMutableDictionary alloc] initWithCapacity:dictionaryValue.count];
 
 	[dictionaryValue enumerateKeysAndObjectsUsingBlock:^(NSString *propertyKey, id value, BOOL *stop) {
-		NSString *JSONKeyPath = [self JSONKeyPathForKey:propertyKey modelClass:self.model.class];
+		NSString *JSONKeyPath = [self JSONKeyPathForKey:propertyKey];
 		if (JSONKeyPath == nil) return;
 
-		NSValueTransformer *transformer = [self JSONTransformerForKey:propertyKey modelClass:self.model.class];
+		NSValueTransformer *transformer = [self JSONTransformerForKey:propertyKey];
 		if ([transformer.class allowsReverseTransformation]) {
 			// Map NSNull -> nil for the transformer, and then back for the
 			// dictionaryValue we're going to insert into.
@@ -145,14 +164,13 @@
 	return [JSONDictionary copy];
 }
 
-- (NSValueTransformer *)JSONTransformerForKey:(NSString *)key modelClass:(Class)modelClass {
+- (NSValueTransformer *)JSONTransformerForKey:(NSString *)key {
 	NSParameterAssert(key != nil);
-	NSParameterAssert(modelClass != nil);
 
 	SEL selector = NSSelectorFromString([key stringByAppendingString:@"JSONTransformer"]);
-	if ([modelClass respondsToSelector:selector]) {
-		NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[modelClass methodSignatureForSelector:selector]];
-		invocation.target = modelClass;
+	if ([self.modelClass respondsToSelector:selector]) {
+		NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[self.modelClass methodSignatureForSelector:selector]];
+		invocation.target = self.modelClass;
 		invocation.selector = selector;
 		[invocation invoke];
 
@@ -161,26 +179,24 @@
 		return result;
 	}
 
-	if ([modelClass respondsToSelector:@selector(JSONTransformerForKey:)]) {
-		return [modelClass JSONTransformerForKey:key];
+	if ([self.modelClass respondsToSelector:@selector(JSONTransformerForKey:)]) {
+		return [self.modelClass JSONTransformerForKey:key];
 	}
 
 	return nil;
 }
 
-- (NSString *)JSONKeyPathForKey:(NSString *)key modelClass:(Class)modelClass {
+- (NSString *)JSONKeyPathForKey:(NSString *)key {
 	NSParameterAssert(key != nil);
-	NSParameterAssert(modelClass != nil);
 
-	NSString *JSONKeyPath = key;
-	if ([modelClass respondsToSelector:@selector(JSONKeyPathsByPropertyKey)]) {
-		id value = [modelClass JSONKeyPathsByPropertyKey][key];
+	id JSONKeyPath = self.JSONKeyPathsByPropertyKey[key];
+	if ([JSONKeyPath isEqual:NSNull.null]) return nil;
 
-		if ([value isEqual:NSNull.null]) return nil;
-		if (value != nil) JSONKeyPath = value;
+	if (JSONKeyPath == nil) {
+		return key;
+	} else {
+		return JSONKeyPath;
 	}
-
-	return JSONKeyPath;
 }
 
 @end

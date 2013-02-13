@@ -39,6 +39,19 @@
 // Returns a value transformer, or nil if no transformation should be performed.
 + (NSValueTransformer *)JSONTransformerForKey:(NSString *)key;
 
+// Overridden to parse the receiver as a different class, based on information
+// in the provided dictionary.
+//
+// This is mostly useful for class clusters, where the abstract base class would
+// be passed into -[MTLJSONAdapter initWithJSONDictionary:modelClass:], but
+// a subclass should be instantiated instead.
+//
+// JSONDictionary - The JSON dictionary that will be parsed.
+//
+// Returns the class that should be parsed (which may be the receiver), or nil
+// to abort parsing (e.g., if the data is invalid).
++ (Class)classForParsingJSONDictionary:(NSDictionary *)JSONDictionary;
+
 @end
 
 // Converts a MTLModel object to and from a JSON dictionary.
@@ -84,8 +97,6 @@
 - (id)initWithJSONDictionary:(NSDictionary *)JSONDictionary modelClass:(Class)modelClass;
 
 // Initializes the receiver with an existing model.
-//
-// This is the designated initializer for this class.
 //
 // model - The model to use for JSON serialization. This argument must not be
 //         nil.
