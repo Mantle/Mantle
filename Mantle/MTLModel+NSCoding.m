@@ -65,7 +65,7 @@ static NSString * const MTLModelVersionKey = @"MTLModelVersion";
 		[invocation setArgument:&modelVersion atIndex:3];
 		[invocation invoke];
 
-		id result = nil;
+		__unsafe_unretained id result = nil;
 		[invocation getReturnValue:&result];
 		return result;
 	}

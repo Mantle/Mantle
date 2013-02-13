@@ -156,7 +156,7 @@
 		invocation.selector = selector;
 		[invocation invoke];
 
-		id result = nil;
+		__unsafe_unretained id result = nil;
 		[invocation getReturnValue:&result];
 		return result;
 	}
