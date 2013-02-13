@@ -180,7 +180,7 @@ typedef enum : NSUInteger {
     GHIssueStateClosed
 } GHIssueState;
 
-@interface GHIssue : MTLModel
+@interface GHIssue : MTLModel <MTLJSONSerializing>
 
 @property (nonatomic, copy, readonly) NSURL *URL;
 @property (nonatomic, copy, readonly) NSURL *HTMLURL;
@@ -206,8 +206,8 @@ typedef enum : NSUInteger {
     return dateFormatter;
 }
 
-+ (NSDictionary *)externalRepresentationKeyPathsByPropertyKey {
-    return [super.externalRepresentationKeyPathsByPropertyKey mtl_dictionaryByAddingEntriesFromDictionary:@{
++ (NSDictionary *)JSONKeyPathsByPropertyKey {
+    return [super.JSONKeyPathsByPropertyKey mtl_dictionaryByAddingEntriesFromDictionary:@{
         @"URL": @"url",
         @"HTMLURL": @"html_url",
         @"reporterLogin": @"user.login",
@@ -216,15 +216,15 @@ typedef enum : NSUInteger {
     }];
 }
 
-+ (NSValueTransformer *)URLTransformer {
++ (NSValueTransformer *)URLJSONTransformer {
 	return [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
 }
 
-+ (NSValueTransformer *)HTMLURLTransformer {
++ (NSValueTransformer *)HTMLURLJSONTransformer {
 	return [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
 }
 
-+ (NSValueTransformer *)stateTransformer {
++ (NSValueTransformer *)stateJSONTransformer {
     NSDictionary *states = @{
         @"open": @(GHIssueStateOpen),
         @"closed": @(GHIssueStateClosed)
@@ -237,7 +237,7 @@ typedef enum : NSUInteger {
     }];
 }
 
-+ (NSValueTransformer *)updatedAtTransformer {
++ (NSValueTransformer *)updatedAtJSONTransformer {
     return [MTLValueTransformer reversibleTransformerWithForwardBlock:^(NSString *str) {
         return [self.dateFormatter dateFromString:str];
     } reverseBlock:^(NSDate *date) {
@@ -266,18 +266,16 @@ string.
 it easy to specify how new model data should be integrated.
 
 > * There's no way to turn a `GHIssue` _back_ into JSON.
-> * `GHIssueState` shouldn't be encoded as-is. If the enum changes in the future, existing archives might break.
 
-_Both_ of these issues are solved by using reversible transformers.
-`-[GHIssue externalRepresentation]` will return a JSON dictionary, which is also
-what gets encoded in `-encodeWithCoder:`. No saving fragile enum values!
+This is where reversible transformers really come in handy. `+[MTLJSONAdapter
+JSONDictionaryFromModel:]` can transform any model object conforming to
+`<MTLJSONSerializing>` back into a JSON dictionary.
 
 > * If the interface of `GHIssue` changes down the road, existing archives might break.
 
 `MTLModel` automatically saves the version of the model object that was used for
-archival. When unarchiving, `+migrateExternalRepresentation:fromVersion:` will
-be invoked if migration is needed, giving you a convenient hook to upgrade old
-data.
+archival. When unarchiving, `-decodeValueForKey:withCoder:modelVersion:` will
+be invoked if overridden, giving you a convenient hook to upgrade old data.
 
 ## Persistence
 
