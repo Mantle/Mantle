@@ -77,10 +77,12 @@ static NSString * const MTLModelVersionKey = @"MTLModelVersion";
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
 	NSNumber *version = [coder decodeObjectForKey:MTLModelVersionKey];
-	if (version == nil) return nil;
-
-	// Don't try to decode newer versions.
-	if (version.unsignedIntegerValue > self.class.modelVersion) return nil;
+	if (version == nil) {
+		NSLog(@"Warning: decoding an archive of %@ without a version, assuming 0", self.class);
+	} else if (version.unsignedIntegerValue > self.class.modelVersion) {
+		// Don't try to decode newer versions.
+		return nil;
+	}
 
 	// Handle the old archive format.
 	NSDictionary *externalRepresentation = [coder decodeObjectForKey:@"externalRepresentation"];
