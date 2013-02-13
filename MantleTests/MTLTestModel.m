@@ -7,7 +7,6 @@
 //
 
 #import "MTLTestModel.h"
-#import "NSDictionary+MTLManipulationAdditions.h"
 
 static NSUInteger modelVersion = 1;
 

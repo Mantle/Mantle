@@ -6,8 +6,6 @@
 //  Copyright (c) 2012 GitHub. All rights reserved.
 //
 
-#import "MTLJSONAdapter.h"
-
 @interface MTLEmptyTestModel : MTLModel
 @end
 
