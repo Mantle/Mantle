@@ -110,3 +110,17 @@ static NSUInteger modelVersion = 1;
 }
 
 @end
+
+@implementation MTLSubstitutingTestModel
+
++ (NSDictionary *)JSONKeyPathsByPropertyKey {
+	return @{};
+}
+
++ (Class)classForParsingJSONDictionary:(NSDictionary *)JSONDictionary {
+	NSParameterAssert(JSONDictionary != nil);
+
+	return MTLTestModel.class;
+}
+
+@end

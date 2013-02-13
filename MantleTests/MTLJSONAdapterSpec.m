@@ -100,4 +100,21 @@ it(@"should fail to initialize if JSON dictionary validation fails", ^{
 	expect(model).to.beNil();
 });
 
+it(@"should parse a different model class", ^{
+	NSDictionary *values = @{
+		@"username": @"foo",
+		@"nested": @{ @"name": @"bar" },
+		@"count": @"0"
+	};
+
+	MTLTestModel *model = [MTLJSONAdapter modelOfClass:MTLSubstitutingTestModel.class fromJSONDictionary:values];
+	expect(model).to.beKindOf(MTLTestModel.class);
+
+	expect(model.name).to.equal(@"foo");
+	expect(model.count).to.equal(0);
+	expect(model.nestedName).to.equal(@"bar");
+
+	expect([MTLJSONAdapter JSONDictionaryFromModel:model]).to.equal(values);
+});
+
 SpecEnd

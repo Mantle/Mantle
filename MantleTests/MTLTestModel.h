@@ -36,3 +36,7 @@
 @property (nonatomic, weak) MTLEmptyTestModel *weakModel;
 
 @end
+
+// Parses MTLTestModel objects from JSON instead.
+@interface MTLSubstitutingTestModel : MTLModel <MTLJSONSerializing>
+@end
