@@ -85,7 +85,7 @@ static NSString * const MTLModelVersionKey = @"MTLModelVersion";
 	// Handle the old archive format.
 	NSDictionary *externalRepresentation = [coder decodeObjectForKey:@"externalRepresentation"];
 	if (externalRepresentation != nil) {
-		NSAssert([self methodForSelector:@selector(dictionaryValueFromArchivedExternalRepresentation:version:)] != [MTLModel instanceMethodForSelector:@selector(dictionaryValueFromArchivedExternalRepresentation:version:)], @"Decoded an old archive of %@ that contains an externalRepresentation, but +dictionaryValueFromArchivedExternalRepresentation:version: is not overridden to handle it", self.class);
+		NSAssert([self.class methodForSelector:@selector(dictionaryValueFromArchivedExternalRepresentation:version:)] != [MTLModel methodForSelector:@selector(dictionaryValueFromArchivedExternalRepresentation:version:)], @"Decoded an old archive of %@ that contains an externalRepresentation, but +dictionaryValueFromArchivedExternalRepresentation:version: is not overridden to handle it", self.class);
 
 		NSDictionary *dictionaryValue = [self.class dictionaryValueFromArchivedExternalRepresentation:externalRepresentation version:version.unsignedIntegerValue];
 		if (dictionaryValue == nil) return nil;
