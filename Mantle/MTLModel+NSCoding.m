@@ -37,13 +37,7 @@ static NSString * const MTLModelVersionKey = @"MTLModelVersion";
 			free(attributes);
 		};
 
-		MTLModelEncodingBehavior behavior = MTLModelEncodingBehaviorUnconditional;
-		if (attributes->type[0] == '@' || attributes->objectClass != nil) {
-			if (attributes->weak || attributes->memoryManagementPolicy == ext_propertyMemoryManagementPolicyAssign) {
-				behavior = MTLModelEncodingBehaviorConditional;
-			}
-		}
-
+		MTLModelEncodingBehavior behavior = (attributes->weak ? MTLModelEncodingBehaviorConditional : MTLModelEncodingBehaviorUnconditional);
 		behaviors[key] = @(behavior);
 	}
 

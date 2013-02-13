@@ -52,7 +52,6 @@ static NSUInteger modelVersion = 1;
 		@"name": @"username",
 		@"nestedName": @"nested.name",
 		@"weakModel": NSNull.null,
-		@"unretainedModel": NSNull.null,
 	};
 }
 

@@ -17,7 +17,6 @@ it(@"should have default encoding behaviors", ^{
 	expect(behaviors[@"name"]).to.equal(@(MTLModelEncodingBehaviorUnconditional));
 	expect(behaviors[@"count"]).to.equal(@(MTLModelEncodingBehaviorUnconditional));
 	expect(behaviors[@"weakModel"]).to.equal(@(MTLModelEncodingBehaviorConditional));
-	expect(behaviors[@"unretainedModel"]).to.equal(@(MTLModelEncodingBehaviorConditional));
 	expect(behaviors[@"dynamicName"]).to.beNil();
 });
 
@@ -72,16 +71,13 @@ describe(@"archiving", ^{
 
 	it(@"should not archive conditional properties if not encoded elsewhere", ^{
 		model.weakModel = emptyModel;
-		model.unretainedModel = emptyModel;
 		
 		MTLTestModel *unarchivedModel = archiveAndUnarchiveModel();
 		expect(unarchivedModel.weakModel).to.beNil();
-		expect(unarchivedModel.unretainedModel).to.beNil();
 	});
 
 	it(@"should archive conditional properties if encoded elsewhere", ^{
 		model.weakModel = emptyModel;
-		model.unretainedModel = emptyModel;
 
 		NSData *data = [NSKeyedArchiver archivedDataWithRootObject:@[ model, emptyModel ]];
 		expect(data).notTo.beNil();
@@ -93,7 +89,6 @@ describe(@"archiving", ^{
 		MTLTestModel *unarchivedModel = objects[0];
 		expect(unarchivedModel).to.equal(model);
 		expect(unarchivedModel.weakModel).to.equal(emptyModel);
-		expect(unarchivedModel.unretainedModel).to.equal(emptyModel);
 	});
 
 	it(@"should invoke custom decoding logic", ^{
@@ -122,7 +117,6 @@ describe(@"archiving", ^{
 			@"count": @5,
 			@"nestedName": @"fuzzbuzz",
 			@"weakModel": NSNull.null,
-			@"unretainedModel": NSNull.null,
 		};
 		
 		expect(unarchivedModel.dictionaryValue).to.equal(expectedValues);

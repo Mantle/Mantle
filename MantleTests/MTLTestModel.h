@@ -35,7 +35,4 @@
 // Should not be stored in JSON.
 @property (nonatomic, weak) MTLEmptyTestModel *weakModel;
 
-// Should not be stored in JSON.
-@property (nonatomic, unsafe_unretained) MTLEmptyTestModel *unretainedModel;
-
 @end

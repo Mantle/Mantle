@@ -51,9 +51,9 @@ typedef enum : NSUInteger {
 // `super`.
 //
 // Returns a dictionary mapping the receiver's +propertyKeys to default encoding
-// behaviors. If a property is an object with `weak` or `unsafe_unretained`
-// semantics, the default behavior is MTLModelEncodingBehaviorConditional;
-// otherwise, the default is MTLModelEncodingBehaviorUnconditional.
+// behaviors. If a property is an object with `weak` semantics, the default
+// behavior is MTLModelEncodingBehaviorConditional; otherwise, the default is
+// MTLModelEncodingBehaviorUnconditional.
 + (NSDictionary *)encodingBehaviorsByPropertyKey;
 
 // Decodes the value of the given property key from an archive.

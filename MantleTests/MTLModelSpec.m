@@ -15,7 +15,7 @@ it(@"should not loop infinitely in +propertyKeys without any properties", ^{
 });
 
 it(@"should not include dynamic readonly properties in +propertyKeys", ^{
-	NSSet *expectedKeys = [NSSet setWithObjects:@"name", @"count", @"nestedName", @"weakModel", @"unretainedModel", nil];
+	NSSet *expectedKeys = [NSSet setWithObjects:@"name", @"count", @"nestedName", @"weakModel", nil];
 	expect(MTLTestModel.propertyKeys).to.equal(expectedKeys);
 });
 
@@ -31,7 +31,6 @@ it(@"should initialize with default values", ^{
 		@"count": @(1),
 		@"nestedName": NSNull.null,
 		@"weakModel": NSNull.null,
-		@"unretainedModel": NSNull.null,
 	};
 
 	expect(model.dictionaryValue).to.equal(expectedValues);
@@ -60,7 +59,6 @@ describe(@"with a dictionary of values", ^{
 			@"count": @(5),
 			@"nestedName": @"fuzzbuzz",
 			@"weakModel": emptyModel,
-			@"unretainedModel": emptyModel,
 		};
 
 		model = [[MTLTestModel alloc] initWithDictionary:values];
@@ -72,7 +70,6 @@ describe(@"with a dictionary of values", ^{
 		expect(model.count).to.equal(5);
 		expect(model.nestedName).to.equal(@"fuzzbuzz");
 		expect(model.weakModel).to.equal(emptyModel);
-		expect(model.unretainedModel).to.equal(emptyModel);
 
 		expect(model.dictionaryValue).to.equal(values);
 		expect([model dictionaryWithValuesForKeys:values.allKeys]).to.equal(values);
