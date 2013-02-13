@@ -21,6 +21,16 @@
 // Returns a transformer to use, or nil to not transform the property.
 - (NSValueTransformer *)JSONTransformerForKey:(NSString *)key modelClass:(Class)modelClass;
 
+// Looks up the JSON key path that corresponds to the given key.
+//
+// key		  - The property key to retrieve the corresponding JSON key path
+//				for. This argument must not be nil.
+// modelClass - The MTLModel subclass from which to retrieve the key path.
+//				This argument must not be nil.
+//
+// Returns a key path to use, or nil to omit the property from JSON.
+- (NSString *)JSONKeyPathForKey:(NSString *)key modelClass:(Class)modelClass;
+
 @end
 
 @implementation MTLJSONAdapter
@@ -51,15 +61,11 @@
 
 	if (JSONDictionary == nil) return nil;
 
-	NSDictionary *JSONKeyPathsByPropertyKey = nil;
-	if ([modelClass respondsToSelector:@selector(JSONKeyPathsByPropertyKey)]) {
-		JSONKeyPathsByPropertyKey = [modelClass JSONKeyPathsByPropertyKey];
-	}
-
 	NSMutableDictionary *dictionaryValue = [[NSMutableDictionary alloc] initWithCapacity:JSONDictionary.count];
 
 	for (NSString *propertyKey in [modelClass propertyKeys]) {
-		NSString *JSONKeyPath = JSONKeyPathsByPropertyKey[propertyKey] ?: propertyKey;
+		NSString *JSONKeyPath = [self JSONKeyPathForKey:propertyKey modelClass:modelClass];
+		if (JSONKeyPath == nil) continue;
 
 		id value = [JSONDictionary valueForKeyPath:JSONKeyPath];
 		if (value == nil) continue;
@@ -104,15 +110,13 @@
 #pragma mark Serialization
 
 - (NSDictionary *)JSONDictionary {
-	NSDictionary *JSONKeyPathsByPropertyKey = nil;
-	if ([self.model.class respondsToSelector:@selector(JSONKeyPathsByPropertyKey)]) {
-		JSONKeyPathsByPropertyKey = [self.model.class JSONKeyPathsByPropertyKey];
-	}
-
 	NSDictionary *dictionaryValue = self.model.dictionaryValue;
 	NSMutableDictionary *JSONDictionary = [[NSMutableDictionary alloc] initWithCapacity:dictionaryValue.count];
 
 	[dictionaryValue enumerateKeysAndObjectsUsingBlock:^(NSString *propertyKey, id value, BOOL *stop) {
+		NSString *JSONKeyPath = [self JSONKeyPathForKey:propertyKey modelClass:self.model.class];
+		if (JSONKeyPath == nil) return;
+
 		NSValueTransformer *transformer = [self JSONTransformerForKey:propertyKey modelClass:self.model.class];
 		if ([transformer.class allowsReverseTransformation]) {
 			// Map NSNull -> nil for the transformer, and then back for the
@@ -121,7 +125,6 @@
 			value = [transformer reverseTransformedValue:value] ?: NSNull.null;
 		}
 
-		NSString *JSONKeyPath = JSONKeyPathsByPropertyKey[propertyKey] ?: propertyKey;
 		NSArray *keyPathComponents = [JSONKeyPath componentsSeparatedByString:@"."];
 
 		// Set up dictionaries at each step of the key path.
@@ -163,6 +166,21 @@
 	}
 
 	return nil;
+}
+
+- (NSString *)JSONKeyPathForKey:(NSString *)key modelClass:(Class)modelClass {
+	NSParameterAssert(key != nil);
+	NSParameterAssert(modelClass != nil);
+
+	NSString *JSONKeyPath = key;
+	if ([modelClass respondsToSelector:@selector(JSONKeyPathsByPropertyKey)]) {
+		id value = [modelClass JSONKeyPathsByPropertyKey][key];
+
+		if ([value isEqual:NSNull.null]) return nil;
+		if (value != nil) JSONKeyPath = value;
+	}
+
+	return JSONKeyPath;
 }
 
 @end
