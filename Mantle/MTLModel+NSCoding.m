@@ -104,6 +104,7 @@ static NSString * const MTLModelVersionKey = @"MTLModelVersion";
 		if ([value isEqual:NSNull.null]) return;
 
 		switch ([encodingBehaviors[key] unsignedIntegerValue]) {
+			// This will also match a nil behavior.
 			case MTLModelEncodingBehaviorExcluded:
 				break;
 
