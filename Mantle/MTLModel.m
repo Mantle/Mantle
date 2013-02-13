@@ -57,6 +57,7 @@ static void *MTLModelCachedPropertyKeysKey = &MTLModelCachedPropertyKeysKey;
 		} @catch (NSException *ex) {
 			NSLog(@"*** Caught exception setting key \"%@\" from %@: %@", key, dictionary, ex);
 
+			// Fail fast in Debug builds.
 			#if DEBUG
 			@throw ex;
 			#endif

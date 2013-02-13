@@ -50,15 +50,21 @@
 // a model object.
 //
 // JSONDictionary - A dictionary representing JSON data. This should match the
-//                  format returned by NSJSONSerialization.
+//                  format returned by NSJSONSerialization. If this argument is
+//                  nil, the method returns nil.
 // modelClass     - The MTLModel subclass to attempt to parse from the JSON.
-//                  This class must conform to <MTLJSONSerializing>.
+//                  This class must conform to <MTLJSONSerializing>. This
+//                  argument must not be nil.
 //
 // Returns an initialized adapter upon success, or nil if a parsing error
 // occurred.
 - (id)initWithJSONDictionary:(NSDictionary *)JSONDictionary modelClass:(Class)modelClass;
 
 // Initializes the receiver with an existing model.
+//
+// This is the designated initializer for this class.
+//
+// model - The model to use for JSON serialization.
 - (id)initWithModel:(MTLModel<MTLJSONSerializing> *)model;
 
 // Serializes the receiver's `model` into a JSON dictionary.
