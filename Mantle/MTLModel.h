@@ -67,10 +67,10 @@
 + (instancetype)modelWithExternalRepresentation:(NSDictionary *)externalRepresentation __attribute__((unavailable("Replaced by -[MTLJSONAdapter initWithJSONDictionary:modelClass:]")));
 - (instancetype)initWithExternalRepresentation:(NSDictionary *)externalRepresentation __attribute__((unavailable("Replaced by -[MTLJSONAdapter initWithJSONDictionary:modelClass:]")));
 
+@property (nonatomic, copy, readonly) NSDictionary *externalRepresentation __attribute__((unavailable("Replaced by MTLJSONAdapter.JSONDictionary")));
+
 + (NSDictionary *)externalRepresentationKeyPathsByPropertyKey __attribute__((unavailable("Replaced by +JSONKeyPathsByPropertyKey in <MTLJSONSerializing>")));
 + (NSValueTransformer *)transformerForKey:(NSString *)key __attribute__((unavailable("Replaced by +JSONTransformerForKey: in <MTLJSONSerializing>")));
-
-@property (nonatomic, copy, readonly) NSDictionary *externalRepresentation __attribute__((unavailable("Replaced by MTLJSONAdapter.JSONDictionary")));
 
 + (NSDictionary *)migrateExternalRepresentation:(NSDictionary *)externalRepresentation fromVersion:(NSUInteger)fromVersion __attribute__((unavailable("Replaced by -decodeValueForKey:withCoder:modelVersion:")));
 

@@ -82,6 +82,17 @@ static NSString * const MTLModelVersionKey = @"MTLModelVersion";
 	// Don't try to decode newer versions.
 	if (version.unsignedIntegerValue > self.class.modelVersion) return nil;
 
+	// Handle the old archive format.
+	NSDictionary *externalRepresentation = [coder decodeObjectForKey:@"externalRepresentation"];
+	if (externalRepresentation != nil) {
+		NSAssert([self methodForSelector:@selector(dictionaryValueFromArchivedExternalRepresentation:version:)] != [MTLModel instanceMethodForSelector:@selector(dictionaryValueFromArchivedExternalRepresentation:version:)], @"Decoded an old archive of %@ that contains an externalRepresentation, but +dictionaryValueFromArchivedExternalRepresentation:version: is not overridden to handle it", self.class);
+
+		NSDictionary *dictionaryValue = [self.class dictionaryValueFromArchivedExternalRepresentation:externalRepresentation version:version.unsignedIntegerValue];
+		if (dictionaryValue == nil) return nil;
+
+		return [self initWithDictionary:dictionaryValue];
+	}
+
 	NSSet *propertyKeys = self.class.propertyKeys;
 	NSMutableDictionary *dictionaryValue = [[NSMutableDictionary alloc] initWithCapacity:propertyKeys.count];
 
@@ -120,6 +131,14 @@ static NSString * const MTLModelVersionKey = @"MTLModelVersion";
 				NSAssert(NO, @"Unrecognized encoding behavior %@ for key \"%@\"", encodingBehaviors[key], key);
 		}
 	}];
+}
+
+@end
+
+@implementation MTLModel (OldArchiveSupport)
+
++ (NSDictionary *)dictionaryValueFromArchivedExternalRepresentation:(NSDictionary *)externalRepresentation version:(NSUInteger)fromVersion {
+	return nil;
 }
 
 @end
