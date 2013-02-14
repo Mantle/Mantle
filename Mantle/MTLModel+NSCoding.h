@@ -62,8 +62,10 @@ typedef enum : NSUInteger {
 // method on the receiver, and invokes it if found. If not found, `-[NSCoder
 // decodeObjectForKey:]` will be used with the given `key`.
 //
-// key          - The property key to decode the value for.
-// coder        - The NSCoder representing the archive being decoded.
+// key          - The property key to decode the value for. This argument cannot
+//                be nil.
+// coder        - The NSCoder representing the archive being decoded. This
+//                argument cannot be nil.
 // modelVersion - The version of the original model object that was encoded.
 //
 // Returns the decoded and boxed value, or nil if the key was not present.
@@ -82,8 +84,8 @@ typedef enum : NSUInteger {
 
 @end
 
-// These methods can be overridden to support archives created by older
-// versions of Mantle.
+// This method must be overridden to support archives created by older versions
+// of Mantle (before the `MTLModel+NSCoding` interface existed).
 @interface MTLModel (OldArchiveSupport)
 
 // Converts an archived external representation to a dictionary suitable for

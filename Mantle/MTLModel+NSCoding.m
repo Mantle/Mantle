@@ -45,7 +45,7 @@ static NSString * const MTLModelVersionKey = @"MTLModelVersion";
 }
 
 - (id)decodeValueForKey:(NSString *)key withCoder:(NSCoder *)coder modelVersion:(NSUInteger)modelVersion {
-  	NSParameterAssert(key != nil);
+	NSParameterAssert(key != nil);
 	NSParameterAssert(coder != nil);
 
 	NSString *methodName = [NSString stringWithFormat:@"decode%@%@WithCoder:modelVersion:", [key substringToIndex:1].uppercaseString, [key substringFromIndex:1]];
