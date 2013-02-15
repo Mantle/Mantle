@@ -10,7 +10,22 @@
 
 static NSUInteger modelVersion = 1;
 
+@implementation MTLEmptyTestModel
+@end
+
 @implementation MTLTestModel
+
+#pragma mark Properties
+
+- (BOOL)validateName:(NSString **)name error:(NSError **)error {
+	return [*name length] < 10;
+}
+
+- (NSString *)dynamicName {
+	return self.name;
+}
+
+#pragma mark Versioning
 
 + (void)setModelVersion:(NSUInteger)version {
 	modelVersion = version;
@@ -20,9 +35,7 @@ static NSUInteger modelVersion = 1;
 	return modelVersion;
 }
 
-- (NSString *)dynamicName {
-	return self.name;
-}
+#pragma mark Lifecycle
 
 - (instancetype)init {
 	self = [super init];
@@ -32,29 +45,17 @@ static NSUInteger modelVersion = 1;
 	return self;
 }
 
-+ (NSDictionary *)externalRepresentationKeyPathsByPropertyKey {
-	if (modelVersion == 0) {
-		return @{ @"name": @"mtl_name", @"count": @"mtl_count", @"nestedName": @"nested.name" };
-	} else {
-		return @{ @"name": @"username", @"nestedName": @"nested.name" };
-	}
-}
+#pragma mark MTLJSONSerializing
 
-+ (NSDictionary *)migrateExternalRepresentation:(NSDictionary *)dictionary fromVersion:(NSUInteger)fromVersion {
-	NSParameterAssert(dictionary != nil);
-	NSParameterAssert(fromVersion == 0);
-
++ (NSDictionary *)JSONKeyPathsByPropertyKey {
 	return @{
-		@"username": [@"M: " stringByAppendingString:[dictionary objectForKey:@"mtl_name"]],
-		@"count": [dictionary objectForKey:@"mtl_count"]
+		@"name": @"username",
+		@"nestedName": @"nested.name",
+		@"weakModel": NSNull.null,
 	};
 }
 
-- (BOOL)validateName:(NSString **)name error:(NSError **)error {
-	return [*name length] < 10;
-}
-
-+ (NSValueTransformer *)countTransformer {
++ (NSValueTransformer *)countJSONTransformer {
 	return [MTLValueTransformer
 		reversibleTransformerWithForwardBlock:^(NSString *str) {
 			return @(str.integerValue);
@@ -64,11 +65,62 @@ static NSUInteger modelVersion = 1;
 		}];
 }
 
+#pragma mark NSCoding
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+	[super encodeWithCoder:coder];
+
+	if (modelVersion == 0) {
+		[coder encodeObject:self.name forKey:@"mtl_name"];
+	}
+}
+
++ (NSDictionary *)encodingBehaviorsByPropertyKey {
+	return [super.encodingBehaviorsByPropertyKey mtl_dictionaryByAddingEntriesFromDictionary:@{
+		@"nestedName": @(MTLModelEncodingBehaviorExcluded)
+	}];
+}
+
+- (id)decodeValueForKey:(NSString *)key withCoder:(NSCoder *)coder modelVersion:(NSUInteger)fromVersion {
+	NSParameterAssert(key != nil);
+	NSParameterAssert(coder != nil);
+
+	if ([key isEqual:@"name"] && fromVersion == 0) {
+		return [@"M: " stringByAppendingString:[coder decodeObjectForKey:@"mtl_name"]];
+	}
+
+	return [super decodeValueForKey:key withCoder:coder modelVersion:fromVersion];
+}
+
++ (NSDictionary *)dictionaryValueFromArchivedExternalRepresentation:(NSDictionary *)externalRepresentation version:(NSUInteger)fromVersion {
+	NSParameterAssert(externalRepresentation != nil);
+	NSParameterAssert(fromVersion == 1);
+
+	return @{
+		@"name": externalRepresentation[@"username"],
+		@"nestedName": externalRepresentation[@"nested"][@"name"],
+		@"count": @([externalRepresentation[@"count"] integerValue])
+	};
+}
+
+#pragma mark Merging
+
 - (void)mergeCountFromModel:(MTLTestModel *)model {
 	self.count += model.count;
 }
 
 @end
 
-@implementation MTLEmptyTestModel
+@implementation MTLSubstitutingTestModel
+
++ (NSDictionary *)JSONKeyPathsByPropertyKey {
+	return @{};
+}
+
++ (Class)classForParsingJSONDictionary:(NSDictionary *)JSONDictionary {
+	NSParameterAssert(JSONDictionary != nil);
+
+	return MTLTestModel.class;
+}
+
 @end

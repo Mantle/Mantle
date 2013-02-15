@@ -7,9 +7,10 @@
 //
 
 #import "NSValueTransformer+MTLPredefinedTransformerAdditions.h"
-#import "NSArray+MTLHigherOrderAdditions.h"
+#import "MTLJSONAdapter.h"
 #import "MTLModel.h"
 #import "MTLValueTransformer.h"
+#import "NSArray+MTLHigherOrderAdditions.h"
 
 NSString * const MTLURLValueTransformerName = @"MTLURLValueTransformerName";
 NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerName";
@@ -44,30 +45,48 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 
 #pragma mark Customizable Transformers
 
-+ (NSValueTransformer *)mtl_externalRepresentationTransformerWithModelClass:(Class)modelClass {
++ (NSValueTransformer *)mtl_JSONDictionaryTransformerWithModelClass:(Class)modelClass {
 	NSParameterAssert([modelClass isSubclassOfClass:MTLModel.class]);
+	NSParameterAssert([modelClass conformsToProtocol:@protocol(MTLJSONSerializing)]);
 
 	return [MTLValueTransformer
-		reversibleTransformerWithForwardBlock:^(NSDictionary *externalRepresentation) {
-			return [modelClass modelWithExternalRepresentation:externalRepresentation];
+		reversibleTransformerWithForwardBlock:^ id (NSDictionary *JSONDictionary) {
+			if (JSONDictionary == nil) return nil;
+
+			NSAssert([JSONDictionary isKindOfClass:NSDictionary.class], @"Expected a dictionary, got: %@", JSONDictionary);
+
+			return [MTLJSONAdapter modelOfClass:modelClass fromJSONDictionary:JSONDictionary];
 		}
-		reverseBlock:^(MTLModel *model) {
-			return model.externalRepresentation;
+		reverseBlock:^ id (MTLModel<MTLJSONSerializing> *model) {
+			if (model == nil) return nil;
+
+			NSAssert([model isKindOfClass:MTLModel.class], @"Expected a MTLModel object, got %@", model);
+			NSAssert([model conformsToProtocol:@protocol(MTLJSONSerializing)], @"Expected a model object conforming to <MTLJSONSerializing>, got %@", model);
+
+			return [MTLJSONAdapter JSONDictionaryFromModel:model];
 		}];
 }
 
-+ (NSValueTransformer *)mtl_externalRepresentationArrayTransformerWithModelClass:(Class)modelClass {
-	NSValueTransformer *individualTransformer = [self mtl_externalRepresentationTransformerWithModelClass:modelClass];
++ (NSValueTransformer *)mtl_JSONArrayTransformerWithModelClass:(Class)modelClass {
+	NSValueTransformer *dictionaryTransformer = [self mtl_JSONDictionaryTransformerWithModelClass:modelClass];
 
 	return [MTLValueTransformer
-		reversibleTransformerWithForwardBlock:^(NSArray *representations) {
-			return [representations mtl_mapUsingBlock:^(NSDictionary *externalRepresentation) {
-				return [individualTransformer transformedValue:externalRepresentation];
+		reversibleTransformerWithForwardBlock:^ id (NSArray *dictionaries) {
+			if (dictionaries == nil) return nil;
+
+			NSAssert([dictionaries isKindOfClass:NSArray.class], @"Expected a array of dictionaries, got: %@", dictionaries);
+
+			return [dictionaries mtl_mapUsingBlock:^(NSDictionary *JSONDictionary) {
+				return [dictionaryTransformer transformedValue:JSONDictionary];
 			}];
 		}
-		reverseBlock:^(NSArray *models) {
+		reverseBlock:^ id (NSArray *models) {
+			if (models == nil) return nil;
+
+			NSAssert([models isKindOfClass:NSArray.class], @"Expected a array of MTLModels, got: %@", models);
+
 			return [models mtl_mapUsingBlock:^(MTLModel *model) {
-				return model.externalRepresentation;
+				return [dictionaryTransformer reverseTransformedValue:model];
 			}];
 		}];
 }

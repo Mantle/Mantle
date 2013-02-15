@@ -6,7 +6,10 @@
 //  Copyright (c) 2012 GitHub. All rights reserved.
 //
 
-@interface MTLTestModel : MTLModel
+@interface MTLEmptyTestModel : MTLModel
+@end
+
+@interface MTLTestModel : MTLModel <MTLJSONSerializing>
 
 // Defaults to 1. This changes the behavior of some of the receiver's methods to
 // emulate a migration.
@@ -14,21 +17,26 @@
 
 // Must be less than 10 characters.
 //
-// The external representation uses a "username" key for this property.
+// This property is associated with a "username" key in JSON.
 @property (nonatomic, copy) NSString *name;
 
 // Defaults to 1. When two models are merged, their counts are added together.
 //
-// The external representation for this property is a string.
+// This property is a string in JSON.
 @property (nonatomic, assign) NSUInteger count;
 
-// Stored in the external representation as "nested.name".
+// This property is associated with a "nested.name" key path in JSON. This
+// property should not be encoded into new archives.
 @property (nonatomic, copy) NSString *nestedName;
 
-// Should not be stored in the external representation or dictionary value.
+// Should not be stored in the dictionary value or JSON.
 @property (nonatomic, copy, readonly) NSString *dynamicName;
+
+// Should not be stored in JSON.
+@property (nonatomic, weak) MTLEmptyTestModel *weakModel;
 
 @end
 
-@interface MTLEmptyTestModel : MTLModel
+// Parses MTLTestModel objects from JSON instead.
+@interface MTLSubstitutingTestModel : MTLModel <MTLJSONSerializing>
 @end
