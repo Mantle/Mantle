@@ -22,14 +22,33 @@ extern NSString * const MTLBooleanValueTransformerName;
 
 @interface NSValueTransformer (MTLPredefinedTransformerAdditions)
 
-// Returns a reversible transformer which will convert an external
-// representation dictionary into an instance of the given MTLModel subclass,
-// and vice versa.
-+ (NSValueTransformer *)mtl_externalRepresentationTransformerWithModelClass:(Class)modelClass;
+// Creates a reversible transformer to convert a JSON dictionary into a MTLModel
+// object, and vice-versa.
+//
+// modelClass - The MTLModel subclass to attempt to parse from the JSON. This
+//              class must conform to <MTLJSONSerializing>. This argument must
+//              not be nil.
+//
+// Returns a reversible transformer which uses MTLJSONAdapter for transforming
+// values back and forth.
++ (NSValueTransformer *)mtl_JSONDictionaryTransformerWithModelClass:(Class)modelClass;
 
-// Like -mtl_externalRepresentationTransformerWithModelClass:, but converts
-// from an array of external representations to an array of models, and vice
-// versa.
-+ (NSValueTransformer *)mtl_externalRepresentationArrayTransformerWithModelClass:(Class)modelClass;
+// Creates a reversible transformer to convert an array of JSON dictionaries
+// into an array of MTLModel objects, and vice-versa.
+//
+// modelClass - The MTLModel subclass to attempt to parse from each JSON
+//              dictionary. This class must conform to <MTLJSONSerializing>.
+//              This argument must not be nil.
+//
+// Returns a reversible transformer which uses MTLJSONAdapter for transforming
+// array elements back and forth.
++ (NSValueTransformer *)mtl_JSONArrayTransformerWithModelClass:(Class)modelClass;
+
+@end
+
+@interface NSValueTransformer (UnavailableMTLPredefinedTransformerAdditions)
+
++ (NSValueTransformer *)mtl_externalRepresentationTransformerWithModelClass:(Class)modelClass __attribute__((deprecated("Replaced by +mtl_JSONDictionaryTransformerWithModelClass:")));
++ (NSValueTransformer *)mtl_externalRepresentationArrayTransformerWithModelClass:(Class)modelClass __attribute__((deprecated("Replaced by +mtl_JSONArrayTransformerWithModelClass:")));
 
 @end

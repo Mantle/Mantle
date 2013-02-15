@@ -49,34 +49,11 @@ it(@"should define an NSNumber boolean value transformer", ^{
 	expect([transformer reverseTransformedValue:nil]).to.beNil();
 });
 
-describe(@"external representation transformer", ^{
-	__block MTLTestModel *model;
-	__block NSValueTransformer *transformer;
-
-	before(^{
-		model = [[MTLTestModel alloc] init];
-		expect(model).notTo.beNil();
-
-		transformer = [NSValueTransformer mtl_externalRepresentationTransformerWithModelClass:model.class];
-		expect(transformer).notTo.beNil();
-	});
-
-	it(@"should transform an external representation into a model", ^{
-		expect([transformer transformedValue:model.externalRepresentation]).to.equal(model);
-	});
-
-	it(@"should transform a model into an external representation", ^{
-		expect([transformer.class allowsReverseTransformation]).to.beTruthy();
-		expect([transformer reverseTransformedValue:model]).to.equal(model.externalRepresentation);
-	});
-});
-
-describe(@"external representation array transformer", ^{
+describe(@"JSON transformers", ^{
 	__block NSArray *models;
-	__block NSArray *externalRepresentations;
-	__block NSValueTransformer *transformer;
-
-	before(^{
+	__block NSArray *JSONDictionaries;
+	
+	beforeEach(^{
 		NSMutableArray *uniqueModels = [NSMutableArray array];
 		for (NSUInteger i = 0; i < 10; i++) {
 			MTLTestModel *model = [[MTLTestModel alloc] init];
@@ -86,24 +63,49 @@ describe(@"external representation array transformer", ^{
 		}
 
 		models = [uniqueModels copy];
-		externalRepresentations = [uniqueModels mtl_mapUsingBlock:^(MTLTestModel *model) {
-			return model.externalRepresentation;
+
+		JSONDictionaries = [uniqueModels mtl_mapUsingBlock:^(MTLTestModel *model) {
+			NSDictionary *dict = [MTLJSONAdapter JSONDictionaryFromModel:model];
+			expect(dict).notTo.beNil();
+
+			return dict;
 		}];
-
-		expect(models).notTo.beNil();
-		expect(externalRepresentations).notTo.beNil();
-
-		transformer = [NSValueTransformer mtl_externalRepresentationArrayTransformerWithModelClass:MTLTestModel.class];
-		expect(transformer).notTo.beNil();
 	});
 
-	it(@"should transform external representations into models", ^{
-		expect([transformer transformedValue:externalRepresentations]).to.equal(models);
+	describe(@"dictionary transformer", ^{
+		__block NSValueTransformer *transformer;
+
+		before(^{
+			transformer = [NSValueTransformer mtl_JSONDictionaryTransformerWithModelClass:MTLTestModel.class];
+			expect(transformer).notTo.beNil();
+		});
+
+		it(@"should transform a JSON dictionary into a model", ^{
+			expect([transformer transformedValue:JSONDictionaries.lastObject]).to.equal(models.lastObject);
+		});
+
+		it(@"should transform a model into a JSON dictionary", ^{
+			expect([transformer.class allowsReverseTransformation]).to.beTruthy();
+			expect([transformer reverseTransformedValue:models.lastObject]).to.equal(JSONDictionaries.lastObject);
+		});
 	});
 
-	it(@"should transform models into external representations", ^{
-		expect([transformer.class allowsReverseTransformation]).to.beTruthy();
-		expect([transformer reverseTransformedValue:models]).to.equal(externalRepresentations);
+	describe(@"external representation array transformer", ^{
+		__block NSValueTransformer *transformer;
+
+		before(^{
+			transformer = [NSValueTransformer mtl_JSONArrayTransformerWithModelClass:MTLTestModel.class];
+			expect(transformer).notTo.beNil();
+		});
+
+		it(@"should transform JSON dictionaries into models", ^{
+			expect([transformer transformedValue:JSONDictionaries]).to.equal(models);
+		});
+
+		it(@"should transform models into JSON dictionaries", ^{
+			expect([transformer.class allowsReverseTransformation]).to.beTruthy();
+			expect([transformer reverseTransformedValue:models]).to.equal(JSONDictionaries);
+		});
 	});
 });
 

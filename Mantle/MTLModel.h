@@ -8,23 +8,16 @@
 
 #import <Foundation/Foundation.h>
 
-//
 // An abstract base class for model objects, using reflection to provide
 // sensible default behaviors.
 //
 // The default implementations of <NSCopying>, -hash, and -isEqual: make use of
-// the +propertyKeys method. The default implementation of <NSCoding> will
-// archive and unarchive the externalRepresentation of the instance.
-//
-@interface MTLModel : NSObject <NSCoding, NSCopying>
+// the +propertyKeys method.
+@interface MTLModel : NSObject <NSCopying>
 
 // Returns a new instance of the receiver initialized using
 // -initWithDictionary:.
 + (instancetype)modelWithDictionary:(NSDictionary *)dictionaryValue;
-
-// Returns a new instance of the receiver initialized using
-// -initWithExternalRepresentation:.
-+ (instancetype)modelWithExternalRepresentation:(NSDictionary *)externalRepresentation;
 
 // Initializes the receiver with default values.
 //
@@ -41,37 +34,6 @@
 // Returns an initialized model object, or nil if validation failed.
 - (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue;
 
-// Invokes -initWithDictionary: after mapping the given external
-// representation using +externalRepresentationKeyPathsByPropertyKey and
-// +transformerForPropertyKey:.
-//
-// Any NSNull values will be converted to nil before being used. KVC validation
-// methods will be automatically invoked for any transformed values.
-//
-// Returns an initialized model object, or nil if validation failed or
-// `externalRepresentation` was nil.
-- (instancetype)initWithExternalRepresentation:(NSDictionary *)externalRepresentation;
-
-// Specifies how to map @property keys to different key paths for
-// -initWithExternalRepresentation: and -externalRepresentation. Subclasses
-// overriding this method should combine their values with those of super.
-//
-// Any keys not present in the dictionary are assumed to be the same for
-// @property declarations and the external representation.
-//
-// Returns an empty dictionary.
-+ (NSDictionary *)externalRepresentationKeyPathsByPropertyKey;
-
-// Specifies how to convert an -initWithExternalRepresentation: value to the
-// given @property key. If reversible, the transformer will also be used to
-// convert the property value back for -externalRepresentation.
-//
-// By default, this method looks for a `+<key>Transformer` method on
-// the receiver, and invokes it if found.
-//
-// Returns a value transformer, or nil if no transformation should be performed.
-+ (NSValueTransformer *)transformerForKey:(NSString *)key;
-
 // Returns the keys for all @property declarations, except for `readonly`
 // properties without ivars, or properties on MTLModel itself.
 + (NSSet *)propertyKeys;
@@ -83,31 +45,6 @@
 //
 // This property must never be nil.
 @property (nonatomic, copy, readonly) NSDictionary *dictionaryValue;
-
-// The dictionaryValue of the receiver, mapped using
-// +externalRepresentationKeyPathsByPropertyKey and any reversible transformers
-// returned by +transformerForPropertyKey:. The resulting dictionary is suitable
-// for serialization.
-//
-// For any external representation key paths where values along the path are
-// nil (but the final value is not), dictionaries are automatically added so
-// that the value can be correctly set at the complete key path.
-//
-// This property must never be nil.
-@property (nonatomic, copy, readonly) NSDictionary *externalRepresentation;
-
-// The version of this MTLModel subclass.
-//
-// Returns 0.
-+ (NSUInteger)modelVersion;
-
-// Migrates an external representation from an older model version. This method
-// will be invoked from -initWithCoder: if an older version of the receiver is
-// unarchived.
-//
-// Returns `dictionary` without any changes. Subclasses may return nil if
-// unarchiving should fail.
-+ (NSDictionary *)migrateExternalRepresentation:(NSDictionary *)externalRepresentation fromVersion:(NSUInteger)fromVersion;
 
 // Merges the value of the given key on the receiver with the value of the same
 // key from the given model object, giving precedence to the other model object.
@@ -122,5 +59,19 @@
 //
 // `model` must be an instance of the receiver's class or a subclass thereof.
 - (void)mergeValuesForKeysFromModel:(MTLModel *)model;
+
+@end
+
+@interface MTLModel (Unavailable)
+
++ (instancetype)modelWithExternalRepresentation:(NSDictionary *)externalRepresentation __attribute__((deprecated("Replaced by -[MTLJSONAdapter initWithJSONDictionary:modelClass:]")));
+- (instancetype)initWithExternalRepresentation:(NSDictionary *)externalRepresentation __attribute__((deprecated("Replaced by -[MTLJSONAdapter initWithJSONDictionary:modelClass:]")));
+
+@property (nonatomic, copy, readonly) NSDictionary *externalRepresentation __attribute__((deprecated("Replaced by MTLJSONAdapter.JSONDictionary")));
+
++ (NSDictionary *)externalRepresentationKeyPathsByPropertyKey __attribute__((deprecated("Replaced by +JSONKeyPathsByPropertyKey in <MTLJSONSerializing>")));
++ (NSValueTransformer *)transformerForKey:(NSString *)key __attribute__((deprecated("Replaced by +JSONTransformerForKey: in <MTLJSONSerializing>")));
+
++ (NSDictionary *)migrateExternalRepresentation:(NSDictionary *)externalRepresentation fromVersion:(NSUInteger)fromVersion __attribute__((deprecated("Replaced by -decodeValueForKey:withCoder:modelVersion:")));
 
 @end
