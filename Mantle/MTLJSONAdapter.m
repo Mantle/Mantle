@@ -160,7 +160,7 @@
 		[JSONDictionary setValue:value forKeyPath:JSONKeyPath];
 	}];
 
-	return [JSONDictionary copy];
+	return JSONDictionary;
 }
 
 - (NSValueTransformer *)JSONTransformerForKey:(NSString *)key {
