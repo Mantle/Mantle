@@ -126,7 +126,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 			if (error != NULL) {
 				NSDictionary *userInfo = @{
 					NSLocalizedDescriptionKey: ex.description,
-					NSLocalizedFailureReasonKey: ex.reason,
+					NSLocalizedFailureReasonErrorKey: ex.reason,
 					MTLJSONAdapterThrownExceptionErrorKey: ex
 				};
 
