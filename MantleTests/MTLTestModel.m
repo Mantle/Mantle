@@ -128,7 +128,11 @@ static NSUInteger modelVersion = 1;
 + (Class)classForParsingJSONDictionary:(NSDictionary *)JSONDictionary {
 	NSParameterAssert(JSONDictionary != nil);
 
-	return MTLTestModel.class;
+	if (JSONDictionary[@"username"] == nil) {
+		return nil;
+	} else {
+		return MTLTestModel.class;
+	}
 }
 
 @end
