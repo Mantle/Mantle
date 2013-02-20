@@ -78,28 +78,33 @@ static NSString * const MTLModelVersionKey = @"MTLModelVersion";
 		return nil;
 	}
 
-	// Handle the old archive format.
 	NSDictionary *externalRepresentation = [coder decodeObjectForKey:@"externalRepresentation"];
-	if (externalRepresentation != nil) {
+	NSError *error = nil;
+
+	if (externalRepresentation == nil) {
+		NSSet *propertyKeys = self.class.propertyKeys;
+		NSMutableDictionary *dictionaryValue = [[NSMutableDictionary alloc] initWithCapacity:propertyKeys.count];
+
+		for (NSString *key in propertyKeys) {
+			id value = [self decodeValueForKey:key withCoder:coder modelVersion:version.unsignedIntegerValue];
+			if (value == nil) continue;
+
+			dictionaryValue[key] = value;
+		}
+
+		self = [self initWithDictionary:dictionaryValue error:&error];
+	} else {
+		// Handle the old archive format.
 		NSAssert([self.class methodForSelector:@selector(dictionaryValueFromArchivedExternalRepresentation:version:)] != [MTLModel methodForSelector:@selector(dictionaryValueFromArchivedExternalRepresentation:version:)], @"Decoded an old archive of %@ that contains an externalRepresentation, but +dictionaryValueFromArchivedExternalRepresentation:version: is not overridden to handle it", self.class);
 
 		NSDictionary *dictionaryValue = [self.class dictionaryValueFromArchivedExternalRepresentation:externalRepresentation version:version.unsignedIntegerValue];
 		if (dictionaryValue == nil) return nil;
 
-		return [self initWithDictionary:dictionaryValue];
+		self = [self initWithDictionary:dictionaryValue error:&error];
 	}
 
-	NSSet *propertyKeys = self.class.propertyKeys;
-	NSMutableDictionary *dictionaryValue = [[NSMutableDictionary alloc] initWithCapacity:propertyKeys.count];
-
-	for (NSString *key in propertyKeys) {
-		id value = [self decodeValueForKey:key withCoder:coder modelVersion:version.unsignedIntegerValue];
-		if (value == nil) continue;
-
-		dictionaryValue[key] = value;
-	}
-
-	return [self initWithDictionary:dictionaryValue];
+	if (self == nil) NSLog(@"*** Could not unarchive %@: %@", self.class, error);
+	return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
