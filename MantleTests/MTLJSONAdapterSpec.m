@@ -37,7 +37,7 @@ it(@"should initialize from a model", ^{
 	MTLTestModel *model = [MTLTestModel modelWithDictionary:@{
 		@"name": @"foobar",
 		@"count": @5,
-	}];
+	} error:NULL];
 
 	MTLJSONAdapter *adapter = [[MTLJSONAdapter alloc] initWithModel:model];
 	expect(adapter).notTo.beNil();
