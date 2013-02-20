@@ -78,7 +78,7 @@ static void *MTLModelCachedPropertyKeysKey = &MTLModelCachedPropertyKeysKey;
 			if (error != NULL) {
 				NSDictionary *userInfo = @{
 					NSLocalizedDescriptionKey: ex.description,
-					NSLocalizedFailureReasonKey: ex.reason,
+					NSLocalizedFailureReasonErrorKey: ex.reason,
 					MTLModelThrownExceptionErrorKey: ex
 				};
 
