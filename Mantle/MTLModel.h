@@ -32,7 +32,7 @@
 //                   validation methods will automatically be invoked for all of
 //                   the properties given. If nil, this method is equivalent to
 //                   -init.
-// error           - If not NULL, this will be set to any error that occurs
+// error           - If not NULL, this may be set to any error that occurs
 //                   (like a KVC validation error).
 //
 // Returns an initialized model object, or nil if validation failed.

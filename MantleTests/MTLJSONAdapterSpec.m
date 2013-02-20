@@ -16,8 +16,10 @@ it(@"should initialize from JSON", ^{
 		@"count": @"5",
 	};
 
-	MTLJSONAdapter *adapter = [[MTLJSONAdapter alloc] initWithJSONDictionary:values modelClass:MTLTestModel.class];
+	NSError *error = nil;
+	MTLJSONAdapter *adapter = [[MTLJSONAdapter alloc] initWithJSONDictionary:values modelClass:MTLTestModel.class error:&error];
 	expect(adapter).notTo.beNil();
+	expect(error).to.beNil();
 
 	MTLTestModel *model = (id)adapter.model;
 	expect(model).notTo.beNil();
@@ -59,8 +61,10 @@ it(@"should initialize nested key paths from JSON", ^{
 		@"count": @"0"
 	};
 
-	MTLTestModel *model = [MTLJSONAdapter modelOfClass:MTLTestModel.class fromJSONDictionary:values];
+	NSError *error = nil;
+	MTLTestModel *model = [MTLJSONAdapter modelOfClass:MTLTestModel.class fromJSONDictionary:values error:&error];
 	expect(model).notTo.beNil();
+	expect(error).to.beNil();
 
 	expect(model.name).to.equal(@"foo");
 	expect(model.count).to.equal(0);
@@ -69,9 +73,11 @@ it(@"should initialize nested key paths from JSON", ^{
 	expect([MTLJSONAdapter JSONDictionaryFromModel:model]).to.equal(values);
 });
 
-it(@"should fail to initialize with a nil JSON dictionary", ^{
-	MTLJSONAdapter *adapter = [[MTLJSONAdapter alloc] initWithJSONDictionary:nil modelClass:MTLTestModel.class];
+it(@"should return nil with a nil JSON dictionary, but no error", ^{
+	NSError *error = nil;
+	MTLJSONAdapter *adapter = [[MTLJSONAdapter alloc] initWithJSONDictionary:nil modelClass:MTLTestModel.class error:&error];
 	expect(adapter).to.beNil();
+	expect(error).to.beNil();
 });
 
 it(@"should ignore unrecognized JSON keys", ^{
@@ -83,8 +89,10 @@ it(@"should ignore unrecognized JSON keys", ^{
 		@"nested": @{ @"name": @"bar", @"stuffToIgnore": @5, @"moreNonsense": NSNull.null },
 	};
 
-	MTLTestModel *model = [MTLJSONAdapter modelOfClass:MTLTestModel.class fromJSONDictionary:values];
+	NSError *error = nil;
+	MTLTestModel *model = [MTLJSONAdapter modelOfClass:MTLTestModel.class fromJSONDictionary:values error:&error];
 	expect(model).notTo.beNil();
+	expect(error).to.beNil();
 
 	expect(model.name).to.equal(@"buzz");
 	expect(model.count).to.equal(2);
@@ -96,8 +104,11 @@ it(@"should fail to initialize if JSON dictionary validation fails", ^{
 		@"username": @"this is too long a name",
 	};
 
-	MTLTestModel *model = [MTLJSONAdapter modelOfClass:MTLTestModel.class fromJSONDictionary:values];
+	NSError *error = nil;
+	MTLTestModel *model = [MTLJSONAdapter modelOfClass:MTLTestModel.class fromJSONDictionary:values error:&error];
 	expect(model).to.beNil();
+	expect(error.domain).to.equal(MTLTestModelErrorDomain);
+	expect(error.code).to.equal(MTLTestModelNameTooLong);
 });
 
 it(@"should parse a different model class", ^{
@@ -107,8 +118,10 @@ it(@"should parse a different model class", ^{
 		@"count": @"0"
 	};
 
-	MTLTestModel *model = [MTLJSONAdapter modelOfClass:MTLSubstitutingTestModel.class fromJSONDictionary:values];
+	NSError *error = nil;
+	MTLTestModel *model = [MTLJSONAdapter modelOfClass:MTLSubstitutingTestModel.class fromJSONDictionary:values error:&error];
 	expect(model).to.beKindOf(MTLTestModel.class);
+	expect(error).to.beNil();
 
 	expect(model.name).to.equal(@"foo");
 	expect(model.count).to.equal(0);
