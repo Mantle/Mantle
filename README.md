@@ -207,21 +207,21 @@ typedef enum : NSUInteger {
 }
 
 + (NSDictionary *)JSONKeyPathsByPropertyKey {
-    return [super.JSONKeyPathsByPropertyKey mtl_dictionaryByAddingEntriesFromDictionary:@{
+    return @{
         @"URL": @"url",
         @"HTMLURL": @"html_url",
         @"reporterLogin": @"user.login",
         @"assigneeLogin": @"assignee.login",
         @"updatedAt": @"updated_at"
-    }];
+    };
 }
 
 + (NSValueTransformer *)URLJSONTransformer {
-	return [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
+    return [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
 }
 
 + (NSValueTransformer *)HTMLURLJSONTransformer {
-	return [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
+    return [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
 }
 
 + (NSValueTransformer *)stateJSONTransformer {
