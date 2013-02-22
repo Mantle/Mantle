@@ -76,6 +76,10 @@
 		D090E63F15F73269005282F9 /* EXTScope.m in Sources */ = {isa = PBXBuildFile; fileRef = D090E63C15F73265005282F9 /* EXTScope.m */; };
 		D090E66115F73315005282F9 /* MTLHigherOrderAdditionsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D090E66015F73315005282F9 /* MTLHigherOrderAdditionsSpec.m */; };
 		D090E66215F73315005282F9 /* MTLHigherOrderAdditionsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D090E66015F73315005282F9 /* MTLHigherOrderAdditionsSpec.m */; };
+		D0BAF9DF16D80139007372B5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D042FC4415F72B23004E8054 /* Foundation.framework */; };
+		D0BAF9E516D80139007372B5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D0BAF9E316D80139007372B5 /* InfoPlist.strings */; };
+		D0BAF9E816D80139007372B5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D0BAF9E716D80139007372B5 /* main.m */; };
+		D0BAF9F816D8034E007372B5 /* com.github.MantleTestService.xpc in CopyFiles */ = {isa = PBXBuildFile; fileRef = D0BAF9DE16D80139007372B5 /* com.github.MantleTestService.xpc */; };
 		D0C27CF6161107E5002FE587 /* MTLDictionaryManipulationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D0C27CF5161107E5002FE587 /* MTLDictionaryManipulationSpec.m */; };
 		D0C27CF7161107E5002FE587 /* MTLDictionaryManipulationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D0C27CF5161107E5002FE587 /* MTLDictionaryManipulationSpec.m */; };
 		D0C27D0A16110973002FE587 /* NSDictionary+MTLManipulationAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = D0C27D0816110973002FE587 /* NSDictionary+MTLManipulationAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -120,6 +124,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = D042FC7815F72BC7004E8054;
 			remoteInfo = Maverick;
+		};
+		D0BAF9F516D802B1007372B5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D042FC3215F72B23004E8054 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D0BAF9DD16D80139007372B5;
+			remoteInfo = MantleTestService;
 		};
 		D0D469DC160BC93400AB468D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -207,6 +218,19 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		D0BAF9F716D802B5007372B5 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Contents/XPCServices;
+			dstSubfolderSpec = 1;
+			files = (
+				D0BAF9F816D8034E007372B5 /* com.github.MantleTestService.xpc in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		1ED5B5CB163A4E2B0072668E /* MTLComparisonAdditionsSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLComparisonAdditionsSpec.m; sourceTree = "<group>"; };
 		1ED5B5CE163A4E3C0072668E /* NSObject+MTLComparisonAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+MTLComparisonAdditions.h"; sourceTree = "<group>"; };
@@ -276,6 +300,10 @@
 		D090E63C15F73265005282F9 /* EXTScope.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = EXTScope.m; path = extobjc/EXTScope.m; sourceTree = "<group>"; };
 		D090E63D15F73265005282F9 /* metamacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = metamacros.h; path = extobjc/metamacros.h; sourceTree = "<group>"; };
 		D090E66015F73315005282F9 /* MTLHigherOrderAdditionsSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLHigherOrderAdditionsSpec.m; sourceTree = "<group>"; };
+		D0BAF9DE16D80139007372B5 /* com.github.MantleTestService.xpc */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = com.github.MantleTestService.xpc; sourceTree = BUILT_PRODUCTS_DIR; };
+		D0BAF9E216D80139007372B5 /* MantleTestService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MantleTestService-Info.plist"; sourceTree = "<group>"; };
+		D0BAF9E416D80139007372B5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		D0BAF9E716D80139007372B5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		D0C27CF5161107E5002FE587 /* MTLDictionaryManipulationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLDictionaryManipulationSpec.m; sourceTree = "<group>"; };
 		D0C27D0816110973002FE587 /* NSDictionary+MTLManipulationAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+MTLManipulationAdditions.h"; sourceTree = "<group>"; };
 		D0C27D0916110973002FE587 /* NSDictionary+MTLManipulationAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+MTLManipulationAdditions.m"; sourceTree = "<group>"; };
@@ -327,6 +355,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D0BAF9DB16D80139007372B5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D0BAF9DF16D80139007372B5 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -353,6 +389,7 @@
 			children = (
 				D042FC4515F72B23004E8054 /* Mantle */,
 				D042FC5B15F72B23004E8054 /* MantleTests */,
+				D0BAF9E016D80139007372B5 /* MantleTestService */,
 				D042FC3E15F72B23004E8054 /* Frameworks */,
 				D042FC9E15F72C16004E8054 /* Configuration */,
 				D042FC3D15F72B23004E8054 /* Products */,
@@ -366,6 +403,7 @@
 				D042FC5415F72B23004E8054 /* Mantle Mac Tests.octest */,
 				D042FC7915F72BC7004E8054 /* libMantle.a */,
 				D042FC8715F72BC7004E8054 /* Mantle iOS Tests.octest */,
+				D0BAF9DE16D80139007372B5 /* com.github.MantleTestService.xpc */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -558,6 +596,24 @@
 			path = libextobjc;
 			sourceTree = "<group>";
 		};
+		D0BAF9E016D80139007372B5 /* MantleTestService */ = {
+			isa = PBXGroup;
+			children = (
+				D0BAF9E716D80139007372B5 /* main.m */,
+				D0BAF9E116D80139007372B5 /* Supporting Files */,
+			);
+			path = MantleTestService;
+			sourceTree = "<group>";
+		};
+		D0BAF9E116D80139007372B5 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D0BAF9E216D80139007372B5 /* MantleTestService-Info.plist */,
+				D0BAF9E316D80139007372B5 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		D0D469D6160BC93400AB468D /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -654,10 +710,12 @@
 				D042FC5015F72B23004E8054 /* Frameworks */,
 				D042FC5115F72B23004E8054 /* Resources */,
 				D042FC5215F72B23004E8054 /* ShellScript */,
+				D0BAF9F716D802B5007372B5 /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				D0BAF9F616D802B1007372B5 /* PBXTargetDependency */,
 				D0D46A0A160BC98100AB468D /* PBXTargetDependency */,
 				D0D46A0C160BC98100AB468D /* PBXTargetDependency */,
 				D042FC5915F72B23004E8054 /* PBXTargetDependency */,
@@ -705,6 +763,23 @@
 			productReference = D042FC8715F72BC7004E8054 /* Mantle iOS Tests.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
+		D0BAF9DD16D80139007372B5 /* MantleTestService */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D0BAF9F016D80139007372B5 /* Build configuration list for PBXNativeTarget "MantleTestService" */;
+			buildPhases = (
+				D0BAF9DA16D80139007372B5 /* Sources */,
+				D0BAF9DB16D80139007372B5 /* Frameworks */,
+				D0BAF9DC16D80139007372B5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MantleTestService;
+			productName = MantleTestService;
+			productReference = D0BAF9DE16D80139007372B5 /* com.github.MantleTestService.xpc */;
+			productType = "com.apple.product-type.bundle";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -740,6 +815,7 @@
 				D042FC5315F72B23004E8054 /* Mantle Mac Tests */,
 				D042FC7815F72BC7004E8054 /* Mantle iOS */,
 				D042FC8615F72BC7004E8054 /* Mantle iOS Tests */,
+				D0BAF9DD16D80139007372B5 /* MantleTestService */,
 			);
 		};
 /* End PBXProject section */
@@ -826,6 +902,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				D01BD0BB16CB6F5700EC95C7 /* MTLTestModel-OldArchive.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D0BAF9DC16D80139007372B5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D0BAF9E516D80139007372B5 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -943,6 +1027,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D0BAF9DA16D80139007372B5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D0BAF9E816D80139007372B5 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -955,6 +1047,11 @@
 			isa = PBXTargetDependency;
 			target = D042FC7815F72BC7004E8054 /* Mantle iOS */;
 			targetProxy = D042FC8C15F72BC7004E8054 /* PBXContainerItemProxy */;
+		};
+		D0BAF9F616D802B1007372B5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D0BAF9DD16D80139007372B5 /* MantleTestService */;
+			targetProxy = D0BAF9F516D802B1007372B5 /* PBXContainerItemProxy */;
 		};
 		D0D46A0A160BC98100AB468D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -991,6 +1088,14 @@
 			isa = PBXVariantGroup;
 			children = (
 				D042FC5F15F72B23004E8054 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		D0BAF9E316D80139007372B5 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D0BAF9E416D80139007372B5 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -1226,6 +1331,40 @@
 			};
 			name = Profile;
 		};
+		D0BAF9E916D80139007372B5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LIBRARY = "libc++";
+				INFOPLIST_FILE = "MantleTestService/MantleTestService-Info.plist";
+				MACH_O_TYPE = mh_execute;
+				"OTHER_CPLUSPLUSFLAGS[arch=*]" = "$(OTHER_CFLAGS)";
+				PRODUCT_NAME = "com.github.$(TARGET_NAME:rfc1034identifier)";
+				WRAPPER_EXTENSION = xpc;
+			};
+			name = Debug;
+		};
+		D0BAF9EA16D80139007372B5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LIBRARY = "libc++";
+				INFOPLIST_FILE = "MantleTestService/MantleTestService-Info.plist";
+				MACH_O_TYPE = mh_execute;
+				PRODUCT_NAME = "com.github.$(TARGET_NAME:rfc1034identifier)";
+				WRAPPER_EXTENSION = xpc;
+			};
+			name = Release;
+		};
+		D0BAF9EB16D80139007372B5 /* Profile */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LIBRARY = "libc++";
+				INFOPLIST_FILE = "MantleTestService/MantleTestService-Info.plist";
+				MACH_O_TYPE = mh_execute;
+				PRODUCT_NAME = "com.github.$(TARGET_NAME:rfc1034identifier)";
+				WRAPPER_EXTENSION = xpc;
+			};
+			name = Profile;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1278,6 +1417,15 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		D0BAF9F016D80139007372B5 /* Build configuration list for PBXNativeTarget "MantleTestService" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D0BAF9E916D80139007372B5 /* Debug */,
+				D0BAF9EA16D80139007372B5 /* Release */,
+				D0BAF9EB16D80139007372B5 /* Profile */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
