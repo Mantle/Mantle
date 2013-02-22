@@ -56,11 +56,36 @@ typedef enum : NSUInteger {
 // MTLModelEncodingBehaviorUnconditional.
 + (NSDictionary *)encodingBehaviorsByPropertyKey;
 
+// Determines the classes that are allowed to be decoded for each of the
+// receiver's +propertyKeys when using <NSSecureCoding>. The values of this
+// dictionary should be NSArrays of Class objects.
+//
+// If any property keys are not present in the dictionary, an exception will be
+// thrown during secure encoding or decoding.
+//
+// Subclasses overriding this method should combine their values with those of
+// `super`.
+//
+// Returns a dictionary mapping the receiver's +propertyKeys to default allowed
+// classes, based on the type that each property is declared as. If an object
+// property's type cannot be determined (e.g., it is declared as `id`), it will
+// be omitted from the dictionary, which will cause an exception unless
+// a subclass provides a valid type.
++ (NSDictionary *)allowedClassesByPropertyKey;
+
 // Decodes the value of the given property key from an archive.
 //
 // By default, this method looks for a `-decode<Key>WithCoder:modelVersion:`
-// method on the receiver, and invokes it if found. If not found, `-[NSCoder
-// decodeObjectForKey:]` will be used with the given `key`.
+// method on the receiver, and invokes it if found.
+//
+// If the custom method is not implemented and `coder` does not require secure
+// coding, `-[NSCoder decodeObjectForKey:]` will be invoked with the given
+// `key`.
+//
+// If the custom method is not implemented and `coder` requires secure coding,
+// `-[NSCoder decodeObjectOfClasses:forKey:]` will be invoked with the
+// information from +allowedClassesByPropertyKey and the given `key`. The
+// receiver must conform to <NSSecureCoding> for this to work correctly.
 //
 // key          - The property key to decode the value for. This argument cannot
 //                be nil.
