@@ -1333,11 +1333,11 @@
 		};
 		D0BAF9E916D80139007372B5 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D042FCAD15F72C16004E8054 /* Mac-Application.xcconfig */;
 			buildSettings = {
 				CLANG_CXX_LIBRARY = "libc++";
 				INFOPLIST_FILE = "MantleTestService/MantleTestService-Info.plist";
 				MACH_O_TYPE = mh_execute;
-				"OTHER_CPLUSPLUSFLAGS[arch=*]" = "$(OTHER_CFLAGS)";
 				PRODUCT_NAME = "com.github.$(TARGET_NAME:rfc1034identifier)";
 				WRAPPER_EXTENSION = xpc;
 			};
@@ -1345,6 +1345,7 @@
 		};
 		D0BAF9EA16D80139007372B5 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D042FCAD15F72C16004E8054 /* Mac-Application.xcconfig */;
 			buildSettings = {
 				CLANG_CXX_LIBRARY = "libc++";
 				INFOPLIST_FILE = "MantleTestService/MantleTestService-Info.plist";
@@ -1356,6 +1357,7 @@
 		};
 		D0BAF9EB16D80139007372B5 /* Profile */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D042FCAD15F72C16004E8054 /* Mac-Application.xcconfig */;
 			buildSettings = {
 				CLANG_CXX_LIBRARY = "libc++";
 				INFOPLIST_FILE = "MantleTestService/MantleTestService-Info.plist";
