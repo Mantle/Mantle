@@ -38,7 +38,7 @@ static void verifyAllowedClassesByPropertyKey(Class modelClass) {
 	[specifiedPropertyKeys minusSet:[modelClass propertyKeys]];
 
 	if (specifiedPropertyKeys.count > 0) {
-		[NSException raise:NSInvalidArgumentException format:@"Cannot encode %@ securely, because the following keys are missing from +allowedClassesByPropertyKey: %@", modelClass, specifiedPropertyKeys];
+		[NSException raise:NSInvalidArgumentException format:@"Cannot encode %@ securely, because keys are missing from +allowedClassesByPropertyKey: %@", modelClass, specifiedPropertyKeys];
 	}
 }
 
@@ -130,7 +130,7 @@ static void verifyAllowedClassesByPropertyKey(Class modelClass) {
 
 	if (coderRequiresSecureCoding(coder)) {
 		NSArray *allowedClasses = self.class.allowedClassesByPropertyKey[key];
-		NSAssert(allowedClasses != nil, @"No allowed classes specified for securing decoding key \"%@\" on %@", key, self.class);
+		NSAssert(allowedClasses != nil, @"No allowed classes specified for securely decoding key \"%@\" on %@", key, self.class);
 
 		return [coder decodeObjectOfClasses:[NSSet setWithArray:allowedClasses] forKey:key];
 	} else {
