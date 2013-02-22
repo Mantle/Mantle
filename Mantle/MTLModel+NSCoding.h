@@ -69,8 +69,8 @@ typedef enum : NSUInteger {
 // Returns a dictionary mapping the receiver's +propertyKeys to default allowed
 // classes, based on the type that each property is declared as. If an object
 // property's type cannot be determined (e.g., it is declared as `id`), it will
-// be omitted from the dictionary, which will cause an exception unless
-// a subclass provides a valid type.
+// be omitted from the dictionary, which will cause an exception during coding
+// unless the subclass provides a valid type.
 + (NSDictionary *)allowedClassesByPropertyKey;
 
 // Decodes the value of the given property key from an archive.
