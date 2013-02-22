@@ -23,6 +23,8 @@ static BOOL coderRequiresSecureCoding(NSCoder *coder) {
 
 	// Only invoke the method if it's implemented (i.e., only on OS X 10.8+ and
 	// iOS 6+).
+	if (![coder respondsToSelector:selector]) return NO;
+
 	BOOL (*requiresSecureCodingIMP)(NSCoder *, SEL) = (__typeof__(requiresSecureCodingIMP))[coder methodForSelector:selector];
 	if (requiresSecureCodingIMP == NULL) return NO;
 
