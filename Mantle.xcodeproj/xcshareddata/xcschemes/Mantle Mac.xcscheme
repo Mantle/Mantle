@@ -22,8 +22,8 @@
          </BuildActionEntry>
          <BuildActionEntry
             buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
             buildForArchiving = "NO"
             buildForAnalyzing = "YES">
             <BuildableReference
@@ -31,6 +31,20 @@
                BlueprintIdentifier = "D042FC5315F72B23004E8054"
                BuildableName = "Mantle Mac Tests.octest"
                BlueprintName = "Mantle Mac Tests"
+               ReferencedContainer = "container:Mantle.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "D0BAF9DD16D80139007372B5"
+               BuildableName = "com.github.MantleTestService.xpc"
+               BlueprintName = "MantleTestService"
                ReferencedContainer = "container:Mantle.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
