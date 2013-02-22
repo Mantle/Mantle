@@ -29,13 +29,21 @@ static BOOL coderRequiresSecureCoding(NSCoder *coder) {
 	return requiresSecureCodingIMP(coder, selector);
 }
 
-// Verifies that all of the specified class' +propertyKeys are present in
-// +allowedClassesByPropertyKey, and throws an exception if not.
+// Returns all of the given class' encodable property keys (those that will not
+// be excluded from archives).
+static NSSet *encodablePropertyKeysForClass(Class modelClass) {
+	return [[modelClass encodingBehaviorsByPropertyKey] keysOfEntriesPassingTest:^ BOOL (NSString *propertyKey, NSNumber *behavior, BOOL *stop) {
+		return behavior.unsignedIntegerValue != MTLModelEncodingBehaviorExcluded;
+	}];
+}
+
+// Verifies that all of the specified class' encodable property keys are present
+// in +allowedClassesByPropertyKey, and throws an exception if not.
 static void verifyAllowedClassesByPropertyKey(Class modelClass) {
 	NSDictionary *allowedClasses = [modelClass allowedClassesByPropertyKey];
 
 	NSMutableSet *specifiedPropertyKeys = [[NSMutableSet alloc] initWithArray:allowedClasses.allKeys];
-	[specifiedPropertyKeys minusSet:[modelClass propertyKeys]];
+	[specifiedPropertyKeys minusSet:encodablePropertyKeysForClass(modelClass)];
 
 	if (specifiedPropertyKeys.count > 0) {
 		[NSException raise:NSInvalidArgumentException format:@"Cannot encode %@ securely, because keys are missing from +allowedClassesByPropertyKey: %@", modelClass, specifiedPropertyKeys];
@@ -53,7 +61,7 @@ static void verifyAllowedClassesByPropertyKey(Class modelClass) {
 #pragma mark Encoding Behaviors
 
 + (NSDictionary *)encodingBehaviorsByPropertyKey {
-	NSSet *propertyKeys = self.class.propertyKeys;
+	NSSet *propertyKeys = self.propertyKeys;
 	NSMutableDictionary *behaviors = [[NSMutableDictionary alloc] initWithCapacity:propertyKeys.count];
 
 	for (NSString *key in propertyKeys) {
@@ -76,7 +84,11 @@ static void verifyAllowedClassesByPropertyKey(Class modelClass) {
 	NSDictionary *cachedClasses = objc_getAssociatedObject(self, MTLModelCachedAllowedClassesKey);
 	if (cachedClasses != nil) return cachedClasses;
 
-	NSSet *propertyKeys = self.class.propertyKeys;
+	// Get all property keys that could potentially be encoded.
+	NSSet *propertyKeys = [self.encodingBehaviorsByPropertyKey keysOfEntriesPassingTest:^ BOOL (NSString *propertyKey, NSNumber *behavior, BOOL *stop) {
+		return behavior.unsignedIntegerValue != MTLModelEncodingBehaviorExcluded;
+	}];
+
 	NSMutableDictionary *allowedClasses = [[NSMutableDictionary alloc] initWithCapacity:propertyKeys.count];
 
 	for (NSString *key in propertyKeys) {

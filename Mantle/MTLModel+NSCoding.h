@@ -57,20 +57,22 @@ typedef enum : NSUInteger {
 + (NSDictionary *)encodingBehaviorsByPropertyKey;
 
 // Determines the classes that are allowed to be decoded for each of the
-// receiver's +propertyKeys when using <NSSecureCoding>. The values of this
+// receiver's properties when using <NSSecureCoding>. The values of this
 // dictionary should be NSArrays of Class objects.
 //
-// If any property keys are not present in the dictionary, an exception will be
-// thrown during secure encoding or decoding.
+// If any encodable keys (as determined by +encodingBehaviorsByPropertyKey) are
+// not present in the dictionary, an exception will be thrown during secure
+// encoding or decoding.
 //
 // Subclasses overriding this method should combine their values with those of
 // `super`.
 //
-// Returns a dictionary mapping the receiver's +propertyKeys to default allowed
-// classes, based on the type that each property is declared as. If an object
-// property's type cannot be determined (e.g., it is declared as `id`), it will
-// be omitted from the dictionary, which will cause an exception during coding
-// unless the subclass provides a valid type.
+// Returns a dictionary mapping the receiver's encodable keys (as determined by
+// +encodingBehaviorsByPropertyKey) to default allowed classes, based on the
+// type that each property is declared as. If type of an encodable property
+// cannot be determined (e.g., it is declared as `id`), it will be omitted from
+// the dictionary, and subclasses must provide a valid value to prevent an
+// exception being thrown during encoding/decoding.
 + (NSDictionary *)allowedClassesByPropertyKey;
 
 // Decodes the value of the given property key from an archive.
