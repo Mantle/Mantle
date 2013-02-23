@@ -48,6 +48,12 @@ typedef enum : NSUInteger {
 // according to the behaviors specified in +encodingBehaviorsByPropertyKey.
 - (void)encodeWithCoder:(NSCoder *)coder;
 
+// The default implementation of this method returns YES.
+//
+// Subclasses that override -initWithCoder and/or -encodeWithCoder: must
+// override this method themselves as well.
++ (BOOL)supportsSecureCoding;
+
 // Determines how the +propertyKeys of the class are encoded into an archive.
 // The values of this dictionary should be boxed MTLModelEncodingBehavior
 // values.
