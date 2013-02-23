@@ -161,15 +161,20 @@ static void verifyAllowedClassesByPropertyKey(Class modelClass) {
 #pragma mark NSCoding
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
-	NSNumber *version = [coder decodeObjectForKey:MTLModelVersionKey];
+	BOOL requiresSecureCoding = coderRequiresSecureCoding(coder);
+	NSNumber *version = nil;
+	if (requiresSecureCoding) {
+		version = [coder decodeObjectOfClass:[NSNumber class] forKey:MTLModelVersionKey];
+	} else {
+		version = [coder decodeObjectForKey:MTLModelVersionKey];
+	}
 	if (version == nil) {
 		NSLog(@"Warning: decoding an archive of %@ without a version, assuming 0", self.class);
 	} else if (version.unsignedIntegerValue > self.class.modelVersion) {
 		// Don't try to decode newer versions.
 		return nil;
 	}
-
-	if (coderRequiresSecureCoding(coder)) {
+	if (requiresSecureCoding) {
 		verifyAllowedClassesByPropertyKey(self.class);
 	} else {
 		// Handle the old archive format.
