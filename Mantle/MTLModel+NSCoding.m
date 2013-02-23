@@ -153,8 +153,7 @@ static void verifyAllowedClassesByPropertyKey(Class modelClass) {
 	}
 }
 
-+ (BOOL)supportsSecureCoding
-{
++ (BOOL)supportsSecureCoding {
 	return YES;
 }
 
