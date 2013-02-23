@@ -144,9 +144,10 @@ static void verifyAllowedClassesByPropertyKey(Class modelClass) {
 
 	if (coderRequiresSecureCoding(coder)) {
 		NSArray *allowedClasses = self.class.allowedClassesByPropertyKey[key];
-		NSAssert(allowedClasses != nil, @"No allowed classes specified for securely decoding key \"%@\" on %@", key, self.class);
-
-		return [coder decodeObjectOfClasses:[NSSet setWithArray:allowedClasses] forKey:key];
+		if (allowedClasses) {
+			return [coder decodeObjectOfClasses:[NSSet setWithArray:allowedClasses] forKey:key];
+		}
+		return nil;
 	} else {
 		return [coder decodeObjectForKey:key];
 	}
