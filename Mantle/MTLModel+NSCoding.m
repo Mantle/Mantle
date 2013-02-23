@@ -153,10 +153,6 @@ static void verifyAllowedClassesByPropertyKey(Class modelClass) {
 	}
 }
 
-+ (BOOL)supportsSecureCoding {
-	return YES;
-}
-
 #pragma mark NSCoding
 
 - (instancetype)initWithCoder:(NSCoder *)coder {

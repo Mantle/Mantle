@@ -25,13 +25,7 @@ typedef enum : NSUInteger {
 
 // Implements default archiving and unarchiving behaviors for MTLModel.
 
-// Explicitly conform to NSSecureCoding because an NSCoder that requires secure
-// coding will check for protocol conformance using -conformsToProtocol:, which
-// fails if the protocol conformance is not explicitly declared. Note that this
-// declaration does not guarantee that NSSecureCoding will be used, it is simply
-// there for the purpose of indicating to NSCoder that an MTLModel object _can_
-// use NSSecureCoding.
-@interface MTLModel (NSCoding) <NSSecureCoding>
+@interface MTLModel (NSCoding) <NSCoding>
 
 // Initializes the receiver from an archive.
 //
@@ -47,12 +41,6 @@ typedef enum : NSUInteger {
 // This will encode the receiver's +modelVersion, then the receiver's properties
 // according to the behaviors specified in +encodingBehaviorsByPropertyKey.
 - (void)encodeWithCoder:(NSCoder *)coder;
-
-// The default implementation of this method returns YES.
-//
-// Subclasses that override -initWithCoder and/or -encodeWithCoder: must
-// override this method themselves as well.
-+ (BOOL)supportsSecureCoding;
 
 // Determines how the +propertyKeys of the class are encoded into an archive.
 // The values of this dictionary should be boxed MTLModelEncodingBehavior
