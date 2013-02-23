@@ -163,6 +163,7 @@ static void verifyAllowedClassesByPropertyKey(Class modelClass) {
 	} else {
 		version = [coder decodeObjectForKey:MTLModelVersionKey];
 	}
+	
 	if (version == nil) {
 		NSLog(@"Warning: decoding an archive of %@ without a version, assuming 0", self.class);
 	} else if (version.unsignedIntegerValue > self.class.modelVersion) {
