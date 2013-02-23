@@ -158,7 +158,7 @@ static void verifyAllowedClassesByPropertyKey(Class modelClass) {
 	BOOL requiresSecureCoding = coderRequiresSecureCoding(coder);
 	NSNumber *version = nil;
 	if (requiresSecureCoding) {
-		version = [coder decodeObjectOfClass:[NSNumber class] forKey:MTLModelVersionKey];
+		version = [coder decodeObjectOfClass:NSNumber.class forKey:MTLModelVersionKey];
 	} else {
 		version = [coder decodeObjectForKey:MTLModelVersionKey];
 	}
