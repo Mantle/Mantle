@@ -20,6 +20,19 @@ it(@"should have default encoding behaviors", ^{
 	expect(behaviors[@"dynamicName"]).to.beNil();
 });
 
+it(@"should have default allowed classes", ^{
+	NSDictionary *allowedClasses = MTLTestModel.allowedSecureCodingClassesByPropertyKey;
+	expect(allowedClasses).notTo.beNil();
+
+	expect(allowedClasses[@"name"]).to.equal(@[ NSString.class ]);
+	expect(allowedClasses[@"count"]).to.equal(@[ NSValue.class ]);
+	expect(allowedClasses[@"weakModel"]).to.equal(@[ MTLEmptyTestModel.class ]);
+	
+	// Not encoded into archives.
+	expect(allowedClasses[@"nestedName"]).to.beNil();
+	expect(allowedClasses[@"dynamicName"]).to.beNil();
+});
+
 it(@"should default to version 0", ^{
 	expect(MTLEmptyTestModel.modelVersion).to.equal(0);
 });
