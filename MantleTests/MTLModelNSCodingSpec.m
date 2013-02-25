@@ -21,7 +21,7 @@ it(@"should have default encoding behaviors", ^{
 });
 
 it(@"should have default allowed classes", ^{
-	NSDictionary *allowedClasses = MTLTestModel.allowedClassesByPropertyKey;
+	NSDictionary *allowedClasses = MTLTestModel.allowedSecureCodingClassesByPropertyKey;
 	expect(allowedClasses).notTo.beNil();
 
 	expect(allowedClasses[@"name"]).to.equal(@[ NSString.class ]);

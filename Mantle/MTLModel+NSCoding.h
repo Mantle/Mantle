@@ -73,7 +73,7 @@ typedef enum : NSUInteger {
 // cannot be determined (e.g., it is declared as `id`), it will be omitted from
 // the dictionary, and subclasses must provide a valid value to prevent an
 // exception being thrown during encoding/decoding.
-+ (NSDictionary *)allowedClassesByPropertyKey;
++ (NSDictionary *)allowedSecureCodingClassesByPropertyKey;
 
 // Decodes the value of the given property key from an archive.
 //
@@ -86,7 +86,7 @@ typedef enum : NSUInteger {
 //
 // If the custom method is not implemented and `coder` requires secure coding,
 // `-[NSCoder decodeObjectOfClasses:forKey:]` will be invoked with the
-// information from +allowedClassesByPropertyKey and the given `key`. The
+// information from +allowedSecureCodingClassesByPropertyKey and the given `key`. The
 // receiver must conform to <NSSecureCoding> for this to work correctly.
 //
 // key          - The property key to decode the value for. This argument cannot

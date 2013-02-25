@@ -14,7 +14,7 @@
 // Used in archives to store the modelVersion of the archived instance.
 static NSString * const MTLModelVersionKey = @"MTLModelVersion";
 
-// Used to cache the reflection performed in +allowedClassesByPropertyKey.
+// Used to cache the reflection performed in +allowedSecureCodingClassesByPropertyKey.
 static void *MTLModelCachedAllowedClassesKey = &MTLModelCachedAllowedClassesKey;
 
 // Returns whether the given NSCoder requires secure coding.
@@ -40,15 +40,15 @@ static NSSet *encodablePropertyKeysForClass(Class modelClass) {
 }
 
 // Verifies that all of the specified class' encodable property keys are present
-// in +allowedClassesByPropertyKey, and throws an exception if not.
+// in +allowedSecureCodingClassesByPropertyKey, and throws an exception if not.
 static void verifyAllowedClassesByPropertyKey(Class modelClass) {
-	NSDictionary *allowedClasses = [modelClass allowedClassesByPropertyKey];
+	NSDictionary *allowedClasses = [modelClass allowedSecureCodingClassesByPropertyKey];
 
 	NSMutableSet *specifiedPropertyKeys = [[NSMutableSet alloc] initWithArray:allowedClasses.allKeys];
 	[specifiedPropertyKeys minusSet:encodablePropertyKeysForClass(modelClass)];
 
 	if (specifiedPropertyKeys.count > 0) {
-		[NSException raise:NSInvalidArgumentException format:@"Cannot encode %@ securely, because keys are missing from +allowedClassesByPropertyKey: %@", modelClass, specifiedPropertyKeys];
+		[NSException raise:NSInvalidArgumentException format:@"Cannot encode %@ securely, because keys are missing from +allowedSecureCodingClassesByPropertyKey: %@", modelClass, specifiedPropertyKeys];
 	}
 }
 
@@ -82,7 +82,7 @@ static void verifyAllowedClassesByPropertyKey(Class modelClass) {
 	return behaviors;
 }
 
-+ (NSDictionary *)allowedClassesByPropertyKey {
++ (NSDictionary *)allowedSecureCodingClassesByPropertyKey {
 	NSDictionary *cachedClasses = objc_getAssociatedObject(self, MTLModelCachedAllowedClassesKey);
 	if (cachedClasses != nil) return cachedClasses;
 
@@ -143,7 +143,7 @@ static void verifyAllowedClassesByPropertyKey(Class modelClass) {
 	}
 
 	if (coderRequiresSecureCoding(coder)) {
-		NSArray *allowedClasses = self.class.allowedClassesByPropertyKey[key];
+		NSArray *allowedClasses = self.class.allowedSecureCodingClassesByPropertyKey[key];
 		NSAssert(allowedClasses != nil, @"No allowed classes specified for securely decoding key \"%@\" on %@", key, self.class);
 		
 		return [coder decodeObjectOfClasses:[NSSet setWithArray:allowedClasses] forKey:key];
