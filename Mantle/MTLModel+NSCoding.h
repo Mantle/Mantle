@@ -24,7 +24,6 @@ typedef enum : NSUInteger {
 } MTLModelEncodingBehavior;
 
 // Implements default archiving and unarchiving behaviors for MTLModel.
-
 @interface MTLModel (NSCoding) <NSCoding>
 
 // Initializes the receiver from an archive.
