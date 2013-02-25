@@ -1,0 +1,110 @@
+#!/bin/bash
+
+SCRIPT_DIR=$(dirname "$0")
+cd "$SCRIPT_DIR/.."
+
+##
+## Configuration Variables
+##
+
+# The build configuration to use.
+# variable.
+if [ -z "$CONFIGURATION" ]
+then
+    CONFIGURATION="Release"
+fi
+
+# The workspace to build.
+#
+# If not set and no workspace is found, the -workspace flag will not be passed
+# to xcodebuild.
+if [ -z "$WORKSPACE" ]
+then
+    WORKSPACE=$(ls -d *.xcworkspace | head -n 1)
+fi
+
+# A bootstrap script to run before building.
+#
+# If this file does not exist, it is not considered an error.
+BOOTSTRAP="$SCRIPT_DIR/bootstrap"
+
+##
+## Build Process
+##
+
+if [ -z "$*" ]
+then
+    # lol recursive shell script
+    xcodebuild -list | awk -f "$SCRIPT_DIR/targets.awk" | xargs "$SCRIPT_DIR/cibuild"
+    exit $?
+fi
+
+if [ -f "$BOOTSTRAP" ]
+then
+    echo "*** Bootstrapping…"
+    bash "$BOOTSTRAP"
+fi
+
+echo "*** The following targets will be built:" "$@"
+
+echo "*** Cleaning all targets…"
+xcodebuild -alltargets clean
+
+build_scheme ()
+{
+    local scheme=$1
+    local action=$2
+
+    if [ -n "$WORKSPACE" ]
+    then
+        xcodebuild -workspace "$WORKSPACE" -scheme "$scheme" -configuration "$CONFIGURATION" "$action"
+    else
+        xcodebuild -scheme "$scheme" -configuration "$CONFIGURATION" "$action"
+    fi
+
+    local status=$?
+
+    return $status
+}
+
+test_or_build ()
+{
+    local scheme=$1
+
+    build_scheme "$scheme" "test" 2>&1 | awk -f "$SCRIPT_DIR/xcodebuild.awk"
+    local status=$?
+
+    # Test the exit status of the awk script first.
+    if [ "$status" -ne "0" ]
+    then
+        return $status
+    fi
+
+    # Then xcodebuild.
+    status=$PIPESTATUS[0]
+
+    if [ "$status" -eq "65" ]
+    then
+        # This probably means the 'test' action isn't supported. Try again with
+        # 'build'.
+        build_scheme "$scheme" "build"
+        status=$?
+    fi
+
+    if [ "$status" -eq "65" ]
+    then
+        # This probably means that there's no scheme by that name. Give up and
+        # go on.
+        echo "*** Error building scheme $scheme -- perhaps it doesn't exist"
+        return 0
+    fi
+
+    return $status
+}
+
+echo "*** Building…"
+
+for scheme in "$@"
+do
+    test_or_build "$scheme" || exit $?
+done
