@@ -13,6 +13,10 @@ To start building the framework, clone this repository and then run `git
 submodule update --init --recursive`. This will automatically pull down any
 dependencies.
 
+Mantle already contains a configuration to build it into an OS X framework. For iOS, you can use 
+[Mantle iOS Framework Builder](https://github.com/YuAo/Mantle-iOS-Framework-Builder)
+to build Mantle into an static framework.
+
 ## The Typical Model Object
 
 What's wrong with the way model objects are usually written in Objective-C?
