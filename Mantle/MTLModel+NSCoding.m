@@ -19,16 +19,16 @@ static void *MTLModelCachedAllowedClassesKey = &MTLModelCachedAllowedClassesKey;
 
 // Returns whether the given NSCoder requires secure coding.
 static BOOL coderRequiresSecureCoding(NSCoder *coder) {
-	SEL selector = @selector(requiresSecureCoding);
+	SEL requiresSecureCodingSelector = @selector(requiresSecureCoding);
 
 	// Only invoke the method if it's implemented (i.e., only on OS X 10.8+ and
 	// iOS 6+).
-	if (![coder respondsToSelector:selector]) return NO;
+	if (![coder respondsToSelector:requiresSecureCodingSelector]) return NO;
 
-	BOOL (*requiresSecureCodingIMP)(NSCoder *, SEL) = (__typeof__(requiresSecureCodingIMP))[coder methodForSelector:selector];
+	BOOL (*requiresSecureCodingIMP)(NSCoder *, SEL) = (__typeof__(requiresSecureCodingIMP))[coder methodForSelector:requiresSecureCodingSelector];
 	if (requiresSecureCodingIMP == NULL) return NO;
 
-	return requiresSecureCodingIMP(coder, selector);
+	return requiresSecureCodingIMP(coder, requiresSecureCodingSelector);
 }
 
 // Returns all of the given class' encodable property keys (those that will not
