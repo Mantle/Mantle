@@ -10,10 +10,9 @@ cd "$SCRIPT_DIR/.."
 ##
 
 # The build configuration to use.
-# variable.
-if [ -z "$CONFIGURATION" ]
+if [ -z "$XCCONFIGURATION" ]
 then
-    CONFIGURATION="Release"
+    XCCONFIGURATION="Release"
 fi
 
 # The workspace to build.
@@ -64,9 +63,9 @@ build_scheme ()
 
     if [ -n "$XCWORKSPACE" ]
     then
-        xcodebuild -workspace "$XCWORKSPACE" -scheme "$scheme" -configuration "$CONFIGURATION" "$action"
+        xcodebuild -workspace "$XCWORKSPACE" -scheme "$scheme" -configuration "$XCCONFIGURATION" "$action"
     else
-        xcodebuild -scheme "$scheme" -configuration "$CONFIGURATION" "$action"
+        xcodebuild -scheme "$scheme" -configuration "$XCCONFIGURATION" "$action"
     fi
 
     local status=$?
