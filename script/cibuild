@@ -19,13 +19,22 @@ fi
 # to xcodebuild.
 if [ -z "$XCWORKSPACE" ]
 then
-    XCWORKSPACE=$(ls -d *.xcworkspace | head -n 1)
+    XCWORKSPACE=$(ls -d *.xcworkspace 2>/dev/null | head -n 1)
 fi
 
 # A bootstrap script to run before building.
 #
 # If this file does not exist, it is not considered an error.
 BOOTSTRAP="$SCRIPT_DIR/bootstrap"
+
+# A whitespace-separated list of default targets or schemes to build, if none
+# are specified on the command line.
+#
+# Individual names can be quoted to avoid word splitting.
+DEFAULT_TARGETS=
+
+# Extra build settings to pass to xcodebuild.
+XCODEBUILD_SETTINGS="TEST_AFTER_BUILD=YES"
 
 ##
 ## Build Process
@@ -34,13 +43,19 @@ BOOTSTRAP="$SCRIPT_DIR/bootstrap"
 if [ -z "$*" ]
 then
     # lol recursive shell script
-    xcodebuild -list | awk -f "$SCRIPT_DIR/targets.awk" | xargs "$SCRIPT_DIR/cibuild"
+    if [ -n "$DEFAULT_TARGETS" ]
+    then
+        echo "$DEFAULT_TARGETS" | xargs "$SCRIPT_DIR/cibuild"
+    else
+        xcodebuild -list | awk -f "$SCRIPT_DIR/targets.awk" | xargs "$SCRIPT_DIR/cibuild"
+    fi
+
     exit $?
 fi
 
 if [ -f "$BOOTSTRAP" ]
 then
-    echo "*** Bootstrapping…"
+    echo "*** Bootstrapping..."
     bash "$BOOTSTRAP"
 fi
 
@@ -51,19 +66,18 @@ do
     echo "$target"
 done
 
-echo "*** Cleaning all targets…"
-xcodebuild -alltargets clean
+echo "*** Cleaning all targets..."
+xcodebuild -alltargets clean $XCODEBUILD_SETTINGS
 
-build_scheme ()
+run_xcodebuild ()
 {
     local scheme=$1
-    local action=$2
 
     if [ -n "$XCWORKSPACE" ]
     then
-        xcodebuild -workspace "$XCWORKSPACE" -scheme "$scheme" -configuration "$XCCONFIGURATION" "$action"
+        xcodebuild -workspace "$XCWORKSPACE" -scheme "$scheme" -configuration "$XCCONFIGURATION" build $XCODEBUILD_SETTINGS
     else
-        xcodebuild -scheme "$scheme" -configuration "$XCCONFIGURATION" "$action"
+        xcodebuild -scheme "$scheme" -configuration "$XCCONFIGURATION" build $XCODEBUILD_SETTINGS
     fi
 
     local status=$?
@@ -71,40 +85,30 @@ build_scheme ()
     return $status
 }
 
-test_or_build ()
+build_scheme ()
 {
     local scheme=$1
 
-    build_scheme "$scheme" "test" 2>&1 | awk -f "$SCRIPT_DIR/xcodebuild.awk"
+    run_xcodebuild "$scheme" 2>&1 | awk -f "$SCRIPT_DIR/xcodebuild.awk"
 
     local awkstatus=$?
     local xcstatus=${PIPESTATUS[0]}
-
-    if [ "$awkstatus" -eq "1" ]
-    then
-        return $awkstatus
-    fi
-
-    if [ "$xcstatus" -eq "65" -o "$awkstatus" -eq "2" ]
-    then
-        # This probably means the 'test' action isn't supported. Try again with
-        # 'build'.
-        build_scheme "$scheme" "build"
-        xcstatus=$?
-    fi
 
     if [ "$xcstatus" -eq "65" ]
     then
         # This probably means that there's no scheme by that name. Give up.
         echo "*** Error building scheme $scheme -- perhaps it doesn't exist"
+    elif [ "$awkstatus" -eq "1" ]
+    then
+        return $awkstatus
     fi
 
     return $xcstatus
 }
 
-echo "*** Building…"
+echo "*** Building..."
 
 for scheme in "$@"
 do
-    test_or_build "$scheme" || exit $?
+    build_scheme "$scheme" || exit $?
 done
