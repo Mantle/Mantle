@@ -9,9 +9,8 @@ Mantle is still new and moving fast, so we may make breaking changes from
 time-to-time, but it has excellent unit test coverage and is already being used
 in GitHub for Mac's production code.
 
-To start building the framework, clone this repository and then run `git
-submodule update --init --recursive`. This will automatically pull down any
-dependencies.
+To start building the framework, clone this repository and then run `script/bootstrap`.
+This will automatically pull down any dependencies.
 
 ## The Typical Model Object
 
