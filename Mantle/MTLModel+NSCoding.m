@@ -235,6 +235,18 @@ static void verifyAllowedClassesByPropertyKey(Class modelClass) {
 	}];
 }
 
+#pragma mark NSSecureCoding
+
++ (BOOL)allowsSecureCoding {
+	// Disable secure coding support by default, so subclasses are forced to
+	// opt-in by conforming to the protocol and overriding this method.
+	//
+	// We only implement this method because XPC complains if a subclass tries
+	// to implement it but does not override -initWithCoder:. See
+	// https://github.com/github/Mantle/issues/74.
+	return NO;
+}
+
 @end
 
 @implementation MTLModel (OldArchiveSupport)
