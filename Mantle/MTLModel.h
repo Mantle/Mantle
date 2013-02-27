@@ -16,8 +16,8 @@
 @interface MTLModel : NSObject <NSCopying>
 
 // Returns a new instance of the receiver initialized using
-// -initWithDictionary:.
-+ (instancetype)modelWithDictionary:(NSDictionary *)dictionaryValue;
+// -initWithDictionary:error:.
++ (instancetype)modelWithDictionary:(NSDictionary *)dictionaryValue error:(NSError **)error;
 
 // Initializes the receiver with default values.
 //
@@ -25,14 +25,18 @@
 - (instancetype)init;
 
 // Initializes the receiver using key-value coding, setting the keys and values
-// in the given dictionary. If `dictionaryValue` is nil, this method is equivalent
-// to -init.
+// in the given dictionary.
 //
-// Any NSNull values will be converted to nil before being used. KVC validation
-// methods will be automatically invoked for all of the properties given.
+// dictionaryValue - Property keys and values to set on the receiver. Any NSNull
+//                   values will be converted to nil before being used. KVC
+//                   validation methods will automatically be invoked for all of
+//                   the properties given. If nil, this method is equivalent to
+//                   -init.
+// error           - If not NULL, this may be set to any error that occurs
+//                   (like a KVC validation error).
 //
 // Returns an initialized model object, or nil if validation failed.
-- (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue;
+- (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue error:(NSError **)error;
 
 // Returns the keys for all @property declarations, except for `readonly`
 // properties without ivars, or properties on MTLModel itself.
@@ -63,6 +67,9 @@
 @end
 
 @interface MTLModel (Unavailable)
+
++ (instancetype)modelWithDictionary:(NSDictionary *)dictionaryValue __attribute__((deprecated("Replaced by +modelWithDictionary:error:")));
+- (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue __attribute__((deprecated("Replaced by -initWithDictionary:error:")));
 
 + (instancetype)modelWithExternalRepresentation:(NSDictionary *)externalRepresentation __attribute__((deprecated("Replaced by -[MTLJSONAdapter initWithJSONDictionary:modelClass:]")));
 - (instancetype)initWithExternalRepresentation:(NSDictionary *)externalRepresentation __attribute__((deprecated("Replaced by -[MTLJSONAdapter initWithJSONDictionary:modelClass:]")));

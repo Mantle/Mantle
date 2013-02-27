@@ -38,8 +38,10 @@ it(@"should initialize with default values", ^{
 });
 
 it(@"should initialize to default values with a nil dictionary", ^{
-	MTLTestModel *dictionaryModel = [[MTLTestModel alloc] initWithDictionary:nil];
+	NSError *error = nil;
+	MTLTestModel *dictionaryModel = [[MTLTestModel alloc] initWithDictionary:nil error:&error];
 	expect(dictionaryModel).notTo.beNil();
+	expect(error).to.beNil();
 
 	MTLTestModel *defaultModel = [[MTLTestModel alloc] init];
 	expect(dictionaryModel).to.equal(defaultModel);
@@ -61,8 +63,10 @@ describe(@"with a dictionary of values", ^{
 			@"weakModel": emptyModel,
 		};
 
-		model = [[MTLTestModel alloc] initWithDictionary:values];
+		NSError *error = nil;
+		model = [[MTLTestModel alloc] initWithDictionary:values error:&error];
 		expect(model).notTo.beNil();
+		expect(error).to.beNil();
 	});
 
 	it(@"should initialize with the given values", ^{
@@ -78,7 +82,7 @@ describe(@"with a dictionary of values", ^{
 	it(@"should compare equal to a matching model", ^{
 		expect(model).to.equal(model);
 
-		MTLTestModel *matchingModel = [[MTLTestModel alloc] initWithDictionary:values];
+		MTLTestModel *matchingModel = [[MTLTestModel alloc] initWithDictionary:values error:NULL];
 		expect(model).to.equal(matchingModel);
 		expect(model.hash).to.equal(matchingModel.hash);
 		expect(model.dictionaryValue).to.equal(matchingModel.dictionaryValue);
@@ -98,15 +102,20 @@ describe(@"with a dictionary of values", ^{
 });
 
 it(@"should fail to initialize if dictionary validation fails", ^{
-	MTLTestModel *model = [[MTLTestModel alloc] initWithDictionary:@{ @"name": @"this is too long a name" }];
+	NSError *error = nil;
+	MTLTestModel *model = [[MTLTestModel alloc] initWithDictionary:@{ @"name": @"this is too long a name" } error:&error];
 	expect(model).to.beNil();
+
+	expect(error).notTo.beNil();
+	expect(error.domain).to.equal(MTLTestModelErrorDomain);
+	expect(error.code).to.equal(MTLTestModelNameTooLong);
 });
 
 it(@"should merge two models together", ^{
-	MTLTestModel *target = [[MTLTestModel alloc] initWithDictionary:@{ @"name": @"foo", @"count": @(5) }];
+	MTLTestModel *target = [[MTLTestModel alloc] initWithDictionary:@{ @"name": @"foo", @"count": @(5) } error:NULL];
 	expect(target).notTo.beNil();
 
-	MTLTestModel *source = [[MTLTestModel alloc] initWithDictionary:@{ @"name": @"bar", @"count": @(3) }];
+	MTLTestModel *source = [[MTLTestModel alloc] initWithDictionary:@{ @"name": @"bar", @"count": @(3) } error:NULL];
 	expect(source).notTo.beNil();
 
 	[target mergeValuesForKeysFromModel:source];

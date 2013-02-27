@@ -169,6 +169,7 @@ static void verifyAllowedClassesByPropertyKey(Class modelClass) {
 		// Don't try to decode newer versions.
 		return nil;
 	}
+
 	if (requiresSecureCoding) {
 		verifyAllowedClassesByPropertyKey(self.class);
 	} else {
@@ -180,7 +181,11 @@ static void verifyAllowedClassesByPropertyKey(Class modelClass) {
 			NSDictionary *dictionaryValue = [self.class dictionaryValueFromArchivedExternalRepresentation:externalRepresentation version:version.unsignedIntegerValue];
 			if (dictionaryValue == nil) return nil;
 
-			return [self initWithDictionary:dictionaryValue];
+			NSError *error = nil;
+			self = [self initWithDictionary:dictionaryValue error:&error];
+			if (self == nil) NSLog(@"*** Could not decode old %@ archive: %@", self.class, error);
+
+			return self;
 		}
 	}
 
@@ -194,7 +199,11 @@ static void verifyAllowedClassesByPropertyKey(Class modelClass) {
 		dictionaryValue[key] = value;
 	}
 
-	return [self initWithDictionary:dictionaryValue];
+	NSError *error = nil;
+	self = [self initWithDictionary:dictionaryValue error:&error];
+	if (self == nil) NSLog(@"*** Could not unarchive %@: %@", self.class, error);
+
+	return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {

@@ -54,6 +54,12 @@
 
 @end
 
+// The domain for errors originating from MTLJSONAdapter.
+extern NSString * const MTLJSONAdapterErrorDomain;
+
+// +classForParsingJSONDictionary: returned nil for the given dictionary.
+extern NSInteger const MTLJSONAdapterErrorNoClassFound;
+
 // Converts a MTLModel object to and from a JSON dictionary.
 @interface MTLJSONAdapter : NSObject
 
@@ -69,10 +75,12 @@
 // JSONDictionary - A dictionary representing JSON data. This should match the
 //                  format returned by NSJSONSerialization. If this argument is
 //                  nil, the method returns nil.
+// error          - If not NULL, this may be set to an error that occurs during
+//                  parsing or initializing an instance of `modelClass`.
 //
 // Returns an instance of `modelClass` upon success, or nil if a parsing error
 // occurred.
-+ (id)modelOfClass:(Class)modelClass fromJSONDictionary:(NSDictionary *)JSONDictionary;
++ (id)modelOfClass:(Class)modelClass fromJSONDictionary:(NSDictionary *)JSONDictionary error:(NSError **)error;
 
 // Converts a model into a JSON representation.
 //
@@ -91,10 +99,12 @@
 // modelClass     - The MTLModel subclass to attempt to parse from the JSON.
 //                  This class must conform to <MTLJSONSerializing>. This
 //                  argument must not be nil.
+// error          - If not NULL, this may be set to an error that occurs during
+//                  parsing or initializing an instance of `modelClass`.
 //
 // Returns an initialized adapter upon success, or nil if a parsing error
 // occurred.
-- (id)initWithJSONDictionary:(NSDictionary *)JSONDictionary modelClass:(Class)modelClass;
+- (id)initWithJSONDictionary:(NSDictionary *)JSONDictionary modelClass:(Class)modelClass error:(NSError **)error;
 
 // Initializes the receiver with an existing model.
 //
@@ -106,5 +116,12 @@
 //
 // Returns a JSON dictionary, or nil if a serialization error occurred.
 - (NSDictionary *)JSONDictionary;
+
+@end
+
+@interface MTLJSONAdapter (Deprecated)
+
++ (id)modelOfClass:(Class)modelClass fromJSONDictionary:(NSDictionary *)JSONDictionary __attribute__((deprecated("Replaced by +modelOfClass:fromJSONDictionary:error:")));
+- (id)initWithJSONDictionary:(NSDictionary *)JSONDictionary modelClass:(Class)modelClass __attribute__((deprecated("Replaced by -initWithJSONDictionary:modelClass:error:")));
 
 @end
