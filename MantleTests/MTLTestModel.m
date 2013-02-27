@@ -8,6 +8,9 @@
 
 #import "MTLTestModel.h"
 
+NSString * const MTLTestModelErrorDomain = @"MTLTestModelErrorDomain";
+const NSInteger MTLTestModelNameTooLong = 1;
+
 static NSUInteger modelVersion = 1;
 
 @implementation MTLEmptyTestModel
@@ -18,7 +21,12 @@ static NSUInteger modelVersion = 1;
 #pragma mark Properties
 
 - (BOOL)validateName:(NSString **)name error:(NSError **)error {
-	return [*name length] < 10;
+	if ([*name length] < 10) return YES;
+	if (error != NULL) {
+		*error = [NSError errorWithDomain:MTLTestModelErrorDomain code:MTLTestModelNameTooLong userInfo:nil];
+	}
+
+	return NO;
 }
 
 - (NSString *)dynamicName {
@@ -120,7 +128,11 @@ static NSUInteger modelVersion = 1;
 + (Class)classForParsingJSONDictionary:(NSDictionary *)JSONDictionary {
 	NSParameterAssert(JSONDictionary != nil);
 
-	return MTLTestModel.class;
+	if (JSONDictionary[@"username"] == nil) {
+		return nil;
+	} else {
+		return MTLTestModel.class;
+	}
 }
 
 @end

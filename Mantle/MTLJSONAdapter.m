@@ -9,6 +9,15 @@
 #import "MTLJSONAdapter.h"
 #import "MTLModel.h"
 
+NSString * const MTLJSONAdapterErrorDomain = @"MTLJSONAdapterErrorDomain";
+NSInteger const MTLJSONAdapterErrorNoClassFound = 2;
+
+// An exception was thrown and caught.
+static const NSInteger MTLJSONAdapterErrorExceptionThrown = 1;
+
+// Associated with the NSException that was caught.
+static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapterThrownException";
+
 @interface MTLJSONAdapter ()
 
 // The MTLModel subclass being parsed, or the class of `model` if parsing has
@@ -39,8 +48,8 @@
 
 #pragma mark Convenience methods
 
-+ (id)modelOfClass:(Class)modelClass fromJSONDictionary:(NSDictionary *)JSONDictionary {
-	MTLJSONAdapter *adapter = [[self alloc] initWithJSONDictionary:JSONDictionary modelClass:modelClass];
++ (id)modelOfClass:(Class)modelClass fromJSONDictionary:(NSDictionary *)JSONDictionary error:(NSError **)error {
+	MTLJSONAdapter *adapter = [[self alloc] initWithJSONDictionary:JSONDictionary modelClass:modelClass error:error];
 	return adapter.model;
 }
 
@@ -56,7 +65,7 @@
 	return nil;
 }
 
-- (id)initWithJSONDictionary:(NSDictionary *)JSONDictionary modelClass:(Class)modelClass {
+- (id)initWithJSONDictionary:(NSDictionary *)JSONDictionary modelClass:(Class)modelClass error:(NSError **)error {
 	NSParameterAssert(modelClass != nil);
 	NSParameterAssert([modelClass isSubclassOfClass:MTLModel.class]);
 	NSParameterAssert([modelClass conformsToProtocol:@protocol(MTLJSONSerializing)]);
@@ -65,7 +74,18 @@
 
 	if ([modelClass respondsToSelector:@selector(classForParsingJSONDictionary:)]) {
 		modelClass = [modelClass classForParsingJSONDictionary:JSONDictionary];
-		if (modelClass == nil) return nil;
+		if (modelClass == nil) {
+			if (error != NULL) {
+				NSDictionary *userInfo = @{
+					NSLocalizedDescriptionKey: NSLocalizedString(@"Could not parse JSON", @""),
+					NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"No model class could be found to parse the JSON dictionary.", @"")
+				};
+
+				*error = [NSError errorWithDomain:MTLJSONAdapterErrorDomain code:MTLJSONAdapterErrorNoClassFound userInfo:userInfo];
+			}
+
+			return nil;
+		}
 
 		NSAssert([modelClass isSubclassOfClass:MTLModel.class], @"Class %@ returned from +classForParsingJSONDictionary: is not a subclass of MTLModel", modelClass);
 		NSAssert([modelClass conformsToProtocol:@protocol(MTLJSONSerializing)], @"Class %@ returned from +classForParsingJSONDictionary: does not conform to <MTLJSONSerializing>", modelClass);
@@ -102,11 +122,23 @@
 			// Fail fast in Debug builds.
 			#if DEBUG
 			@throw ex;
+			#else
+			if (error != NULL) {
+				NSDictionary *userInfo = @{
+					NSLocalizedDescriptionKey: ex.description,
+					NSLocalizedFailureReasonErrorKey: ex.reason,
+					MTLJSONAdapterThrownExceptionErrorKey: ex
+				};
+
+				*error = [NSError errorWithDomain:MTLJSONAdapterErrorDomain code:MTLJSONAdapterErrorExceptionThrown userInfo:userInfo];
+			}
+
+			return nil;
 			#endif
 		}
 	}
 
-	_model = [self.modelClass modelWithDictionary:dictionaryValue];
+	_model = [self.modelClass modelWithDictionary:dictionaryValue error:error];
 	if (_model == nil) return nil;
 
 	return self;
@@ -197,5 +229,22 @@
 		return JSONKeyPath;
 	}
 }
+
+@end
+
+@implementation MTLJSONAdapter (Deprecated)
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
+
++ (id)modelOfClass:(Class)modelClass fromJSONDictionary:(NSDictionary *)JSONDictionary {
+	return [self modelOfClass:modelClass fromJSONDictionary:JSONDictionary error:NULL];
+}
+
+- (id)initWithJSONDictionary:(NSDictionary *)JSONDictionary modelClass:(Class)modelClass {
+	return [self initWithJSONDictionary:JSONDictionary modelClass:modelClass error:NULL];
+}
+
+#pragma clang diagnostic pop
 
 @end

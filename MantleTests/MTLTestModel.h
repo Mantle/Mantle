@@ -6,6 +6,9 @@
 //  Copyright (c) 2012 GitHub. All rights reserved.
 //
 
+extern NSString * const MTLTestModelErrorDomain;
+extern const NSInteger MTLTestModelNameTooLong;
+
 @interface MTLEmptyTestModel : MTLModel
 @end
 

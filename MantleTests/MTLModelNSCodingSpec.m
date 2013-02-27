@@ -53,8 +53,10 @@ describe(@"archiving", ^{
 			@"count": @5,
 		};
 
-		model = [[MTLTestModel alloc] initWithDictionary:values];
+		NSError *error = nil;
+		model = [[MTLTestModel alloc] initWithDictionary:values error:&error];
 		expect(model).notTo.beNil();
+		expect(error).to.beNil();
 
 		archiveAndUnarchiveModel = [^{
 			NSData *data = [NSKeyedArchiver archivedDataWithRootObject:model];
