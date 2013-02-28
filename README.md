@@ -285,20 +285,6 @@ does conform to `<NSCoding>`, so model objects can be archived to disk using
 If you need something more powerful, or want to avoid keeping your whole model
 in memory at once, Core Data may be a better choice.
 
-## Other Extensions
-
-Mantle also comes with miscellaneous cross-platform extensions meant to
-make your life easier, including:
-
- * **Higher-order functions** (`map`, `filter`, `fold`) for
-   [NSArray](https://github.com/github/Mantle/blob/master/Mantle/NSArray%2BMTLHigherOrderAdditions.h),
-   [NSDictionary](https://github.com/github/Mantle/blob/master/Mantle/NSDictionary%2BMTLHigherOrderAdditions.h),
-   [NSOrderedSet](https://github.com/github/Mantle/blob/master/Mantle/NSOrderedSet%2BMTLHigherOrderAdditions.h),
-   and [NSSet](https://github.com/github/Mantle/blob/master/Mantle/NSSet%2BMTLHigherOrderAdditions.h).
- * **[Weak notification center observers](https://github.com/github/Mantle/blob/master/Mantle/NSNotificationCenter%2BMTLWeakReferenceAdditions.h)**
-
-There will assuredly be more, as we run into other common pain points!
-
 ## License
 
 Mantle is released under the MIT license. See
