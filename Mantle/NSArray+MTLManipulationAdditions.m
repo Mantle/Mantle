@@ -7,18 +7,17 @@
 //
 
 #import "NSArray+MTLManipulationAdditions.h"
-#import "NSArray+MTLHigherOrderAdditions.h"
 
 @implementation NSArray (MTLManipulationAdditions)
 
 - (id)mtl_firstObject {
-	return self.count > 0 ? [self objectAtIndex:0] : nil;
+	return self.count > 0 ? self[0] : nil;
 }
 
 - (instancetype)mtl_arrayByRemovingObject:(id)object {
-	return [self mtl_filterUsingBlock:^ BOOL (id arrayObject) {
-		return ![arrayObject isEqual:object];
-	}];
+	NSMutableArray *result = [self mutableCopy];
+	[result removeObject:object];
+	return result;
 }
 
 - (instancetype)mtl_arrayByRemovingFirstObject {
