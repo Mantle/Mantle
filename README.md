@@ -258,23 +258,23 @@ implementations for all these methods.
 
 The problems with the original example all happen to be fixed as well:
 
-> * If the `url` or `html_url` field is missing, `+[NSURL URLWithString:]` will throw an exception.
+> If the `url` or `html_url` field is missing, `+[NSURL URLWithString:]` will throw an exception.
 
 The URL transformer we used (included in Mantle) returns `nil` if given a `nil`
 string.
 
-> * There's no way to update a `GHIssue` with new data from the server.
+> There's no way to update a `GHIssue` with new data from the server.
 
 `MTLModel` has an extensible `-mergeValuesForKeysFromModel:` method, which makes
 it easy to specify how new model data should be integrated.
 
-> * There's no way to turn a `GHIssue` _back_ into JSON.
+> There's no way to turn a `GHIssue` _back_ into JSON.
 
 This is where reversible transformers really come in handy. `+[MTLJSONAdapter
 JSONDictionaryFromModel:]` can transform any model object conforming to
 `<MTLJSONSerializing>` back into a JSON dictionary.
 
-> * If the interface of `GHIssue` changes down the road, existing archives might break.
+> If the interface of `GHIssue` changes down the road, existing archives might break.
 
 `MTLModel` automatically saves the version of the model object that was used for
 archival. When unarchiving, `-decodeValueForKey:withCoder:modelVersion:` will
