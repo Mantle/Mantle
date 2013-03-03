@@ -237,7 +237,7 @@ static void verifyAllowedClassesByPropertyKey(Class modelClass) {
 
 #pragma mark NSSecureCoding
 
-+ (BOOL)allowsSecureCoding {
++ (BOOL)supportsSecureCoding {
 	// Disable secure coding support by default, so subclasses are forced to
 	// opt-in by conforming to the protocol and overriding this method.
 	//
