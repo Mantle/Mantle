@@ -55,21 +55,22 @@ describe(@"JSON transformers", ^{
 	
 	beforeEach(^{
 		NSMutableArray *uniqueModels = [NSMutableArray array];
+		NSMutableArray *mutableDictionaries = [NSMutableArray array];
+
 		for (NSUInteger i = 0; i < 10; i++) {
 			MTLTestModel *model = [[MTLTestModel alloc] init];
 			model.count = i;
 
 			[uniqueModels addObject:model];
-		}
 
-		models = [uniqueModels copy];
-
-		JSONDictionaries = [uniqueModels mtl_mapUsingBlock:^(MTLTestModel *model) {
 			NSDictionary *dict = [MTLJSONAdapter JSONDictionaryFromModel:model];
 			expect(dict).notTo.beNil();
 
-			return dict;
-		}];
+			[mutableDictionaries addObject:dict];
+		}
+
+		models = [uniqueModels copy];
+		JSONDictionaries = [mutableDictionaries copy];
 	});
 
 	describe(@"dictionary transformer", ^{
