@@ -10,7 +10,6 @@
 #import "MTLJSONAdapter.h"
 #import "MTLModel.h"
 #import "MTLValueTransformer.h"
-#import "NSArray+MTLHigherOrderAdditions.h"
 
 NSString * const MTLURLValueTransformerName = @"MTLURLValueTransformerName";
 NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerName";
@@ -76,18 +75,30 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 
 			NSAssert([dictionaries isKindOfClass:NSArray.class], @"Expected a array of dictionaries, got: %@", dictionaries);
 
-			return [dictionaries mtl_mapUsingBlock:^(NSDictionary *JSONDictionary) {
-				return [dictionaryTransformer transformedValue:JSONDictionary];
-			}];
+			NSMutableArray *models = [NSMutableArray arrayWithCapacity:dictionaries.count];
+			for (NSDictionary *JSONDictionary in dictionaries) {
+				id model = [dictionaryTransformer transformedValue:JSONDictionary];
+				if (model == nil) continue;
+
+				[models addObject:model];
+			}
+
+			return models;
 		}
 		reverseBlock:^ id (NSArray *models) {
 			if (models == nil) return nil;
 
 			NSAssert([models isKindOfClass:NSArray.class], @"Expected a array of MTLModels, got: %@", models);
 
-			return [models mtl_mapUsingBlock:^(MTLModel *model) {
-				return [dictionaryTransformer reverseTransformedValue:model];
-			}];
+			NSMutableArray *dictionaries = [NSMutableArray arrayWithCapacity:models.count];
+			for (MTLModel *model in models) {
+				NSDictionary *dict = [dictionaryTransformer reverseTransformedValue:model];
+				if (dict == nil) continue;
+
+				[dictionaries addObject:dict];
+			}
+
+			return dictionaries;
 		}];
 }
 
