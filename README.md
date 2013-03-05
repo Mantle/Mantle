@@ -34,8 +34,8 @@ typedef enum : NSUInteger {
 @property (nonatomic, copy, readonly) NSNumber *number;
 @property (nonatomic, assign, readonly) GHIssueState state;
 @property (nonatomic, copy, readonly) NSString *reporterLogin;
-@property (nonatomic, copy, readonly) NSString *assigneeLogin;
 @property (nonatomic, copy, readonly) NSDate *updatedAt;
+@property (nonatomic, strong, readonly) GHUser *assignee;
 
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) NSString *body;
@@ -72,7 +72,7 @@ typedef enum : NSUInteger {
     _title = [dictionary[@"title"] copy];
     _body = [dictionary[@"body"] copy];
     _reporterLogin = [dictionary[@"user"][@"login"] copy];
-    _assigneeLogin = [dictionary[@"assignee"][@"login"] copy];
+    _assignee = [[GHUser alloc] initWithDictionary:dictionary[@"assignee"]];
 
     _updatedAt = [self.class.dateFormatter dateFromString:dictionary[@"updated_at"]];
 
@@ -90,7 +90,7 @@ typedef enum : NSUInteger {
     _title = [coder decodeObjectForKey:@"title"];
     _body = [coder decodeObjectForKey:@"body"];
     _reporterLogin = [coder decodeObjectForKey:@"reporterLogin"];
-    _assigneeLogin = [coder decodeObjectForKey:@"assigneeLogin"];
+    _assignee = [coder decodeObjectForKey:@"assignee"];
     _updatedAt = [coder decodeObjectForKey:@"updatedAt"];
 
     return self;
@@ -103,7 +103,7 @@ typedef enum : NSUInteger {
     if (self.title != nil) [coder encodeObject:self.title forKey:@"title"];
     if (self.body != nil) [coder encodeObject:self.body forKey:@"body"];
     if (self.reporterLogin != nil) [coder encodeObject:self.reporterLogin forKey:@"reporterLogin"];
-    if (self.assigneeLogin != nil) [coder encodeObject:self.assigneeLogin forKey:@"assigneeLogin"];
+    if (self.assignee != nil) [coder encodeObject:self.assignee forKey:@"assignee"];
     if (self.updatedAt != nil) [coder encodeObject:self.updatedAt forKey:@"updatedAt"];
 
     [coder encodeUnsignedInteger:self.state forKey:@"state"];
@@ -116,7 +116,7 @@ typedef enum : NSUInteger {
     issue->_number = self.number;
     issue->_state = self.state;
     issue->_reporterLogin = self.reporterLogin;
-    issue->_assigneeLogin = self.assigneeLogin;
+    issue->_assignee = self.assignee;
     issue->_updatedAt = self.updatedAt;
 
     issue.title = self.title;
@@ -186,7 +186,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, copy, readonly) NSNumber *number;
 @property (nonatomic, assign, readonly) GHIssueState state;
 @property (nonatomic, copy, readonly) NSString *reporterLogin;
-@property (nonatomic, copy, readonly) NSString *assigneeLogin;
+@property (nonatomic, strong, readonly) GHUser *assignee;
 @property (nonatomic, copy, readonly) NSDate *updatedAt;
 
 @property (nonatomic, copy) NSString *title;
@@ -210,7 +210,7 @@ typedef enum : NSUInteger {
         @"URL": @"url",
         @"HTMLURL": @"html_url",
         @"reporterLogin": @"user.login",
-        @"assigneeLogin": @"assignee.login",
+        @"assignee": @"assignee",
         @"updatedAt": @"updated_at"
     };
 }
@@ -236,6 +236,10 @@ typedef enum : NSUInteger {
     }];
 }
 
++ (NSValueTransformer *)assigneeJSONTransformer {
+    return [NSValueTransformer mtl_JSONDictionaryTransformerWithModelClass:GHUser.class];
+}
+
 + (NSValueTransformer *)updatedAtJSONTransformer {
     return [MTLValueTransformer reversibleTransformerWithForwardBlock:^(NSString *str) {
         return [self.dateFormatter dateFromString:str];
@@ -254,23 +258,23 @@ implementations for all these methods.
 
 The problems with the original example all happen to be fixed as well:
 
-> * If the `url` or `html_url` field is missing, `+[NSURL URLWithString:]` will throw an exception.
+> If the `url` or `html_url` field is missing, `+[NSURL URLWithString:]` will throw an exception.
 
 The URL transformer we used (included in Mantle) returns `nil` if given a `nil`
 string.
 
-> * There's no way to update a `GHIssue` with new data from the server.
+> There's no way to update a `GHIssue` with new data from the server.
 
 `MTLModel` has an extensible `-mergeValuesForKeysFromModel:` method, which makes
 it easy to specify how new model data should be integrated.
 
-> * There's no way to turn a `GHIssue` _back_ into JSON.
+> There's no way to turn a `GHIssue` _back_ into JSON.
 
 This is where reversible transformers really come in handy. `+[MTLJSONAdapter
 JSONDictionaryFromModel:]` can transform any model object conforming to
 `<MTLJSONSerializing>` back into a JSON dictionary.
 
-> * If the interface of `GHIssue` changes down the road, existing archives might break.
+> If the interface of `GHIssue` changes down the road, existing archives might break.
 
 `MTLModel` automatically saves the version of the model object that was used for
 archival. When unarchiving, `-decodeValueForKey:withCoder:modelVersion:` will
