@@ -11,11 +11,6 @@
 #import "EXTScope.h"
 #import <objc/runtime.h>
 
-// This coupling is needed for backwards compatibility in MTLModel's deprecated
-// methods.
-#import "MTLJSONAdapter.h"
-#import "MTLModel+NSCoding.h"
-
 // The domain for errors originating from MTLModel.
 static NSString * const MTLModelErrorDomain = @"MTLModelErrorDomain";
 
