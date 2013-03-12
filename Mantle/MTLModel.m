@@ -9,6 +9,7 @@
 #import "MTLModel.h"
 #import "EXTRuntimeExtensions.h"
 #import "EXTScope.h"
+#import "MTLReflection.h"
 #import <objc/runtime.h>
 
 // This coupling is needed for backwards compatibility in MTLModel's deprecated
@@ -151,8 +152,7 @@ static void *MTLModelCachedPropertyKeysKey = &MTLModelCachedPropertyKeysKey;
 - (void)mergeValueForKey:(NSString *)key fromModel:(MTLModel *)model {
 	NSParameterAssert(key != nil);
 
-	NSString *methodName = [NSString stringWithFormat:@"merge%@%@FromModel:", [key substringToIndex:1].uppercaseString, [key substringFromIndex:1]];
-	SEL selector = NSSelectorFromString(methodName);
+	SEL selector = MTLSelectorWithCapitalizedKeyPattern("merge", key, "FromModel:");
 	if (![self respondsToSelector:selector]) {
 		if (model != nil) {
 			[self setValue:[model valueForKey:key] forKey:key];
