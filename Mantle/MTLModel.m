@@ -152,7 +152,7 @@ static void *MTLModelCachedPropertyKeysKey = &MTLModelCachedPropertyKeysKey;
 - (void)mergeValueForKey:(NSString *)key fromModel:(MTLModel *)model {
 	NSParameterAssert(key != nil);
 
-	SEL selector = MTLSelectorWithCapitalizedKeyPattern(@"merge", key, @"FromModel:");
+	SEL selector = MTLSelectorWithCapitalizedKeyPattern("merge", key, "FromModel:");
 	if (![self respondsToSelector:selector]) {
 		if (model != nil) {
 			[self setValue:[model valueForKey:key] forKey:key];

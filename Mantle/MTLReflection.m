@@ -9,34 +9,42 @@
 #import "MTLReflection.h"
 #import <objc/runtime.h>
 
-SEL MTLSelectorWithKeyPattern(NSString *key, NSString *suffix) {
-	NSUInteger keyLength = [key lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
-	NSUInteger suffixLength = [suffix lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
+SEL MTLSelectorWithKeyPattern(NSString *key, const char *suffix) {
+	NSUInteger keyLength = [key maximumLengthOfBytesUsingEncoding:NSUTF8StringEncoding];
+	NSUInteger suffixLength = strlen(suffix);
 
 	char selector[keyLength + suffixLength + 1];
-	memcpy(selector, key.UTF8String, keyLength);
-	memcpy(selector + keyLength, suffix.UTF8String, suffixLength);
-	selector[sizeof(selector) - 1] = '\0';
+
+	BOOL success = [key getBytes:selector maxLength:keyLength usedLength:&keyLength encoding:NSUTF8StringEncoding options:0 range:NSMakeRange(0, key.length) remainingRange:NULL];
+	if (!success) return NULL;
+
+	memcpy(selector + keyLength, suffix, suffixLength);
+	selector[keyLength + suffixLength] = '\0';
 
 	return sel_registerName(selector);
 }
 
-SEL MTLSelectorWithCapitalizedKeyPattern(NSString *prefix, NSString *key, NSString *suffix) {
-	NSUInteger prefixLength = [prefix lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
-	NSUInteger suffixLength = [suffix lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
+SEL MTLSelectorWithCapitalizedKeyPattern(const char *prefix, NSString *key, const char *suffix) {
+	NSUInteger prefixLength = strlen(prefix);
+	NSUInteger suffixLength = strlen(suffix);
 
 	NSString *initial = [key substringToIndex:1].uppercaseString;
-	NSUInteger initialLength = [initial lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
+	NSUInteger initialLength = [initial maximumLengthOfBytesUsingEncoding:NSUTF8StringEncoding];
 
 	NSString *rest = [key substringFromIndex:1];
-	NSUInteger restLength = [rest lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
+	NSUInteger restLength = [rest maximumLengthOfBytesUsingEncoding:NSUTF8StringEncoding];
 
 	char selector[prefixLength + initialLength + restLength + suffixLength + 1];
-	memcpy(selector, prefix.UTF8String, prefixLength);
-	memcpy(selector + prefixLength, initial.UTF8String, initialLength);
-	memcpy(selector + prefixLength + initialLength, rest.UTF8String, restLength);
-	memcpy(selector + prefixLength + initialLength + restLength, suffix.UTF8String, suffixLength);
-	selector[sizeof(selector) - 1] = '\0';
+	memcpy(selector, prefix, prefixLength);
+
+	BOOL success = [initial getBytes:selector + prefixLength maxLength:initialLength usedLength:&initialLength encoding:NSUTF8StringEncoding options:0 range:NSMakeRange(0, initial.length) remainingRange:NULL];
+	if (!success) return NULL;
+
+	success = [rest getBytes:selector + prefixLength + initialLength maxLength:restLength usedLength:&restLength encoding:NSUTF8StringEncoding options:0 range:NSMakeRange(0, rest.length) remainingRange:NULL];
+	if (!success) return NULL;
+
+	memcpy(selector + prefixLength + initialLength + restLength, suffix, suffixLength);
+	selector[prefixLength + initialLength + restLength + suffixLength] = '\0';
 
 	return sel_registerName(selector);
 }

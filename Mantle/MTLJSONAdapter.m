@@ -199,7 +199,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 - (NSValueTransformer *)JSONTransformerForKey:(NSString *)key {
 	NSParameterAssert(key != nil);
 
-	SEL selector = MTLSelectorWithKeyPattern(key, @"JSONTransformer");
+	SEL selector = MTLSelectorWithKeyPattern(key, "JSONTransformer");
 	if ([self.modelClass respondsToSelector:selector]) {
 		NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[self.modelClass methodSignatureForSelector:selector]];
 		invocation.target = self.modelClass;

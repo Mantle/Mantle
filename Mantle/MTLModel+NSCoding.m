@@ -127,7 +127,7 @@ static void verifyAllowedClassesByPropertyKey(Class modelClass) {
 	NSParameterAssert(key != nil);
 	NSParameterAssert(coder != nil);
 
-	SEL selector = MTLSelectorWithCapitalizedKeyPattern(@"decode", key, @"WithCoder:modelVersion:");
+	SEL selector = MTLSelectorWithCapitalizedKeyPattern("decode", key, "WithCoder:modelVersion:");
 	if ([self respondsToSelector:selector]) {
 		NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:selector]];
 		invocation.target = self;
