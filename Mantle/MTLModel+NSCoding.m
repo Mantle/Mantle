@@ -9,6 +9,7 @@
 #import "MTLModel+NSCoding.h"
 #import "EXTRuntimeExtensions.h"
 #import "EXTScope.h"
+#import "MTLReflection.h"
 #import <objc/runtime.h>
 
 // Used in archives to store the modelVersion of the archived instance.
@@ -126,9 +127,7 @@ static void verifyAllowedClassesByPropertyKey(Class modelClass) {
 	NSParameterAssert(key != nil);
 	NSParameterAssert(coder != nil);
 
-	NSString *methodName = [NSString stringWithFormat:@"decode%@%@WithCoder:modelVersion:", [key substringToIndex:1].uppercaseString, [key substringFromIndex:1]];
-	SEL selector = NSSelectorFromString(methodName);
-
+	SEL selector = MTLSelectorWithCapitalizedKeyPattern("decode", key, "WithCoder:modelVersion:");
 	if ([self respondsToSelector:selector]) {
 		NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:selector]];
 		invocation.target = self;
