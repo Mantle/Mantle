@@ -51,6 +51,9 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 	return [MTLValueTransformer
 		reversibleTransformerWithForwardBlock:^ id (NSDictionary *JSONDictionary) {
 			if (JSONDictionary == nil) return nil;
+            if ([JSONDictionary isKindOfClass:[NSString class]] && ((NSString *)JSONDictionary).length == 0) {
+                return nil;
+            }
 
 			NSAssert([JSONDictionary isKindOfClass:NSDictionary.class], @"Expected a dictionary, got: %@", JSONDictionary);
 
