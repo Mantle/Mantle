@@ -8,6 +8,9 @@ application.
 To start building the framework, clone this repository and then run `script/bootstrap`.
 This will automatically pull down any dependencies.
 
+Note that Mantle must be compiled on a machine running OS X 10.8+, although (once built)
+it should run on 10.7 without issue.
+
 ## The Typical Model Object
 
 What's wrong with the way model objects are usually written in Objective-C?
