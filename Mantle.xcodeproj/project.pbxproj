@@ -230,6 +230,8 @@
 		D042FCEE15F72EF1004E8054 /* Specta.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Specta.xcodeproj; path = MantleTests/specta/Specta.xcodeproj; sourceTree = "<group>"; };
 		D058FE1D16EFB3D2009DFB47 /* MTLReflection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTLReflection.h; sourceTree = "<group>"; };
 		D058FE1E16EFB3D2009DFB47 /* MTLReflection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLReflection.m; sourceTree = "<group>"; };
+		D06331B0170581F000A67653 /* MTLManagedObjectAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTLManagedObjectAdapter.h; sourceTree = "<group>"; };
+		D06331B1170581F000A67653 /* MTLManagedObjectAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MTLManagedObjectAdapter.m; sourceTree = "<group>"; };
 		D064BA321613BA75004CA27A /* MTLTestNotificationObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTLTestNotificationObserver.h; sourceTree = "<group>"; };
 		D064BA331613BA75004CA27A /* MTLTestNotificationObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLTestNotificationObserver.m; sourceTree = "<group>"; };
 		D0760E7615FFBF330060F550 /* MTLModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTLModel.h; sourceTree = "<group>"; };
@@ -321,6 +323,7 @@
 			children = (
 				D042FC4515F72B23004E8054 /* Mantle */,
 				D042FC5B15F72B23004E8054 /* MantleTests */,
+				D06331AB170581DE00A67653 /* MTLExtensions */,
 				D042FC3E15F72B23004E8054 /* Frameworks */,
 				D042FC9E15F72C16004E8054 /* Configuration */,
 				D042FC3D15F72B23004E8054 /* Products */,
@@ -456,6 +459,15 @@
 				D042FCB115F72C16004E8054 /* Mac-StaticLibrary.xcconfig */,
 			);
 			path = "Mac OS X";
+			sourceTree = "<group>";
+		};
+		D06331AB170581DE00A67653 /* MTLExtensions */ = {
+			isa = PBXGroup;
+			children = (
+				D06331B0170581F000A67653 /* MTLManagedObjectAdapter.h */,
+				D06331B1170581F000A67653 /* MTLManagedObjectAdapter.m */,
+			);
+			path = MTLExtensions;
 			sourceTree = "<group>";
 		};
 		D0760E7015FFBF020060F550 /* Modules */ = {
