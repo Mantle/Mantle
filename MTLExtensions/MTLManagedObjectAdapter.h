@@ -23,8 +23,8 @@
 //
 // Entity attributes will be mapped to and from the receiver's properties using
 // +entityAttributeTransformerForKey:. Entity relationships will be mapped to
-// and from MTLModel objects using +modelClassesByPropertyKey. Fetched
-// properties are not supported.
+// and from MTLModel objects using +relationshipModelClassesByPropertyKey.
+// Fetched properties are not supported.
 //
 // Subclasses overriding this method should combine their values with those of
 // `super`.
@@ -63,7 +63,7 @@
 //
 // Subclasses overriding this method should combine their values with those of
 // `super`.
-+ (NSDictionary *)modelClassesByPropertyKey;
++ (NSDictionary *)relationshipModelClassesByPropertyKey;
 
 // Overridden to deserialize a different class instead of the receiver, based on
 // information in the provided object.
