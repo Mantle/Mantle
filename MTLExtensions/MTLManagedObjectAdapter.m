@@ -10,4 +10,12 @@
 
 @implementation MTLManagedObjectAdapter
 
++ (id)modelOfClass:(Class)modelClass fromManagedObject:(NSManagedObject *)managedObject error:(NSError **)error {
+	return nil;
+}
+
++ (NSManagedObject *)managedObjectFromModel:(MTLModel<MTLManagedObjectSerializing> *)model insertingIntoContext:(NSManagedObjectContext *)context error:(NSError **)error {
+	return nil;
+}
+
 @end
