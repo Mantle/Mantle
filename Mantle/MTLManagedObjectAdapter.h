@@ -16,6 +16,8 @@
 @required
 
 // The Core Data entity that the receiver serializes to and deserializes from.
+//
+// This method must not return nil.
 + (NSEntityDescription *)managedObjectEntity;
 
 // Specifies how to map property keys to different keys on the receiver's
@@ -57,9 +59,10 @@
 // managed object relationships into MTLModels (or collections thereof) set on
 // the receiver.
 //
-// If a property key is omitted from the returned dictionary, and the receiver's
-// +managedObjectEntity has a relationship at the corresponding key, an
-// exception will be thrown during deserialization.
+// If a property key is omitted from the returned dictionary, but present in
+// +managedObjectKeysByPropertyKey, and the receiver's +managedObjectEntity has
+// a relationship at the corresponding key, an exception will be thrown during
+// deserialization.
 //
 // Subclasses overriding this method should combine their values with those of
 // `super`.
@@ -81,6 +84,28 @@
 
 @end
 
+// The domain for errors originating from MTLManagedObjectAdapter.
+extern NSString * const MTLManagedObjectAdapterErrorDomain;
+
+// +classForDeserializingManagedObject: returned nil for the given object.
+extern const NSInteger MTLManagedObjectAdapterErrorNoClassFound;
+
+// An NSManagedObject failed to initialize.
+extern const NSInteger MTLManagedObjectAdapterErrorInitializationFailed;
+
+// The managed object key specified by +managedObjectKeysByPropertyKey does not
+// exist in the NSEntityDescription.
+extern const NSInteger MTLManagedObjectAdapterErrorInvalidManagedObjectKey;
+
+// The managed object property specified has a type that isn't supported by
+// MTLManagedObjectAdapter.
+extern const NSInteger MTLManagedObjectAdapterErrorUnsupportedManagedObjectPropertyType;
+
+// A MTLModel property corresponding to an NSManagedObject relationship does not
+// contain a MTLModel, or the MTLModel does not conform to
+// <MTLManagedObjectSerializing>.
+extern const NSInteger MTLManagedObjectAdapterErrorUnsupportedRelationshipClass;
+
 // Converts a MTLModel object to and from an NSManagedObject.
 @interface MTLManagedObjectAdapter : NSObject
 
@@ -101,7 +126,7 @@
 //
 // model   - The model object to serialize. This argument must not be nil.
 // context - The context into which to insert the created managed object. This
-//           argument must not be nil.
+//           argument may be nil to not insert the object into a context.
 // error   - If not NULL, this may be set to an error that occurs during
 //           serialization or insertion.
 + (NSManagedObject *)managedObjectFromModel:(MTLModel<MTLManagedObjectSerializing> *)model insertingIntoContext:(NSManagedObjectContext *)context error:(NSError **)error;
