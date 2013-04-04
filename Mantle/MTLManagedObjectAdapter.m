@@ -77,11 +77,117 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 
 #pragma mark Serialization
 
-+ (id)modelOfClass:(Class)modelClass fromManagedObject:(NSManagedObject *)managedObject error:(NSError **)error {
-	Class managedObjectClass = NSClassFromString(@"NSManagedObject");
-	NSAssert(managedObjectClass != nil, @"CoreData.framework must be linked to use MTLManagedObjectAdapter");
+- (id)modelFromManagedObject:(NSManagedObject *)managedObject error:(NSError **)error {
+	NSParameterAssert(managedObject != nil);
 
-	return nil;
+	NSEntityDescription *entity = managedObject.entity;
+	NSAssert(entity != nil, @"%@ returned a nil +entity", managedObject);
+
+	NSManagedObjectContext *context = managedObject.managedObjectContext;
+
+	// Performs the given block in the context's queue (if a valid context
+	// exists) and returns the result.
+	id (^readInContext)(id (^)(void)) = ^(id (^readBlock)(void)) {
+		if (context == nil) return readBlock();
+
+		__block id result = nil;
+		[context performBlockAndWait:^{
+			result = readBlock();
+		}];
+
+		return result;
+	};
+
+	NSDictionary *managedObjectProperties = entity.propertiesByName;
+	NSMutableDictionary *dictionaryValue = [NSMutableDictionary dictionaryWithCapacity:managedObjectProperties.count];
+
+	for (NSString *propertyKey in [self.modelClass propertyKeys]) {
+		NSString *managedObjectKey = [self managedObjectKeyForKey:propertyKey];
+		if (managedObjectKey == nil) continue;
+
+		BOOL (^deserializeAttribute)(NSAttributeDescription *) = ^(NSAttributeDescription *attributeDescription) {
+			id value = readInContext(^{
+				return [managedObject valueForKey:managedObjectKey];
+			});
+
+			NSValueTransformer *attributeTransformer = [self entityAttributeTransformerForKey:propertyKey];
+			if (attributeTransformer != nil) value = [attributeTransformer reverseTransformedValue:value];
+
+			dictionaryValue[propertyKey] = value ?: NSNull.null;
+			return YES;
+		};
+
+		BOOL (^deserializeRelationship)(NSRelationshipDescription *) = ^(NSRelationshipDescription *relationshipDescription) {
+			Class nestedClass = self.relationshipModelClassesByPropertyKey[propertyKey];
+			if (nestedClass == nil) {
+				[NSException raise:NSInvalidArgumentException format:@"No class specified for decoding relationship at key \"%@\" in managed object %@", managedObjectKey, managedObject];
+			}
+
+			// TODO: Handle relationships.
+			NSManagedObject *nestedObject = readInContext(^{
+				return [managedObject valueForKey:managedObjectKey];
+			});
+
+			if (nestedObject == nil) return YES;
+
+			MTLModel *model = [self.class modelOfClass:nestedClass fromManagedObject:nestedObject error:error];
+			if (model == nil) return NO;
+
+			dictionaryValue[propertyKey] = model;
+			return YES;
+		};
+
+		BOOL (^deserializeProperty)(NSPropertyDescription *) = ^(NSPropertyDescription *propertyDescription) {
+			if (propertyDescription == nil) {
+				if (error != NULL) {
+					NSString *failureReason = [NSString stringWithFormat:NSLocalizedString(@"No property by name \"%@\" exists on the entity.", @""), managedObjectKey];
+
+					NSDictionary *userInfo = @{
+						NSLocalizedDescriptionKey: NSLocalizedString(@"Could not deserialize managed object", @""),
+						NSLocalizedFailureReasonErrorKey: failureReason,
+					};
+
+					*error = [NSError errorWithDomain:MTLManagedObjectAdapterErrorDomain code:MTLManagedObjectAdapterErrorInvalidManagedObjectKey userInfo:userInfo];
+				}
+
+				return NO;
+			}
+
+			// Jump through some hoops to avoid referencing classes directly.
+			NSString *propertyClassName = NSStringFromClass(propertyDescription.class);
+			if ([propertyClassName isEqual:@"NSAttributeDescription"]) {
+				return deserializeAttribute((id)propertyDescription);
+			} else if ([propertyClassName isEqual:@"NSRelationshipDescription"]) {
+				return deserializeRelationship((id)propertyDescription);
+			} else {
+				if (error != NULL) {
+					NSString *failureReason = [NSString stringWithFormat:NSLocalizedString(@"Property descriptions of class %@ are unsupported.", @""), propertyClassName];
+
+					NSDictionary *userInfo = @{
+						NSLocalizedDescriptionKey: NSLocalizedString(@"Could not deserialize managed object", @""),
+						NSLocalizedFailureReasonErrorKey: failureReason,
+					};
+
+					*error = [NSError errorWithDomain:MTLManagedObjectAdapterErrorDomain code:MTLManagedObjectAdapterErrorUnsupportedManagedObjectPropertyType userInfo:userInfo];
+				}
+
+				return NO;
+			}
+		};
+
+		if (!deserializeProperty(managedObjectProperties[managedObjectKey])) return nil;
+	}
+
+	return [self.modelClass modelWithDictionary:dictionaryValue error:error];
+}
+
++ (id)modelOfClass:(Class)modelClass fromManagedObject:(NSManagedObject *)managedObject error:(NSError **)error {
+	NSParameterAssert(modelClass != nil);
+
+	if (managedObject == nil) return nil;
+
+	MTLManagedObjectAdapter *adapter = [[self alloc] initWithModelClass:modelClass];
+	return [adapter modelFromManagedObject:managedObject error:error];
 }
 
 - (NSManagedObject *)managedObjectFromModel:(MTLModel<MTLManagedObjectSerializing> *)model insertingIntoContext:(NSManagedObjectContext *)context error:(NSError **)error {
