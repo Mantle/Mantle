@@ -123,17 +123,38 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 				[NSException raise:NSInvalidArgumentException format:@"No class specified for decoding relationship at key \"%@\" in managed object %@", managedObjectKey, managedObject];
 			}
 
-			// TODO: Handle relationships.
-			NSManagedObject *nestedObject = readInContext(^{
-				return [managedObject valueForKey:managedObjectKey];
-			});
+			if ([relationshipDescription isToMany]) {
+				id models = readInContext(^ id {
+					id relationshipCollection = [managedObject valueForKey:managedObjectKey];
+					NSMutableArray *models = [NSMutableArray arrayWithCapacity:[relationshipCollection count]];
 
-			if (nestedObject == nil) return YES;
+					for (NSManagedObject *nestedObject in relationshipCollection) {
+						MTLModel *model = [self.class modelOfClass:nestedClass fromManagedObject:nestedObject error:error];
+						if (model == nil) return nil;
+						
+						[models addObject:model];
+					}
 
-			MTLModel *model = [self.class modelOfClass:nestedClass fromManagedObject:nestedObject error:error];
-			if (model == nil) return NO;
+					return models;
+				});
 
-			dictionaryValue[propertyKey] = model;
+				if (models == nil) return NO;
+				if (![relationshipDescription isOrdered]) models = [NSSet setWithArray:models];
+
+				dictionaryValue[propertyKey] = models;
+			} else {
+				NSManagedObject *nestedObject = readInContext(^{
+					return [managedObject valueForKey:managedObjectKey];
+				});
+
+				if (nestedObject == nil) return YES;
+
+				MTLModel *model = [self.class modelOfClass:nestedClass fromManagedObject:nestedObject error:error];
+				if (model == nil) return NO;
+
+				dictionaryValue[propertyKey] = model;
+			}
+
 			return YES;
 		};
 
