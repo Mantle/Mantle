@@ -56,8 +56,8 @@
 // relationship.
 //
 // In other words, the dictionary returned by this method is used to decode
-// managed object relationships into MTLModels (or collections thereof) set on
-// the receiver.
+// managed object relationships into MTLModels (or NSArrays or NSSets thereof)
+// set on the receiver.
 //
 // If a property key is omitted from the returned dictionary, but present in
 // +managedObjectKeysByPropertyKey, and the receiver's +managedObjectEntity has
@@ -101,9 +101,14 @@ extern const NSInteger MTLManagedObjectAdapterErrorInvalidManagedObjectKey;
 // MTLManagedObjectAdapter.
 extern const NSInteger MTLManagedObjectAdapterErrorUnsupportedManagedObjectPropertyType;
 
-// A MTLModel property corresponding to an NSManagedObject relationship does not
-// contain a MTLModel, or the MTLModel does not conform to
-// <MTLManagedObjectSerializing>.
+// A MTLModel property cannot be serialized to or deserialized from an
+// NSManagedObject relationship.
+//
+// For a to-one relationship, this means that the property does not contain
+// a MTLModel, or the MTLModel does not conform to <MTLManagedObjectSerializing>.
+//
+// For a to-many relationship, this means that the property does not contain an
+// NSArray or NSSet of MTLModel<MTLManagedObjectSerializing> instances.
 extern const NSInteger MTLManagedObjectAdapterErrorUnsupportedRelationshipClass;
 
 // Converts a MTLModel object to and from an NSManagedObject.
