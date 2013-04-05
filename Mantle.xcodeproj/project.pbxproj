@@ -27,6 +27,12 @@
 		D01BD0B216CB52E800EC95C7 /* MTLModel+NSCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = D01BD0AE16CB52E800EC95C7 /* MTLModel+NSCoding.m */; };
 		D01BD0BA16CB6F5700EC95C7 /* MTLTestModel-OldArchive.plist in Resources */ = {isa = PBXBuildFile; fileRef = D01BD0B916CB6F5700EC95C7 /* MTLTestModel-OldArchive.plist */; };
 		D01BD0BB16CB6F5700EC95C7 /* MTLTestModel-OldArchive.plist in Resources */ = {isa = PBXBuildFile; fileRef = D01BD0B916CB6F5700EC95C7 /* MTLTestModel-OldArchive.plist */; };
+		D021D938170F806B00C37E36 /* TestModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D021D936170F806B00C37E36 /* TestModel.xcdatamodeld */; };
+		D021D939170F806B00C37E36 /* TestModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D021D936170F806B00C37E36 /* TestModel.xcdatamodeld */; };
+		D021D944170F878E00C37E36 /* MTLCoreDataTestModels.m in Sources */ = {isa = PBXBuildFile; fileRef = D021D943170F878E00C37E36 /* MTLCoreDataTestModels.m */; };
+		D021D945170F878E00C37E36 /* MTLCoreDataTestModels.m in Sources */ = {isa = PBXBuildFile; fileRef = D021D943170F878E00C37E36 /* MTLCoreDataTestModels.m */; };
+		D021D946170F8A7D00C37E36 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D021D93E170F807600C37E36 /* CoreData.framework */; };
+		D021D947170F8A8100C37E36 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D021D940170F807E00C37E36 /* CoreData.framework */; };
 		D02E48EA16CB8ACA00257645 /* MTLModelNSCodingSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D02E48E916CB8ACA00257645 /* MTLModelNSCodingSpec.m */; };
 		D02E48EB16CB8ACA00257645 /* MTLModelNSCodingSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D02E48E916CB8ACA00257645 /* MTLModelNSCodingSpec.m */; };
 		D02E48F116CB8ADB00257645 /* MTLJSONAdapterSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D02E48F016CB8ADB00257645 /* MTLJSONAdapterSpec.m */; };
@@ -201,6 +207,11 @@
 		D01BD0AD16CB52E800EC95C7 /* MTLModel+NSCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MTLModel+NSCoding.h"; sourceTree = "<group>"; };
 		D01BD0AE16CB52E800EC95C7 /* MTLModel+NSCoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MTLModel+NSCoding.m"; sourceTree = "<group>"; };
 		D01BD0B916CB6F5700EC95C7 /* MTLTestModel-OldArchive.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "MTLTestModel-OldArchive.plist"; sourceTree = "<group>"; };
+		D021D937170F806B00C37E36 /* TestModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TestModel.xcdatamodel; sourceTree = "<group>"; };
+		D021D93E170F807600C37E36 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/CoreData.framework; sourceTree = DEVELOPER_DIR; };
+		D021D940170F807E00C37E36 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.1.sdk/System/Library/Frameworks/CoreData.framework; sourceTree = DEVELOPER_DIR; };
+		D021D942170F878E00C37E36 /* MTLCoreDataTestModels.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTLCoreDataTestModels.h; sourceTree = "<group>"; };
+		D021D943170F878E00C37E36 /* MTLCoreDataTestModels.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLCoreDataTestModels.m; sourceTree = "<group>"; };
 		D02E48E916CB8ACA00257645 /* MTLModelNSCodingSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLModelNSCodingSpec.m; sourceTree = "<group>"; };
 		D02E48F016CB8ADB00257645 /* MTLJSONAdapterSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLJSONAdapterSpec.m; sourceTree = "<group>"; };
 		D042FC3C15F72B23004E8054 /* Mantle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Mantle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -274,6 +285,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D021D946170F8A7D00C37E36 /* CoreData.framework in Frameworks */,
 				D0D46A0D160BC98600AB468D /* libExpecta.a in Frameworks */,
 				D0D46A0E160BC98600AB468D /* libSpecta.a in Frameworks */,
 				D042FC5615F72B23004E8054 /* SenTestingKit.framework in Frameworks */,
@@ -293,6 +305,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D021D947170F8A8100C37E36 /* CoreData.framework in Frameworks */,
 				D0D46A13160BC98E00AB468D /* libExpecta-iOS.a in Frameworks */,
 				D0D46A14160BC98E00AB468D /* libSpecta-iOS.a in Frameworks */,
 				D042FC8815F72BC7004E8054 /* SenTestingKit.framework in Frameworks */,
@@ -354,6 +367,8 @@
 				D042FCEE15F72EF1004E8054 /* Specta.xcodeproj */,
 				D042FC4415F72B23004E8054 /* Foundation.framework */,
 				D042FC5515F72B23004E8054 /* SenTestingKit.framework */,
+				D021D93E170F807600C37E36 /* CoreData.framework */,
+				D021D940170F807E00C37E36 /* CoreData.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -391,6 +406,8 @@
 		D042FC5C15F72B23004E8054 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				D021D942170F878E00C37E36 /* MTLCoreDataTestModels.h */,
+				D021D943170F878E00C37E36 /* MTLCoreDataTestModels.m */,
 				D0760EC715FFCA4E0060F550 /* MTLTestModel.h */,
 				D0760EC815FFCA4E0060F550 /* MTLTestModel.m */,
 				D064BA321613BA75004CA27A /* MTLTestNotificationObserver.h */,
@@ -399,6 +416,7 @@
 				D042FC5D15F72B23004E8054 /* MantleTests-Info.plist */,
 				D042FC5E15F72B23004E8054 /* InfoPlist.strings */,
 				D01BD0B916CB6F5700EC95C7 /* MTLTestModel-OldArchive.plist */,
+				D021D936170F806B00C37E36 /* TestModel.xcdatamodeld */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -852,6 +870,8 @@
 				1ED5B5CC163A4E2B0072668E /* MTLComparisonAdditionsSpec.m in Sources */,
 				D02E48EA16CB8ACA00257645 /* MTLModelNSCodingSpec.m in Sources */,
 				D02E48F116CB8ADB00257645 /* MTLJSONAdapterSpec.m in Sources */,
+				D021D938170F806B00C37E36 /* TestModel.xcdatamodeld in Sources */,
+				D021D944170F878E00C37E36 /* MTLCoreDataTestModels.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -888,6 +908,8 @@
 				1ED5B5CD163A4E2B0072668E /* MTLComparisonAdditionsSpec.m in Sources */,
 				D02E48EB16CB8ACA00257645 /* MTLModelNSCodingSpec.m in Sources */,
 				D02E48F216CB8ADB00257645 /* MTLJSONAdapterSpec.m in Sources */,
+				D021D939170F806B00C37E36 /* TestModel.xcdatamodeld in Sources */,
+				D021D945170F878E00C37E36 /* MTLCoreDataTestModels.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1228,6 +1250,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		D021D936170F806B00C37E36 /* TestModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				D021D937170F806B00C37E36 /* TestModel.xcdatamodel */,
+			);
+			currentVersion = D021D937170F806B00C37E36 /* TestModel.xcdatamodel */;
+			path = TestModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = D042FC3215F72B23004E8054 /* Project object */;
 }
