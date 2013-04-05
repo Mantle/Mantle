@@ -207,6 +207,22 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 
 	if (managedObject == nil) return nil;
 
+	if ([modelClass respondsToSelector:@selector(classForDeserializingManagedObject:)]) {
+		modelClass = [modelClass classForDeserializingManagedObject:managedObject];
+		if (modelClass == nil) {
+			if (error != NULL) {
+				NSDictionary *userInfo = @{
+					NSLocalizedDescriptionKey: NSLocalizedString(@"Could not deserialize managed object", @""),
+					NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"No model class could be found to deserialize the object.", @"")
+				};
+
+				*error = [NSError errorWithDomain:MTLManagedObjectAdapterErrorDomain code:MTLManagedObjectAdapterErrorNoClassFound userInfo:userInfo];
+			}
+
+			return nil;
+		}
+	}
+
 	MTLManagedObjectAdapter *adapter = [[self alloc] initWithModelClass:modelClass];
 	return [adapter modelFromManagedObject:managedObject error:error];
 }
