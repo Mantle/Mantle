@@ -243,13 +243,10 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 			return YES;
 		};
 
-		BOOL (^serializeRelationship)(NSRelationshipDescription *) = ^(NSRelationshipDescription *relationshipDescription) {
-			if (value == nil) return YES;
-
-			// TODO: Handle collections.
-			if (![value isKindOfClass:MTLModel.class] || ![value conformsToProtocol:@protocol(MTLManagedObjectSerializing)]) {
+		NSManagedObject * (^objectForRelationshipFromModel)(id) = ^ id (id model) {
+			if (![model isKindOfClass:MTLModel.class] || ![model conformsToProtocol:@protocol(MTLManagedObjectSerializing)]) {
 				if (error != NULL) {
-					NSString *failureReason = [NSString stringWithFormat:NSLocalizedString(@"Property of class %@ cannot be encoded into a relationship.", @""), [value class]];
+					NSString *failureReason = [NSString stringWithFormat:NSLocalizedString(@"Property of class %@ cannot be encoded into an NSManagedObject.", @""), [model class]];
 
 					NSDictionary *userInfo = @{
 						NSLocalizedDescriptionKey: NSLocalizedString(@"Could not serialize managed object", @""),
@@ -259,38 +256,49 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 					*error = [NSError errorWithDomain:MTLManagedObjectAdapterErrorDomain code:MTLManagedObjectAdapterErrorUnsupportedRelationshipClass userInfo:userInfo];
 				}
 
-				return NO;
+				return nil;
 			}
 
-			NSManagedObject *nestedObject = [self managedObjectFromModel:value insertingIntoContext:context error:error];
-			if (nestedObject == nil) return NO;
+			return [self managedObjectFromModel:model insertingIntoContext:context error:error];
+		};
 
-			void (^deleteNestedObject)(void) = ^{
-				[context performBlockAndWait:^{
-					[context deleteObject:nestedObject];
-				}];
-			};
+		BOOL (^serializeRelationship)(NSRelationshipDescription *) = ^(NSRelationshipDescription *relationshipDescription) {
+			if (value == nil) return YES;
 
-			// Mark this as being autoreleased, because validateValue may return
-			// a new object to be stored in this variable (and we don't want ARC to
-			// double-free or leak the old or new values).
-			__autoreleasing NSManagedObject *validatedObject = nestedObject;
-			if (![managedObject validateValue:&validatedObject forKey:managedObjectKey error:error]) {
-				deleteNestedObject();
-				return NO;
-			}
+			if ([relationshipDescription isToMany]) {
+				if (![value conformsToProtocol:@protocol(NSFastEnumeration)]) {
+					if (error != NULL) {
+						NSString *failureReason = [NSString stringWithFormat:NSLocalizedString(@"Property of class %@ cannot be encoded into a to-many relationship.", @""), [value class]];
 
-			if (validatedObject != nestedObject) {
-				deleteNestedObject();
+						NSDictionary *userInfo = @{
+							NSLocalizedDescriptionKey: NSLocalizedString(@"Could not serialize managed object", @""),
+							NSLocalizedFailureReasonErrorKey: failureReason,
+						};
 
-				nestedObject = validatedObject;
-				if (context != nil) {
-					if (![nestedObject validateForInsert:error]) return NO;
+						*error = [NSError errorWithDomain:MTLManagedObjectAdapterErrorDomain code:MTLManagedObjectAdapterErrorUnsupportedRelationshipClass userInfo:userInfo];
+					}
 
-					[context performBlockAndWait:^{
-						[context insertObject:nestedObject];
-					}];
+					return NO;
 				}
+
+				id relationshipCollection;
+				if ([relationshipDescription isOrdered]) {
+					relationshipCollection = [managedObject mutableOrderedSetValueForKey:managedObjectKey];
+				} else {
+					relationshipCollection = [managedObject mutableSetValueForKey:managedObjectKey];
+				}
+
+				for (MTLModel *model in value) {
+					NSManagedObject *nestedObject = objectForRelationshipFromModel(model);
+					if (nestedObject == nil) return NO;
+
+					[relationshipCollection addObject:nestedObject];
+				}
+			} else {
+				NSManagedObject *nestedObject = objectForRelationshipFromModel(value);
+				if (nestedObject == nil) return NO;
+
+				[managedObject setValue:nestedObject forKey:managedObjectKey];
 			}
 
 			return YES;
