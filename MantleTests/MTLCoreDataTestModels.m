@@ -38,7 +38,9 @@
 }
 
 + (NSDictionary *)managedObjectKeysByPropertyKey {
-	return @{};
+	return @{
+		@"childID": @"id"
+	};
 }
 
 + (NSDictionary *)relationshipModelClassesByPropertyKey {

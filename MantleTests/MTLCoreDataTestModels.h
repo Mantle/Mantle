@@ -26,6 +26,9 @@
 // Corresponds to the `Child` entity.
 @interface MTLChildTestModel : MTLModel <MTLManagedObjectSerializing>
 
+// Associated with the `id` attribute.
+@property (nonatomic, assign) NSUInteger childID;
+
 @property (nonatomic, weak) MTLParentTestModel *parent1;
 @property (nonatomic, weak) MTLParentTestModel *parent2;
 
