@@ -21,6 +21,14 @@
 	};
 }
 
++ (NSValueTransformer *)numberStringEntityAttributeTransformer {
+	return [MTLValueTransformer reversibleTransformerWithForwardBlock:^(NSString *str) {
+		return [NSDecimalNumber decimalNumberWithString:str];
+	} reverseBlock:^(NSNumber *num) {
+		return num.stringValue;
+	}];
+}
+
 + (NSDictionary *)relationshipModelClassesByPropertyKey {
 	return @{
 		@"orderedChildren": MTLChildTestModel.class,
