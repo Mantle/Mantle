@@ -27,6 +27,7 @@ beforeEach(^{
 	context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSConfinementConcurrencyType];
 	expect(context).notTo.beNil();
 
+	context.undoManager = nil;
 	context.persistentStoreCoordinator = persistentStoreCoordinator;
 
 	parentEntity = [NSEntityDescription entityForName:@"Parent" inManagedObjectContext:context];
@@ -52,8 +53,6 @@ describe(@"+modelOfClass:fromManagedObject:error:", ^{
 		expect(parent).notTo.beNil();
 
 		[parent setValue:date forKey:@"date"];
-		[parent setValue:@(numberString.integerValue) forKey:@"number"];
-		[parent setValue:requiredString forKey:@"string"];
 
 		for (NSUInteger i = 0; i < 3; i++) {
 			NSManagedObject *child = [[NSManagedObject alloc] initWithEntity:childEntity insertIntoManagedObjectContext:context];
@@ -72,6 +71,10 @@ describe(@"+modelOfClass:fromManagedObject:error:", ^{
 		}
 
 		expect([context save:NULL]).to.beTruthy();
+
+		// Make sure that pending changes are picked up too.
+		[parent setValue:@(numberString.integerValue) forKey:@"number"];
+		[parent setValue:requiredString forKey:@"string"];
 	});
 
 	it(@"should initialize a MTLParentTestModel with children", ^{
@@ -105,6 +108,92 @@ describe(@"+modelOfClass:fromManagedObject:error:", ^{
 			expect(child.parent1).to.beIdenticalTo(parentModel);
 			expect(child.parent2).to.beNil();
 		}
+	});
+});
+
+describe(@"+managedObjectFromModel:insertingIntoContext:error:", ^{
+	__block MTLParentTestModel *parentModel;
+
+	beforeEach(^{
+		parentModel = [MTLParentTestModel modelWithDictionary:@{
+			@"date": [NSDate date],
+			@"numberString": @"1234",
+			@"requiredString": @"foobar"
+		} error:NULL];
+		expect(parentModel).notTo.beNil();
+
+		NSMutableArray *orderedChildren = [NSMutableArray array];
+		NSMutableSet *unorderedChildren = [NSMutableSet set];
+
+		for (NSUInteger i = 0; i < 3; i++) {
+			MTLChildTestModel *child = [MTLChildTestModel modelWithDictionary:@{
+				@"childID": @(i),
+				@"parent2": parentModel
+			} error:NULL];
+			expect(child).notTo.beNil();
+
+			[orderedChildren addObject:child];
+		}
+
+		for (NSUInteger i = 3; i < 6; i++) {
+			MTLChildTestModel *child = [MTLChildTestModel modelWithDictionary:@{
+				@"childID": @(i),
+				@"parent1": parentModel
+			} error:NULL];
+			expect(child).notTo.beNil();
+
+			[unorderedChildren addObject:child];
+		}
+
+		parentModel.orderedChildren = orderedChildren;
+		parentModel.unorderedChildren = unorderedChildren;
+	});
+
+	it(@"should insert a managed object with children", ^{
+		__block NSError *error = nil;
+		NSManagedObject *parent = [MTLManagedObjectAdapter managedObjectFromModel:parentModel insertingIntoContext:context error:&error];
+		expect(parent).notTo.beNil();
+		expect(error).to.beNil();
+
+		expect(parent.entity).to.equal(parentEntity);
+		expect(context.insertedObjects).to.contain(parent);
+
+		expect([parent valueForKey:@"date"]).to.equal(parentModel.date);
+		expect([[parent valueForKey:@"number"] stringValue]).to.equal(parentModel.numberString);
+		expect([parent valueForKey:@"string"]).to.equal(parentModel.requiredString);
+
+		NSOrderedSet *orderedChildren = [parent valueForKey:@"orderedChildren"];
+		expect(orderedChildren).notTo.beNil();
+		expect(orderedChildren.count).to.equal(3);
+
+		NSSet *unorderedChildren = [parent valueForKey:@"unorderedChildren"];
+		expect(unorderedChildren).notTo.beNil();
+		expect(unorderedChildren.count).to.equal(3);
+
+		for (NSUInteger i = 0; i < 3; i++) {
+			NSManagedObject *child = orderedChildren[i];
+			expect(child.entity).to.equal(childEntity);
+			expect(context.insertedObjects).to.contain(child);
+
+			expect([[child valueForKey:@"id"] unsignedIntegerValue]).to.equal(i);
+			expect([child valueForKey:@"parent1"]).to.beNil();
+			expect([child valueForKey:@"parent2"]).to.equal(parent);
+		}
+
+		for (NSManagedObject *child in unorderedChildren) {
+			expect(child.entity).to.equal(childEntity);
+			expect(context.insertedObjects).to.contain(child);
+
+			NSUInteger childID = [[child valueForKey:@"id"] unsignedIntegerValue];
+			expect(childID).to.beGreaterThanOrEqualTo(3);
+			expect(childID).to.beLessThan(6);
+
+			expect([child valueForKey:@"parent1"]).to.equal(parent);
+			expect([child valueForKey:@"parent2"]).to.beNil();
+		}
+
+		expect([context save:&error]).to.beTruthy();
+		expect(error).to.beNil();
 	});
 });
 
