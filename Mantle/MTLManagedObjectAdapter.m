@@ -17,6 +17,21 @@ const NSInteger MTLManagedObjectAdapterErrorInvalidManagedObjectKey = 4;
 const NSInteger MTLManagedObjectAdapterErrorUnsupportedManagedObjectPropertyType = 5;
 const NSInteger MTLManagedObjectAdapterErrorUnsupportedRelationshipClass = 6;
 
+// Performs the given block in the context's queue, if it has one. If the
+// context is nil, the block is run directly.
+static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
+	if (context == nil || context.concurrencyType == NSConfinementConcurrencyType) {
+		return block();
+	}
+
+	__block id result = nil;
+	[context performBlockAndWait:^{
+		result = block();
+	}];
+
+	return result;
+}
+
 // An exception was thrown and caught.
 static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 
@@ -85,19 +100,6 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 
 	NSManagedObjectContext *context = managedObject.managedObjectContext;
 
-	// Performs the given block in the context's queue (if a valid context
-	// exists) and returns the result.
-	id (^readInContext)(id (^)(void)) = ^(id (^readBlock)(void)) {
-		if (context == nil) return readBlock();
-
-		__block id result = nil;
-		[context performBlockAndWait:^{
-			result = readBlock();
-		}];
-
-		return result;
-	};
-
 	NSDictionary *managedObjectProperties = entity.propertiesByName;
 	NSMutableDictionary *dictionaryValue = [NSMutableDictionary dictionaryWithCapacity:managedObjectProperties.count];
 
@@ -106,7 +108,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 		if (managedObjectKey == nil) continue;
 
 		BOOL (^deserializeAttribute)(NSAttributeDescription *) = ^(NSAttributeDescription *attributeDescription) {
-			id value = readInContext(^{
+			id value = performInContext(context, ^{
 				return [managedObject valueForKey:managedObjectKey];
 			});
 
@@ -124,7 +126,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 			}
 
 			if ([relationshipDescription isToMany]) {
-				id models = readInContext(^ id {
+				id models = performInContext(context, ^ id {
 					id relationshipCollection = [managedObject valueForKey:managedObjectKey];
 					NSMutableArray *models = [NSMutableArray arrayWithCapacity:[relationshipCollection count]];
 
@@ -143,7 +145,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 
 				dictionaryValue[propertyKey] = models;
 			} else {
-				NSManagedObject *nestedObject = readInContext(^{
+				NSManagedObject *nestedObject = performInContext(context, ^{
 					return [managedObject valueForKey:managedObjectKey];
 				});
 
@@ -388,9 +390,10 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 	if (context != nil) {
 		if (![managedObject validateForInsert:error]) return nil;
 
-		[context performBlockAndWait:^{
+		performInContext(context, ^ id {
 			[context insertObject:managedObject];
-		}];
+			return nil;
+		});
 	}
 
 	return managedObject;
