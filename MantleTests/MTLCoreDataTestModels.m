@@ -10,9 +10,8 @@
 
 @implementation MTLParentTestModel
 
-+ (NSEntityDescription *)managedObjectEntity {
-	NSManagedObjectModel *model = [NSManagedObjectModel mergedModelFromBundles:@[ [NSBundle bundleForClass:self] ]];
-	return model.entitiesByName[@"Parent"];
++ (NSString *)managedObjectEntityName {
+	return @"Parent";
 }
 
 + (NSDictionary *)managedObjectKeysByPropertyKey {
@@ -41,9 +40,8 @@
 
 @implementation MTLChildTestModel
 
-+ (NSEntityDescription *)managedObjectEntity {
-	NSManagedObjectModel *model = [NSManagedObjectModel mergedModelFromBundles:@[ [NSBundle bundleForClass:self] ]];
-	return model.entitiesByName[@"Child"];
++ (NSString *)managedObjectEntityName {
+	return @"Child";
 }
 
 + (NSDictionary *)managedObjectKeysByPropertyKey {

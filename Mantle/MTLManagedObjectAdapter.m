@@ -18,10 +18,9 @@ const NSInteger MTLManagedObjectAdapterErrorInvalidManagedObjectKey = 4;
 const NSInteger MTLManagedObjectAdapterErrorUnsupportedManagedObjectPropertyType = 5;
 const NSInteger MTLManagedObjectAdapterErrorUnsupportedRelationshipClass = 6;
 
-// Performs the given block in the context's queue, if it has one. If the
-// context is nil, the block is run directly.
+// Performs the given block in the context's queue, if it has one.
 static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
-	if (context == nil || context.concurrencyType == NSConfinementConcurrencyType) {
+	if (context.concurrencyType == NSConfinementConcurrencyType) {
 		return block();
 	}
 
@@ -262,20 +261,16 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 	NSParameterAssert(context != nil);
 	NSParameterAssert(processedObjects != nil);
 
-	NSEntityDescription *entity = [model.class managedObjectEntity];
-	NSAssert(entity != nil, @"%@ returned a nil +managedObjectEntity", model.class);
+	NSString *entityName = [model.class managedObjectEntityName];
+	NSAssert(entityName != nil, @"%@ returned a nil +managedObjectEntityName", model.class);
 
-	if (context != nil) {
-		NSAssert([context.persistentStoreCoordinator.managedObjectModel isEqual:entity.managedObjectModel], @"The managed object model of %@ does not match that of %@", context, entity);
-	}
+	Class entityDescriptionClass = NSClassFromString(@"NSEntityDescription");
+	NSAssert(entityDescriptionClass != nil, @"CoreData.framework must be linked to use MTLManagedObjectAdapter");
 
-	Class managedObjectClass = NSClassFromString(@"NSManagedObject");
-	NSAssert(managedObjectClass != nil, @"CoreData.framework must be linked to use MTLManagedObjectAdapter");
-
-	__block NSManagedObject *managedObject = [[managedObjectClass alloc] initWithEntity:entity insertIntoManagedObjectContext:nil];
+	__block NSManagedObject *managedObject = [entityDescriptionClass insertNewObjectForEntityForName:entityName inManagedObjectContext:context];
 	if (managedObject == nil) {
 		if (error != NULL) {
-			NSString *failureReason = [NSString stringWithFormat:NSLocalizedString(@"Failed to initialize a managed object from entity named \"%@\".", @""), entity.name];
+			NSString *failureReason = [NSString stringWithFormat:NSLocalizedString(@"Failed to initialize a managed object from entity named \"%@\".", @""), entityName];
 
 			NSDictionary *userInfo = @{
 				NSLocalizedDescriptionKey: NSLocalizedString(@"Could not serialize managed object", @""),
@@ -293,7 +288,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 	CFDictionaryAddValue(processedObjects, (__bridge void *)model, (__bridge void *)managedObject);
 
 	NSDictionary *dictionaryValue = model.dictionaryValue;
-	NSDictionary *managedObjectProperties = entity.propertiesByName;
+	NSDictionary *managedObjectProperties = managedObject.entity.propertiesByName;
 
 	[dictionaryValue enumerateKeysAndObjectsUsingBlock:^(NSString *propertyKey, id value, BOOL *stop) {
 		NSString *managedObjectKey = [self managedObjectKeyForKey:propertyKey];
@@ -415,16 +410,19 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 		};
 		
 		if (!serializeProperty(managedObjectProperties[managedObjectKey])) {
+			performInContext(context, ^ id {
+				[context deleteObject:managedObject];
+				return nil;
+			});
+
 			managedObject = nil;
 			*stop = YES;
 		}
 	}];
 
-	if (context != nil) {
-		if (![managedObject validateForInsert:error]) return nil;
-
+	if (![managedObject validateForInsert:error]) {
 		performInContext(context, ^ id {
-			[context insertObject:managedObject];
+			[context deleteObject:managedObject];
 			return nil;
 		});
 	}
@@ -450,6 +448,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 
 + (NSManagedObject *)managedObjectFromModel:(MTLModel<MTLManagedObjectSerializing> *)model insertingIntoContext:(NSManagedObjectContext *)context processedObjects:(CFMutableDictionaryRef)processedObjects error:(NSError **)error {
 	NSParameterAssert(model != nil);
+	NSParameterAssert(context != nil);
 	NSParameterAssert(processedObjects != nil);
 
 	const void *existingManagedObject = CFDictionaryGetValue(processedObjects, (__bridge void *)model);

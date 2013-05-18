@@ -15,10 +15,11 @@
 @protocol MTLManagedObjectSerializing
 @required
 
-// The Core Data entity that the receiver serializes to and deserializes from.
+// The name of the Core Data entity that the receiver serializes to and
+// deserializes from.
 //
 // This method must not return nil.
-+ (NSEntityDescription *)managedObjectEntity;
++ (NSString *)managedObjectEntityName;
 
 // Specifies how to map property keys to different keys on the receiver's
 // +managedObjectEntity.
@@ -131,7 +132,7 @@ extern const NSInteger MTLManagedObjectAdapterErrorUnsupportedRelationshipClass;
 //
 // model   - The model object to serialize. This argument must not be nil.
 // context - The context into which to insert the created managed object. This
-//           argument may be nil to not insert the object into a context.
+//           argument must not be nil.
 // error   - If not NULL, this may be set to an error that occurs during
 //           serialization or insertion.
 + (NSManagedObject *)managedObjectFromModel:(MTLModel<MTLManagedObjectSerializing> *)model insertingIntoContext:(NSManagedObjectContext *)context error:(NSError **)error;
