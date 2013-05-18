@@ -52,8 +52,6 @@ describe(@"+modelOfClass:fromManagedObject:error:", ^{
 		parent = [[NSManagedObject alloc] initWithEntity:parentEntity insertIntoManagedObjectContext:context];
 		expect(parent).notTo.beNil();
 
-		[parent setValue:date forKey:@"date"];
-
 		for (NSUInteger i = 0; i < 3; i++) {
 			NSManagedObject *child = [[NSManagedObject alloc] initWithEntity:childEntity insertIntoManagedObjectContext:context];
 			expect(child).notTo.beNil();
@@ -70,11 +68,15 @@ describe(@"+modelOfClass:fromManagedObject:error:", ^{
 			[[parent mutableSetValueForKey:@"unorderedChildren"] addObject:child];
 		}
 
-		expect([context save:NULL]).to.beTruthy();
+		[parent setValue:requiredString forKey:@"string"];
+
+		__block NSError *error = nil;
+		expect([context save:&error]).to.beTruthy();
+		expect(error).to.beNil();
 
 		// Make sure that pending changes are picked up too.
 		[parent setValue:@(numberString.integerValue) forKey:@"number"];
-		[parent setValue:requiredString forKey:@"string"];
+		[parent setValue:date forKey:@"date"];
 	});
 
 	it(@"should initialize a MTLParentTestModel with children", ^{
