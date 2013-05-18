@@ -46,6 +46,35 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 // A cached copy of the return value of +relationshipModelClassesByPropertyKey.
 @property (nonatomic, copy, readonly) NSDictionary *relationshipModelClassesByPropertyKey;
 
+// Initializes the receiver to serialize or deserialize a MTLModel of the given
+// class.
+- (id)initWithModelClass:(Class)modelClass;
+
+// Invoked from +modelOfClass:fromManagedObject:processedObjects:error: after
+// the receiver's properties have been initialized.
+- (id)modelFromManagedObject:(NSManagedObject *)managedObject processedObjects:(CFMutableDictionaryRef)processedObjects error:(NSError **)error;
+
+// Performs the actual work of deserialization. This method is also invoked when
+// processing relationships, to create a new adapter (if needed) to handle them.
+//
+// `processedObjects` is a dictionary mapping NSManagedObjects to the MTLModels
+// that have been created so far. It should remain alive for the full process
+// of deserializing the top-level managed object.
++ (id)modelOfClass:(Class)modelClass fromManagedObject:(NSManagedObject *)managedObject processedObjects:(CFMutableDictionaryRef)processedObjects error:(NSError **)error;
+
+// Invoked from
+// +managedObjectFromModel:insertingIntoContext:processedObjects:error: after
+// the receiver's properties have been initialized.
+- (NSManagedObject *)managedObjectFromModel:(MTLModel<MTLManagedObjectSerializing> *)model insertingIntoContext:(NSManagedObjectContext *)context processedObjects:(CFMutableDictionaryRef)processedObjects error:(NSError **)error;
+
+// Performs the actual work of serialization. This method is also invoked when
+// processing relationships, to create a new adapter (if needed) to handle them.
+//
+// `processedObjects` is a dictionary mapping MTLModels to the NSManagedObjects
+// that have been created so far. It should remain alive for the full process
+// of serializing the top-level MTLModel.
++ (NSManagedObject *)managedObjectFromModel:(MTLModel<MTLManagedObjectSerializing> *)model insertingIntoContext:(NSManagedObjectContext *)context processedObjects:(CFMutableDictionaryRef)processedObjects error:(NSError **)error;
+
 // Looks up the NSValueTransformer that should be used for any attribute that
 // corresponds the given property key.
 //
