@@ -95,6 +95,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 
 - (id)modelFromManagedObject:(NSManagedObject *)managedObject processedObjects:(CFMutableDictionaryRef)processedObjects error:(NSError **)error {
 	NSParameterAssert(managedObject != nil);
+	NSParameterAssert(processedObjects != nil);
 
 	NSEntityDescription *entity = managedObject.entity;
 	NSAssert(entity != nil, @"%@ returned a nil +entity", managedObject);
@@ -227,6 +228,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 
 + (id)modelOfClass:(Class)modelClass fromManagedObject:(NSManagedObject *)managedObject processedObjects:(CFMutableDictionaryRef)processedObjects error:(NSError **)error {
 	NSParameterAssert(modelClass != nil);
+	NSParameterAssert(processedObjects != nil);
 
 	if (managedObject == nil) return nil;
 
@@ -255,9 +257,10 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 	return [adapter modelFromManagedObject:managedObject processedObjects:processedObjects error:error];
 }
 
-- (NSManagedObject *)managedObjectFromModel:(MTLModel<MTLManagedObjectSerializing> *)model insertingIntoContext:(NSManagedObjectContext *)context error:(NSError **)error {
+- (NSManagedObject *)managedObjectFromModel:(MTLModel<MTLManagedObjectSerializing> *)model insertingIntoContext:(NSManagedObjectContext *)context processedObjects:(CFMutableDictionaryRef)processedObjects error:(NSError **)error {
 	NSParameterAssert(model != nil);
 	NSParameterAssert(context != nil);
+	NSParameterAssert(processedObjects != nil);
 
 	NSEntityDescription *entity = [model.class managedObjectEntity];
 	NSAssert(entity != nil, @"%@ returned a nil +managedObjectEntity", model.class);
@@ -284,6 +287,10 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 
 		return nil;
 	}
+
+	// Pre-emptively consider this object processed, so that we don't get into
+	// any cycles when processing its relationships.
+	CFDictionaryAddValue(processedObjects, (__bridge void *)model, (__bridge void *)managedObject);
 
 	NSDictionary *dictionaryValue = model.dictionaryValue;
 	NSDictionary *managedObjectProperties = entity.propertiesByName;
@@ -324,7 +331,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 				return nil;
 			}
 
-			return [self managedObjectFromModel:model insertingIntoContext:context error:error];
+			return [self.class managedObjectFromModel:model insertingIntoContext:context processedObjects:processedObjects error:error];
 		};
 
 		BOOL (^serializeRelationship)(NSRelationshipDescription *) = ^(NSRelationshipDescription *relationshipDescription) {
@@ -426,10 +433,32 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 }
 
 + (NSManagedObject *)managedObjectFromModel:(MTLModel<MTLManagedObjectSerializing> *)model insertingIntoContext:(NSManagedObjectContext *)context error:(NSError **)error {
+	CFDictionaryKeyCallBacks keyCallbacks = kCFTypeDictionaryKeyCallBacks;
+
+	// Compare MTLModel keys using pointer equality, not -isEqual:.
+	keyCallbacks.equal = NULL;
+
+	CFMutableDictionaryRef processedObjects = CFDictionaryCreateMutable(NULL, 0, &keyCallbacks, &kCFTypeDictionaryValueCallBacks);
+	if (processedObjects == NULL) return nil;
+
+	@onExit {
+		CFRelease(processedObjects);
+	};
+
+	return [self managedObjectFromModel:model insertingIntoContext:context processedObjects:processedObjects error:error];
+}
+
++ (NSManagedObject *)managedObjectFromModel:(MTLModel<MTLManagedObjectSerializing> *)model insertingIntoContext:(NSManagedObjectContext *)context processedObjects:(CFMutableDictionaryRef)processedObjects error:(NSError **)error {
 	NSParameterAssert(model != nil);
+	NSParameterAssert(processedObjects != nil);
+
+	const void *existingManagedObject = CFDictionaryGetValue(processedObjects, (__bridge void *)model);
+	if (existingManagedObject != NULL) {
+		return (__bridge id)existingManagedObject;
+	}
 
 	MTLManagedObjectAdapter *adapter = [[self alloc] initWithModelClass:model.class];
-	return [adapter managedObjectFromModel:model insertingIntoContext:context error:error];
+	return [adapter managedObjectFromModel:model insertingIntoContext:context processedObjects:processedObjects error:error];
 }
 
 - (NSValueTransformer *)entityAttributeTransformerForKey:(NSString *)key {
