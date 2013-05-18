@@ -18,6 +18,7 @@
 + (NSDictionary *)managedObjectKeysByPropertyKey {
 	return @{
 		@"numberString": @"number",
+		@"requiredString": @"string"
 	};
 }
 
