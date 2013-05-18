@@ -7,6 +7,7 @@
 //
 
 #import "MTLManagedObjectAdapter.h"
+#import "EXTScope.h"
 #import "MTLModel.h"
 #import "MTLReflection.h"
 
@@ -92,7 +93,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 
 #pragma mark Serialization
 
-- (id)modelFromManagedObject:(NSManagedObject *)managedObject error:(NSError **)error {
+- (id)modelFromManagedObject:(NSManagedObject *)managedObject processedObjects:(CFMutableDictionaryRef)processedObjects error:(NSError **)error {
 	NSParameterAssert(managedObject != nil);
 
 	NSEntityDescription *entity = managedObject.entity;
@@ -101,7 +102,19 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 	NSManagedObjectContext *context = managedObject.managedObjectContext;
 
 	NSDictionary *managedObjectProperties = entity.propertiesByName;
-	NSMutableDictionary *dictionaryValue = [NSMutableDictionary dictionaryWithCapacity:managedObjectProperties.count];
+	MTLModel *model = [[self.modelClass alloc] init];
+
+	// Pre-emptively consider this object processed, so that we don't get into
+	// any cycles when processing its relationships.
+	CFDictionaryAddValue(processedObjects, (__bridge void *)managedObject, (__bridge void *)model);
+
+	BOOL (^setValueForKey)(NSString *, id) = ^(NSString *key, id value) {
+		__autoreleasing id replaceableValue = value;
+		if (![model validateValue:&replaceableValue forKey:key error:error]) return NO;
+
+		[model setValue:replaceableValue forKey:key];
+		return YES;
+	};
 
 	for (NSString *propertyKey in [self.modelClass propertyKeys]) {
 		NSString *managedObjectKey = [self managedObjectKeyForKey:propertyKey];
@@ -115,8 +128,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 			NSValueTransformer *attributeTransformer = [self entityAttributeTransformerForKey:propertyKey];
 			if (attributeTransformer != nil) value = [attributeTransformer reverseTransformedValue:value];
 
-			dictionaryValue[propertyKey] = value ?: NSNull.null;
-			return YES;
+			return setValueForKey(propertyKey, value);
 		};
 
 		BOOL (^deserializeRelationship)(NSRelationshipDescription *) = ^(NSRelationshipDescription *relationshipDescription) {
@@ -131,7 +143,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 					NSMutableArray *models = [NSMutableArray arrayWithCapacity:[relationshipCollection count]];
 
 					for (NSManagedObject *nestedObject in relationshipCollection) {
-						MTLModel *model = [self.class modelOfClass:nestedClass fromManagedObject:nestedObject error:error];
+						MTLModel *model = [self.class modelOfClass:nestedClass fromManagedObject:nestedObject processedObjects:processedObjects error:error];
 						if (model == nil) return nil;
 						
 						[models addObject:model];
@@ -143,7 +155,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 				if (models == nil) return NO;
 				if (![relationshipDescription isOrdered]) models = [NSSet setWithArray:models];
 
-				dictionaryValue[propertyKey] = models;
+				return setValueForKey(propertyKey, models);
 			} else {
 				NSManagedObject *nestedObject = performInContext(context, ^{
 					return [managedObject valueForKey:managedObjectKey];
@@ -151,13 +163,11 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 
 				if (nestedObject == nil) return YES;
 
-				MTLModel *model = [self.class modelOfClass:nestedClass fromManagedObject:nestedObject error:error];
+				MTLModel *model = [self.class modelOfClass:nestedClass fromManagedObject:nestedObject processedObjects:processedObjects error:error];
 				if (model == nil) return NO;
 
-				dictionaryValue[propertyKey] = model;
+				return setValueForKey(propertyKey, model);
 			}
-
-			return YES;
 		};
 
 		BOOL (^deserializeProperty)(NSPropertyDescription *) = ^(NSPropertyDescription *propertyDescription) {
@@ -201,13 +211,29 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 		if (!deserializeProperty(managedObjectProperties[managedObjectKey])) return nil;
 	}
 
-	return [self.modelClass modelWithDictionary:dictionaryValue error:error];
+	return model;
 }
 
 + (id)modelOfClass:(Class)modelClass fromManagedObject:(NSManagedObject *)managedObject error:(NSError **)error {
+	CFMutableDictionaryRef processedObjects = CFDictionaryCreateMutable(NULL, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+	if (processedObjects == NULL) return nil;
+
+	@onExit {
+		CFRelease(processedObjects);
+	};
+
+	return [self modelOfClass:modelClass fromManagedObject:managedObject processedObjects:processedObjects error:error];
+}
+
++ (id)modelOfClass:(Class)modelClass fromManagedObject:(NSManagedObject *)managedObject processedObjects:(CFMutableDictionaryRef)processedObjects error:(NSError **)error {
 	NSParameterAssert(modelClass != nil);
 
 	if (managedObject == nil) return nil;
+
+	const void *existingModel = CFDictionaryGetValue(processedObjects, (__bridge void *)managedObject);
+	if (existingModel != NULL) {
+		return (__bridge id)existingModel;
+	}
 
 	if ([modelClass respondsToSelector:@selector(classForDeserializingManagedObject:)]) {
 		modelClass = [modelClass classForDeserializingManagedObject:managedObject];
@@ -226,7 +252,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 	}
 
 	MTLManagedObjectAdapter *adapter = [[self alloc] initWithModelClass:modelClass];
-	return [adapter modelFromManagedObject:managedObject error:error];
+	return [adapter modelFromManagedObject:managedObject processedObjects:processedObjects error:error];
 }
 
 - (NSManagedObject *)managedObjectFromModel:(MTLModel<MTLManagedObjectSerializing> *)model insertingIntoContext:(NSManagedObjectContext *)context error:(NSError **)error {
