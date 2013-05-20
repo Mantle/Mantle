@@ -67,6 +67,9 @@
 //
 // Subclasses overriding this method should combine their values with those of
 // `super`.
+//
+// Returns a dictionary mapping property keys to the Class objects that should
+// be used.
 + (NSDictionary *)relationshipModelClassesByPropertyKey;
 
 // Overridden to deserialize a different class instead of the receiver, based on
