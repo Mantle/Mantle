@@ -138,6 +138,9 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 	CFDictionaryAddValue(processedObjects, (__bridge void *)managedObject, (__bridge void *)model);
 
 	BOOL (^setValueForKey)(NSString *, id) = ^(NSString *key, id value) {
+		// Mark this as being autoreleased, because validateValue may return
+		// a new object to be stored in this variable (and we don't want ARC to
+		// double-free or leak the old or new values).
 		__autoreleasing id replaceableValue = value;
 		if (![model validateValue:&replaceableValue forKey:key error:error]) return NO;
 
