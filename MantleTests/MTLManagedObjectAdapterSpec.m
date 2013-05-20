@@ -11,10 +11,6 @@
 SpecBegin(MTLManagedObjectAdapter)
 
 __block NSPersistentStoreCoordinator *persistentStoreCoordinator;
-__block NSManagedObjectContext *context;
-
-__block NSEntityDescription *parentEntity;
-__block NSEntityDescription *childEntity;
 
 beforeEach(^{
 	NSManagedObjectModel *model = [NSManagedObjectModel mergedModelFromBundles:@[ [NSBundle bundleForClass:self.class] ]];
@@ -23,178 +19,216 @@ beforeEach(^{
 	persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:model];
 	expect(persistentStoreCoordinator).notTo.beNil();
 	expect([persistentStoreCoordinator addPersistentStoreWithType:NSInMemoryStoreType configuration:nil URL:nil options:nil error:NULL]).notTo.beNil();
-
-	context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSConfinementConcurrencyType];
-	expect(context).notTo.beNil();
-
-	context.undoManager = nil;
-	context.persistentStoreCoordinator = persistentStoreCoordinator;
-
-	parentEntity = [NSEntityDescription entityForName:@"Parent" inManagedObjectContext:context];
-	expect(parentEntity).notTo.beNil();
-
-	childEntity = [NSEntityDescription entityForName:@"Child" inManagedObjectContext:context];
-	expect(childEntity).notTo.beNil();
 });
 
-describe(@"+modelOfClass:fromManagedObject:error:", ^{
-	__block NSManagedObject *parent;
+describe(@"with a confined context", ^{
+	__block NSManagedObjectContext *context;
 
-	__block NSDate *date;
-	__block NSString *numberString;
-	__block NSString *requiredString;
+	__block NSEntityDescription *parentEntity;
+	__block NSEntityDescription *childEntity;
 
 	beforeEach(^{
-		date = [NSDate date];
-		numberString = @"1234";
-		requiredString = @"foobar";
+		context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSConfinementConcurrencyType];
+		expect(context).notTo.beNil();
 
-		parent = [[NSManagedObject alloc] initWithEntity:parentEntity insertIntoManagedObjectContext:context];
-		expect(parent).notTo.beNil();
+		context.undoManager = nil;
+		context.persistentStoreCoordinator = persistentStoreCoordinator;
 
-		for (NSUInteger i = 0; i < 3; i++) {
-			NSManagedObject *child = [[NSManagedObject alloc] initWithEntity:childEntity insertIntoManagedObjectContext:context];
-			expect(child).notTo.beNil();
+		parentEntity = [NSEntityDescription entityForName:@"Parent" inManagedObjectContext:context];
+		expect(parentEntity).notTo.beNil();
 
-			[child setValue:@(i) forKey:@"id"];
-			[[parent mutableOrderedSetValueForKey:@"orderedChildren"] addObject:child];
-		}
-
-		for (NSUInteger i = 3; i < 6; i++) {
-			NSManagedObject *child = [[NSManagedObject alloc] initWithEntity:childEntity insertIntoManagedObjectContext:context];
-			expect(child).notTo.beNil();
-
-			[child setValue:@(i) forKey:@"id"];
-			[[parent mutableSetValueForKey:@"unorderedChildren"] addObject:child];
-		}
-
-		[parent setValue:requiredString forKey:@"string"];
-
-		__block NSError *error = nil;
-		expect([context save:&error]).to.beTruthy();
-		expect(error).to.beNil();
-
-		// Make sure that pending changes are picked up too.
-		[parent setValue:@(numberString.integerValue) forKey:@"number"];
-		[parent setValue:date forKey:@"date"];
+		childEntity = [NSEntityDescription entityForName:@"Child" inManagedObjectContext:context];
+		expect(childEntity).notTo.beNil();
 	});
 
-	it(@"should initialize a MTLParentTestModel with children", ^{
+	describe(@"+modelOfClass:fromManagedObject:error:", ^{
+		__block NSManagedObject *parent;
+
+		__block NSDate *date;
+		__block NSString *numberString;
+		__block NSString *requiredString;
+
+		beforeEach(^{
+			date = [NSDate date];
+			numberString = @"1234";
+			requiredString = @"foobar";
+
+			parent = [[NSManagedObject alloc] initWithEntity:parentEntity insertIntoManagedObjectContext:context];
+			expect(parent).notTo.beNil();
+
+			for (NSUInteger i = 0; i < 3; i++) {
+				NSManagedObject *child = [[NSManagedObject alloc] initWithEntity:childEntity insertIntoManagedObjectContext:context];
+				expect(child).notTo.beNil();
+
+				[child setValue:@(i) forKey:@"id"];
+				[[parent mutableOrderedSetValueForKey:@"orderedChildren"] addObject:child];
+			}
+
+			for (NSUInteger i = 3; i < 6; i++) {
+				NSManagedObject *child = [[NSManagedObject alloc] initWithEntity:childEntity insertIntoManagedObjectContext:context];
+				expect(child).notTo.beNil();
+
+				[child setValue:@(i) forKey:@"id"];
+				[[parent mutableSetValueForKey:@"unorderedChildren"] addObject:child];
+			}
+
+			[parent setValue:requiredString forKey:@"string"];
+
+			__block NSError *error = nil;
+			expect([context save:&error]).to.beTruthy();
+			expect(error).to.beNil();
+
+			// Make sure that pending changes are picked up too.
+			[parent setValue:@(numberString.integerValue) forKey:@"number"];
+			[parent setValue:date forKey:@"date"];
+		});
+
+		it(@"should initialize a MTLParentTestModel with children", ^{
+			NSError *error = nil;
+			MTLParentTestModel *parentModel = [MTLManagedObjectAdapter modelOfClass:MTLParentTestModel.class fromManagedObject:parent error:&error];
+			expect(parentModel).to.beKindOf(MTLParentTestModel.class);
+			expect(error).to.beNil();
+
+			expect(parentModel.date).to.equal(date);
+			expect(parentModel.numberString).to.equal(numberString);
+			expect(parentModel.requiredString).to.equal(requiredString);
+
+			expect(parentModel.orderedChildren.count).to.equal(3);
+			expect(parentModel.unorderedChildren.count).to.equal(3);
+
+			for (NSUInteger i = 0; i < 3; i++) {
+				MTLChildTestModel *child = parentModel.orderedChildren[i];
+				expect(child).to.beKindOf(MTLChildTestModel.class);
+
+				expect(child.childID).to.equal(i);
+				expect(child.parent1).to.beNil();
+				expect(child.parent2).to.beIdenticalTo(parentModel);
+			}
+
+			for (MTLChildTestModel *child in parentModel.unorderedChildren) {
+				expect(child).to.beKindOf(MTLChildTestModel.class);
+
+				expect(child.childID).to.beGreaterThanOrEqualTo(3);
+				expect(child.childID).to.beLessThan(6);
+
+				expect(child.parent1).to.beIdenticalTo(parentModel);
+				expect(child.parent2).to.beNil();
+			}
+		});
+	});
+
+	describe(@"+managedObjectFromModel:insertingIntoContext:error:", ^{
+		__block MTLParentTestModel *parentModel;
+
+		beforeEach(^{
+			parentModel = [MTLParentTestModel modelWithDictionary:@{
+				@"date": [NSDate date],
+				@"numberString": @"1234",
+				@"requiredString": @"foobar"
+			} error:NULL];
+			expect(parentModel).notTo.beNil();
+
+			NSMutableArray *orderedChildren = [NSMutableArray array];
+			NSMutableSet *unorderedChildren = [NSMutableSet set];
+
+			for (NSUInteger i = 0; i < 3; i++) {
+				MTLChildTestModel *child = [MTLChildTestModel modelWithDictionary:@{
+					@"childID": @(i),
+					@"parent2": parentModel
+				} error:NULL];
+				expect(child).notTo.beNil();
+
+				[orderedChildren addObject:child];
+			}
+
+			for (NSUInteger i = 3; i < 6; i++) {
+				MTLChildTestModel *child = [MTLChildTestModel modelWithDictionary:@{
+					@"childID": @(i),
+					@"parent1": parentModel
+				} error:NULL];
+				expect(child).notTo.beNil();
+
+				[unorderedChildren addObject:child];
+			}
+
+			parentModel.orderedChildren = orderedChildren;
+			parentModel.unorderedChildren = unorderedChildren;
+		});
+
+		it(@"should insert a managed object with children", ^{
+			__block NSError *error = nil;
+			NSManagedObject *parent = [MTLManagedObjectAdapter managedObjectFromModel:parentModel insertingIntoContext:context error:&error];
+			expect(parent).notTo.beNil();
+			expect(error).to.beNil();
+
+			expect(parent.entity).to.equal(parentEntity);
+			expect(context.insertedObjects).to.contain(parent);
+
+			expect([parent valueForKey:@"date"]).to.equal(parentModel.date);
+			expect([[parent valueForKey:@"number"] stringValue]).to.equal(parentModel.numberString);
+			expect([parent valueForKey:@"string"]).to.equal(parentModel.requiredString);
+
+			NSOrderedSet *orderedChildren = [parent valueForKey:@"orderedChildren"];
+			expect(orderedChildren).notTo.beNil();
+			expect(orderedChildren.count).to.equal(3);
+
+			NSSet *unorderedChildren = [parent valueForKey:@"unorderedChildren"];
+			expect(unorderedChildren).notTo.beNil();
+			expect(unorderedChildren.count).to.equal(3);
+
+			for (NSUInteger i = 0; i < 3; i++) {
+				NSManagedObject *child = orderedChildren[i];
+				expect(child.entity).to.equal(childEntity);
+				expect(context.insertedObjects).to.contain(child);
+
+				expect([[child valueForKey:@"id"] unsignedIntegerValue]).to.equal(i);
+				expect([child valueForKey:@"parent1"]).to.beNil();
+				expect([child valueForKey:@"parent2"]).to.equal(parent);
+			}
+
+			for (NSManagedObject *child in unorderedChildren) {
+				expect(child.entity).to.equal(childEntity);
+				expect(context.insertedObjects).to.contain(child);
+
+				NSUInteger childID = [[child valueForKey:@"id"] unsignedIntegerValue];
+				expect(childID).to.beGreaterThanOrEqualTo(3);
+				expect(childID).to.beLessThan(6);
+
+				expect([child valueForKey:@"parent1"]).to.equal(parent);
+				expect([child valueForKey:@"parent2"]).to.beNil();
+			}
+
+			expect([context save:&error]).to.beTruthy();
+			expect(error).to.beNil();
+		});
+	});
+});
+
+describe(@"with a main queue context", ^{
+	__block NSManagedObjectContext *context;
+
+	__block NSEntityDescription *parentEntity;
+
+	beforeEach(^{
+		context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
+		expect(context).notTo.beNil();
+
+		context.undoManager = nil;
+		context.persistentStoreCoordinator = persistentStoreCoordinator;
+
+		parentEntity = [NSEntityDescription entityForName:@"Parent" inManagedObjectContext:context];
+		expect(parentEntity).notTo.beNil();
+	});
+
+	it(@"should not deadlock on the main thread", ^{
+		NSManagedObject *parent = [[NSManagedObject alloc] initWithEntity:parentEntity insertIntoManagedObjectContext:context];
+		expect(parent).notTo.beNil();
+
+		[parent setValue:@"foobar" forKey:@"string"];
+
 		NSError *error = nil;
 		MTLParentTestModel *parentModel = [MTLManagedObjectAdapter modelOfClass:MTLParentTestModel.class fromManagedObject:parent error:&error];
 		expect(parentModel).to.beKindOf(MTLParentTestModel.class);
-		expect(error).to.beNil();
-
-		expect(parentModel.date).to.equal(date);
-		expect(parentModel.numberString).to.equal(numberString);
-		expect(parentModel.requiredString).to.equal(requiredString);
-
-		expect(parentModel.orderedChildren.count).to.equal(3);
-		expect(parentModel.unorderedChildren.count).to.equal(3);
-
-		for (NSUInteger i = 0; i < 3; i++) {
-			MTLChildTestModel *child = parentModel.orderedChildren[i];
-			expect(child).to.beKindOf(MTLChildTestModel.class);
-
-			expect(child.childID).to.equal(i);
-			expect(child.parent1).to.beNil();
-			expect(child.parent2).to.beIdenticalTo(parentModel);
-		}
-
-		for (MTLChildTestModel *child in parentModel.unorderedChildren) {
-			expect(child).to.beKindOf(MTLChildTestModel.class);
-
-			expect(child.childID).to.beGreaterThanOrEqualTo(3);
-			expect(child.childID).to.beLessThan(6);
-
-			expect(child.parent1).to.beIdenticalTo(parentModel);
-			expect(child.parent2).to.beNil();
-		}
-	});
-});
-
-describe(@"+managedObjectFromModel:insertingIntoContext:error:", ^{
-	__block MTLParentTestModel *parentModel;
-
-	beforeEach(^{
-		parentModel = [MTLParentTestModel modelWithDictionary:@{
-			@"date": [NSDate date],
-			@"numberString": @"1234",
-			@"requiredString": @"foobar"
-		} error:NULL];
-		expect(parentModel).notTo.beNil();
-
-		NSMutableArray *orderedChildren = [NSMutableArray array];
-		NSMutableSet *unorderedChildren = [NSMutableSet set];
-
-		for (NSUInteger i = 0; i < 3; i++) {
-			MTLChildTestModel *child = [MTLChildTestModel modelWithDictionary:@{
-				@"childID": @(i),
-				@"parent2": parentModel
-			} error:NULL];
-			expect(child).notTo.beNil();
-
-			[orderedChildren addObject:child];
-		}
-
-		for (NSUInteger i = 3; i < 6; i++) {
-			MTLChildTestModel *child = [MTLChildTestModel modelWithDictionary:@{
-				@"childID": @(i),
-				@"parent1": parentModel
-			} error:NULL];
-			expect(child).notTo.beNil();
-
-			[unorderedChildren addObject:child];
-		}
-
-		parentModel.orderedChildren = orderedChildren;
-		parentModel.unorderedChildren = unorderedChildren;
-	});
-
-	it(@"should insert a managed object with children", ^{
-		__block NSError *error = nil;
-		NSManagedObject *parent = [MTLManagedObjectAdapter managedObjectFromModel:parentModel insertingIntoContext:context error:&error];
-		expect(parent).notTo.beNil();
-		expect(error).to.beNil();
-
-		expect(parent.entity).to.equal(parentEntity);
-		expect(context.insertedObjects).to.contain(parent);
-
-		expect([parent valueForKey:@"date"]).to.equal(parentModel.date);
-		expect([[parent valueForKey:@"number"] stringValue]).to.equal(parentModel.numberString);
-		expect([parent valueForKey:@"string"]).to.equal(parentModel.requiredString);
-
-		NSOrderedSet *orderedChildren = [parent valueForKey:@"orderedChildren"];
-		expect(orderedChildren).notTo.beNil();
-		expect(orderedChildren.count).to.equal(3);
-
-		NSSet *unorderedChildren = [parent valueForKey:@"unorderedChildren"];
-		expect(unorderedChildren).notTo.beNil();
-		expect(unorderedChildren.count).to.equal(3);
-
-		for (NSUInteger i = 0; i < 3; i++) {
-			NSManagedObject *child = orderedChildren[i];
-			expect(child.entity).to.equal(childEntity);
-			expect(context.insertedObjects).to.contain(child);
-
-			expect([[child valueForKey:@"id"] unsignedIntegerValue]).to.equal(i);
-			expect([child valueForKey:@"parent1"]).to.beNil();
-			expect([child valueForKey:@"parent2"]).to.equal(parent);
-		}
-
-		for (NSManagedObject *child in unorderedChildren) {
-			expect(child.entity).to.equal(childEntity);
-			expect(context.insertedObjects).to.contain(child);
-
-			NSUInteger childID = [[child valueForKey:@"id"] unsignedIntegerValue];
-			expect(childID).to.beGreaterThanOrEqualTo(3);
-			expect(childID).to.beLessThan(6);
-
-			expect([child valueForKey:@"parent1"]).to.equal(parent);
-			expect([child valueForKey:@"parent2"]).to.beNil();
-		}
-
-		expect([context save:&error]).to.beTruthy();
 		expect(error).to.beNil();
 	});
 });
