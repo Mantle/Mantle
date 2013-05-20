@@ -11,7 +11,7 @@
 #import "MTLReflection.h"
 
 NSString * const MTLJSONAdapterErrorDomain = @"MTLJSONAdapterErrorDomain";
-NSInteger const MTLJSONAdapterErrorNoClassFound = 2;
+const NSInteger MTLJSONAdapterErrorNoClassFound = 2;
 
 // An exception was thrown and caught.
 static const NSInteger MTLJSONAdapterErrorExceptionThrown = 1;
