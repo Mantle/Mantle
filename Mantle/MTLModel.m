@@ -63,7 +63,8 @@ static void *MTLModelCachedPropertyKeysKey = &MTLModelCachedPropertyKeysKey;
 		// double-free or leak the old or new values).
 		__autoreleasing id value = [dictionary objectForKey:key];
 	
-		if ([value isEqual:NSNull.null]) value = nil;
+		if ([value isEqual:NSNull.null])
+            continue;
 
 		@try {
 			if (![self validateValue:&value forKey:key error:error]) return nil;
