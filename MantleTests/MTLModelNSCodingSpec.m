@@ -88,7 +88,8 @@ describe(@"archiving", ^{
 		model.weakModel = emptyModel;
 		
 		MTLTestModel *unarchivedModel = archiveAndUnarchiveModel();
-		expect(unarchivedModel.weakModel).to.beNil();
+		MTLEmptyTestModel *strongModel = unarchivedModel.weakModel;
+		expect(strongModel).to.beNil();
 	});
 
 	it(@"should archive conditional properties if encoded elsewhere", ^{
@@ -100,10 +101,12 @@ describe(@"archiving", ^{
 		NSArray *objects = [NSKeyedUnarchiver unarchiveObjectWithData:data];
 		expect(objects.count).to.equal(2);
 		expect(objects[1]).to.equal(emptyModel);
-		
+
 		MTLTestModel *unarchivedModel = objects[0];
 		expect(unarchivedModel).to.equal(model);
-		expect(unarchivedModel.weakModel).to.equal(emptyModel);
+
+		MTLEmptyTestModel *strongModel = unarchivedModel.weakModel;
+		expect(strongModel).to.equal(emptyModel);
 	});
 
 	it(@"should invoke custom decoding logic", ^{
