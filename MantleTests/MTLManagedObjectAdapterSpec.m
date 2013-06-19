@@ -101,12 +101,8 @@ describe(@"with a confined context", ^{
 				expect(child).to.beKindOf(MTLChildTestModel.class);
 
 				expect(child.childID).to.equal(i);
-
-				MTLParentTestModel *strongParent1 = child.parent1;
-				expect(strongParent1).to.beNil();
-
-				MTLParentTestModel *strongParent2 = child.parent2;
-				expect(strongParent2).to.beIdenticalTo(parentModel);
+				expect(child.parent1).to.beNil();
+				expect(child.parent2).to.beIdenticalTo(parentModel);
 			}
 
 			for (MTLChildTestModel *child in parentModel.unorderedChildren) {
@@ -115,10 +111,8 @@ describe(@"with a confined context", ^{
 				expect(child.childID).to.beGreaterThanOrEqualTo(3);
 				expect(child.childID).to.beLessThan(6);
 
-				MTLParentTestModel *strongParent1 = child.parent1;
-				MTLParentTestModel *strongParent2 = child.parent2;
-				expect(strongParent1).to.beIdenticalTo(parentModel);
-				expect(strongParent2).to.beNil();
+				expect(child.parent1).to.beIdenticalTo(parentModel);
+				expect(child.parent2).to.beNil();
 			}
 		});
 	});

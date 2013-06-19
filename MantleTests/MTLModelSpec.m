@@ -73,9 +73,7 @@ describe(@"with a dictionary of values", ^{
 		expect(model.name).to.equal(@"foobar");
 		expect(model.count).to.equal(5);
 		expect(model.nestedName).to.equal(@"fuzzbuzz");
-
-		MTLEmptyTestModel *strongModel = model.weakModel;
-		expect(strongModel).to.equal(emptyModel);
+		expect(model.weakModel).to.equal(emptyModel);
 
 		expect(model.dictionaryValue).to.equal(values);
 		expect([model dictionaryWithValuesForKeys:values.allKeys]).to.equal(values);
