@@ -7,3 +7,6 @@
 [submodule "MantleTests/specta"]
 	path = MantleTests/specta
 	url = git://github.com/github/specta.git
+[submodule "Configuration"]
+	path = Configuration
+	url = https://github.com/jspahrsummers/xcconfigs.git
