@@ -16,18 +16,18 @@ typedef enum {
     /**
      * The value is assigned.
      */
-    ext_propertyMemoryManagementPolicyAssign = 0,
+    mtl_propertyMemoryManagementPolicyAssign = 0,
 
     /**
      * The value is retained.
      */
-    ext_propertyMemoryManagementPolicyRetain,
+    mtl_propertyMemoryManagementPolicyRetain,
 
     /**
      * The value is copied.
      */
-    ext_propertyMemoryManagementPolicyCopy
-} ext_propertyMemoryManagementPolicy;
+    mtl_propertyMemoryManagementPolicyCopy
+} mtl_propertyMemoryManagementPolicy;
 
 /**
  * Describes the attributes and type information of a property.
@@ -60,9 +60,9 @@ typedef struct {
 
     /**
      * The memory management policy for this property. This will always be
-     * #ext_propertyMemoryManagementPolicyAssign if #readonly is \c YES.
+     * #mtl_propertyMemoryManagementPolicyAssign if #readonly is \c YES.
      */
-    ext_propertyMemoryManagementPolicy memoryManagementPolicy;
+    mtl_propertyMemoryManagementPolicy memoryManagementPolicy;
 
     /**
      * The selector for the getter of this property. This will reflect any
@@ -103,11 +103,11 @@ typedef struct {
      * would be returned by the \c \@encode() directive.
      */
     char type[];
-} ext_propertyAttributes;
+} mtl_propertyAttributes;
 
 /**
  * Returns a pointer to a structure containing information about \a property.
  * You must \c free() the returned pointer. Returns \c NULL if there is an error
  * obtaining information from \a property.
  */
-ext_propertyAttributes *ext_copyPropertyAttributes (objc_property_t property);
+mtl_propertyAttributes *mtl_copyPropertyAttributes (objc_property_t property);

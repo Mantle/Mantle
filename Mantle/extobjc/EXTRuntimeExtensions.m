@@ -9,7 +9,7 @@
 
 #import "EXTRuntimeExtensions.h"
 
-ext_propertyAttributes *ext_copyPropertyAttributes (objc_property_t property) {
+mtl_propertyAttributes *mtl_copyPropertyAttributes (objc_property_t property) {
     const char * const attrString = property_getAttributes(property);
     if (!attrString) {
         fprintf(stderr, "ERROR: Could not get attribute string from property %s\n", property_getName(property));
@@ -35,9 +35,9 @@ ext_propertyAttributes *ext_copyPropertyAttributes (objc_property_t property) {
     }
 
     // allocate enough space for the structure and the type string (plus a NUL)
-    ext_propertyAttributes *attributes = calloc(1, sizeof(ext_propertyAttributes) + typeLength + 1);
+    mtl_propertyAttributes *attributes = calloc(1, sizeof(mtl_propertyAttributes) + typeLength + 1);
     if (!attributes) {
-        fprintf(stderr, "ERROR: Could not allocate ext_propertyAttributes structure for attribute string \"%s\" for property %s\n", attrString, property_getName(property));
+        fprintf(stderr, "ERROR: Could not allocate mtl_propertyAttributes structure for attribute string \"%s\" for property %s\n", attrString, property_getName(property));
         return NULL;
     }
 
@@ -86,11 +86,11 @@ ext_propertyAttributes *ext_copyPropertyAttributes (objc_property_t property) {
             break;
 
         case 'C':
-            attributes->memoryManagementPolicy = ext_propertyMemoryManagementPolicyCopy;
+            attributes->memoryManagementPolicy = mtl_propertyMemoryManagementPolicyCopy;
             break;
 
         case '&':
-            attributes->memoryManagementPolicy = ext_propertyMemoryManagementPolicyRetain;
+            attributes->memoryManagementPolicy = mtl_propertyMemoryManagementPolicyRetain;
             break;
 
         case 'N':

@@ -9,7 +9,7 @@
 
 #import "EXTScope.h"
 
-void ext_executeCleanupBlock (__strong ext_cleanupBlock_t *block) {
+void mtl_executeCleanupBlock (__strong mtl_cleanupBlock_t *block) {
     (*block)();
 }
 
