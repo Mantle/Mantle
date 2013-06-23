@@ -1,6 +1,3 @@
-[submodule "libextobjc"]
-	path = libextobjc
-	url = git://github.com/jspahrsummers/libextobjc.git
 [submodule "MantleTests/expecta"]
 	path = MantleTests/expecta
 	url = git://github.com/github/expecta.git
