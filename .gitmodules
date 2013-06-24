@@ -1,9 +1,9 @@
-[submodule "libextobjc"]
-	path = libextobjc
-	url = git://github.com/jspahrsummers/libextobjc.git
 [submodule "MantleTests/expecta"]
 	path = MantleTests/expecta
 	url = git://github.com/github/expecta.git
 [submodule "MantleTests/specta"]
 	path = MantleTests/specta
 	url = git://github.com/github/specta.git
+[submodule "Configuration"]
+	path = Configuration
+	url = https://github.com/jspahrsummers/xcconfigs.git
