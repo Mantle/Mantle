@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 GitHub. All rights reserved.
 //
 
-#import <Mantle/MTLModel.h>
+#import "MTLModel.h"
 
 // Defines how a MTLModel property key should be encoded into an archive.
 //
