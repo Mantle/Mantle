@@ -59,6 +59,7 @@ static NSUInteger modelVersion = 1;
 	return @{
 		@"name": @"username",
 		@"nestedName": @"nested.name",
+		@"multi": @[ @"Multi", @"multiple" ],
 		@"weakModel": NSNull.null,
 	};
 }

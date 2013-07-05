@@ -7,6 +7,7 @@
 //
 
 #import "MTLTestModel.h"
+#import "MTLModel+MTLJSONKeyMapping.h"
 
 SpecBegin(MTLJSONAdapter)
 
@@ -14,6 +15,7 @@ it(@"should initialize from JSON", ^{
 	NSDictionary *values = @{
 		@"username": NSNull.null,
 		@"count": @"5",
+		@"Multi": @"foos"
 	};
 
 	NSError *error = nil;
@@ -25,11 +27,13 @@ it(@"should initialize from JSON", ^{
 	expect(model).notTo.beNil();
 	expect(model.name).to.beNil();
 	expect(model.count).to.equal(5);
+	expect(model.multi).to.equal(@"foos");
 	
 	NSDictionary *JSONDictionary = @{
 		@"username": NSNull.null,
 		@"count": @"5",
 		@"nested": @{ @"name": NSNull.null },
+		@"Multi": @"foos"
 	};
 
 	expect(adapter.JSONDictionary).to.equal(JSONDictionary);
@@ -39,6 +43,7 @@ it(@"should initialize from a model", ^{
 	MTLTestModel *model = [MTLTestModel modelWithDictionary:@{
 		@"name": @"foobar",
 		@"count": @5,
+		@"multi": @"multifoo"
 	} error:NULL];
 
 	MTLJSONAdapter *adapter = [[MTLJSONAdapter alloc] initWithModel:model];
@@ -49,6 +54,7 @@ it(@"should initialize from a model", ^{
 		@"username": @"foobar",
 		@"count": @"5",
 		@"nested": @{ @"name": NSNull.null },
+		@"Multi": @"multifoo"
 	};
 
 	expect(adapter.JSONDictionary).to.equal(JSONDictionary);
@@ -58,7 +64,8 @@ it(@"should initialize nested key paths from JSON", ^{
 	NSDictionary *values = @{
 		@"username": @"foo",
 		@"nested": @{ @"name": @"bar" },
-		@"count": @"0"
+		@"count": @"0",
+		@"multiple": @"multibar"
 	};
 
 	NSError *error = nil;
@@ -69,6 +76,7 @@ it(@"should initialize nested key paths from JSON", ^{
 	expect(model.name).to.equal(@"foo");
 	expect(model.count).to.equal(0);
 	expect(model.nestedName).to.equal(@"bar");
+	expect(model.multi).to.equal(@"multibar");
 
 	expect([MTLJSONAdapter JSONDictionaryFromModel:model]).to.equal(values);
 });
@@ -86,6 +94,7 @@ it(@"should ignore unrecognized JSON keys", ^{
 		@"count": @"2",
 		@"_": NSNull.null,
 		@"username": @"buzz",
+		@"multiple": @"multifoobars",
 		@"nested": @{ @"name": @"bar", @"stuffToIgnore": @5, @"moreNonsense": NSNull.null },
 	};
 
@@ -97,6 +106,7 @@ it(@"should ignore unrecognized JSON keys", ^{
 	expect(model.name).to.equal(@"buzz");
 	expect(model.count).to.equal(2);
 	expect(model.nestedName).to.equal(@"bar");
+	expect(model.multi).to.equal(@"multifoobars");
 });
 
 it(@"should fail to initialize if JSON dictionary validation fails", ^{
@@ -115,6 +125,7 @@ it(@"should parse a different model class", ^{
 	NSDictionary *values = @{
 		@"username": @"foo",
 		@"nested": @{ @"name": @"bar" },
+		@"multiple": @"multifoobars",
 		@"count": @"0"
 	};
 
@@ -126,6 +137,7 @@ it(@"should parse a different model class", ^{
 	expect(model.name).to.equal(@"foo");
 	expect(model.count).to.equal(0);
 	expect(model.nestedName).to.equal(@"bar");
+	expect(model.multi).to.equal(@"multifoobars");
 
 	expect([MTLJSONAdapter JSONDictionaryFromModel:model]).to.equal(values);
 });
@@ -138,6 +150,29 @@ it(@"should return an error when no suitable model class is found", ^{
 	expect(error).notTo.beNil();
 	expect(error.domain).to.equal(MTLJSONAdapterErrorDomain);
 	expect(error.code).to.equal(MTLJSONAdapterErrorNoClassFound);
+});
+
+it(@"should be able to specify which keypath to serialise to if there are multiple choices", ^{
+	MTLTestModel *model = [MTLTestModel modelWithDictionary:@{
+		@"multi": @"multifoo",
+		@"count": @0
+	} error:NULL];
+	
+	[MTLModel setJSONKeyPathsByPropertyKey:@{ @"multi" : @"multiple" } forModel:model];
+
+	MTLJSONAdapter *adapter = [[MTLJSONAdapter alloc] initWithModel:model];
+	expect(adapter).notTo.beNil();
+	expect(adapter.model).to.beIdenticalTo(model);
+	
+	
+	NSDictionary *JSONDictionary = @{
+		@"username": NSNull.null,
+		@"count": @"0",
+		@"nested": @{ @"name": NSNull.null },
+		@"multiple": @"multifoo"
+	};
+
+	expect(adapter.JSONDictionary).to.equal(JSONDictionary);
 });
 
 SpecEnd
