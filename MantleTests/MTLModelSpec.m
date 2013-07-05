@@ -29,8 +29,8 @@ it(@"should initialize with default values", ^{
 	NSDictionary *expectedValues = @{
 		@"name": NSNull.null,
 		@"count": @(1),
-        @"nestedName": NSNull.null,
-        @"multi": NSNull.null,
+		@"nestedName": NSNull.null,
+		@"multi": NSNull.null,
 		@"weakModel": NSNull.null,
 	};
 
@@ -61,7 +61,7 @@ describe(@"with a dictionary of values", ^{
 			@"name": @"foobar",
 			@"count": @(5),
 			@"nestedName": @"fuzzbuzz",
-            @"multi": @"mulikeys",
+			@"multi": @"mulikeys",
 			@"weakModel": emptyModel,
 		};
 
@@ -75,7 +75,7 @@ describe(@"with a dictionary of values", ^{
 		expect(model.name).to.equal(@"foobar");
 		expect(model.count).to.equal(5);
 		expect(model.nestedName).to.equal(@"fuzzbuzz");
-        expect(model.multi).to.equal(@"mulikeys");
+		expect(model.multi).to.equal(@"mulikeys");
 		expect(model.weakModel).to.equal(emptyModel);
 
 		expect(model.dictionaryValue).to.equal(values);
