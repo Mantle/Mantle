@@ -57,13 +57,21 @@ static void *MTLModelCachedPropertyKeysKey = &MTLModelCachedPropertyKeysKey;
 	self = [self init];
 	if (self == nil) return nil;
 
-	for (NSString *key in dictionary) {
+	for (NSString *key in self.class.propertyKeys) {
 		// Mark this as being autoreleased, because validateValue may return
 		// a new object to be stored in this variable (and we don't want ARC to
 		// double-free or leak the old or new values).
-		__autoreleasing id value = [dictionary objectForKey:key];
-	
-		if ([value isEqual:NSNull.null]) value = nil;
+		__autoreleasing id value = dictionary[key];
+
+		if (value == nil) {
+			// If there is no value in the dictionary, validate the default
+			// value that was potentially set in init instead.
+			value = [self valueForKey:key];
+		} else if ([value isEqual:NSNull.null]) {
+			// If there is a value in the dictionary and it is NSNull, treat it
+			// as nil.
+			value = nil;
+		}
 
 		@try {
 			if (![self validateValue:&value forKey:key error:error]) return nil;

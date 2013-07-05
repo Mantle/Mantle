@@ -8,6 +8,7 @@
 
 extern NSString * const MTLTestModelErrorDomain;
 extern const NSInteger MTLTestModelNameTooLong;
+extern const NSInteger MTLTestModelNameMissing;
 
 @interface MTLEmptyTestModel : MTLModel
 @end
@@ -42,4 +43,18 @@ extern const NSInteger MTLTestModelNameTooLong;
 
 // Parses MTLTestModel objects from JSON instead.
 @interface MTLSubstitutingTestModel : MTLModel <MTLJSONSerializing>
+@end
+
+@interface MTLNoSaneDefaultModel : MTLModel
+
+// Defaults to but must not be `nil` after initalization.
+@property (nonatomic, copy) NSString *name;
+
+@end
+
+@interface MTLNullPropertyModel : MTLModel
+
+// Defaults to NSNull
+@property (nonatomic, strong) NSNull *null;
+
 @end

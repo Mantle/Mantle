@@ -241,10 +241,10 @@
 		D064BA321613BA75004CA27A /* MTLTestNotificationObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTLTestNotificationObserver.h; sourceTree = "<group>"; };
 		D064BA331613BA75004CA27A /* MTLTestNotificationObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLTestNotificationObserver.m; sourceTree = "<group>"; };
 		D0760E7615FFBF330060F550 /* MTLModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTLModel.h; sourceTree = "<group>"; };
-		D0760E7715FFBF330060F550 /* MTLModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLModel.m; sourceTree = "<group>"; };
+		D0760E7715FFBF330060F550 /* MTLModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLModel.m; sourceTree = "<group>"; usesTabs = 1; };
 		D0760EC315FFCA250060F550 /* MTLModelSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLModelSpec.m; sourceTree = "<group>"; };
 		D0760EC715FFCA4E0060F550 /* MTLTestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTLTestModel.h; sourceTree = "<group>"; };
-		D0760EC815FFCA4E0060F550 /* MTLTestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLTestModel.m; sourceTree = "<group>"; };
+		D0760EC815FFCA4E0060F550 /* MTLTestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLTestModel.m; sourceTree = "<group>"; usesTabs = 1; };
 		D08B5AAC16002694001FE685 /* MTLValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTLValueTransformer.h; sourceTree = "<group>"; };
 		D08B5AAD16002694001FE685 /* MTLValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLValueTransformer.m; sourceTree = "<group>"; };
 		D08B5AB116002A23001FE685 /* MTLValueTransformerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLValueTransformerSpec.m; sourceTree = "<group>"; };
