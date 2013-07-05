@@ -111,6 +111,17 @@ it(@"should fail to initialize if dictionary validation fails", ^{
 	expect(error.code).to.equal(MTLTestModelNameTooLong);
 });
 
+it(@"should fail to initialize if default values don't validate", ^{
+	NSError *error = nil;
+	MTLNoSaneDefaultModel *model = [[MTLNoSaneDefaultModel alloc] initWithDictionary:@{} error:&error];
+	expect(model).to.beNil();
+
+	expect(error).notTo.beNil();
+	expect(error.domain).to.equal(MTLTestModelErrorDomain);
+	expect(error.code).to.equal(MTLTestModelNameMissing);
+});
+
+
 it(@"should merge two models together", ^{
 	MTLTestModel *target = [[MTLTestModel alloc] initWithDictionary:@{ @"name": @"foo", @"count": @(5) } error:NULL];
 	expect(target).notTo.beNil();
