@@ -32,6 +32,9 @@ extern const NSInteger MTLTestModelNameTooLong;
 // property should not be encoded into new archives.
 @property (nonatomic, copy) NSString *nestedName;
 
+// This property is associated with one of the following keypaths in JSON "Multi" or "multiple"
+@property (nonatomic, copy) NSString *multi;
+
 // Should not be stored in the dictionary value or JSON.
 @property (nonatomic, copy, readonly) NSString *dynamicName;
 

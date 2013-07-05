@@ -131,6 +131,7 @@ describe(@"archiving", ^{
 			@"name": @"foobar",
 			@"count": @5,
 			@"nestedName": @"fuzzbuzz",
+            @"multi": NSNull.null,
 			@"weakModel": NSNull.null,
 		};
 		
