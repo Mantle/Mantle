@@ -51,3 +51,10 @@ extern const NSInteger MTLTestModelNameMissing;
 @property (nonatomic, copy) NSString *name;
 
 @end
+
+@interface MTLNullPropertyModel : MTLModel
+
+// Defaults to NSNull
+@property (nonatomic, strong) NSNull *null;
+
+@end

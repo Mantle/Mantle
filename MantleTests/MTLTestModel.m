@@ -152,3 +152,15 @@ static NSUInteger modelVersion = 1;
 }
 
 @end
+
+@implementation MTLNullPropertyModel
+
+- (id)init {
+	self = [super init];
+	if (self == nil) return nil;
+
+	self.null = NSNull.null;
+	return self;
+}
+
+@end
