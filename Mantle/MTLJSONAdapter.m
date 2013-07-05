@@ -10,7 +10,7 @@
 #import "MTLModel.h"
 #import "MTLReflection.h"
 #import "NSArray+MTLManipulationAdditions.h"
-#import <objc/runtime.h>
+#import "MTLModel+MTLJSONKeyMapping.h"
 
 NSString * const MTLJSONAdapterErrorDomain = @"MTLJSONAdapterErrorDomain";
 const NSInteger MTLJSONAdapterErrorNoClassFound = 2;
@@ -21,8 +21,6 @@ static const NSInteger MTLJSONAdapterErrorExceptionThrown = 1;
 // Associated with the NSException that was caught.
 static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapterThrownException";
 
-// Used to cache the propertyKey to JSONKeyPath if there are multiple possibilities
-static void *MTLModelCachedPropertyKeyMapKey = &MTLModelCachedPropertyKeyMapKey;
 
 @interface MTLJSONAdapter ()
 
@@ -104,7 +102,7 @@ static void *MTLModelCachedPropertyKeyMapKey = &MTLModelCachedPropertyKeyMapKey;
 	_JSONKeyPathsByPropertyKey = [[modelClass JSONKeyPathsByPropertyKey] copy];
 
 	NSMutableDictionary *dictionaryValue = [[NSMutableDictionary alloc] initWithCapacity:JSONDictionary.count];
-	NSMutableDictionary *propertyKeyToJSONKeyPathMap = [NSMutableDictionary dictionary];
+	NSMutableDictionary *JSONKeyPathsByPropertyKeyForModel = [NSMutableDictionary dictionary];
 
 	for (NSString *propertyKey in [self.modelClass propertyKeys]) {
 		id JSONKeyPaths = [self JSONKeyPathsForKey:propertyKey];
@@ -116,7 +114,7 @@ static void *MTLModelCachedPropertyKeyMapKey = &MTLModelCachedPropertyKeyMapKey;
 			for (JSONKeyPath in JSONKeyPaths) {
 				value = [JSONDictionary valueForKeyPath:JSONKeyPath];
 				if (value != nil) {
-					propertyKeyToJSONKeyPathMap[propertyKey] = JSONKeyPath;
+					JSONKeyPathsByPropertyKeyForModel[propertyKey] = JSONKeyPath;
 					break;
 				}
 			}
@@ -161,7 +159,7 @@ static void *MTLModelCachedPropertyKeyMapKey = &MTLModelCachedPropertyKeyMapKey;
 
 	_model = [self.modelClass modelWithDictionary:dictionaryValue error:error];
 	if (_model == nil) return nil;
-	objc_setAssociatedObject(_model, MTLModelCachedPropertyKeyMapKey, propertyKeyToJSONKeyPathMap, OBJC_ASSOCIATION_COPY);
+	[MTLModel setJSONKeyPathsByPropertyKey:JSONKeyPathsByPropertyKeyForModel forModel:_model];
 
 	return self;
 }
@@ -184,11 +182,11 @@ static void *MTLModelCachedPropertyKeyMapKey = &MTLModelCachedPropertyKeyMapKey;
 - (NSDictionary *)JSONDictionary {
 	NSDictionary *dictionaryValue = self.model.dictionaryValue;
 	NSMutableDictionary *JSONDictionary = [[NSMutableDictionary alloc] initWithCapacity:dictionaryValue.count];
-	NSDictionary *propertyKeyToJSONKeyPathMap = objc_getAssociatedObject(self.model, MTLModelCachedPropertyKeyMapKey);
+	NSDictionary *JSONKeyPathsByPropertyKeyForModel = [MTLModel JSONKeyPathsByPropertyKeyForModel:self.model];
 
 	[dictionaryValue enumerateKeysAndObjectsUsingBlock:^(NSString *propertyKey, id value, BOOL *stop) {
 		id JSONKeyPaths = [self JSONKeyPathsForKey:propertyKey];
-		NSString *JSONKeyPath = propertyKeyToJSONKeyPathMap[propertyKey] ?: ([JSONKeyPaths isKindOfClass:NSArray.class] ? [JSONKeyPaths mtl_firstObject] : JSONKeyPaths);
+		NSString *JSONKeyPath = JSONKeyPathsByPropertyKeyForModel[propertyKey] ?: ([JSONKeyPaths isKindOfClass:NSArray.class] ? [JSONKeyPaths mtl_firstObject] : JSONKeyPaths);
 		if (JSONKeyPath == nil) return;
 
 		NSValueTransformer *transformer = [self JSONTransformerForKey:propertyKey];

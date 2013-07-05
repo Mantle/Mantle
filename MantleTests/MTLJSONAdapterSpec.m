@@ -7,6 +7,7 @@
 //
 
 #import "MTLTestModel.h"
+#import "MTLModel+MTLJSONKeyMapping.h"
 
 SpecBegin(MTLJSONAdapter)
 
@@ -149,6 +150,29 @@ it(@"should return an error when no suitable model class is found", ^{
 	expect(error).notTo.beNil();
 	expect(error.domain).to.equal(MTLJSONAdapterErrorDomain);
 	expect(error.code).to.equal(MTLJSONAdapterErrorNoClassFound);
+});
+
+it(@"should be able to specify which keypath to serialise to if there are multiple choices", ^{
+	MTLTestModel *model = [MTLTestModel modelWithDictionary:@{
+		@"multi": @"multifoo",
+		@"count": @0
+	} error:NULL];
+	
+	[MTLModel setJSONKeyPathsByPropertyKey:@{ @"multi" : @"multiple" } forModel:model];
+
+	MTLJSONAdapter *adapter = [[MTLJSONAdapter alloc] initWithModel:model];
+	expect(adapter).notTo.beNil();
+	expect(adapter.model).to.beIdenticalTo(model);
+	
+	
+	NSDictionary *JSONDictionary = @{
+		@"username": NSNull.null,
+		@"count": @"0",
+		@"nested": @{ @"name": NSNull.null },
+		@"multiple": @"multifoo"
+	};
+
+	expect(adapter.JSONDictionary).to.equal(JSONDictionary);
 });
 
 SpecEnd

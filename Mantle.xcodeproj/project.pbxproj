@@ -100,6 +100,10 @@
 		D8A172FE1697E87A002CFCC8 /* NSDictionary+MTLManipulationAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = D0C27D0816110973002FE587 /* NSDictionary+MTLManipulationAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D8A173021697E87A002CFCC8 /* NSValueTransformer+MTLPredefinedTransformerAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = D0F117471614C5600092520B /* NSValueTransformer+MTLPredefinedTransformerAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D8A173031697E87A002CFCC8 /* NSObject+MTLComparisonAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1ED5B5CE163A4E3C0072668E /* NSObject+MTLComparisonAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DDDEB13A178773F400B83AFF /* MTLModel+MTLJSONKeyMapping.h in Headers */ = {isa = PBXBuildFile; fileRef = DDDEB138178773F400B83AFF /* MTLModel+MTLJSONKeyMapping.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DDDEB13B178773F400B83AFF /* MTLModel+MTLJSONKeyMapping.m in Sources */ = {isa = PBXBuildFile; fileRef = DDDEB139178773F400B83AFF /* MTLModel+MTLJSONKeyMapping.m */; };
+		DDDEB1401787787C00B83AFF /* MTLModel+MTLJSONKeyMapping.h in Headers */ = {isa = PBXBuildFile; fileRef = DDDEB138178773F400B83AFF /* MTLModel+MTLJSONKeyMapping.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DDDEB1411787789700B83AFF /* MTLModel+MTLJSONKeyMapping.m in Sources */ = {isa = PBXBuildFile; fileRef = DDDEB139178773F400B83AFF /* MTLModel+MTLJSONKeyMapping.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -283,6 +287,8 @@
 		D0F117471614C5600092520B /* NSValueTransformer+MTLPredefinedTransformerAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSValueTransformer+MTLPredefinedTransformerAdditions.h"; sourceTree = "<group>"; };
 		D0F117481614C5600092520B /* NSValueTransformer+MTLPredefinedTransformerAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSValueTransformer+MTLPredefinedTransformerAdditions.m"; sourceTree = "<group>"; };
 		D0F1174C1614C8000092520B /* MTLPredefinedTransformerAdditionsSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLPredefinedTransformerAdditionsSpec.m; sourceTree = "<group>"; };
+		DDDEB138178773F400B83AFF /* MTLModel+MTLJSONKeyMapping.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MTLModel+MTLJSONKeyMapping.h"; sourceTree = "<group>"; };
+		DDDEB139178773F400B83AFF /* MTLModel+MTLJSONKeyMapping.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MTLModel+MTLJSONKeyMapping.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -441,6 +447,8 @@
 				D0760E7715FFBF330060F550 /* MTLModel.m */,
 				D01BD0AD16CB52E800EC95C7 /* MTLModel+NSCoding.h */,
 				D01BD0AE16CB52E800EC95C7 /* MTLModel+NSCoding.m */,
+				DDDEB138178773F400B83AFF /* MTLModel+MTLJSONKeyMapping.h */,
+				DDDEB139178773F400B83AFF /* MTLModel+MTLJSONKeyMapping.m */,
 				D058FE1D16EFB3D2009DFB47 /* MTLReflection.h */,
 				D058FE1E16EFB3D2009DFB47 /* MTLReflection.m */,
 				D01BD0AB16CB46B600EC95C7 /* Adapters */,
@@ -600,6 +608,7 @@
 				D01BD0AF16CB52E800EC95C7 /* MTLModel+NSCoding.h in Headers */,
 				D0E51937170A06CF00E8897B /* MTLManagedObjectAdapter.h in Headers */,
 				D0BFC36F17476B4700F5DC5D /* NSValueTransformer+MTLInversionAdditions.h in Headers */,
+				DDDEB13A178773F400B83AFF /* MTLModel+MTLJSONKeyMapping.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -618,6 +627,7 @@
 				D01BD0B016CB52E800EC95C7 /* MTLModel+NSCoding.h in Headers */,
 				D0E51938170A06CF00E8897B /* MTLManagedObjectAdapter.h in Headers */,
 				D0BFC37017476B4700F5DC5D /* NSValueTransformer+MTLInversionAdditions.h in Headers */,
+				DDDEB1401787787C00B83AFF /* MTLModel+MTLJSONKeyMapping.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -874,6 +884,7 @@
 				D0BFC37117476B4700F5DC5D /* NSValueTransformer+MTLInversionAdditions.m in Sources */,
 				D094E47B1777617500906BF7 /* EXTRuntimeExtensions.m in Sources */,
 				D094E47D1777617800906BF7 /* EXTScope.m in Sources */,
+				DDDEB13B178773F400B83AFF /* MTLModel+MTLJSONKeyMapping.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -915,6 +926,7 @@
 				D0BFC37217476B4700F5DC5D /* NSValueTransformer+MTLInversionAdditions.m in Sources */,
 				D094E47C1777617600906BF7 /* EXTRuntimeExtensions.m in Sources */,
 				D094E47E1777617900906BF7 /* EXTScope.m in Sources */,
+				DDDEB1411787789700B83AFF /* MTLModel+MTLJSONKeyMapping.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
