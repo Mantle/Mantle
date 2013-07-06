@@ -6,6 +6,7 @@
 //  Copyright (c) 2012 GitHub. All rights reserved.
 //
 
+#import "NSError+MTLModelException.h"
 #import "MTLModel.h"
 #import "EXTRuntimeExtensions.h"
 #import "EXTScope.h"
@@ -16,15 +17,6 @@
 // methods.
 #import "MTLJSONAdapter.h"
 #import "MTLModel+NSCoding.h"
-
-// The domain for errors originating from MTLModel.
-static NSString * const MTLModelErrorDomain = @"MTLModelErrorDomain";
-
-// An exception was thrown and caught.
-static const NSInteger MTLModelErrorExceptionThrown = 1;
-
-// Associated with the NSException that was caught.
-static NSString * const MTLModelThrownExceptionErrorKey = @"MTLModelThrownException";
 
 // Used to cache the reflection performed in +propertyKeys.
 static void *MTLModelCachedPropertyKeysKey = &MTLModelCachedPropertyKeysKey;
@@ -77,13 +69,7 @@ static void *MTLModelCachedPropertyKeysKey = &MTLModelCachedPropertyKeysKey;
 			@throw ex;
 			#else
 			if (error != NULL) {
-				NSDictionary *userInfo = @{
-					NSLocalizedDescriptionKey: ex.description,
-					NSLocalizedFailureReasonErrorKey: ex.reason,
-					MTLModelThrownExceptionErrorKey: ex
-				};
-
-				*error = [NSError errorWithDomain:MTLModelErrorDomain code:MTLModelErrorExceptionThrown userInfo:userInfo];
+				*error = [NSError mtl_modelErrorWithException:ex];
 			}
 
 			return nil;
