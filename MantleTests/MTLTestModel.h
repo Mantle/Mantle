@@ -8,6 +8,7 @@
 
 extern NSString * const MTLTestModelErrorDomain;
 extern const NSInteger MTLTestModelNameTooLong;
+extern const NSInteger MTLTestModelNameMissing;
 
 @interface MTLEmptyTestModel : MTLModel
 @end
@@ -42,4 +43,15 @@ extern const NSInteger MTLTestModelNameTooLong;
 
 // Parses MTLTestModel objects from JSON instead.
 @interface MTLSubstitutingTestModel : MTLModel <MTLJSONSerializing>
+@end
+
+@interface MTLValidationModel : MTLModel
+
+// Defaults to nil, which is not considered valid.
+@property (nonatomic, copy) NSString *name;
+
+@end
+
+// Returns a default name of 'foobar' when validateName:error: is invoked
+@interface MTLSelfValidatingModel : MTLValidationModel
 @end
