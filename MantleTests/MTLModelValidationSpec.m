@@ -8,7 +8,7 @@
 
 #import "MTLTestModel.h"
 
-#import "MTLModel+Validation.h"
+#import "MTLModel.h"
 
 SpecBegin(MTLModelValidation)
 
