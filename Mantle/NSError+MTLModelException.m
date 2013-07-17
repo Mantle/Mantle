@@ -21,8 +21,7 @@ static NSString * const MTLModelThrownExceptionErrorKey = @"MTLModelThrownExcept
 
 @implementation NSError (MTLModelException)
 
-+ (instancetype)mtl_modelErrorWithException:(NSException *)exception
-{
++ (instancetype)mtl_modelErrorWithException:(NSException *)exception {
 	NSParameterAssert(exception != nil);
 
 	NSDictionary *userInfo = @{
