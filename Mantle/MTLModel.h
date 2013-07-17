@@ -72,8 +72,8 @@
 // Validates the model.
 //
 // The default implementation simply invokes -validateValue:forKey:error: with
-// all propertyKeys and their current value. If validating yields a new value,
-// it replaces the old one.
+// all +propertyKeys and their current value. If -validateValue:forKey:error:
+// returns a new value, the property is set to that new value.
 //
 // error - If not NULL, this may be set to any error that occurs during
 //         validation
