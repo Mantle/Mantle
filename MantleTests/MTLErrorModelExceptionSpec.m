@@ -19,8 +19,6 @@ describe(@"+mtl_modelErrorWithException:", ^{
 		expect(error).toNot.beNil();
 		expect(error.localizedDescription).to.equal(@"Just Testing");
 		expect(error.localizedFailureReason).to.equal(@"Just Testing");
-
-		expect(error.userInfo[@"MTLModelThrownException"]).to.equal(exception);
 	});
 });
 
