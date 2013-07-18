@@ -102,7 +102,6 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 		if ([value isEqual:NSNull.null]) value = nil;
 
 		BOOL success = MTLValidateAndSetValue(self, key, value, YES, error);
-
 		if (!success) return nil;
 	}
 
@@ -197,7 +196,6 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 		id value = [self valueForKey:key];
 
 		BOOL success = MTLValidateAndSetValue(self, key, value, NO, error);
-
 		if (!success) return NO;
 	}
 
