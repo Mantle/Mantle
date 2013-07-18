@@ -192,7 +192,7 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 
 #pragma mark Validation
 
-- (BOOL)validateWithError:(NSError **)error {
+- (BOOL)validate:(NSError **)error {
 	for (NSString *key in self.class.propertyKeys) {
 		id value = [self valueForKey:key];
 

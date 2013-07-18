@@ -79,7 +79,7 @@
 //         validation
 //
 // Returns YES if the model is valid, or NO if the validation failed.
-- (BOOL)validateWithError:(NSError **)error;
+- (BOOL)validate:(NSError **)error;
 
 @end
 

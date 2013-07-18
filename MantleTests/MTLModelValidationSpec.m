@@ -16,7 +16,7 @@ it(@"should fail with incorrect values", ^{
 	MTLValidationModel *model = [[MTLValidationModel alloc] init];
 
 	NSError *error = nil;
-	BOOL success = [model validateWithError:&error];
+	BOOL success = [model validate:&error];
 	expect(success).to.beFalsy();
 
 	expect(error).notTo.beNil();
@@ -28,7 +28,7 @@ it(@"should succeed with correct values", ^{
 	MTLValidationModel *model = [[MTLValidationModel alloc] initWithDictionary:@{ @"name": @"valid" } error:NULL];
 
 	NSError *error = nil;
-	BOOL success = [model validateWithError:&error];
+	BOOL success = [model validate:&error];
 	expect(success).to.beTruthy();
 
 	expect(error).to.beNil();
@@ -38,7 +38,7 @@ it(@"should apply values returned from -validateValue:error:", ^{
 	MTLSelfValidatingModel *model = [[MTLSelfValidatingModel alloc] init];
 
 	NSError *error = nil;
-	BOOL success = [model validateWithError:&error];
+	BOOL success = [model validate:&error];
 	expect(success).to.beTruthy();
 
 	expect(model.name).to.equal(@"foobar");
