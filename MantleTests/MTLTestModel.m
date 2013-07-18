@@ -10,6 +10,7 @@
 
 NSString * const MTLTestModelErrorDomain = @"MTLTestModelErrorDomain";
 const NSInteger MTLTestModelNameTooLong = 1;
+const NSInteger MTLTestModelNameMissing = 2;
 
 static NSUInteger modelVersion = 1;
 
@@ -133,6 +134,31 @@ static NSUInteger modelVersion = 1;
 	} else {
 		return MTLTestModel.class;
 	}
+}
+
+@end
+
+@implementation MTLValidationModel
+
+- (BOOL)validateName:(NSString **)name error:(NSError **)error {
+	if (*name != nil) return YES;
+	if (error != NULL) {
+		*error = [NSError errorWithDomain:MTLTestModelErrorDomain code:MTLTestModelNameMissing userInfo:nil];
+	}
+
+	return NO;
+}
+
+@end
+
+@implementation MTLSelfValidatingModel
+
+- (BOOL)validateName:(NSString **)name error:(NSError **)error {
+	if (*name != nil) return YES;
+
+	*name = @"foobar";
+
+	return YES;
 }
 
 @end
