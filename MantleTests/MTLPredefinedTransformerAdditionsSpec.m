@@ -23,6 +23,20 @@ it(@"should define a URL value transformer", ^{
 	expect([transformer reverseTransformedValue:nil]).to.beNil();
 });
 
+it(@"should define a URL value transformer", ^{
+	NSValueTransformer *transformer = [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
+	expect(transformer).notTo.beNil();
+	expect([transformer.class allowsReverseTransformation]).to.beTruthy();
+    
+	NSString *URLString = @"http://www.exåmple.com/";
+	expect([transformer transformedValue:URLString]).to.equal([NSURL URLWithString:URLString]);
+	expect([transformer reverseTransformedValue:[NSURL URLWithString:URLString]]).to.equal(URLString);
+    
+	expect([transformer transformedValue:nil]).to.beNil();
+	expect([transformer reverseTransformedValue:nil]).to.beNil();
+});
+
+
 it(@"should define an NSNumber boolean value transformer", ^{
 	// Back these NSNumbers with ints, rather than booleans,
 	// to ensure that the value transformers are actually transforming.
