@@ -8,8 +8,6 @@
 
 #import "NSError+MTLModelException.h"
 #import "MTLModel.h"
-#import "EXTRuntimeExtensions.h"
-#import "EXTScope.h"
 #import "MTLReflection.h"
 #import <objc/runtime.h>
 
@@ -121,14 +119,12 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 		cls = cls.superclass;
 		if (properties == NULL) continue;
 
-		@onExit {
-			free(properties);
-		};
-
 		for (unsigned i = 0; i < count; i++) {
 			block(properties[i], &stop);
 			if (stop) break;
 		}
+
+		free(properties);
 	}
 }
 
@@ -139,15 +135,11 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 	NSMutableSet *keys = [NSMutableSet set];
 
 	[self enumeratePropertiesUsingBlock:^(objc_property_t property, BOOL *stop) {
-		mtl_propertyAttributes *attributes = mtl_copyPropertyAttributes(property);
-		@onExit {
-			free(attributes);
-		};
+		const char *attributes = property_getAttributes(property);
+		// If property is readonly and no ivar is set, ignore.
+		if (strstr(attributes, ",R") && strstr(attributes, ",V") == NULL) return;
 
-		if (attributes->readonly && attributes->ivar == NULL) return;
-
-		NSString *key = @(property_getName(property));
-		[keys addObject:key];
+		[keys addObject:@(property_getName(property))];
 	}];
 
 	// It doesn't really matter if we replace another thread's work, since we do

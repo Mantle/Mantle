@@ -7,8 +7,7 @@
 //
 
 #import "MTLModel+NSCoding.h"
-#import "EXTRuntimeExtensions.h"
-#import "EXTScope.h"
+//#import "EXTRuntimeExtensions.h"
 #import "MTLReflection.h"
 #import <objc/runtime.h>
 
@@ -71,12 +70,9 @@ static void verifyAllowedClassesByPropertyKey(Class modelClass) {
 		objc_property_t property = class_getProperty(self, key.UTF8String);
 		NSAssert(property != NULL, @"Could not find property \"%@\" on %@", key, self);
 
-		mtl_propertyAttributes *attributes = mtl_copyPropertyAttributes(property);
-		@onExit {
-			free(attributes);
-		};
-
-		MTLModelEncodingBehavior behavior = (attributes->weak ? MTLModelEncodingBehaviorConditional : MTLModelEncodingBehaviorUnconditional);
+		const char *attributes = property_getAttributes(property);
+		BOOL isWeakProperty = strstr(attributes, ",W") != NULL;
+		MTLModelEncodingBehavior behavior = (isWeakProperty ? MTLModelEncodingBehaviorConditional : MTLModelEncodingBehaviorUnconditional);
 		behaviors[key] = @(behavior);
 	}
 
@@ -97,22 +93,31 @@ static void verifyAllowedClassesByPropertyKey(Class modelClass) {
 	for (NSString *key in propertyKeys) {
 		objc_property_t property = class_getProperty(self, key.UTF8String);
 		NSAssert(property != NULL, @"Could not find property \"%@\" on %@", key, self);
+		const char *attributes = property_getAttributes(property);
+		if (strlen(attributes) < 4) continue;
 
-		mtl_propertyAttributes *attributes = mtl_copyPropertyAttributes(property);
-		@onExit {
-			free(attributes);
-		};
-
-		// If the property is not of object or class type, assume that it's
-		// a primitive which would be boxed into an NSValue.
-		if (attributes->type[0] != '@' && attributes->type[0] != '#') {
-			allowedClasses[key] = @[ NSValue.class ];
+		if (attributes[1] != '@' && attributes[1] != '#') {
+			allowedClasses[key] = @[NSValue.class];
 			continue;
 		}
 
+		// Get class name
+		Class propertyClass = nil;
+		const char *classNameStart = attributes+3;
+		char *classNameEnd = strchr(classNameStart, '"');
+		if (classNameEnd) {
+			size_t classNameLength = classNameEnd - classNameStart;
+			char trimmedName[classNameLength + 1];
+			strncpy(trimmedName, classNameStart, classNameLength);
+			trimmedName[classNameLength] = '\0';
+
+			// attempt to look up the class in the runtime
+			propertyClass = objc_getClass(trimmedName);
+		}
+
 		// Omit this property from the dictionary if its class isn't known.
-		if (attributes->objectClass != nil) {
-			allowedClasses[key] = @[ attributes->objectClass ];
+		if (propertyClass) {
+			allowedClasses[key] = @[propertyClass];
 		}
 	}
 
