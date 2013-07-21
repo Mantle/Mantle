@@ -42,6 +42,30 @@
 
 @optional
 
+// Specifies an NSPredicate the caller will use to fetch a managed object for
+// our context. This managed object will then be set with all values from the
+// model. If no managed object is fetched, a new one will be created and
+// conversion will continue as normal.
+- (NSPredicate *)managedObjectUniquingPredicate;
+
+// Specifies how to convert the given property key to a managed object releationship. If
+// reversible, the tranformer will also be used to convert the managed object
+// attribute back to the property.
+//
+// If the receiver implements a `+<key>RelationshipModelTransformer` method,
+// MTLManagedObjectAdapter will use the result of that method instead.
+//
+// Returns a value transformer, or nil if no transformation should be performed.
+//
+// NOTE: The value which needs to be transformed is an NSDictionary of the form:
+// NSDictionary *userDictionary = @{
+//     MTLRelationshipModelTransformerContext: context,
+//     MTLRelationshipModelTransfomerModel: model
+// };
+// The receiver may then create an NSManagedObject using the model and the context
+// provided.
++ (NSValueTransformer *)relationshipModelTransformerForKey:(NSString *)key;
+
 // Specifies how to convert the given property key to a managed object attribute. If
 // reversible, the transformer will also be used to convert the managed object
 // attribute back to the property.
@@ -87,6 +111,14 @@
 + (Class)classForDeserializingManagedObject:(NSManagedObject *)managedObject;
 
 @end
+
+// The key used in a RelationshipModelTransformer user dictionary to access the
+// managed object context.
+extern NSString * const MTLRelationshipModelTransformerContext;
+
+// The key used in a RelationshipModelTransfomer user dictionary to access the
+// MTLModal we are transforming.
+extern NSString * const MTLRelationshipModelTransfomerModel;
 
 // The domain for errors originating from MTLManagedObjectAdapter.
 extern NSString * const MTLManagedObjectAdapterErrorDomain;
