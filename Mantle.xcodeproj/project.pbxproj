@@ -362,6 +362,7 @@
 				D042FC3D15F72B23004E8054 /* Products */,
 			);
 			sourceTree = "<group>";
+			usesTabs = 1;
 		};
 		D042FC3D15F72B23004E8054 /* Products */ = {
 			isa = PBXGroup;
