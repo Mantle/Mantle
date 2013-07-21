@@ -27,7 +27,7 @@ it(@"should have default allowed classes", ^{
 	expect(allowedClasses[@"name"]).to.equal(@[ NSString.class ]);
 	expect(allowedClasses[@"count"]).to.equal(@[ NSValue.class ]);
 	expect(allowedClasses[@"weakModel"]).to.equal(@[ MTLEmptyTestModel.class ]);
-	
+
 	// Not encoded into archives.
 	expect(allowedClasses[@"nestedName"]).to.beNil();
 	expect(allowedClasses[@"dynamicName"]).to.beNil();
