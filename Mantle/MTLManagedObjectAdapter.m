@@ -333,7 +333,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
     }
     
     if (uniquingPredicate) {
-        managedObject = performInContext(context, ^{
+        managedObject = performInContext(context, ^ id {
             NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
             fetchRequest.entity = [NSEntityDescription entityForName:entityName inManagedObjectContext:context];
             fetchRequest.predicate = uniquingPredicate;
@@ -341,10 +341,21 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
             
             NSArray *results = [context executeFetchRequest:fetchRequest error:error];
             
-            if (results && results.count > 0) {
+            if (!error && results && results.count > 0) {
                 return [results objectAtIndex:0];
             }
             
+            if (error != NULL) {
+                NSString *failureReason = [NSString stringWithFormat:NSLocalizedString(@"Failed to fetch a managed object for uniqing predicate \"%@\".", @""), uniquingPredicate];
+                
+                NSDictionary *userInfo = @{
+                                           NSLocalizedDescriptionKey: NSLocalizedString(@"Could not serialize managed object", @""),
+                                           NSLocalizedFailureReasonErrorKey: failureReason,
+                                           };
+                
+                *error = [NSError errorWithDomain:MTLManagedObjectAdapterErrorDomain code:MTLManagedObjectAdapterErrorInitializationFailed userInfo:userInfo];
+            }
+                        
             return nil;
         });
     }
