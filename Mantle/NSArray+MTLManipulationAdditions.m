@@ -8,10 +8,17 @@
 
 #import "NSArray+MTLManipulationAdditions.h"
 
+@interface NSArray (MTLDeclarations)
+
+// This declaration is needed so Mantle can be compiled with SDK 6 / 10.8.
+- (id)firstObject;
+
+@end
+
 @implementation NSArray (MTLManipulationAdditions)
 
 - (id)mtl_firstObject {
-	return self.count > 0 ? self[0] : nil;
+	return self.firstObject;
 }
 
 - (instancetype)mtl_arrayByRemovingObject:(id)object {
