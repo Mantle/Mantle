@@ -86,6 +86,15 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 // Returns a transformer to use, or nil to not transform the property.
 - (NSValueTransformer *)entityAttributeTransformerForKey:(NSString *)key;
 
+// Looks up the NSValueTransformer that should be used for any attribute that
+// corresponds the given relationship key.
+//
+// key - The property key for the relationship to transform from or to. This argument must
+// not be nil.
+//
+// Returns a transformer to use, or nil to not transform the property.
+- (NSValueTransformer *)relationshipModelTransformerForKey:(NSString *)key;
+
 // Looks up the managed object key that corresponds to the given key.
 //
 // key - The property key to retrieve the corresponding managed object key for.
@@ -179,7 +188,12 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 					NSMutableArray *models = [NSMutableArray arrayWithCapacity:[relationshipCollection count]];
 
 					for (NSManagedObject *nestedObject in relationshipCollection) {
-						MTLModel *model = [self.class modelOfClass:nestedClass fromManagedObject:nestedObject processedObjects:processedObjects error:error];
+                        NSValueTransformer *attributeTransformer = [self relationshipModelTransformerForKey:propertyKey];
+                        MTLModel *model = nil;
+                        
+                        if (attributeTransformer != nil) model = [attributeTransformer reverseTransformedValue:nestedObject];
+                        if (!model || ![model isKindOfClass:[MTLModel class]]) model = [self.class modelOfClass:nestedClass fromManagedObject:nestedObject processedObjects:processedObjects error:error];
+                        
 						if (model == nil) return nil;
 						
 						[models addObject:model];
@@ -199,7 +213,11 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 
 				if (nestedObject == nil) return YES;
 
-				MTLModel *model = [self.class modelOfClass:nestedClass fromManagedObject:nestedObject processedObjects:processedObjects error:error];
+                NSValueTransformer *attributeTransformer = [self relationshipModelTransformerForKey:propertyKey];
+                MTLModel *model = nil;
+                if (attributeTransformer != nil) model = [attributeTransformer reverseTransformedValue:nestedObject];
+                if (!model || ![model isKindOfClass:[MTLModel class]]) model = [self.class modelOfClass:nestedClass fromManagedObject:nestedObject processedObjects:processedObjects error:error];
+                
 				if (model == nil) return NO;
 
 				return setValueForKey(propertyKey, model);

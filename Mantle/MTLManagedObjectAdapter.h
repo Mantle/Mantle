@@ -48,22 +48,26 @@
 // conversion will continue as normal.
 - (NSPredicate *)managedObjectUniquingPredicate;
 
-// Specifies how to convert the given property key to a managed object releationship. If
-// reversible, the tranformer will also be used to convert the managed object
-// attribute back to the property.
+// Specifies how to convert the given property key which is a MTLModel to a managed
+// object releationship. If reversible, the tranformer will also be used to convert
+// the managed object relationship back to the property MTLModel.
 //
 // If the receiver implements a `+<key>RelationshipModelTransformer` method,
 // MTLManagedObjectAdapter will use the result of that method instead.
 //
 // Returns a value transformer, or nil if no transformation should be performed.
 //
-// NOTE: The value which needs to be transformed is an NSDictionary of the form:
+// NOTE: The value which needs to be FORWARD transformed is an NSDictionary of the form:
 // NSDictionary *userDictionary = @{
 //     MTLRelationshipModelTransformerContext: context,
 //     MTLRelationshipModelTransfomerModel: model
 // };
-// The receiver may then create an NSManagedObject using the model and the context
+// The receiver may then create an NSManagedObject using the MTLModel and the context
 // provided.
+//
+// In all REVERSE transformations just the managed object will be passed to the
+// transformer given that the managed object can access its own context via
+// [<the managed object> managedObjectContext].
 + (NSValueTransformer *)relationshipModelTransformerForKey:(NSString *)key;
 
 // Specifies how to convert the given property key to a managed object attribute. If
