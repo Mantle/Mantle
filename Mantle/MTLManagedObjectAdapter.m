@@ -180,7 +180,6 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 			if (nestedClass == nil) {
 				[NSException raise:NSInvalidArgumentException format:@"No class specified for decoding relationship at key \"%@\" in managed object %@", managedObjectKey, managedObject];
 			}
-            // REX: Figure out reverse transform.
 
 			if ([relationshipDescription isToMany]) {
 				id models = performInContext(context, ^ id {
