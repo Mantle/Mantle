@@ -42,10 +42,18 @@
 
 @optional
 
-// Specifies an NSPredicate the caller will use to fetch a managed object for
+// Specifies an NSPredicate the caller will use to fetch a managed object from
 // our context. This managed object will then be set with all values from the
-// model. If no managed object is fetched, a new one will be created and
+// model being converted to a managed object. If a property value of our model
+// is yet another model which needs to be converted to a managed object, the
+// class for that model can also implement this method to perform its own uniqing.
+//
+// If no managed object is fetched using the NSPredicate, a new one will be created and
 // conversion will continue as normal.
+//
+// NOTE: If a relationshipModelTransformer: is implemented for a property conversion
+// to a relationship then it is up to the transformer to implement it's own uniquing
+// for the conversion.
 - (NSPredicate *)managedObjectUniquingPredicate;
 
 // Specifies how to convert the given property key which is a MTLModel to a managed

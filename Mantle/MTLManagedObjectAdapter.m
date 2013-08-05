@@ -211,10 +211,15 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 				});
 
 				if (nestedObject == nil) return YES;
-
-                NSValueTransformer *attributeTransformer = [self relationshipModelTransformerForKey:propertyKey];
+                
                 MTLModel *model = nil;
-                if (attributeTransformer != nil) model = [attributeTransformer reverseTransformedValue:nestedObject];
+                NSValueTransformer *attributeTransformer = [self relationshipModelTransformerForKey:propertyKey];
+                if (attributeTransformer != nil) {
+                    model = performInContext(context, ^ id {
+                        return [attributeTransformer reverseTransformedValue:nestedObject];
+                    });
+                }
+
                 if (!model || ![model isKindOfClass:[MTLModel class]]) model = [self.class modelOfClass:nestedClass fromManagedObject:nestedObject processedObjects:processedObjects error:error];
                 
 				if (model == nil) return NO;
@@ -327,21 +332,24 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
         uniquingPredicate = model.managedObjectUniquingPredicate;
     }
     
-    NSArray *results = nil;
     if (uniquingPredicate) {
-        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-        fetchRequest.entity = [NSEntityDescription entityForName:entityName inManagedObjectContext:context];
-        fetchRequest.predicate = uniquingPredicate;
-        fetchRequest.fetchLimit = 20;
-        
-        results = [context executeFetchRequest:fetchRequest error:error];
+        managedObject = performInContext(context, ^{
+            NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+            fetchRequest.entity = [NSEntityDescription entityForName:entityName inManagedObjectContext:context];
+            fetchRequest.predicate = uniquingPredicate;
+            fetchRequest.fetchLimit = 20;
+            
+            NSArray *results = [context executeFetchRequest:fetchRequest error:error];
+            
+            if (results && results.count > 0) {
+                return [results objectAtIndex:0];
+            }
+            
+            return nil;
+        });
     }
     
-    if (results && results.count > 0) {
-        managedObject = [results objectAtIndex:0];
-    } else {
-        managedObject = [entityDescriptionClass insertNewObjectForEntityForName:entityName inManagedObjectContext:context];
-    }
+    if (!managedObject) managedObject = [entityDescriptionClass insertNewObjectForEntityForName:entityName inManagedObjectContext:context];
     
 	if (managedObject == nil) {
 		if (error != NULL) {
@@ -401,10 +409,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 				return nil;
 			}
             
-            // Mark this as being autoreleased, because validateValue may return
-			// a new object to be stored in this variable (and we don't want ARC to
-			// double-free or leak the old or new values).
-			__autoreleasing id transformedValue = nil;
+			NSManagedObject *managedObject = nil;
             
             NSDictionary *userDictionary = @{
                 MTLRelationshipModelTransformerContext: context,
@@ -412,23 +417,29 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
             };
             
             NSValueTransformer *attributeTransformer = [self relationshipModelTransformerForKey:propertyKey];
-			if (attributeTransformer != nil) transformedValue = [attributeTransformer transformedValue:userDictionary];
-            
-			if ([transformedValue isKindOfClass:[NSManagedObject class]]){
-                NSString *entityName = [[model class] managedObjectEntityName];
-                NSAssert(entityName != nil, @"%@ returned a nil +managedObjectEntityName", [model class]);
+			if (attributeTransformer != nil) managedObject = performInContext(context, ^ id {
+                id transformedValue = [attributeTransformer transformedValue:userDictionary];
                 
-                NSEntityDescription *entity = [NSEntityDescription entityForName:entityName inManagedObjectContext:context];
-                NSAssert(entity != nil, @"Context is does not contain entities for name: %@", entityName);
-                
-                if (![transformedValue isKindOfClass:NSClassFromString([entity managedObjectClassName])]) {
-                    [context deleteObject:transformedValue];
-                } else {
-                    // Pre-emptively consider this object processed, so that we don't get into
-                    // any cycles when processing its relationships.
-                    CFDictionaryAddValue(processedObjects, (__bridge void *)model, (__bridge void *)transformedValue);
-                    return transformedValue;
+                if ([transformedValue isKindOfClass:[NSManagedObject class]]){
+                    NSEntityDescription *entity = [NSEntityDescription entityForName:entityName inManagedObjectContext:context];
+                    NSAssert(entity != nil, @"Context is does not contain entities for name: %@", entityName);
+                    
+                    if (![transformedValue isKindOfClass:NSClassFromString([entity managedObjectClassName])]) {
+                        [context deleteObject:transformedValue];
+                        return nil;
+                    } else {
+                        return transformedValue;
+                    }
                 }
+                
+                return nil;
+            });
+            
+            if (managedObject) {
+                // Pre-emptively consider this object processed, so that we don't get into
+                // any cycles when processing its relationships.
+                CFDictionaryAddValue(processedObjects, (__bridge void *)model, (__bridge void *)managedObject);
+                return managedObject;
             }
 
 			return [self.class managedObjectFromModel:model insertingIntoContext:context processedObjects:processedObjects error:error];
