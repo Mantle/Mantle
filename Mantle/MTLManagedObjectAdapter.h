@@ -57,7 +57,7 @@
 - (NSPredicate *)managedObjectUniquingPredicate;
 
 // Specifies how to convert the given property key which is a MTLModel to a managed
-// object releationship. If reversible, the tranformer will also be used to convert
+// object relationship. If reversible, the transformer will also be used to convert
 // the managed object relationship back to the property MTLModel.
 //
 // If the receiver implements a `+<key>RelationshipModelTransformer` method,
