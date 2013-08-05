@@ -341,11 +341,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
             
             NSArray *results = [context executeFetchRequest:fetchRequest error:error];
             
-            if (!error && results && results.count > 0) {
-                return [results objectAtIndex:0];
-            }
-            
-            if (error != NULL) {
+            if (error != NULL && *error != nil) {
                 NSString *failureReason = [NSString stringWithFormat:NSLocalizedString(@"Failed to fetch a managed object for uniqing predicate \"%@\".", @""), uniquingPredicate];
                 
                 NSDictionary *userInfo = @{
@@ -355,9 +351,13 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
                 
                 *error = [NSError errorWithDomain:MTLManagedObjectAdapterErrorDomain code:MTLManagedObjectAdapterErrorInitializationFailed userInfo:userInfo];
             }
-                        
+            
+            if (results && results.count > 0) return [results objectAtIndex:0];
+            
             return nil;
         });
+        
+        if (error != NULL && *error != nil) return nil;
     }
     
     if (!managedObject) managedObject = [entityDescriptionClass insertNewObjectForEntityForName:entityName inManagedObjectContext:context];
