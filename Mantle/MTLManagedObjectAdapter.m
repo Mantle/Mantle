@@ -11,9 +11,6 @@
 #import "MTLModel.h"
 #import "MTLReflection.h"
 
-NSString * const MTLRelationshipModelTransformerContext = @"MTLRelationshipModelTransformerContext";
-NSString * const MTLRelationshipModelTransfomerModel = @"MTLRelationshipModelTransfomerModel";
-
 NSString * const MTLManagedObjectAdapterErrorDomain = @"MTLManagedObjectAdapterErrorDomain";
 const NSInteger MTLManagedObjectAdapterErrorNoClassFound = 2;
 const NSInteger MTLManagedObjectAdapterErrorInitializationFailed = 3;
@@ -85,15 +82,6 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 //
 // Returns a transformer to use, or nil to not transform the property.
 - (NSValueTransformer *)entityAttributeTransformerForKey:(NSString *)key;
-
-// Looks up the NSValueTransformer that should be used for any attribute that
-// corresponds the given relationship key.
-//
-// key - The property key for the relationship to transform from or to. This argument must
-// not be nil.
-//
-// Returns a transformer to use, or nil to not transform the property.
-- (NSValueTransformer *)relationshipModelTransformerForKey:(NSString *)key;
 
 // Looks up the managed object key that corresponds to the given key.
 //
@@ -187,12 +175,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 					NSMutableArray *models = [NSMutableArray arrayWithCapacity:[relationshipCollection count]];
 
 					for (NSManagedObject *nestedObject in relationshipCollection) {
-                        NSValueTransformer *attributeTransformer = [self relationshipModelTransformerForKey:propertyKey];
-                        MTLModel *model = nil;
-                        
-                        if (attributeTransformer != nil) model = [attributeTransformer reverseTransformedValue:nestedObject];
-                        if (!model || ![model isKindOfClass:[MTLModel class]]) model = [self.class modelOfClass:nestedClass fromManagedObject:nestedObject processedObjects:processedObjects error:error];
-                        
+                        MTLModel *model = [self.class modelOfClass:nestedClass fromManagedObject:nestedObject processedObjects:processedObjects error:error];
 						if (model == nil) return nil;
 						
 						[models addObject:model];
@@ -212,16 +195,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 
 				if (nestedObject == nil) return YES;
                 
-                MTLModel *model = nil;
-                NSValueTransformer *attributeTransformer = [self relationshipModelTransformerForKey:propertyKey];
-                if (attributeTransformer != nil) {
-                    model = performInContext(context, ^ id {
-                        return [attributeTransformer reverseTransformedValue:nestedObject];
-                    });
-                }
-
-                if (!model || ![model isKindOfClass:[MTLModel class]]) model = [self.class modelOfClass:nestedClass fromManagedObject:nestedObject processedObjects:processedObjects error:error];
-                
+                MTLModel *model = [self.class modelOfClass:nestedClass fromManagedObject:nestedObject processedObjects:processedObjects error:error];
 				if (model == nil) return NO;
 
 				return setValueForKey(propertyKey, model);
@@ -419,39 +393,6 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 
 				return nil;
 			}
-            
-			NSManagedObject *managedObject = nil;
-            
-            NSDictionary *userDictionary = @{
-                MTLRelationshipModelTransformerContext: context,
-                MTLRelationshipModelTransfomerModel: model
-            };
-            
-            NSValueTransformer *attributeTransformer = [self relationshipModelTransformerForKey:propertyKey];
-			if (attributeTransformer != nil) managedObject = performInContext(context, ^ id {
-                id transformedValue = [attributeTransformer transformedValue:userDictionary];
-                
-                if ([transformedValue isKindOfClass:[NSManagedObject class]]){
-                    NSEntityDescription *entity = [NSEntityDescription entityForName:entityName inManagedObjectContext:context];
-                    NSAssert(entity != nil, @"Context is does not contain entities for name: %@", entityName);
-                    
-                    if (![transformedValue isKindOfClass:NSClassFromString([entity managedObjectClassName])]) {
-                        [context deleteObject:transformedValue];
-                        return nil;
-                    } else {
-                        return transformedValue;
-                    }
-                }
-                
-                return nil;
-            });
-            
-            if (managedObject) {
-                // Pre-emptively consider this object processed, so that we don't get into
-                // any cycles when processing its relationships.
-                CFDictionaryAddValue(processedObjects, (__bridge void *)model, (__bridge void *)managedObject);
-                return managedObject;
-            }
 
 			return [self.class managedObjectFromModel:model insertingIntoContext:context processedObjects:processedObjects error:error];
 		};
@@ -606,29 +547,6 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 		return [self.modelClass entityAttributeTransformerForKey:key];
 	}
 
-	return nil;
-}
-
-- (NSValueTransformer *)relationshipModelTransformerForKey:(NSString *)key {
-    NSParameterAssert(key != nil);
-    
-    SEL selector = MTLSelectorWithKeyPattern(key, "RelationshipModelTransformer");
-    if ([self.modelClass respondsToSelector:selector]) {
-        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[self.modelClass methodSignatureForSelector:selector]];
-        invocation.target = self.modelClass;
-        invocation.selector = selector;
-        [invocation invoke];
-        
-        __unsafe_unretained id result = nil;
-        [invocation getReturnValue:&result];
-        return result;
-    }
-    
-    
-	if ([self.modelClass respondsToSelector:@selector(relationshipModelTransformerForKey:)]) {
-		return [self.modelClass relationshipModelTransformerForKey:key];
-	}
-    
 	return nil;
 }
 
