@@ -92,6 +92,10 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 // serialization.
 - (NSString *)managedObjectKeyForKey:(NSString *)key;
 
+// Looks at propertyKeysForManagedObjectUniquing and forms an NSPredicate
+// using the uniquing keys and the provided model.
+- (NSPredicate *)uniquingPredicateForModel:(MTLModel<MTLManagedObjectSerializing> *)model;
+
 @end
 
 @implementation MTLManagedObjectAdapter
@@ -301,17 +305,14 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 
 	// If a uniquing predicate is provided, perform a fetch request to guarentee a unique managed object.
 	__block NSManagedObject *managedObject = nil;
-	NSPredicate *uniquingPredicate = nil;
-	if ([model respondsToSelector:@selector(managedObjectUniquingPredicate)]) {
-		uniquingPredicate = model.managedObjectUniquingPredicate;
-	}
+	NSPredicate *uniquingPredicate = [self uniquingPredicateForModel:model];
 
 	if (uniquingPredicate) {
 		managedObject = performInContext(context, ^ id {
 			NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
 			fetchRequest.entity = [NSEntityDescription entityForName:entityName inManagedObjectContext:context];
 			fetchRequest.predicate = uniquingPredicate;
-			fetchRequest.fetchLimit = 20;
+			fetchRequest.fetchLimit = 1;
 
 			NSArray *results = [context executeFetchRequest:fetchRequest error:error];
 
@@ -561,6 +562,25 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 	} else {
 		return managedObjectKey;
 	}
+}
+
+- (NSPredicate *)uniquingPredicateForModel:(MTLModel<MTLManagedObjectSerializing> *)model
+{
+	NSArray *propertyKeys = nil;
+	if ([self.modelClass respondsToSelector:@selector(propertyKeysForManagedObjectUniquing)]) {
+		propertyKeys = [self.modelClass propertyKeysForManagedObjectUniquing];
+	}
+	
+	__block NSPredicate *predicate = nil;
+	[propertyKeys enumerateObjectsUsingBlock:^(id propertyKey, NSUInteger idx, BOOL *stop) {
+		NSString *managedObjectKey = [self managedObjectKeyForKey:propertyKey];
+		if (managedObjectKey) {
+			NSPredicate *subpredicate = [NSPredicate predicateWithFormat:@"%K == %@", managedObjectKey, [model valueForKeyPath:propertyKey]];
+			predicate = [NSCompoundPredicate andPredicateWithSubpredicates:(predicate ? @[predicate, subpredicate] : @[subpredicate])];
+		}
+	}];
+	
+	return predicate;
 }
 
 @end

@@ -42,19 +42,21 @@
 
 @optional
 
-// Specifies an NSPredicate the caller will use to fetch a managed object from
-// our context. This managed object will then be set with all values from the
+// Specifies a set of property keys used by the adaptor to check for an already existing
+// managed object when converting the model to a managed object. The adaptor will
+// first map any keys provided by this method to the correct keys in
+// managedObjectKeysByPropertyKey. The adapator will then perform a fetch request in
+// the provided context for any managed objects that match its managedObjectEntityName
+// and the values set for these property keys on the model.
+//
+// The first managed object returned will then be set with all values from the
 // model being converted to a managed object. If a property value of our model
 // is yet another model which needs to be converted to a managed object, the
 // class for that model can also implement this method to perform its own uniqing.
 //
-// If no managed object is fetched using the NSPredicate, a new one will be created and
-// conversion will continue as normal.
-//
-// NOTE: If a relationshipModelTransformer: is implemented for a property conversion
-// to a relationship then it is up to the transformer to implement it's own uniquing
-// for the conversion.
-- (NSPredicate *)managedObjectUniquingPredicate;
+// An array is used to allow for an array literal declaration, any duplicate properties
+// in the returned array will result in redundant comparisons.
++ (NSArray *)propertyKeysForManagedObjectUniquing;
 
 // Specifies how to convert the given property key to a managed object attribute. If
 // reversible, the transformer will also be used to convert the managed object
