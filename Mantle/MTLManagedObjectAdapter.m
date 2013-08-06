@@ -318,10 +318,10 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 			if (error != NULL && *error != nil) {
 				NSString *failureReason = [NSString stringWithFormat:NSLocalizedString(@"Failed to fetch a managed object for uniqing predicate \"%@\".", @""), uniquingPredicate];
 				
-                NSDictionary *userInfo = @{
-										   NSLocalizedDescriptionKey: NSLocalizedString(@"Could not serialize managed object", @""),
-										   NSLocalizedFailureReasonErrorKey: failureReason,
-										  };
+				NSDictionary *userInfo = @{
+					NSLocalizedDescriptionKey: NSLocalizedString(@"Could not serialize managed object", @""),
+					NSLocalizedFailureReasonErrorKey: failureReason,
+				};
                 
 				*error = [NSError errorWithDomain:MTLManagedObjectAdapterErrorDomain code:MTLManagedObjectAdapterErrorInitializationFailed userInfo:userInfo];
 			}
