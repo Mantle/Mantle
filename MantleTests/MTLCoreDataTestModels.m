@@ -58,3 +58,15 @@
 }
 
 @end
+
+@implementation MTLFailureModel
+
++ (NSDictionary *)managedObjectKeysByPropertyKey {
+	return @{};
+}
+
++ (NSString *)managedObjectEntityName {
+	return @"Empty";
+}
+
+@end
