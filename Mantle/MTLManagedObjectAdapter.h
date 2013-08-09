@@ -58,7 +58,7 @@
 //
 // An array is used to allow for an array literal declaration, any duplicate
 // properties in the returned array will result in redundant comparisons.
-+ (NSArray *)propertyKeysForManagedObjectUniquing;
++ (NSSet *)propertyKeysForManagedObjectUniquing;
 
 // Specifies how to convert the given property key to a managed object
 // attribute. If reversible, the transformer will also be used to convert the

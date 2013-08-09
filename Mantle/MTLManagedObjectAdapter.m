@@ -566,13 +566,13 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 
 - (NSPredicate *)uniquingPredicateForModel:(MTLModel<MTLManagedObjectSerializing> *)model
 {
-	NSArray *propertyKeys = nil;
+	NSSet *propertyKeys = nil;
 	if ([self.modelClass respondsToSelector:@selector(propertyKeysForManagedObjectUniquing)]) {
 		propertyKeys = [self.modelClass propertyKeysForManagedObjectUniquing];
 	}
 	
 	__block NSPredicate *predicate = nil;
-	[propertyKeys enumerateObjectsUsingBlock:^(id propertyKey, NSUInteger idx, BOOL *stop) {
+	[propertyKeys enumerateObjectsUsingBlock:^(id propertyKey, BOOL *stop) {
 		NSString *managedObjectKey = [self managedObjectKeyForKey:propertyKey];
 		if (managedObjectKey) {
 			NSPredicate *subpredicate = [NSPredicate predicateWithFormat:@"%K == %@", managedObjectKey, [model valueForKeyPath:propertyKey]];
