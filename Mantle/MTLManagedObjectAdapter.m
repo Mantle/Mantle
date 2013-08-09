@@ -10,6 +10,7 @@
 #import "EXTScope.h"
 #import "MTLModel.h"
 #import "MTLReflection.h"
+#import "NSArray+MTLManipulationAdditions.h"
 
 NSString * const MTLManagedObjectAdapterErrorDomain = @"MTLManagedObjectAdapterErrorDomain";
 const NSInteger MTLManagedObjectAdapterErrorNoClassFound = 2;
@@ -307,35 +308,43 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 	__block NSManagedObject *managedObject = nil;
 	NSPredicate *uniquingPredicate = [self uniquingPredicateForModel:model];
 
-	if (uniquingPredicate) {
+	if (uniquingPredicate != nil) {
+		__block NSError *fetchRequestError = nil;
 		managedObject = performInContext(context, ^ id {
 			NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
 			fetchRequest.entity = [NSEntityDescription entityForName:entityName inManagedObjectContext:context];
 			fetchRequest.predicate = uniquingPredicate;
+			fetchRequest.returnsObjectsAsFaults = NO;
 			fetchRequest.fetchLimit = 1;
 
-			NSArray *results = [context executeFetchRequest:fetchRequest error:error];
+			NSArray *results = [context executeFetchRequest:fetchRequest error:&fetchRequestError];
 
-			if (error != NULL && *error != nil) {
-				NSString *failureReason = [NSString stringWithFormat:NSLocalizedString(@"Failed to fetch a managed object for uniqing predicate \"%@\".", @""), uniquingPredicate];
+			if (results == nil) {
+				if (error != NULL) {
+					NSString *failureReason = [NSString stringWithFormat:NSLocalizedString(@"Failed to fetch a managed object for uniqing predicate \"%@\".", @""), uniquingPredicate];
+					
+					NSDictionary *userInfo = @{
+						NSLocalizedDescriptionKey: NSLocalizedString(@"Could not serialize managed object", @""),
+						NSLocalizedFailureReasonErrorKey: failureReason,
+						NSUnderlyingErrorKey: NSLocalizedString(@"Could not perform fetch requet for managed object uniquing", @""),
+					};
+					
+					fetchRequestError = [NSError errorWithDomain:MTLManagedObjectAdapterErrorDomain code:MTLManagedObjectAdapterErrorInitializationFailed userInfo:userInfo];
+				}
 				
-				NSDictionary *userInfo = @{
-					NSLocalizedDescriptionKey: NSLocalizedString(@"Could not serialize managed object", @""),
-					NSLocalizedFailureReasonErrorKey: failureReason,
-				};
-                
-				*error = [NSError errorWithDomain:MTLManagedObjectAdapterErrorDomain code:MTLManagedObjectAdapterErrorInitializationFailed userInfo:userInfo];
+				return nil;
 			}
 
-			if (results && results.count > 0) return [results objectAtIndex:0];
-
-			return nil;
+			return results.mtl_firstObject;
 		});
 
-		if (error != NULL && *error != nil) return nil;
+		if (error != NULL && fetchRequestError != nil) {
+			*error = fetchRequestError;
+			return nil;
+		}
 	}
 
-	if (!managedObject) managedObject = [entityDescriptionClass insertNewObjectForEntityForName:entityName inManagedObjectContext:context];
+	if (managedObject == nil) managedObject = [entityDescriptionClass insertNewObjectForEntityForName:entityName inManagedObjectContext:context];
 
 	if (managedObject == nil) {
 		if (error != NULL) {
@@ -564,21 +573,20 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 	}
 }
 
-- (NSPredicate *)uniquingPredicateForModel:(MTLModel<MTLManagedObjectSerializing> *)model
-{
+- (NSPredicate *)uniquingPredicateForModel:(MTLModel<MTLManagedObjectSerializing> *)model {
 	NSSet *propertyKeys = nil;
 	if ([self.modelClass respondsToSelector:@selector(propertyKeysForManagedObjectUniquing)]) {
 		propertyKeys = [self.modelClass propertyKeysForManagedObjectUniquing];
 	}
 	
-	__block NSPredicate *predicate = nil;
-	[propertyKeys enumerateObjectsUsingBlock:^(id propertyKey, BOOL *stop) {
+	NSPredicate *predicate = nil;
+	for (NSString *propertyKey in propertyKeys) {
 		NSString *managedObjectKey = [self managedObjectKeyForKey:propertyKey];
 		if (managedObjectKey) {
 			NSPredicate *subpredicate = [NSPredicate predicateWithFormat:@"%K == %@", managedObjectKey, [model valueForKeyPath:propertyKey]];
 			predicate = [NSCompoundPredicate andPredicateWithSubpredicates:(predicate ? @[predicate, subpredicate] : @[subpredicate])];
 		}
-	}];
+	}
 	
 	return predicate;
 }

@@ -43,21 +43,34 @@
 @optional
 
 // Specifies a set of property keys used by the adaptor to check for an already
-// existing managed object when converting the model to a managed object. The
-// adaptor will first map any keys provided by this method to the correct keys
-// in managedObjectKeysByPropertyKey. The adapator will then perform a fetch
-// request in the provided context for any managed objects that match its
-// managedObjectEntityName and the values set for these property keys on the
-// model.
+// existing managed object when converting the MTLModel to its related
+// NSManagedObject.
 //
-// The first managed object returned will then be set with all values from the
-// model being converted to a managed object. If a property value of our model
-// is yet another model which needs to be converted to a managed object, the
-// class for that model can also implement this method to perform its own
-// uniqing.
+// The adaptor will first map any keys provided by this method to the correct
+// keys in managedObjectKeysByPropertyKey.
 //
-// An array is used to allow for an array literal declaration, any duplicate
-// properties in the returned array will result in redundant comparisons.
+// The adapator will then perform a fetch request in the provided context for
+// a managed object that matches the MTLModel's managedObjectEntityName and
+// has equal values set for the property keys on the MTLModel.
+//
+// The managed object returned by the fetch request will then be set with all
+// values from the MTLModel that the managed object is being converted from.
+//
+// If a property value of our MTLModel is yet another MTLModel which needs to be
+// converted to a managed object, the class for that MTLModel can also implement
+// this method to perform its own uniqing.
+//
+// For example:
+// 1. An MTLModel subclass has id_number = 10.
+// 2. An NSManagedObject accessible to the adaptor's context has idnumber = 10.
+// 3. managedObjectKeysByPropertyKey returns @{@"id_number" : @"idnumber"}
+// 4. propertyKeysForManagedObjectUniquing returns
+//    [NSSet setWithObject:@"id_number"];
+// 5. Then our fetch request may return this managed object (or another managed
+//    object with idnumber = 10).
+//
+// NOTE: If multiple managed objects follow the same uniquing criteria only one
+// of them will be set with our MTLModel's values.
 + (NSSet *)propertyKeysForManagedObjectUniquing;
 
 // Specifies how to convert the given property key to a managed object
