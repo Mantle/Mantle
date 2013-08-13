@@ -85,7 +85,6 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 				NSAssert([JSONDictionary isKindOfClass:NSDictionary.class], @"Expected a dictionary or an NSNull, got: %@", JSONDictionary);
 
 				id model = [dictionaryTransformer transformedValue:JSONDictionary];
-
 				if (model == nil) continue;
 
 				[models addObject:model];
