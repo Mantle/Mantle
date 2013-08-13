@@ -68,12 +68,6 @@ describe(@"JSON transformers", ^{
 			expect([transformer transformedValue:JSONDictionary]).to.equal(model);
 		});
 
-		it(@"should error when given a null", ^{
-			expect(^{
-				[transformer transformedValue:NSNull.null];
-			}).to.raise(NSInternalInconsistencyException);
-		});
-
 		it(@"should transform a model into a JSON dictionary", ^{
 			expect([transformer.class allowsReverseTransformation]).to.beTruthy();
 			expect([transformer reverseTransformedValue:model]).to.equal(JSONDictionary);
