@@ -44,6 +44,11 @@
 	return @"Child";
 }
 
++ (NSSet *)propertyKeysForManagedObjectUniquing
+{
+    return [NSSet setWithObjects:@"childID", nil];
+}
+
 + (NSDictionary *)managedObjectKeysByPropertyKey {
 	return @{
 		@"childID": @"id"
