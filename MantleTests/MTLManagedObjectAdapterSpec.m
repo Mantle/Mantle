@@ -50,7 +50,7 @@ describe(@"with a confined context", ^{
 
 		beforeEach(^{
 			date = [NSDate date];
-			numberString = @"1234";
+			numberString = @"123";
 			requiredString = @"foobar";
 
 			parent = [[NSManagedObject alloc] initWithEntity:parentEntity insertIntoManagedObjectContext:context];
@@ -214,7 +214,7 @@ describe(@"with a confined context", ^{
 		beforeEach(^{
             // Save our managed objects.
 			date = [NSDate date];
-			numberString = @"1234";
+			numberString = @"12345";
 			requiredString = @"foobar";
             
 			parent = [[NSManagedObject alloc] initWithEntity:parentEntity insertIntoManagedObjectContext:context];
@@ -249,7 +249,7 @@ describe(@"with a confined context", ^{
 			// Create our models that will be converted to managed objects.
 			parentModel = [MTLParentTestModel modelWithDictionary:@{
                            @"date": date,
-                           @"numberString": @"1234",
+                           @"numberString": @"12345",
                            @"requiredString": @"foobar"
                            } error:NULL];
 			expect(parentModel).notTo.beNil();
@@ -290,7 +290,7 @@ describe(@"with a confined context", ^{
 			expect(newParent.entity).to.equal(parentEntity);
 			expect(context.insertedObjects).to.contain(newParent);
 			
-			expect([newParent objectID]).notTo.equal([parent objectID]);
+			expect([newParent objectID]).to.equal([parent objectID]);
 			expect([newParent valueForKey:@"date"]).to.equal([parent valueForKey:@"date"]);
 			expect([newParent valueForKey:@"number"]).to.equal([parent valueForKey:@"number"]);
 			expect([newParent valueForKey:@"string"]).to.equal([parent valueForKey:@"string"]);
@@ -336,7 +336,7 @@ describe(@"with a confined context", ^{
 				expect([child valueForKey:@"parent1"]).to.equal(newParent);
 				expect([child valueForKey:@"parent2"]).to.beNil();
 				
-				expect([unorderedChildren containsObject:child]).to.beTruthy();
+				expect([newUnorderedChildren containsObject:child]).to.beTruthy();
 			}
 			
 			expect([context save:&error]).to.beTruthy();
