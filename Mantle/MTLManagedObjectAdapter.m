@@ -326,7 +326,6 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 					NSDictionary *userInfo = @{
 						NSLocalizedDescriptionKey: NSLocalizedString(@"Could not serialize managed object", @""),
 						NSLocalizedFailureReasonErrorKey: failureReason,
-						NSUnderlyingErrorKey: NSLocalizedString(@"Could not perform fetch requet for managed object uniquing", @""),
 					};
 					
 					fetchRequestError = [NSError errorWithDomain:MTLManagedObjectAdapterErrorDomain code:MTLManagedObjectAdapterErrorInitializationFailed userInfo:userInfo];
