@@ -93,8 +93,8 @@ describe(@"with a confined context", ^{
 			expect(parentModel.numberString).to.equal(numberString);
 			expect(parentModel.requiredString).to.equal(requiredString);
 
-			expect(parentModel.orderedChildren.count).to.equal(3);
-			expect(parentModel.unorderedChildren.count).to.equal(3);
+			expect(parentModel.orderedChildren).to.haveCountOf(3);
+			expect(parentModel.unorderedChildren).to.haveCountOf(3);
 
 			for (NSUInteger i = 0; i < 3; i++) {
 				MTLChildTestModel *child = parentModel.orderedChildren[i];
@@ -170,11 +170,11 @@ describe(@"with a confined context", ^{
 
 			NSOrderedSet *orderedChildren = [parent valueForKey:@"orderedChildren"];
 			expect(orderedChildren).notTo.beNil();
-			expect(orderedChildren.count).to.equal(3);
+			expect(orderedChildren).to.haveCountOf(3);
 
 			NSSet *unorderedChildren = [parent valueForKey:@"unorderedChildren"];
 			expect(unorderedChildren).notTo.beNil();
-			expect(unorderedChildren.count).to.equal(3);
+			expect(unorderedChildren).to.haveCountOf(3);
 
 			for (NSUInteger i = 0; i < 3; i++) {
 				NSManagedObject *child = orderedChildren[i];
@@ -295,21 +295,21 @@ describe(@"with a confined context", ^{
 			expect([newParent valueForKey:@"number"]).to.equal([parent valueForKey:@"number"]);
 			expect([newParent valueForKey:@"string"]).to.equal([parent valueForKey:@"string"]);
 			
-            NSOrderedSet *orderedChildren = [parent valueForKey:@"orderedChildren"];
+			NSOrderedSet *orderedChildren = [parent valueForKey:@"orderedChildren"];
 			expect(orderedChildren).notTo.beNil();
-			expect(orderedChildren.count).to.equal(3);
+			expect(orderedChildren).to.haveCountOf(3);
 			
 			NSOrderedSet *newOrderedChildren = [newParent valueForKey:@"orderedChildren"];
 			expect(newOrderedChildren).notTo.beNil();
-			expect(newOrderedChildren.count).to.equal(3);
+			expect(newOrderedChildren).to.haveCountOf(3);
 			
-            NSSet *unorderedChildren = [parent valueForKey:@"unorderedChildren"];
+			NSSet *unorderedChildren = [parent valueForKey:@"unorderedChildren"];
 			expect(unorderedChildren).notTo.beNil();
-			expect(unorderedChildren.count).to.equal(3);
+			expect(unorderedChildren).to.haveCountOf(3);
 			
 			NSSet *newUnorderedChildren = [newParent valueForKey:@"unorderedChildren"];
 			expect(newUnorderedChildren).notTo.beNil();
-			expect(newUnorderedChildren.count).to.equal(3);
+			expect(newUnorderedChildren).to.haveCountOf(3);
 			
 			for (NSUInteger i = 0; i < 3; i++) {
 				NSManagedObject *child = orderedChildren[i];
