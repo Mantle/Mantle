@@ -288,14 +288,14 @@ describe(@"with a confined context", ^{
 			expect(error).to.beNil();
 			
 			expect(newParent.entity).to.equal(parentEntity);
-			expect(context.insertedObjects).to.contain(newParent);
+			expect(context.insertedObjects).notTo.contain(newParent);
 			
 			expect([newParent objectID]).to.equal([parent objectID]);
 			expect([newParent valueForKey:@"date"]).to.equal([parent valueForKey:@"date"]);
 			expect([newParent valueForKey:@"number"]).to.equal([parent valueForKey:@"number"]);
 			expect([newParent valueForKey:@"string"]).to.equal([parent valueForKey:@"string"]);
 			
-			NSOrderedSet *orderedChildren = [parent valueForKey:@"orderedChildren"];
+            NSOrderedSet *orderedChildren = [parent valueForKey:@"orderedChildren"];
 			expect(orderedChildren).notTo.beNil();
 			expect(orderedChildren.count).to.equal(3);
 			
@@ -303,7 +303,7 @@ describe(@"with a confined context", ^{
 			expect(newOrderedChildren).notTo.beNil();
 			expect(newOrderedChildren.count).to.equal(3);
 			
-			NSSet *unorderedChildren = [parent valueForKey:@"unorderedChildren"];
+            NSSet *unorderedChildren = [parent valueForKey:@"unorderedChildren"];
 			expect(unorderedChildren).notTo.beNil();
 			expect(unorderedChildren.count).to.equal(3);
 			
@@ -315,7 +315,7 @@ describe(@"with a confined context", ^{
 				NSManagedObject *child = orderedChildren[i];
 				NSManagedObject *newChild = newOrderedChildren[i];
 				expect(newChild.entity).to.equal(childEntity);
-				expect(context.insertedObjects).to.contain(newChild);
+				expect(context.insertedObjects).notTo.contain(newChild);
 				
 				expect([[newChild valueForKey:@"id"] unsignedIntegerValue]).to.equal(i);
 				expect([newChild valueForKey:@"parent1"]).to.beNil();
@@ -327,7 +327,7 @@ describe(@"with a confined context", ^{
 			
 			for (NSManagedObject *child in unorderedChildren) {
 				expect(child.entity).to.equal(childEntity);
-				expect(context.insertedObjects).to.contain(child);
+				expect(context.insertedObjects).notTo.contain(child);
 				
 				NSUInteger childID = [[child valueForKey:@"id"] unsignedIntegerValue];
 				expect(childID).to.beGreaterThanOrEqualTo(3);
