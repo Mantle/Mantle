@@ -212,7 +212,7 @@ describe(@"with a confined context", ^{
 		__block NSString *requiredString;
         
 		beforeEach(^{
-            // Save our managed objects.
+			// Save our managed objects
 			date = [NSDate date];
 			numberString = @"12345";
 			requiredString = @"foobar";
@@ -248,10 +248,10 @@ describe(@"with a confined context", ^{
 			
 			// Create our models that will be converted to managed objects.
 			parentModel = [MTLParentTestModel modelWithDictionary:@{
-                           @"date": date,
-                           @"numberString": @"12345",
-                           @"requiredString": @"foobar"
-                           } error:NULL];
+                        	@"date": date,
+                        	@"numberString": @"12345",
+                        	@"requiredString": @"foobar"
+                        } error:NULL];
 			expect(parentModel).notTo.beNil();
             
 			NSMutableArray *orderedChildren = [NSMutableArray array];
@@ -259,9 +259,9 @@ describe(@"with a confined context", ^{
             
 			for (NSUInteger i = 0; i < 3; i++) {
 				MTLChildTestModel *child = [MTLChildTestModel modelWithDictionary:@{
-                                            @"childID": @(i),
-                                            @"parent2": parentModel
-                                            } error:NULL];
+                                	@"childID": @(i),
+                                	@"parent2": parentModel
+                                } error:NULL];
 				expect(child).notTo.beNil();
                 
 				[orderedChildren addObject:child];
@@ -269,9 +269,9 @@ describe(@"with a confined context", ^{
             
 			for (NSUInteger i = 3; i < 6; i++) {
 				MTLChildTestModel *child = [MTLChildTestModel modelWithDictionary:@{
-                                            @"childID": @(i),
-                                            @"parent1": parentModel
-                                            } error:NULL];
+                                	@"childID": @(i),
+                                	@"parent1": parentModel
+                                } error:NULL];
 				expect(child).notTo.beNil();
                 
 				[unorderedChildren addObject:child];
