@@ -276,6 +276,48 @@ JSONDictionaryFromModel:]` can transform any model object conforming to
 archival. When unarchiving, `-decodeValueForKey:withCoder:modelVersion:` will
 be invoked if overridden, giving you a convenient hook to upgrade old data.
 
+## MTLJSONSerializing
+
+In order to serialize your model objects from or into JSON, you need to
+implement `<MTLJSONSerializing>` in your `MTLModel` subclass.
+
+- `+JSONKeyPathsByPropertyKey`  
+  The dictionary returned by this method specifies how your model objects
+  properties map to the keys in the JSON representation.
+  Properties that map to `NSNull` will not be present in the JSON
+  representation.  
+  Similarly, JSON keys that don't have a mapping are ignored when deserializing
+  JSON using `+[MTLJSONAdapter modelOfClass:fromJSONDictionary:error:]`.
+
+- `+JSONTransformerForKey:`  
+  Implement this optional method if one of the properties needs to be converted
+  before deserializing the model object from JSON. For example, dates that are
+  commonly represented as strings in JSON can be transformed to `NSDate`s like
+  in the example above.  
+  If the transformer is reversible, it will also be used when serializing the
+  object into JSON.  
+  For added convenience, if you implement `+<key>JSONTransformer`,
+  MTLJSONAdapter will use the result of that method instead.
+
+- `+classForParsingJSONDictionary:`  
+  If you are implementing a class cluster, implement this optional method to
+  determine which subclass of your abstract base class should be used when
+  deserializing an object from JSON.
+
+Once the necessary methods are implemented, you can use `MTLJSONAdapter` to
+convert your model objects from JSON and back:
+
+```objective-c
+NSError *error = nil;
+GHIssue *issue = [MTLJSONAdapter modelOfClass:GHIssue.class
+                           fromJSONDictionary:JSONDictionary
+                                        error:&error];
+```
+
+```objective-c
+NSDictionary *JSONDictionary = [MTLJSONAdapter JSONDictionaryFromModel:issue];
+```
+
 ## Persistence
 
 Mantle doesn't automatically persist your objects for you. However, `MTLModel`
