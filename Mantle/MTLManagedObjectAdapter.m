@@ -326,7 +326,6 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 					NSDictionary *userInfo = @{
 						NSLocalizedDescriptionKey: NSLocalizedString(@"Could not serialize managed object", @""),
 						NSLocalizedFailureReasonErrorKey: failureReason,
-						NSUnderlyingErrorKey: NSLocalizedString(@"Could not perform fetch requet for managed object uniquing", @""),
 					};
 					
 					fetchRequestError = [NSError errorWithDomain:MTLManagedObjectAdapterErrorDomain code:MTLManagedObjectAdapterErrorInitializationFailed userInfo:userInfo];
@@ -582,7 +581,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 	NSPredicate *predicate = nil;
 	for (NSString *propertyKey in propertyKeys) {
 		NSString *managedObjectKey = [self managedObjectKeyForKey:propertyKey];
-		if (managedObjectKey) {
+		if (managedObjectKey != nil) {
 			id transformedValue = [model valueForKeyPath:propertyKey];
 			
 			NSValueTransformer *attributeTransformer = [self entityAttributeTransformerForKey:propertyKey];
