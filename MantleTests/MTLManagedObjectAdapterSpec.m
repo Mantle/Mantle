@@ -281,7 +281,7 @@ describe(@"with a confined context", ^{
 			parentModel.unorderedChildren = unorderedChildren;
 		});
         
-		it(@"should insert a parent managed object but fetch unique child manage objects that already have been saved", ^{
+		it(@"should fetch a unique parent managed object using numberString to maintain uniqueness", ^{
 			__block NSError *error = nil;
 			NSManagedObject *newParent = [MTLManagedObjectAdapter managedObjectFromModel:parentModel insertingIntoContext:context error:&error];
 			expect(newParent).notTo.beNil();
