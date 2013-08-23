@@ -588,7 +588,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 			NSValueTransformer *attributeTransformer = [self entityAttributeTransformerForKey:propertyKey];
 			if (attributeTransformer != nil) transformedValue = [attributeTransformer transformedValue:transformedValue];
 			
-			NSPredicate *subpredicate = [NSPredicate predicateWithFormat:@"%K == %@", managedObjectKey, [model valueForKeyPath:propertyKey]];
+			NSPredicate *subpredicate = [NSPredicate predicateWithFormat:@"%K == %@", managedObjectKey, transformedValue];
 			predicate = [NSCompoundPredicate andPredicateWithSubpredicates:(predicate ? @[predicate, subpredicate] : @[subpredicate])];
 		}
 	}
