@@ -285,23 +285,91 @@ implement `<MTLJSONSerializing>` in your `MTLModel` subclass.
 
 The dictionary returned by this method specifies how your model objects
 properties map to the keys in the JSON representation. Properties that map to
-`NSNull` will not be present in the JSON representation.
+`NSNull` will not be present in the JSON representation, for example:
+
+```objc
+
+@interface XYUser : XYEntity
+
+@property (readwrite, strong) NSString *name;
+@property (readwrite, strong) NSDate *createdAt;
+
+@property (readwrite, assign, getter = isMeUser) BOOL meUser;
+
+@end
+
+@implementation XYUser
+
++ (NSDictionary *)JSONKeyPathsByPropertyKey {
+    return [super.JSONKeyPathsByPropertyKey mtl_dictionaryByAddingEntriesFromDictionary:@{
+        @"createdAt": @"created_at",
+        @"meUser": NSNull.null
+    }];
+}
+
+@end
+```
+
+In this example, the `XYUser` class declares three properties that Mantle
+handles in different ways. `name` is mapped directly to a key of the same name
+in the JSON representation. `createdAt` is converted to its snake case
+equivalent. `meUser` is not serialized into JSON.  
+Note that the superclass' implementation of `+JSONKeyPathsByPropertyKey` is
+invoked and `XYUser`'s properties are merged into its return value using the
+`-mtl_dictionaryByAddingEntriesFromDictionary:` category method.
 
 Similarly, JSON keys that don't have a mapping are ignored when deserializing
-JSON using `+[MTLJSONAdapter modelOfClass:fromJSONDictionary:error:]`.
+JSON using `+[MTLJSONAdapter modelOfClass:fromJSONDictionary:error:]`:
+
+```objc
+NSDictionary *JSONDictionary = @{
+    @"id": @123,
+    @"name": @"john",
+    @"created_at": @"2013/07/02 16:40:00 +0000",
+    @"plan": @"lite"
+};
+
+XYUser *user = [MTLJSONAdapter modelOfClass:XYUser.class fromJSONDictionary:JSONDictionary error:&error];
+```
+
+Here, `@"id"` would most likely be handled by the superclass `XYEntity` and the
+`plan` would be ignored since it neither matches a property name of `XYUser` nor
+is it otherwise mapped in `+JSONKeyPathsByPropertyKey`.
 
 ### `+JSONTransformerForKey:`
 
 Implement this optional method if one of the properties needs to be converted
-before deserializing the model object from JSON. For example, dates that are
-commonly represented as strings in JSON can be transformed to `NSDate`s like in
-the example above.
+before deserializing the model object from JSON.
+
+```
++ (NSValueTransformer *)JSONTransformerForKey:(NSString *)key
+{
+    if ([key isEqualToString:@"avatarURL"]) {
+        return [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
+    }
+
+    return nil;
+}
+```
+
+For added convenience, if you implement `+<key>JSONTransformer`, MTLJSONAdapter
+will use the result of that method instead. For example, dates that are commonly
+represented as strings in JSON can be transformed to `NSDate`s like so:
+
+```objc
++ (NSValueTransformer *)createdAtJSONTransformer
+{
+    return [MTLValueTransformer reversibleTransformerWithForwardBlock:^(NSString *str) {
+        // Date formatters are expensive and should be shared
+        return [self.dateFormatter dateFromString:str];
+    } reverseBlock:^(NSDate *date) {
+        return [self.dateFormatter stringFromDate:date];
+    }];
+}
+```
 
 If the transformer is reversible, it will also be used when serializing the
 object into JSON.
-
-For added convenience, if you implement `+<key>JSONTransformer`, MTLJSONAdapter
-will use the result of that method instead.
 
 ### `+classForParsingJSONDictionary:`
 
@@ -309,16 +377,66 @@ If you are implementing a class cluster, implement this optional method to
 determine which subclass of your abstract base class should be used when
 deserializing an object from JSON.
 
-Once the necessary methods are implemented, you can use `MTLJSONAdapter` to
-convert your model objects from JSON and back:
+```objc
+@interface XYMessage : XYEntity
+
+@property (readonly, copy) NSString *body;
+
+@end
+
+@interface XYPictureMessage : XYMessage
+
+@property (readonly, strong) NSURL *imageURL;
+
+@end
+
+@implementation XYMessage
+
++ (Class)classForParsingJSONDictionary:(NSDictionary *)JSONDictionary
+{
+    if (JSONDictionary[@"image_url"] != nil) {
+        return XYPictureMessage.class;
+    }
+
+    return self;
+}
+
+@end
+```
+
+`MTLJSONAdapter` will then pick the class based on the JSON dictionary you pass
+in:
+
+```
+NSDictionary *textMessage = @{
+    @"id": @1,
+    @"body": @"Hello World!"
+};
+
+NSDictionary *pictureMessage = @{
+    @"id": @2,
+    @"body": @"Hello World!"
+    @"image_url": @"http://example.com/lolcat.gif"
+};
+
+XYMessage *messageA = [MTLJSONAdapter modelOfClass:XYMessage.class fromJSONDictionary:textMessage error:NULL];
+XYMessage *messageB = [MTLJSONAdapter modelOfClass:XYMessage.class fromJSONDictionary:pictureMessage error:NULL];
+
+messageA.class; // XYMessage
+messageB.class; // XYPictureMessage
+```
+
+### MTLJSONAdapter
+
+To convert your model objects from JSON and back, use `MTLJSONAdapter`:
 
 ```objective-c
 NSError *error = nil;
-GHIssue *issue = [MTLJSONAdapter modelOfClass:GHIssue.class fromJSONDictionary:JSONDictionary error:&error];
+XYUser *user = [MTLJSONAdapter modelOfClass:XYUser.class fromJSONDictionary:JSONDictionary error:&error];
 ```
 
 ```objective-c
-NSDictionary *JSONDictionary = [MTLJSONAdapter JSONDictionaryFromModel:issue];
+NSDictionary *JSONDictionary = [MTLJSONAdapter JSONDictionaryFromModel:user];
 ```
 
 ## Persistence
