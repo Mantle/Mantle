@@ -9,6 +9,7 @@
 #import "MTLJSONAdapter.h"
 #import "MTLModel.h"
 #import "MTLReflection.h"
+#import <objc/runtime.h>
 
 NSString * const MTLJSONAdapterErrorDomain = @"MTLJSONAdapterErrorDomain";
 const NSInteger MTLJSONAdapterErrorNoClassFound = 2;
@@ -196,26 +197,40 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	return JSONDictionary;
 }
 
+char *MTLJSONAdapterCachedTransformersKey;
 - (NSValueTransformer *)JSONTransformerForKey:(NSString *)key {
 	NSParameterAssert(key != nil);
 
-	SEL selector = MTLSelectorWithKeyPattern(key, "JSONTransformer");
-	if ([self.modelClass respondsToSelector:selector]) {
-		NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[self.modelClass methodSignatureForSelector:selector]];
-		invocation.target = self.modelClass;
-		invocation.selector = selector;
-		[invocation invoke];
+	// Query cached transformers.
+    NSDictionary *transformerCache = objc_getAssociatedObject(self.modelClass, &MTLJSONAdapterCachedTransformersKey);
 
-		__unsafe_unretained id result = nil;
-		[invocation getReturnValue:&result];
-		return result;
+    id transformer = transformerCache[key];
+	if (!transformer) {
+		SEL selector = MTLSelectorWithKeyPattern(key, "JSONTransformer");
+		if ([self.modelClass respondsToSelector:selector]) {
+			NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[self.modelClass methodSignatureForSelector:selector]];
+			invocation.target = self.modelClass;
+			invocation.selector = selector;
+			[invocation invoke];
+
+			__unsafe_unretained id result = nil;
+			[invocation getReturnValue:&result];
+			transformer = result;
+		}
+
+		if (!transformer && [self.modelClass respondsToSelector:@selector(JSONTransformerForKey:)]) {
+			transformer = [self.modelClass JSONTransformerForKey:key];
+		}
+
+		// Update cache
+		if (transformer) {
+			NSMutableDictionary *mutableTransformerCache = [NSMutableDictionary dictionaryWithDictionary:transformerCache];
+			mutableTransformerCache[key] = transformer;
+			objc_setAssociatedObject(self.modelClass, &MTLJSONAdapterCachedTransformersKey, mutableTransformerCache, OBJC_ASSOCIATION_COPY);
+		}
 	}
 
-	if ([self.modelClass respondsToSelector:@selector(JSONTransformerForKey:)]) {
-		return [self.modelClass JSONTransformerForKey:key];
-	}
-
-	return nil;
+	return transformer;
 }
 
 - (NSString *)JSONKeyPathForKey:(NSString *)key {

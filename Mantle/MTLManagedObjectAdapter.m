@@ -10,6 +10,7 @@
 #import "EXTScope.h"
 #import "MTLModel.h"
 #import "MTLReflection.h"
+#import <objc/runtime.h>
 
 NSString * const MTLManagedObjectAdapterErrorDomain = @"MTLManagedObjectAdapterErrorDomain";
 const NSInteger MTLManagedObjectAdapterErrorNoClassFound = 2;
@@ -177,7 +178,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 					for (NSManagedObject *nestedObject in relationshipCollection) {
 						MTLModel *model = [self.class modelOfClass:nestedClass fromManagedObject:nestedObject processedObjects:processedObjects error:error];
 						if (model == nil) return nil;
-						
+
 						[models addObject:model];
 					}
 
@@ -440,7 +441,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 				return NO;
 			}
 		};
-		
+
 		if (!serializeProperty(managedObjectProperties[managedObjectKey])) {
 			performInContext(context, ^ id {
 				[context deleteObject:managedObject];
@@ -492,34 +493,48 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 	return [adapter managedObjectFromModel:model insertingIntoContext:context processedObjects:processedObjects error:error];
 }
 
+char *MTLManagedObjectAdapterCachedTransformersKey;
 - (NSValueTransformer *)entityAttributeTransformerForKey:(NSString *)key {
 	NSParameterAssert(key != nil);
 
-	SEL selector = MTLSelectorWithKeyPattern(key, "EntityAttributeTransformer");
-	if ([self.modelClass respondsToSelector:selector]) {
-		NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[self.modelClass methodSignatureForSelector:selector]];
-		invocation.target = self.modelClass;
-		invocation.selector = selector;
-		[invocation invoke];
+	// Query cached transformers.
+    NSDictionary *transformerCache = objc_getAssociatedObject(self.modelClass, &MTLManagedObjectAdapterCachedTransformersKey);
 
-		__unsafe_unretained id result = nil;
-		[invocation getReturnValue:&result];
-		return result;
+	id transformer = transformerCache[key];
+	if (!transformer) {
+		SEL selector = MTLSelectorWithKeyPattern(key, "EntityAttributeTransformer");
+		if ([self.modelClass respondsToSelector:selector]) {
+			NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[self.modelClass methodSignatureForSelector:selector]];
+			invocation.target = self.modelClass;
+			invocation.selector = selector;
+			[invocation invoke];
+
+			__unsafe_unretained id result = nil;
+			[invocation getReturnValue:&result];
+			transformer = result;
+		}
+
+		if (!transformer && [self.modelClass respondsToSelector:@selector(entityAttributeTransformerForKey:)]) {
+			transformer = [self.modelClass entityAttributeTransformerForKey:key];
+		}
+
+		// Update cache
+		if (transformer) {
+			NSMutableDictionary *mutableTransformerCache = [NSMutableDictionary dictionaryWithDictionary:transformerCache];
+			mutableTransformerCache[key] = transformer;
+			objc_setAssociatedObject(self.modelClass, &MTLManagedObjectAdapterCachedTransformersKey, mutableTransformerCache, OBJC_ASSOCIATION_COPY);
+		}
 	}
-
-	if ([self.modelClass respondsToSelector:@selector(entityAttributeTransformerForKey:)]) {
-		return [self.modelClass entityAttributeTransformerForKey:key];
-	}
-
-	return nil;
+	
+	return transformer;
 }
 
 - (NSString *)managedObjectKeyForKey:(NSString *)key {
 	NSParameterAssert(key != nil);
-
+	
 	id managedObjectKey = self.managedObjectKeysByPropertyKey[key];
 	if ([managedObjectKey isEqual:NSNull.null]) return nil;
-
+	
 	if (managedObjectKey == nil) {
 		return key;
 	} else {

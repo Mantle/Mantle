@@ -35,6 +35,31 @@ it(@"should initialize from JSON", ^{
 	expect(adapter.JSONDictionary).to.equal(JSONDictionary);
 });
 
+it(@"should initialize from JSON using the transformer cache", ^{
+	NSDictionary *values = @{
+							 @"username": NSNull.null,
+							 @"count": @"5",
+							 };
+
+	NSError *error = nil;
+	MTLJSONAdapter *adapter = [[MTLJSONAdapter alloc] initWithJSONDictionary:values modelClass:MTLTestModel.class error:&error];
+	expect(adapter).notTo.beNil();
+	expect(error).to.beNil();
+
+	MTLTestModel *model = (id)adapter.model;
+	expect(model).notTo.beNil();
+	expect(model.name).to.beNil();
+	expect(model.count).to.equal(5);
+
+	NSDictionary *JSONDictionary = @{
+									 @"username": NSNull.null,
+									 @"count": @"5",
+									 @"nested": @{ @"name": NSNull.null },
+									 };
+
+	expect(adapter.JSONDictionary).to.equal(JSONDictionary);
+});
+
 it(@"should initialize from a model", ^{
 	MTLTestModel *model = [MTLTestModel modelWithDictionary:@{
 		@"name": @"foobar",
