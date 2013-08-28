@@ -318,8 +318,8 @@ Note that the superclass's implementation of `+JSONKeyPathsByPropertyKey` is
 invoked and `XYUser`'s properties are merged into its return value using the
 `-mtl_dictionaryByAddingEntriesFromDictionary:` category method.
 
-Similarly, JSON keys that don't have a mapping are ignored when deserializing
-JSON using `+[MTLJSONAdapter modelOfClass:fromJSONDictionary:error:]`:
+JSON keys that don't have a mapping are ignored when deserializing JSON using
+`+[MTLJSONAdapter modelOfClass:fromJSONDictionary:error:]`:
 
 ```objc
 NSDictionary *JSONDictionary = @{
@@ -352,9 +352,10 @@ before deserializing the model object from JSON.
 }
 ```
 
-For added convenience, if you implement `+<key>JSONTransformer`, MTLJSONAdapter
-will use the result of that method instead. For example, dates that are commonly
-represented as strings in JSON can be transformed to `NSDate`s like so:
+For added convenience, if you implement `+<key>JSONTransformer`,
+`MTLJSONAdapter` will use the result of that method instead. For example, dates
+that are commonly represented as strings in JSON can be transformed to `NSDate`s
+like so:
 
 ```objc
 + (NSValueTransformer *)createdAtJSONTransformer
@@ -374,8 +375,8 @@ object into JSON.
 ### `+classForParsingJSONDictionary:`
 
 If you are implementing a class cluster, implement this optional method to
-determine which subclass of your abstract base class should be used when
-deserializing an object from JSON.
+determine which subclass of your base class should be used when deserializing an
+object from JSON.
 
 ```objc
 @interface XYMessage : XYEntity
@@ -407,7 +408,7 @@ deserializing an object from JSON.
 `MTLJSONAdapter` will then pick the class based on the JSON dictionary you pass
 in:
 
-```
+```objc
 NSDictionary *textMessage = @{
     @"id": @1,
     @"body": @"Hello World!"
@@ -430,12 +431,12 @@ messageB.class; // XYPictureMessage
 
 To convert your model objects from JSON and back, use `MTLJSONAdapter`:
 
-```objective-c
+```objc
 NSError *error = nil;
 XYUser *user = [MTLJSONAdapter modelOfClass:XYUser.class fromJSONDictionary:JSONDictionary error:&error];
 ```
 
-```objective-c
+```objc
 NSDictionary *JSONDictionary = [MTLJSONAdapter JSONDictionaryFromModel:user];
 ```
 
