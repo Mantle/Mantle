@@ -27,3 +27,10 @@ typedef id (^MTLValueTransformerBlock)(id);
 + (instancetype)reversibleTransformerWithForwardBlock:(MTLValueTransformerBlock)forwardBlock reverseBlock:(MTLValueTransformerBlock)reverseBlock;
 
 @end
+
+//
+// Any MTLValueTransformer supporting reverse transformation. Necessary because
+// +allowsReverseTransformation is a class method.
+//
+@interface MTLReversibleValueTransformer : MTLValueTransformer
+@end
