@@ -342,8 +342,7 @@ Implement this optional method if one of the properties needs to be converted
 before deserializing the model object from JSON.
 
 ```
-+ (NSValueTransformer *)JSONTransformerForKey:(NSString *)key
-{
++ (NSValueTransformer *)JSONTransformerForKey:(NSString *)key {
     if ([key isEqualToString:@"avatarURL"]) {
         return [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
     }
@@ -358,8 +357,7 @@ that are commonly represented as strings in JSON can be transformed to `NSDate`s
 like so:
 
 ```objc
-+ (NSValueTransformer *)createdAtJSONTransformer
-{
++ (NSValueTransformer *)createdAtJSONTransformer {
     return [MTLValueTransformer reversibleTransformerWithForwardBlock:^(NSString *str) {
         // Date formatters are expensive and should be shared
         return [self.dateFormatter dateFromString:str];
@@ -393,8 +391,7 @@ object from JSON.
 
 @implementation XYMessage
 
-+ (Class)classForParsingJSONDictionary:(NSDictionary *)JSONDictionary
-{
++ (Class)classForParsingJSONDictionary:(NSDictionary *)JSONDictionary {
     if (JSONDictionary[@"image_url"] != nil) {
         return XYPictureMessage.class;
     }
