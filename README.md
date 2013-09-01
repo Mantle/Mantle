@@ -311,12 +311,15 @@ properties map to the keys in the JSON representation. Properties that map to
 ```
 
 In this example, the `XYUser` class declares three properties that Mantle
-handles in different ways. `name` is mapped directly to a key of the same name
-in the JSON representation. `createdAt` is converted to its snake case
-equivalent. `meUser` is not serialized into JSON.  
-Note that the superclass's implementation of `+JSONKeyPathsByPropertyKey` is
-invoked and `XYUser`'s properties are merged into its return value using the
-`-mtl_dictionaryByAddingEntriesFromDictionary:` category method.
+handles in different ways:
+
+- The superclass's implementation of `+JSONKeyPathsByPropertyKey` is
+  invoked and `XYUser`'s properties are merged into its return value using the
+  `-mtl_dictionaryByAddingEntriesFromDictionary:` category method.
+- `name` is implicityly mapped to a key of the same name in the JSON
+  representation.
+- `createdAt` is converted to its snake case equivalent.
+- `meUser` is not serialized into JSON.
 
 JSON keys that don't have a mapping are ignored when deserializing JSON using
 `+[MTLJSONAdapter modelOfClass:fromJSONDictionary:error:]`:
