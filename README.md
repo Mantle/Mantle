@@ -291,10 +291,10 @@ properties map to the keys in the JSON representation. Properties that map to
 
 @interface XYUser : XYEntity
 
-@property (readwrite, strong) NSString *name;
-@property (readwrite, strong) NSDate *createdAt;
+@property (readonly, nonatomic, copy) NSString *name;
+@property (readonly, nonatomic, strong) NSDate *createdAt;
 
-@property (readwrite, assign, getter = isMeUser) BOOL meUser;
+@property (readonly, nonatomic, assign, getter = isMeUser) BOOL meUser;
 
 @end
 
@@ -379,13 +379,13 @@ object from JSON.
 ```objc
 @interface XYMessage : XYEntity
 
-@property (readonly, copy) NSString *body;
+@property (readonly, nonatomic, copy) NSString *body;
 
 @end
 
 @interface XYPictureMessage : XYMessage
 
-@property (readonly, strong) NSURL *imageURL;
+@property (readonly, nonatomic, strong) NSURL *imageURL;
 
 @end
 
