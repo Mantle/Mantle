@@ -362,7 +362,6 @@ like so:
 ```objc
 + (NSValueTransformer *)createdAtJSONTransformer {
     return [MTLValueTransformer reversibleTransformerWithForwardBlock:^(NSString *str) {
-        // Date formatters are expensive and should be shared
         return [self.dateFormatter dateFromString:str];
     } reverseBlock:^(NSDate *date) {
         return [self.dateFormatter stringFromDate:date];
