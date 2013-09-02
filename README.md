@@ -279,7 +279,17 @@ be invoked if overridden, giving you a convenient hook to upgrade old data.
 ## MTLJSONSerializing
 
 In order to serialize your model objects from or into JSON, you need to
-implement `<MTLJSONSerializing>` in your `MTLModel` subclass.
+implement `<MTLJSONSerializing>` in your `MTLModel` subclass. This allows you to
+use `MTLJSONAdapter` convert your model objects from JSON and back:
+
+```objc
+NSError *error = nil;
+XYUser *user = [MTLJSONAdapter modelOfClass:XYUser.class fromJSONDictionary:JSONDictionary error:&error];
+```
+
+```objc
+NSDictionary *JSONDictionary = [MTLJSONAdapter JSONDictionaryFromModel:user];
+```
 
 ### `+JSONKeyPathsByPropertyKey`
 
@@ -424,19 +434,6 @@ XYMessage *messageB = [MTLJSONAdapter modelOfClass:XYMessage.class fromJSONDicti
 
 messageA.class; // XYMessage
 messageB.class; // XYPictureMessage
-```
-
-### MTLJSONAdapter
-
-To convert your model objects from JSON and back, use `MTLJSONAdapter`:
-
-```objc
-NSError *error = nil;
-XYUser *user = [MTLJSONAdapter modelOfClass:XYUser.class fromJSONDictionary:JSONDictionary error:&error];
-```
-
-```objc
-NSDictionary *JSONDictionary = [MTLJSONAdapter JSONDictionaryFromModel:user];
 ```
 
 ## Persistence
