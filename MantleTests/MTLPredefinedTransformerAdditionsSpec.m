@@ -50,51 +50,58 @@ it(@"should define an NSNumber boolean value transformer", ^{
 });
 
 describe(@"JSON transformers", ^{
-	__block NSArray *models;
-	__block NSArray *JSONDictionaries;
-	
-	beforeEach(^{
-		NSMutableArray *uniqueModels = [NSMutableArray array];
-		NSMutableArray *mutableDictionaries = [NSMutableArray array];
-
-		for (NSUInteger i = 0; i < 10; i++) {
-			MTLTestModel *model = [[MTLTestModel alloc] init];
-			model.count = i;
-
-			[uniqueModels addObject:model];
-
-			NSDictionary *dict = [MTLJSONAdapter JSONDictionaryFromModel:model];
-			expect(dict).notTo.beNil();
-
-			[mutableDictionaries addObject:dict];
-		}
-
-		models = [uniqueModels copy];
-		JSONDictionaries = [mutableDictionaries copy];
-	});
-
 	describe(@"dictionary transformer", ^{
 		__block NSValueTransformer *transformer;
 
+		__block MTLTestModel *model;
+		__block NSDictionary *JSONDictionary;
+
 		before(^{
+			model = [[MTLTestModel alloc] init];
+			JSONDictionary = [MTLJSONAdapter JSONDictionaryFromModel:model];
+
 			transformer = [NSValueTransformer mtl_JSONDictionaryTransformerWithModelClass:MTLTestModel.class];
 			expect(transformer).notTo.beNil();
 		});
 
 		it(@"should transform a JSON dictionary into a model", ^{
-			expect([transformer transformedValue:JSONDictionaries.lastObject]).to.equal(models.lastObject);
+			expect([transformer transformedValue:JSONDictionary]).to.equal(model);
 		});
 
 		it(@"should transform a model into a JSON dictionary", ^{
 			expect([transformer.class allowsReverseTransformation]).to.beTruthy();
-			expect([transformer reverseTransformedValue:models.lastObject]).to.equal(JSONDictionaries.lastObject);
+			expect([transformer reverseTransformedValue:model]).to.equal(JSONDictionary);
 		});
 	});
 
 	describe(@"external representation array transformer", ^{
 		__block NSValueTransformer *transformer;
 
-		before(^{
+		__block NSArray *models;
+		__block NSArray *JSONDictionaries;
+
+		beforeEach(^{
+			NSMutableArray *uniqueModels = [NSMutableArray array];
+			NSMutableArray *mutableDictionaries = [NSMutableArray array];
+
+			for (NSUInteger i = 0; i < 10; i++) {
+				MTLTestModel *model = [[MTLTestModel alloc] init];
+				model.count = i;
+
+				[uniqueModels addObject:model];
+
+				NSDictionary *dict = [MTLJSONAdapter JSONDictionaryFromModel:model];
+				expect(dict).notTo.beNil();
+
+				[mutableDictionaries addObject:dict];
+			}
+
+			uniqueModels[2] = NSNull.null;
+			mutableDictionaries[2] = NSNull.null;
+
+			models = [uniqueModels copy];
+			JSONDictionaries = [mutableDictionaries copy];
+
 			transformer = [NSValueTransformer mtl_JSONArrayTransformerWithModelClass:MTLTestModel.class];
 			expect(transformer).notTo.beNil();
 		});
