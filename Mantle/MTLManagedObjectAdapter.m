@@ -583,7 +583,11 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 	if ([self.modelClass respondsToSelector:@selector(propertyKeysForManagedObjectUniquing)]) {
 		propertyKeys = [self.modelClass propertyKeysForManagedObjectUniquing];
 	}
-	
+
+	if (propertyKeys == nil) return nil;
+
+	NSAssert(propertyKeys.count > 0, @"+propertyKeysForManagedObjectUniquing must not be empty.");
+
 	NSMutableArray *subpredicates = [NSMutableArray array];
 	for (NSString *propertyKey in propertyKeys) {
 		NSString *managedObjectKey = [self managedObjectKeyForKey:propertyKey];
