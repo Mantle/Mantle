@@ -57,7 +57,7 @@
 
 + (NSSet *)propertyKeysForManagedObjectUniquing
 {
-    return [NSSet setWithObjects:@"childID", nil];
+	return [NSSet setWithObjects:@"childID", nil];
 }
 
 + (NSDictionary *)relationshipModelClassesByPropertyKey {

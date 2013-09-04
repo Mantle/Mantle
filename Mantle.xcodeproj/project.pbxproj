@@ -278,7 +278,7 @@
 		D094E4921777619600906BF7 /* Mac-Framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Mac-Framework.xcconfig"; sourceTree = "<group>"; };
 		D094E4931777619600906BF7 /* Mac-StaticLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Mac-StaticLibrary.xcconfig"; sourceTree = "<group>"; };
 		D094E4941777619600906BF7 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
-		D0ABD7A01746D56E006BEA7D /* MTLManagedObjectAdapterSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLManagedObjectAdapterSpec.m; sourceTree = "<group>"; };
+		D0ABD7A01746D56E006BEA7D /* MTLManagedObjectAdapterSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLManagedObjectAdapterSpec.m; sourceTree = "<group>"; usesTabs = 1; };
 		D0BFC36617476A5F00F5DC5D /* MTLValueTransformerInversionAdditionsSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLValueTransformerInversionAdditionsSpec.m; sourceTree = "<group>"; };
 		D0BFC36D17476B4700F5DC5D /* NSValueTransformer+MTLInversionAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSValueTransformer+MTLInversionAdditions.h"; sourceTree = "<group>"; };
 		D0BFC36E17476B4700F5DC5D /* NSValueTransformer+MTLInversionAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSValueTransformer+MTLInversionAdditions.m"; sourceTree = "<group>"; };
