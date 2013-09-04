@@ -304,6 +304,9 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 	Class entityDescriptionClass = NSClassFromString(@"NSEntityDescription");
 	NSAssert(entityDescriptionClass != nil, @"CoreData.framework must be linked to use MTLManagedObjectAdapter");
 
+	Class fetchRequestClass = NSClassFromString(@"NSFetchRequest");
+	NSAssert(fetchRequestClass != nil, @"CoreData.framework must be linked to use MTLManagedObjectAdapter");
+
 	// If a uniquing predicate is provided, perform a fetch request to guarentee a unique managed object.
 	__block NSManagedObject *managedObject = nil;
 	NSPredicate *uniquingPredicate = [self uniquingPredicateForModel:model];
@@ -311,8 +314,8 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 	if (uniquingPredicate != nil) {
 		__block NSError *fetchRequestError = nil;
 		managedObject = performInContext(context, ^ id {
-			NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-			fetchRequest.entity = [NSEntityDescription entityForName:entityName inManagedObjectContext:context];
+			NSFetchRequest *fetchRequest = [[fetchRequestClass alloc] init];
+			fetchRequest.entity = [entityDescriptionClass entityForName:entityName inManagedObjectContext:context];
 			fetchRequest.predicate = uniquingPredicate;
 			fetchRequest.returnsObjectsAsFaults = NO;
 			fetchRequest.fetchLimit = 1;
