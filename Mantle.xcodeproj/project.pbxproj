@@ -45,10 +45,8 @@
 		D02E48EB16CB8ACA00257645 /* MTLModelNSCodingSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D02E48E916CB8ACA00257645 /* MTLModelNSCodingSpec.m */; };
 		D02E48F116CB8ADB00257645 /* MTLJSONAdapterSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D02E48F016CB8ADB00257645 /* MTLJSONAdapterSpec.m */; };
 		D02E48F216CB8ADB00257645 /* MTLJSONAdapterSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D02E48F016CB8ADB00257645 /* MTLJSONAdapterSpec.m */; };
-		D042FC4A15F72B23004E8054 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D042FC4815F72B23004E8054 /* InfoPlist.strings */; };
 		D042FC5615F72B23004E8054 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D042FC5515F72B23004E8054 /* SenTestingKit.framework */; };
 		D042FC5A15F72B23004E8054 /* Mantle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D042FC3C15F72B23004E8054 /* Mantle.framework */; };
-		D042FC6015F72B23004E8054 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D042FC5E15F72B23004E8054 /* InfoPlist.strings */; };
 		D042FC7415F72B90004E8054 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D042FC4415F72B23004E8054 /* Foundation.framework */; };
 		D042FC7A15F72BC7004E8054 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D042FC4415F72B23004E8054 /* Foundation.framework */; };
 		D042FC8815F72BC7004E8054 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D042FC5515F72B23004E8054 /* SenTestingKit.framework */; };
@@ -237,13 +235,11 @@
 		D042FC3C15F72B23004E8054 /* Mantle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Mantle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D042FC4415F72B23004E8054 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D042FC4715F72B23004E8054 /* Mantle-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Mantle-Info.plist"; sourceTree = "<group>"; };
-		D042FC4915F72B23004E8054 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D042FC4B15F72B23004E8054 /* Mantle-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Mantle-Prefix.pch"; sourceTree = "<group>"; };
 		D042FC4C15F72B23004E8054 /* Mantle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Mantle.h; sourceTree = "<group>"; };
 		D042FC5415F72B23004E8054 /* Mantle Mac Tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Mantle Mac Tests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D042FC5515F72B23004E8054 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		D042FC5D15F72B23004E8054 /* MantleTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MantleTests-Info.plist"; sourceTree = "<group>"; };
-		D042FC5F15F72B23004E8054 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D042FC7915F72BC7004E8054 /* libMantle.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMantle.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D042FC8715F72BC7004E8054 /* Mantle iOS Tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Mantle iOS Tests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D042FCCB15F72EE8004E8054 /* Expecta.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Expecta.xcodeproj; path = MantleTests/expecta/Expecta.xcodeproj; sourceTree = "<group>"; };
@@ -372,6 +368,7 @@
 				D042FC3D15F72B23004E8054 /* Products */,
 			);
 			sourceTree = "<group>";
+			usesTabs = 1;
 		};
 		D042FC3D15F72B23004E8054 /* Products */ = {
 			isa = PBXGroup;
@@ -413,7 +410,6 @@
 			isa = PBXGroup;
 			children = (
 				D042FC4715F72B23004E8054 /* Mantle-Info.plist */,
-				D042FC4815F72B23004E8054 /* InfoPlist.strings */,
 				D042FC4B15F72B23004E8054 /* Mantle-Prefix.pch */,
 			);
 			name = "Supporting Files";
@@ -439,7 +435,6 @@
 				D064BA331613BA75004CA27A /* MTLTestNotificationObserver.m */,
 				D0C92DE115F72F6A00387438 /* MantleTests-Prefix.pch */,
 				D042FC5D15F72B23004E8054 /* MantleTests-Info.plist */,
-				D042FC5E15F72B23004E8054 /* InfoPlist.strings */,
 				D01BD0B916CB6F5700EC95C7 /* MTLTestModel-OldArchive.plist */,
 				D021D936170F806B00C37E36 /* TestModel.xcdatamodeld */,
 			);
@@ -822,7 +817,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D042FC4A15F72B23004E8054 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -830,7 +824,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D042FC6015F72B23004E8054 /* InfoPlist.strings in Resources */,
 				D01BD0BA16CB6F5700EC95C7 /* MTLTestModel-OldArchive.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -997,25 +990,6 @@
 			targetProxy = D0D46A11160BC98B00AB468D /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		D042FC4815F72B23004E8054 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				D042FC4915F72B23004E8054 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		D042FC5E15F72B23004E8054 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				D042FC5F15F72B23004E8054 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		D042FC6415F72B23004E8054 /* Debug */ = {
