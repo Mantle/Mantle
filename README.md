@@ -346,13 +346,13 @@ Here, the `plan` would be ignored since it neither matches a property name of
 
 ### `+JSONTransformerForKey:`
 
-Implement this optional method if one of the properties needs to be converted
-before deserializing the model object from JSON.
+Implement this optional method to convert a property from a different type when
+deserializing from JSON.
 
 ```
 + (NSValueTransformer *)JSONTransformerForKey:(NSString *)key {
-    if ([key isEqualToString:@"avatarURL"]) {
-        return [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
+    if ([key isEqualToString:@"createdAt"]) {
+        return [NSValueTransformer valueTransformerForName:XYDateValueTransformerName];
     }
 
     return nil;
