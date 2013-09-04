@@ -384,7 +384,7 @@ determine which subclass of your base class should be used when deserializing an
 object from JSON.
 
 ```objc
-@interface XYMessage : MTLMessage
+@interface XYMessage : MTLModel
 
 @end
 
