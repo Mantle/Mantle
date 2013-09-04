@@ -168,7 +168,7 @@ describe(@"with a confined context", ^{
 			expect(context.insertedObjects).to.contain(parent);
 
 			expect(parent.date).to.equal(parentModel.date);
-			expect([parent.number stringValue]).to.equal(parentModel.numberString);
+			expect(parent.number.stringValue).to.equal(parentModel.numberString);
 			expect(parent.string).to.equal(parentModel.requiredString);
 
 			expect(parent.orderedChildren).to.haveCountOf(3);
@@ -215,7 +215,7 @@ describe(@"with a confined context", ^{
 			expect(parentTwo).notTo.beNil();
 			expect(errorTwo).to.beNil();
 
-			expect([parentOne objectID]).to.equal([parentTwo objectID]);
+			expect(parentOne.objectID).to.equal(parentTwo.objectID);
 		});
 	});
 });
