@@ -293,7 +293,7 @@ NSDictionary *JSONDictionary = [MTLJSONAdapter JSONDictionaryFromModel:user];
 
 ### `+JSONKeyPathsByPropertyKey`
 
-The dictionary returned by this method specifies how your model objects
+The dictionary returned by this method specifies how your model object's
 properties map to the keys in the JSON representation. Properties that map to
 `NSNull` will not be present in the JSON representation, for example:
 
@@ -320,8 +320,8 @@ properties map to the keys in the JSON representation. Properties that map to
 @end
 ```
 
-In this example, the `XYUser` class declares properties that Mantle handles in
-different ways:
+In this example, the `XYUser` class declares three properties that Mantle
+handles in different ways:
 
 - `name` is implicitly mapped to a key of the same name in the JSON
   representation.
@@ -331,8 +331,9 @@ different ways:
 Use `-[NSDictionary mtl_dictionaryByAddingEntriesFromDictionary:]` if your
 model's superclass also implements `MTLJSONSerializing` to merge their mappings.
 
-JSON keys that don't have a mapping are ignored when deserializing JSON using
-`+[MTLJSONAdapter modelOfClass:fromJSONDictionary:error:]`:
+When deserializing JSON using
+`+[MTLJSONAdapter modelOfClass:fromJSONDictionary:error:]`, JSON keys that don't
+have a mapping are ignored:
 
 ```objc
 NSDictionary *JSONDictionary = @{
