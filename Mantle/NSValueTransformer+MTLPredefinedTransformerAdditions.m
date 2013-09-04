@@ -49,14 +49,14 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 	NSParameterAssert([modelClass conformsToProtocol:@protocol(MTLJSONSerializing)]);
 
 	return [MTLValueTransformer
-		reversibleTransformerWithForwardBlock:^ id (NSDictionary *JSONDictionary) {
+		reversibleTransformerWithForwardBlock:^ id (id JSONDictionary) {
 			if (JSONDictionary == nil) return nil;
 
 			NSAssert([JSONDictionary isKindOfClass:NSDictionary.class], @"Expected a dictionary, got: %@", JSONDictionary);
 
 			return [MTLJSONAdapter modelOfClass:modelClass fromJSONDictionary:JSONDictionary error:NULL];
 		}
-		reverseBlock:^ id (MTLModel<MTLJSONSerializing> *model) {
+		reverseBlock:^ id (id model) {
 			if (model == nil) return nil;
 
 			NSAssert([model isKindOfClass:MTLModel.class], @"Expected a MTLModel object, got %@", model);
@@ -76,7 +76,14 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 			NSAssert([dictionaries isKindOfClass:NSArray.class], @"Expected a array of dictionaries, got: %@", dictionaries);
 
 			NSMutableArray *models = [NSMutableArray arrayWithCapacity:dictionaries.count];
-			for (NSDictionary *JSONDictionary in dictionaries) {
+			for (id JSONDictionary in dictionaries) {
+				if (JSONDictionary == NSNull.null) {
+					[models addObject:NSNull.null];
+					continue;
+				}
+
+				NSAssert([JSONDictionary isKindOfClass:NSDictionary.class], @"Expected a dictionary or an NSNull, got: %@", JSONDictionary);
+
 				id model = [dictionaryTransformer transformedValue:JSONDictionary];
 				if (model == nil) continue;
 
@@ -91,7 +98,14 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 			NSAssert([models isKindOfClass:NSArray.class], @"Expected a array of MTLModels, got: %@", models);
 
 			NSMutableArray *dictionaries = [NSMutableArray arrayWithCapacity:models.count];
-			for (MTLModel *model in models) {
+			for (id model in models) {
+				if (model == NSNull.null) {
+					[dictionaries addObject:NSNull.null];
+					continue;
+				}
+
+				NSAssert([model isKindOfClass:MTLModel.class], @"Expected an MTLModel or an NSNull, got: %@", model);
+
 				NSDictionary *dict = [dictionaryTransformer reverseTransformedValue:model];
 				if (dict == nil) continue;
 
