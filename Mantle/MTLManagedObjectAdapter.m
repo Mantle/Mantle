@@ -18,6 +18,7 @@ const NSInteger MTLManagedObjectAdapterErrorInitializationFailed = 3;
 const NSInteger MTLManagedObjectAdapterErrorInvalidManagedObjectKey = 4;
 const NSInteger MTLManagedObjectAdapterErrorUnsupportedManagedObjectPropertyType = 5;
 const NSInteger MTLManagedObjectAdapterErrorUnsupportedRelationshipClass = 6;
+const NSInteger MTLManagedObjectAdapterErrorUniqueFetchRequestFailed = 7;
 
 // Performs the given block in the context's queue, if it has one.
 static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
@@ -313,6 +314,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 
 	if (uniquingPredicate != nil) {
 		__block NSError *fetchRequestError = nil;
+		__block BOOL encountedError = NO;
 		managedObject = performInContext(context, ^ id {
 			NSFetchRequest *fetchRequest = [[fetchRequestClass alloc] init];
 			fetchRequest.entity = [entityDescriptionClass entityForName:entityName inManagedObjectContext:context];
@@ -331,7 +333,8 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 						NSLocalizedFailureReasonErrorKey: failureReason,
 					};
 					
-					fetchRequestError = [NSError errorWithDomain:MTLManagedObjectAdapterErrorDomain code:MTLManagedObjectAdapterErrorInitializationFailed userInfo:userInfo];
+					fetchRequestError = [NSError errorWithDomain:MTLManagedObjectAdapterErrorDomain code:MTLManagedObjectAdapterErrorUniqueFetchRequestFailed userInfo:userInfo];
+					encountedError = YES;
 				}
 				
 				return nil;
@@ -340,7 +343,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 			return results.mtl_firstObject;
 		});
 
-		if (error != NULL && fetchRequestError != nil) {
+		if (encountedError && error != NULL) {
 			*error = fetchRequestError;
 			return nil;
 		}

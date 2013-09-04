@@ -136,6 +136,10 @@ extern const NSInteger MTLManagedObjectAdapterErrorInvalidManagedObjectKey;
 // MTLManagedObjectAdapter.
 extern const NSInteger MTLManagedObjectAdapterErrorUnsupportedManagedObjectPropertyType;
 
+// The fetch request to find an exisiting managed object based on
+// `+propertyKeysForManagedObjectUniquing` failed.
+extern const NSInteger MTLManagedObjectAdapterErrorUniqueFetchRequestFailed;
+
 // A MTLModel property cannot be serialized to or deserialized from an
 // NSManagedObject relationship.
 //
