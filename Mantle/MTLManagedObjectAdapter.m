@@ -584,21 +584,21 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 		propertyKeys = [self.modelClass propertyKeysForManagedObjectUniquing];
 	}
 	
-	NSPredicate *predicate = nil;
+	NSMutableArray *subpredicates = [NSMutableArray array];
 	for (NSString *propertyKey in propertyKeys) {
 		NSString *managedObjectKey = [self managedObjectKeyForKey:propertyKey];
-		if (managedObjectKey != nil) {
-			id transformedValue = [model valueForKeyPath:propertyKey];
-			
-			NSValueTransformer *attributeTransformer = [self entityAttributeTransformerForKey:propertyKey];
-			if (attributeTransformer != nil) transformedValue = [attributeTransformer transformedValue:transformedValue];
-			
-			NSPredicate *subpredicate = [NSPredicate predicateWithFormat:@"%K == %@", managedObjectKey, transformedValue];
-			predicate = [NSCompoundPredicate andPredicateWithSubpredicates:(predicate ? @[predicate, subpredicate] : @[subpredicate])];
-		}
+		if (managedObjectKey == nil) continue;
+
+		id transformedValue = [model valueForKeyPath:propertyKey];
+
+		NSValueTransformer *attributeTransformer = [self entityAttributeTransformerForKey:propertyKey];
+		if (attributeTransformer != nil) transformedValue = [attributeTransformer transformedValue:transformedValue];
+
+		NSPredicate *subpredicate = [NSPredicate predicateWithFormat:@"%K == %@", managedObjectKey, transformedValue];
+		[subpredicates addObject:subpredicate];
 	}
 	
-	return predicate;
+	return [NSCompoundPredicate andPredicateWithSubpredicates:subpredicates];
 }
 
 @end
