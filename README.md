@@ -326,7 +326,7 @@ handles in different ways:
 - The superclass's implementation of `+JSONKeyPathsByPropertyKey` is
   invoked and `XYUser`'s properties are merged into its return value using the
   `-mtl_dictionaryByAddingEntriesFromDictionary:` category method.
-- `name` is implicityly mapped to a key of the same name in the JSON
+- `name` is implicitly mapped to a key of the same name in the JSON
   representation.
 - `createdAt` is converted to its snake case equivalent.
 - `meUser` is not serialized into JSON.
