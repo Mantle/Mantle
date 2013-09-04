@@ -579,10 +579,9 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 }
 
 - (NSPredicate *)uniquingPredicateForModel:(MTLModel<MTLManagedObjectSerializing> *)model {
-	NSSet *propertyKeys = nil;
-	if ([self.modelClass respondsToSelector:@selector(propertyKeysForManagedObjectUniquing)]) {
-		propertyKeys = [self.modelClass propertyKeysForManagedObjectUniquing];
-	}
+	if (![self.modelClass respondsToSelector:@selector(propertyKeysForManagedObjectUniquing)]) return nil;
+
+	NSSet *propertyKeys = [self.modelClass propertyKeysForManagedObjectUniquing];
 
 	if (propertyKeys == nil) return nil;
 
@@ -591,7 +590,8 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 	NSMutableArray *subpredicates = [NSMutableArray array];
 	for (NSString *propertyKey in propertyKeys) {
 		NSString *managedObjectKey = [self managedObjectKeyForKey:propertyKey];
-		if (managedObjectKey == nil) continue;
+
+		NSAssert(managedObjectKey != nil, @"%@ must map to a managed object key.", propertyKey);
 
 		id transformedValue = [model valueForKeyPath:propertyKey];
 
