@@ -325,6 +325,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 			NSArray *results = [context executeFetchRequest:fetchRequest error:&fetchRequestError];
 
 			if (results == nil) {
+				encountedError = YES;
 				if (error != NULL) {
 					NSString *failureReason = [NSString stringWithFormat:NSLocalizedString(@"Failed to fetch a managed object for uniqing predicate \"%@\".", @""), uniquingPredicate];
 					
@@ -334,7 +335,6 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 					};
 					
 					fetchRequestError = [NSError errorWithDomain:MTLManagedObjectAdapterErrorDomain code:MTLManagedObjectAdapterErrorUniqueFetchRequestFailed userInfo:userInfo];
-					encountedError = YES;
 				}
 				
 				return nil;
