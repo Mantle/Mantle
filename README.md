@@ -384,7 +384,11 @@ determine which subclass of your base class should be used when deserializing an
 object from JSON.
 
 ```objc
-@interface XYMessage : XYEntity
+@interface XYMessage : MTLMessage
+
+@end
+
+@interface XYTextMessage: XYMessage
 
 @property (readonly, nonatomic, copy) NSString *body;
 
@@ -403,6 +407,11 @@ object from JSON.
         return XYPictureMessage.class;
     }
 
+    if (JSONDictionary[@"body"] != nil) {
+        return XYTextMessage.class;
+    }
+
+    NSAssert(NO, @"No matching class for the JSON dictionary '%@'.", JSONDictionary);
     return self;
 }
 
@@ -420,15 +429,12 @@ NSDictionary *textMessage = @{
 
 NSDictionary *pictureMessage = @{
     @"id": @2,
-    @"body": @"Hello World!"
     @"image_url": @"http://example.com/lolcat.gif"
 };
 
-XYMessage *messageA = [MTLJSONAdapter modelOfClass:XYMessage.class fromJSONDictionary:textMessage error:NULL];
-XYMessage *messageB = [MTLJSONAdapter modelOfClass:XYMessage.class fromJSONDictionary:pictureMessage error:NULL];
+XYTextMessage *messageA = [MTLJSONAdapter modelOfClass:XYMessage.class fromJSONDictionary:textMessage error:NULL];
 
-messageA.class; // XYMessage
-messageB.class; // XYPictureMessage
+XYPictureMessage *messageB = [MTLJSONAdapter modelOfClass:XYMessage.class fromJSONDictionary:pictureMessage error:NULL];
 ```
 
 ## Persistence
