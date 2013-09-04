@@ -328,6 +328,9 @@ different ways:
 - `createdAt` is converted to its snake case equivalent.
 - `meUser` is not serialized into JSON.
 
+Use `-[NSDictionary mtl_dictionaryByAddingEntriesFromDictionary:]` if your
+model's superclass also implements `MTLJSONSerializing` to merge their mappings.
+
 JSON keys that don't have a mapping are ignored when deserializing JSON using
 `+[MTLJSONAdapter modelOfClass:fromJSONDictionary:error:]`:
 
