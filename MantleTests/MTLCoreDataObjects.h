@@ -16,9 +16,9 @@
 
 @property (readwrite, nonatomic, strong) NSNumber* id;
 
-@property (readwrite, nonatomic, retain) MTLParent *parent1;
+@property (readwrite, nonatomic, strong) MTLParent *parent1;
 
-@property (readwrite, nonatomic, retain) MTLParent *parent2;
+@property (readwrite, nonatomic, strong) MTLParent *parent2;
 
 @end
 
