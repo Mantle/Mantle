@@ -10,37 +10,31 @@
 
 @implementation MTLChild
 
+@dynamic childID;
+@dynamic parent1;
+@dynamic parent2;
+
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc {
 	NSParameterAssert(moc != nil);
 
 	return [NSEntityDescription insertNewObjectForEntityForName:@"Child" inManagedObjectContext:moc];
 }
 
-@dynamic id;
-
-@dynamic parent1;
-
-@dynamic parent2;
-
 @end
 
 @implementation MTLParent
+
+@dynamic date;
+@dynamic number;
+@dynamic string;
+@dynamic unorderedChildren;
+@dynamic orderedChildren;
 
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc {
 	NSParameterAssert(moc != nil);
 
 	return [NSEntityDescription insertNewObjectForEntityForName:@"Parent" inManagedObjectContext:moc];
 }
-
-@dynamic date;
-
-@dynamic number;
-
-@dynamic string;
-
-@dynamic unorderedChildren;
-
-@dynamic orderedChildren;
 
 // Working around http://openradar.appspot.com/10114310
 - (void)addOrderedChildrenObject:(MTLChild*)child {

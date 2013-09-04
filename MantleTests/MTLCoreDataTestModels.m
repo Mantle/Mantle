@@ -50,9 +50,7 @@
 }
 
 + (NSDictionary *)managedObjectKeysByPropertyKey {
-	return @{
-		@"childID": @"id"
-	};
+	return @{};
 }
 
 + (NSSet *)propertyKeysForManagedObjectUniquing

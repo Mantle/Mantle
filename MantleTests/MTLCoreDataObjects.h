@@ -14,10 +14,9 @@
 
 + (instancetype)insertInManagedObjectContext:(NSManagedObjectContext*)moc;
 
-@property (readwrite, nonatomic, strong) NSNumber* id;
+@property (readwrite, nonatomic, strong) NSNumber *childID;
 
 @property (readwrite, nonatomic, strong) MTLParent *parent1;
-
 @property (readwrite, nonatomic, strong) MTLParent *parent2;
 
 @end
@@ -27,13 +26,10 @@
 + (instancetype)insertInManagedObjectContext:(NSManagedObjectContext*)moc;
 
 @property (readwrite, nonatomic, strong) NSDate *date;
-
 @property (readwrite, nonatomic, strong) NSNumber* number;
-
 @property (readwrite, nonatomic, copy) NSString *string;
 
 @property (readwrite, nonatomic, copy) NSOrderedSet *orderedChildren;
-
 @property (readwrite, nonatomic, copy) NSSet *unorderedChildren;
 
 @end
