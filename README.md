@@ -299,7 +299,7 @@ properties map to the keys in the JSON representation. Properties that map to
 
 ```objc
 
-@interface XYUser : XYEntity
+@interface XYUser : MTLModel
 
 @property (readonly, nonatomic, copy) NSString *name;
 @property (readonly, nonatomic, strong) NSDate *createdAt;
@@ -311,21 +311,18 @@ properties map to the keys in the JSON representation. Properties that map to
 @implementation XYUser
 
 + (NSDictionary *)JSONKeyPathsByPropertyKey {
-    return [super.JSONKeyPathsByPropertyKey mtl_dictionaryByAddingEntriesFromDictionary:@{
+    return @{
         @"createdAt": @"created_at",
         @"meUser": NSNull.null
-    }];
+    };
 }
 
 @end
 ```
 
-In this example, the `XYUser` class declares three properties that Mantle
-handles in different ways:
+In this example, the `XYUser` class declares properties that Mantle handles in
+different ways:
 
-- The superclass's implementation of `+JSONKeyPathsByPropertyKey` is
-  invoked and `XYUser`'s properties are merged into its return value using the
-  `-mtl_dictionaryByAddingEntriesFromDictionary:` category method.
 - `name` is implicitly mapped to a key of the same name in the JSON
   representation.
 - `createdAt` is converted to its snake case equivalent.
@@ -336,7 +333,6 @@ JSON keys that don't have a mapping are ignored when deserializing JSON using
 
 ```objc
 NSDictionary *JSONDictionary = @{
-    @"id": @123,
     @"name": @"john",
     @"created_at": @"2013/07/02 16:40:00 +0000",
     @"plan": @"lite"
@@ -345,9 +341,8 @@ NSDictionary *JSONDictionary = @{
 XYUser *user = [MTLJSONAdapter modelOfClass:XYUser.class fromJSONDictionary:JSONDictionary error:&error];
 ```
 
-Here, `@"id"` would most likely be handled by the superclass `XYEntity` and the
-`plan` would be ignored since it neither matches a property name of `XYUser` nor
-is it otherwise mapped in `+JSONKeyPathsByPropertyKey`.
+Here, the `plan` would be ignored since it neither matches a property name of
+`XYUser` nor is it otherwise mapped in `+JSONKeyPathsByPropertyKey`.
 
 ### `+JSONTransformerForKey:`
 
