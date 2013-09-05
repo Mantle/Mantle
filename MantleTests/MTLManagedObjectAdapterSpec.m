@@ -62,7 +62,7 @@ describe(@"with a confined context", ^{
 				MTLChild *child = [MTLChild insertInManagedObjectContext:context];
 				expect(child).notTo.beNil();
 
-				child.id = @(i);
+				child.childID = @(i);
 				[parent addOrderedChildrenObject:child];
 			}
 
@@ -70,7 +70,7 @@ describe(@"with a confined context", ^{
 				MTLChild *child = [MTLChild insertInManagedObjectContext:context];
 				expect(child).notTo.beNil();
 
-				child.id = @(i);
+				child.childID = @(i);
 				[parent addUnorderedChildrenObject:child];
 			}
 
@@ -168,7 +168,7 @@ describe(@"with a confined context", ^{
 			expect(context.insertedObjects).to.contain(parent);
 
 			expect(parent.date).to.equal(parentModel.date);
-			expect([parent.number stringValue]).to.equal(parentModel.numberString);
+			expect(parent.number.stringValue).to.equal(parentModel.numberString);
 			expect(parent.string).to.equal(parentModel.requiredString);
 
 			expect(parent.orderedChildren).to.haveCountOf(3);
@@ -182,7 +182,7 @@ describe(@"with a confined context", ^{
 				expect(child.entity).to.equal(childEntity);
 				expect(context.insertedObjects).to.contain(child);
 
-				expect(child.id).to.equal(i);
+				expect(child.childID).to.equal(i);
 				expect(child.parent1).to.beNil();
 				expect(child.parent2).to.equal(parent);
 			}
@@ -193,8 +193,8 @@ describe(@"with a confined context", ^{
 				expect(child.entity).to.equal(childEntity);
 				expect(context.insertedObjects).to.contain(child);
 
-				expect(child.id).to.beGreaterThanOrEqualTo(3);
-				expect(child.id).to.beLessThan(6);
+				expect(child.childID).to.beGreaterThanOrEqualTo(3);
+				expect(child.childID).to.beLessThan(6);
 
 				expect(child.parent1).to.equal(parent);
 				expect(child.parent2).to.beNil();
@@ -215,7 +215,7 @@ describe(@"with a confined context", ^{
 			expect(parentTwo).notTo.beNil();
 			expect(errorTwo).to.beNil();
 
-			expect([parentOne objectID]).to.equal([parentTwo objectID]);
+			expect(parentOne.objectID).to.equal(parentTwo.objectID);
 		});
 	});
 });

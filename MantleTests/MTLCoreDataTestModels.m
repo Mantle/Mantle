@@ -21,9 +21,8 @@
 	};
 }
 
-+ (NSSet *)propertyKeysForManagedObjectUniquing
-{
-	return [NSSet setWithObjects:@"numberString", nil];
++ (NSSet *)propertyKeysForManagedObjectUniquing {
+	return [NSSet setWithObject:@"numberString"];
 }
 
 + (NSValueTransformer *)numberStringEntityAttributeTransformer {
@@ -50,9 +49,7 @@
 }
 
 + (NSDictionary *)managedObjectKeysByPropertyKey {
-	return @{
-		@"childID": @"id"
-	};
+	return @{};
 }
 
 + (NSSet *)propertyKeysForManagedObjectUniquing
