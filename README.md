@@ -295,7 +295,7 @@ For example:
 
 @interface XYChild : MTLModel
 
-@property (readonly, nonatomic, strong) XYParent *parent;
+@property (readonly, nonatomic, weak) XYParent *parent;
 
 @end
 ```
