@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="2061" systemVersion="12D78" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
-    <entity name="Child" syncable="YES">
-        <attribute name="id" attributeType="Integer 16" defaultValueString="0" indexed="YES" syncable="YES"/>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="3394" systemVersion="12E55" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Child" representedClassName="MTLChild" syncable="YES">
+        <attribute name="childID" attributeType="Integer 16" defaultValueString="0" indexed="YES" syncable="YES"/>
         <relationship name="parent1" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Parent" inverseName="unorderedChildren" inverseEntity="Parent" syncable="YES"/>
         <relationship name="parent2" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Parent" inverseName="orderedChildren" inverseEntity="Parent" syncable="YES"/>
     </entity>
-    <entity name="Parent" syncable="YES">
+    <entity name="Parent" representedClassName="MTLParent" syncable="YES">
         <attribute name="date" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="number" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="string" attributeType="String" syncable="YES"/>
@@ -13,7 +13,7 @@
         <relationship name="unorderedChildren" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Child" inverseName="parent1" inverseEntity="Child" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Child" positionX="405" positionY="324" width="128" height="88"/>
-        <element name="Parent" positionX="160" positionY="192" width="128" height="118"/>
+        <element name="Child" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="Parent" positionX="0" positionY="0" width="0" height="0"/>
     </elements>
 </model>
