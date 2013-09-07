@@ -117,7 +117,7 @@ describe(@"JSON transformers", ^{
 	});
 });
 
-describe(@"Enum transformer", ^{
+describe(@"enum transformer", ^{
 	__block NSValueTransformer *transformer;
 
 	enum : NSInteger {
