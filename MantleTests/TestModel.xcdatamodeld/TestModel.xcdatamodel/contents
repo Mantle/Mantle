@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="3381.3" systemVersion="12D78" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
-    <entity name="Child" syncable="YES">
-        <attribute name="id" attributeType="Integer 16" defaultValueString="0" indexed="YES" syncable="YES"/>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="3394" systemVersion="12E55" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Child" representedClassName="MTLChild" syncable="YES">
+        <attribute name="childID" attributeType="Integer 16" defaultValueString="0" indexed="YES" syncable="YES"/>
         <relationship name="parent1" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Parent" inverseName="unorderedChildren" inverseEntity="Parent" syncable="YES"/>
         <relationship name="parent2" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Parent" inverseName="orderedChildren" inverseEntity="Parent" syncable="YES"/>
     </entity>
     <entity name="Empty" syncable="YES"/>
-    <entity name="Parent" syncable="YES">
+    <entity name="Parent" representedClassName="MTLParent" syncable="YES">
         <attribute name="date" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="number" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="string" attributeType="String" syncable="YES"/>

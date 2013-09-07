@@ -21,6 +21,10 @@
 	};
 }
 
++ (NSSet *)propertyKeysForManagedObjectUniquing {
+	return [NSSet setWithObject:@"numberString"];
+}
+
 + (NSValueTransformer *)numberStringEntityAttributeTransformer {
 	return [MTLValueTransformer reversibleTransformerWithForwardBlock:^(NSString *str) {
 		return [NSDecimalNumber decimalNumberWithString:str];
@@ -45,9 +49,12 @@
 }
 
 + (NSDictionary *)managedObjectKeysByPropertyKey {
-	return @{
-		@"childID": @"id"
-	};
+	return @{};
+}
+
++ (NSSet *)propertyKeysForManagedObjectUniquing
+{
+	return [NSSet setWithObjects:@"childID", nil];
 }
 
 + (NSDictionary *)relationshipModelClassesByPropertyKey {

@@ -42,9 +42,40 @@
 
 @optional
 
-// Specifies how to convert the given property key to a managed object attribute. If
-// reversible, the transformer will also be used to convert the managed object
-// attribute back to the property.
+// Specifies a set of property keys used by the adaptor to check for an already
+// existing managed object when converting the MTLModel to its related
+// NSManagedObject.
+//
+// The adaptor will first map any keys provided by this method to the correct
+// keys in managedObjectKeysByPropertyKey.
+//
+// The adapator will then perform a fetch request in the provided context for
+// a managed object that matches the MTLModel's managedObjectEntityName and
+// has equal values set for the property keys on the MTLModel.
+//
+// The managed object returned by the fetch request will then be set with all
+// values from the MTLModel that the managed object is being converted from.
+//
+// If a property value of our MTLModel is yet another MTLModel which needs to be
+// converted to a managed object, the class for that MTLModel can also implement
+// this method to perform its own uniqing.
+//
+// For example:
+// 1. An MTLModel subclass has id_number = 10.
+// 2. An NSManagedObject accessible to the adaptor's context has idnumber = 10.
+// 3. managedObjectKeysByPropertyKey returns @{@"id_number" : @"idnumber"}
+// 4. propertyKeysForManagedObjectUniquing returns
+//    [NSSet setWithObject:@"id_number"];
+// 5. Then our fetch request may return this managed object (or another managed
+//    object with idnumber = 10).
+//
+// NOTE: If multiple managed objects follow the same uniquing criteria only one
+// of them will be set with our MTLModel's values.
++ (NSSet *)propertyKeysForManagedObjectUniquing;
+
+// Specifies how to convert the given property key to a managed object
+// attribute. If reversible, the transformer will also be used to convert the
+// managed object attribute back to the property.
 //
 // If the receiver implements a `+<key>EntityAttributeTransformer` method,
 // MTLManagedObjectAdapter will use the result of that method instead.
@@ -105,6 +136,10 @@ extern const NSInteger MTLManagedObjectAdapterErrorInvalidManagedObjectKey;
 // MTLManagedObjectAdapter.
 extern const NSInteger MTLManagedObjectAdapterErrorUnsupportedManagedObjectPropertyType;
 
+// The fetch request to find an exisiting managed object based on
+// `+propertyKeysForManagedObjectUniquing` failed.
+extern const NSInteger MTLManagedObjectAdapterErrorUniqueFetchRequestFailed;
+
 // A MTLModel property cannot be serialized to or deserialized from an
 // NSManagedObject relationship.
 //
@@ -138,6 +173,6 @@ extern const NSInteger MTLManagedObjectAdapterErrorUnsupportedRelationshipClass;
 //           argument must not be nil.
 // error   - If not NULL, this may be set to an error that occurs during
 //           serialization or insertion.
-+ (NSManagedObject *)managedObjectFromModel:(MTLModel<MTLManagedObjectSerializing> *)model insertingIntoContext:(NSManagedObjectContext *)context error:(NSError **)error;
++ (id)managedObjectFromModel:(MTLModel<MTLManagedObjectSerializing> *)model insertingIntoContext:(NSManagedObjectContext *)context error:(NSError **)error;
 
 @end
