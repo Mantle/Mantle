@@ -42,11 +42,11 @@
 
 @optional
 
-// Specifies a set of property keys used by the adaptor to check for an already
+// Specifies a set of property keys used by the adapter to check for an already
 // existing managed object when converting the MTLModel to its related
 // NSManagedObject.
 //
-// The adaptor will first map any keys provided by this method to the correct
+// The adapter will first map any keys provided by this method to the correct
 // keys in managedObjectKeysByPropertyKey.
 //
 // The adapator will then perform a fetch request in the provided context for
@@ -62,7 +62,7 @@
 //
 // For example:
 // 1. An MTLModel subclass has id_number = 10.
-// 2. An NSManagedObject accessible to the adaptor's context has idnumber = 10.
+// 2. An NSManagedObject accessible to the adapter's context has idnumber = 10.
 // 3. managedObjectKeysByPropertyKey returns @{@"id_number" : @"idnumber"}
 // 4. propertyKeysForManagedObjectUniquing returns
 //    [NSSet setWithObject:@"id_number"];
