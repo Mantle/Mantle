@@ -117,4 +117,38 @@ describe(@"JSON transformers", ^{
 	});
 });
 
+describe(@"Enum transformer", ^{
+	__block NSValueTransformer *transformer;
+
+	enum : NSInteger {
+		MTLPredefinedTransformerAdditionsSpecEnumNegative = -1,
+		MTLPredefinedTransformerAdditionsSpecEnumZero = 0,
+		MTLPredefinedTransformerAdditionsSpecEnumPositive = 1,
+	};
+
+	__block NSDictionary *dictionary = @{
+		@"negative": @(MTLPredefinedTransformerAdditionsSpecEnumNegative),
+		[[NSUUID alloc] initWithUUIDString:@"87B109C3-E7DC-4246-B528-5F1E806CF3BB"]: @(MTLPredefinedTransformerAdditionsSpecEnumZero),
+		@"positive": @(MTLPredefinedTransformerAdditionsSpecEnumPositive),
+	};
+
+	beforeEach(^{
+		transformer = [NSValueTransformer mtl_keyObjectTransformerWithDictionary:dictionary];
+	});
+
+	it(@"should transform enum values into strings", ^{
+		expect([transformer transformedValue:@"negative"]).to.equal(@(MTLPredefinedTransformerAdditionsSpecEnumNegative));
+		expect([transformer transformedValue:[[NSUUID alloc] initWithUUIDString:@"87B109C3-E7DC-4246-B528-5F1E806CF3BB"]]).to.equal(@(MTLPredefinedTransformerAdditionsSpecEnumZero));
+		expect([transformer transformedValue:@"positive"]).to.equal(@(MTLPredefinedTransformerAdditionsSpecEnumPositive));
+	});
+
+	it(@"should transform strings into enum values", ^{
+		expect([transformer.class allowsReverseTransformation]).to.beTruthy();
+
+		expect([transformer reverseTransformedValue:@(MTLPredefinedTransformerAdditionsSpecEnumNegative)]).to.equal(@"negative");
+		expect([transformer reverseTransformedValue:@(MTLPredefinedTransformerAdditionsSpecEnumZero)]).to.equal([[NSUUID alloc] initWithUUIDString:@"87B109C3-E7DC-4246-B528-5F1E806CF3BB"]);
+		expect([transformer reverseTransformedValue:@(MTLPredefinedTransformerAdditionsSpecEnumPositive)]).to.equal(@"positive");
+	});
+});
+
 SpecEnd
