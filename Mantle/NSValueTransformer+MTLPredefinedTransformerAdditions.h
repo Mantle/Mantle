@@ -52,14 +52,14 @@ extern NSString * const MTLBooleanValueTransformerName;
 // Can for example be used for transforming between enum values and their string
 // representation.
 //
-//   NSValueTransformer *valueTransformer = [NSValueTransformer mtl_keyObjectTransformerWithDictionary:@{
+//   NSValueTransformer *valueTransformer = [NSValueTransformer mtl_valueMappingTransformerWithDictionary:@{
 //     @"foo": @(EnumDataTypeFoo),
 //     @"bar": @(EnumDataTypeBar),
 //   }];
 //
-// Returns a reverisble transformer which transforms from keys to objects, and
-// vice-verse.
-+ (NSValueTransformer *)mtl_keyObjectTransformerWithDictionary:(NSDictionary *)dictionary;
+// Returns a transformer which will map from keys to objects for forward
+// transformations, and from objects to keys for reverse transformations.
++ (NSValueTransformer *)mtl_valueMappingTransformerWithDictionary:(NSDictionary *)dictionary;
 
 @end
 

@@ -123,7 +123,7 @@ describe(@"JSON transformers", ^{
 	});
 });
 
-describe(@"enum transformer", ^{
+describe(@"value mapping transformer", ^{
 	__block NSValueTransformer *transformer;
 
 	NSDictionary *dictionary = @{
@@ -133,7 +133,7 @@ describe(@"enum transformer", ^{
 	};
 
 	beforeEach(^{
-		transformer = [NSValueTransformer mtl_keyObjectTransformerWithDictionary:dictionary];
+		transformer = [NSValueTransformer mtl_valueMappingTransformerWithDictionary:dictionary];
 	});
 
 	it(@"should transform enum values into strings", ^{
