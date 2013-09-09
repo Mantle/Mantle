@@ -8,6 +8,12 @@
 
 #import "MTLTestModel.h"
 
+enum : NSInteger {
+	MTLPredefinedTransformerAdditionsSpecEnumNegative = -1,
+	MTLPredefinedTransformerAdditionsSpecEnumZero = 0,
+	MTLPredefinedTransformerAdditionsSpecEnumPositive = 1,
+} MTLPredefinedTransformerAdditionsSpecEnum;
+
 SpecBegin(MTLPredefinedTransformerAdditions)
 
 it(@"should define a URL value transformer", ^{
@@ -119,12 +125,6 @@ describe(@"JSON transformers", ^{
 
 describe(@"enum transformer", ^{
 	__block NSValueTransformer *transformer;
-
-	enum : NSInteger {
-		MTLPredefinedTransformerAdditionsSpecEnumNegative = -1,
-		MTLPredefinedTransformerAdditionsSpecEnumZero = 0,
-		MTLPredefinedTransformerAdditionsSpecEnumPositive = 1,
-	};
 
 	__block NSDictionary *dictionary = @{
 		@"negative": @(MTLPredefinedTransformerAdditionsSpecEnumNegative),
