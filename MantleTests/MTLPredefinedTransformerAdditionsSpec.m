@@ -126,7 +126,7 @@ describe(@"JSON transformers", ^{
 describe(@"enum transformer", ^{
 	__block NSValueTransformer *transformer;
 
-	__block NSDictionary *dictionary = @{
+	NSDictionary *dictionary = @{
 		@"negative": @(MTLPredefinedTransformerAdditionsSpecEnumNegative),
 		[[NSUUID alloc] initWithUUIDString:@"87B109C3-E7DC-4246-B528-5F1E806CF3BB"]: @(MTLPredefinedTransformerAdditionsSpecEnumZero),
 		@"positive": @(MTLPredefinedTransformerAdditionsSpecEnumPositive),
