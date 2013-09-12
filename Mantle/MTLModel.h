@@ -38,6 +38,9 @@
 // Returns an initialized model object, or nil if validation failed.
 - (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue error:(NSError **)error;
 
+// Prepares the receiver for service after it has been initialized as a model object
+- (void)awakeFromModel;
+
 // Returns the keys for all @property declarations, except for `readonly`
 // properties without ivars, or properties on MTLModel itself.
 + (NSSet *)propertyKeys;
