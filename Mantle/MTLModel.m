@@ -105,7 +105,14 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 		if (!success) return nil;
 	}
 
+    // Notify receiver to prepare itself after model has been initialized and validated
+    [self awakeFromModel];
+
 	return self;
+}
+
+- (void)awakeFromModel {
+    // By default, this does nothing. Implementing subclasses should implement this method to respond to model creation.
 }
 
 #pragma mark Reflection
