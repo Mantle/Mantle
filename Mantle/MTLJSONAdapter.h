@@ -12,7 +12,7 @@
 
 // A MTLModel object that supports being parsed from and serialized to JSON.
 @protocol MTLJSONSerializing
-@required
+@optional
 
 // Specifies how to map property keys to different key paths in JSON.
 //
@@ -26,8 +26,6 @@
 // Returns a dictionary mapping property keys to JSON key paths (as strings) or
 // NSNull values.
 + (NSDictionary *)JSONKeyPathsByPropertyKey;
-
-@optional
 
 // Specifies how to convert a JSON value to the given property key. If
 // reversible, the transformer will also be used to convert the property value
