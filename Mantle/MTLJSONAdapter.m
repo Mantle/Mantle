@@ -97,7 +97,9 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 
 	_modelClass = modelClass;
 	
-	_JSONKeyPathsByPropertyKey = [modelClass respondsToSelector:@selector(JSONKeyPathsByPropertyKey)] ? [[modelClass JSONKeyPathsByPropertyKey] copy] : @{};
+	if ([modelClass respondsToSelector:@selector(JSONKeyPathsByPropertyKey)]) {
+		_JSONKeyPathsByPropertyKey = [[modelClass JSONKeyPathsByPropertyKey] copy];
+	}
 
 	NSMutableDictionary *dictionaryValue = [[NSMutableDictionary alloc] initWithCapacity:JSONDictionary.count];
 
@@ -154,7 +156,10 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 
 	_model = model;
 	_modelClass = model.class;
-	_JSONKeyPathsByPropertyKey = [model.class respondsToSelector:@selector(JSONKeyPathsByPropertyKey)] ? [[model.class JSONKeyPathsByPropertyKey] copy] : @{};
+	
+	if ([modelClass respondsToSelector:@selector(JSONKeyPathsByPropertyKey)]) {
+		_JSONKeyPathsByPropertyKey = [[modelClass JSONKeyPathsByPropertyKey] copy];
+	}
 
 	return self;
 }
