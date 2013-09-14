@@ -157,8 +157,8 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	_model = model;
 	_modelClass = model.class;
 	
-	if ([modelClass respondsToSelector:@selector(JSONKeyPathsByPropertyKey)]) {
-		_JSONKeyPathsByPropertyKey = [[modelClass JSONKeyPathsByPropertyKey] copy];
+	if ([model.class respondsToSelector:@selector(JSONKeyPathsByPropertyKey)]) {
+		_JSONKeyPathsByPropertyKey = [[model.class JSONKeyPathsByPropertyKey] copy];
 	}
 
 	return self;
