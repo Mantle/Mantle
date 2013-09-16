@@ -3,11 +3,6 @@
 Mantle makes it easy to write a simple model layer for your Cocoa or Cocoa Touch
 application.
 
-## Getting Started
-
-To start building the framework, clone this repository and then run `script/bootstrap`.
-This will automatically pull down any dependencies.
-
 ## The Typical Model Object
 
 What's wrong with the way model objects are usually written in Objective-C?
@@ -449,6 +444,38 @@ does conform to `<NSCoding>`, so model objects can be archived to disk using
 
 If you need something more powerful, or want to avoid keeping your whole model
 in memory at once, Core Data may be a better choice.
+
+## System Requirements
+
+Mantle supports OS X 10.7+ and iOS 5.0+.
+
+## Importing Mantle
+
+To add Mantle to your application:
+
+ 1. Add the Mantle repository as a submodule of your application's
+    repository.
+ 1. Run `script/bootstrap` from within the Mantle folder.
+ 1. Drag and drop `Mantle.xcodeproj` into your
+    application's Xcode project or workspace.
+ 1. On the "Build Phases" tab of your application target, add Mantle to the "Link
+    Binary With Libraries" phase.
+    * **On iOS**, add `libMantle.a`.
+    * **On OS X**, add `Mantle.framework`. Mantle must also be added to any
+      "Copy Frameworks" build phase. If you don't already have one, simply add
+      a "Copy Files" build phase and target the "Frameworks" destination.
+ 1. Add `"$(BUILD_ROOT)/../IntermediateBuildFilesPath/UninstalledProducts/include"
+    $(inherited)` to the "Header Search Paths" build setting (this is only
+    necessary for archive builds, but it has no negative effect otherwise).
+ 1. **For iOS targets**, add `-ObjC` to the "Other Linker Flags" build setting.
+ 1. **If you added Mantle to a project (not a workspace)**, you will also need to
+    add the appropriate Mantle target to the "Target Dependencies" of your
+    application.
+
+If you would prefer to use [CocoaPods](http://cocoapods.org), there are some
+[Mantle
+podspecs](https://github.com/CocoaPods/Specs/tree/master/Mantle) that
+have been generously contributed by third parties.
 
 ## License
 
