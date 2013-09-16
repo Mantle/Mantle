@@ -333,7 +333,7 @@ model's superclass also implements `MTLJSONSerializing` to merge their mappings.
 
 When deserializing JSON using
 `+[MTLJSONAdapter modelOfClass:fromJSONDictionary:error:]`, JSON keys that don't
-have a mapping are ignored:
+correspond to a property name or have an explicit mapping are ignored:
 
 ```objc
 NSDictionary *JSONDictionary = @{

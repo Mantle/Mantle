@@ -8,6 +8,12 @@
 
 #import "MTLTestModel.h"
 
+enum : NSInteger {
+	MTLPredefinedTransformerAdditionsSpecEnumNegative = -1,
+	MTLPredefinedTransformerAdditionsSpecEnumZero = 0,
+	MTLPredefinedTransformerAdditionsSpecEnumPositive = 1,
+} MTLPredefinedTransformerAdditionsSpecEnum;
+
 SpecBegin(MTLPredefinedTransformerAdditions)
 
 it(@"should define a URL value transformer", ^{
@@ -114,6 +120,34 @@ describe(@"JSON transformers", ^{
 			expect([transformer.class allowsReverseTransformation]).to.beTruthy();
 			expect([transformer reverseTransformedValue:models]).to.equal(JSONDictionaries);
 		});
+	});
+});
+
+describe(@"value mapping transformer", ^{
+	__block NSValueTransformer *transformer;
+
+	NSDictionary *dictionary = @{
+		@"negative": @(MTLPredefinedTransformerAdditionsSpecEnumNegative),
+		@[ @"zero" ]: @(MTLPredefinedTransformerAdditionsSpecEnumZero),
+		@"positive": @(MTLPredefinedTransformerAdditionsSpecEnumPositive),
+	};
+
+	beforeEach(^{
+		transformer = [NSValueTransformer mtl_valueMappingTransformerWithDictionary:dictionary];
+	});
+
+	it(@"should transform enum values into strings", ^{
+		expect([transformer transformedValue:@"negative"]).to.equal(@(MTLPredefinedTransformerAdditionsSpecEnumNegative));
+		expect([transformer transformedValue:@[ @"zero" ]]).to.equal(@(MTLPredefinedTransformerAdditionsSpecEnumZero));
+		expect([transformer transformedValue:@"positive"]).to.equal(@(MTLPredefinedTransformerAdditionsSpecEnumPositive));
+	});
+
+	it(@"should transform strings into enum values", ^{
+		expect([transformer.class allowsReverseTransformation]).to.beTruthy();
+
+		expect([transformer reverseTransformedValue:@(MTLPredefinedTransformerAdditionsSpecEnumNegative)]).to.equal(@"negative");
+		expect([transformer reverseTransformedValue:@(MTLPredefinedTransformerAdditionsSpecEnumZero)]).to.equal(@[ @"zero" ]);
+		expect([transformer reverseTransformedValue:@(MTLPredefinedTransformerAdditionsSpecEnumPositive)]).to.equal(@"positive");
 	});
 });
 
