@@ -57,8 +57,12 @@
 // The domain for errors originating from MTLJSONAdapter.
 extern NSString * const MTLJSONAdapterErrorDomain;
 
+
 // +classForParsingJSONDictionary: returned nil for the given dictionary.
 extern const NSInteger MTLJSONAdapterErrorNoClassFound;
+
+// Error returned when the JSONDictionary received is not valid
+extern const NSInteger MTLJSONAdapterErrorInvalidJSONDictionary;
 
 // Converts a MTLModel object to and from a JSON dictionary.
 @interface MTLJSONAdapter : NSObject

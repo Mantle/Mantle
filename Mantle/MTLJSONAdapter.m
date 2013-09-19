@@ -12,6 +12,7 @@
 
 NSString * const MTLJSONAdapterErrorDomain = @"MTLJSONAdapterErrorDomain";
 const NSInteger MTLJSONAdapterErrorNoClassFound = 2;
+const NSInteger MTLJSONAdapterErrorInvalidJSONDictionary = 3;
 
 // An exception was thrown and caught.
 static const NSInteger MTLJSONAdapterErrorExceptionThrown = 1;
@@ -71,11 +72,21 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	NSParameterAssert([modelClass isSubclassOfClass:MTLModel.class]);
 	NSParameterAssert([modelClass conformsToProtocol:@protocol(MTLJSONSerializing)]);
 
-	if (JSONDictionary == nil) return nil;
+	
+	if (JSONDictionary == nil) {
+		NSDictionary *userInfo = @{
+			NSLocalizedDescriptionKey: NSLocalizedString(@"Invalid JSONDictionary", @""),
+			NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The JSONDictionary parameter is invalid.", @"")
+		};
+		*error = [NSError errorWithDomain:MTLJSONAdapterErrorDomain code:MTLJSONAdapterErrorInvalidJSONDictionary
+								 userInfo:userInfo];
+		return nil;
+	}
 
 	if ([modelClass respondsToSelector:@selector(classForParsingJSONDictionary:)]) {
 		modelClass = [modelClass classForParsingJSONDictionary:JSONDictionary];
 		if (modelClass == nil) {
+			
 			if (error != NULL) {
 				NSDictionary *userInfo = @{
 					NSLocalizedDescriptionKey: NSLocalizedString(@"Could not parse JSON", @""),
