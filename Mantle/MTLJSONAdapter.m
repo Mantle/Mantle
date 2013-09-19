@@ -6,6 +6,10 @@
 //  Copyright (c) 2013 GitHub. All rights reserved.
 //
 
+#import <objc/runtime.h>
+
+#import "EXTScope.h"
+#import "EXTRuntimeExtensions.h"
 #import "MTLJSONAdapter.h"
 #import "MTLModel.h"
 #import "MTLReflection.h"
@@ -27,6 +31,15 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 
 // A cached copy of the return value of +JSONKeyPathsByPropertyKey.
 @property (nonatomic, copy, readonly) NSDictionary *JSONKeyPathsByPropertyKey;
+
+// A cached copy of the return value of +implicitlyMappedPropertyKeysForClass:
+// for the current
+@property (nonatomic, copy, readonly) NSSet *implicitlyMappedPropertyKeys;
+
+// Returns a all property keys of `class` that have an implicit mapping.
+// An implicit mapping exisits if the (super)class that declared the property
+// either returns YES for `useImplicitJSONMapping` or does not implement it.
++ (NSSet *)implicitlyMappedPropertyKeysForClass:(Class)class;
 
 // Looks up the NSValueTransformer that should be used for the given key.
 //
@@ -97,6 +110,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 
 	_modelClass = modelClass;
 	_JSONKeyPathsByPropertyKey = [[modelClass JSONKeyPathsByPropertyKey] copy];
+	_implicitlyMappedPropertyKeys = [self.class implicitlyMappedPropertyKeysForClass:modelClass];
 
 	NSMutableDictionary *dictionaryValue = [[NSMutableDictionary alloc] initWithCapacity:JSONDictionary.count];
 
@@ -154,6 +168,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	_model = model;
 	_modelClass = model.class;
 	_JSONKeyPathsByPropertyKey = [[model.class JSONKeyPathsByPropertyKey] copy];
+	_implicitlyMappedPropertyKeys = [self.class implicitlyMappedPropertyKeysForClass:model.class];
 
 	return self;
 }
@@ -224,11 +239,40 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	id JSONKeyPath = self.JSONKeyPathsByPropertyKey[key];
 	if ([JSONKeyPath isEqual:NSNull.null]) return nil;
 
-	if (JSONKeyPath == nil) {
+	if (JSONKeyPath != nil) return JSONKeyPath;
+
+	if (key != nil && [self.implicitlyMappedPropertyKeys containsObject:key]) {
 		return key;
-	} else {
-		return JSONKeyPath;
 	}
+
+	return nil;
+}
+
++ (NSSet *)implicitlyMappedPropertyKeysForClass:(Class)class {
+	NSParameterAssert([class isSubclassOfClass:MTLModel.class]);
+
+	NSMutableSet *implicitlyMappedPropertyKeys = [NSMutableSet set];
+	for (Class cls = class; ![cls isEqual:MTLModel.class]; cls = cls.superclass) {
+		unsigned count = 0;
+		objc_property_t *properties = class_copyPropertyList(cls, &count);
+
+		if (properties == NULL) continue;
+
+		@onExit {
+			free(properties);
+		};
+
+		if ([cls respondsToSelector:@selector(useImplicitJSONMapping)] && ![cls useImplicitJSONMapping]) continue;
+
+		for (unsigned i = 0; i < count; i++) {
+			NSString *key = @(property_getName(properties[i]));
+
+			if ([[class propertyKeys] containsObject:key]) {
+				[implicitlyMappedPropertyKeys addObject:key];
+			}
+		}
+	}
+	return [implicitlyMappedPropertyKeys copy];
 }
 
 @end

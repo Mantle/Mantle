@@ -29,6 +29,14 @@
 
 @optional
 
+// If this method returns NO, no implicit property mappings are created for
+// properties declared by this class.
+// Not implementing this method is equivalent to returning YES.
+//
+// Note that subclasses may chose to opt into implicit JSON mapping. Properties
+// declared by superclasses will be unaffected.
++ (BOOL)useImplicitJSONMapping;
+
 // Specifies how to convert a JSON value to the given property key. If
 // reversible, the transformer will also be used to convert the property value
 // back to JSON.

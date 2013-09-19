@@ -162,3 +162,25 @@ static NSUInteger modelVersion = 1;
 }
 
 @end
+
+@implementation MTLOptOutModel
+
++ (BOOL)useImplicitJSONMapping {
+	return NO;
+}
+
++ (NSDictionary *)JSONKeyPathsByPropertyKey {
+	return @{
+		@"name": @"username"
+	};
+}
+
+@end
+
+@implementation MTLOptInModel
+
++ (BOOL)useImplicitJSONMapping {
+	return YES;
+}
+
+@end
