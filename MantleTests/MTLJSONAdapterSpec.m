@@ -73,7 +73,7 @@ it(@"should initialize nested key paths from JSON", ^{
 	expect([MTLJSONAdapter JSONDictionaryFromModel:model]).to.equal(values);
 });
 
-it(@"should return nil with a nil JSON dictionary, but no error", ^{
+it(@"should return nil with a nil JSON dictionary, and invalid json error", ^{
 	NSError *error = nil;
 	MTLJSONAdapter *adapter = [[MTLJSONAdapter alloc] initWithJSONDictionary:nil modelClass:MTLTestModel.class error:&error];
 	expect(adapter).to.beNil();
