@@ -66,12 +66,12 @@
 
 // Compares the receiver with another object for equality.
 //
-// The default implemementation is equivalent to comparing both models'
+// The default implementation is equivalent to comparing both models'
 // -dictionaryValue.
 //
 // Note that this may lead to infinite loops if the receiver holds a circular
 // reference to another MTLModel and both use the default behavior.
-// It is recommonded to override -isEqual: in this scenario.
+// It is recommended to override -isEqual: in this scenario.
 - (BOOL)isEqual:(id)object;
 
 // Returns a string that describes the contents of the receiver.
@@ -81,7 +81,7 @@
 //
 // Note that this may lead to infinite loops if the receiver holds a circular
 // reference to another MTLModel and both use the default behavior.
-// It is recommonded to override -description in this scenario.
+// It is recommended to override -description in this scenario.
 - (NSString *)description;
 
 @end
