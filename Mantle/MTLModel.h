@@ -70,7 +70,7 @@
 // -dictionaryValue.
 //
 // Note that this may lead to infinite loops if the receiver holds a circular
-// reference to another MTLModel if both use the default behavior.
+// reference to another MTLModel and both use the default behavior.
 // It is recommonded to override -isEqual: in this scenario.
 - (BOOL)isEqual:(id)object;
 
@@ -80,9 +80,8 @@
 // -dictionaryValue.
 //
 // Note that this may lead to infinite loops if the receiver holds a circular
-// reference to another MTLModel if both use the default behavior.
+// reference to another MTLModel and both use the default behavior.
 // It is recommonded to override -description in this scenario.
-// -dictionaryValue.
 - (NSString *)description;
 
 @end
