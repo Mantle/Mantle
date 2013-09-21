@@ -66,7 +66,7 @@
 
 // Compares the receiver with another object for equality.
 //
-// The default implemementation is equivalent to comparing both model's
+// The default implemementation is equivalent to comparing both models'
 // -dictionaryValue.
 //
 // Note that this may lead to infinite loops if the receiver holds a circular
@@ -77,6 +77,7 @@
 // Returns a string that describes the contents of the receiver.
 //
 // The default implementation is based on the receiver's class and its
+// -dictionaryValue.
 //
 // Note that this may lead to infinite loops if the receiver holds a circular
 // reference to another MTLModel if both use the default behavior.
