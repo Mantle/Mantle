@@ -118,7 +118,7 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 
 + (NSValueTransformer *)mtl_valueMappingTransformerWithDictionary:(NSDictionary *)dictionary {
 	NSParameterAssert(dictionary != nil);
-	NSParameterAssert(dictionary.count == [NSSet setWithArray:dictionary.allValues].count);
+	NSParameterAssert(dictionary.count == [[NSSet setWithArray:dictionary.allValues] count]);
 
 	return [MTLValueTransformer reversibleTransformerWithForwardBlock:^(id<NSCopying> key) {
 		return dictionary[key];
