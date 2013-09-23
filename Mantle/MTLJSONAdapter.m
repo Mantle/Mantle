@@ -36,7 +36,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 // for the current
 @property (nonatomic, copy, readonly) NSSet *implicitlyMappedPropertyKeys;
 
-// Returns a all property keys of `class` that have an implicit mapping.
+// Returns all property keys of `class` that have an implicit mapping.
 // An implicit mapping exisits if the (super)class that declared the property
 // either returns YES for `useImplicitJSONMapping` or does not implement it.
 + (NSSet *)implicitlyMappedPropertyKeysForClass:(Class)class;
