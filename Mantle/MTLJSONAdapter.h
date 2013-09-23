@@ -35,7 +35,7 @@
 //
 // Note that subclasses may chose to opt into implicit JSON mapping. Properties
 // declared by superclasses will be unaffected.
-+ (BOOL)useImplicitJSONMapping;
++ (BOOL)usesImplicitJSONMapping;
 
 // Specifies how to convert a JSON value to the given property key. If
 // reversible, the transformer will also be used to convert the property value

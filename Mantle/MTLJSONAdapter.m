@@ -262,7 +262,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 			free(properties);
 		};
 
-		if ([cls respondsToSelector:@selector(useImplicitJSONMapping)] && ![cls useImplicitJSONMapping]) continue;
+		if ([cls respondsToSelector:@selector(usesImplicitJSONMapping)] && ![cls usesImplicitJSONMapping]) continue;
 
 		for (unsigned i = 0; i < count; i++) {
 			NSString *key = @(property_getName(properties[i]));

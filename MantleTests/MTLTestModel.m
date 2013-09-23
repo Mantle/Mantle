@@ -165,7 +165,7 @@ static NSUInteger modelVersion = 1;
 
 @implementation MTLOptOutModel
 
-+ (BOOL)useImplicitJSONMapping {
++ (BOOL)usesImplicitJSONMapping {
 	return NO;
 }
 
@@ -179,7 +179,7 @@ static NSUInteger modelVersion = 1;
 
 @implementation MTLOptInModel
 
-+ (BOOL)useImplicitJSONMapping {
++ (BOOL)usesImplicitJSONMapping {
 	return YES;
 }
 
