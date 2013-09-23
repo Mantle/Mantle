@@ -98,7 +98,8 @@ extern const NSInteger MTLJSONAdapterErrorInvalidJSONDictionary;
 //
 // JSONDictionary - A dictionary representing JSON data. This should match the
 //                  format returned by NSJSONSerialization. If this argument is
-//                  nil, the method returns nil.
+//                  nil, the method returns nil and set error to 
+//					MTLJSONAdapterErrorInvalidJSONDictionary.
 // modelClass     - The MTLModel subclass to attempt to parse from the JSON.
 //                  This class must conform to <MTLJSONSerializing>. This
 //                  argument must not be nil.
