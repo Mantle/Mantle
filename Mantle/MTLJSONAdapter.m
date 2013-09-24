@@ -79,8 +79,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 				NSLocalizedDescriptionKey: NSLocalizedString(@"Invalid JSONDictionary", @""),
 				NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The JSONDictionary parameter is invalid.", @"")
 			};
-			*error = [NSError errorWithDomain:MTLJSONAdapterErrorDomain code:MTLJSONAdapterErrorInvalidJSONDictionary
-									 userInfo:userInfo];
+			*error = [NSError errorWithDomain:MTLJSONAdapterErrorDomain code:MTLJSONAdapterErrorInvalidJSONDictionary userInfo:userInfo];
 		}
 		return nil;
 	}
