@@ -64,6 +64,26 @@
 // `model` must be an instance of the receiver's class or a subclass thereof.
 - (void)mergeValuesForKeysFromModel:(MTLModel *)model;
 
+// Compares the receiver with another object for equality.
+//
+// The default implementation is equivalent to comparing both models'
+// -dictionaryValue.
+//
+// Note that this may lead to infinite loops if the receiver holds a circular
+// reference to another MTLModel and both use the default behavior.
+// It is recommended to override -isEqual: in this scenario.
+- (BOOL)isEqual:(id)object;
+
+// A string that describes the contents of the receiver.
+//
+// The default implementation is based on the receiver's class and its
+// -dictionaryValue.
+//
+// Note that this may lead to infinite loops if the receiver holds a circular
+// reference to another MTLModel and both use the default behavior.
+// It is recommended to override -description in this scenario.
+- (NSString *)description;
+
 @end
 
 // Implements validation logic for MTLModel.
