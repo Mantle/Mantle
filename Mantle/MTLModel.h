@@ -74,7 +74,7 @@
 // It is recommended to override -isEqual: in this scenario.
 - (BOOL)isEqual:(id)object;
 
-// Returns a string that describes the contents of the receiver.
+// A string that describes the contents of the receiver.
 //
 // The default implementation is based on the receiver's class and its
 // -dictionaryValue.
