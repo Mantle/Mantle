@@ -55,3 +55,20 @@ extern const NSInteger MTLTestModelNameMissing;
 // Returns a default name of 'foobar' when validateName:error: is invoked
 @interface MTLSelfValidatingModel : MTLValidationModel
 @end
+
+// Opts out of implicit mapping
+@interface MTLOptOutModel : MTLModel <MTLJSONSerializing>
+
+// Explicitly mapped to username
+@property (nonatomic, copy) NSString *name;
+
+// Not mapped
+@property (nonatomic, assign) NSUInteger count;
+
+@end
+
+@interface MTLOptInModel : MTLOptOutModel
+
+@property (nonatomic, copy) NSString *street;
+
+@end

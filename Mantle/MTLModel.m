@@ -67,12 +67,13 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 
 @interface MTLModel ()
 
-// Enumerates all properties of the receiver's class hierarchy, starting at the
-// receiver, and continuing up until (but not including) MTLModel.
+// Enumerates all properties as well as their declaring class in the receiver's
+// class hierarchy, starting at the receiver, and continuing up until (but not
+// including) MTLModel.
 //
 // The given block will be invoked multiple times for any properties declared on
 // multiple classes in the hierarchy.
-+ (void)enumeratePropertiesUsingBlock:(void (^)(objc_property_t property, BOOL *stop))block;
++ (void)enumeratePropertiesUsingBlock:(void (^)(objc_property_t property, Class class, BOOL *stop))block;
 
 @end
 
@@ -110,15 +111,13 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 
 #pragma mark Reflection
 
-+ (void)enumeratePropertiesUsingBlock:(void (^)(objc_property_t property, BOOL *stop))block {
-	Class cls = self;
++ (void)enumeratePropertiesUsingBlock:(void (^)(objc_property_t property, Class class, BOOL *stop))block {
 	BOOL stop = NO;
 
-	while (!stop && ![cls isEqual:MTLModel.class]) {
+	for (Class cls = self; ![cls isEqual:MTLModel.class]; cls = cls.superclass) {
 		unsigned count = 0;
 		objc_property_t *properties = class_copyPropertyList(cls, &count);
 
-		cls = cls.superclass;
 		if (properties == NULL) continue;
 
 		@onExit {
@@ -126,7 +125,7 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 		};
 
 		for (unsigned i = 0; i < count; i++) {
-			block(properties[i], &stop);
+			block(properties[i], cls, &stop);
 			if (stop) break;
 		}
 	}
@@ -138,7 +137,7 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 
 	NSMutableSet *keys = [NSMutableSet set];
 
-	[self enumeratePropertiesUsingBlock:^(objc_property_t property, BOOL *stop) {
+	[self enumeratePropertiesUsingBlock:^(objc_property_t property, Class class, BOOL *stop) {
 		mtl_propertyAttributes *attributes = mtl_copyPropertyAttributes(property);
 		@onExit {
 			free(attributes);

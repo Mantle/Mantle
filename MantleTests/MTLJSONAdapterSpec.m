@@ -80,6 +80,34 @@ it(@"should return nil with a nil JSON dictionary, but no error", ^{
 	expect(error).to.beNil();
 });
 
+it(@"should allow opting out of implicit mappings", ^{
+	MTLOptOutModel *model = [[MTLOptOutModel alloc] initWithDictionary:@{
+		@"name": @"foo",
+		@"count": @1
+	} error:NULL];
+
+	NSDictionary *JSONDictionary = @{
+		@"username": @"foo"
+	};
+
+	expect([MTLJSONAdapter JSONDictionaryFromModel:model]).to.equal(JSONDictionary);
+});
+
+it(@"should allow opting into implicit mappings again", ^{
+	MTLOptInModel *model = [[MTLOptInModel alloc] initWithDictionary:@{
+		@"name": @"foo",
+		@"count": @1,
+		@"street": @"Mainstreet"
+	} error:NULL];
+
+	NSDictionary *JSONDictionary = @{
+		@"username": @"foo",
+		@"street": @"Mainstreet"
+	};
+
+	expect([MTLJSONAdapter JSONDictionaryFromModel:model]).to.equal(JSONDictionary);
+});
+
 it(@"should ignore unrecognized JSON keys", ^{
 	NSDictionary *values = @{
 		@"foobar": @"foo",

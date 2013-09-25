@@ -19,15 +19,24 @@
 // Subclasses overriding this method should combine their values with those of
 // `super`.
 //
-// Any property keys not present in the dictionary are assumed to match the JSON
-// key that should be used. Any keys associated with NSNull will not participate
-// in JSON serialization.
+// Unless +usesImplicitJSONMapping is implemented and returns NO, any property
+// keys not present in the dictionary are assumed to match the JSON key that
+// should be used.
+// Any keys associated with NSNull will not participate in JSON serialization.
 //
 // Returns a dictionary mapping property keys to JSON key paths (as strings) or
 // NSNull values.
 + (NSDictionary *)JSONKeyPathsByPropertyKey;
 
 @optional
+
+// If this method returns NO, no implicit property mappings are created for
+// properties declared by this class.
+// Not implementing this method is equivalent to returning YES.
+//
+// Note that subclasses may chose to opt into implicit JSON mapping. Properties
+// declared by superclasses will be unaffected.
++ (BOOL)usesImplicitJSONMapping;
 
 // Specifies how to convert a JSON value to the given property key. If
 // reversible, the transformer will also be used to convert the property value
