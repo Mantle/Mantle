@@ -26,6 +26,7 @@
 		54EBFCB617FA286300D70464 /* NSValueTransformer+MTLErrorHandling.m in Sources */ = {isa = PBXBuildFile; fileRef = 54EBFCB417FA286300D70464 /* NSValueTransformer+MTLErrorHandling.m */; };
 		54EBFCBC17FA2C5E00D70464 /* MTLValueTransformerErrorHandlingSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 54EBFCBB17FA2C5E00D70464 /* MTLValueTransformerErrorHandlingSpec.m */; };
 		54EBFCBD17FA2C5E00D70464 /* MTLValueTransformerErrorHandlingSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 54EBFCBB17FA2C5E00D70464 /* MTLValueTransformerErrorHandlingSpec.m */; };
+		54EBFCC217FA30F500D70464 /* NSValueTransformer+MTLErrorHandling.m in Sources */ = {isa = PBXBuildFile; fileRef = 54EBFCB417FA286300D70464 /* NSValueTransformer+MTLErrorHandling.m */; };
 		88080C18160A706900CCABF2 /* NSArray+MTLManipulationAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 88080C16160A706900CCABF2 /* NSArray+MTLManipulationAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88080C19160A706900CCABF2 /* NSArray+MTLManipulationAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 88080C17160A706900CCABF2 /* NSArray+MTLManipulationAdditions.m */; };
 		88080C1A160A706900CCABF2 /* NSArray+MTLManipulationAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 88080C17160A706900CCABF2 /* NSArray+MTLManipulationAdditions.m */; };
@@ -938,6 +939,7 @@
 			files = (
 				D0760E7A15FFBF330060F550 /* MTLModel.m in Sources */,
 				D08B5AB016002694001FE685 /* MTLValueTransformer.m in Sources */,
+				54EBFCC217FA30F500D70464 /* NSValueTransformer+MTLErrorHandling.m in Sources */,
 				88080C1A160A706900CCABF2 /* NSArray+MTLManipulationAdditions.m in Sources */,
 				D0C27D0C16110973002FE587 /* NSDictionary+MTLManipulationAdditions.m in Sources */,
 				D0F1174B1614C5600092520B /* NSValueTransformer+MTLPredefinedTransformerAdditions.m in Sources */,
