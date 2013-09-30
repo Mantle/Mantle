@@ -51,7 +51,7 @@ describe(@"-mtl_transformedValue:error:", ^{
 });
 
 describe(@"-mtl_reverseTransformedValue:error:", ^{
-	it(@"should invoke -transformedValue:", ^{
+	it(@"should invoke -reverseTransformedValue:", ^{
 		__block NSError *error;
 		expect([transformer mtl_reverseTransformedValue:@"FOO" error:&error]).to.equal(@"foo");
 
