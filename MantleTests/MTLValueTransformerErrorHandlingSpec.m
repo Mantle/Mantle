@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 GitHub. All rights reserved.
 //
 
-#import "MTLValueTransformer.h"
+#import "MTLUppercasingValueTransformer.h"
 
 #import "NSValueTransformer+MTLErrorHandling.h"
 
@@ -15,21 +15,7 @@ SpecBegin(MTLValueTransformerErrorHandling)
 __block NSValueTransformer *transformer;
 
 beforeEach(^{
-	transformer = [MTLValueTransformer
-		reversibleTransformerWithForwardBlock:^NSString *(id value) {
-			if ([value isKindOfClass:NSString.class]) {
-				return [value uppercaseString];
-			} else {
-				return nil;
-			}
-		}
-		reverseBlock:^NSString *(id value) {
-			if ([value isKindOfClass:NSString.class]) {
-				return [value lowercaseString];
-			} else {
-				return nil;
-			}
-		}];
+	transformer = [[MTLUppercasingValueTransformer alloc] init];
 });
 
 describe(@"-mtl_transformedValue:error:", ^{

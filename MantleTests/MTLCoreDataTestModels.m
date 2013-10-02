@@ -26,9 +26,9 @@
 }
 
 + (NSValueTransformer *)numberStringEntityAttributeTransformer {
-	return [MTLValueTransformer reversibleTransformerWithForwardBlock:^(NSString *str) {
+	return [MTLValueTransformer reversibleTransformerWithForwardTransformation:^(NSString *str, NSError **error) {
 		return [NSDecimalNumber decimalNumberWithString:str];
-	} reverseBlock:^(NSNumber *num) {
+	} reverseTransformation:^(NSNumber *num, NSError **error) {
 		return num.stringValue;
 	}];
 }

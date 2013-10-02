@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-typedef id (^MTLValueTransformerBlock)(id);
+typedef id (^MTLValueTransformationBlock)(id, NSError **);
 
 //
 // A value transformer supporting block-based transformation.
@@ -17,13 +17,25 @@ typedef id (^MTLValueTransformerBlock)(id);
 
 // Returns a transformer which transforms values using the given block. Reverse
 // transformations will not be allowed.
-+ (instancetype)transformerWithBlock:(MTLValueTransformerBlock)transformationBlock;
++ (instancetype)transformerWithTransformation:(MTLValueTransformationBlock)transformation;
 
 // Returns a transformer which transforms values using the given block, for
 // forward or reverse transformations.
-+ (instancetype)reversibleTransformerWithBlock:(MTLValueTransformerBlock)transformationBlock;
++ (instancetype)reversibleTransformerWithTransformation:(MTLValueTransformationBlock)transformation;
 
 // Returns a transformer which transforms values using the given blocks.
-+ (instancetype)reversibleTransformerWithForwardBlock:(MTLValueTransformerBlock)forwardBlock reverseBlock:(MTLValueTransformerBlock)reverseBlock;
++ (instancetype)reversibleTransformerWithForwardTransformation:(MTLValueTransformationBlock)forwardTransformation reverseTransformation:(MTLValueTransformationBlock)reverseTransformation;
+
+@end
+
+typedef id (^MTLValueTransformerBlock)(id);
+
+@interface MTLValueTransformer (Deprecated)
+
++ (instancetype)transformerWithBlock:(MTLValueTransformerBlock)transformationBlock __attribute__((deprecated));
+
++ (instancetype)reversibleTransformerWithBlock:(MTLValueTransformerBlock)transformationBlock __attribute__((deprecated));
+
++ (instancetype)reversibleTransformerWithForwardBlock:(MTLValueTransformerBlock)forwardBlock reverseBlock:(MTLValueTransformerBlock)reverseBlock __attribute__((deprecated));
 
 @end

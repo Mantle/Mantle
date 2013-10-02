@@ -6,6 +6,8 @@
 //  Copyright (c) 2012 GitHub. All rights reserved.
 //
 
+#import "NSValueTransformer+MTLErrorHandling.h"
+
 #import "MTLValueTransformer.h"
 
 //
@@ -17,8 +19,8 @@
 
 @interface MTLValueTransformer ()
 
-@property (nonatomic, copy, readonly) MTLValueTransformerBlock forwardBlock;
-@property (nonatomic, copy, readonly) MTLValueTransformerBlock reverseBlock;
+@property (nonatomic, copy, readonly) MTLValueTransformationBlock forwardBlock;
+@property (nonatomic, copy, readonly) MTLValueTransformationBlock reverseBlock;
 
 @end
 
@@ -26,26 +28,26 @@
 
 #pragma mark Lifecycle
 
-+ (instancetype)transformerWithBlock:(MTLValueTransformerBlock)transformationBlock {
-	return [[self alloc] initWithForwardBlock:transformationBlock reverseBlock:nil];
++ (instancetype)transformerWithTransformation:(MTLValueTransformationBlock)transformation {
+	return [[self alloc] initWithForwardTransformation:transformation reverseTransformation:nil];
 }
 
-+ (instancetype)reversibleTransformerWithBlock:(MTLValueTransformerBlock)transformationBlock {
-	return [self reversibleTransformerWithForwardBlock:transformationBlock reverseBlock:transformationBlock];
++ (instancetype)reversibleTransformerWithTransformation:(MTLValueTransformationBlock)transformation {
+	return [self reversibleTransformerWithForwardTransformation:transformation reverseTransformation:transformation];
 }
 
-+ (instancetype)reversibleTransformerWithForwardBlock:(MTLValueTransformerBlock)forwardBlock reverseBlock:(MTLValueTransformerBlock)reverseBlock {
-	return [[MTLReversibleValueTransformer alloc] initWithForwardBlock:forwardBlock reverseBlock:reverseBlock];
++ (instancetype)reversibleTransformerWithForwardTransformation:(MTLValueTransformationBlock)forwardTransformation reverseTransformation:(MTLValueTransformationBlock)reverseTransformation {
+	return [[MTLReversibleValueTransformer alloc] initWithForwardTransformation:forwardTransformation reverseTransformation:reverseTransformation];
 }
 
-- (id)initWithForwardBlock:(MTLValueTransformerBlock)forwardBlock reverseBlock:(MTLValueTransformerBlock)reverseBlock {
-	NSParameterAssert(forwardBlock != nil);
+- (id)initWithForwardTransformation:(MTLValueTransformationBlock)forwardTransformation reverseTransformation:(MTLValueTransformationBlock)reverseTransformation {
+	NSParameterAssert(forwardTransformation != nil);
 
 	self = [super init];
 	if (self == nil) return nil;
 
-	_forwardBlock = [forwardBlock copy];
-	_reverseBlock = [reverseBlock copy];
+	_forwardBlock = [forwardTransformation copy];
+	_reverseBlock = [reverseTransformation copy];
 
 	return self;
 }
@@ -57,11 +59,15 @@
 }
 
 + (Class)transformedValueClass {
-	return [NSObject class];
+	return NSObject.class;
 }
 
 - (id)transformedValue:(id)value {
-	return self.forwardBlock(value);
+	return self.forwardBlock(value, NULL);
+}
+
+- (id)mtl_transformedValue:(id)value error:(NSError **)error {
+	return self.forwardBlock(value, error);
 }
 
 @end
@@ -70,9 +76,9 @@
 
 #pragma mark Lifecycle
 
-- (id)initWithForwardBlock:(MTLValueTransformerBlock)forwardBlock reverseBlock:(MTLValueTransformerBlock)reverseBlock {
-	NSParameterAssert(reverseBlock != nil);
-	return [super initWithForwardBlock:forwardBlock reverseBlock:reverseBlock];
+- (id)initWithForwardTransformation:(MTLValueTransformationBlock)forwardTransformation reverseTransformation:(MTLValueTransformationBlock)reverseTransformation {
+	NSParameterAssert(reverseTransformation != nil);
+	return [super initWithForwardTransformation:forwardTransformation reverseTransformation:reverseTransformation];
 }
 
 #pragma mark NSValueTransformer
@@ -82,7 +88,38 @@
 }
 
 - (id)reverseTransformedValue:(id)value {
-	return self.reverseBlock(value);
+	return self.reverseBlock(value, NULL);
+}
+
+- (id)mtl_reverseTransformedValue:(id)value error:(NSError **)error {
+	return self.reverseBlock(value, error);
+}
+
+@end
+
+
+@implementation MTLValueTransformer (Deprecated)
+
++ (instancetype)transformerWithBlock:(MTLValueTransformerBlock)transformationBlock {
+	return [self transformerWithTransformation:^(id value, NSError **error) {
+		return transformationBlock(value);
+	}];
+}
+
++ (instancetype)reversibleTransformerWithBlock:(MTLValueTransformerBlock)transformationBlock {
+	return [self reversibleTransformerWithTransformation:^(id value, NSError **error) {
+		return transformationBlock(value);
+	}];
+}
+
++ (instancetype)reversibleTransformerWithForwardBlock:(MTLValueTransformerBlock)forwardBlock reverseBlock:(MTLValueTransformerBlock)reverseBlock {
+	return [self
+		reversibleTransformerWithForwardTransformation:^(id value, NSError **error) {
+			return forwardBlock(value);
+		}
+		reverseTransformation:^(id value, NSError **error) {
+			return reverseBlock(value);
+		}];
 }
 
 @end

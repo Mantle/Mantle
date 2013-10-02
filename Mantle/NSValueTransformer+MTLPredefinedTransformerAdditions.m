@@ -21,11 +21,11 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 + (void)load {
 	@autoreleasepool {
 		MTLValueTransformer *URLValueTransformer = [MTLValueTransformer
-			reversibleTransformerWithForwardBlock:^ id (NSString *str) {
+			reversibleTransformerWithForwardTransformation:^ id (NSString *str, NSError **error) {
 				if (![str isKindOfClass:NSString.class]) return nil;
 				return [NSURL URLWithString:str];
 			}
-			reverseBlock:^ id (NSURL *URL) {
+			reverseTransformation:^ id (NSURL *URL, NSError **error) {
 				if (![URL isKindOfClass:NSURL.class]) return nil;
 				return URL.absoluteString;
 			}];
@@ -33,7 +33,7 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 		[NSValueTransformer setValueTransformer:URLValueTransformer forName:MTLURLValueTransformerName];
 
 		MTLValueTransformer *booleanValueTransformer = [MTLValueTransformer
-			reversibleTransformerWithBlock:^ id (NSNumber *boolean) {
+			reversibleTransformerWithTransformation:^ id (NSNumber *boolean, NSError **error) {
 				if (![boolean isKindOfClass:NSNumber.class]) return nil;
 				return (NSNumber *)(boolean.boolValue ? kCFBooleanTrue : kCFBooleanFalse);
 			}];
@@ -49,14 +49,14 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 	NSParameterAssert([modelClass conformsToProtocol:@protocol(MTLJSONSerializing)]);
 
 	return [MTLValueTransformer
-		reversibleTransformerWithForwardBlock:^ id (id JSONDictionary) {
+		reversibleTransformerWithForwardTransformation:^ id (id JSONDictionary, NSError **error) {
 			if (JSONDictionary == nil) return nil;
 
 			NSAssert([JSONDictionary isKindOfClass:NSDictionary.class], @"Expected a dictionary, got: %@", JSONDictionary);
 
-			return [MTLJSONAdapter modelOfClass:modelClass fromJSONDictionary:JSONDictionary error:NULL];
+			return [MTLJSONAdapter modelOfClass:modelClass fromJSONDictionary:JSONDictionary error:error];
 		}
-		reverseBlock:^ id (id model) {
+		reverseTransformation:^ id (id model, NSError **error) {
 			if (model == nil) return nil;
 
 			NSAssert([model isKindOfClass:MTLModel.class], @"Expected a MTLModel object, got %@", model);
@@ -70,7 +70,7 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 	NSValueTransformer *dictionaryTransformer = [self mtl_JSONDictionaryTransformerWithModelClass:modelClass];
 
 	return [MTLValueTransformer
-		reversibleTransformerWithForwardBlock:^ id (NSArray *dictionaries) {
+		reversibleTransformerWithForwardTransformation:^ id (NSArray *dictionaries, NSError **error) {
 			if (dictionaries == nil) return nil;
 
 			NSAssert([dictionaries isKindOfClass:NSArray.class], @"Expected a array of dictionaries, got: %@", dictionaries);
@@ -92,7 +92,7 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 
 			return models;
 		}
-		reverseBlock:^ id (NSArray *models) {
+		reverseTransformation:^ id (NSArray *models, NSError **error) {
 			if (models == nil) return nil;
 
 			NSAssert([models isKindOfClass:NSArray.class], @"Expected a array of MTLModels, got: %@", models);
@@ -120,9 +120,9 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 	NSParameterAssert(dictionary != nil);
 	NSParameterAssert(dictionary.count == [[NSSet setWithArray:dictionary.allValues] count]);
 
-	return [MTLValueTransformer reversibleTransformerWithForwardBlock:^(id<NSCopying> key) {
+	return [MTLValueTransformer reversibleTransformerWithForwardTransformation:^(id<NSCopying> key, NSError **error) {
 		return dictionary[key];
-	} reverseBlock:^(id object) {
+	} reverseTransformation:^(id object, NSError **error) {
 		__block id result = nil;
 		[dictionary enumerateKeysAndObjectsUsingBlock:^(id key, id anObject, BOOL *stop) {
 			if ([object isEqual:anObject]) {
