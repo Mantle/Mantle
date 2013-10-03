@@ -3,11 +3,6 @@
 Mantle makes it easy to write a simple model layer for your Cocoa or Cocoa Touch
 application.
 
-## Getting Started
-
-To start building the framework, clone this repository and then run `script/bootstrap`.
-This will automatically pull down any dependencies.
-
 ## The Typical Model Object
 
 What's wrong with the way model objects are usually written in Objective-C?
@@ -135,11 +130,14 @@ typedef enum : NSUInteger {
 Whew, that's a lot of boilerplate for something so simple! And, even then, there
 are some problems that this example doesn't address:
 
- * If the `url` or `html_url` field is missing, `+[NSURL URLWithString:]` will throw an exception.
+ * If the `url` or `html_url` field is missing, `+[NSURL URLWithString:]` will
+   throw an exception.
  * There's no way to update a `GHIssue` with new data from the server.
  * There's no way to turn a `GHIssue` _back_ into JSON.
- * `GHIssueState` shouldn't be encoded as-is. If the enum changes in the future, existing archives might break.
- * If the interface of `GHIssue` changes down the road, existing archives might break.
+ * `GHIssueState` shouldn't be encoded as-is. If the enum changes in the future,
+   existing archives might break.
+ * If the interface of `GHIssue` changes down the road, existing archives might
+   break.
 
 ## Why Not Use Core Data?
 
@@ -160,8 +158,8 @@ If you're just trying to access some JSON objects, Core Data can be a lot of
 work for little gain.
 
 Nonetheless, if you're using or want to use Core Data in your app already,
-Mantle can still be a convenient translation layer between the API and your managed
-model objects.
+Mantle can still be a convenient translation layer between the API and your
+managed model objects.
 
 ## MTLModel
 
@@ -333,7 +331,7 @@ model's superclass also implements `MTLJSONSerializing` to merge their mappings.
 
 When deserializing JSON using
 `+[MTLJSONAdapter modelOfClass:fromJSONDictionary:error:]`, JSON keys that don't
-have a mapping are ignored:
+correspond to a property name or have an explicit mapping are ignored:
 
 ```objc
 NSDictionary *JSONDictionary = @{
@@ -449,6 +447,36 @@ does conform to `<NSCoding>`, so model objects can be archived to disk using
 
 If you need something more powerful, or want to avoid keeping your whole model
 in memory at once, Core Data may be a better choice.
+
+## System Requirements
+
+Mantle supports OS X 10.7+ and iOS 5.0+.
+
+## Importing Mantle
+
+To add Mantle to your application:
+
+ 1. Add the Mantle repository as a submodule of your application's repository.
+ 1. Run `script/bootstrap` from within the Mantle folder.
+ 1. Drag and drop `Mantle.xcodeproj` into your application's Xcode project or
+    workspace.
+ 1. On the "Build Phases" tab of your application target, add Mantle to the
+    "Link Binary With Libraries" phase.
+    * **On iOS**, add `libMantle.a`.
+    * **On OS X**, add `Mantle.framework`. Mantle must also be added to any
+      "Copy Frameworks" build phase. If you don't already have one, simply add a
+      "Copy Files" build phase and target the "Frameworks" destination.
+ 1. Add `"$(BUILD_ROOT)/../IntermediateBuildFilesPath/UninstalledProducts/include" $(inherited)`
+    to the "Header Search Paths" build setting (this is only
+    necessary for archive builds, but it has no negative effect otherwise).
+ 1. **For iOS targets**, add `-ObjC` to the "Other Linker Flags" build setting.
+ 1. **If you added Mantle to a project (not a workspace)**, you will also need
+    to add the appropriate Mantle target to the "Target Dependencies" of your
+    application.
+
+If you would prefer to use [CocoaPods](http://cocoapods.org), there are some
+[Mantle podspecs](https://github.com/CocoaPods/Specs/tree/master/Mantle) that
+have been generously contributed by third parties.
 
 ## License
 
