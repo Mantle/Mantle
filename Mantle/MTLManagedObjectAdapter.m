@@ -366,6 +366,11 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 		return nil;
 	}
 
+	// Assign all errors to this variable to work around a memory problem.
+	//
+	// See https://github.com/github/Mantle/pull/120 for more context.
+	__block NSError *tmpError;
+
 	// Pre-emptively consider this object processed, so that we don't get into
 	// any cycles when processing its relationships.
 	CFDictionaryAddValue(processedObjects, (__bridge void *)model, (__bridge void *)managedObject);
@@ -403,7 +408,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 						NSLocalizedFailureReasonErrorKey: failureReason,
 					};
 
-					*error = [NSError errorWithDomain:MTLManagedObjectAdapterErrorDomain code:MTLManagedObjectAdapterErrorUnsupportedRelationshipClass userInfo:userInfo];
+					tmpError = [NSError errorWithDomain:MTLManagedObjectAdapterErrorDomain code:MTLManagedObjectAdapterErrorUnsupportedRelationshipClass userInfo:userInfo];
 				}
 
 				return nil;
@@ -425,7 +430,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 							NSLocalizedFailureReasonErrorKey: failureReason,
 						};
 
-						*error = [NSError errorWithDomain:MTLManagedObjectAdapterErrorDomain code:MTLManagedObjectAdapterErrorUnsupportedRelationshipClass userInfo:userInfo];
+						tmpError = [NSError errorWithDomain:MTLManagedObjectAdapterErrorDomain code:MTLManagedObjectAdapterErrorUnsupportedRelationshipClass userInfo:userInfo];
 					}
 
 					return NO;
@@ -464,7 +469,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 						NSLocalizedFailureReasonErrorKey: failureReason,
 					};
 
-					*error = [NSError errorWithDomain:MTLManagedObjectAdapterErrorDomain code:MTLManagedObjectAdapterErrorInvalidManagedObjectKey userInfo:userInfo];
+					tmpError = [NSError errorWithDomain:MTLManagedObjectAdapterErrorDomain code:MTLManagedObjectAdapterErrorInvalidManagedObjectKey userInfo:userInfo];
 				}
 
 				return NO;
@@ -485,7 +490,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 						NSLocalizedFailureReasonErrorKey: failureReason,
 					};
 
-					*error = [NSError errorWithDomain:MTLManagedObjectAdapterErrorDomain code:MTLManagedObjectAdapterErrorUnsupportedManagedObjectPropertyType userInfo:userInfo];
+					tmpError = [NSError errorWithDomain:MTLManagedObjectAdapterErrorDomain code:MTLManagedObjectAdapterErrorUnsupportedManagedObjectPropertyType userInfo:userInfo];
 				}
 
 				return NO;
@@ -508,6 +513,10 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 			[context deleteObject:managedObject];
 			return nil;
 		});
+	}
+
+	if (error != NULL) {
+		*error = tmpError;
 	}
 
 	return managedObject;
