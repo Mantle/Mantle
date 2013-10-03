@@ -14,6 +14,11 @@
 NSString * const MTLURLValueTransformerName = @"MTLURLValueTransformerName";
 NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerName";
 
+NSString * const MTLPredefinedTransformerErrorDomain = @"MTLPredefinedTransformerErrorDomain";
+
+const NSInteger MTLURLValueTransformerFailed = 1;
+const NSInteger MTLBooleanValueTransformerFailed = 2;
+
 @implementation NSValueTransformer (MTLPredefinedTransformerAdditions)
 
 #pragma mark Category Loading
@@ -22,11 +27,35 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 	@autoreleasepool {
 		MTLValueTransformer *URLValueTransformer = [MTLValueTransformer
 			reversibleTransformerWithForwardTransformation:^ id (NSString *str, NSError **error) {
-				if (![str isKindOfClass:NSString.class]) return nil;
+				if (![str isKindOfClass:NSString.class]) {
+					if (error != NULL) {
+						NSString *failureReason = [NSString stringWithFormat:NSLocalizedString(@"Expected an NSString, got: %@.", @""), str];
+
+						NSDictionary *userInfo = @{
+							NSLocalizedDescriptionKey: NSLocalizedString(@"Could not convert string", @""),
+							NSLocalizedFailureReasonErrorKey: failureReason,
+						};
+
+						*error = [NSError errorWithDomain:MTLPredefinedTransformerErrorDomain code:MTLURLValueTransformerFailed userInfo:userInfo];
+					}
+				}
 				return [NSURL URLWithString:str];
 			}
 			reverseTransformation:^ id (NSURL *URL, NSError **error) {
-				if (![URL isKindOfClass:NSURL.class]) return nil;
+				if (![URL isKindOfClass:NSURL.class]) {
+					if (error != NULL) {
+						NSString *failureReason = [NSString stringWithFormat:NSLocalizedString(@"Expected an NSURL, got: %@.", @""), URL];
+
+						NSDictionary *userInfo = @{
+							NSLocalizedDescriptionKey: NSLocalizedString(@"Could not convert URL", @""),
+							NSLocalizedFailureReasonErrorKey: failureReason,
+						};
+
+						*error = [NSError errorWithDomain:MTLPredefinedTransformerErrorDomain code:MTLURLValueTransformerFailed userInfo:userInfo];
+					}
+
+					return nil;
+				}
 				return URL.absoluteString;
 			}];
 		
@@ -34,7 +63,20 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 
 		MTLValueTransformer *booleanValueTransformer = [MTLValueTransformer
 			reversibleTransformerWithTransformation:^ id (NSNumber *boolean, NSError **error) {
-				if (![boolean isKindOfClass:NSNumber.class]) return nil;
+				if (![boolean isKindOfClass:NSNumber.class]) {
+					if (error != NULL) {
+						NSString *failureReason = [NSString stringWithFormat:NSLocalizedString(@"Expected an NSNumber, got: %@.", @""), boolean];
+
+						NSDictionary *userInfo = @{
+							NSLocalizedDescriptionKey: NSLocalizedString(@"Could not convert number", @""),
+							NSLocalizedFailureReasonErrorKey: failureReason,
+						};
+
+						*error = [NSError errorWithDomain:MTLPredefinedTransformerErrorDomain code:MTLBooleanValueTransformerFailed userInfo:userInfo];
+					}
+
+					return nil;
+				}
 				return (NSNumber *)(boolean.boolValue ? kCFBooleanTrue : kCFBooleanFalse);
 			}];
 

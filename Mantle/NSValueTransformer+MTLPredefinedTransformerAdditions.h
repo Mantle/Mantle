@@ -20,6 +20,17 @@ extern NSString * const MTLURLValueTransformerName;
 // proper boolean.
 extern NSString * const MTLBooleanValueTransformerName;
 
+// The domain for errors originating from the MTLPredefinedTransformerAdditions
+// category on NSValueTransformer.
+extern NSString * const MTLPredefinedTransformerErrorDomain;
+
+// The value transformer could not convert from a string to a URL or vice-versa.
+extern const NSInteger MTLURLValueTransformerFailed;
+
+// The value transformer could not convert from an NSNumber to a __NSCFBoolean-
+// backed number.
+extern const NSInteger MTLBooleanValueTransformerFailed;
+
 @interface NSValueTransformer (MTLPredefinedTransformerAdditions)
 
 // Creates a reversible transformer to convert a JSON dictionary into a MTLModel
