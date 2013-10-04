@@ -33,3 +33,13 @@
 @property (nonatomic, weak) MTLParentTestModel *parent2;
 
 @end
+
+// Claims to correspond to the `Empty` entity which lacks the `notSupported`
+// property.
+@interface MTLFailureModel : MTLModel <MTLManagedObjectSerializing>
+
+// Not present in the `Empty` entity.
+@property (nonatomic, assign) NSString *notSupported;
+
+@end
+
