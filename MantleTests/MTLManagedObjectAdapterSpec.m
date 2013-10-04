@@ -204,6 +204,18 @@ describe(@"with a confined context", ^{
 			expect(error).to.beNil();
 		});
 
+		it(@"should return an error if a model object could not be inserted", ^{
+			MTLFailureModel *failureModel = [MTLFailureModel modelWithDictionary:@{
+				@"notSupported": @"foobar"
+			} error:NULL];
+
+			__block NSError *error = nil;
+			NSManagedObject *failure =[MTLManagedObjectAdapter managedObjectFromModel:failureModel insertingIntoContext:context error:&error];
+
+			expect(failure).to.beNil();
+			expect(error).notTo.beNil();
+		});
+
 		it(@"should respect the uniqueness constraint", ^{
 			NSError *errorOne;
 			MTLParent *parentOne = (MTLParent *)[MTLManagedObjectAdapter managedObjectFromModel:parentModel insertingIntoContext:context error:&errorOne];
