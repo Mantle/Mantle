@@ -6,8 +6,6 @@
 //  Copyright (c) 2012 GitHub. All rights reserved.
 //
 
-#import "NSValueTransformer+MTLErrorHandling.h"
-
 #import "MTLValueTransformer.h"
 
 //
@@ -66,7 +64,7 @@
 	return self.forwardBlock(value, NULL);
 }
 
-- (id)mtl_transformedValue:(id)value error:(NSError **)error {
+- (id)transformedValue:(id)value error:(NSError **)error {
 	return self.forwardBlock(value, error);
 }
 
@@ -91,7 +89,7 @@
 	return self.reverseBlock(value, NULL);
 }
 
-- (id)mtl_reverseTransformedValue:(id)value error:(NSError **)error {
+- (id)reverseTransformedValue:(id)value error:(NSError **)error {
 	return self.reverseBlock(value, error);
 }
 

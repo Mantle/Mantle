@@ -8,12 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
+#import "MTLTransformerErrorHandling.h"
+
 typedef id (^MTLValueTransformationBlock)(id, NSError **);
 
 //
 // A value transformer supporting block-based transformation.
 //
-@interface MTLValueTransformer : NSValueTransformer
+@interface MTLValueTransformer : NSValueTransformer <MTLTransformerErrorHandling>
 
 // Returns a transformer which transforms values using the given block. Reverse
 // transformations will not be allowed.
