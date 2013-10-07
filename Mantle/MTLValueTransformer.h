@@ -10,7 +10,7 @@
 
 #import "MTLTransformerErrorHandling.h"
 
-typedef id (^MTLValueTransformationBlock)(id, NSError **);
+typedef id (^MTLValueTransformationBlock)(id, BOOL *, NSError **);
 
 //
 // A value transformer supporting block-based transformation.

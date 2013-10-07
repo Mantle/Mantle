@@ -14,9 +14,9 @@
 - (NSValueTransformer *)mtl_invertedTransformer {
 	NSParameterAssert(self.class.allowsReverseTransformation);
 
-	return [MTLValueTransformer reversibleTransformerWithForwardTransformation:^(id value, NSError **error) {
+	return [MTLValueTransformer reversibleTransformerWithForwardTransformation:^(id value, BOOL *success, NSError **error) {
 		return [self reverseTransformedValue:value];
-	} reverseTransformation:^(id value, NSError **error) {
+	} reverseTransformation:^(id value, BOOL *success, NSError **error) {
 		return [self transformedValue:value];
 	}];
 }

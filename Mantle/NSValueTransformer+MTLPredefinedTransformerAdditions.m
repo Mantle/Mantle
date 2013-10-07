@@ -26,7 +26,7 @@ const NSInteger MTLBooleanValueTransformerFailed = 2;
 + (void)load {
 	@autoreleasepool {
 		MTLValueTransformer *URLValueTransformer = [MTLValueTransformer
-			reversibleTransformerWithForwardTransformation:^ id (NSString *str, NSError **error) {
+			reversibleTransformerWithForwardTransformation:^ id (NSString *str, BOOL *success, NSError **error) {
 				if (![str isKindOfClass:NSString.class]) {
 					if (error != NULL) {
 						NSString *failureReason = [NSString stringWithFormat:NSLocalizedString(@"Expected an NSString, got: %@.", @""), str];
@@ -41,7 +41,7 @@ const NSInteger MTLBooleanValueTransformerFailed = 2;
 				}
 				return [NSURL URLWithString:str];
 			}
-			reverseTransformation:^ id (NSURL *URL, NSError **error) {
+			reverseTransformation:^ id (NSURL *URL, BOOL *success, NSError **error) {
 				if (![URL isKindOfClass:NSURL.class]) {
 					if (error != NULL) {
 						NSString *failureReason = [NSString stringWithFormat:NSLocalizedString(@"Expected an NSURL, got: %@.", @""), URL];
@@ -62,7 +62,7 @@ const NSInteger MTLBooleanValueTransformerFailed = 2;
 		[NSValueTransformer setValueTransformer:URLValueTransformer forName:MTLURLValueTransformerName];
 
 		MTLValueTransformer *booleanValueTransformer = [MTLValueTransformer
-			reversibleTransformerWithTransformation:^ id (NSNumber *boolean, NSError **error) {
+			reversibleTransformerWithTransformation:^ id (NSNumber *boolean, BOOL *success, NSError **error) {
 				if (![boolean isKindOfClass:NSNumber.class]) {
 					if (error != NULL) {
 						NSString *failureReason = [NSString stringWithFormat:NSLocalizedString(@"Expected an NSNumber, got: %@.", @""), boolean];
@@ -91,14 +91,14 @@ const NSInteger MTLBooleanValueTransformerFailed = 2;
 	NSParameterAssert([modelClass conformsToProtocol:@protocol(MTLJSONSerializing)]);
 
 	return [MTLValueTransformer
-		reversibleTransformerWithForwardTransformation:^ id (id JSONDictionary, NSError **error) {
+		reversibleTransformerWithForwardTransformation:^ id (id JSONDictionary, BOOL *success, NSError **error) {
 			if (JSONDictionary == nil) return nil;
 
 			NSAssert([JSONDictionary isKindOfClass:NSDictionary.class], @"Expected a dictionary, got: %@", JSONDictionary);
 
 			return [MTLJSONAdapter modelOfClass:modelClass fromJSONDictionary:JSONDictionary error:error];
 		}
-		reverseTransformation:^ id (id model, NSError **error) {
+		reverseTransformation:^ id (id model, BOOL *success, NSError **error) {
 			if (model == nil) return nil;
 
 			NSAssert([model isKindOfClass:MTLModel.class], @"Expected a MTLModel object, got %@", model);
@@ -112,7 +112,7 @@ const NSInteger MTLBooleanValueTransformerFailed = 2;
 	NSValueTransformer *dictionaryTransformer = [self mtl_JSONDictionaryTransformerWithModelClass:modelClass];
 
 	return [MTLValueTransformer
-		reversibleTransformerWithForwardTransformation:^ id (NSArray *dictionaries, NSError **error) {
+		reversibleTransformerWithForwardTransformation:^ id (NSArray *dictionaries, BOOL *success, NSError **error) {
 			if (dictionaries == nil) return nil;
 
 			NSAssert([dictionaries isKindOfClass:NSArray.class], @"Expected a array of dictionaries, got: %@", dictionaries);
@@ -134,7 +134,7 @@ const NSInteger MTLBooleanValueTransformerFailed = 2;
 
 			return models;
 		}
-		reverseTransformation:^ id (NSArray *models, NSError **error) {
+		reverseTransformation:^ id (NSArray *models, BOOL *success, NSError **error) {
 			if (models == nil) return nil;
 
 			NSAssert([models isKindOfClass:NSArray.class], @"Expected a array of MTLModels, got: %@", models);
@@ -162,9 +162,9 @@ const NSInteger MTLBooleanValueTransformerFailed = 2;
 	NSParameterAssert(dictionary != nil);
 	NSParameterAssert(dictionary.count == [[NSSet setWithArray:dictionary.allValues] count]);
 
-	return [MTLValueTransformer reversibleTransformerWithForwardTransformation:^(id<NSCopying> key, NSError **error) {
+	return [MTLValueTransformer reversibleTransformerWithForwardTransformation:^(id<NSCopying> key, BOOL *success, NSError **error) {
 		return dictionary[key];
-	} reverseTransformation:^(id object, NSError **error) {
+	} reverseTransformation:^(id object, BOOL *success, NSError **error) {
 		__block id result = nil;
 		[dictionary enumerateKeysAndObjectsUsingBlock:^(id key, id anObject, BOOL *stop) {
 			if ([object isEqual:anObject]) {
