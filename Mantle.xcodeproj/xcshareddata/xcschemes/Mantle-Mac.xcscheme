@@ -14,23 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D042FC7815F72BC7004E8054"
-               BuildableName = "libMantle.a"
-               BlueprintName = "Mantle iOS"
-               ReferencedContainer = "container:Mantle.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "NO"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D042FC8615F72BC7004E8054"
-               BuildableName = "Mantle iOS Tests.octest"
-               BlueprintName = "Mantle iOS Tests"
+               BlueprintIdentifier = "D0A56B451804B04900A84EDC"
+               BuildableName = "libMantle-Mac.a"
+               BlueprintName = "Mantle-Mac"
                ReferencedContainer = "container:Mantle.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -42,16 +28,6 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       buildConfiguration = "Debug">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D042FC8615F72BC7004E8054"
-               BuildableName = "Mantle iOS Tests.octest"
-               BlueprintName = "Mantle iOS Tests"
-               ReferencedContainer = "container:Mantle.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
@@ -70,7 +46,7 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
-      buildConfiguration = "Profile"
+      buildConfiguration = "Release"
       debugDocumentVersioning = "YES">
    </ProfileAction>
    <AnalyzeAction
