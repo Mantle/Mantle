@@ -95,6 +95,8 @@
 		D0A56B861804B16B00A84EDC /* NSValueTransformer+MTLInversionAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D0BFC36E17476B4700F5DC5D /* NSValueTransformer+MTLInversionAdditions.m */; };
 		D0A56B871804B16B00A84EDC /* NSValueTransformer+MTLPredefinedTransformerAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = D0F117471614C5600092520B /* NSValueTransformer+MTLPredefinedTransformerAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D0A56B881804B16B00A84EDC /* NSValueTransformer+MTLPredefinedTransformerAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F117481614C5600092520B /* NSValueTransformer+MTLPredefinedTransformerAdditions.m */; };
+		D0A56B8B1804B1A000A84EDC /* EXTRuntimeExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = D094E4771777617300906BF7 /* EXTRuntimeExtensions.m */; };
+		D0A56B901804B1A300A84EDC /* EXTScope.m in Sources */ = {isa = PBXBuildFile; fileRef = D094E4791777617300906BF7 /* EXTScope.m */; };
 		D0ABD7A11746D56E006BEA7D /* MTLManagedObjectAdapterSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D0ABD7A01746D56E006BEA7D /* MTLManagedObjectAdapterSpec.m */; };
 		D0ABD7A21746D56E006BEA7D /* MTLManagedObjectAdapterSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D0ABD7A01746D56E006BEA7D /* MTLManagedObjectAdapterSpec.m */; };
 		D0BFC36717476A5F00F5DC5D /* MTLValueTransformerInversionAdditionsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D0BFC36617476A5F00F5DC5D /* MTLValueTransformerInversionAdditionsSpec.m */; };
@@ -1050,6 +1052,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D0A56B901804B1A300A84EDC /* EXTScope.m in Sources */,
 				D0A56B7E1804B15900A84EDC /* MTLValueTransformer.m in Sources */,
 				D0A56B801804B16B00A84EDC /* NSArray+MTLManipulationAdditions.m in Sources */,
 				D0A56B881804B16B00A84EDC /* NSValueTransformer+MTLPredefinedTransformerAdditions.m in Sources */,
@@ -1059,6 +1062,7 @@
 				D0A56B781804B14F00A84EDC /* MTLModel+NSCoding.m in Sources */,
 				D0A56B7A1804B15600A84EDC /* MTLJSONAdapter.m in Sources */,
 				D0A56B7C1804B15600A84EDC /* MTLManagedObjectAdapter.m in Sources */,
+				D0A56B8B1804B1A000A84EDC /* EXTRuntimeExtensions.m in Sources */,
 				D0A56B741804B11400A84EDC /* MTLModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
