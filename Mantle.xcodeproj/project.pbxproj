@@ -1200,6 +1200,7 @@
 				DSTROOT = /tmp/$PRODUCT_NAME.dst;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = include/Mantle;
 			};
 			name = Debug;
 		};
@@ -1211,6 +1212,7 @@
 				DSTROOT = /tmp/$PRODUCT_NAME.dst;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = include/Mantle;
 			};
 			name = Release;
 		};
@@ -1308,6 +1310,7 @@
 				DSTROOT = /tmp/$PRODUCT_NAME.dst;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = include/Mantle;
 			};
 			name = Profile;
 		};
@@ -1337,6 +1340,7 @@
 			baseConfigurationReference = D094E4931777619600906BF7 /* Mac-StaticLibrary.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = include/Mantle;
 			};
 			name = Debug;
 		};
@@ -1345,6 +1349,7 @@
 			baseConfigurationReference = D094E4931777619600906BF7 /* Mac-StaticLibrary.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = include/Mantle;
 			};
 			name = Release;
 		};
@@ -1353,6 +1358,7 @@
 			baseConfigurationReference = D094E4931777619600906BF7 /* Mac-StaticLibrary.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = include/Mantle;
 			};
 			name = Profile;
 		};
