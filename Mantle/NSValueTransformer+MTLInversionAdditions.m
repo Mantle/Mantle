@@ -7,6 +7,7 @@
 //
 
 #import "NSValueTransformer+MTLInversionAdditions.h"
+#import "MTLTransformerErrorHandling.h"
 #import "MTLValueTransformer.h"
 
 @implementation NSValueTransformer (MTLInversionAdditions)
@@ -14,11 +15,21 @@
 - (NSValueTransformer *)mtl_invertedTransformer {
 	NSParameterAssert(self.class.allowsReverseTransformation);
 
-	return [MTLValueTransformer reversibleTransformerWithForwardTransformation:^(id value, BOOL *success, NSError **error) {
-		return [self reverseTransformedValue:value];
-	} reverseTransformation:^(id value, BOOL *success, NSError **error) {
-		return [self transformedValue:value];
-	}];
+	if ([self conformsToProtocol:@protocol(MTLTransformerErrorHandling)]) {
+		NSParameterAssert([self respondsToSelector:@selector(reverseTransformedValue:success:error:)]);
+
+		return [MTLValueTransformer reversibleTransformerWithForwardTransformation:^(id value, BOOL *success, NSError **error) {
+			return [(id)self reverseTransformedValue:value success:success error:error];
+		} reverseTransformation:^(id value, BOOL *success, NSError **error) {
+			return [(id)self transformedValue:value success:success error:error];
+		}];
+	} else {
+		return [MTLValueTransformer reversibleTransformerWithForwardTransformation:^(id value, BOOL *success, NSError **error) {
+			return [self reverseTransformedValue:value];
+		} reverseTransformation:^(id value, BOOL *success, NSError **error) {
+			return [self transformedValue:value];
+		}];
+	}
 }
 
 @end

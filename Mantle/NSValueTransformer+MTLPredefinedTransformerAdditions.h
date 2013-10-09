@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import "MTLTransformerErrorHandling.h"
+
 // The name for a value transformer that converts strings into URLs and back.
 extern NSString * const MTLURLValueTransformerName;
 
@@ -30,6 +32,14 @@ extern const NSInteger MTLURLValueTransformerFailed;
 // The value transformer could not convert from an NSNumber to a __NSCFBoolean-
 // backed number.
 extern const NSInteger MTLBooleanValueTransformerFailed;
+
+// The value transformer could not convert convert a JSON dictionary into a
+// MTLModel object or vice-versa.
+extern const NSInteger MTLJSONDictionaryTransformerFailed;
+
+// The value transformer could not convert convert an array of JSON dictionaries
+// into an array of MTLModel objects or vice-versa.
+extern const NSInteger MTLJSONArrayTransformerFailed;
 
 @interface NSValueTransformer (MTLPredefinedTransformerAdditions)
 

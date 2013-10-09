@@ -17,15 +17,21 @@ typedef id (^MTLValueTransformationBlock)(id, BOOL *, NSError **);
 //
 @interface MTLValueTransformer : NSValueTransformer <MTLTransformerErrorHandling>
 
-// Returns a transformer which transforms values using the given block. Reverse
+// Creates a transformer which transforms values using the given block. Reverse
 // transformations will not be allowed.
+//
+// The block is guarenteed to be called with`*success` set to `YES`.
 + (instancetype)transformerWithTransformation:(MTLValueTransformationBlock)transformation;
 
-// Returns a transformer which transforms values using the given block, for
+// Creates a transformer which transforms values using the given block, for
 // forward or reverse transformations.
+//
+// The block is guarenteed to be called with`*success` set to `YES`.
 + (instancetype)reversibleTransformerWithTransformation:(MTLValueTransformationBlock)transformation;
 
-// Returns a transformer which transforms values using the given blocks.
+// Creates a transformer which transforms values using the given blocks.
+//
+// The block are guarenteed to be called with`*success` set to `YES`.
 + (instancetype)reversibleTransformerWithForwardTransformation:(MTLValueTransformationBlock)forwardTransformation reverseTransformation:(MTLValueTransformationBlock)reverseTransformation;
 
 @end

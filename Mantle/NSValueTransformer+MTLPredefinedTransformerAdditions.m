@@ -18,6 +18,8 @@ NSString * const MTLPredefinedTransformerErrorDomain = @"MTLPredefinedTransforme
 
 const NSInteger MTLURLValueTransformerFailed = 1;
 const NSInteger MTLBooleanValueTransformerFailed = 2;
+const NSInteger MTLJSONDictionaryTransformerFailed = 3;
+const NSInteger MTLJSONArrayTransformerFailed = 4;
 
 @implementation NSValueTransformer (MTLPredefinedTransformerAdditions)
 
@@ -38,6 +40,8 @@ const NSInteger MTLBooleanValueTransformerFailed = 2;
 
 						*error = [NSError errorWithDomain:MTLPredefinedTransformerErrorDomain code:MTLURLValueTransformerFailed userInfo:userInfo];
 					}
+					*success = NO;
+					return nil;
 				}
 				return [NSURL URLWithString:str];
 			}
@@ -53,7 +57,7 @@ const NSInteger MTLBooleanValueTransformerFailed = 2;
 
 						*error = [NSError errorWithDomain:MTLPredefinedTransformerErrorDomain code:MTLURLValueTransformerFailed userInfo:userInfo];
 					}
-
+					*success = NO;
 					return nil;
 				}
 				return URL.absoluteString;
@@ -74,7 +78,7 @@ const NSInteger MTLBooleanValueTransformerFailed = 2;
 
 						*error = [NSError errorWithDomain:MTLPredefinedTransformerErrorDomain code:MTLBooleanValueTransformerFailed userInfo:userInfo];
 					}
-
+					*success = NO;
 					return nil;
 				}
 				return (NSNumber *)(boolean.boolValue ? kCFBooleanTrue : kCFBooleanFalse);
@@ -94,28 +98,66 @@ const NSInteger MTLBooleanValueTransformerFailed = 2;
 		reversibleTransformerWithForwardTransformation:^ id (id JSONDictionary, BOOL *success, NSError **error) {
 			if (JSONDictionary == nil) return nil;
 
-			NSAssert([JSONDictionary isKindOfClass:NSDictionary.class], @"Expected a dictionary, got: %@", JSONDictionary);
+			if (![JSONDictionary isKindOfClass:NSDictionary.class]) {
+				if (error != NULL) {
+					NSString *failureReason = [NSString stringWithFormat:NSLocalizedString(@"Expected an NSDictionary, got: %@.", @""), JSONDictionary];
+
+					NSDictionary *userInfo = @{
+						NSLocalizedDescriptionKey: NSLocalizedString(@"Could not convert JSON dictionary", @""),
+						NSLocalizedFailureReasonErrorKey: failureReason,
+					};
+
+					*error = [NSError errorWithDomain:MTLPredefinedTransformerErrorDomain code:MTLJSONDictionaryTransformerFailed userInfo:userInfo];
+				}
+				*success = NO;
+				return nil;
+			}
 
 			return [MTLJSONAdapter modelOfClass:modelClass fromJSONDictionary:JSONDictionary error:error];
 		}
 		reverseTransformation:^ id (id model, BOOL *success, NSError **error) {
 			if (model == nil) return nil;
 
-			NSAssert([model isKindOfClass:MTLModel.class], @"Expected a MTLModel object, got %@", model);
-			NSAssert([model conformsToProtocol:@protocol(MTLJSONSerializing)], @"Expected a model object conforming to <MTLJSONSerializing>, got %@", model);
+			if (![model isKindOfClass:MTLModel.class] || ![model conformsToProtocol:@protocol(MTLJSONSerializing)]) {
+				if (error != NULL) {
+					NSString *failureReason = [NSString stringWithFormat:NSLocalizedString(@"Expected a MTLModel object conforming to <MTLJSONSerializing>, got: %@.", @""), model];
+
+					NSDictionary *userInfo = @{
+						NSLocalizedDescriptionKey: NSLocalizedString(@"Could not convert model object", @""),
+						NSLocalizedFailureReasonErrorKey: failureReason,
+					};
+
+					*error = [NSError errorWithDomain:MTLPredefinedTransformerErrorDomain code:MTLJSONDictionaryTransformerFailed userInfo:userInfo];
+				}
+				*success = NO;
+				return nil;
+			}
 
 			return [MTLJSONAdapter JSONDictionaryFromModel:model];
 		}];
 }
 
 + (NSValueTransformer *)mtl_JSONArrayTransformerWithModelClass:(Class)modelClass {
-	NSValueTransformer *dictionaryTransformer = [self mtl_JSONDictionaryTransformerWithModelClass:modelClass];
+	NSValueTransformer<MTLTransformerErrorHandling> *dictionaryTransformer = (NSValueTransformer<MTLTransformerErrorHandling> *)[self mtl_JSONDictionaryTransformerWithModelClass:modelClass];
 
 	return [MTLValueTransformer
 		reversibleTransformerWithForwardTransformation:^ id (NSArray *dictionaries, BOOL *success, NSError **error) {
 			if (dictionaries == nil) return nil;
 
-			NSAssert([dictionaries isKindOfClass:NSArray.class], @"Expected a array of dictionaries, got: %@", dictionaries);
+			if (![dictionaries isKindOfClass:NSArray.class]) {
+				if (error != NULL) {
+					NSString *failureReason = [NSString stringWithFormat:NSLocalizedString(@"Expected an NSArray, got: %@.", @""), dictionaries];
+
+					NSDictionary *userInfo = @{
+						NSLocalizedDescriptionKey: NSLocalizedString(@"Could not convert JSON array", @""),
+						NSLocalizedFailureReasonErrorKey: failureReason,
+					};
+
+					*error = [NSError errorWithDomain:MTLPredefinedTransformerErrorDomain code:MTLJSONArrayTransformerFailed userInfo:userInfo];
+				}
+				*success = NO;
+				return nil;
+			}
 
 			NSMutableArray *models = [NSMutableArray arrayWithCapacity:dictionaries.count];
 			for (id JSONDictionary in dictionaries) {
@@ -124,9 +166,25 @@ const NSInteger MTLBooleanValueTransformerFailed = 2;
 					continue;
 				}
 
-				NSAssert([JSONDictionary isKindOfClass:NSDictionary.class], @"Expected a dictionary or an NSNull, got: %@", JSONDictionary);
+				if (![JSONDictionary isKindOfClass:NSDictionary.class]) {
+					if (error != NULL) {
+						NSString *failureReason = [NSString stringWithFormat:NSLocalizedString(@"Expected an NSDictionary or an NSNull, got: %@.", @""), JSONDictionary];
 
-				id model = [dictionaryTransformer transformedValue:JSONDictionary];
+						NSDictionary *userInfo = @{
+							NSLocalizedDescriptionKey: NSLocalizedString(@"Could not convert JSON array", @""),
+							NSLocalizedFailureReasonErrorKey: failureReason,
+						};
+
+						*error = [NSError errorWithDomain:MTLPredefinedTransformerErrorDomain code:MTLJSONArrayTransformerFailed userInfo:userInfo];
+					}
+					*success = NO;
+					return nil;
+				}
+
+				id model = [dictionaryTransformer transformedValue:JSONDictionary success:success error:error];
+
+				if (*success == NO) return nil;
+
 				if (model == nil) continue;
 
 				[models addObject:model];
@@ -137,7 +195,20 @@ const NSInteger MTLBooleanValueTransformerFailed = 2;
 		reverseTransformation:^ id (NSArray *models, BOOL *success, NSError **error) {
 			if (models == nil) return nil;
 
-			NSAssert([models isKindOfClass:NSArray.class], @"Expected a array of MTLModels, got: %@", models);
+			if (![models isKindOfClass:NSArray.class]) {
+				if (error != NULL) {
+					NSString *failureReason = [NSString stringWithFormat:NSLocalizedString(@"Expected an NSArray, got: %@.", @""), models];
+
+					NSDictionary *userInfo = @{
+						NSLocalizedDescriptionKey: NSLocalizedString(@"Could not convert model array", @""),
+						NSLocalizedFailureReasonErrorKey: failureReason,
+					};
+
+					*error = [NSError errorWithDomain:MTLPredefinedTransformerErrorDomain code:MTLJSONArrayTransformerFailed userInfo:userInfo];
+				}
+				*success = NO;
+				return nil;
+			}
 
 			NSMutableArray *dictionaries = [NSMutableArray arrayWithCapacity:models.count];
 			for (id model in models) {
@@ -146,9 +217,25 @@ const NSInteger MTLBooleanValueTransformerFailed = 2;
 					continue;
 				}
 
-				NSAssert([model isKindOfClass:MTLModel.class], @"Expected an MTLModel or an NSNull, got: %@", model);
+				if (![model isKindOfClass:MTLModel.class]) {
+					if (error != NULL) {
+						NSString *failureReason = [NSString stringWithFormat:NSLocalizedString(@"Expected a MTLModel or an NSNull, got: %@.", @""), model];
 
-				NSDictionary *dict = [dictionaryTransformer reverseTransformedValue:model];
+						NSDictionary *userInfo = @{
+							NSLocalizedDescriptionKey: NSLocalizedString(@"Could not convert JSON array", @""),
+							NSLocalizedFailureReasonErrorKey: failureReason,
+						};
+
+						*error = [NSError errorWithDomain:MTLPredefinedTransformerErrorDomain code:MTLJSONArrayTransformerFailed userInfo:userInfo];
+					}
+					*success = NO;
+					return nil;
+				}
+
+				NSDictionary *dict = [dictionaryTransformer reverseTransformedValue:model success:success error:error];
+
+				if (*success == NO) return nil;
+
 				if (dict == nil) continue;
 
 				[dictionaries addObject:dict];
