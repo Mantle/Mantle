@@ -19,7 +19,7 @@
 //         transforming value.
 //
 // Returns the result of the transformation or nil if an error occurred.
-- (id)transformedValue:(id)value error:(NSError **)error;
+- (id)transformedValue:(id)value success:(BOOL *)success error:(NSError **)error;
 
 @optional
 
@@ -31,6 +31,6 @@
 //         transforming value.
 //
 // Returns the result of the reverse transformation or nil if an error occurred.
-- (id)reverseTransformedValue:(id)value error:(NSError **)error;
+- (id)reverseTransformedValue:(id)value success:(BOOL *)success error:(NSError **)error;
 
 @end
