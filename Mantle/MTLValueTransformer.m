@@ -26,26 +26,26 @@
 
 #pragma mark Lifecycle
 
-+ (instancetype)transformerUsingForwardBlock:(MTLValueTransformationBlock)transformation {
-	return [[self alloc] initWithForwardTransformation:transformation reverseTransformation:nil];
++ (instancetype)transformerUsingForwardBlock:(MTLValueTransformationBlock)forwardBlock {
+	return [[self alloc] initWithForwardBlock:forwardBlock reverseBlock:nil];
 }
 
-+ (instancetype)transformerUsingReversibleBlock:(MTLValueTransformationBlock)transformation {
-	return [self transformerUsingForwardBlock:transformation reverseBlock:transformation];
++ (instancetype)transformerUsingReversibleBlock:(MTLValueTransformationBlock)reversibleBlock {
+	return [self transformerUsingForwardBlock:reversibleBlock reverseBlock:reversibleBlock];
 }
 
-+ (instancetype)transformerUsingForwardBlock:(MTLValueTransformationBlock)forwardTransformation reverseBlock:(MTLValueTransformationBlock)reverseTransformation {
-	return [[MTLReversibleValueTransformer alloc] initWithForwardTransformation:forwardTransformation reverseTransformation:reverseTransformation];
++ (instancetype)transformerUsingForwardBlock:(MTLValueTransformationBlock)forwardBlock reverseBlock:(MTLValueTransformationBlock)reverseBlock {
+	return [[MTLReversibleValueTransformer alloc] initWithForwardBlock:forwardBlock reverseBlock:reverseBlock];
 }
 
-- (id)initWithForwardTransformation:(MTLValueTransformationBlock)forwardTransformation reverseTransformation:(MTLValueTransformationBlock)reverseTransformation {
-	NSParameterAssert(forwardTransformation != nil);
+- (id)initWithForwardBlock:(MTLValueTransformationBlock)forwardBlock reverseBlock:(MTLValueTransformationBlock)reverseBlock {
+	NSParameterAssert(forwardBlock != nil);
 
 	self = [super init];
 	if (self == nil) return nil;
 
-	_forwardBlock = [forwardTransformation copy];
-	_reverseBlock = [reverseTransformation copy];
+	_forwardBlock = [forwardBlock copy];
+	_reverseBlock = [reverseBlock copy];
 
 	return self;
 }
@@ -85,9 +85,9 @@
 
 #pragma mark Lifecycle
 
-- (id)initWithForwardTransformation:(MTLValueTransformationBlock)forwardTransformation reverseTransformation:(MTLValueTransformationBlock)reverseTransformation {
-	NSParameterAssert(reverseTransformation != nil);
-	return [super initWithForwardTransformation:forwardTransformation reverseTransformation:reverseTransformation];
+- (id)initWithForwardBlock:(MTLValueTransformationBlock)forwardBlock reverseBlock:(MTLValueTransformationBlock)reverseBlock {
+	NSParameterAssert(reverseBlock != nil);
+	return [super initWithForwardBlock:forwardBlock reverseBlock:reverseBlock];
 }
 
 #pragma mark NSValueTransformer
