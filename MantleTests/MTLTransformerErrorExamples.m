@@ -35,7 +35,7 @@ sharedExamplesFor(MTLTransformerErrorExamples, ^(NSDictionary *data) {
 		__block NSError *error;
 		__block BOOL success;
 
-		expect([(id)transformer transformedValue:invalidTransformationInput success:&success error:&error]).to.beNil();
+		expect([transformer transformedValue:invalidTransformationInput success:&success error:&error]).to.beNil();
 		expect(success).to.beFalsy();
 		expect(error).notTo.beNil();
 	});
@@ -45,7 +45,7 @@ sharedExamplesFor(MTLTransformerErrorExamples, ^(NSDictionary *data) {
 			__block NSError *error;
 			__block BOOL success;
 
-			expect([(id)transformer reverseTransformedValue:invalidReverseTransformationInput success:&success error:&error]).to.beNil();
+			expect([transformer reverseTransformedValue:invalidReverseTransformationInput success:&success error:&error]).to.beNil();
 			expect(success).to.beFalsy();
 			expect(error).notTo.beNil();
 		}
