@@ -60,6 +60,9 @@ extern NSString * const MTLJSONAdapterErrorDomain;
 // +classForParsingJSONDictionary: returned nil for the given dictionary.
 extern const NSInteger MTLJSONAdapterErrorNoClassFound;
 
+// The provided JSONDictionary is not valid.
+extern const NSInteger MTLJSONAdapterErrorInvalidJSONDictionary;
+
 // Converts a MTLModel object to and from a JSON dictionary.
 @interface MTLJSONAdapter : NSObject
 
@@ -95,7 +98,8 @@ extern const NSInteger MTLJSONAdapterErrorNoClassFound;
 //
 // JSONDictionary - A dictionary representing JSON data. This should match the
 //                  format returned by NSJSONSerialization. If this argument is
-//                  nil, the method returns nil.
+//                  nil, the method returns nil and an error with code
+//                  MTLJSONAdapterErrorInvalidJSONDictionary.
 // modelClass     - The MTLModel subclass to attempt to parse from the JSON.
 //                  This class must conform to <MTLJSONSerializing>. This
 //                  argument must not be nil.
