@@ -41,7 +41,7 @@ sharedExamplesFor(MTLTransformerErrorExamples, ^(NSDictionary *data) {
 	});
 
 	it(@"should return errors occurring during reverse transformation, if the transformer supports it", ^{
-		if ([[transformer class] allowsReverseTransformation]) {
+		if ([transformer.class allowsReverseTransformation]) {
 			__block NSError *error;
 			__block BOOL success;
 
