@@ -264,11 +264,11 @@
 		D042FC4715F72B23004E8054 /* Mantle-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Mantle-Info.plist"; sourceTree = "<group>"; };
 		D042FC4B15F72B23004E8054 /* Mantle-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Mantle-Prefix.pch"; sourceTree = "<group>"; };
 		D042FC4C15F72B23004E8054 /* Mantle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Mantle.h; sourceTree = "<group>"; };
-		D042FC5415F72B23004E8054 /* Mantle Mac Tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = "Mantle Mac Tests.octest"; path = "Mantle Tests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D042FC5415F72B23004E8054 /* Mantle Tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Mantle Tests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D042FC5515F72B23004E8054 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		D042FC5D15F72B23004E8054 /* MantleTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MantleTests-Info.plist"; sourceTree = "<group>"; };
 		D042FC7915F72BC7004E8054 /* libMantle-iOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libMantle-iOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		D042FC8715F72BC7004E8054 /* Mantle iOS Tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = "Mantle iOS Tests.octest"; path = "Mantle-iOS Tests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D042FC8715F72BC7004E8054 /* Mantle-iOS Tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Mantle-iOS Tests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D042FCCB15F72EE8004E8054 /* Expecta.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Expecta.xcodeproj; path = MantleTests/expecta/Expecta.xcodeproj; sourceTree = "<group>"; };
 		D042FCEE15F72EF1004E8054 /* Specta.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Specta.xcodeproj; path = MantleTests/specta/Specta.xcodeproj; sourceTree = "<group>"; };
 		D058FE1D16EFB3D2009DFB47 /* MTLReflection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTLReflection.h; sourceTree = "<group>"; };
@@ -415,9 +415,9 @@
 			isa = PBXGroup;
 			children = (
 				D042FC3C15F72B23004E8054 /* Mantle.framework */,
-				D042FC5415F72B23004E8054 /* Mantle Mac Tests.octest */,
+				D042FC5415F72B23004E8054 /* Mantle Tests.octest */,
 				D042FC7915F72BC7004E8054 /* libMantle-iOS.a */,
-				D042FC8715F72BC7004E8054 /* Mantle iOS Tests.octest */,
+				D042FC8715F72BC7004E8054 /* Mantle-iOS Tests.octest */,
 				D0A56B461804B04900A84EDC /* libMantle-Mac.a */,
 			);
 			name = Products;
@@ -746,7 +746,7 @@
 			);
 			name = "Mantle Tests";
 			productName = MaverickTests;
-			productReference = D042FC5415F72B23004E8054 /* Mantle Mac Tests.octest */;
+			productReference = D042FC5415F72B23004E8054 /* Mantle Tests.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
 		D042FC7815F72BC7004E8054 /* Mantle-iOS */ = {
@@ -784,7 +784,7 @@
 			);
 			name = "Mantle-iOS Tests";
 			productName = MaverickTests;
-			productReference = D042FC8715F72BC7004E8054 /* Mantle iOS Tests.octest */;
+			productReference = D042FC8715F72BC7004E8054 /* Mantle-iOS Tests.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
 		D0A56B451804B04900A84EDC /* Mantle-Mac */ = {
