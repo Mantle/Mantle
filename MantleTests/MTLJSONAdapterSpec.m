@@ -142,14 +142,4 @@ it(@"should return an error when no suitable model class is found", ^{
 	expect(error.code).to.equal(MTLJSONAdapterErrorNoClassFound);
 });
 
-it(@"should fail to initialize if JSON dictionary is nil", ^{
-	NSError *error = nil;
-	MTLTestModel *model = [MTLJSONAdapter modelOfClass:MTLSubstitutingTestModel.class fromJSONDictionary:nil error:&error];
-	expect(model).to.beNil();
-	
-	expect(error).notTo.beNil();
-	expect(error.domain).to.equal(MTLJSONAdapterErrorDomain);
-	expect(error.code).to.equal(MTLJSONAdapterErrorInvalidJSONDictionary);
-});
-
 SpecEnd
