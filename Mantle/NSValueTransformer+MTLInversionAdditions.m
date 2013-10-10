@@ -18,10 +18,12 @@
 	if ([self conformsToProtocol:@protocol(MTLTransformerErrorHandling)]) {
 		NSParameterAssert([self respondsToSelector:@selector(reverseTransformedValue:success:error:)]);
 
+		NSValueTransformer<MTLTransformerErrorHandling> *errorHandlingSelf = (NSValueTransformer<MTLTransformerErrorHandling> *)self;
+
 		return [MTLValueTransformer transformerUsingForwardBlock:^(id value, BOOL *success, NSError **error) {
-			return [(id) self reverseTransformedValue:value success:success error:error];
+			return [errorHandlingSelf reverseTransformedValue:value success:success error:error];
 		} reverseBlock:^(id value, BOOL *success, NSError **error) {
-			return [(id) self transformedValue:value success:success error:error];
+			return [errorHandlingSelf transformedValue:value success:success error:error];
 		}];
 	} else {
 		return [MTLValueTransformer transformerUsingForwardBlock:^(id value, BOOL *success, NSError **error) {
