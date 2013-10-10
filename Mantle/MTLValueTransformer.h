@@ -45,10 +45,10 @@ typedef id (^MTLValueTransformerBlock)(id);
 
 @interface MTLValueTransformer (Deprecated)
 
-+ (instancetype)transformerWithBlock:(MTLValueTransformerBlock)transformationBlock __attribute__((deprecated));
++ (NSValueTransformer *)transformerWithBlock:(MTLValueTransformerBlock)transformationBlock __attribute__((deprecated("Replaced by +transformerUsingForwardBlock:")));
 
-+ (instancetype)reversibleTransformerWithBlock:(MTLValueTransformerBlock)transformationBlock __attribute__((deprecated));
++ (NSValueTransformer *)reversibleTransformerWithBlock:(MTLValueTransformerBlock)transformationBlock __attribute__((deprecated("Replaced by +transformerUsingReversibleBlock:")));
 
-+ (instancetype)reversibleTransformerWithForwardBlock:(MTLValueTransformerBlock)forwardBlock reverseBlock:(MTLValueTransformerBlock)reverseBlock __attribute__((deprecated));
++ (NSValueTransformer *)reversibleTransformerWithForwardBlock:(MTLValueTransformerBlock)forwardBlock reverseBlock:(MTLValueTransformerBlock)reverseBlock __attribute__((deprecated("Replaced by +transformerUsingForwardBlock:reverseBlock:")));
 
 @end
