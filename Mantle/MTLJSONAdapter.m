@@ -76,8 +76,8 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	if (JSONDictionary == nil) {
 		if (error != NULL) {
 			NSDictionary *userInfo = @{
-				NSLocalizedDescriptionKey: NSLocalizedString(@"Invalid JSONDictionary", @""),
-				NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The JSONDictionary parameter is invalid.", @"")
+				NSLocalizedDescriptionKey: NSLocalizedString(@"Missing JSON dictionary", @""),
+				NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"%@ could not be created because no JSON dictionary was provided.", @""), NSStringFromClass(modelClass)],
 			};
 			*error = [NSError errorWithDomain:MTLJSONAdapterErrorDomain code:MTLJSONAdapterErrorInvalidJSONDictionary userInfo:userInfo];
 		}
