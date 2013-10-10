@@ -10,28 +10,33 @@
 
 #import "MTLTransformerErrorHandling.h"
 
-typedef id (^MTLValueTransformationBlock)(id, BOOL *, NSError **);
+// A block that represents a transformation.
+//
+// value   - The value to transform.
+// success - The block must set this parameter to indicate whether the
+//           transformation was successful.
+//           MTLValueTransformer will always call this block with *success set
+//           to YES.
+// error   - If not NULL, this may be set to an error that occurs during
+//           transforming the value.
+//
+// Returns the result of the transformation, which may be nil.
+typedef id (^MTLValueTransformationBlock)(id value, BOOL *success, NSError **error);
 
 //
 // A value transformer supporting block-based transformation.
 //
 @interface MTLValueTransformer : NSValueTransformer <MTLTransformerErrorHandling>
 
-// Creates a transformer which transforms values using the given block. Reverse
+// Returns a transformer which transforms values using the given block. Reverse
 // transformations will not be allowed.
-//
-// The block is guaranteed to be called with`*success` set to `YES`.
 + (instancetype)transformerUsingBlock:(MTLValueTransformationBlock)transformation;
 
-// Creates a transformer which transforms values using the given block, for
+// Returns a transformer which transforms values using the given block, for
 // forward or reverse transformations.
-//
-// The block is guaranteed to be called with`*success` set to `YES`.
 + (instancetype)reversibleUsingBlock:(MTLValueTransformationBlock)transformation;
 
-// Creates a transformer which transforms values using the given blocks.
-//
-// The blocks are guaranteed to be called with`*success` set to `YES`.
+// Returns a transformer which transforms values using the given blocks.
 + (instancetype)reversibleTransformerUsingForwardBlock:(MTLValueTransformationBlock)forwardTransformation reverseBlock:(MTLValueTransformationBlock)reverseTransformation;
 
 @end
