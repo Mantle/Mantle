@@ -26,12 +26,11 @@ extern NSString * const MTLBooleanValueTransformerName;
 // category on NSValueTransformer.
 extern NSString * const MTLPredefinedTransformerErrorDomain;
 
-// The value transformer could not convert from a string to a URL or vice-versa.
-extern const NSInteger MTLURLValueTransformerFailed;
+// Used to indicate that the input value was illegal.
+extern const NSInteger MTLInvalidTransformationErrorInvalidInput;
 
-// The value transformer could not convert from an NSNumber to a __NSCFBoolean-
-// backed number.
-extern const NSInteger MTLBooleanValueTransformerFailed;
+// Associated with the invalid input value.
+extern NSString * const MTLPredefinedTransformerErrorInvalidInputKey;
 
 // The value transformer could not convert convert a JSON dictionary into a
 // MTLModel object or vice-versa.
