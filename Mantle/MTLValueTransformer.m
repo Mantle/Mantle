@@ -26,15 +26,15 @@
 
 #pragma mark Lifecycle
 
-+ (instancetype)transformerUsingBlock:(MTLValueTransformationBlock)transformation {
++ (instancetype)transformerUsingForwardBlock:(MTLValueTransformationBlock)transformation {
 	return [[self alloc] initWithForwardTransformation:transformation reverseTransformation:nil];
 }
 
-+ (instancetype)reversibleUsingBlock:(MTLValueTransformationBlock)transformation {
-	return [self reversibleTransformerUsingForwardBlock:transformation reverseBlock:transformation];
++ (instancetype)transformerUsingReversibleBlock:(MTLValueTransformationBlock)transformation {
+	return [self transformerUsingForwardBlock:transformation reverseBlock:transformation];
 }
 
-+ (instancetype)reversibleTransformerUsingForwardBlock:(MTLValueTransformationBlock)forwardTransformation reverseBlock:(MTLValueTransformationBlock)reverseTransformation {
++ (instancetype)transformerUsingForwardBlock:(MTLValueTransformationBlock)forwardTransformation reverseBlock:(MTLValueTransformationBlock)reverseTransformation {
 	return [[MTLReversibleValueTransformer alloc] initWithForwardTransformation:forwardTransformation reverseTransformation:reverseTransformation];
 }
 
@@ -124,20 +124,20 @@
 #pragma clang diagnostic ignored "-Wdeprecated-implementations"
 
 + (instancetype)transformerWithBlock:(MTLValueTransformerBlock)transformationBlock {
-	return [self transformerUsingBlock:^(id value, BOOL *success, NSError **error) {
+	return [self transformerUsingForwardBlock:^(id value, BOOL *success, NSError **error) {
 		return transformationBlock(value);
 	}];
 }
 
 + (instancetype)reversibleTransformerWithBlock:(MTLValueTransformerBlock)transformationBlock {
-	return [self reversibleUsingBlock:^(id value, BOOL *success, NSError **error) {
+	return [self transformerUsingReversibleBlock:^(id value, BOOL *success, NSError **error) {
 		return transformationBlock(value);
 	}];
 }
 
 + (instancetype)reversibleTransformerWithForwardBlock:(MTLValueTransformerBlock)forwardBlock reverseBlock:(MTLValueTransformerBlock)reverseBlock {
 	return [self
-		reversibleTransformerUsingForwardBlock:^(id value, BOOL *success, NSError **error) {
+		transformerUsingForwardBlock:^(id value, BOOL *success, NSError **error) {
 			return forwardBlock(value);
 		}
 		reverseBlock:^(id value, BOOL *success, NSError **error) {

@@ -9,7 +9,7 @@
 SpecBegin(MTLValueTransformer)
 
 it(@"should return a forward transformer with a block", ^{
-	MTLValueTransformer *transformer = [MTLValueTransformer transformerUsingBlock:^(NSString *str, BOOL *success, NSError **error) {
+	MTLValueTransformer *transformer = [MTLValueTransformer transformerUsingForwardBlock:^(NSString *str, BOOL *success, NSError **error) {
 		return [str stringByAppendingString:@"bar"];
 	}];
 
@@ -21,7 +21,7 @@ it(@"should return a forward transformer with a block", ^{
 });
 
 it(@"should return a reversible transformer with a block", ^{
-	MTLValueTransformer *transformer = [MTLValueTransformer reversibleUsingBlock:^(NSString *str, BOOL *success, NSError **error) {
+	MTLValueTransformer *transformer = [MTLValueTransformer transformerUsingReversibleBlock:^(NSString *str, BOOL *success, NSError **error) {
 		return [str stringByAppendingString:@"bar"];
 	}];
 
@@ -34,7 +34,7 @@ it(@"should return a reversible transformer with a block", ^{
 
 it(@"should return a reversible transformer with forward and reverse blocks", ^{
 	MTLValueTransformer *transformer = [MTLValueTransformer
-		reversibleTransformerUsingForwardBlock:^(NSString *str, BOOL *success, NSError **error) {
+		transformerUsingForwardBlock:^(NSString *str, BOOL *success, NSError **error) {
 			return [str stringByAppendingString:@"bar"];
 		}
 		reverseBlock:^(NSString *str, BOOL *success, NSError **error) {

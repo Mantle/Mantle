@@ -26,11 +26,11 @@
 }
 
 + (NSValueTransformer *)numberStringEntityAttributeTransformer {
-	return [MTLValueTransformer reversibleTransformerUsingForwardBlock:^(NSString *str, BOOL *success, NSError **error) {
+	return [MTLValueTransformer transformerUsingForwardBlock:^(NSString *str, BOOL *success, NSError **error) {
 		return [NSDecimalNumber decimalNumberWithString:str];
 	} reverseBlock:^(NSNumber *num, BOOL *success, NSError **error) {
 		return num.stringValue;
-    }];
+	}];
 }
 
 + (NSDictionary *)relationshipModelClassesByPropertyKey {

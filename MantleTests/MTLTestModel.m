@@ -66,7 +66,7 @@ static NSUInteger modelVersion = 1;
 
 + (NSValueTransformer *)countJSONTransformer {
 	return [MTLValueTransformer
-		reversibleTransformerUsingForwardBlock:^(NSString *str, BOOL *success, NSError **error) {
+		transformerUsingForwardBlock:^(NSString *str, BOOL *success, NSError **error) {
 			return @(str.integerValue);
 		}
 		reverseBlock:^(NSNumber *num, BOOL *success, NSError **error) {

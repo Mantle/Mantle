@@ -28,7 +28,7 @@ const NSInteger MTLJSONArrayTransformerFailed = 4;
 + (void)load {
 	@autoreleasepool {
 		MTLValueTransformer *URLValueTransformer = [MTLValueTransformer
-			reversibleTransformerUsingForwardBlock:^id(NSString *str, BOOL *success, NSError **error) {
+			transformerUsingForwardBlock:^id(NSString *str, BOOL *success, NSError **error) {
 				if (![str isKindOfClass:NSString.class]) {
 					if (error != NULL) {
 						NSString *failureReason = [NSString stringWithFormat:NSLocalizedString(@"Expected an NSString, got: %@.", @""), str];
@@ -66,7 +66,7 @@ const NSInteger MTLJSONArrayTransformerFailed = 4;
 		[NSValueTransformer setValueTransformer:URLValueTransformer forName:MTLURLValueTransformerName];
 
 		MTLValueTransformer *booleanValueTransformer = [MTLValueTransformer
-			reversibleUsingBlock:^id(NSNumber *boolean, BOOL *success, NSError **error) {
+			transformerUsingReversibleBlock:^id(NSNumber *boolean, BOOL *success, NSError **error) {
 				if (![boolean isKindOfClass:NSNumber.class]) {
 					if (error != NULL) {
 						NSString *failureReason = [NSString stringWithFormat:NSLocalizedString(@"Expected an NSNumber, got: %@.", @""), boolean];
@@ -95,7 +95,7 @@ const NSInteger MTLJSONArrayTransformerFailed = 4;
 	NSParameterAssert([modelClass conformsToProtocol:@protocol(MTLJSONSerializing)]);
 
 	return [MTLValueTransformer
-		reversibleTransformerUsingForwardBlock:^id(id JSONDictionary, BOOL *success, NSError **error) {
+		transformerUsingForwardBlock:^id(id JSONDictionary, BOOL *success, NSError **error) {
 			if (JSONDictionary == nil) return nil;
 
 			if (![JSONDictionary isKindOfClass:NSDictionary.class]) {
@@ -141,7 +141,7 @@ const NSInteger MTLJSONArrayTransformerFailed = 4;
 	NSValueTransformer<MTLTransformerErrorHandling> *dictionaryTransformer = (NSValueTransformer<MTLTransformerErrorHandling> *)[self mtl_JSONDictionaryTransformerWithModelClass:modelClass];
 
 	return [MTLValueTransformer
-		reversibleTransformerUsingForwardBlock:^id(NSArray *dictionaries, BOOL *success, NSError **error) {
+		transformerUsingForwardBlock:^id(NSArray *dictionaries, BOOL *success, NSError **error) {
 			if (dictionaries == nil) return nil;
 
 			if (![dictionaries isKindOfClass:NSArray.class]) {
@@ -250,7 +250,7 @@ const NSInteger MTLJSONArrayTransformerFailed = 4;
 	NSParameterAssert(dictionary.count == [[NSSet setWithArray:dictionary.allValues] count]);
 
 	return [MTLValueTransformer
-		reversibleTransformerUsingForwardBlock:^(id <NSCopying> key, BOOL *success, NSError **error) {
+		transformerUsingForwardBlock:^(id <NSCopying> key, BOOL *success, NSError **error) {
 			return dictionary[key];
 		}
 		reverseBlock:^(id object, BOOL *success, NSError **error) {
