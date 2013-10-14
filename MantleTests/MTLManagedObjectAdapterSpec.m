@@ -241,10 +241,13 @@ describe(@"with a confined context", ^{
 			MTLChild *child1Parent1 = parentOne.orderedChildren[0];
 			MTLChild *child2Parent1 = parentOne.orderedChildren[1];
 			MTLChild *child3Parent1 = parentOne.orderedChildren[2];
+
 			MTLParentTestModel *parentModelCopy = [parentModel copy];
 			[[parentModelCopy mutableOrderedSetValueForKey:@"orderedChildren"] removeObjectAtIndex:1];
+
 			MTLChildTestModel *childToDeleteModel = [parentModelCopy.unorderedChildren anyObject];
 			[[parentModelCopy mutableSetValueForKey:@"unorderedChildren"] removeObject:childToDeleteModel];
+
 			MTLParent *parentTwo = [MTLManagedObjectAdapter managedObjectFromModel:parentModelCopy insertingIntoContext:context error:&error];
 			expect(parentTwo).notTo.beNil();
 			expect(error).to.beNil();
