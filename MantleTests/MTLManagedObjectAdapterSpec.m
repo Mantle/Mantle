@@ -231,45 +231,38 @@ describe(@"with a confined context", ^{
 		});
 		
 		it(@"should update relationships for an existing object", ^{
-			
-			NSError *errorOne;
-			MTLParent *parentOne = (MTLParent *)[MTLManagedObjectAdapter managedObjectFromModel:parentModel insertingIntoContext:context error:&errorOne];
+			NSError *error;
+			MTLParent *parentOne = [MTLManagedObjectAdapter managedObjectFromModel:parentModel insertingIntoContext:context error:&error];
 			expect(parentOne).notTo.beNil();
-			expect(errorOne).to.beNil();
+			expect(error).to.beNil();
 			expect(parentOne.orderedChildren).to.haveCountOf(3);
 			expect(parentOne.unorderedChildren).to.haveCountOf(3);
 			
 			MTLChild *child1Parent1 = parentOne.orderedChildren[0];
 			MTLChild *child2Parent1 = parentOne.orderedChildren[1];
 			MTLChild *child3Parent1 = parentOne.orderedChildren[2];
-			
 			MTLParentTestModel *parentModelCopy = [parentModel copy];
 			[[parentModelCopy mutableOrderedSetValueForKey:@"orderedChildren"] removeObjectAtIndex:1];
-			
 			MTLChildTestModel *childToDeleteModel = [parentModelCopy.unorderedChildren anyObject];
 			[[parentModelCopy mutableSetValueForKey:@"unorderedChildren"] removeObject:childToDeleteModel];
-			
-			NSError *errorTwo;
-			MTLParent *parentTwo = (MTLParent *)[MTLManagedObjectAdapter managedObjectFromModel:parentModelCopy insertingIntoContext:context error:&errorTwo];
+			MTLParent *parentTwo = [MTLManagedObjectAdapter managedObjectFromModel:parentModelCopy insertingIntoContext:context error:&error];
 			expect(parentTwo).notTo.beNil();
-			expect(errorTwo).to.beNil();
+			expect(error).to.beNil();
 			expect(parentTwo.orderedChildren).to.haveCountOf(2);
 			expect(parentTwo.unorderedChildren).to.haveCountOf(2);
 			
 			for (MTLChild *child in parentTwo.orderedChildren) {
 				expect(child.childID).notTo.equal(child2Parent1.childID);
 			}
+			
 			for (MTLChild *child in parentTwo.unorderedChildren) {
-				expect(child.childID).notTo.equal(@(childToDeleteModel.childID));
+				expect(child.childID).notTo.equal(childToDeleteModel.childID);
 			}
 			
 			MTLChild *child1Parent2 = parentTwo.orderedChildren[0];
 			MTLChild *child2Parent2 = parentTwo.orderedChildren[1];
-			expect(child1Parent2.objectID).to.equal(child1Parent1.objectID);
-			expect(child2Parent2.objectID).to.equal(child3Parent1.objectID);
-				
-
-			
+			expect(child1Parent2).to.equal(child1Parent1);
+			expect(child2Parent2).to.equal(child3Parent1);
 		});
 	});
 });

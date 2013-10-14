@@ -445,8 +445,8 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 
 					[relationshipCollection addObject:nestedObject];
 				}
-				[managedObject setValue:relationshipCollection forKey:managedObjectKey];
 				
+				[managedObject setValue:relationshipCollection forKey:managedObjectKey];
 			} else {
 				NSManagedObject *nestedObject = objectForRelationshipFromModel(value);
 				if (nestedObject == nil) return NO;
