@@ -229,7 +229,7 @@ describe(@"with a confined context", ^{
 
 			expect(parentOne.objectID).to.equal(parentTwo.objectID);
 		});
-		
+
 		it(@"should update relationships for an existing object", ^{
 			NSError *error;
 			MTLParent *parentOne = [MTLManagedObjectAdapter managedObjectFromModel:parentModel insertingIntoContext:context error:&error];
@@ -237,7 +237,7 @@ describe(@"with a confined context", ^{
 			expect(error).to.beNil();
 			expect(parentOne.orderedChildren).to.haveCountOf(3);
 			expect(parentOne.unorderedChildren).to.haveCountOf(3);
-			
+
 			MTLChild *child1Parent1 = parentOne.orderedChildren[0];
 			MTLChild *child2Parent1 = parentOne.orderedChildren[1];
 			MTLChild *child3Parent1 = parentOne.orderedChildren[2];
@@ -250,15 +250,15 @@ describe(@"with a confined context", ^{
 			expect(error).to.beNil();
 			expect(parentTwo.orderedChildren).to.haveCountOf(2);
 			expect(parentTwo.unorderedChildren).to.haveCountOf(2);
-			
+
 			for (MTLChild *child in parentTwo.orderedChildren) {
 				expect(child.childID).notTo.equal(child2Parent1.childID);
 			}
-			
+
 			for (MTLChild *child in parentTwo.unorderedChildren) {
 				expect(child.childID).notTo.equal(childToDeleteModel.childID);
 			}
-			
+
 			MTLChild *child1Parent2 = parentTwo.orderedChildren[0];
 			MTLChild *child2Parent2 = parentTwo.orderedChildren[1];
 			expect(child1Parent2).to.equal(child1Parent1);
