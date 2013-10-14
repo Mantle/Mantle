@@ -434,17 +434,19 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 
 				id relationshipCollection;
 				if ([relationshipDescription isOrdered]) {
-					relationshipCollection = [managedObject mutableOrderedSetValueForKey:managedObjectKey];
+					relationshipCollection = [NSMutableOrderedSet orderedSet];
 				} else {
-					relationshipCollection = [managedObject mutableSetValueForKey:managedObjectKey];
+					relationshipCollection = [NSMutableSet set];
 				}
-
+				
 				for (MTLModel *model in value) {
 					NSManagedObject *nestedObject = objectForRelationshipFromModel(model);
 					if (nestedObject == nil) return NO;
 
 					[relationshipCollection addObject:nestedObject];
 				}
+				[managedObject setValue:relationshipCollection forKey:managedObjectKey];
+				
 			} else {
 				NSManagedObject *nestedObject = objectForRelationshipFromModel(value);
 				if (nestedObject == nil) return NO;
