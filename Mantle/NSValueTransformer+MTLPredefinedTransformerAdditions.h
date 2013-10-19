@@ -32,14 +32,6 @@ extern const NSInteger MTLInvalidTransformationErrorInvalidInput;
 // Associated with the invalid input value.
 extern NSString * const MTLPredefinedTransformerErrorInvalidInputKey;
 
-// The value transformer could not convert convert a JSON dictionary into a
-// MTLModel object or vice-versa.
-extern const NSInteger MTLJSONDictionaryTransformerFailed;
-
-// The value transformer could not convert convert an array of JSON dictionaries
-// into an array of MTLModel objects or vice-versa.
-extern const NSInteger MTLJSONArrayTransformerFailed;
-
 @interface NSValueTransformer (MTLPredefinedTransformerAdditions)
 
 // Creates a reversible transformer to convert a JSON dictionary into a MTLModel

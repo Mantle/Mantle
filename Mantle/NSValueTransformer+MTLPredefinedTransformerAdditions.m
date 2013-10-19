@@ -20,9 +20,6 @@ NSString * const MTLPredefinedTransformerErrorInvalidInputKey = @"MTLPredefinedT
 
 const NSInteger MTLInvalidTransformationErrorInvalidInput = 1;
 
-const NSInteger MTLJSONDictionaryTransformerFailed = 2;
-const NSInteger MTLJSONArrayTransformerFailed = 3;
-
 @implementation NSValueTransformer (MTLPredefinedTransformerAdditions)
 
 #pragma mark Category Loading
@@ -119,7 +116,7 @@ const NSInteger MTLJSONArrayTransformerFailed = 3;
 						MTLPredefinedTransformerErrorInvalidInputKey: JSONDictionary
 					};
 
-					*error = [NSError errorWithDomain:MTLPredefinedTransformerErrorDomain code:MTLJSONDictionaryTransformerFailed userInfo:userInfo];
+					*error = [NSError errorWithDomain:MTLPredefinedTransformerErrorDomain code:MTLInvalidTransformationErrorInvalidInput userInfo:userInfo];
 				}
 				*success = NO;
 				return nil;
@@ -140,7 +137,7 @@ const NSInteger MTLJSONArrayTransformerFailed = 3;
 						MTLPredefinedTransformerErrorInvalidInputKey: model
 					};
 
-					*error = [NSError errorWithDomain:MTLPredefinedTransformerErrorDomain code:MTLJSONDictionaryTransformerFailed userInfo:userInfo];
+					*error = [NSError errorWithDomain:MTLPredefinedTransformerErrorDomain code:MTLInvalidTransformationErrorInvalidInput userInfo:userInfo];
 				}
 				*success = NO;
 				return nil;
@@ -167,7 +164,7 @@ const NSInteger MTLJSONArrayTransformerFailed = 3;
 						MTLPredefinedTransformerErrorInvalidInputKey: dictionaries
 					};
 
-					*error = [NSError errorWithDomain:MTLPredefinedTransformerErrorDomain code:MTLJSONArrayTransformerFailed userInfo:userInfo];
+					*error = [NSError errorWithDomain:MTLPredefinedTransformerErrorDomain code:MTLInvalidTransformationErrorInvalidInput userInfo:userInfo];
 				}
 				*success = NO;
 				return nil;
@@ -190,7 +187,7 @@ const NSInteger MTLJSONArrayTransformerFailed = 3;
 							MTLPredefinedTransformerErrorInvalidInputKey: JSONDictionary
 						};
 
-						*error = [NSError errorWithDomain:MTLPredefinedTransformerErrorDomain code:MTLJSONArrayTransformerFailed userInfo:userInfo];
+						*error = [NSError errorWithDomain:MTLPredefinedTransformerErrorDomain code:MTLInvalidTransformationErrorInvalidInput userInfo:userInfo];
 					}
 					*success = NO;
 					return nil;
@@ -220,7 +217,7 @@ const NSInteger MTLJSONArrayTransformerFailed = 3;
 						MTLPredefinedTransformerErrorInvalidInputKey: models
 					};
 
-					*error = [NSError errorWithDomain:MTLPredefinedTransformerErrorDomain code:MTLJSONArrayTransformerFailed userInfo:userInfo];
+					*error = [NSError errorWithDomain:MTLPredefinedTransformerErrorDomain code:MTLInvalidTransformationErrorInvalidInput userInfo:userInfo];
 				}
 				*success = NO;
 				return nil;
@@ -243,7 +240,7 @@ const NSInteger MTLJSONArrayTransformerFailed = 3;
 							MTLPredefinedTransformerErrorInvalidInputKey: model
 						};
 
-						*error = [NSError errorWithDomain:MTLPredefinedTransformerErrorDomain code:MTLJSONArrayTransformerFailed userInfo:userInfo];
+						*error = [NSError errorWithDomain:MTLPredefinedTransformerErrorDomain code:MTLInvalidTransformationErrorInvalidInput userInfo:userInfo];
 					}
 					*success = NO;
 					return nil;
