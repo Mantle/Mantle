@@ -143,7 +143,7 @@ const NSInteger MTLInvalidTransformationErrorInvalidInput = 1;
 				return nil;
 			}
 
-			return [MTLJSONAdapter JSONDictionaryFromModel:model];
+			return [MTLJSONAdapter JSONDictionaryFromModel:model error:error];
 		}];
 }
 
@@ -240,7 +240,7 @@ const NSInteger MTLInvalidTransformationErrorInvalidInput = 1;
 							MTLPredefinedTransformerErrorInvalidInputKey: model
 						};
 
-						*error = [NSError errorWithDomain:MTLPredefinedTransformerErrorDomain code:MTLInvalidTransformationErrorInvalidInput userInfo:userInfo];
+						*error = [NSError errorWithDomain:MTLPredefinedTransformerErrorDomain code:MTLInvalidTransformationErrorInvalidInput	userInfo:userInfo];
 					}
 					*success = NO;
 					return nil;

@@ -162,3 +162,15 @@ static NSUInteger modelVersion = 1;
 }
 
 @end
+
+@implementation MTLURLModel
+
++ (NSDictionary *)JSONKeyPathsByPropertyKey {
+	return @{};
+}
+
++ (NSValueTransformer *)URLJSONTransformer {
+	return [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
+}
+
+@end

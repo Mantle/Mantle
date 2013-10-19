@@ -96,7 +96,7 @@ describe(@"JSON transformers", ^{
 
 		before(^{
 			model = [[MTLTestModel alloc] init];
-			JSONDictionary = [MTLJSONAdapter JSONDictionaryFromModel:model];
+			JSONDictionary = [MTLJSONAdapter JSONDictionaryFromModel:model error:NULL];
 
 			transformer = [NSValueTransformer mtl_JSONDictionaryTransformerWithModelClass:MTLTestModel.class];
 			expect(transformer).notTo.beNil();
@@ -136,7 +136,7 @@ describe(@"JSON transformers", ^{
 
 				[uniqueModels addObject:model];
 
-				NSDictionary *dict = [MTLJSONAdapter JSONDictionaryFromModel:model];
+				NSDictionary *dict = [MTLJSONAdapter JSONDictionaryFromModel:model error:NULL];
 				expect(dict).notTo.beNil();
 
 				[mutableDictionaries addObject:dict];

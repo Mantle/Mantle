@@ -8,6 +8,7 @@
 
 #import "MTLJSONAdapter.h"
 #import "MTLModel.h"
+#import "MTLTransformerErrorHandling.h"
 #import "MTLReflection.h"
 
 NSString * const MTLJSONAdapterErrorDomain = @"MTLJSONAdapterErrorDomain";
@@ -54,9 +55,10 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	return adapter.model;
 }
 
-+ (NSDictionary *)JSONDictionaryFromModel:(MTLModel<MTLJSONSerializing> *)model {
++ (NSDictionary *)JSONDictionaryFromModel:(MTLModel<MTLJSONSerializing> *)model error:(NSError **)error {
 	MTLJSONAdapter *adapter = [[self alloc] initWithModel:model];
-	return adapter.JSONDictionary;
+
+	return [adapter JSONDictionary:error];
 }
 
 #pragma mark Lifecycle
@@ -160,20 +162,32 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 
 #pragma mark Serialization
 
-- (NSDictionary *)JSONDictionary {
+- (NSDictionary *)JSONDictionary:(NSError **)error {
 	NSDictionary *dictionaryValue = self.model.dictionaryValue;
 	NSMutableDictionary *JSONDictionary = [[NSMutableDictionary alloc] initWithCapacity:dictionaryValue.count];
 
-	[dictionaryValue enumerateKeysAndObjectsUsingBlock:^(NSString *propertyKey, id value, BOOL *stop) {
+	for (NSString *propertyKey in dictionaryValue) {
+		id value = dictionaryValue[propertyKey];
+
 		NSString *JSONKeyPath = [self JSONKeyPathForKey:propertyKey];
-		if (JSONKeyPath == nil) return;
+		if (JSONKeyPath == nil) continue;
 
 		NSValueTransformer *transformer = [self JSONTransformerForKey:propertyKey];
 		if ([transformer.class allowsReverseTransformation]) {
 			// Map NSNull -> nil for the transformer, and then back for the
 			// dictionaryValue we're going to insert into.
 			if ([value isEqual:NSNull.null]) value = nil;
-			value = [transformer reverseTransformedValue:value] ?: NSNull.null;
+
+			if ([transformer respondsToSelector:@selector(reverseTransformedValue:success:error:)]) {
+				NSValueTransformer<MTLTransformerErrorHandling> *errorHandlingTransformer = (NSValueTransformer<MTLTransformerErrorHandling> *)transformer;
+
+				BOOL success = YES;
+				value = [errorHandlingTransformer reverseTransformedValue:value success:&success error:error];
+
+				if (!success) return nil;
+			} else {
+				value = [transformer reverseTransformedValue:value] ?: NSNull.null;
+			}
 		}
 
 		NSArray *keyPathComponents = [JSONKeyPath componentsSeparatedByString:@"."];
@@ -191,7 +205,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 		}
 
 		[JSONDictionary setValue:value forKeyPath:JSONKeyPath];
-	}];
+	}
 
 	return JSONDictionary;
 }
@@ -242,8 +256,16 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	return [self modelOfClass:modelClass fromJSONDictionary:JSONDictionary error:NULL];
 }
 
++ (NSDictionary *)JSONDictionaryFromModel:(MTLModel<MTLJSONSerializing> *)model {
+	return [self JSONDictionaryFromModel:model error:NULL];
+}
+
 - (id)initWithJSONDictionary:(NSDictionary *)JSONDictionary modelClass:(Class)modelClass {
 	return [self initWithJSONDictionary:JSONDictionary modelClass:modelClass error:NULL];
+}
+
+- (NSDictionary *)JSONDictionary {
+	return [self JSONDictionary:NULL];
 }
 
 #pragma clang diagnostic pop
