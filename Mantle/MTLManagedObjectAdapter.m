@@ -9,6 +9,7 @@
 #import "MTLManagedObjectAdapter.h"
 #import "EXTScope.h"
 #import "MTLModel.h"
+#import "MTLTransformerErrorHandling.h"
 #import "MTLReflection.h"
 #import "NSArray+MTLManipulationAdditions.h"
 
@@ -386,9 +387,18 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 			// double-free or leak the old or new values).
 			__autoreleasing id transformedValue = value;
 
-			NSValueTransformer *attributeTransformer = [self entityAttributeTransformerForKey:propertyKey];
-			if ([attributeTransformer.class allowsReverseTransformation]) {
-				transformedValue = [attributeTransformer reverseTransformedValue:transformedValue];
+			NSValueTransformer *transformer = [self entityAttributeTransformerForKey:propertyKey];
+			if ([transformer.class allowsReverseTransformation]) {
+				if ([transformer respondsToSelector:@selector(reverseTransformedValue:success:error:)]) {
+					NSValueTransformer<MTLTransformerErrorHandling> *errorHandlingTransformer = (NSValueTransformer<MTLTransformerErrorHandling> *)transformer;
+
+					BOOL success = YES;
+					transformedValue = [errorHandlingTransformer reverseTransformedValue:value success:&success error:error];
+
+					if (!success) return NO;
+				} else {
+					transformedValue = [transformer reverseTransformedValue:transformedValue];
+				}
 			}
 
 			if (![managedObject validateValue:&transformedValue forKey:managedObjectKey error:error]) return NO;
