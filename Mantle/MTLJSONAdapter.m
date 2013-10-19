@@ -115,7 +115,19 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 				// Map NSNull -> nil for the transformer, and then back for the
 				// dictionary we're going to insert into.
 				if ([value isEqual:NSNull.null]) value = nil;
-				value = [transformer transformedValue:value] ?: NSNull.null;
+
+				if ([transformer respondsToSelector:@selector(transformedValue:success:error:)]) {
+					NSValueTransformer<MTLTransformerErrorHandling> *errorHandlingTransformer = (NSValueTransformer<MTLTransformerErrorHandling> *)transformer;
+
+					BOOL success = YES;
+					value = [errorHandlingTransformer transformedValue:value success:&success error:error];
+
+					if (!success) return nil;
+				} else {
+					value = [transformer transformedValue:value];
+				}
+
+				if (value == nil) value = NSNull.null;
 			}
 
 			dictionaryValue[propertyKey] = value;

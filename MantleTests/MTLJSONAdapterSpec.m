@@ -117,6 +117,18 @@ it(@"should fail to initialize if JSON dictionary validation fails", ^{
 	expect(error.code).to.equal(MTLTestModelNameTooLong);
 });
 
+it(@"should fail to initialize if JSON transformer fails", ^{
+	NSDictionary *values = @{
+		@"URL": @666,
+	};
+
+	NSError *error = nil;
+	MTLTestModel *model = [MTLJSONAdapter modelOfClass:MTLURLModel.class fromJSONDictionary:values error:&error];
+	expect(model).to.beNil();
+	expect(error.domain).to.equal(MTLPredefinedTransformerErrorDomain);
+	expect(error.code).to.equal(MTLInvalidTransformationErrorInvalidInput);
+});
+
 it(@"should fail to serialize if a JSON transformer errors", ^{
 	MTLURLModel *model = [[MTLURLModel alloc] init];
 
