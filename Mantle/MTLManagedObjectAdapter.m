@@ -164,7 +164,9 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 			});
 
 			NSValueTransformer *attributeTransformer = [self entityAttributeTransformerForKey:propertyKey];
-			if (attributeTransformer != nil) value = [attributeTransformer reverseTransformedValue:value];
+			if (attributeTransformer != nil) {
+				value = [attributeTransformer transformedValue:value];
+			}
 
 			return setValueForKey(propertyKey, value);
 		};
@@ -385,7 +387,9 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 			__autoreleasing id transformedValue = value;
 
 			NSValueTransformer *attributeTransformer = [self entityAttributeTransformerForKey:propertyKey];
-			if (attributeTransformer != nil) transformedValue = [attributeTransformer transformedValue:transformedValue];
+			if ([attributeTransformer.class allowsReverseTransformation]) {
+				transformedValue = [attributeTransformer reverseTransformedValue:transformedValue];
+			}
 
 			if (![managedObject validateValue:&transformedValue forKey:managedObjectKey error:error]) return NO;
 			[managedObject setValue:transformedValue forKey:managedObjectKey];
@@ -596,7 +600,9 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 		id transformedValue = [model valueForKeyPath:propertyKey];
 
 		NSValueTransformer *attributeTransformer = [self entityAttributeTransformerForKey:propertyKey];
-		if (attributeTransformer != nil) transformedValue = [attributeTransformer transformedValue:transformedValue];
+		if ([attributeTransformer.class allowsReverseTransformation]) {
+			transformedValue = [attributeTransformer reverseTransformedValue:transformedValue];
+		}
 
 		NSPredicate *subpredicate = [NSPredicate predicateWithFormat:@"%K == %@", managedObjectKey, transformedValue];
 		[subpredicates addObject:subpredicate];

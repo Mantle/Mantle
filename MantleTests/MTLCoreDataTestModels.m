@@ -17,7 +17,8 @@
 + (NSDictionary *)managedObjectKeysByPropertyKey {
 	return @{
 		@"numberString": @"number",
-		@"requiredString": @"string"
+		@"requiredString": @"string",
+		@"URL": @"url"
 	};
 }
 
@@ -26,11 +27,15 @@
 }
 
 + (NSValueTransformer *)numberStringEntityAttributeTransformer {
-	return [MTLValueTransformer transformerUsingForwardBlock:^(NSString *str, BOOL *success, NSError **error) {
-		return [NSDecimalNumber decimalNumberWithString:str];
-	} reverseBlock:^(NSNumber *num, BOOL *success, NSError **error) {
+	return [MTLValueTransformer transformerUsingForwardBlock:^(NSNumber *num, BOOL *success, NSError **error) {
 		return num.stringValue;
+	} reverseBlock:^(NSString *str, BOOL *success, NSError **error) {
+		return [NSDecimalNumber decimalNumberWithString:str];
 	}];
+}
+
++ (NSValueTransformer *)URLEntityAttributeTransformer {
+	return [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
 }
 
 + (NSDictionary *)relationshipModelClassesByPropertyKey {

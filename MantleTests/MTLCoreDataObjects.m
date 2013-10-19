@@ -27,6 +27,7 @@
 @dynamic date;
 @dynamic number;
 @dynamic string;
+@dynamic url;
 @dynamic unorderedChildren;
 @dynamic orderedChildren;
 

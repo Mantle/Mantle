@@ -49,11 +49,13 @@ describe(@"with a confined context", ^{
 		__block NSDate *date;
 		__block NSString *numberString;
 		__block NSString *requiredString;
+		__block NSURL *URL;
 
 		beforeEach(^{
 			date = [NSDate date];
 			numberString = @"123";
 			requiredString = @"foobar";
+			URL = [NSURL URLWithString:@"http://github.com"];
 
 			parent = [MTLParent insertInManagedObjectContext:context];
 			expect(parent).notTo.beNil();
@@ -83,6 +85,7 @@ describe(@"with a confined context", ^{
 			// Make sure that pending changes are picked up too.
 			[parent setValue:@(numberString.integerValue) forKey:@"number"];
 			[parent setValue:date forKey:@"date"];
+			[parent setValue:[URL absoluteString] forKey:@"url"];
 		});
 
 		it(@"should initialize a MTLParentTestModel with children", ^{
@@ -94,6 +97,7 @@ describe(@"with a confined context", ^{
 			expect(parentModel.date).to.equal(date);
 			expect(parentModel.numberString).to.equal(numberString);
 			expect(parentModel.requiredString).to.equal(requiredString);
+			expect(parentModel.URL).to.equal(URL);
 
 			expect(parentModel.orderedChildren).to.haveCountOf(3);
 			expect(parentModel.unorderedChildren).to.haveCountOf(3);
