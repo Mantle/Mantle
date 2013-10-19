@@ -164,9 +164,18 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 				return [managedObject valueForKey:managedObjectKey];
 			});
 
-			NSValueTransformer *attributeTransformer = [self entityAttributeTransformerForKey:propertyKey];
-			if (attributeTransformer != nil) {
-				value = [attributeTransformer transformedValue:value];
+			NSValueTransformer *transformer = [self entityAttributeTransformerForKey:propertyKey];
+			if (transformer != nil) {
+				if ([transformer respondsToSelector:@selector(transformedValue:success:error:)]) {
+					NSValueTransformer<MTLTransformerErrorHandling> *errorHandlingTransformer = (NSValueTransformer<MTLTransformerErrorHandling> *)transformer;
+
+					BOOL success = YES;
+					value = [errorHandlingTransformer transformedValue:value success:&success error:error];
+
+					if (!success) return NO;
+				} else {
+					value = [transformer transformedValue:value];
+				}
 			}
 
 			return setValueForKey(propertyKey, value);
