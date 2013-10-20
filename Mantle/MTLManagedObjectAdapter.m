@@ -412,7 +412,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 				return nil;
 			}
 
-			return [self.class managedObjectFromModel:model insertingIntoContext:context processedObjects:processedObjects error:error];
+			return [self.class managedObjectFromModel:model insertingIntoContext:context processedObjects:processedObjects error:&tmpError];
 		};
 
 		BOOL (^serializeRelationship)(NSRelationshipDescription *) = ^(NSRelationshipDescription *relationshipDescription) {
