@@ -62,16 +62,16 @@ describe(@"The number transformer", ^{
 		NSNumber *booleanNO = @(0);
 
 		expect([transformer transformedValue:booleanYES]).to.equal([NSNumber numberWithBool:YES]);
-		expect([transformer transformedValue:booleanYES]).to.equal((id)kCFBooleanTrue);
+		expect([transformer transformedValue:booleanYES]).to.beIdenticalTo((id)kCFBooleanTrue);
 
 		expect([transformer reverseTransformedValue:booleanYES]).to.equal([NSNumber numberWithBool:YES]);
-		expect([transformer reverseTransformedValue:booleanYES]).to.equal((id)kCFBooleanTrue);
+		expect([transformer reverseTransformedValue:booleanYES]).to.beIdenticalTo((id)kCFBooleanTrue);
 
 		expect([transformer transformedValue:booleanNO]).to.equal([NSNumber numberWithBool:NO]);
-		expect([transformer transformedValue:booleanNO]).to.equal((id)kCFBooleanFalse);
+		expect([transformer transformedValue:booleanNO]).to.beIdenticalTo((id)kCFBooleanFalse);
 
 		expect([transformer reverseTransformedValue:booleanNO]).to.equal([NSNumber numberWithBool:NO]);
-		expect([transformer reverseTransformedValue:booleanNO]).to.equal((id)kCFBooleanFalse);
+		expect([transformer reverseTransformedValue:booleanNO]).to.beIdenticalTo((id)kCFBooleanFalse);
 
 		expect([transformer transformedValue:nil]).to.beNil();
 		expect([transformer reverseTransformedValue:nil]).to.beNil();
