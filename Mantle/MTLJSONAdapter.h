@@ -120,7 +120,7 @@ extern const NSInteger MTLJSONAdapterErrorNoClassFound;
 //         serializing.
 //
 // Returns a JSON dictionary, or nil if a serialization error occurred.
-- (NSDictionary *)JSONDictionary:(NSError **)error;
+- (NSDictionary *)serializeToJSONDictionary:(NSError **)error;
 
 @end
 
@@ -131,6 +131,6 @@ extern const NSInteger MTLJSONAdapterErrorNoClassFound;
 
 - (id)initWithJSONDictionary:(NSDictionary *)JSONDictionary modelClass:(Class)modelClass __attribute__((deprecated("Replaced by -initWithJSONDictionary:modelClass:error:")));
 
-- (NSDictionary *)JSONDictionary __attribute((deprecated("Replaced by -JSONDictionary:")));
+- (NSDictionary *)JSONDictionary __attribute((deprecated("Replaced by -serializeToJSONDictionary:")));
 
 @end

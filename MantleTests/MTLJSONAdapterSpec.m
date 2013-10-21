@@ -33,7 +33,7 @@ it(@"should initialize from JSON", ^{
 	};
 
 	__block NSError *serializationError;
-	expect([adapter JSONDictionary:&serializationError]).to.equal(JSONDictionary);
+	expect([adapter serializeToJSONDictionary:&serializationError]).to.equal(JSONDictionary);
 	expect(serializationError).to.beNil();
 });
 
@@ -54,7 +54,7 @@ it(@"should initialize from a model", ^{
 	};
 
 	__block NSError *serializationError;
-	expect([adapter JSONDictionary:&serializationError]).to.equal(JSONDictionary);
+	expect([adapter serializeToJSONDictionary:&serializationError]).to.equal(JSONDictionary);
 	expect(serializationError).to.beNil();
 });
 

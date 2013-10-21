@@ -58,7 +58,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 + (NSDictionary *)JSONDictionaryFromModel:(MTLModel<MTLJSONSerializing> *)model error:(NSError **)error {
 	MTLJSONAdapter *adapter = [[self alloc] initWithModel:model];
 
-	return [adapter JSONDictionary:error];
+	return [adapter serializeToJSONDictionary:error];
 }
 
 #pragma mark Lifecycle
@@ -174,7 +174,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 
 #pragma mark Serialization
 
-- (NSDictionary *)JSONDictionary:(NSError **)error {
+- (NSDictionary *)serializeToJSONDictionary:(NSError **)error {
 	NSDictionary *dictionaryValue = self.model.dictionaryValue;
 	NSMutableDictionary *JSONDictionary = [[NSMutableDictionary alloc] initWithCapacity:dictionaryValue.count];
 
@@ -277,7 +277,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 }
 
 - (NSDictionary *)JSONDictionary {
-	return [self JSONDictionary:NULL];
+	return [self serializeToJSONDictionary:NULL];
 }
 
 #pragma clang diagnostic pop
