@@ -85,7 +85,7 @@ describe(@"with a confined context", ^{
 			// Make sure that pending changes are picked up too.
 			[parent setValue:@(numberString.integerValue) forKey:@"number"];
 			[parent setValue:date forKey:@"date"];
-			[parent setValue:[URL absoluteString] forKey:@"url"];
+			[parent setValue:URL.absoluteString forKey:@"url"];
 		});
 
 		it(@"should initialize a MTLParentTestModel with children", ^{

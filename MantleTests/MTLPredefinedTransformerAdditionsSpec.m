@@ -39,9 +39,9 @@ describe(@"The URL transformer", ^{
 
 	itShouldBehaveLike(MTLTransformerErrorExamples, ^{
 		return @{
-                MTLTransformerErrorExamplesTransformer : transformer,
-                MTLTransformerErrorExamplesInvalidTransformationInput : NSNull.null,
-                MTLTransformerErrorExamplesInvalidReverseTransformationInput : NSNull.null,
+			MTLTransformerErrorExamplesTransformer: transformer,
+			MTLTransformerErrorExamplesInvalidTransformationInput: NSNull.null,
+			MTLTransformerErrorExamplesInvalidReverseTransformationInput: NSNull.null,
 		};
 	});
 });
@@ -79,9 +79,9 @@ describe(@"The number transformer", ^{
 
 	itShouldBehaveLike(MTLTransformerErrorExamples, ^{
 		return @{
-                MTLTransformerErrorExamplesTransformer : transformer,
-                MTLTransformerErrorExamplesInvalidTransformationInput : NSNull.null,
-                MTLTransformerErrorExamplesInvalidReverseTransformationInput : NSNull.null,
+			MTLTransformerErrorExamplesTransformer: transformer,
+			MTLTransformerErrorExamplesInvalidTransformationInput: NSNull.null,
+			MTLTransformerErrorExamplesInvalidReverseTransformationInput: NSNull.null,
 		};
 	});
 });
@@ -113,9 +113,9 @@ describe(@"JSON transformers", ^{
 
 		itShouldBehaveLike(MTLTransformerErrorExamples, ^{
 			return @{
-                    MTLTransformerErrorExamplesTransformer : transformer,
-                    MTLTransformerErrorExamplesInvalidTransformationInput : NSNull.null,
-                    MTLTransformerErrorExamplesInvalidReverseTransformationInput : NSNull.null,
+				MTLTransformerErrorExamplesTransformer: transformer,
+				MTLTransformerErrorExamplesInvalidTransformationInput: NSNull.null,
+				MTLTransformerErrorExamplesInvalidReverseTransformationInput: NSNull.null,
 			};
 		});
 	});
@@ -163,9 +163,9 @@ describe(@"JSON transformers", ^{
 
 		itShouldBehaveLike(MTLTransformerErrorExamples, ^{
 			return @{
-                    MTLTransformerErrorExamplesTransformer : transformer,
-                    MTLTransformerErrorExamplesInvalidTransformationInput : NSNull.null,
-                    MTLTransformerErrorExamplesInvalidReverseTransformationInput : NSNull.null,
+				MTLTransformerErrorExamplesTransformer: transformer,
+				MTLTransformerErrorExamplesInvalidTransformationInput: NSNull.null,
+				MTLTransformerErrorExamplesInvalidReverseTransformationInput: NSNull.null,
 			};
 		});
 	});
