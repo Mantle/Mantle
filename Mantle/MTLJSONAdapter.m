@@ -178,11 +178,12 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	NSDictionary *dictionaryValue = self.model.dictionaryValue;
 	NSMutableDictionary *JSONDictionary = [[NSMutableDictionary alloc] initWithCapacity:dictionaryValue.count];
 
-	for (NSString *propertyKey in dictionaryValue) {
-		id value = dictionaryValue[propertyKey];
+    __block BOOL encounteredError = NO;
+    __block NSError *tmpError = nil;
 
-		NSString *JSONKeyPath = [self JSONKeyPathForKey:propertyKey];
-		if (JSONKeyPath == nil) continue;
+	[dictionaryValue enumerateKeysAndObjectsUsingBlock:^(NSString *propertyKey, id value, BOOL *stop) {
+        NSString *JSONKeyPath = [self JSONKeyPathForKey:propertyKey];
+		if (JSONKeyPath == nil) return;
 
 		NSValueTransformer *transformer = [self JSONTransformerForKey:propertyKey];
 		if ([transformer.class allowsReverseTransformation]) {
@@ -194,9 +195,13 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 				id<MTLTransformerErrorHandling> errorHandlingTransformer = (id)transformer;
 
 				BOOL success = YES;
-				value = [errorHandlingTransformer reverseTransformedValue:value success:&success error:error];
+				value = [errorHandlingTransformer reverseTransformedValue:value success:&success error:&tmpError];
 
-				if (!success) return nil;
+				if (!success) {
+                    encounteredError = YES;
+                    *stop = YES;
+                    return;
+                }
 			} else {
 				value = [transformer reverseTransformedValue:value] ?: NSNull.null;
 			}
@@ -217,9 +222,15 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 		}
 
 		[JSONDictionary setValue:value forKeyPath:JSONKeyPath];
-	}
+	}];
 
-	return JSONDictionary;
+    if (encounteredError) {
+        if (error != NULL) *error = tmpError;
+        return nil;
+    } else {
+        return JSONDictionary;
+    }
+
 }
 
 - (NSValueTransformer *)JSONTransformerForKey:(NSString *)key {
