@@ -167,7 +167,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 			NSValueTransformer *transformer = [self entityAttributeTransformerForKey:propertyKey];
 			if (transformer != nil) {
 				if ([transformer respondsToSelector:@selector(transformedValue:success:error:)]) {
-					NSValueTransformer<MTLTransformerErrorHandling> *errorHandlingTransformer = (NSValueTransformer<MTLTransformerErrorHandling> *)transformer;
+					id<MTLTransformerErrorHandling> errorHandlingTransformer = (id)transformer;
 
 					BOOL success = YES;
 					value = [errorHandlingTransformer transformedValue:value success:&success error:error];

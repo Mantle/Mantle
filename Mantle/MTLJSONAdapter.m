@@ -117,7 +117,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 				if ([value isEqual:NSNull.null]) value = nil;
 
 				if ([transformer respondsToSelector:@selector(transformedValue:success:error:)]) {
-					NSValueTransformer<MTLTransformerErrorHandling> *errorHandlingTransformer = (NSValueTransformer<MTLTransformerErrorHandling> *)transformer;
+					id<MTLTransformerErrorHandling> errorHandlingTransformer = (id)transformer;
 
 					BOOL success = YES;
 					value = [errorHandlingTransformer transformedValue:value success:&success error:error];
@@ -191,7 +191,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 			if ([value isEqual:NSNull.null]) value = nil;
 
 			if ([transformer respondsToSelector:@selector(reverseTransformedValue:success:error:)]) {
-				NSValueTransformer<MTLTransformerErrorHandling> *errorHandlingTransformer = (NSValueTransformer<MTLTransformerErrorHandling> *)transformer;
+				id<MTLTransformerErrorHandling> errorHandlingTransformer = (id)transformer;
 
 				BOOL success = YES;
 				value = [errorHandlingTransformer reverseTransformedValue:value success:&success error:error];
