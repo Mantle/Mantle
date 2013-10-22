@@ -26,6 +26,8 @@
 		54803A35178829A800011B39 /* NSError+MTLModelException.m in Sources */ = {isa = PBXBuildFile; fileRef = 54803A31178829A700011B39 /* NSError+MTLModelException.m */; };
 		54803A3B17882CCD00011B39 /* MTLErrorModelExceptionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 54803A3A17882CCD00011B39 /* MTLErrorModelExceptionSpec.m */; };
 		54803A3C17882CCD00011B39 /* MTLErrorModelExceptionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 54803A3A17882CCD00011B39 /* MTLErrorModelExceptionSpec.m */; };
+		54D5E9D41815CCB80014896C /* MTLDeprecatedCoreDataTestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 54D5E9D31815CCB80014896C /* MTLDeprecatedCoreDataTestModel.m */; };
+		54D5E9D51815CCB80014896C /* MTLDeprecatedCoreDataTestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 54D5E9D31815CCB80014896C /* MTLDeprecatedCoreDataTestModel.m */; };
 		88080C18160A706900CCABF2 /* NSArray+MTLManipulationAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 88080C16160A706900CCABF2 /* NSArray+MTLManipulationAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88080C19160A706900CCABF2 /* NSArray+MTLManipulationAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 88080C17160A706900CCABF2 /* NSArray+MTLManipulationAdditions.m */; };
 		88080C1A160A706900CCABF2 /* NSArray+MTLManipulationAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 88080C17160A706900CCABF2 /* NSArray+MTLManipulationAdditions.m */; };
@@ -228,6 +230,8 @@
 		54803A30178829A700011B39 /* NSError+MTLModelException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+MTLModelException.h"; sourceTree = "<group>"; };
 		54803A31178829A700011B39 /* NSError+MTLModelException.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+MTLModelException.m"; sourceTree = "<group>"; };
 		54803A3A17882CCD00011B39 /* MTLErrorModelExceptionSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLErrorModelExceptionSpec.m; sourceTree = "<group>"; };
+		54D5E9D21815CCB80014896C /* MTLDeprecatedCoreDataTestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTLDeprecatedCoreDataTestModel.h; sourceTree = "<group>"; };
+		54D5E9D31815CCB80014896C /* MTLDeprecatedCoreDataTestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLDeprecatedCoreDataTestModel.m; sourceTree = "<group>"; };
 		88080C16160A706900CCABF2 /* NSArray+MTLManipulationAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+MTLManipulationAdditions.h"; sourceTree = "<group>"; };
 		88080C17160A706900CCABF2 /* NSArray+MTLManipulationAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+MTLManipulationAdditions.m"; sourceTree = "<group>"; };
 		88080C1C160A719D00CCABF2 /* MTLArrayManipulationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLArrayManipulationSpec.m; sourceTree = "<group>"; };
@@ -443,6 +447,8 @@
 				542921C717D750EB00AE432B /* MTLCoreDataObjects.m */,
 				D021D942170F878E00C37E36 /* MTLCoreDataTestModels.h */,
 				D021D943170F878E00C37E36 /* MTLCoreDataTestModels.m */,
+				54D5E9D21815CCB80014896C /* MTLDeprecatedCoreDataTestModel.h */,
+				54D5E9D31815CCB80014896C /* MTLDeprecatedCoreDataTestModel.m */,
 				D0760EC715FFCA4E0060F550 /* MTLTestModel.h */,
 				D0760EC815FFCA4E0060F550 /* MTLTestModel.m */,
 				D064BA321613BA75004CA27A /* MTLTestNotificationObserver.h */,
@@ -916,6 +922,7 @@
 				542921C817D750EB00AE432B /* MTLCoreDataObjects.m in Sources */,
 				54803A3B17882CCD00011B39 /* MTLErrorModelExceptionSpec.m in Sources */,
 				D08B5AB216002A23001FE685 /* MTLValueTransformerSpec.m in Sources */,
+				54D5E9D41815CCB80014896C /* MTLDeprecatedCoreDataTestModel.m in Sources */,
 				88080C1D160A719D00CCABF2 /* MTLArrayManipulationSpec.m in Sources */,
 				D064BA341613BA75004CA27A /* MTLTestNotificationObserver.m in Sources */,
 				D0C27CF6161107E5002FE587 /* MTLDictionaryManipulationSpec.m in Sources */,
@@ -962,6 +969,7 @@
 				542921C917D750EB00AE432B /* MTLCoreDataObjects.m in Sources */,
 				54803A3C17882CCD00011B39 /* MTLErrorModelExceptionSpec.m in Sources */,
 				D08B5AB316002A23001FE685 /* MTLValueTransformerSpec.m in Sources */,
+				54D5E9D51815CCB80014896C /* MTLDeprecatedCoreDataTestModel.m in Sources */,
 				88080C1E160A719D00CCABF2 /* MTLArrayManipulationSpec.m in Sources */,
 				D064BA351613BA75004CA27A /* MTLTestNotificationObserver.m in Sources */,
 				D0C27CF7161107E5002FE587 /* MTLDictionaryManipulationSpec.m in Sources */,

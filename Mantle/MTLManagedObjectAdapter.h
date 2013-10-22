@@ -77,11 +77,11 @@
 // attribute. If reversible, the transformer will also be used to convert the
 // managed object attribute back to the property.
 //
-// If the receiver implements a `+<key>EntityAttributeTransformer` method,
-// MTLManagedObjectAdapter will use the result of that method instead.
+// If the receiver implements a `+<key>ManagedObjectAttributeTransformer`
+// method, MTLManagedObjectAdapter will use the result of that method instead.
 //
 // Returns a value transformer, or nil if no transformation should be performed.
-+ (NSValueTransformer *)entityAttributeTransformerForKey:(NSString *)key;
++ (NSValueTransformer *)managedObjectAttributeTransformerForKey:(NSString *)key;
 
 // Specifies the MTLModel subclasses that should be deserialized to the
 // receiver's property keys when a property key corresponds to an entity
@@ -116,6 +116,8 @@
 // Returns the class that should be instantiated (which may be the receiver), or
 // nil to abort parsing (e.g., if the data is invalid).
 + (Class)classForDeserializingManagedObject:(NSManagedObject *)managedObject;
+
++ (NSValueTransformer *)entityAttributeTransformerForKey:(NSString *)key __attribute__((deprecated("Replaced by + managedObjectAttributeTransformerForKey:")));
 
 @end
 

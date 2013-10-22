@@ -26,7 +26,7 @@
 	return [NSSet setWithObject:@"numberString"];
 }
 
-+ (NSValueTransformer *)numberStringEntityAttributeTransformer {
++ (NSValueTransformer *)numberStringManagedObjectAttributeTransformer {
 	return [MTLValueTransformer transformerUsingForwardBlock:^(NSNumber *num, BOOL *success, NSError **error) {
 		return num.stringValue;
 	} reverseBlock:^(NSString *str, BOOL *success, NSError **error) {
@@ -34,7 +34,7 @@
 	}];
 }
 
-+ (NSValueTransformer *)URLEntityAttributeTransformer {
++ (NSValueTransformer *)URLManagedObjectAttributeTransformer {
 	return [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
 }
 
