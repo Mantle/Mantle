@@ -294,4 +294,54 @@ describe(@"with a main queue context", ^{
 	});
 });
 
+describe(@"with a child that fails serializatoin", ^{
+	__block NSManagedObjectContext *context;
+	
+	__block NSEntityDescription *parentEntity;
+	__block NSEntityDescription *childEntity;
+	__block MTLParentTestModel *parentModel;
+	
+	beforeEach(^{
+		context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSConfinementConcurrencyType];
+		expect(context).notTo.beNil();
+		
+		context.undoManager = nil;
+		context.persistentStoreCoordinator = persistentStoreCoordinator;
+		
+		parentEntity = [NSEntityDescription entityForName:@"Parent" inManagedObjectContext:context];
+		expect(parentEntity).notTo.beNil();
+		
+		childEntity = [NSEntityDescription entityForName:@"BadChild" inManagedObjectContext:context];
+		expect(childEntity).notTo.beNil();
+
+		parentModel = [MTLParentTestModel modelWithDictionary:@{
+																@"date": [NSDate date],
+																@"numberString": @"1234",
+																@"requiredString": @"foobar"
+																} error:NULL];
+		expect(parentModel).notTo.beNil();
+		
+		NSMutableArray *orderedChildren = [NSMutableArray array];
+
+		for (NSUInteger i = 3; i < 6; i++) {
+			MTLBadChildTestModel *child = [MTLBadChildTestModel modelWithDictionary:@{
+																				@"childID": @(i)
+																				} error:NULL];
+			expect(child).notTo.beNil();
+			
+			[orderedChildren addObject:child];
+		}
+		
+		parentModel.orderedChildren = orderedChildren;
+	});
+	
+	it(@"should insert a managed object with children", ^{
+		__block NSError *error = nil;
+		MTLParent *parent = (MTLParent *)[MTLManagedObjectAdapter managedObjectFromModel:parentModel insertingIntoContext:context error:&error];
+		expect(parent).to.beNil();
+		expect(error).notTo.beNil();
+		expect([context save:&error]).to.beTruthy();
+	});
+});
+
 SpecEnd

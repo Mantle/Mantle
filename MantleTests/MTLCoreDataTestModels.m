@@ -66,6 +66,24 @@
 
 @end
 
+@implementation MTLBadChildTestModel
+
++ (NSString *)managedObjectEntityName {
+	return @"BadChild";
+}
+
++ (NSDictionary *)managedObjectKeysByPropertyKey {
+	return @{};
+}
+
++ (NSSet *)propertyKeysForManagedObjectUniquing
+{
+	return [NSSet setWithObjects:@"childID", nil];
+}
+
+
+@end
+
 @implementation MTLFailureModel
 
 + (NSDictionary *)managedObjectKeysByPropertyKey {
