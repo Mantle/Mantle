@@ -26,6 +26,11 @@
 		54803A35178829A800011B39 /* NSError+MTLModelException.m in Sources */ = {isa = PBXBuildFile; fileRef = 54803A31178829A700011B39 /* NSError+MTLModelException.m */; };
 		54803A3B17882CCD00011B39 /* MTLErrorModelExceptionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 54803A3A17882CCD00011B39 /* MTLErrorModelExceptionSpec.m */; };
 		54803A3C17882CCD00011B39 /* MTLErrorModelExceptionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 54803A3A17882CCD00011B39 /* MTLErrorModelExceptionSpec.m */; };
+		54D5E9E518182C0E0014896C /* MTLIdentityMapping.h in Headers */ = {isa = PBXBuildFile; fileRef = 54D5E9E318182C0E0014896C /* MTLIdentityMapping.h */; };
+		54D5E9E618182C0E0014896C /* MTLIdentityMapping.m in Sources */ = {isa = PBXBuildFile; fileRef = 54D5E9E418182C0E0014896C /* MTLIdentityMapping.m */; };
+		54D5E9EB18182C120014896C /* MTLIdentityMapping.m in Sources */ = {isa = PBXBuildFile; fileRef = 54D5E9E418182C0E0014896C /* MTLIdentityMapping.m */; };
+		54D5E9ED18182D150014896C /* MTLIdentityMappingSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 54D5E9EC18182D150014896C /* MTLIdentityMappingSpec.m */; };
+		54D5E9EE18182D170014896C /* MTLIdentityMappingSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 54D5E9EC18182D150014896C /* MTLIdentityMappingSpec.m */; };
 		88080C18160A706900CCABF2 /* NSArray+MTLManipulationAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 88080C16160A706900CCABF2 /* NSArray+MTLManipulationAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88080C19160A706900CCABF2 /* NSArray+MTLManipulationAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 88080C17160A706900CCABF2 /* NSArray+MTLManipulationAdditions.m */; };
 		88080C1A160A706900CCABF2 /* NSArray+MTLManipulationAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 88080C17160A706900CCABF2 /* NSArray+MTLManipulationAdditions.m */; };
@@ -228,6 +233,9 @@
 		54803A30178829A700011B39 /* NSError+MTLModelException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+MTLModelException.h"; sourceTree = "<group>"; };
 		54803A31178829A700011B39 /* NSError+MTLModelException.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+MTLModelException.m"; sourceTree = "<group>"; };
 		54803A3A17882CCD00011B39 /* MTLErrorModelExceptionSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLErrorModelExceptionSpec.m; sourceTree = "<group>"; };
+		54D5E9E318182C0E0014896C /* MTLIdentityMapping.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTLIdentityMapping.h; sourceTree = "<group>"; };
+		54D5E9E418182C0E0014896C /* MTLIdentityMapping.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLIdentityMapping.m; sourceTree = "<group>"; };
+		54D5E9EC18182D150014896C /* MTLIdentityMappingSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLIdentityMappingSpec.m; sourceTree = "<group>"; };
 		88080C16160A706900CCABF2 /* NSArray+MTLManipulationAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+MTLManipulationAdditions.h"; sourceTree = "<group>"; };
 		88080C17160A706900CCABF2 /* NSArray+MTLManipulationAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+MTLManipulationAdditions.m"; sourceTree = "<group>"; };
 		88080C1C160A719D00CCABF2 /* MTLArrayManipulationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLArrayManipulationSpec.m; sourceTree = "<group>"; };
@@ -462,6 +470,8 @@
 				D0760E7715FFBF330060F550 /* MTLModel.m */,
 				D01BD0AD16CB52E800EC95C7 /* MTLModel+NSCoding.h */,
 				D01BD0AE16CB52E800EC95C7 /* MTLModel+NSCoding.m */,
+				54D5E9E318182C0E0014896C /* MTLIdentityMapping.h */,
+				54D5E9E418182C0E0014896C /* MTLIdentityMapping.m */,
 				D058FE1D16EFB3D2009DFB47 /* MTLReflection.h */,
 				D058FE1E16EFB3D2009DFB47 /* MTLReflection.m */,
 				D01BD0AB16CB46B600EC95C7 /* Adapters */,
@@ -482,6 +492,7 @@
 				D02E48E916CB8ACA00257645 /* MTLModelNSCodingSpec.m */,
 				D0760EC315FFCA250060F550 /* MTLModelSpec.m */,
 				547AE0FC17882ED100F4437D /* MTLModelValidationSpec.m */,
+				54D5E9EC18182D150014896C /* MTLIdentityMappingSpec.m */,
 				D0F1174C1614C8000092520B /* MTLPredefinedTransformerAdditionsSpec.m */,
 				D08B5AB116002A23001FE685 /* MTLValueTransformerSpec.m */,
 				D0BFC36617476A5F00F5DC5D /* MTLValueTransformerInversionAdditionsSpec.m */,
@@ -623,6 +634,7 @@
 				54803A32178829A800011B39 /* NSError+MTLModelException.h in Headers */,
 				D0C27D0A16110973002FE587 /* NSDictionary+MTLManipulationAdditions.h in Headers */,
 				D0F117491614C5600092520B /* NSValueTransformer+MTLPredefinedTransformerAdditions.h in Headers */,
+				54D5E9E518182C0E0014896C /* MTLIdentityMapping.h in Headers */,
 				1ED5B5D0163A4E3C0072668E /* NSObject+MTLComparisonAdditions.h in Headers */,
 				547165A41801977000E734DB /* MTLTransformerErrorHandling.h in Headers */,
 				D01BD09D16CB432D00EC95C7 /* MTLJSONAdapter.h in Headers */,
@@ -891,6 +903,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D0760E7915FFBF330060F550 /* MTLModel.m in Sources */,
+				54D5E9E618182C0E0014896C /* MTLIdentityMapping.m in Sources */,
 				D08B5AAF16002694001FE685 /* MTLValueTransformer.m in Sources */,
 				88080C19160A706900CCABF2 /* NSArray+MTLManipulationAdditions.m in Sources */,
 				D0C27D0B16110973002FE587 /* NSDictionary+MTLManipulationAdditions.m in Sources */,
@@ -912,6 +925,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D0760EC415FFCA250060F550 /* MTLModelSpec.m in Sources */,
+				54D5E9ED18182D150014896C /* MTLIdentityMappingSpec.m in Sources */,
 				D0760EC915FFCA4E0060F550 /* MTLTestModel.m in Sources */,
 				542921C817D750EB00AE432B /* MTLCoreDataObjects.m in Sources */,
 				54803A3B17882CCD00011B39 /* MTLErrorModelExceptionSpec.m in Sources */,
@@ -937,6 +951,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D0760E7A15FFBF330060F550 /* MTLModel.m in Sources */,
+				54D5E9EB18182C120014896C /* MTLIdentityMapping.m in Sources */,
 				D08B5AB016002694001FE685 /* MTLValueTransformer.m in Sources */,
 				88080C1A160A706900CCABF2 /* NSArray+MTLManipulationAdditions.m in Sources */,
 				D0C27D0C16110973002FE587 /* NSDictionary+MTLManipulationAdditions.m in Sources */,
@@ -958,6 +973,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D0760EC515FFCA250060F550 /* MTLModelSpec.m in Sources */,
+				54D5E9EE18182D170014896C /* MTLIdentityMappingSpec.m in Sources */,
 				D0760ECA15FFCA4E0060F550 /* MTLTestModel.m in Sources */,
 				542921C917D750EB00AE432B /* MTLCoreDataObjects.m in Sources */,
 				54803A3C17882CCD00011B39 /* MTLErrorModelExceptionSpec.m in Sources */,
