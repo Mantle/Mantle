@@ -6,6 +6,9 @@
 //  Copyright (c) 2012 GitHub. All rights reserved.
 //
 
+#import "MTLIdentityMapping.h"
+#import "NSDictionary+MTLManipulationAdditions.h"
+
 #import "MTLTestModel.h"
 
 NSString * const MTLTestModelErrorDomain = @"MTLTestModelErrorDomain";
@@ -57,11 +60,13 @@ static NSUInteger modelVersion = 1;
 #pragma mark MTLJSONSerializing
 
 + (NSDictionary *)JSONKeyPathsByPropertyKey {
-	return @{
+	NSDictionary *mapping = MTLIdentityMappingForClass(self);
+
+	return [mapping mtl_dictionaryByAddingEntriesFromDictionary:@{
 		@"name": @"username",
 		@"nestedName": @"nested.name",
 		@"weakModel": NSNull.null,
-	};
+	}];
 }
 
 + (NSValueTransformer *)countJSONTransformer {
@@ -123,7 +128,7 @@ static NSUInteger modelVersion = 1;
 @implementation MTLSubstitutingTestModel
 
 + (NSDictionary *)JSONKeyPathsByPropertyKey {
-	return @{};
+	return MTLIdentityMappingForClass(self);
 }
 
 + (Class)classForParsingJSONDictionary:(NSDictionary *)JSONDictionary {
@@ -166,7 +171,7 @@ static NSUInteger modelVersion = 1;
 @implementation MTLURLModel
 
 + (NSDictionary *)JSONKeyPathsByPropertyKey {
-	return @{};
+	return MTLIdentityMappingForClass(self);
 }
 
 + (NSValueTransformer *)URLJSONTransformer {

@@ -258,10 +258,8 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	NSParameterAssert(key != nil);
 
 	id JSONKeyPath = self.JSONKeyPathsByPropertyKey[key];
-	if ([JSONKeyPath isEqual:NSNull.null]) return nil;
-
-	if (JSONKeyPath == nil) {
-		return key;
+	if ([JSONKeyPath isEqual:NSNull.null]) {
+		return nil;
 	} else {
 		return JSONKeyPath;
 	}
