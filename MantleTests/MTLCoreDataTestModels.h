@@ -34,6 +34,12 @@
 
 @end
 
+@interface MTLBadChildTestModel : MTLModel <MTLManagedObjectSerializing>
+
+@property (nonatomic, assign) NSUInteger childID;
+
+@end
+
 // Claims to correspond to the `Empty` entity which lacks the `notSupported`
 // property.
 @interface MTLFailureModel : MTLModel <MTLManagedObjectSerializing>
