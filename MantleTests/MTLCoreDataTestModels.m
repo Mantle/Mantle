@@ -52,8 +52,7 @@
 	return @{};
 }
 
-+ (NSSet *)propertyKeysForManagedObjectUniquing
-{
++ (NSSet *)propertyKeysForManagedObjectUniquing {
 	return [NSSet setWithObjects:@"childID", nil];
 }
 
@@ -76,8 +75,7 @@
 	return @{};
 }
 
-+ (NSSet *)propertyKeysForManagedObjectUniquing
-{
++ (NSSet *)propertyKeysForManagedObjectUniquing {
 	return [NSSet setWithObjects:@"childID", nil];
 }
 
