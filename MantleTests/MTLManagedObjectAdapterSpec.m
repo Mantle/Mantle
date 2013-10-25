@@ -7,7 +7,6 @@
 //
 
 #import "MTLCoreDataObjects.h"
-#import "MTLDeprecatedCoreDataTestModel.h"
 
 #import "MTLCoreDataTestModels.h"
 
@@ -121,18 +120,6 @@ describe(@"with a confined context", ^{
 				expect(child.parent1).to.beIdenticalTo(parentModel);
 				expect(child.parent2).to.beNil();
 			}
-		});
-
-		it(@"should maintain backwards compatibility with +<key>EntityAttributeTransformer methods", ^{
-			NSError *error = nil;
-			MTLDeprecatedParentTestModel *parentModel = [MTLManagedObjectAdapter modelOfClass:MTLDeprecatedParentTestModel.class fromManagedObject:parent error:&error];
-			expect(parentModel).to.beKindOf(MTLDeprecatedParentTestModel.class);
-			expect(error).to.beNil();
-
-			expect(parentModel.date).to.equal(date);
-			expect(parentModel.numberString).to.equal(numberString);
-			expect(parentModel.requiredString).to.equal(requiredString);
-			expect(parentModel.URL).to.equal(URL);
 		});
 	});
 

@@ -12,7 +12,6 @@
 #import "MTLTransformerErrorHandling.h"
 #import "MTLReflection.h"
 #import "NSArray+MTLManipulationAdditions.h"
-#import "NSValueTransformer+MTLInversionAdditions.h"
 
 NSString * const MTLManagedObjectAdapterErrorDomain = @"MTLManagedObjectAdapterErrorDomain";
 const NSInteger MTLManagedObjectAdapterErrorNoClassFound = 2;
@@ -85,7 +84,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 // key - The property key to transform from or to. This argument must not be nil.
 //
 // Returns a transformer to use, or nil to not transform the property.
-- (NSValueTransformer *)managedObjectAttributeTransformerForKey:(NSString *)key;
+- (NSValueTransformer *)entityAttributeTransformerForKey:(NSString *)key;
 
 // Looks up the managed object key that corresponds to the given key.
 //
@@ -165,7 +164,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 				return [managedObject valueForKey:managedObjectKey];
 			});
 
-			NSValueTransformer *transformer = [self managedObjectAttributeTransformerForKey:propertyKey];
+			NSValueTransformer *transformer = [self entityAttributeTransformerForKey:propertyKey];
 			if (transformer != nil) {
 				if ([transformer respondsToSelector:@selector(transformedValue:success:error:)]) {
 					id<MTLTransformerErrorHandling> errorHandlingTransformer = (id)transformer;
@@ -397,7 +396,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 			// double-free or leak the old or new values).
 			__autoreleasing id transformedValue = value;
 
-			NSValueTransformer *transformer = [self managedObjectAttributeTransformerForKey:propertyKey];
+			NSValueTransformer *transformer = [self entityAttributeTransformerForKey:propertyKey];
 			if ([transformer.class allowsReverseTransformation]) {
 				if ([transformer respondsToSelector:@selector(reverseTransformedValue:success:error:)]) {
 					NSValueTransformer<MTLTransformerErrorHandling> *errorHandlingTransformer = (NSValueTransformer<MTLTransformerErrorHandling> *)transformer;
@@ -567,59 +566,23 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 	return [adapter managedObjectFromModel:model insertingIntoContext:context processedObjects:processedObjects error:error];
 }
 
-- (NSValueTransformer *)managedObjectAttributeTransformerForKey:(NSString *)key {
+- (NSValueTransformer *)entityAttributeTransformerForKey:(NSString *)key {
 	NSParameterAssert(key != nil);
 
-	SEL selector = MTLSelectorWithKeyPattern(key, "ManagedObjectAttributeTransformer");
+	SEL selector = MTLSelectorWithKeyPattern(key, "EntityAttributeTransformer");
 	if ([self.modelClass respondsToSelector:selector]) {
 		NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[self.modelClass methodSignatureForSelector:selector]];
 		invocation.target = self.modelClass;
 		invocation.selector = selector;
 		[invocation invoke];
 
-		__unsafe_unretained NSValueTransformer *result = nil;
+		__unsafe_unretained id result = nil;
 		[invocation getReturnValue:&result];
-
 		return result;
 	}
 
-	if ([self.modelClass respondsToSelector:@selector(managedObjectAttributeTransformerForKey:)]) {
-		return [self.modelClass managedObjectAttributeTransformerForKey:key];
-	}
-
-	// Maintain backwards compatibility with deprecated methods
-	SEL deprecated = MTLSelectorWithKeyPattern(key, "EntityAttributeTransformer");
-	if ([self.modelClass respondsToSelector:deprecated]) {
-		NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[self.modelClass methodSignatureForSelector:deprecated]];
-		invocation.target = self.modelClass;
-		invocation.selector = deprecated;
-		[invocation invoke];
-
-		__unsafe_unretained NSValueTransformer *result = nil;
-		[invocation getReturnValue:&result];
-
-		#ifdef DEBUG
-		static dispatch_once_t onceToken;
-		dispatch_once(&onceToken, ^{
-			NSLog(@"This method has been deprecated, use + %@ManagedObjectAttributeTransformer instead", key);
-		});
-		#endif
-
-		if ([result.class allowsReverseTransformation]) {
-			return result.mtl_invertedTransformer;
-		} else {
-			return nil;
-		}
-	}
-
 	if ([self.modelClass respondsToSelector:@selector(entityAttributeTransformerForKey:)]) {
-		NSValueTransformer *result = [self.modelClass entityAttributeTransformerForKey:key];
-
-		if ([result.class allowsReverseTransformation]) {
-			return result.mtl_invertedTransformer;
-		} else {
-			return nil;
-		}
+		return [self.modelClass entityAttributeTransformerForKey:key];
 	}
 
 	return nil;
@@ -655,7 +618,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 
 		id transformedValue = [model valueForKeyPath:propertyKey];
 
-		NSValueTransformer *attributeTransformer = [self managedObjectAttributeTransformerForKey:propertyKey];
+		NSValueTransformer *attributeTransformer = [self entityAttributeTransformerForKey:propertyKey];
 		if ([attributeTransformer.class allowsReverseTransformation]) {
 			transformedValue = [attributeTransformer reverseTransformedValue:transformedValue];
 		}
