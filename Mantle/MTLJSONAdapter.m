@@ -230,7 +230,6 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	} else {
 		return JSONDictionary;
 	}
-
 }
 
 - (NSValueTransformer *)JSONTransformerForKey:(NSString *)key {
