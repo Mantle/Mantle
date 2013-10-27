@@ -592,10 +592,8 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 	NSParameterAssert(key != nil);
 
 	id managedObjectKey = self.managedObjectKeysByPropertyKey[key];
-	if ([managedObjectKey isEqual:NSNull.null]) return nil;
-
-	if (managedObjectKey == nil) {
-		return key;
+	if ([managedObjectKey isEqual:NSNull.null]) {
+		return nil;
 	} else {
 		return managedObjectKey;
 	}

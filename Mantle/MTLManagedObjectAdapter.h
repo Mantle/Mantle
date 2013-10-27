@@ -32,9 +32,8 @@
 // Subclasses overriding this method should combine their values with those of
 // `super`.
 //
-// Any property keys not present in the dictionary are assumed to match the
-// entity key that should be used. Any keys associated with NSNull will not
-// participate in managed object serialization.
+// Any keys associated with NSNull will not participate in managed object
+// serialization.
 //
 // Returns a dictionary mapping property keys to entity keys (as strings) or
 // NSNull values.
