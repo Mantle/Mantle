@@ -165,17 +165,15 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 			});
 
 			NSValueTransformer *transformer = [self entityAttributeTransformerForKey:propertyKey];
-			if (transformer != nil) {
-				if ([transformer respondsToSelector:@selector(transformedValue:success:error:)]) {
-					id<MTLTransformerErrorHandling> errorHandlingTransformer = (id)transformer;
+			if ([transformer respondsToSelector:@selector(transformedValue:success:error:)]) {
+				id<MTLTransformerErrorHandling> errorHandlingTransformer = (id)transformer;
 
-					BOOL success = YES;
-					value = [errorHandlingTransformer transformedValue:value success:&success error:error];
+				BOOL success = YES;
+				value = [errorHandlingTransformer transformedValue:value success:&success error:error];
 
-					if (!success) return NO;
-				} else {
-					value = [transformer transformedValue:value];
-				}
+				if (!success) return NO;
+			} else if (transformer != nil) {
+				value = [transformer transformedValue:value];
 			}
 
 			return setValueForKey(propertyKey, value);
