@@ -148,7 +148,7 @@ const NSInteger MTLInvalidTransformationErrorInvalidInput = 1;
 }
 
 + (NSValueTransformer *)mtl_JSONArrayTransformerWithModelClass:(Class)modelClass {
-	NSValueTransformer<MTLTransformerErrorHandling> *dictionaryTransformer = (NSValueTransformer<MTLTransformerErrorHandling> *)[self mtl_JSONDictionaryTransformerWithModelClass:modelClass];
+	id<MTLTransformerErrorHandling> dictionaryTransformer = (id)[self mtl_JSONDictionaryTransformerWithModelClass:modelClass];
 
 	return [MTLValueTransformer
 		transformerUsingForwardBlock:^id(NSArray *dictionaries, BOOL *success, NSError **error) {

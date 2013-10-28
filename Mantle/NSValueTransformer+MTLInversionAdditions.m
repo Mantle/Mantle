@@ -18,7 +18,7 @@
 	if ([self conformsToProtocol:@protocol(MTLTransformerErrorHandling)]) {
 		NSParameterAssert([self respondsToSelector:@selector(reverseTransformedValue:success:error:)]);
 
-		NSValueTransformer<MTLTransformerErrorHandling> *errorHandlingSelf = (NSValueTransformer<MTLTransformerErrorHandling> *)self;
+		id<MTLTransformerErrorHandling> errorHandlingSelf = (id)self;
 
 		return [MTLValueTransformer transformerUsingForwardBlock:^(id value, BOOL *success, NSError **error) {
 			return [errorHandlingSelf reverseTransformedValue:value success:success error:error];

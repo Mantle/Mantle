@@ -397,7 +397,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 			NSValueTransformer *transformer = [self entityAttributeTransformerForKey:propertyKey];
 			if ([transformer.class allowsReverseTransformation]) {
 				if ([transformer respondsToSelector:@selector(reverseTransformedValue:success:error:)]) {
-					NSValueTransformer<MTLTransformerErrorHandling> *errorHandlingTransformer = (NSValueTransformer<MTLTransformerErrorHandling> *)transformer;
+					id<MTLTransformerErrorHandling> errorHandlingTransformer = (id)transformer;
 
 					BOOL success = YES;
 					transformedValue = [errorHandlingTransformer reverseTransformedValue:value success:&success error:error];
