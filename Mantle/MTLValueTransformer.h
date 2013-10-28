@@ -21,7 +21,7 @@
 //           transforming the value.
 //
 // Returns the result of the transformation, which may be nil.
-typedef id (^MTLValueTransformationBlock)(id value, BOOL *success, NSError **error);
+typedef id (^MTLValueTransformerBlock)(id value, BOOL *success, NSError **error);
 
 //
 // A value transformer supporting block-based transformation.
@@ -30,14 +30,14 @@ typedef id (^MTLValueTransformationBlock)(id value, BOOL *success, NSError **err
 
 // Returns a transformer which transforms values using the given block. Reverse
 // transformations will not be allowed.
-+ (instancetype)transformerUsingForwardBlock:(MTLValueTransformationBlock)transformation;
++ (instancetype)transformerUsingForwardBlock:(MTLValueTransformerBlock)transformation;
 
 // Returns a transformer which transforms values using the given block, for
 // forward or reverse transformations.
-+ (instancetype)transformerUsingReversibleBlock:(MTLValueTransformationBlock)transformation;
++ (instancetype)transformerUsingReversibleBlock:(MTLValueTransformerBlock)transformation;
 
 // Returns a transformer which transforms values using the given blocks.
-+ (instancetype)transformerUsingForwardBlock:(MTLValueTransformationBlock)forwardTransformation reverseBlock:(MTLValueTransformationBlock)reverseTransformation;
++ (instancetype)transformerUsingForwardBlock:(MTLValueTransformerBlock)forwardTransformation reverseBlock:(MTLValueTransformerBlock)reverseTransformation;
 
 @end
 
