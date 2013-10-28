@@ -15,8 +15,8 @@
 // value   - The value to transform.
 // success - The block must set this parameter to indicate whether the
 //           transformation was successful.
-//           MTLValueTransformer will always call this block with *success set
-//           to YES.
+//           MTLValueTransformer will always call this block with *success
+//           initialized to YES.
 // error   - If not NULL, this may be set to an error that occurs during
 //           transforming the value.
 //
