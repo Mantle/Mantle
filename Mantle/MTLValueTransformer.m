@@ -123,19 +123,19 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-implementations"
 
-+ (instancetype)transformerWithBlock:(MTLValueTransformerBlock)transformationBlock {
++ (instancetype)transformerWithBlock:(id (^)(id))transformationBlock {
 	return [self transformerUsingForwardBlock:^(id value, BOOL *success, NSError **error) {
 		return transformationBlock(value);
 	}];
 }
 
-+ (instancetype)reversibleTransformerWithBlock:(MTLValueTransformerBlock)transformationBlock {
++ (instancetype)reversibleTransformerWithBlock:(id (^)(id))transformationBlock {
 	return [self transformerUsingReversibleBlock:^(id value, BOOL *success, NSError **error) {
 		return transformationBlock(value);
 	}];
 }
 
-+ (instancetype)reversibleTransformerWithForwardBlock:(MTLValueTransformerBlock)forwardBlock reverseBlock:(MTLValueTransformerBlock)reverseBlock {
++ (instancetype)reversibleTransformerWithForwardBlock:(id (^)(id))forwardBlock reverseBlock:(id (^)(id))reverseBlock {
 	return [self
 		transformerUsingForwardBlock:^(id value, BOOL *success, NSError **error) {
 			return forwardBlock(value);

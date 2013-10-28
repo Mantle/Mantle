@@ -41,14 +41,12 @@ typedef id (^MTLValueTransformationBlock)(id value, BOOL *success, NSError **err
 
 @end
 
-typedef id (^MTLValueTransformerBlock)(id);
-
 @interface MTLValueTransformer (Deprecated)
 
-+ (NSValueTransformer *)transformerWithBlock:(MTLValueTransformerBlock)transformationBlock __attribute__((deprecated("Replaced by +transformerUsingForwardBlock:")));
++ (NSValueTransformer *)transformerWithBlock:(id (^)(id))transformationBlock __attribute__((deprecated("Replaced by +transformerUsingForwardBlock:")));
 
-+ (NSValueTransformer *)reversibleTransformerWithBlock:(MTLValueTransformerBlock)transformationBlock __attribute__((deprecated("Replaced by +transformerUsingReversibleBlock:")));
++ (NSValueTransformer *)reversibleTransformerWithBlock:(id (^)(id))transformationBlock __attribute__((deprecated("Replaced by +transformerUsingReversibleBlock:")));
 
-+ (NSValueTransformer *)reversibleTransformerWithForwardBlock:(MTLValueTransformerBlock)forwardBlock reverseBlock:(MTLValueTransformerBlock)reverseBlock __attribute__((deprecated("Replaced by +transformerUsingForwardBlock:reverseBlock:")));
++ (NSValueTransformer *)reversibleTransformerWithForwardBlock:(id (^)(id))forwardBlock reverseBlock:(id (^)(id))reverseBlock __attribute__((deprecated("Replaced by +transformerUsingForwardBlock:reverseBlock:")));
 
 @end
