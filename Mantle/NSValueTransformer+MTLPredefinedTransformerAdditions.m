@@ -27,7 +27,7 @@ const NSInteger MTLInvalidTransformationErrorInvalidInput = 1;
 + (void)load {
 	@autoreleasepool {
 		MTLValueTransformer *URLValueTransformer = [MTLValueTransformer
-			transformerUsingForwardBlock:^id(NSString *str, BOOL *success, NSError **error) {
+			transformerUsingForwardBlock:^ id (NSString *str, BOOL *success, NSError **error) {
 				if (str == nil) return nil;
 
 				if (![str isKindOfClass:NSString.class]) {
@@ -47,7 +47,7 @@ const NSInteger MTLInvalidTransformationErrorInvalidInput = 1;
 				}
 				return [NSURL URLWithString:str];
 			}
-			reverseBlock:^id(NSURL *URL, BOOL *success, NSError **error) {
+			reverseBlock:^ id (NSURL *URL, BOOL *success, NSError **error) {
 				if (URL == nil) return nil;
 
 				if (![URL isKindOfClass:NSURL.class]) {
@@ -71,7 +71,7 @@ const NSInteger MTLInvalidTransformationErrorInvalidInput = 1;
 		[NSValueTransformer setValueTransformer:URLValueTransformer forName:MTLURLValueTransformerName];
 
 		MTLValueTransformer *booleanValueTransformer = [MTLValueTransformer
-			transformerUsingReversibleBlock:^id(NSNumber *boolean, BOOL *success, NSError **error) {
+			transformerUsingReversibleBlock:^ id (NSNumber *boolean, BOOL *success, NSError **error) {
 				if (boolean == nil) return nil;
 
 				if (![boolean isKindOfClass:NSNumber.class]) {
@@ -103,7 +103,7 @@ const NSInteger MTLInvalidTransformationErrorInvalidInput = 1;
 	NSParameterAssert([modelClass conformsToProtocol:@protocol(MTLJSONSerializing)]);
 
 	return [MTLValueTransformer
-		transformerUsingForwardBlock:^id(id JSONDictionary, BOOL *success, NSError **error) {
+		transformerUsingForwardBlock:^ id (id JSONDictionary, BOOL *success, NSError **error) {
 			if (JSONDictionary == nil) return nil;
 
 			if (![JSONDictionary isKindOfClass:NSDictionary.class]) {
@@ -124,7 +124,7 @@ const NSInteger MTLInvalidTransformationErrorInvalidInput = 1;
 
 			return [MTLJSONAdapter modelOfClass:modelClass fromJSONDictionary:JSONDictionary error:error];
 		}
-		reverseBlock:^id(id model, BOOL *success, NSError **error) {
+		reverseBlock:^ id (id model, BOOL *success, NSError **error) {
 			if (model == nil) return nil;
 
 			if (![model isKindOfClass:MTLModel.class] || ![model conformsToProtocol:@protocol(MTLJSONSerializing)]) {
@@ -151,7 +151,7 @@ const NSInteger MTLInvalidTransformationErrorInvalidInput = 1;
 	id<MTLTransformerErrorHandling> dictionaryTransformer = (id)[self mtl_JSONDictionaryTransformerWithModelClass:modelClass];
 
 	return [MTLValueTransformer
-		transformerUsingForwardBlock:^id(NSArray *dictionaries, BOOL *success, NSError **error) {
+		transformerUsingForwardBlock:^ id (NSArray *dictionaries, BOOL *success, NSError **error) {
 			if (dictionaries == nil) return nil;
 
 			if (![dictionaries isKindOfClass:NSArray.class]) {
@@ -204,7 +204,7 @@ const NSInteger MTLInvalidTransformationErrorInvalidInput = 1;
 
 			return models;
 		}
-		reverseBlock:^id(NSArray *models, BOOL *success, NSError **error) {
+		reverseBlock:^ id (NSArray *models, BOOL *success, NSError **error) {
 			if (models == nil) return nil;
 
 			if (![models isKindOfClass:NSArray.class]) {
