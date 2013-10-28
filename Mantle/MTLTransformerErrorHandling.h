@@ -11,6 +11,7 @@
 // This protocol can be implemented by NSValueTransformer subclasses to
 // communicate errors that occur during transformation.
 @protocol MTLTransformerErrorHandling <NSObject>
+@required
 
 // Transforms a value, returning any error that occurred during transformation.
 //
