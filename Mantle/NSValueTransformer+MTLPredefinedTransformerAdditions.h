@@ -30,7 +30,7 @@ extern NSString * const MTLPredefinedTransformerErrorDomain;
 extern const NSInteger MTLInvalidTransformationErrorInvalidInput;
 
 // Associated with the invalid input value.
-extern NSString * const MTLPredefinedTransformerErrorInvalidInputKey;
+extern NSString * const MTLPredefinedTransformerErrorInvalidInputErrorKey;
 
 @interface NSValueTransformer (MTLPredefinedTransformerAdditions)
 
