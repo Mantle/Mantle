@@ -34,7 +34,7 @@
 // expected to implement this method if they support reverse transformation.
 //
 // value   - The value to transform.
-// success - If not NULL, this will be set YES to indicate whether the
+// success - If not NULL, this shall be set YES to indicate whether the
 //           transformation was successful.
 // error   - If not NULL, this may be set to an error that occurs during
 //           transforming the value.
