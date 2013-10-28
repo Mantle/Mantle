@@ -27,9 +27,39 @@
 }
 
 + (NSValueTransformer *)numberStringEntityAttributeTransformer {
-	return [MTLValueTransformer transformerUsingForwardBlock:^(NSNumber *num, BOOL *success, NSError **error) {
+	return [MTLValueTransformer transformerUsingForwardBlock:^ id (NSNumber *num, BOOL *success, NSError **error) {
+		if (![num isKindOfClass:NSNumber.class]) {
+			if (error != NULL) {
+				NSString *failureReason = [NSString stringWithFormat:NSLocalizedString(@"Expected NSNumber, got %@", @""), num];
+
+				NSDictionary *userInfo = @{
+					NSLocalizedDescriptionKey: NSLocalizedString(@"Could not convert number to string", @""),
+					NSLocalizedFailureReasonErrorKey: failureReason,
+				};
+
+				*error = [NSError errorWithDomain:@"MTLCoreDataTestModelsDomain" code:666 userInfo:userInfo];
+			}
+			*success = NO;
+			return nil;
+		}
+
 		return num.stringValue;
-	} reverseBlock:^(NSString *str, BOOL *success, NSError **error) {
+	} reverseBlock:^ id (NSString *str, BOOL *success, NSError **error) {
+		if (![str isKindOfClass:NSString.class]) {
+			if (error != NULL) {
+				NSString *failureReason = [NSString stringWithFormat:NSLocalizedString(@"Expected NSString, got %@", @""), str];
+
+				NSDictionary *userInfo = @{
+					NSLocalizedDescriptionKey: NSLocalizedString(@"Could not convert string to number", @""),
+					NSLocalizedFailureReasonErrorKey: failureReason,
+				};
+
+				*error = [NSError errorWithDomain:@"MTLCoreDataTestModelsDomain" code:666 userInfo:userInfo];
+			}
+			*success = NO;
+			return nil;
+		}
+
 		return [NSDecimalNumber decimalNumberWithString:str];
 	}];
 }

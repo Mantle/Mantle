@@ -221,6 +221,16 @@ describe(@"with a confined context", ^{
 
 			expect(parentOne.objectID).to.equal(parentTwo.objectID);
 		});
+
+		it(@"should return an error if the uniqueness property cannot be transformed", ^{
+			[parentModel setValue:NSNull.null forKey:@"numberString"];
+
+			NSError *error;
+			MTLParent *parent = [MTLManagedObjectAdapter managedObjectFromModel:parentModel insertingIntoContext:context error:&error];
+
+			expect(parent).to.beNil();
+			expect(error).notTo.beNil();
+		});
 	});
 });
 
