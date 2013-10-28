@@ -45,7 +45,25 @@ const NSInteger MTLInvalidTransformationErrorInvalidInput = 1;
 					*success = NO;
 					return nil;
 				}
-				return [NSURL URLWithString:str];
+
+				NSURL *result = [NSURL URLWithString:str];
+
+				if (result == nil) {
+					if (error != NULL) {
+						NSString *failureReason = [NSString stringWithFormat:NSLocalizedString(@"Input URL string %@ was malformed", @""), str];
+
+						NSDictionary *userInfo = @{
+							NSLocalizedDescriptionKey : NSLocalizedString(@"Could not convert string to URL", @""),
+							NSLocalizedFailureReasonErrorKey: failureReason,
+						};
+
+						*error = [NSError errorWithDomain:MTLPredefinedTransformerErrorDomain code:MTLInvalidTransformationErrorInvalidInput userInfo:userInfo];
+					}
+					*success = NO;
+					return nil;
+				}
+
+				return result;
 			}
 			reverseBlock:^ id (NSURL *URL, BOOL *success, NSError **error) {
 				if (URL == nil) return nil;

@@ -40,7 +40,7 @@ describe(@"The URL transformer", ^{
 	itShouldBehaveLike(MTLTransformerErrorExamples, ^{
 		return @{
 			MTLTransformerErrorExamplesTransformer: transformer,
-			MTLTransformerErrorExamplesInvalidTransformationInput: NSNull.null,
+			MTLTransformerErrorExamplesInvalidTransformationInput: @"not a valid URL",
 			MTLTransformerErrorExamplesInvalidReverseTransformationInput: NSNull.null,
 		};
 	});
