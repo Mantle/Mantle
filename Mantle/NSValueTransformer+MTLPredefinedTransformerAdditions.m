@@ -264,17 +264,48 @@ const NSInteger MTLInvalidTransformationErrorInvalidInput = 1;
 	NSParameterAssert(dictionary.count == [[NSSet setWithArray:dictionary.allValues] count]);
 
 	return [MTLValueTransformer
-		transformerUsingForwardBlock:^(id <NSCopying> key, BOOL *success, NSError **error) {
-			return dictionary[key];
+		transformerUsingForwardBlock:^ id (id <NSCopying> key, BOOL *success, NSError **error) {
+			id result = dictionary[key];
+
+			if (result == nil) {
+				if (error != NULL) {
+					NSDictionary *userInfo = @{
+						NSLocalizedDescriptionKey: NSLocalizedString(@"Could not find associated value", @""),
+						NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Expected %1@ to contain a value for %2@", @""), dictionary, key],
+						MTLPredefinedTransformerErrorInputValueErrorKey: key
+					};
+
+					*error = [NSError errorWithDomain:MTLPredefinedTransformerErrorDomain code:MTLInvalidTransformationErrorInvalidInput userInfo:userInfo];
+				}
+				*success = NO;
+				return nil;
+			}
+
+			return result;
 		}
-		reverseBlock:^(id object, BOOL *success, NSError **error) {
+		reverseBlock:^ id (id value, BOOL *success, NSError **error) {
 			__block id result = nil;
 			[dictionary enumerateKeysAndObjectsUsingBlock:^(id key, id anObject, BOOL *stop) {
-				if ([object isEqual:anObject]) {
+				if ([value isEqual:anObject]) {
 					result = key;
 					*stop = YES;
 				}
 			}];
+
+			if (result == nil) {
+				if (error != NULL) {
+					NSDictionary *userInfo = @{
+						NSLocalizedDescriptionKey: NSLocalizedString(@"Could not find associated key", @""),
+						NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Expected %1@ to contain a key that maps to %2@", @""), dictionary, value],
+						MTLPredefinedTransformerErrorInputValueErrorKey: value
+					};
+
+					*error = [NSError errorWithDomain:MTLPredefinedTransformerErrorDomain code:MTLInvalidTransformationErrorInvalidInput userInfo:userInfo];
+				}
+				*success = NO;
+				return nil;
+			}
+
 			return result;
 		}];
 }
