@@ -55,6 +55,7 @@ const NSInteger MTLInvalidTransformationErrorInvalidInput = 1;
 						NSDictionary *userInfo = @{
 							NSLocalizedDescriptionKey : NSLocalizedString(@"Could not convert string to URL", @""),
 							NSLocalizedFailureReasonErrorKey: failureReason,
+							MTLPredefinedTransformerErrorInputValueErrorKey : str
 						};
 
 						*error = [NSError errorWithDomain:MTLPredefinedTransformerErrorDomain code:MTLInvalidTransformationErrorInvalidInput userInfo:userInfo];
