@@ -117,7 +117,7 @@ const NSInteger MTLInvalidTransformationErrorInvalidInput = 1;
 
 #pragma mark Customizable Transformers
 
-+ (NSValueTransformer *)mtl_JSONDictionaryTransformerWithModelClass:(Class)modelClass {
++ (NSValueTransformer<MTLTransformerErrorHandling> *)mtl_JSONDictionaryTransformerWithModelClass:(Class)modelClass {
 	NSParameterAssert([modelClass isSubclassOfClass:MTLModel.class]);
 	NSParameterAssert([modelClass conformsToProtocol:@protocol(MTLJSONSerializing)]);
 
@@ -166,8 +166,8 @@ const NSInteger MTLInvalidTransformationErrorInvalidInput = 1;
 		}];
 }
 
-+ (NSValueTransformer *)mtl_JSONArrayTransformerWithModelClass:(Class)modelClass {
-	id<MTLTransformerErrorHandling> dictionaryTransformer = (id)[self mtl_JSONDictionaryTransformerWithModelClass:modelClass];
++ (NSValueTransformer<MTLTransformerErrorHandling> *)mtl_JSONArrayTransformerWithModelClass:(Class)modelClass {
+	id<MTLTransformerErrorHandling> dictionaryTransformer = [self mtl_JSONDictionaryTransformerWithModelClass:modelClass];
 
 	return [MTLValueTransformer
 		transformerUsingForwardBlock:^ id (NSArray *dictionaries, BOOL *success, NSError **error) {
@@ -278,7 +278,7 @@ const NSInteger MTLInvalidTransformationErrorInvalidInput = 1;
 		}];
 }
 
-+ (NSValueTransformer *)mtl_valueMappingTransformerWithDictionary:(NSDictionary *)dictionary {
++ (NSValueTransformer<MTLTransformerErrorHandling> *)mtl_valueMappingTransformerWithDictionary:(NSDictionary *)dictionary {
 	NSParameterAssert(dictionary != nil);
 	NSParameterAssert(dictionary.count == [[NSSet setWithArray:dictionary.allValues] count]);
 

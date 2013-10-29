@@ -43,7 +43,7 @@ extern NSString * const MTLPredefinedTransformerErrorInputValueErrorKey;
 //
 // Returns a reversible transformer which uses MTLJSONAdapter for transforming
 // values back and forth.
-+ (NSValueTransformer *)mtl_JSONDictionaryTransformerWithModelClass:(Class)modelClass;
++ (NSValueTransformer<MTLTransformerErrorHandling> *)mtl_JSONDictionaryTransformerWithModelClass:(Class)modelClass;
 
 // Creates a reversible transformer to convert an array of JSON dictionaries
 // into an array of MTLModel objects, and vice-versa.
@@ -54,7 +54,7 @@ extern NSString * const MTLPredefinedTransformerErrorInputValueErrorKey;
 //
 // Returns a reversible transformer which uses MTLJSONAdapter for transforming
 // array elements back and forth.
-+ (NSValueTransformer *)mtl_JSONArrayTransformerWithModelClass:(Class)modelClass;
++ (NSValueTransformer<MTLTransformerErrorHandling> *)mtl_JSONArrayTransformerWithModelClass:(Class)modelClass;
 
 // A reversible value transformer to transform between the keys and objects of a
 // dictionary.
@@ -71,7 +71,7 @@ extern NSString * const MTLPredefinedTransformerErrorInputValueErrorKey;
 //
 // Returns a transformer which will map from keys to objects for forward
 // transformations, and from objects to keys for reverse transformations.
-+ (NSValueTransformer *)mtl_valueMappingTransformerWithDictionary:(NSDictionary *)dictionary;
++ (NSValueTransformer<MTLTransformerErrorHandling> *)mtl_valueMappingTransformerWithDictionary:(NSDictionary *)dictionary;
 
 @end
 
