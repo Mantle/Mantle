@@ -230,6 +230,7 @@ describe(@"with a confined context", ^{
 
 			expect(parent).to.beNil();
 			expect(error).notTo.beNil();
+			expect(error.domain).to.equal(MTLCoreDataTestModelsDomain);
 		});
 	});
 });

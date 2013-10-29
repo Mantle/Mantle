@@ -8,6 +8,8 @@
 
 #import "MTLCoreDataTestModels.h"
 
+NSString * const MTLCoreDataTestModelsDomain = @"MTLCoreDataTestModelsDomain";
+
 @implementation MTLParentTestModel
 
 + (NSString *)managedObjectEntityName {
@@ -47,14 +49,7 @@
 	} reverseBlock:^ id (NSString *str, BOOL *success, NSError **error) {
 		if (![str isKindOfClass:NSString.class]) {
 			if (error != NULL) {
-				NSString *failureReason = [NSString stringWithFormat:NSLocalizedString(@"Expected NSString, got %@", @""), str];
-
-				NSDictionary *userInfo = @{
-					NSLocalizedDescriptionKey: NSLocalizedString(@"Could not convert string to number", @""),
-					NSLocalizedFailureReasonErrorKey: failureReason,
-				};
-
-				*error = [NSError errorWithDomain:@"MTLCoreDataTestModelsDomain" code:666 userInfo:userInfo];
+				*error = [NSError errorWithDomain:MTLCoreDataTestModelsDomain code:666 userInfo:nil];
 			}
 			*success = NO;
 			return nil;
