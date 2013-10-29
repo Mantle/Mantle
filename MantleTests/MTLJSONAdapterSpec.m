@@ -127,6 +127,7 @@ it(@"should fail to initialize if JSON transformer fails", ^{
 	expect(model).to.beNil();
 	expect(error.domain).to.equal(MTLPredefinedTransformerErrorDomain);
 	expect(error.code).to.equal(MTLInvalidTransformationErrorInvalidInput);
+	expect(error.userInfo[MTLPredefinedTransformerErrorInputValueErrorKey]).to.equal(@666);
 });
 
 it(@"should fail to serialize if a JSON transformer errors", ^{
@@ -139,6 +140,7 @@ it(@"should fail to serialize if a JSON transformer errors", ^{
 	expect(dictionary).to.beNil();
 	expect(error.domain).to.equal(MTLPredefinedTransformerErrorDomain);
 	expect(error.code).to.equal(MTLInvalidTransformationErrorInvalidInput);
+	expect(error.userInfo[MTLPredefinedTransformerErrorInputValueErrorKey]).to.equal(@"totallyNotAnNSURL");
 });
 
 it(@"should parse a different model class", ^{

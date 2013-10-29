@@ -42,6 +42,7 @@ describe(@"The URL transformer", ^{
 			MTLTransformerErrorExamplesTransformer: transformer,
 			MTLTransformerErrorExamplesInvalidTransformationInput: @"not a valid URL",
 			MTLTransformerErrorExamplesInvalidReverseTransformationInput: NSNull.null,
+			MTLTransformerErrorExamplesErrorDomain: MTLPredefinedTransformerErrorDomain
 		};
 	});
 });
@@ -82,6 +83,7 @@ describe(@"The number transformer", ^{
 			MTLTransformerErrorExamplesTransformer: transformer,
 			MTLTransformerErrorExamplesInvalidTransformationInput: NSNull.null,
 			MTLTransformerErrorExamplesInvalidReverseTransformationInput: NSNull.null,
+			MTLTransformerErrorExamplesErrorDomain: MTLPredefinedTransformerErrorDomain
 		};
 	});
 });
@@ -116,6 +118,7 @@ describe(@"JSON transformers", ^{
 				MTLTransformerErrorExamplesTransformer: transformer,
 				MTLTransformerErrorExamplesInvalidTransformationInput: NSNull.null,
 				MTLTransformerErrorExamplesInvalidReverseTransformationInput: NSNull.null,
+				MTLTransformerErrorExamplesErrorDomain: MTLPredefinedTransformerErrorDomain
 			};
 		});
 	});
@@ -166,6 +169,7 @@ describe(@"JSON transformers", ^{
 				MTLTransformerErrorExamplesTransformer: transformer,
 				MTLTransformerErrorExamplesInvalidTransformationInput: NSNull.null,
 				MTLTransformerErrorExamplesInvalidReverseTransformationInput: NSNull.null,
+				MTLTransformerErrorExamplesErrorDomain: MTLPredefinedTransformerErrorDomain
 			};
 		});
 	});
