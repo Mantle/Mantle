@@ -108,7 +108,7 @@ const NSInteger MTLInvalidTransformationErrorInvalidInput = 1;
 					*success = NO;
 					return nil;
 				}
-				return (NSNumber *) (boolean.boolValue ? kCFBooleanTrue : kCFBooleanFalse);
+				return (NSNumber *)(boolean.boolValue ? kCFBooleanTrue : kCFBooleanFalse);
 			}];
 
 		[NSValueTransformer setValueTransformer:booleanValueTransformer forName:MTLBooleanValueTransformerName];
