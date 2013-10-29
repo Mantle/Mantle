@@ -127,7 +127,7 @@ const NSInteger MTLInvalidTransformationErrorInvalidInput = 1;
 
 			if (![JSONDictionary isKindOfClass:NSDictionary.class]) {
 				if (error != NULL) {
-					NSString *failureReason = [NSString stringWithFormat:NSLocalizedString(@"Expected an NSDictionary, got: %@.", @""), JSONDictionary];
+					NSString *failureReason = [NSString stringWithFormat:NSLocalizedString(@"Expected an NSDictionary, got: %@", @""), JSONDictionary];
 
 					NSDictionary *userInfo = @{
 						NSLocalizedDescriptionKey : NSLocalizedString(@"Could not convert JSON dictionary to model object", @""),
