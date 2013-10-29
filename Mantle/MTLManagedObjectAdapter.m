@@ -417,8 +417,8 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 			return [self.class managedObjectFromModel:model insertingIntoContext:context processedObjects:processedObjects error:&tmpError];
 		};
 
-		NSSet *(^relationshipCollectionForModel)(NSRelationshipDescription *) = ^ NSSet *(NSRelationshipDescription *relationshipDescription) {
-			NSArray *relationshipArray = [NSArray array];
+		NSSet * (^relationshipCollectionForModel)(NSRelationshipDescription *) = ^ NSSet * (NSRelationshipDescription *relationshipDescription) {
+			NSMutableArray *relationshipArray = [NSMutableArray array];
 
 			NSDictionary *managedObjectCollectionDescription = [self managedObjectCollectionDescriptionForKey:propertyKey];
 
@@ -451,6 +451,13 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 
 					return results;
 				});
+			} else {
+				for (MTLModel *model in value) {
+					NSManagedObject *nestedObject = objectForRelationshipFromModel(model);
+					if (nestedObject == nil) return NO;
+
+					[relationshipArray addObject:nestedObject];
+				}
 			}
 
 			if (tmpError != nil) return nil;
@@ -485,15 +492,6 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 				id relationshipCollection = relationshipCollectionForModel(relationshipDescription);
 
 				if (tmpError != nil) return NO;
-
-				if ([self managedObjectCollectionDescriptionForKey:propertyKey] == nil) {
-					for (MTLModel *model in value) {
-						NSManagedObject *nestedObject = objectForRelationshipFromModel(model);
-						if (nestedObject == nil) return NO;
-
-						[relationshipCollection addObject:nestedObject];
-					}
-				}
 
 				[managedObject setValue:relationshipCollection forKey:managedObjectKey];
 			} else {
