@@ -103,6 +103,10 @@
 // be used.
 + (NSDictionary *)relationshipModelClassesByPropertyKey;
 
+// Specifies the managed object subclass and property to use
+// to serialize a collection of values into a too-many relationship.
++ (NSDictionary *)managedObjectCollectionDescriptionForKey:(NSString *)key;
+
 // Overridden to deserialize a different class instead of the receiver, based on
 // information in the provided object.
 //
@@ -118,6 +122,16 @@
 + (Class)classForDeserializingManagedObject:(NSManagedObject *)managedObject;
 
 @end
+
+// Provides the property name in ManagedObjectCollectionDescription that will
+// be used to match managed objects to the collection.
+// TODO: Change this name.
+extern NSString * const MTLPropertyKeyForManagedObjectUniquing;
+
+// Provides the class name of the model that will be used to instantiate an managed
+// object during a ManagedObjectUniquingCollection tranformation.
+// TODO: Change this name.
+extern NSString * const MTLManagedObjectUniquingModelClass;
 
 // The domain for errors originating from MTLManagedObjectAdapter.
 extern NSString * const MTLManagedObjectAdapterErrorDomain;

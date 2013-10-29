@@ -12,6 +12,8 @@
 #import "MTLReflection.h"
 #import "NSArray+MTLManipulationAdditions.h"
 
+NSString * const MTLPropertyKeyForManagedObjectUniquing = @"MTLPropertyKeyForManagedObjectUniquing";
+NSString * const MTLManagedObjectUniquingModelClass = @"MTLManagedObjectUniquingModelClass";
 NSString * const MTLManagedObjectAdapterErrorDomain = @"MTLManagedObjectAdapterErrorDomain";
 const NSInteger MTLManagedObjectAdapterErrorNoClassFound = 2;
 const NSInteger MTLManagedObjectAdapterErrorInitializationFailed = 3;
@@ -314,7 +316,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 
 	if (uniquingPredicate != nil) {
 		__block NSError *fetchRequestError = nil;
-		__block BOOL encountedError = NO;
+		__block BOOL encounteredError = NO;
 		managedObject = performInContext(context, ^ id {
 			NSFetchRequest *fetchRequest = [[fetchRequestClass alloc] init];
 			fetchRequest.entity = [entityDescriptionClass entityForName:entityName inManagedObjectContext:context];
@@ -325,7 +327,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 			NSArray *results = [context executeFetchRequest:fetchRequest error:&fetchRequestError];
 
 			if (results == nil) {
-				encountedError = YES;
+				encounteredError = YES;
 				if (error != NULL) {
 					NSString *failureReason = [NSString stringWithFormat:NSLocalizedString(@"Failed to fetch a managed object for uniqing predicate \"%@\".", @""), uniquingPredicate];
 					
@@ -343,7 +345,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 			return results.mtl_firstObject;
 		});
 
-		if (encountedError && error != NULL) {
+		if (encounteredError && error != NULL) {
 			*error = fetchRequestError;
 			return nil;
 		}
@@ -415,6 +417,54 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 			return [self.class managedObjectFromModel:model insertingIntoContext:context processedObjects:processedObjects error:&tmpError];
 		};
 
+		NSSet *(^relationshipCollectionForModel)(NSRelationshipDescription *) = ^ NSSet *(NSRelationshipDescription *relationshipDescription) {
+			NSArray *relationshipArray = [NSArray array];
+
+			NSDictionary *managedObjectCollectionDescription = [self managedObjectCollectionDescriptionForKey:propertyKey];
+
+			if (managedObjectCollectionDescription != nil) {
+				Class relationshipModelClass = [managedObjectCollectionDescription objectForKey:MTLManagedObjectUniquingModelClass];
+
+				NSAssert([relationshipModelClass isSubclassOfClass:[MTLModel class]] , @"MTLManagedObjectUniquingModelClass does not derive from MTLModel");
+				NSAssert([relationshipModelClass conformsToProtocol:@protocol(MTLManagedObjectSerializing)], @"MTLManagedObjectUniquingModelClass must conform to MTLManagedObjectSerializing");
+
+				NSString *relationshipUniquingKey = [managedObjectCollectionDescription objectForKey:MTLPropertyKeyForManagedObjectUniquing];
+				NSAssert(relationshipUniquingKey != nil, @"Must include an MTLPropertyKeyForManagedObjectUniquing.");
+
+				NSString *relationshipManagedObjectKey = [relationshipModelClass managedObjectKeysByPropertyKey][relationshipUniquingKey];
+				NSAssert(relationshipManagedObjectKey != nil, @"%@ must map to a managed object key.", relationshipManagedObjectKey);
+
+				id transformedValue = value;
+
+				NSValueTransformer *attributeTransformer = [self entityAttributeTransformerForKey:propertyKey];
+				if (attributeTransformer != nil) transformedValue = [attributeTransformer transformedValue:transformedValue];
+
+				NSPredicate *collectionPredicate = [NSPredicate predicateWithFormat:@"%K IN %@", relationshipManagedObjectKey, transformedValue];
+
+				relationshipArray = performInContext(context, ^ id {
+					NSFetchRequest *fetchRequest = [[fetchRequestClass alloc] init];
+					fetchRequest.entity = [entityDescriptionClass entityForName:entityName inManagedObjectContext:context];
+					fetchRequest.predicate = collectionPredicate;
+					fetchRequest.returnsObjectsAsFaults = NO;
+
+					NSArray *results = [context executeFetchRequest:fetchRequest error:&tmpError];
+
+					return results;
+				});
+			}
+
+			if (tmpError != nil) return nil;
+
+			id relationshipCollection;
+			if ([relationshipDescription isOrdered]) {
+				relationshipCollection = [NSMutableOrderedSet orderedSetWithArray:relationshipArray];
+			} else {
+				relationshipCollection = [NSMutableSet setWithArray:relationshipArray];
+			}
+
+			return relationshipCollection;
+		};
+
 		BOOL (^serializeRelationship)(NSRelationshipDescription *) = ^(NSRelationshipDescription *relationshipDescription) {
 			if (value == nil) return YES;
 
@@ -432,18 +482,17 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 					return NO;
 				}
 
-				id relationshipCollection;
-				if ([relationshipDescription isOrdered]) {
-					relationshipCollection = [NSMutableOrderedSet orderedSet];
-				} else {
-					relationshipCollection = [NSMutableSet set];
-				}
+				id relationshipCollection = relationshipCollectionForModel(relationshipDescription);
 
-				for (MTLModel *model in value) {
-					NSManagedObject *nestedObject = objectForRelationshipFromModel(model);
-					if (nestedObject == nil) return NO;
+				if (tmpError != nil) return NO;
 
-					[relationshipCollection addObject:nestedObject];
+				if ([self managedObjectCollectionDescriptionForKey:propertyKey] == nil) {
+					for (MTLModel *model in value) {
+						NSManagedObject *nestedObject = objectForRelationshipFromModel(model);
+						if (nestedObject == nil) return NO;
+
+						[relationshipCollection addObject:nestedObject];
+					}
 				}
 
 				[managedObject setValue:relationshipCollection forKey:managedObjectKey];
@@ -568,6 +617,28 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 	return nil;
 }
 
+- (NSDictionary *)managedObjectCollectionDescriptionForKey:(NSString *)key {
+	NSParameterAssert(key != nil);
+
+	SEL selector = MTLSelectorWithKeyPattern(key, "ManagedObjectCollectionDescription");
+	if ([self.modelClass respondsToSelector:selector]) {
+		NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[self.modelClass methodSignatureForSelector:selector]];
+		invocation.target = self.modelClass;
+		invocation.selector = selector;
+		[invocation invoke];
+
+		__unsafe_unretained id result = nil;
+		[invocation getReturnValue:&result];
+		return result;
+	}
+
+	if ([self.modelClass respondsToSelector:@selector(managedObjectCollectionDescriptionForKey:)]) {
+		return [self.modelClass managedObjectCollectionDescriptionForKey:key];
+	}
+
+	return nil;
+}
+
 - (NSString *)managedObjectKeyForKey:(NSString *)key {
 	NSParameterAssert(key != nil);
 
@@ -604,7 +675,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 		NSPredicate *subpredicate = [NSPredicate predicateWithFormat:@"%K == %@", managedObjectKey, transformedValue];
 		[subpredicates addObject:subpredicate];
 	}
-	
+
 	return [NSCompoundPredicate andPredicateWithSubpredicates:subpredicates];
 }
 
