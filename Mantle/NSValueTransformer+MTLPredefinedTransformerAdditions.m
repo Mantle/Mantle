@@ -271,7 +271,7 @@ const NSInteger MTLInvalidTransformationErrorInvalidInput = 1;
 				if (error != NULL) {
 					NSDictionary *userInfo = @{
 						NSLocalizedDescriptionKey: NSLocalizedString(@"Could not find associated value", @""),
-						NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Expected %1@ to contain a value for %2@", @""), dictionary, key],
+						NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Expected %1$@ to contain a value for %2$@", @""), dictionary, key],
 						MTLPredefinedTransformerErrorInputValueErrorKey: key
 					};
 
@@ -296,7 +296,7 @@ const NSInteger MTLInvalidTransformationErrorInvalidInput = 1;
 				if (error != NULL) {
 					NSDictionary *userInfo = @{
 						NSLocalizedDescriptionKey: NSLocalizedString(@"Could not find associated key", @""),
-						NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Expected %1@ to contain a key that maps to %2@", @""), dictionary, value],
+						NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Expected %1$@ to contain a key that maps to %2$@", @""), dictionary, value],
 						MTLPredefinedTransformerErrorInputValueErrorKey: value
 					};
 
