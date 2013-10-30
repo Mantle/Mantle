@@ -11,4 +11,3 @@ extern NSString * const MTLTransformerErrorExamples;
 extern NSString * const MTLTransformerErrorExamplesTransformer;
 extern NSString * const MTLTransformerErrorExamplesInvalidTransformationInput;
 extern NSString * const MTLTransformerErrorExamplesInvalidReverseTransformationInput;
-extern NSString * const MTLTransformerErrorExamplesErrorDomain;

@@ -22,16 +22,6 @@ extern NSString * const MTLURLValueTransformerName;
 // proper boolean.
 extern NSString * const MTLBooleanValueTransformerName;
 
-// The domain for errors originating from the MTLPredefinedTransformerAdditions
-// category on NSValueTransformer.
-extern NSString * const MTLPredefinedTransformerErrorDomain;
-
-// Used to indicate that the input value was illegal.
-extern const NSInteger MTLInvalidTransformationErrorInvalidInput;
-
-// Associated with the invalid input value.
-extern NSString * const MTLPredefinedTransformerErrorInputValueErrorKey;
-
 @interface NSValueTransformer (MTLPredefinedTransformerAdditions)
 
 // Creates a reversible transformer to convert a JSON dictionary into a MTLModel

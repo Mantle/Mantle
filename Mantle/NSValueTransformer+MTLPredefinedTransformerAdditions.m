@@ -14,12 +14,6 @@
 NSString * const MTLURLValueTransformerName = @"MTLURLValueTransformerName";
 NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerName";
 
-NSString * const MTLPredefinedTransformerErrorDomain = @"MTLPredefinedTransformerErrorDomain";
-
-NSString * const MTLPredefinedTransformerErrorInputValueErrorKey = @"MTLPredefinedTransformerErrorInputValueErrorKey";
-
-const NSInteger MTLInvalidTransformationErrorInvalidInput = 1;
-
 @implementation NSValueTransformer (MTLPredefinedTransformerAdditions)
 
 #pragma mark Category Loading
@@ -35,10 +29,10 @@ const NSInteger MTLInvalidTransformationErrorInvalidInput = 1;
 						NSDictionary *userInfo = @{
 							NSLocalizedDescriptionKey: NSLocalizedString(@"Could not convert string to URL", @""),
 							NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Expected an NSString, got: %@.", @""), str],
-							MTLPredefinedTransformerErrorInputValueErrorKey: str
+							MTLTransformerErrorHandlingErrorInputValueErrorKey : str
 						};
 
-						*error = [NSError errorWithDomain:MTLPredefinedTransformerErrorDomain code:MTLInvalidTransformationErrorInvalidInput userInfo:userInfo];
+						*error = [NSError errorWithDomain:MTLTransformerErrorHandlingErrorDomain code:MTLTransformerErrorHandlingErrorInvalidInput userInfo:userInfo];
 					}
 					*success = NO;
 					return nil;
@@ -51,10 +45,10 @@ const NSInteger MTLInvalidTransformationErrorInvalidInput = 1;
 						NSDictionary *userInfo = @{
 							NSLocalizedDescriptionKey: NSLocalizedString(@"Could not convert string to URL", @""),
 							NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Input URL string %@ was malformed", @""), str],
-							MTLPredefinedTransformerErrorInputValueErrorKey: str
+							MTLTransformerErrorHandlingErrorInputValueErrorKey : str
 						};
 
-						*error = [NSError errorWithDomain:MTLPredefinedTransformerErrorDomain code:MTLInvalidTransformationErrorInvalidInput userInfo:userInfo];
+						*error = [NSError errorWithDomain:MTLTransformerErrorHandlingErrorDomain code:MTLTransformerErrorHandlingErrorInvalidInput userInfo:userInfo];
 					}
 					*success = NO;
 					return nil;
@@ -70,10 +64,10 @@ const NSInteger MTLInvalidTransformationErrorInvalidInput = 1;
 						NSDictionary *userInfo = @{
 							NSLocalizedDescriptionKey: NSLocalizedString(@"Could not convert URL to string", @""),
 							NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Expected an NSURL, got: %@.", @""), URL],
-							MTLPredefinedTransformerErrorInputValueErrorKey: URL
+							MTLTransformerErrorHandlingErrorInputValueErrorKey : URL
 						};
 
-						*error = [NSError errorWithDomain:MTLPredefinedTransformerErrorDomain code:MTLInvalidTransformationErrorInvalidInput userInfo:userInfo];
+						*error = [NSError errorWithDomain:MTLTransformerErrorHandlingErrorDomain code:MTLTransformerErrorHandlingErrorInvalidInput userInfo:userInfo];
 					}
 					*success = NO;
 					return nil;
@@ -92,10 +86,10 @@ const NSInteger MTLInvalidTransformationErrorInvalidInput = 1;
 						NSDictionary *userInfo = @{
 							NSLocalizedDescriptionKey: NSLocalizedString(@"Could not convert number to boolean-backed number or vice-versa", @""),
 							NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Expected an NSNumber, got: %@.", @""), boolean],
-							MTLPredefinedTransformerErrorInputValueErrorKey: boolean
+							MTLTransformerErrorHandlingErrorInputValueErrorKey : boolean
 						};
 
-						*error = [NSError errorWithDomain:MTLPredefinedTransformerErrorDomain code:MTLInvalidTransformationErrorInvalidInput userInfo:userInfo];
+						*error = [NSError errorWithDomain:MTLTransformerErrorHandlingErrorDomain code:MTLTransformerErrorHandlingErrorInvalidInput userInfo:userInfo];
 					}
 					*success = NO;
 					return nil;
@@ -122,10 +116,10 @@ const NSInteger MTLInvalidTransformationErrorInvalidInput = 1;
 					NSDictionary *userInfo = @{
 						NSLocalizedDescriptionKey: NSLocalizedString(@"Could not convert JSON dictionary to model object", @""),
 						NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Expected an NSDictionary, got: %@", @""), JSONDictionary],
-						MTLPredefinedTransformerErrorInputValueErrorKey: JSONDictionary
+						MTLTransformerErrorHandlingErrorInputValueErrorKey : JSONDictionary
 					};
 
-					*error = [NSError errorWithDomain:MTLPredefinedTransformerErrorDomain code:MTLInvalidTransformationErrorInvalidInput userInfo:userInfo];
+					*error = [NSError errorWithDomain:MTLTransformerErrorHandlingErrorDomain code:MTLTransformerErrorHandlingErrorInvalidInput userInfo:userInfo];
 				}
 				*success = NO;
 				return nil;
@@ -141,10 +135,10 @@ const NSInteger MTLInvalidTransformationErrorInvalidInput = 1;
 					NSDictionary *userInfo = @{
 						NSLocalizedDescriptionKey: NSLocalizedString(@"Could not convert model object to JSON dictionary", @""),
 						NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Expected a MTLModel object conforming to <MTLJSONSerializing>, got: %@.", @""), model],
-						MTLPredefinedTransformerErrorInputValueErrorKey: model
+						MTLTransformerErrorHandlingErrorInputValueErrorKey : model
 					};
 
-					*error = [NSError errorWithDomain:MTLPredefinedTransformerErrorDomain code:MTLInvalidTransformationErrorInvalidInput userInfo:userInfo];
+					*error = [NSError errorWithDomain:MTLTransformerErrorHandlingErrorDomain code:MTLTransformerErrorHandlingErrorInvalidInput userInfo:userInfo];
 				}
 				*success = NO;
 				return nil;
@@ -167,10 +161,10 @@ const NSInteger MTLInvalidTransformationErrorInvalidInput = 1;
 					NSDictionary *userInfo = @{
 						NSLocalizedDescriptionKey: NSLocalizedString(@"Could not convert JSON array to model array", @""),
 						NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Expected an NSArray, got: %@.", @""), dictionaries],
-						MTLPredefinedTransformerErrorInputValueErrorKey: dictionaries
+						MTLTransformerErrorHandlingErrorInputValueErrorKey : dictionaries
 					};
 
-					*error = [NSError errorWithDomain:MTLPredefinedTransformerErrorDomain code:MTLInvalidTransformationErrorInvalidInput userInfo:userInfo];
+					*error = [NSError errorWithDomain:MTLTransformerErrorHandlingErrorDomain code:MTLTransformerErrorHandlingErrorInvalidInput userInfo:userInfo];
 				}
 				*success = NO;
 				return nil;
@@ -188,10 +182,10 @@ const NSInteger MTLInvalidTransformationErrorInvalidInput = 1;
 						NSDictionary *userInfo = @{
 							NSLocalizedDescriptionKey: NSLocalizedString(@"Could not convert JSON array to model array", @""),
 							NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Expected an NSDictionary or an NSNull, got: %@.", @""), JSONDictionary],
-							MTLPredefinedTransformerErrorInputValueErrorKey: JSONDictionary
+							MTLTransformerErrorHandlingErrorInputValueErrorKey : JSONDictionary
 						};
 
-						*error = [NSError errorWithDomain:MTLPredefinedTransformerErrorDomain code:MTLInvalidTransformationErrorInvalidInput userInfo:userInfo];
+						*error = [NSError errorWithDomain:MTLTransformerErrorHandlingErrorDomain code:MTLTransformerErrorHandlingErrorInvalidInput userInfo:userInfo];
 					}
 					*success = NO;
 					return nil;
@@ -216,10 +210,10 @@ const NSInteger MTLInvalidTransformationErrorInvalidInput = 1;
 					NSDictionary *userInfo = @{
 						NSLocalizedDescriptionKey: NSLocalizedString(@"Could not convert model array to JSON array", @""),
 						NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Expected an NSArray, got: %@.", @""), models],
-						MTLPredefinedTransformerErrorInputValueErrorKey: models
+						MTLTransformerErrorHandlingErrorInputValueErrorKey : models
 					};
 
-					*error = [NSError errorWithDomain:MTLPredefinedTransformerErrorDomain code:MTLInvalidTransformationErrorInvalidInput userInfo:userInfo];
+					*error = [NSError errorWithDomain:MTLTransformerErrorHandlingErrorDomain code:MTLTransformerErrorHandlingErrorInvalidInput userInfo:userInfo];
 				}
 				*success = NO;
 				return nil;
@@ -237,10 +231,10 @@ const NSInteger MTLInvalidTransformationErrorInvalidInput = 1;
 						NSDictionary *userInfo = @{
 							NSLocalizedDescriptionKey: NSLocalizedString(@"Could not convert JSON array to model array", @""),
 							NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Expected a MTLModel or an NSNull, got: %@.", @""), model],
-							MTLPredefinedTransformerErrorInputValueErrorKey: model
+							MTLTransformerErrorHandlingErrorInputValueErrorKey : model
 						};
 
-						*error = [NSError errorWithDomain:MTLPredefinedTransformerErrorDomain code:MTLInvalidTransformationErrorInvalidInput	userInfo:userInfo];
+						*error = [NSError errorWithDomain:MTLTransformerErrorHandlingErrorDomain code:MTLTransformerErrorHandlingErrorInvalidInput userInfo:userInfo];
 					}
 					*success = NO;
 					return nil;
@@ -272,10 +266,10 @@ const NSInteger MTLInvalidTransformationErrorInvalidInput = 1;
 					NSDictionary *userInfo = @{
 						NSLocalizedDescriptionKey: NSLocalizedString(@"Could not find associated value", @""),
 						NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Expected %1$@ to contain a value for %2$@", @""), dictionary, key],
-						MTLPredefinedTransformerErrorInputValueErrorKey: key
+						MTLTransformerErrorHandlingErrorInputValueErrorKey : key
 					};
 
-					*error = [NSError errorWithDomain:MTLPredefinedTransformerErrorDomain code:MTLInvalidTransformationErrorInvalidInput userInfo:userInfo];
+					*error = [NSError errorWithDomain:MTLTransformerErrorHandlingErrorDomain code:MTLTransformerErrorHandlingErrorInvalidInput userInfo:userInfo];
 				}
 				*success = NO;
 				return nil;
@@ -297,10 +291,10 @@ const NSInteger MTLInvalidTransformationErrorInvalidInput = 1;
 					NSDictionary *userInfo = @{
 						NSLocalizedDescriptionKey: NSLocalizedString(@"Could not find associated key", @""),
 						NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Expected %1$@ to contain a key that maps to %2$@", @""), dictionary, value],
-						MTLPredefinedTransformerErrorInputValueErrorKey: value
+						MTLTransformerErrorHandlingErrorInputValueErrorKey : value
 					};
 
-					*error = [NSError errorWithDomain:MTLPredefinedTransformerErrorDomain code:MTLInvalidTransformationErrorInvalidInput userInfo:userInfo];
+					*error = [NSError errorWithDomain:MTLTransformerErrorHandlingErrorDomain code:MTLTransformerErrorHandlingErrorInvalidInput userInfo:userInfo];
 				}
 				*success = NO;
 				return nil;
