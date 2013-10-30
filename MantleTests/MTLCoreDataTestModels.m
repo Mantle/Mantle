@@ -32,14 +32,7 @@ NSString * const MTLCoreDataTestModelsDomain = @"MTLCoreDataTestModelsDomain";
 	return [MTLValueTransformer transformerUsingForwardBlock:^ id (NSNumber *num, BOOL *success, NSError **error) {
 		if (![num isKindOfClass:NSNumber.class]) {
 			if (error != NULL) {
-				NSString *failureReason = [NSString stringWithFormat:NSLocalizedString(@"Expected NSNumber, got %@", @""), num];
-
-				NSDictionary *userInfo = @{
-					NSLocalizedDescriptionKey: NSLocalizedString(@"Could not convert number to string", @""),
-					NSLocalizedFailureReasonErrorKey: failureReason,
-				};
-
-				*error = [NSError errorWithDomain:@"MTLCoreDataTestModelsDomain" code:666 userInfo:userInfo];
+				*error = [NSError errorWithDomain:MTLCoreDataTestModelsDomain code:666 userInfo:nil];
 			}
 			*success = NO;
 			return nil;
