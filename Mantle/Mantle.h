@@ -11,6 +11,7 @@
 #import <Mantle/MTLModel.h>
 #import <Mantle/MTLModel+NSCoding.h>
 #import <Mantle/MTLValueTransformer.h>
+#import <Mantle/MTLTransformerErrorHandling.h>
 #import <Mantle/NSArray+MTLManipulationAdditions.h>
 #import <Mantle/NSDictionary+MTLManipulationAdditions.h>
 #import <Mantle/NSObject+MTLComparisonAdditions.h>

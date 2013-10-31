@@ -23,6 +23,7 @@ sharedExamplesFor(MTLTransformerErrorExamples, ^(NSDictionary *data) {
 	__block id invalidTransformationInput;
 	__block id invalidReverseTransformationInput;
 
+
 	beforeEach(^{
 		transformer = data[MTLTransformerErrorExamplesTransformer];
 		invalidTransformationInput = data[MTLTransformerErrorExamplesInvalidTransformationInput];
@@ -38,6 +39,10 @@ sharedExamplesFor(MTLTransformerErrorExamples, ^(NSDictionary *data) {
 		expect([transformer transformedValue:invalidTransformationInput success:&success error:&error]).to.beNil();
 		expect(success).to.beFalsy();
 		expect(error).notTo.beNil();
+		expect(error.domain).to.equal(MTLTransformerErrorHandlingErrorDomain);
+		expect(error.domain).to.equal(MTLTransformerErrorHandlingErrorDomain);
+		expect(error.code).to.equal(MTLTransformerErrorHandlingErrorInvalidInput);
+		expect(error.userInfo[MTLTransformerErrorHandlingInputValueErrorKey]).to.equal(invalidTransformationInput);
 	});
 
 	it(@"should return errors occurring during reverse transformation", ^{
@@ -49,6 +54,9 @@ sharedExamplesFor(MTLTransformerErrorExamples, ^(NSDictionary *data) {
 		expect([transformer reverseTransformedValue:invalidReverseTransformationInput success:&success error:&error]).to.beNil();
 		expect(success).to.beFalsy();
 		expect(error).notTo.beNil();
+		expect(error.domain).to.equal(MTLTransformerErrorHandlingErrorDomain);
+		expect(error.code).to.equal(MTLTransformerErrorHandlingErrorInvalidInput);
+		expect(error.userInfo[MTLTransformerErrorHandlingInputValueErrorKey]).to.equal(invalidReverseTransformationInput);
 	});
 });
 

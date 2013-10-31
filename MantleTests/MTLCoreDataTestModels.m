@@ -10,6 +10,8 @@
 
 #import "MTLCoreDataTestModels.h"
 
+NSString * const MTLCoreDataTestModelsDomain = @"MTLCoreDataTestModelsDomain";
+
 @implementation MTLParentTestModel
 
 + (NSString *)managedObjectEntityName {
@@ -31,9 +33,25 @@
 }
 
 + (NSValueTransformer *)numberStringEntityAttributeTransformer {
-	return [MTLValueTransformer transformerUsingForwardBlock:^(NSNumber *num, BOOL *success, NSError **error) {
+	return [MTLValueTransformer transformerUsingForwardBlock:^ id (NSNumber *num, BOOL *success, NSError **error) {
+		if (![num isKindOfClass:NSNumber.class]) {
+			if (error != NULL) {
+				*error = [NSError errorWithDomain:MTLCoreDataTestModelsDomain code:666 userInfo:nil];
+			}
+			*success = NO;
+			return nil;
+		}
+
 		return num.stringValue;
-	} reverseBlock:^(NSString *str, BOOL *success, NSError **error) {
+	} reverseBlock:^ id (NSString *str, BOOL *success, NSError **error) {
+		if (![str isKindOfClass:NSString.class]) {
+			if (error != NULL) {
+				*error = [NSError errorWithDomain:MTLCoreDataTestModelsDomain code:666 userInfo:nil];
+			}
+			*success = NO;
+			return nil;
+		}
+
 		return [NSDecimalNumber decimalNumberWithString:str];
 	}];
 }

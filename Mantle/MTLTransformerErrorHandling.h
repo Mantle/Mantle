@@ -8,14 +8,34 @@
 
 #import <Foundation/Foundation.h>
 
+// The domain for errors originating from the MTLTransformerErrorHandling
+// protocol.
+//
+// Transformers conforming to this protocol are expected to use this error
+// domain if the transformation fails.
+extern NSString * const MTLTransformerErrorHandlingErrorDomain;
+
+// Used to indicate that the input value was illegal.
+//
+// Transformers conforming to this protocol are expected to use this error code
+// if the transformation fails due to an invalid input value.
+extern const NSInteger MTLTransformerErrorHandlingErrorInvalidInput;
+
+// Associated with the invalid input value.
+//
+// Transformers conforming to this protocol are expected to associate this key
+// with the invalid input in the userInfo dictionary.
+extern NSString * const MTLTransformerErrorHandlingInputValueErrorKey;
+
 // This protocol can be implemented by NSValueTransformer subclasses to
 // communicate errors that occur during transformation.
 @protocol MTLTransformerErrorHandling <NSObject>
+@required
 
 // Transforms a value, returning any error that occurred during transformation.
 //
 // value   - The value to transform.
-// success - If not NULL, this will be set YES to indicate whether the
+// success - If not NULL, this will be set to a boolean indicating whether the
 //           transformation was successful.
 // error   - If not NULL, this may be set to an error that occurs during
 //           transforming the value.
@@ -29,11 +49,11 @@
 // Reverse-transforms a value, returning any error that occurred during
 // transformation.
 //
-// NSValueTransformer subclasses that implement MTLTransformerErrorHandling are
-// expected to implement this method if they support reverse transformation.
+// Transformers conforming to this protocol are expected to implemented this
+// method if they support reverse transformation.
 //
 // value   - The value to transform.
-// success - If not NULL, this will be set YES to indicate whether the
+// success - If not NULL, this will be set to a boolean indicating whether the
 //           transformation was successful.
 // error   - If not NULL, this may be set to an error that occurs during
 //           transforming the value.

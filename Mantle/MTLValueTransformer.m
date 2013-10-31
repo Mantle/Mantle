@@ -17,8 +17,8 @@
 
 @interface MTLValueTransformer ()
 
-@property (nonatomic, copy, readonly) MTLValueTransformationBlock forwardBlock;
-@property (nonatomic, copy, readonly) MTLValueTransformationBlock reverseBlock;
+@property (nonatomic, copy, readonly) MTLValueTransformerBlock forwardBlock;
+@property (nonatomic, copy, readonly) MTLValueTransformerBlock reverseBlock;
 
 @end
 
@@ -26,19 +26,19 @@
 
 #pragma mark Lifecycle
 
-+ (instancetype)transformerUsingForwardBlock:(MTLValueTransformationBlock)forwardBlock {
++ (instancetype)transformerUsingForwardBlock:(MTLValueTransformerBlock)forwardBlock {
 	return [[self alloc] initWithForwardBlock:forwardBlock reverseBlock:nil];
 }
 
-+ (instancetype)transformerUsingReversibleBlock:(MTLValueTransformationBlock)reversibleBlock {
++ (instancetype)transformerUsingReversibleBlock:(MTLValueTransformerBlock)reversibleBlock {
 	return [self transformerUsingForwardBlock:reversibleBlock reverseBlock:reversibleBlock];
 }
 
-+ (instancetype)transformerUsingForwardBlock:(MTLValueTransformationBlock)forwardBlock reverseBlock:(MTLValueTransformationBlock)reverseBlock {
++ (instancetype)transformerUsingForwardBlock:(MTLValueTransformerBlock)forwardBlock reverseBlock:(MTLValueTransformerBlock)reverseBlock {
 	return [[MTLReversibleValueTransformer alloc] initWithForwardBlock:forwardBlock reverseBlock:reverseBlock];
 }
 
-- (id)initWithForwardBlock:(MTLValueTransformationBlock)forwardBlock reverseBlock:(MTLValueTransformationBlock)reverseBlock {
+- (id)initWithForwardBlock:(MTLValueTransformerBlock)forwardBlock reverseBlock:(MTLValueTransformerBlock)reverseBlock {
 	NSParameterAssert(forwardBlock != nil);
 
 	self = [super init];
@@ -85,7 +85,7 @@
 
 #pragma mark Lifecycle
 
-- (id)initWithForwardBlock:(MTLValueTransformationBlock)forwardBlock reverseBlock:(MTLValueTransformationBlock)reverseBlock {
+- (id)initWithForwardBlock:(MTLValueTransformerBlock)forwardBlock reverseBlock:(MTLValueTransformerBlock)reverseBlock {
 	NSParameterAssert(reverseBlock != nil);
 	return [super initWithForwardBlock:forwardBlock reverseBlock:reverseBlock];
 }
@@ -123,19 +123,19 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-implementations"
 
-+ (instancetype)transformerWithBlock:(MTLValueTransformerBlock)transformationBlock {
++ (instancetype)transformerWithBlock:(id (^)(id))transformationBlock {
 	return [self transformerUsingForwardBlock:^(id value, BOOL *success, NSError **error) {
 		return transformationBlock(value);
 	}];
 }
 
-+ (instancetype)reversibleTransformerWithBlock:(MTLValueTransformerBlock)transformationBlock {
++ (instancetype)reversibleTransformerWithBlock:(id (^)(id))transformationBlock {
 	return [self transformerUsingReversibleBlock:^(id value, BOOL *success, NSError **error) {
 		return transformationBlock(value);
 	}];
 }
 
-+ (instancetype)reversibleTransformerWithForwardBlock:(MTLValueTransformerBlock)forwardBlock reverseBlock:(MTLValueTransformerBlock)reverseBlock {
++ (instancetype)reversibleTransformerWithForwardBlock:(id (^)(id))forwardBlock reverseBlock:(id (^)(id))reverseBlock {
 	return [self
 		transformerUsingForwardBlock:^(id value, BOOL *success, NSError **error) {
 			return forwardBlock(value);

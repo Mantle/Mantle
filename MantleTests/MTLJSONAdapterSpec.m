@@ -125,8 +125,9 @@ it(@"should fail to initialize if JSON transformer fails", ^{
 	NSError *error = nil;
 	MTLTestModel *model = [MTLJSONAdapter modelOfClass:MTLURLModel.class fromJSONDictionary:values error:&error];
 	expect(model).to.beNil();
-	expect(error.domain).to.equal(MTLPredefinedTransformerErrorDomain);
-	expect(error.code).to.equal(MTLInvalidTransformationErrorInvalidInput);
+	expect(error.domain).to.equal(MTLTransformerErrorHandlingErrorDomain);
+	expect(error.code).to.equal(MTLTransformerErrorHandlingErrorInvalidInput);
+	expect(error.userInfo[MTLTransformerErrorHandlingInputValueErrorKey]).to.equal(@666);
 });
 
 it(@"should fail to serialize if a JSON transformer errors", ^{
@@ -137,8 +138,9 @@ it(@"should fail to serialize if a JSON transformer errors", ^{
 	NSError *error;
 	NSDictionary *dictionary = [MTLJSONAdapter JSONDictionaryFromModel:model error:&error];
 	expect(dictionary).to.beNil();
-	expect(error.domain).to.equal(MTLPredefinedTransformerErrorDomain);
-	expect(error.code).to.equal(MTLInvalidTransformationErrorInvalidInput);
+	expect(error.domain).to.equal(MTLTransformerErrorHandlingErrorDomain);
+	expect(error.code).to.equal(MTLTransformerErrorHandlingErrorInvalidInput);
+	expect(error.userInfo[MTLTransformerErrorHandlingInputValueErrorKey]).to.equal(@"totallyNotAnNSURL");
 });
 
 it(@"should parse a different model class", ^{

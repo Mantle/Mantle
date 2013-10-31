@@ -9,6 +9,8 @@
 #import <Mantle/Mantle.h>
 #import <CoreData/CoreData.h>
 
+extern NSString * const MTLCoreDataTestModelsDomain;
+
 // Corresponds to the `Parent` entity.
 @interface MTLParentTestModel : MTLModel <MTLManagedObjectSerializing>
 
