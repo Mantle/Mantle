@@ -427,12 +427,16 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 
 				NSAssert([relationshipModelClass isSubclassOfClass:[MTLModel class]] , @"MTLManagedObjectUniquingModelClass does not derive from MTLModel");
 				NSAssert([relationshipModelClass conformsToProtocol:@protocol(MTLManagedObjectSerializing)], @"MTLManagedObjectUniquingModelClass must conform to MTLManagedObjectSerializing");
+				
+				NSString *relationshipEntityName = [relationshipModelClass managedObjectEntityName];
+				NSAssert(relationshipEntityName != nil, @"%@ returned a nil +managedObjectEntityName", model.class);
 
 				NSString *relationshipUniquingKey = [managedObjectCollectionDescription objectForKey:MTLPropertyKeyForManagedObjectUniquing];
 				NSAssert(relationshipUniquingKey != nil, @"Must include an MTLPropertyKeyForManagedObjectUniquing.");
 
 				NSString *relationshipManagedObjectKey = [relationshipModelClass managedObjectKeysByPropertyKey][relationshipUniquingKey];
-				NSAssert(relationshipManagedObjectKey != nil, @"%@ must map to a managed object key.", relationshipManagedObjectKey);
+				if (relationshipManagedObjectKey == nil) relationshipManagedObjectKey = relationshipUniquingKey;
+				NSAssert(![relationshipManagedObjectKey isKindOfClass:[NSNull class]], @"%@ must map to a managed object key.", relationshipManagedObjectKey);
 
 				id transformedValue = value;
 
@@ -443,7 +447,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 
 				relationshipArray = performInContext(context, ^ id {
 					NSFetchRequest *fetchRequest = [[fetchRequestClass alloc] init];
-					fetchRequest.entity = [entityDescriptionClass entityForName:entityName inManagedObjectContext:context];
+					fetchRequest.entity = [entityDescriptionClass entityForName:relationshipEntityName inManagedObjectContext:context];
 					fetchRequest.predicate = collectionPredicate;
 					fetchRequest.returnsObjectsAsFaults = NO;
 
