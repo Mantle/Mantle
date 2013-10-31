@@ -8,6 +8,7 @@
 
 #import "MTLJSONAdapter.h"
 #import "MTLModel.h"
+#import "MTLTransformerErrorHandling.h"
 #import "MTLReflection.h"
 
 NSString * const MTLJSONAdapterErrorDomain = @"MTLJSONAdapterErrorDomain";
@@ -54,9 +55,10 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	return adapter.model;
 }
 
-+ (NSDictionary *)JSONDictionaryFromModel:(MTLModel<MTLJSONSerializing> *)model {
++ (NSDictionary *)JSONDictionaryFromModel:(MTLModel<MTLJSONSerializing> *)model error:(NSError **)error {
 	MTLJSONAdapter *adapter = [[self alloc] initWithModel:model];
-	return adapter.JSONDictionary;
+
+	return [adapter serializeToJSONDictionary:error];
 }
 
 #pragma mark Lifecycle
@@ -113,7 +115,19 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 				// Map NSNull -> nil for the transformer, and then back for the
 				// dictionary we're going to insert into.
 				if ([value isEqual:NSNull.null]) value = nil;
-				value = [transformer transformedValue:value] ?: NSNull.null;
+
+				if ([transformer respondsToSelector:@selector(transformedValue:success:error:)]) {
+					id<MTLTransformerErrorHandling> errorHandlingTransformer = (id)transformer;
+
+					BOOL success = YES;
+					value = [errorHandlingTransformer transformedValue:value success:&success error:error];
+
+					if (!success) return nil;
+				} else {
+					value = [transformer transformedValue:value];
+				}
+
+				if (value == nil) value = NSNull.null;
 			}
 
 			dictionaryValue[propertyKey] = value;
@@ -160,9 +174,12 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 
 #pragma mark Serialization
 
-- (NSDictionary *)JSONDictionary {
+- (NSDictionary *)serializeToJSONDictionary:(NSError **)error {
 	NSDictionary *dictionaryValue = self.model.dictionaryValue;
 	NSMutableDictionary *JSONDictionary = [[NSMutableDictionary alloc] initWithCapacity:dictionaryValue.count];
+
+	__block BOOL success = YES;
+	__block NSError *tmpError = nil;
 
 	[dictionaryValue enumerateKeysAndObjectsUsingBlock:^(NSString *propertyKey, id value, BOOL *stop) {
 		NSString *JSONKeyPath = [self JSONKeyPathForKey:propertyKey];
@@ -173,7 +190,19 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 			// Map NSNull -> nil for the transformer, and then back for the
 			// dictionaryValue we're going to insert into.
 			if ([value isEqual:NSNull.null]) value = nil;
-			value = [transformer reverseTransformedValue:value] ?: NSNull.null;
+
+			if ([transformer respondsToSelector:@selector(reverseTransformedValue:success:error:)]) {
+				id<MTLTransformerErrorHandling> errorHandlingTransformer = (id)transformer;
+
+				value = [errorHandlingTransformer reverseTransformedValue:value success:&success error:&tmpError];
+
+				if (!success) {
+					*stop = YES;
+					return;
+				}
+			} else {
+				value = [transformer reverseTransformedValue:value] ?: NSNull.null;
+			}
 		}
 
 		NSArray *keyPathComponents = [JSONKeyPath componentsSeparatedByString:@"."];
@@ -193,7 +222,12 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 		[JSONDictionary setValue:value forKeyPath:JSONKeyPath];
 	}];
 
-	return JSONDictionary;
+	if (success) {
+		return JSONDictionary;
+	} else {
+		if (error != NULL) *error = tmpError;
+		return nil;
+	}
 }
 
 - (NSValueTransformer *)JSONTransformerForKey:(NSString *)key {
@@ -242,8 +276,16 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	return [self modelOfClass:modelClass fromJSONDictionary:JSONDictionary error:NULL];
 }
 
++ (NSDictionary *)JSONDictionaryFromModel:(MTLModel<MTLJSONSerializing> *)model {
+	return [self JSONDictionaryFromModel:model error:NULL];
+}
+
 - (id)initWithJSONDictionary:(NSDictionary *)JSONDictionary modelClass:(Class)modelClass {
 	return [self initWithJSONDictionary:JSONDictionary modelClass:modelClass error:NULL];
+}
+
+- (NSDictionary *)JSONDictionary {
+	return [self serializeToJSONDictionary:NULL];
 }
 
 #pragma clang diagnostic pop

@@ -66,10 +66,10 @@ static NSUInteger modelVersion = 1;
 
 + (NSValueTransformer *)countJSONTransformer {
 	return [MTLValueTransformer
-		reversibleTransformerWithForwardBlock:^(NSString *str) {
+		transformerUsingForwardBlock:^(NSString *str, BOOL *success, NSError **error) {
 			return @(str.integerValue);
 		}
-		reverseBlock:^(NSNumber *num) {
+		reverseBlock:^(NSNumber *num, BOOL *success, NSError **error) {
 			return num.stringValue;
 		}];
 }
@@ -159,6 +159,18 @@ static NSUInteger modelVersion = 1;
 	*name = @"foobar";
 
 	return YES;
+}
+
+@end
+
+@implementation MTLURLModel
+
++ (NSDictionary *)JSONKeyPathsByPropertyKey {
+	return @{};
+}
+
++ (NSValueTransformer *)URLJSONTransformer {
+	return [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
 }
 
 @end

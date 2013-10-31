@@ -6,6 +6,8 @@
 //  Copyright (c) 2012 GitHub. All rights reserved.
 //
 
+#import "MTLTransformerErrorExamples.h"
+
 #import "MTLTestModel.h"
 
 enum : NSInteger {
@@ -16,44 +18,74 @@ enum : NSInteger {
 
 SpecBegin(MTLPredefinedTransformerAdditions)
 
-it(@"should define a URL value transformer", ^{
-	NSValueTransformer *transformer = [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
-	expect(transformer).notTo.beNil();
-	expect([transformer.class allowsReverseTransformation]).to.beTruthy();
+describe(@"The URL transformer", ^{
+	__block NSValueTransformer *transformer;
 
-	NSString *URLString = @"http://www.github.com/";
-	expect([transformer transformedValue:URLString]).to.equal([NSURL URLWithString:URLString]);
-	expect([transformer reverseTransformedValue:[NSURL URLWithString:URLString]]).to.equal(URLString);
+	beforeEach(^{
+		transformer = [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
 
-	expect([transformer transformedValue:nil]).to.beNil();
-	expect([transformer reverseTransformedValue:nil]).to.beNil();
+		expect(transformer).notTo.beNil();
+		expect([transformer.class allowsReverseTransformation]).to.beTruthy();
+	});
+
+	it(@"should convert NSStrings to NSURLs and back", ^{
+		NSString *URLString = @"http://www.github.com/";
+		expect([transformer transformedValue:URLString]).to.equal([NSURL URLWithString:URLString]);
+		expect([transformer reverseTransformedValue:[NSURL URLWithString:URLString]]).to.equal(URLString);
+
+		expect([transformer transformedValue:nil]).to.beNil();
+		expect([transformer reverseTransformedValue:nil]).to.beNil();
+	});
+
+	itShouldBehaveLike(MTLTransformerErrorExamples, ^{
+		return @{
+			MTLTransformerErrorExamplesTransformer: transformer,
+			MTLTransformerErrorExamplesInvalidTransformationInput: @"not a valid URL",
+			MTLTransformerErrorExamplesInvalidReverseTransformationInput: NSNull.null
+		};
+	});
 });
 
-it(@"should define an NSNumber boolean value transformer", ^{
-	// Back these NSNumbers with ints, rather than booleans,
-	// to ensure that the value transformers are actually transforming.
-	NSNumber *booleanYES = @(1);
-	NSNumber *booleanNO = @(0);
+describe(@"The number transformer", ^{
+	__block NSValueTransformer *transformer;
 
-	NSValueTransformer *transformer = [NSValueTransformer valueTransformerForName:MTLBooleanValueTransformerName];
-	expect(transformer).notTo.beNil();
-	expect([transformer.class allowsReverseTransformation]).to.beTruthy();
+	beforeEach(^{
+		transformer = [NSValueTransformer valueTransformerForName:MTLBooleanValueTransformerName];
+		expect(transformer).notTo.beNil();
+		expect([transformer.class allowsReverseTransformation]).to.beTruthy();
+	});
 
-	expect([transformer transformedValue:booleanYES]).to.equal([NSNumber numberWithBool:YES]);
-	expect([transformer transformedValue:booleanYES]).to.equal((id)kCFBooleanTrue);
+	it(@"it convert int- to boolean-backed NSNumbers and back", ^{
+		// Back these NSNumbers with ints, rather than booleans,
+		// to ensure that the value transformers are actually transforming.
+		NSNumber *booleanYES = @(1);
+		NSNumber *booleanNO = @(0);
 
-	expect([transformer reverseTransformedValue:booleanYES]).to.equal([NSNumber numberWithBool:YES]);
-	expect([transformer reverseTransformedValue:booleanYES]).to.equal((id)kCFBooleanTrue);
+		expect([transformer transformedValue:booleanYES]).to.equal([NSNumber numberWithBool:YES]);
+		expect([transformer transformedValue:booleanYES]).to.beIdenticalTo((id)kCFBooleanTrue);
 
-	expect([transformer transformedValue:booleanNO]).to.equal([NSNumber numberWithBool:NO]);
-	expect([transformer transformedValue:booleanNO]).to.equal((id)kCFBooleanFalse);
+		expect([transformer reverseTransformedValue:booleanYES]).to.equal([NSNumber numberWithBool:YES]);
+		expect([transformer reverseTransformedValue:booleanYES]).to.beIdenticalTo((id)kCFBooleanTrue);
 
-	expect([transformer reverseTransformedValue:booleanNO]).to.equal([NSNumber numberWithBool:NO]);
-	expect([transformer reverseTransformedValue:booleanNO]).to.equal((id)kCFBooleanFalse);
+		expect([transformer transformedValue:booleanNO]).to.equal([NSNumber numberWithBool:NO]);
+		expect([transformer transformedValue:booleanNO]).to.beIdenticalTo((id)kCFBooleanFalse);
 
-	expect([transformer transformedValue:nil]).to.beNil();
-	expect([transformer reverseTransformedValue:nil]).to.beNil();
+		expect([transformer reverseTransformedValue:booleanNO]).to.equal([NSNumber numberWithBool:NO]);
+		expect([transformer reverseTransformedValue:booleanNO]).to.beIdenticalTo((id)kCFBooleanFalse);
+
+		expect([transformer transformedValue:nil]).to.beNil();
+		expect([transformer reverseTransformedValue:nil]).to.beNil();
+	});
+
+	itShouldBehaveLike(MTLTransformerErrorExamples, ^{
+		return @{
+			MTLTransformerErrorExamplesTransformer: transformer,
+			MTLTransformerErrorExamplesInvalidTransformationInput: NSNull.null,
+			MTLTransformerErrorExamplesInvalidReverseTransformationInput: NSNull.null
+		};
+	});
 });
+
 
 describe(@"JSON transformers", ^{
 	describe(@"dictionary transformer", ^{
@@ -64,7 +96,7 @@ describe(@"JSON transformers", ^{
 
 		before(^{
 			model = [[MTLTestModel alloc] init];
-			JSONDictionary = [MTLJSONAdapter JSONDictionaryFromModel:model];
+			JSONDictionary = [MTLJSONAdapter JSONDictionaryFromModel:model error:NULL];
 
 			transformer = [NSValueTransformer mtl_JSONDictionaryTransformerWithModelClass:MTLTestModel.class];
 			expect(transformer).notTo.beNil();
@@ -77,6 +109,14 @@ describe(@"JSON transformers", ^{
 		it(@"should transform a model into a JSON dictionary", ^{
 			expect([transformer.class allowsReverseTransformation]).to.beTruthy();
 			expect([transformer reverseTransformedValue:model]).to.equal(JSONDictionary);
+		});
+
+		itShouldBehaveLike(MTLTransformerErrorExamples, ^{
+			return @{
+				MTLTransformerErrorExamplesTransformer: transformer,
+				MTLTransformerErrorExamplesInvalidTransformationInput: NSNull.null,
+				MTLTransformerErrorExamplesInvalidReverseTransformationInput: NSNull.null
+			};
 		});
 	});
 
@@ -96,7 +136,7 @@ describe(@"JSON transformers", ^{
 
 				[uniqueModels addObject:model];
 
-				NSDictionary *dict = [MTLJSONAdapter JSONDictionaryFromModel:model];
+				NSDictionary *dict = [MTLJSONAdapter JSONDictionaryFromModel:model error:NULL];
 				expect(dict).notTo.beNil();
 
 				[mutableDictionaries addObject:dict];
@@ -119,6 +159,14 @@ describe(@"JSON transformers", ^{
 		it(@"should transform models into JSON dictionaries", ^{
 			expect([transformer.class allowsReverseTransformation]).to.beTruthy();
 			expect([transformer reverseTransformedValue:models]).to.equal(JSONDictionaries);
+		});
+
+		itShouldBehaveLike(MTLTransformerErrorExamples, ^{
+			return @{
+				MTLTransformerErrorExamplesTransformer: transformer,
+				MTLTransformerErrorExamplesInvalidTransformationInput: NSNull.null,
+				MTLTransformerErrorExamplesInvalidReverseTransformationInput: NSNull.null
+			};
 		});
 	});
 });

@@ -55,3 +55,12 @@ extern const NSInteger MTLTestModelNameMissing;
 // Returns a default name of 'foobar' when validateName:error: is invoked
 @interface MTLSelfValidatingModel : MTLValidationModel
 @end
+
+@interface MTLURLModel : MTLModel <MTLJSONSerializing>
+
+// Defaults to http://github.com.
+//
+// Uses the MTLURLValueTransformerName transformer to serialize to an NSString.
+@property (nonatomic, strong) NSURL *URL;
+
+@end

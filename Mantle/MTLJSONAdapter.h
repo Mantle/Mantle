@@ -86,9 +86,11 @@ extern const NSInteger MTLJSONAdapterErrorNoClassFound;
 //
 // model - The model to use for JSON serialization. This argument must not be
 //         nil.
+// error - If not NULL, this may be set to an error that occurs during
+//         serializing.
 //
 // Returns a JSON dictionary, or nil if a serialization error occurred.
-+ (NSDictionary *)JSONDictionaryFromModel:(MTLModel<MTLJSONSerializing> *)model;
++ (NSDictionary *)JSONDictionaryFromModel:(MTLModel<MTLJSONSerializing> *)model error:(NSError **)error;
 
 // Initializes the receiver by attempting to parse a JSON dictionary into
 // a model object.
@@ -114,14 +116,21 @@ extern const NSInteger MTLJSONAdapterErrorNoClassFound;
 
 // Serializes the receiver's `model` into JSON.
 //
+// error - If not NULL, this may be set to an error that occurs during
+//         serializing.
+//
 // Returns a JSON dictionary, or nil if a serialization error occurred.
-- (NSDictionary *)JSONDictionary;
+- (NSDictionary *)serializeToJSONDictionary:(NSError **)error;
 
 @end
 
 @interface MTLJSONAdapter (Deprecated)
 
 + (id)modelOfClass:(Class)modelClass fromJSONDictionary:(NSDictionary *)JSONDictionary __attribute__((deprecated("Replaced by +modelOfClass:fromJSONDictionary:error:")));
++ (NSDictionary *)JSONDictionaryFromModel:(MTLModel<MTLJSONSerializing> *)model __attribute__((deprecated("Replaced by +JSONDictionaryFromModel:error:")));
+
 - (id)initWithJSONDictionary:(NSDictionary *)JSONDictionary modelClass:(Class)modelClass __attribute__((deprecated("Replaced by -initWithJSONDictionary:modelClass:error:")));
+
+- (NSDictionary *)JSONDictionary __attribute((deprecated("Replaced by -serializeToJSONDictionary:")));
 
 @end

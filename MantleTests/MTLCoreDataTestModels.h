@@ -9,6 +9,8 @@
 #import <Mantle/Mantle.h>
 #import <CoreData/CoreData.h>
 
+extern NSString * const MTLCoreDataTestModelsDomain;
+
 // Corresponds to the `Parent` entity.
 @interface MTLParentTestModel : MTLModel <MTLManagedObjectSerializing>
 
@@ -17,6 +19,8 @@
 
 @property (nonatomic, copy) NSDate *date;
 @property (nonatomic, copy) NSString *requiredString;
+
+@property (nonatomic, copy) NSURL *URL;
 
 @property (nonatomic, copy) NSArray *orderedChildren;
 @property (nonatomic, copy) NSSet *unorderedChildren;

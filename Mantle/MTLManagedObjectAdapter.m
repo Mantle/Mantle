@@ -9,6 +9,7 @@
 #import "MTLManagedObjectAdapter.h"
 #import "EXTScope.h"
 #import "MTLModel.h"
+#import "MTLTransformerErrorHandling.h"
 #import "MTLReflection.h"
 #import "NSArray+MTLManipulationAdditions.h"
 
@@ -96,7 +97,17 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 
 // Looks at propertyKeysForManagedObjectUniquing and forms an NSPredicate
 // using the uniquing keys and the provided model.
-- (NSPredicate *)uniquingPredicateForModel:(MTLModel<MTLManagedObjectSerializing> *)model;
+//
+// model   - The model to create a uniquing predicate for.
+// success - If not NULL, this may be set to indicate if the transformation was
+//           successful.
+// error   - If not NULL, this may be set to an error that occurs during
+//           transforming the value.
+//
+// Returns a predicate, or nil if no predicate is needed or if an error
+// occurred. Clients should inspect the success parameter to decide how to
+// proceed with the result.
+- (NSPredicate *)uniquingPredicateForModel:(MTLModel<MTLManagedObjectSerializing> *)model success:(BOOL *)success error:(NSError **)error;
 
 @end
 
@@ -163,8 +174,17 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 				return [managedObject valueForKey:managedObjectKey];
 			});
 
-			NSValueTransformer *attributeTransformer = [self entityAttributeTransformerForKey:propertyKey];
-			if (attributeTransformer != nil) value = [attributeTransformer reverseTransformedValue:value];
+			NSValueTransformer *transformer = [self entityAttributeTransformerForKey:propertyKey];
+			if ([transformer respondsToSelector:@selector(transformedValue:success:error:)]) {
+				id<MTLTransformerErrorHandling> errorHandlingTransformer = (id)transformer;
+
+				BOOL success = YES;
+				value = [errorHandlingTransformer transformedValue:value success:&success error:error];
+
+				if (!success) return NO;
+			} else if (transformer != nil) {
+				value = [transformer transformedValue:value];
+			}
 
 			return setValueForKey(propertyKey, value);
 		};
@@ -310,7 +330,10 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 
 	// If a uniquing predicate is provided, perform a fetch request to guarentee a unique managed object.
 	__block NSManagedObject *managedObject = nil;
-	NSPredicate *uniquingPredicate = [self uniquingPredicateForModel:model];
+	BOOL success = YES;
+	NSPredicate *uniquingPredicate = [self uniquingPredicateForModel:model success:&success error:error];
+
+	if (!success) return nil;
 
 	if (uniquingPredicate != nil) {
 		__block NSError *fetchRequestError = nil;
@@ -384,8 +407,19 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 			// double-free or leak the old or new values).
 			__autoreleasing id transformedValue = value;
 
-			NSValueTransformer *attributeTransformer = [self entityAttributeTransformerForKey:propertyKey];
-			if (attributeTransformer != nil) transformedValue = [attributeTransformer transformedValue:transformedValue];
+			NSValueTransformer *transformer = [self entityAttributeTransformerForKey:propertyKey];
+			if ([transformer.class allowsReverseTransformation]) {
+				if ([transformer respondsToSelector:@selector(reverseTransformedValue:success:error:)]) {
+					id<MTLTransformerErrorHandling> errorHandlingTransformer = (id)transformer;
+
+					BOOL success = YES;
+					transformedValue = [errorHandlingTransformer reverseTransformedValue:value success:&success error:error];
+
+					if (!success) return NO;
+				} else {
+					transformedValue = [transformer reverseTransformedValue:transformedValue];
+				}
+			}
 
 			if (![managedObject validateValue:&transformedValue forKey:managedObjectKey error:error]) return NO;
 			[managedObject setValue:transformedValue forKey:managedObjectKey];
@@ -578,7 +612,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 	}
 }
 
-- (NSPredicate *)uniquingPredicateForModel:(MTLModel<MTLManagedObjectSerializing> *)model {
+- (NSPredicate *)uniquingPredicateForModel:(MTLModel<MTLManagedObjectSerializing> *)model success:(BOOL *)success error:(NSError **)error {
 	if (![self.modelClass respondsToSelector:@selector(propertyKeysForManagedObjectUniquing)]) return nil;
 
 	NSSet *propertyKeys = [self.modelClass propertyKeysForManagedObjectUniquing];
@@ -593,15 +627,30 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 
 		NSAssert(managedObjectKey != nil, @"%@ must map to a managed object key.", propertyKey);
 
-		id transformedValue = [model valueForKeyPath:propertyKey];
+		id value = [model valueForKeyPath:propertyKey];
 
-		NSValueTransformer *attributeTransformer = [self entityAttributeTransformerForKey:propertyKey];
-		if (attributeTransformer != nil) transformedValue = [attributeTransformer transformedValue:transformedValue];
+		NSValueTransformer *transformer = [self entityAttributeTransformerForKey:propertyKey];
+		if ([transformer.class allowsReverseTransformation]) {
+			if ([transformer respondsToSelector:@selector(transformedValue:success:error:)]) {
+				id<MTLTransformerErrorHandling> errorHandlingTransformer = (id)transformer;
 
-		NSPredicate *subpredicate = [NSPredicate predicateWithFormat:@"%K == %@", managedObjectKey, transformedValue];
+				BOOL innerSuccess = YES;
+				value = [errorHandlingTransformer reverseTransformedValue:value success:&innerSuccess error:error];
+
+				if (!innerSuccess) {
+					if (success != NULL) *success = NO;
+					return nil;
+				}
+			} else {
+				value = [transformer reverseTransformedValue:value];
+			}
+		}
+
+		NSPredicate *subpredicate = [NSPredicate predicateWithFormat:@"%K == %@", managedObjectKey, value];
 		[subpredicates addObject:subpredicate];
 	}
-	
+
+	if (success != NULL) *success = YES;
 	return [NSCompoundPredicate andPredicateWithSubpredicates:subpredicates];
 }
 

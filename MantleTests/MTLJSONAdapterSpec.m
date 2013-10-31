@@ -32,7 +32,9 @@ it(@"should initialize from JSON", ^{
 		@"nested": @{ @"name": NSNull.null },
 	};
 
-	expect(adapter.JSONDictionary).to.equal(JSONDictionary);
+	__block NSError *serializationError;
+	expect([adapter serializeToJSONDictionary:&serializationError]).to.equal(JSONDictionary);
+	expect(serializationError).to.beNil();
 });
 
 it(@"should initialize from a model", ^{
@@ -51,7 +53,9 @@ it(@"should initialize from a model", ^{
 		@"nested": @{ @"name": NSNull.null },
 	};
 
-	expect(adapter.JSONDictionary).to.equal(JSONDictionary);
+	__block NSError *serializationError;
+	expect([adapter serializeToJSONDictionary:&serializationError]).to.equal(JSONDictionary);
+	expect(serializationError).to.beNil();
 });
 
 it(@"should initialize nested key paths from JSON", ^{
@@ -70,7 +74,9 @@ it(@"should initialize nested key paths from JSON", ^{
 	expect(model.count).to.equal(0);
 	expect(model.nestedName).to.equal(@"bar");
 
-	expect([MTLJSONAdapter JSONDictionaryFromModel:model]).to.equal(values);
+	__block NSError *serializationError;
+	expect([MTLJSONAdapter JSONDictionaryFromModel:model error:&serializationError]).to.equal(values);
+	expect(serializationError).to.beNil();
 });
 
 it(@"should return nil with a nil JSON dictionary, but no error", ^{
@@ -111,6 +117,32 @@ it(@"should fail to initialize if JSON dictionary validation fails", ^{
 	expect(error.code).to.equal(MTLTestModelNameTooLong);
 });
 
+it(@"should fail to initialize if JSON transformer fails", ^{
+	NSDictionary *values = @{
+		@"URL": @666,
+	};
+
+	NSError *error = nil;
+	MTLTestModel *model = [MTLJSONAdapter modelOfClass:MTLURLModel.class fromJSONDictionary:values error:&error];
+	expect(model).to.beNil();
+	expect(error.domain).to.equal(MTLTransformerErrorHandlingErrorDomain);
+	expect(error.code).to.equal(MTLTransformerErrorHandlingErrorInvalidInput);
+	expect(error.userInfo[MTLTransformerErrorHandlingInputValueErrorKey]).to.equal(@666);
+});
+
+it(@"should fail to serialize if a JSON transformer errors", ^{
+	MTLURLModel *model = [[MTLURLModel alloc] init];
+
+	[model setValue:@"totallyNotAnNSURL" forKey:@"URL"];
+
+	NSError *error;
+	NSDictionary *dictionary = [MTLJSONAdapter JSONDictionaryFromModel:model error:&error];
+	expect(dictionary).to.beNil();
+	expect(error.domain).to.equal(MTLTransformerErrorHandlingErrorDomain);
+	expect(error.code).to.equal(MTLTransformerErrorHandlingErrorInvalidInput);
+	expect(error.userInfo[MTLTransformerErrorHandlingInputValueErrorKey]).to.equal(@"totallyNotAnNSURL");
+});
+
 it(@"should parse a different model class", ^{
 	NSDictionary *values = @{
 		@"username": @"foo",
@@ -127,7 +159,9 @@ it(@"should parse a different model class", ^{
 	expect(model.count).to.equal(0);
 	expect(model.nestedName).to.equal(@"bar");
 
-	expect([MTLJSONAdapter JSONDictionaryFromModel:model]).to.equal(values);
+	__block NSError *serializationError;
+	expect([MTLJSONAdapter JSONDictionaryFromModel:model error:&serializationError]).to.equal(values);
+	expect(serializationError).to.beNil();
 });
 
 it(@"should return an error when no suitable model class is found", ^{
