@@ -12,4 +12,4 @@ NSString * const MTLTransformerErrorHandlingErrorDomain = @"MTLTransformerErrorH
 
 const NSInteger MTLTransformerErrorHandlingErrorInvalidInput = 1;
 
-NSString * const MTLTransformerErrorHandlingErrorInputValueErrorKey = @"MTLTransformerErrorHandlingErrorInputValueErrorKey";
+NSString * const MTLTransformerErrorHandlingInputValueErrorKey = @"MTLTransformerErrorHandlingInputValueErrorKey";

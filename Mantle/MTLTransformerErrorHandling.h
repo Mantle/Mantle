@@ -25,7 +25,7 @@ extern const NSInteger MTLTransformerErrorHandlingErrorInvalidInput;
 //
 // Transformers conforming to this protocol are expected to associate this key
 // with the invalid input in the userInfo dictionary.
-extern NSString * const MTLTransformerErrorHandlingErrorInputValueErrorKey;
+extern NSString * const MTLTransformerErrorHandlingInputValueErrorKey;
 
 // This protocol can be implemented by NSValueTransformer subclasses to
 // communicate errors that occur during transformation.
