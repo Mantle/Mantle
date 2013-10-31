@@ -1,5 +1,5 @@
 //
-//  MTLIdentityMappingSpec.m
+//  MTLDictionaryMappingSpec.m
 //  Mantle
 //
 //  Created by Robert Böhnke on 10/23/13.
@@ -8,9 +8,9 @@
 
 #import "MTLTestModel.h"
 
-#import "MTLIdentityMapping.h"
+#include "NSDictionary+MTLMappingAdditions.h"
 
-SpecBegin(MTLIdentityMapping)
+SpecBegin(MTLDictionaryMappingAdditions)
 
 it(@"should return a mapping", ^{
 	NSDictionary *mapping = @{
@@ -20,7 +20,7 @@ it(@"should return a mapping", ^{
 		@"weakModel": @"weakModel"
 	};
 
-	expect(MTLIdentityMappingForClass(MTLTestModel.class)).to.equal(mapping);
+	expect([NSDictionary mtl_identityPropertyMapWithModel:MTLTestModel.class]).to.equal(mapping);
 });
 
 SpecEnd

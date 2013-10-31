@@ -6,9 +6,8 @@
 //  Copyright (c) 2013 GitHub. All rights reserved.
 //
 
-#import "MTLIdentityMapping.h"
-
 #import "MTLCoreDataTestModels.h"
+#include "NSDictionary+MTLMappingAdditions.h"
 
 NSString * const MTLCoreDataTestModelsDomain = @"MTLCoreDataTestModelsDomain";
 
@@ -19,7 +18,7 @@ NSString * const MTLCoreDataTestModelsDomain = @"MTLCoreDataTestModelsDomain";
 }
 
 + (NSDictionary *)managedObjectKeysByPropertyKey {
-	NSDictionary *mapping = MTLIdentityMappingForClass(self);
+	NSDictionary *mapping = [NSDictionary mtl_identityPropertyMapWithModel:self];
 
 	return [mapping mtl_dictionaryByAddingEntriesFromDictionary:@{
 		@"numberString": @"number",
@@ -76,7 +75,7 @@ NSString * const MTLCoreDataTestModelsDomain = @"MTLCoreDataTestModelsDomain";
 }
 
 + (NSDictionary *)managedObjectKeysByPropertyKey {
-	return MTLIdentityMappingForClass(self);
+	return [NSDictionary mtl_identityPropertyMapWithModel:self];
 }
 
 + (NSSet *)propertyKeysForManagedObjectUniquing

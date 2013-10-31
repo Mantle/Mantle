@@ -1,12 +1,14 @@
 //
-//  MTLIdentityMapping.h
+//  NSDictionary+MTLMappingAdditions.h
 //  Mantle
 //
-//  Created by Robert Böhnke on 10/23/13.
+//  Created by Robert Böhnke on 10/31/13.
 //  Copyright (c) 2013 GitHub. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
+
+@interface NSDictionary (MTLMappingAdditions)
 
 // Creates an identity mapping for serialization.
 //
@@ -14,4 +16,6 @@
 //
 // Returns a dictionary that maps all properties of the given class to
 // themselves.
-extern NSDictionary *MTLIdentityMappingForClass(Class class);
++ (NSDictionary *)mtl_identityPropertyMapWithModel:(Class)class;
+
+@end
