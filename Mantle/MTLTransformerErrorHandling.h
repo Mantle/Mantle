@@ -8,6 +8,25 @@
 
 #import <Foundation/Foundation.h>
 
+// The domain for errors originating from the MTLTransformerErrorHandling
+// protocol.
+//
+// Transformers conforming to this protocol are expected to use this error
+// domain if the transformation fails.
+extern NSString * const MTLTransformerErrorHandlingErrorDomain;
+
+// Used to indicate that the input value was illegal.
+//
+// Transformers conforming to this protocol are expected to use this error code
+// if the transformation fails due to an invalid input value.
+extern const NSInteger MTLTransformerErrorHandlingErrorInvalidInput;
+
+// Associated with the invalid input value.
+//
+// Transformers conforming to this protocol are expected to associate this key
+// with the invalid input in the userInfo dictionary.
+extern NSString * const MTLTransformerErrorHandlingErrorInputValueErrorKey;
+
 // This protocol can be implemented by NSValueTransformer subclasses to
 // communicate errors that occur during transformation.
 @protocol MTLTransformerErrorHandling <NSObject>
@@ -45,22 +64,3 @@
 - (id)reverseTransformedValue:(id)value success:(BOOL *)success error:(NSError **)error;
 
 @end
-
-// The domain for errors originating from the MTLTransformerErrorHandling
-// protocol.
-//
-// Transformers conforming to this protocol are expected to use this error
-// domain if the transformation fails.
-extern NSString * const MTLTransformerErrorHandlingErrorDomain;
-
-// Used to indicate that the input value was illegal.
-//
-// Transformers conforming to this protocol are expected to use this error code
-// if the transformation fails due to an invalid input value.
-extern const NSInteger MTLTransformerErrorHandlingErrorInvalidInput;
-
-// Associated with the invalid input value.
-//
-// Transformers conforming to this protocol are expected to associate this key
-// with the invalid input in the userInfo dictionary.
-extern NSString * const MTLTransformerErrorHandlingErrorInputValueErrorKey;
