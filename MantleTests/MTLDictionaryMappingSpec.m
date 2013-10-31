@@ -8,7 +8,7 @@
 
 #import "MTLTestModel.h"
 
-#include "NSDictionary+MTLMappingAdditions.h"
+#import "NSDictionary+MTLMappingAdditions.h"
 
 SpecBegin(MTLDictionaryMappingAdditions)
 
