@@ -21,8 +21,8 @@
 		547AE0FD17882ED100F4437D /* MTLModelValidationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 547AE0FC17882ED100F4437D /* MTLModelValidationSpec.m */; };
 		547AE0FE17882ED100F4437D /* MTLModelValidationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 547AE0FC17882ED100F4437D /* MTLModelValidationSpec.m */; };
 		547F784C1821117500BBAB7B /* MTLTransformerErrorHandling.m in Sources */ = {isa = PBXBuildFile; fileRef = 5487912318210717007F8347 /* MTLTransformerErrorHandling.m */; };
-		547F78551822BCFD00BBAB7B /* NSDictionary+MTLMappingAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 547F78531822BCFD00BBAB7B /* NSDictionary+MTLMappingAdditions.h */; };
-		547F78561822BCFD00BBAB7B /* NSDictionary+MTLMappingAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 547F78531822BCFD00BBAB7B /* NSDictionary+MTLMappingAdditions.h */; };
+		547F78551822BCFD00BBAB7B /* NSDictionary+MTLMappingAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 547F78531822BCFD00BBAB7B /* NSDictionary+MTLMappingAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		547F78561822BCFD00BBAB7B /* NSDictionary+MTLMappingAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 547F78531822BCFD00BBAB7B /* NSDictionary+MTLMappingAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		547F78571822BCFD00BBAB7B /* NSDictionary+MTLMappingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 547F78541822BCFD00BBAB7B /* NSDictionary+MTLMappingAdditions.m */; };
 		547F78581822BCFD00BBAB7B /* NSDictionary+MTLMappingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 547F78541822BCFD00BBAB7B /* NSDictionary+MTLMappingAdditions.m */; };
 		54803A32178829A800011B39 /* NSError+MTLModelException.h in Headers */ = {isa = PBXBuildFile; fileRef = 54803A30178829A700011B39 /* NSError+MTLModelException.h */; };
