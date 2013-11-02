@@ -194,7 +194,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 					for (NSManagedObject *nestedObject in relationshipCollection) {
 						MTLModel *model = [self.class modelOfClass:nestedClass fromManagedObject:nestedObject processedObjects:processedObjects error:error];
 						if (model == nil) return nil;
-						
+
 						[models addObject:model];
 					}
 
@@ -342,15 +342,15 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 				encountedError = YES;
 				if (error != NULL) {
 					NSString *failureReason = [NSString stringWithFormat:NSLocalizedString(@"Failed to fetch a managed object for uniqing predicate \"%@\".", @""), uniquingPredicate];
-					
+
 					NSDictionary *userInfo = @{
 						NSLocalizedDescriptionKey: NSLocalizedString(@"Could not serialize managed object", @""),
 						NSLocalizedFailureReasonErrorKey: failureReason,
 					};
-					
+
 					fetchRequestError = [NSError errorWithDomain:MTLManagedObjectAdapterErrorDomain code:MTLManagedObjectAdapterErrorUniqueFetchRequestFailed userInfo:userInfo];
 				}
-				
+
 				return nil;
 			}
 
@@ -516,7 +516,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 				return NO;
 			}
 		};
-		
+
 		if (!serializeProperty(managedObjectProperties[managedObjectKey])) {
 			performInContext(context, ^ id {
 				[context deleteObject:managedObject];
