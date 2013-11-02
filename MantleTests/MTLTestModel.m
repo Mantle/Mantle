@@ -62,11 +62,12 @@ static NSUInteger modelVersion = 1;
 + (NSDictionary *)JSONKeyPathsByPropertyKey {
 	NSDictionary *mapping = [NSDictionary mtl_identityPropertyMapWithModel:self];
 
-	return [mapping mtl_dictionaryByAddingEntriesFromDictionary:@{
-		@"name": @"username",
-		@"nestedName": @"nested.name",
-		@"weakModel": NSNull.null,
-	}];
+	return [[mapping
+		mtl_dictionaryByRemovingEntriesWithKeys:[NSSet setWithObject:@"weakModel"] ]
+		mtl_dictionaryByAddingEntriesFromDictionary:@{
+			@"name": @"username",
+			@"nestedName": @"nested.name"
+		}];
 }
 
 + (NSValueTransformer *)countJSONTransformer {

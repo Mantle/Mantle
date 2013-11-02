@@ -86,15 +86,6 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 // Returns a transformer to use, or nil to not transform the property.
 - (NSValueTransformer *)entityAttributeTransformerForKey:(NSString *)key;
 
-// Looks up the managed object key that corresponds to the given key.
-//
-// key - The property key to retrieve the corresponding managed object key for.
-//       This argument must not be nil.
-//
-// Returns a key to use, or nil to omit the property from managed object
-// serialization.
-- (NSString *)managedObjectKeyForKey:(NSString *)key;
-
 // Looks at propertyKeysForManagedObjectUniquing and forms an NSPredicate
 // using the uniquing keys and the provided model.
 //
@@ -166,7 +157,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 	};
 
 	for (NSString *propertyKey in [self.modelClass propertyKeys]) {
-		NSString *managedObjectKey = [self managedObjectKeyForKey:propertyKey];
+		NSString *managedObjectKey = self.managedObjectKeysByPropertyKey[propertyKey];
 		if (managedObjectKey == nil) continue;
 
 		BOOL (^deserializeAttribute)(NSAttributeDescription *) = ^(NSAttributeDescription *attributeDescription) {
@@ -397,7 +388,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 	NSDictionary *managedObjectProperties = managedObject.entity.propertiesByName;
 
 	[dictionaryValue enumerateKeysAndObjectsUsingBlock:^(NSString *propertyKey, id value, BOOL *stop) {
-		NSString *managedObjectKey = [self managedObjectKeyForKey:propertyKey];
+		NSString *managedObjectKey = self.managedObjectKeysByPropertyKey[propertyKey];
 		if (managedObjectKey == nil) return;
 		if ([value isEqual:NSNull.null]) value = nil;
 
@@ -599,17 +590,6 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 	return nil;
 }
 
-- (NSString *)managedObjectKeyForKey:(NSString *)key {
-	NSParameterAssert(key != nil);
-
-	id managedObjectKey = self.managedObjectKeysByPropertyKey[key];
-	if ([managedObjectKey isEqual:NSNull.null]) {
-		return nil;
-	} else {
-		return managedObjectKey;
-	}
-}
-
 - (NSPredicate *)uniquingPredicateForModel:(MTLModel<MTLManagedObjectSerializing> *)model success:(BOOL *)success error:(NSError **)error {
 	if (![self.modelClass respondsToSelector:@selector(propertyKeysForManagedObjectUniquing)]) return nil;
 
@@ -621,7 +601,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 
 	NSMutableArray *subpredicates = [NSMutableArray array];
 	for (NSString *propertyKey in propertyKeys) {
-		NSString *managedObjectKey = [self managedObjectKeyForKey:propertyKey];
+		NSString *managedObjectKey = self.managedObjectKeysByPropertyKey[propertyKey];
 
 		NSAssert(managedObjectKey != nil, @"%@ must map to a managed object key.", propertyKey);
 
