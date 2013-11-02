@@ -203,6 +203,8 @@ typedef enum : NSUInteger {
     return @{
         @"URL": @"url",
         @"HTMLURL": @"html_url",
+        @"number": @"number",
+        @"state": @"state",
         @"reporterLogin": @"user.login",
         @"assignee": @"assignee",
         @"updatedAt": @"updated_at"
@@ -292,8 +294,7 @@ NSDictionary *JSONDictionary = [MTLJSONAdapter JSONDictionaryFromModel:user];
 ### `+JSONKeyPathsByPropertyKey`
 
 The dictionary returned by this method specifies how your model object's
-properties map to the keys in the JSON representation. Properties that map to
-`NSNull` will not be present in the JSON representation, for example:
+properties map to the keys in the JSON representation, for example:
 
 ```objc
 
@@ -310,8 +311,8 @@ properties map to the keys in the JSON representation. Properties that map to
 
 + (NSDictionary *)JSONKeyPathsByPropertyKey {
     return @{
-        @"createdAt": @"created_at",
-        @"meUser": NSNull.null
+        @"name": @"name",
+        @"createdAt": @"created_at"
     };
 }
 
@@ -321,13 +322,15 @@ properties map to the keys in the JSON representation. Properties that map to
 In this example, the `XYUser` class declares three properties that Mantle
 handles in different ways:
 
-- `name` is implicitly mapped to a key of the same name in the JSON
-  representation.
+- `name` is mapped to a key of the same name in the JSON representation.
 - `createdAt` is converted to its snake case equivalent.
 - `meUser` is not serialized into JSON.
 
 Use `-[NSDictionary mtl_dictionaryByAddingEntriesFromDictionary:]` if your
 model's superclass also implements `MTLJSONSerializing` to merge their mappings.
+
+If you like to map all properties of a Model class to themselves, you can use
+the `+[NSDictionary mtl_identityPropertyMapWithModel:]` helper method.
 
 When deserializing JSON using
 `+[MTLJSONAdapter modelOfClass:fromJSONDictionary:error:]`, JSON keys that don't
