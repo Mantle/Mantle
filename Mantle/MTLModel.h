@@ -86,7 +86,7 @@
 
 // Return a transformed array of MTLModel objects of current type, given an
 // array of JSON dictionaries
-+ (NSArray *)transformJSONArray:(NSArray *)array
++ (NSArray *)transformJSONArray:(NSArray *)array;
 
 @end
 
