@@ -202,6 +202,14 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 	return YES;
 }
 
+#pragma mark Transformation
+
++ (NSArray *)transformJSONArray:(NSArray *)array
+{
+	NSValueTransformer *transformer = [NSValueTransformer mtl_JSONArrayTransformerWithModelClass:self];
+	return [transformer transformedValue:array];
+}
+
 #pragma mark NSCopying
 
 - (instancetype)copyWithZone:(NSZone *)zone {

@@ -84,6 +84,10 @@
 // It is recommended to override -description in this scenario.
 - (NSString *)description;
 
+// Return a transformed array of MTLModel objects of current type, given an
+// array of JSON dictionaries
++ (NSArray *)transformJSONArray:(NSArray *)array
+
 @end
 
 // Implements validation logic for MTLModel.
