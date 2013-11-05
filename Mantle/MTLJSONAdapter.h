@@ -131,11 +131,3 @@ extern const NSInteger MTLJSONAdapterErrorNoClassFound;
 - (NSDictionary *)JSONDictionary __attribute((deprecated("Replaced by -serializeToJSONDictionary:")));
 
 @end
-
-@interface MTLJSONAdapter (Unavailable)
-
-+ (id)modelOfClass:(Class)modelClass fromJSONDictionary:(NSDictionary *)JSONDictionary __attribute__((unavailable("Replaced by +modelOfClass:fromJSONDictionary:error:")));
-
-- (id)initWithJSONDictionary:(NSDictionary *)JSONDictionary modelClass:(Class)modelClass __attribute__((unavailable("Replaced by -initWithJSONDictionary:modelClass:error:")));
-
-@end
