@@ -20,6 +20,6 @@
 
 // Creates a new dictionary with all the entries for the given keys removed from
 // the receiver.
-- (NSDictionary *)mtl_dictionaryByRemovingEntriesWithKeys:(NSSet *)keys;
+- (NSDictionary *)mtl_dictionaryByRemovingEntriesWithKeys:(NSArray *)keys;
 
 @end

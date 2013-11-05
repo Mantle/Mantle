@@ -63,7 +63,7 @@ static NSUInteger modelVersion = 1;
 	NSDictionary *mapping = [NSDictionary mtl_identityPropertyMapWithModel:self];
 
 	return [[mapping
-		mtl_dictionaryByRemovingEntriesWithKeys:[NSSet setWithObject:@"weakModel"] ]
+		mtl_dictionaryByRemovingEntriesWithKeys:@[ @"weakModel" ]]
 		mtl_dictionaryByAddingEntriesFromDictionary:@{
 			@"name": @"username",
 			@"nestedName": @"nested.name"
