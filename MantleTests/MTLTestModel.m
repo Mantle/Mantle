@@ -60,14 +60,15 @@ static NSUInteger modelVersion = 1;
 #pragma mark MTLJSONSerializing
 
 + (NSDictionary *)JSONKeyPathsByPropertyKey {
-	NSDictionary *mapping = [NSDictionary mtl_identityPropertyMapWithModel:self];
+	NSMutableDictionary *mapping = [[NSDictionary mtl_identityPropertyMapWithModel:self] mutableCopy];
 
-	return [[mapping
-		mtl_dictionaryByRemovingEntriesWithKeys:@[ @"weakModel" ]]
-		mtl_dictionaryByAddingEntriesFromDictionary:@{
-			@"name": @"username",
-			@"nestedName": @"nested.name"
-		}];
+	[mapping removeObjectForKey:@"weakModel"];
+	[mapping addEntriesFromDictionary:@{
+		@"name": @"username",
+		@"nestedName": @"nested.name"
+	}];
+
+	return mapping;
 }
 
 + (NSValueTransformer *)countJSONTransformer {
