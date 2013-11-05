@@ -329,7 +329,7 @@ handles in different ways:
 Use `-[NSDictionary mtl_dictionaryByAddingEntriesFromDictionary:]` if your
 model's superclass also implements `MTLJSONSerializing` to merge their mappings.
 
-If you like to map all properties of a Model class to themselves, you can use
+If you'd like to map all properties of a Model class to themselves, you can use
 the `+[NSDictionary mtl_identityPropertyMapWithModel:]` helper method.
 
 When deserializing JSON using
