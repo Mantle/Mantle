@@ -218,15 +218,10 @@ typedef enum : NSUInteger {
 }
 
 + (NSValueTransformer *)stateJSONTransformer {
-    NSDictionary *states = @{
+
+    return [NSValueTransformer mtl_valueMappingTransformerWithDictionary:@{
         @"open": @(GHIssueStateOpen),
         @"closed": @(GHIssueStateClosed)
-    };
-
-    return [MTLValueTransformer reversibleTransformerWithForwardBlock:^(NSString *str) {
-        return states[str];
-    } reverseBlock:^(NSNumber *state) {
-        return [states allKeysForObject:state].lastObject;
     }];
 }
 
