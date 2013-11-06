@@ -218,7 +218,6 @@ typedef enum : NSUInteger {
 }
 
 + (NSValueTransformer *)stateJSONTransformer {
-
     return [NSValueTransformer mtl_valueMappingTransformerWithDictionary:@{
         @"open": @(GHIssueStateOpen),
         @"closed": @(GHIssueStateClosed)
