@@ -6,7 +6,10 @@
 //  Copyright (c) 2012 GitHub. All rights reserved.
 //
 
+#import "NSDictionary+MTLManipulationAdditions.h"
+
 #import "MTLTestModel.h"
+#import "NSDictionary+MTLMappingAdditions.h"
 
 NSString * const MTLTestModelErrorDomain = @"MTLTestModelErrorDomain";
 const NSInteger MTLTestModelNameTooLong = 1;
@@ -57,11 +60,15 @@ static NSUInteger modelVersion = 1;
 #pragma mark MTLJSONSerializing
 
 + (NSDictionary *)JSONKeyPathsByPropertyKey {
-	return @{
+	NSMutableDictionary *mapping = [[NSDictionary mtl_identityPropertyMapWithModel:self] mutableCopy];
+
+	[mapping removeObjectForKey:@"weakModel"];
+	[mapping addEntriesFromDictionary:@{
 		@"name": @"username",
-		@"nestedName": @"nested.name",
-		@"weakModel": NSNull.null,
-	};
+		@"nestedName": @"nested.name"
+	}];
+
+	return mapping;
 }
 
 + (NSValueTransformer *)countJSONTransformer {
@@ -123,7 +130,7 @@ static NSUInteger modelVersion = 1;
 @implementation MTLSubstitutingTestModel
 
 + (NSDictionary *)JSONKeyPathsByPropertyKey {
-	return @{};
+	return [NSDictionary mtl_identityPropertyMapWithModel:self];
 }
 
 + (Class)classForParsingJSONDictionary:(NSDictionary *)JSONDictionary {
@@ -166,7 +173,7 @@ static NSUInteger modelVersion = 1;
 @implementation MTLURLModel
 
 + (NSDictionary *)JSONKeyPathsByPropertyKey {
-	return @{};
+	return [NSDictionary mtl_identityPropertyMapWithModel:self];
 }
 
 + (NSValueTransformer *)URLJSONTransformer {

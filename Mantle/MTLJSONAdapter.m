@@ -36,14 +36,6 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 // Returns a transformer to use, or nil to not transform the property.
 - (NSValueTransformer *)JSONTransformerForKey:(NSString *)key;
 
-// Looks up the JSON key path that corresponds to the given key.
-//
-// key - The property key to retrieve the corresponding JSON key path for. This
-//       argument must not be nil.
-//
-// Returns a key path to use, or nil to omit the property from JSON.
-- (NSString *)JSONKeyPathForKey:(NSString *)key;
-
 @end
 
 @implementation MTLJSONAdapter
@@ -103,7 +95,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	NSMutableDictionary *dictionaryValue = [[NSMutableDictionary alloc] initWithCapacity:JSONDictionary.count];
 
 	for (NSString *propertyKey in [self.modelClass propertyKeys]) {
-		NSString *JSONKeyPath = [self JSONKeyPathForKey:propertyKey];
+		NSString *JSONKeyPath = self.JSONKeyPathsByPropertyKey[propertyKey];
 		if (JSONKeyPath == nil) continue;
 
 		id value = [JSONDictionary valueForKeyPath:JSONKeyPath];
@@ -182,7 +174,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	__block NSError *tmpError = nil;
 
 	[dictionaryValue enumerateKeysAndObjectsUsingBlock:^(NSString *propertyKey, id value, BOOL *stop) {
-		NSString *JSONKeyPath = [self JSONKeyPathForKey:propertyKey];
+		NSString *JSONKeyPath = self.JSONKeyPathsByPropertyKey[propertyKey];
 		if (JSONKeyPath == nil) return;
 
 		NSValueTransformer *transformer = [self JSONTransformerForKey:propertyKey];
@@ -250,19 +242,6 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	}
 
 	return nil;
-}
-
-- (NSString *)JSONKeyPathForKey:(NSString *)key {
-	NSParameterAssert(key != nil);
-
-	id JSONKeyPath = self.JSONKeyPathsByPropertyKey[key];
-	if ([JSONKeyPath isEqual:NSNull.null]) return nil;
-
-	if (JSONKeyPath == nil) {
-		return key;
-	} else {
-		return JSONKeyPath;
-	}
 }
 
 @end

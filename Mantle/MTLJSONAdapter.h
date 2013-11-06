@@ -19,9 +19,7 @@
 // Subclasses overriding this method should combine their values with those of
 // `super`.
 //
-// Any property keys not present in the dictionary are assumed to match the JSON
-// key that should be used. Any keys associated with NSNull will not participate
-// in JSON serialization.
+// Any keys omitted will not participate in JSON serialization.
 //
 // Returns a dictionary mapping property keys to JSON key paths (as strings) or
 // NSNull values.
