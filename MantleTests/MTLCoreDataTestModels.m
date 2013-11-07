@@ -78,8 +78,7 @@ NSString * const MTLCoreDataTestModelsDomain = @"MTLCoreDataTestModelsDomain";
 	return [NSDictionary mtl_identityPropertyMapWithModel:self];
 }
 
-+ (NSSet *)propertyKeysForManagedObjectUniquing
-{
++ (NSSet *)propertyKeysForManagedObjectUniquing {
 	return [NSSet setWithObjects:@"childID", nil];
 }
 
@@ -88,6 +87,35 @@ NSString * const MTLCoreDataTestModelsDomain = @"MTLCoreDataTestModelsDomain";
 		@"parent1": MTLParentTestModel.class,
 		@"parent2": MTLParentTestModel.class,
 	};
+}
+
+@end
+
+@implementation MTLBadChildTestModel
+
++ (NSString *)managedObjectEntityName {
+	return @"BadChild";
+}
+
++ (NSDictionary *)managedObjectKeysByPropertyKey {
+	return [NSDictionary mtl_identityPropertyMapWithModel:self];
+}
+
++ (NSSet *)propertyKeysForManagedObjectUniquing {
+	return [NSSet setWithObjects:@"childID", nil];
+}
+
+
+@end
+
+@implementation MTLFailureModel
+
++ (NSDictionary *)managedObjectKeysByPropertyKey {
+	return [NSDictionary mtl_identityPropertyMapWithModel:self];
+}
+
++ (NSString *)managedObjectEntityName {
+	return @"Empty";
 }
 
 @end
