@@ -262,16 +262,8 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-implementations"
 
-+ (id)modelOfClass:(Class)modelClass fromJSONDictionary:(NSDictionary *)JSONDictionary {
-	return [self modelOfClass:modelClass fromJSONDictionary:JSONDictionary error:NULL];
-}
-
 + (NSDictionary *)JSONDictionaryFromModel:(MTLModel<MTLJSONSerializing> *)model {
 	return [self JSONDictionaryFromModel:model error:NULL];
-}
-
-- (id)initWithJSONDictionary:(NSDictionary *)JSONDictionary modelClass:(Class)modelClass {
-	return [self initWithJSONDictionary:JSONDictionary modelClass:modelClass error:NULL];
 }
 
 - (NSDictionary *)JSONDictionary {
