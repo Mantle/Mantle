@@ -112,14 +112,13 @@ build_scheme ()
     echo "*** Building and testing $scheme..."
     echo
 
-    # Determine whether this target needs to be built using the iOS simulator SDK.
-    local sdkflag=
+    # Determine whether this target runs tests in the iOS simulator (which is
+    # currently unsupported).
     local action=test
     run_xctool -scheme "$scheme" run-tests | parse_build
 
     if [ "$?" -eq "1" ]
     then
-        sdkflag="-sdk iphonesimulator"
         action=build
     fi
 
