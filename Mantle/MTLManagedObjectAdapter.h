@@ -103,8 +103,48 @@
 // be used.
 + (NSDictionary *)relationshipModelClassesByPropertyKey;
 
-// Specifies the managed object subclass and property to use
-// to serialize a collection of values into a too-many relationship.
+// Specifies how to convert a property key pointing to a collection of values
+// to a relationship collection the values identify.
+//
+// Commonly a JSON object will have a relationship to a set of JSON objects.
+// Such a relationship may be expressed by nesting the related JSON objects
+// within the root object. However, such a relationship may also be defined
+// by the root JSON object containing an array of identifiers which point to its
+// related JSON objects.
+//
+// Identifier example:
+// parent = {
+//   id = 1234,
+//   children = [4, 25]
+// }
+//
+// Nested objects example:
+// parent = {
+//   id = 1234,
+//   children = {
+//     {
+//       id = 4,
+//       name = child4
+//     },
+//     {
+//       id = 25,
+//       name = child25
+//     }
+//   }
+// }
+//
+// If the receiver implements a `+<key>ManagedObjectCollectionDescription` method,
+// MTLManagedObjectAdapter will use the result of that method instead.
+//
+// The dictionary must contain two key/value pairs:
+// MTLPropertyKeyForManagedObjectUniquing which maps to the MTLModel used to
+// serialize the collection into a set of managed objects.
+// MTLManagedObjectUniquingModelClass which maps to the MTLModel property key
+// used to identify the related object(s).
+//
+// Using the provided MTLModel and property key, the adapter will perform a
+// fetch request retrieving all NSManagedObjects for the defined relationship
+// and assign them to our manage object being serialized.
 + (NSDictionary *)managedObjectCollectionDescriptionForKey:(NSString *)key;
 
 // Overridden to deserialize a different class instead of the receiver, based on
@@ -125,12 +165,11 @@
 
 // Provides the property name in ManagedObjectCollectionDescription that will
 // be used to match managed objects to the collection.
-// TODO: Change this name.
 extern NSString * const MTLPropertyKeyForManagedObjectUniquing;
 
-// Provides the class name of the model that will be used to instantiate an managed
-// object during a ManagedObjectUniquingCollection tranformation.
-// TODO: Change this name.
+// Provides the class name of the model that will be used to fetch the correct
+// managed object during a ManagedObjectUniquingCollection relationship
+// mapping.
 extern NSString * const MTLManagedObjectUniquingModelClass;
 
 // The domain for errors originating from MTLManagedObjectAdapter.
