@@ -114,7 +114,7 @@
 //
 // Identifier example:
 // parent = {
-//   id = 1234,
+//   id_number = 1234,
 //   children = [4, 25]
 // }
 //
@@ -123,11 +123,11 @@
 //   id = 1234,
 //   children = {
 //     {
-//       id = 4,
+//       id_number = 4,
 //       name = child4
 //     },
 //     {
-//       id = 25,
+//       id_number = 25,
 //       name = child25
 //     }
 //   }
@@ -141,6 +141,15 @@
 // serialize the collection into a set of managed objects.
 // MTLManagedObjectUniquingModelClass which maps to the MTLModel property key
 // used to identify the related object(s).
+//
+// For Example:
+// + (NSDictionary *)childrenManagedObjectCollectionDescription
+// {
+//    return @{
+//             MTLPropertyKeyForManagedObjectUniquing : @"id_number",
+//             MTLManagedObjectUniquingModelClass : [Children class]
+//             };
+// }
 //
 // Using the provided MTLModel and property key, the adapter will perform a
 // fetch request retrieving all NSManagedObjects for the defined relationship
