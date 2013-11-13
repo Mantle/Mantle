@@ -256,7 +256,9 @@ string.
 `MTLModel` has an extensible `-mergeValuesForKeysFromModel:` method, which makes
 it easy to specify how new model data should be integrated. 
 
-Optionally, you can  implement `-merge<Key>FromModel:` in your `MTLModel` subclass for customized mergeing behaviour, `-mergeValuesForKeysFromModel:` and `-mergeValueForKey:fromModel:` will use the result of that method instead.
+Optionally, you can  implement `-merge<Key>FromModel:` in your `MTLModel` subclass 
+for customized mergeing behaviour, `-mergeValuesForKeysFromModel:` and `-mergeValueForKey:fromModel:` 
+will use the result of that method instead.
 
 > There's no way to turn a `GHIssue` _back_ into JSON.
 
