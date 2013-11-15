@@ -1165,7 +1165,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D094E48D1777619600906BF7 /* iOS-StaticLibrary.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				DSTROOT = /tmp/$PRODUCT_NAME.dst;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1177,7 +1176,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D094E48D1777619600906BF7 /* iOS-StaticLibrary.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				DSTROOT = /tmp/$PRODUCT_NAME.dst;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1275,7 +1273,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D094E48D1777619600906BF7 /* iOS-StaticLibrary.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				DSTROOT = /tmp/$PRODUCT_NAME.dst;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1379,7 +1376,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D094E48D1777619600906BF7 /* iOS-StaticLibrary.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				DSTROOT = /tmp/$PRODUCT_NAME.dst;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
