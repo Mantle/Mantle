@@ -124,6 +124,22 @@ extern const NSInteger MTLJSONAdapterErrorInvalidJSONDictionary;
 // Returns a JSON dictionary, or nil if a serialization error occurred.
 - (NSDictionary *)serializeToJSONDictionary:(NSError **)error;
 
+// A value transformer that should be used for a given object class.
+//
+// The default implementation invokes `+<class name>JSONTransformer` on the
+// receiver if it's implemented.
+//
+// class - The property to serialize. This property must not be nil.
+//
+// Returns a value transformer or nil if no transformation should be used.
+- (NSValueTransformer *)valueTransformerForPropertiesOfClass:(Class)class;
+
+@end
+
+@interface MTLJSONAdapter (ValueTransformers)
+
++ (NSValueTransformer *)NSURLJSONTransformer;
+
 @end
 
 @interface MTLJSONAdapter (Deprecated)

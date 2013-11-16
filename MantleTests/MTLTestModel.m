@@ -172,12 +172,16 @@ static NSUInteger modelVersion = 1;
 
 @implementation MTLURLModel
 
-+ (NSDictionary *)JSONKeyPathsByPropertyKey {
-	return [NSDictionary mtl_identityPropertyMapWithModel:self];
+- (instancetype)init {
+	self = [super init];
+	if (self == nil) return nil;
+
+	self.URL = [NSURL URLWithString:@"http://github.com"];
+	return self;
 }
 
-+ (NSValueTransformer *)URLJSONTransformer {
-	return [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
++ (NSDictionary *)JSONKeyPathsByPropertyKey {
+	return [NSDictionary mtl_identityPropertyMapWithModel:self];
 }
 
 @end

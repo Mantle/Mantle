@@ -6,10 +6,15 @@
 //  Copyright (c) 2013 GitHub. All rights reserved.
 //
 
+#import <objc/runtime.h>
+
+#import "EXTRuntimeExtensions.h"
+#import "EXTScope.h"
 #import "MTLJSONAdapter.h"
 #import "MTLModel.h"
 #import "MTLTransformerErrorHandling.h"
 #import "MTLReflection.h"
+#import "NSValueTransformer+MTLPredefinedTransformerAdditions.h"
 
 NSString * const MTLJSONAdapterErrorDomain = @"MTLJSONAdapterErrorDomain";
 const NSInteger MTLJSONAdapterErrorNoClassFound = 2;
@@ -36,6 +41,10 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 //
 // Returns a transformer to use, or nil to not transform the property.
 - (NSValueTransformer *)JSONTransformerForKey:(NSString *)key;
+
+// Returns the class of the property with the given key or `nil` if it's a
+// primitive property.
+- (Class)classOfPropertyWithKey:(NSString *)key;
 
 @end
 
@@ -252,7 +261,42 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 		return [self.modelClass JSONTransformerForKey:key];
 	}
 
-	return nil;
+	return [self valueTransformerForPropertiesOfClass:[self classOfPropertyWithKey:key]];
+}
+
+- (NSValueTransformer *)valueTransformerForPropertiesOfClass:(Class)class {
+	NSParameterAssert(class != nil);
+
+	SEL selector = MTLSelectorWithKeyPattern(NSStringFromClass(class), "JSONTransformer");
+	if (![self.class respondsToSelector:selector]) return nil;
+
+	NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[self.class methodSignatureForSelector:selector]];
+	invocation.target = self.class;
+	invocation.selector = selector;
+	[invocation invoke];
+
+	__unsafe_unretained id result = nil;
+	[invocation getReturnValue:&result];
+	return result;
+}
+
+- (Class)classOfPropertyWithKey:(NSString *)key {
+	NSParameterAssert(key != nil);
+
+	objc_property_t property = class_getProperty(self.modelClass, key.UTF8String);
+
+	mtl_propertyAttributes *attributes = mtl_copyPropertyAttributes(property);
+	@onExit { free(attributes); };
+
+	return attributes->objectClass;
+}
+
+@end
+
+@implementation MTLJSONAdapter (ValueTransformers)
+
++ (NSValueTransformer *)NSURLJSONTransformer {
+	return [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
 }
 
 @end
