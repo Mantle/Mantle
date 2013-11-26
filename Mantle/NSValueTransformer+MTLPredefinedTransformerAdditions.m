@@ -134,4 +134,31 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 	}];
 }
 
++ (NSValueTransformer *)mtl_arrayMappingTransformerWithTransformer:(NSValueTransformer *)transformer
+{
+	NSParameterAssert(transformer != nil);
+	NSParameterAssert([transformer.class allowsReverseTransformation]);
+	
+	return [MTLValueTransformer reversibleTransformerWithForwardBlock:^NSArray *(NSArray *values) {
+		if (![values isKindOfClass:NSArray.class]) return nil;
+		NSMutableArray *transformedValues = [NSMutableArray arrayWithCapacity:values.count];
+		for (NSString *value in values) {
+			id transformedValue = [transformer transformedValue:value];
+			if (transformedValue == nil) continue;
+			[transformedValues addObject:transformedValue];
+		}
+		return transformedValues;
+		
+	} reverseBlock:^NSArray *(NSArray *values) {
+		if (![values isKindOfClass:NSArray.class]) return nil;
+		NSMutableArray *transformedValues = [NSMutableArray arrayWithCapacity:values.count];
+		for (NSString *value in values) {
+			id transformedValue = [transformer reverseTransformedValue:value];
+			if (transformedValue == nil) continue;
+			[transformedValues addObject:transformedValue];
+		}
+		return transformedValues;
+	}];
+}
+
 @end
