@@ -71,7 +71,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	NSParameterAssert([modelClass isSubclassOfClass:MTLModel.class]);
 	NSParameterAssert([modelClass conformsToProtocol:@protocol(MTLJSONSerializing)]);
 
-	if (JSONDictionary == nil) return nil;
+	if (JSONDictionary == nil || (![JSONDictionary isKindOfClass:NSDictionary.class])) return nil;
 
 	if ([modelClass respondsToSelector:@selector(classForParsingJSONDictionary:)]) {
 		modelClass = [modelClass classForParsingJSONDictionary:JSONDictionary];
