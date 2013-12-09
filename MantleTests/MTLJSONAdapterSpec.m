@@ -82,12 +82,14 @@ it(@"should return nil and an error with a nil JSON dictionary", ^{
 	expect(error.code).to.equal(MTLJSONAdapterErrorInvalidJSONDictionary);
 });
 
-it(@"should return nil with a wrong data type as dictionary, but no error", ^{
+it(@"should return nil and an error with a wrong data type as dictionary", ^{
 	NSError *error = nil;
 	id wrongDictionary = [NSString new];
 	MTLJSONAdapter *adapter = [[MTLJSONAdapter alloc] initWithJSONDictionary:wrongDictionary modelClass:MTLTestModel.class error:&error];
 	expect(adapter).to.beNil();
-	expect(error).to.beNil();
+	expect(error).notTo.beNil();
+	expect(error.domain).to.equal(MTLJSONAdapterErrorDomain);
+	expect(error.code).to.equal(MTLJSONAdapterErrorInvalidJSONDictionary);
 });
 
 it(@"should ignore unrecognized JSON keys", ^{
