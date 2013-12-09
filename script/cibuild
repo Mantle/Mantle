@@ -1,114 +1,142 @@
 #!/bin/bash
 
-SCRIPT_DIR=$(dirname "$0")
-cd "$SCRIPT_DIR/.."
+export SCRIPT_DIR=$(dirname "$0")
 
 ##
 ## Configuration Variables
 ##
 
-# The build configuration to use.
-if [ -z "$XCCONFIGURATION" ]
-then
-    XCCONFIGURATION="Release"
-fi
+SCHEMES="$@"
 
-# The workspace to build.
-#
-# If not set and no workspace is found, the -workspace flag will not be passed
-# to xcodebuild.
-if [ -z "$XCWORKSPACE" ]
-then
-    XCWORKSPACE=$(ls -d *.xcworkspace 2>/dev/null | head -n 1)
-fi
+config ()
+{
+    # The workspace to build.
+    #
+    # If not set and no workspace is found, the -workspace flag will not be passed
+    # to `xctool`.
+    #
+    # Only one of `XCWORKSPACE` and `XCODEPROJ` needs to be set. The former will
+    # take precedence.
+    : ${XCWORKSPACE=$(find_pattern "*.xcworkspace")}
 
-# A bootstrap script to run before building.
-#
-# If this file does not exist, it is not considered an error.
-BOOTSTRAP="$SCRIPT_DIR/bootstrap"
+    # The project to build.
+    #
+    # If not set and no project is found, the -project flag will not be passed
+    # to `xctool`.
+    #
+    # Only one of `XCWORKSPACE` and `XCODEPROJ` needs to be set. The former will
+    # take precedence.
+    : ${XCODEPROJ=$(find_pattern "*.xcodeproj")}
 
-# A whitespace-separated list of default targets or schemes to build, if none
-# are specified on the command line.
-#
-# Individual names can be quoted to avoid word splitting.
-DEFAULT_TARGETS=
+    # A bootstrap script to run before building.
+    #
+    # If this file does not exist, it is not considered an error.
+    : ${BOOTSTRAP="$SCRIPT_DIR/bootstrap"}
 
-# Extra build settings to pass to xcodebuild.
-XCODEBUILD_SETTINGS="TEST_AFTER_BUILD=YES"
+    # Extra options to pass to xctool.
+    : ${XCTOOL_OPTIONS="RUN_CLANG_STATIC_ANALYZER=NO"}
+
+    # A whitespace-separated list of default schemes to build.
+    #
+    # Individual names can be quoted to avoid word splitting.
+    : ${SCHEMES:=$(xcodebuild -list 2>/dev/null | awk -f "$SCRIPT_DIR/schemes.awk")}
+    
+    export XCWORKSPACE
+    export XCODEPROJ
+    export BOOTSTRAP
+    export XCTOOL_OPTIONS
+    export SCHEMES
+}
 
 ##
 ## Build Process
 ##
 
-if [ -z "$*" ]
-then
-    # lol recursive shell script
-    if [ -n "$DEFAULT_TARGETS" ]
+main ()
+{
+    config
+
+    if [ -f "$BOOTSTRAP" ]
     then
-        echo "$DEFAULT_TARGETS" | xargs "$SCRIPT_DIR/cibuild"
-    else
-        xcodebuild -list | awk -f "$SCRIPT_DIR/targets.awk" | xargs "$SCRIPT_DIR/cibuild"
+        echo "*** Bootstrapping..."
+        "$BOOTSTRAP" || exit $?
     fi
 
-    exit $?
-fi
+    echo "*** The following schemes will be built:"
+    echo "$SCHEMES" | xargs -n 1 echo "  "
+    echo
 
-if [ -f "$BOOTSTRAP" ]
-then
-    echo "*** Bootstrapping..."
-    bash "$BOOTSTRAP"
-fi
+    echo "$SCHEMES" | xargs -n 1 | (
+        local status=0
 
-echo "*** The following targets will be built:"
+        while read scheme
+        do
+            build_scheme "$scheme" || status=1
+        done
 
-for target in "$@"
-do
-    echo "$target"
-done
+        exit $status
+    )
+}
 
-echo "*** Cleaning all targets..."
-xcodebuild -alltargets clean OBJROOT="$PWD/build" SYMROOT="$PWD/build" $XCODEBUILD_SETTINGS
-
-run_xcodebuild ()
+find_pattern ()
 {
-    local scheme=$1
+    ls -d $1 2>/dev/null | head -n 1
+}
 
+run_xctool ()
+{
     if [ -n "$XCWORKSPACE" ]
     then
-        xcodebuild -workspace "$XCWORKSPACE" -scheme "$scheme" -configuration "$XCCONFIGURATION" build OBJROOT="$PWD/build" SYMROOT="$PWD/build" $XCODEBUILD_SETTINGS
+        xctool -workspace "$XCWORKSPACE" $XCTOOL_OPTIONS "$@" 2>&1
+    elif [ -n "$XCODEPROJ" ]
+    then
+        xctool -project "$XCODEPROJ" $XCTOOL_OPTIONS "$@" 2>&1
     else
-        xcodebuild -scheme "$scheme" -configuration "$XCCONFIGURATION" build OBJROOT="$PWD/build" SYMROOT="$PWD/build" $XCODEBUILD_SETTINGS
+        echo "*** No workspace or project file found."
+        exit 1
     fi
+}
 
-    local status=$?
-
-    return $status
+parse_build ()
+{
+    awk -f "$SCRIPT_DIR/xctool.awk" 2>&1 >/dev/null
 }
 
 build_scheme ()
 {
     local scheme=$1
 
-    run_xcodebuild "$scheme" 2>&1 | awk -f "$SCRIPT_DIR/xcodebuild.awk"
+    echo "*** Cleaning $scheme..."
+    run_xctool -scheme "$scheme" clean >/dev/null || exit $?
+
+    echo "*** Building and testing $scheme..."
+    echo
+
+    local sdkflag=
+    local action=test
+
+    # Determine whether we can run unit tests for this target.
+    run_xctool -scheme "$scheme" run-tests | parse_build
 
     local awkstatus=$?
-    local xcstatus=${PIPESTATUS[0]}
 
-    if [ "$xcstatus" -eq "65" ]
+    if [ "$awkstatus" -ne "0" ]
     then
-        # This probably means that there's no scheme by that name. Give up.
-        echo "*** Error building scheme $scheme -- perhaps it doesn't exist"
-    elif [ "$awkstatus" -eq "1" ]
-    then
-        return $awkstatus
+        # Unit tests aren't supported.
+        action=build
     fi
 
-    return $xcstatus
+    if [ "$awkstatus" -eq "1" ]
+    then
+        # Build for iOS.
+        sdkflag="-sdk iphonesimulator"
+    fi
+
+    run_xctool $sdkflag -scheme "$scheme" $action
 }
 
-echo "*** Building..."
+export -f build_scheme
+export -f run_xctool
+export -f parse_build
 
-for scheme in "$@"
-do
-    build_scheme "$scheme" || exit $?
-done
+main

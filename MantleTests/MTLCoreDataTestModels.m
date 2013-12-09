@@ -52,8 +52,7 @@
 	return @{};
 }
 
-+ (NSSet *)propertyKeysForManagedObjectUniquing
-{
++ (NSSet *)propertyKeysForManagedObjectUniquing {
 	return [NSSet setWithObjects:@"childID", nil];
 }
 
@@ -62,6 +61,35 @@
 		@"parent1": MTLParentTestModel.class,
 		@"parent2": MTLParentTestModel.class,
 	};
+}
+
+@end
+
+@implementation MTLBadChildTestModel
+
++ (NSString *)managedObjectEntityName {
+	return @"BadChild";
+}
+
++ (NSDictionary *)managedObjectKeysByPropertyKey {
+	return @{};
+}
+
++ (NSSet *)propertyKeysForManagedObjectUniquing {
+	return [NSSet setWithObjects:@"childID", nil];
+}
+
+
+@end
+
+@implementation MTLFailureModel
+
++ (NSDictionary *)managedObjectKeysByPropertyKey {
+	return @{};
+}
+
++ (NSString *)managedObjectEntityName {
+	return @"Empty";
 }
 
 @end

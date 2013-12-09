@@ -44,6 +44,23 @@ extern NSString * const MTLBooleanValueTransformerName;
 // array elements back and forth.
 + (NSValueTransformer *)mtl_JSONArrayTransformerWithModelClass:(Class)modelClass;
 
+// A reversible value transformer to transform between the keys and objects of a
+// dictionary.
+//
+// dictionary - The dictionary whose keys and values we should transform between.
+//
+// Can for example be used for transforming between enum values and their string
+// representation.
+//
+//   NSValueTransformer *valueTransformer = [NSValueTransformer mtl_valueMappingTransformerWithDictionary:@{
+//     @"foo": @(EnumDataTypeFoo),
+//     @"bar": @(EnumDataTypeBar),
+//   }];
+//
+// Returns a transformer which will map from keys to objects for forward
+// transformations, and from objects to keys for reverse transformations.
++ (NSValueTransformer *)mtl_valueMappingTransformerWithDictionary:(NSDictionary *)dictionary;
+
 @end
 
 @interface NSValueTransformer (UnavailableMTLPredefinedTransformerAdditions)
