@@ -80,6 +80,14 @@ it(@"should return nil with a nil JSON dictionary, but no error", ^{
 	expect(error).to.beNil();
 });
 
+it(@"should return nil with a wrong data type as dictionary, but no error", ^{
+	NSError *error = nil;
+	id wrongDictionary = [NSString new];
+	MTLJSONAdapter *adapter = [[MTLJSONAdapter alloc] initWithJSONDictionary:wrongDictionary modelClass:MTLTestModel.class error:&error];
+	expect(adapter).to.beNil();
+	expect(error).to.beNil();
+});
+
 it(@"should ignore unrecognized JSON keys", ^{
 	NSDictionary *values = @{
 		@"foobar": @"foo",
