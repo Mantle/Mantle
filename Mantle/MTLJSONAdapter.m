@@ -72,7 +72,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	NSParameterAssert([modelClass isSubclassOfClass:MTLModel.class]);
 	NSParameterAssert([modelClass conformsToProtocol:@protocol(MTLJSONSerializing)]);
 
-	if (JSONDictionary == nil || (![JSONDictionary isKindOfClass:NSDictionary.class])) {
+	if (JSONDictionary == nil || ![JSONDictionary isKindOfClass:NSDictionary.class]) {
 		if (error != NULL) {
 			NSDictionary *userInfo = @{
 				NSLocalizedDescriptionKey: NSLocalizedString(@"Missing JSON dictionary", @""),
