@@ -150,6 +150,8 @@ extern const NSInteger MTLJSONAdapterErrorInvalidJSONDictionary;
 
 @interface MTLJSONAdapter (ValueTransformers)
 
+// This value transformer is used by MTLJSONAdapter to automatically convert
+// NSURL properties to JSON strings and vice versa.
 + (NSValueTransformer *)NSURLJSONTransformer;
 
 @end
