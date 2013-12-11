@@ -290,6 +290,10 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 }
 
 - (NSValueTransformer *)valueTransformerForObjcType:(const char *)objcType {
+	if (strcmp(objcType, @encode(BOOL)) == 0) {
+		return [NSValueTransformer valueTransformerForName:MTLBooleanValueTransformerName];
+	}
+
 	return nil;
 }
 

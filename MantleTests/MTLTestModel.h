@@ -63,8 +63,8 @@ extern const NSInteger MTLTestModelNameMissing;
 
 @end
 
-@interface MTLLongModel : MTLModel <MTLJSONSerializing>
+@interface MTLBoolModel : MTLModel <MTLJSONSerializing>
 
-@property (nonatomic, assign) long UUID;
+@property (nonatomic, assign) BOOL flag;
 
 @end

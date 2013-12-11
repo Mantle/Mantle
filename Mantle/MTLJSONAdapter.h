@@ -137,7 +137,8 @@ extern const NSInteger MTLJSONAdapterErrorInvalidJSONDictionary;
 
 // A value transformer that should be used for a given primitive type.
 //
-// The default implementation simply returns nil.
+// The default implementation transforms properties that match @encode(BOOL)
+// using the MTLBooleanValueTransformerName transformer.
 //
 // objcType - The type encoding for the value of this property. This is the type
 //            as it would be returned by the @encode() directive.

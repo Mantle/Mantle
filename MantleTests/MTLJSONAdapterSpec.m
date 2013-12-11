@@ -7,7 +7,6 @@
 //
 
 #import "MTLTestModel.h"
-#import "MTLTestJSONAdapter.h"
 
 SpecBegin(MTLJSONAdapter)
 
@@ -130,15 +129,13 @@ it(@"should implicitly transform URLs", ^{
 	expect(error).to.beNil();
 });
 
-it(@"should allow subclasses to override primitive mapping behavior", ^{
-	MTLLongModel *model = [[MTLLongModel alloc] initWithDictionary:@{
-		@"UUID": @(123L)
-	} error:NULL];
+it(@"should implicitly transform BOOLs", ^{
+	MTLBoolModel *model = [[MTLBoolModel alloc] init];
 
 	NSError *error = nil;
-	NSDictionary *JSONDictionary = [MTLTestJSONAdapter JSONDictionaryFromModel:model error:&error];
+	NSDictionary *JSONDictionary = [MTLJSONAdapter JSONDictionaryFromModel:model error:&error];
 
-	expect(JSONDictionary[@"UUID"]).to.equal(@"123");
+	expect(JSONDictionary[@"flag"]).to.beIdenticalTo((id)kCFBooleanFalse);
 	expect(error).to.beNil();
 });
 
