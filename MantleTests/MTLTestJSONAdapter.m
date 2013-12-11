@@ -14,7 +14,7 @@
 	if (strcmp(objcType, @encode(long)) == 0) {
 		return [MTLValueTransformer
 			transformerUsingForwardBlock:^(NSString *string, BOOL *success, NSError *__autoreleasing *error) {
-				return [NSNumber numberWithLong:string.longLongValue];
+				return [NSNumber numberWithLong:(long)string.longLongValue];
 			}
 			reverseBlock:^(NSNumber *number, BOOL *success, NSError *__autoreleasing *error) {
 				return [NSString stringWithFormat:@"%ld", number.longValue];
