@@ -36,14 +36,6 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 // Returns a transformer to use, or nil to not transform the property.
 - (NSValueTransformer *)JSONTransformerForKey:(NSString *)key;
 
-// Looks up the JSON key path that corresponds to the given key.
-//
-// key - The property key to retrieve the corresponding JSON key path for. This
-//       argument must not be nil.
-//
-// Returns a key path to use, or nil to omit the property from JSON.
-- (NSString *)JSONKeyPathForKey:(NSString *)key;
-
 @end
 
 @implementation MTLJSONAdapter
