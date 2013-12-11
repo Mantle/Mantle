@@ -135,6 +135,16 @@ extern const NSInteger MTLJSONAdapterErrorInvalidJSONDictionary;
 // Returns a value transformer or nil if no transformation should be used.
 - (NSValueTransformer *)valueTransformerForPropertiesOfClass:(Class)class;
 
+// A value transformer that should be used for a given primitive type.
+//
+// The default implementation simply returns nil.
+//
+// objcType - The type encoding for the value of this property. This is the type
+//            as it would be returned by the @encode() directive.
+//
+// Returns a value transformer or nil if no transformation should be used.
+- (NSValueTransformer *)valueTransformerForObjcType:(const char *)objcType;
+
 @end
 
 @interface MTLJSONAdapter (ValueTransformers)

@@ -185,3 +185,11 @@ static NSUInteger modelVersion = 1;
 }
 
 @end
+
+@implementation MTLLongModel
+
++ (NSDictionary *)JSONKeyPathsByPropertyKey {
+	return [NSDictionary mtl_identityPropertyMapWithModel:self];
+}
+
+@end

@@ -62,3 +62,9 @@ extern const NSInteger MTLTestModelNameMissing;
 @property (nonatomic, strong) NSURL *URL;
 
 @end
+
+@interface MTLLongModel : MTLModel <MTLJSONSerializing>
+
+@property (nonatomic, assign) long UUID;
+
+@end

@@ -46,6 +46,9 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 // primitive property.
 - (Class)classOfPropertyWithKey:(NSString *)key;
 
+// Returns the type encoding of the property with the given key.
+- (const char *)objcTypeOfPropertyWithKey:(NSString *)key;
+
 @end
 
 @implementation MTLJSONAdapter
@@ -261,7 +264,13 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 		return [self.modelClass JSONTransformerForKey:key];
 	}
 
-	return [self valueTransformerForPropertiesOfClass:[self classOfPropertyWithKey:key]];
+	NSValueTransformer *transformerForClass = nil;
+	Class propertyClass = [self classOfPropertyWithKey:key];
+	if (propertyClass != nil) {
+		transformerForClass = [self valueTransformerForPropertiesOfClass:propertyClass];
+	}
+
+	return transformerForClass ?: [self valueTransformerForObjcType:[self objcTypeOfPropertyWithKey:key]];
 }
 
 - (NSValueTransformer *)valueTransformerForPropertiesOfClass:(Class)class {
@@ -280,6 +289,10 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	return result;
 }
 
+- (NSValueTransformer *)valueTransformerForObjcType:(const char *)objcType {
+	return nil;
+}
+
 - (Class)classOfPropertyWithKey:(NSString *)key {
 	NSParameterAssert(key != nil);
 
@@ -290,6 +303,18 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 
 	return attributes->objectClass;
 }
+
+- (const char *)objcTypeOfPropertyWithKey:(NSString *)key {
+	NSParameterAssert(key != nil);
+
+	objc_property_t property = class_getProperty(self.modelClass, key.UTF8String);
+
+	mtl_propertyAttributes *attributes = mtl_copyPropertyAttributes(property);
+	@onExit { free(attributes); };
+
+	return attributes->type;
+}
+
 
 @end
 
