@@ -144,7 +144,7 @@ extern const NSInteger MTLJSONAdapterErrorInvalidJSONDictionary;
 //            as it would be returned by the @encode() directive.
 //
 // Returns a value transformer or nil if no transformation should be used.
-- (NSValueTransformer *)valueTransformerForObjCType:(const char *)objCType;
+- (NSValueTransformer *)transformerForModelPropertiesOfObjCType:(const char *)objCType;
 
 @end
 

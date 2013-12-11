@@ -267,13 +267,13 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	NSValueTransformer *transformerForClass = nil;
 	Class propertyClass = [self classOfPropertyWithKey:key];
 	if (propertyClass != nil) {
-		transformerForClass = [self valueTransformerForPropertiesOfClass:propertyClass];
+		transformerForClass = [self transformerForModelPropertiesOfClass:propertyClass];
 	}
 
-	return transformerForClass ?: [self valueTransformerForObjCType:[self objCTypeOfPropertyWithKey:key]];
+	return transformerForClass ?: [self transformerForModelPropertiesOfObjCType:[self objCTypeOfPropertyWithKey:key]];
 }
 
-- (NSValueTransformer *)valueTransformerForPropertiesOfClass:(Class)class {
+- (NSValueTransformer *)transformerForModelPropertiesOfClass:(Class)class {
 	NSParameterAssert(class != nil);
 
 	SEL selector = MTLSelectorWithKeyPattern(NSStringFromClass(class), "JSONTransformer");
@@ -289,7 +289,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	return result;
 }
 
-- (NSValueTransformer *)valueTransformerForObjCType:(const char *)objCType {
+- (NSValueTransformer *)transformerForModelPropertiesOfObjCType:(const char *)objCType {
 	if (strcmp(objCType, @encode(BOOL)) == 0) {
 		return [NSValueTransformer valueTransformerForName:MTLBooleanValueTransformerName];
 	}
