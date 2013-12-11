@@ -121,7 +121,10 @@ extern const NSInteger MTLJSONAdapterErrorInvalidJSONDictionary;
 // Returns a JSON dictionary, or nil if a serialization error occurred.
 - (NSDictionary *)JSONDictionary;
 
-// Looks up the JSON key path that corresponds to the given key.
+// Looks up the JSON key path in the model's +propertyKeys.
+//
+// Subclasses may override this method to customize the adapter's seralizing
+// behavior. You should not call this method directly.
 //
 // key - The property key to retrieve the corresponding JSON key path for. This
 //       argument must not be nil.
