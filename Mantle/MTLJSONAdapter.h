@@ -124,18 +124,26 @@ extern const NSInteger MTLJSONAdapterErrorInvalidJSONDictionary;
 // Returns a JSON dictionary, or nil if a serialization error occurred.
 - (NSDictionary *)serializeToJSONDictionary:(NSError **)error;
 
-// A value transformer that should be used for a given object class.
+// An optional value transformer that should be used for properties of the given
+// class.
 //
-// The default implementation invokes `+<class name>JSONTransformer` on the
+// A value transformer returned by the model's +JSONTransformerForKey: method
+// is given precedence over the one returned by this method.
+//
+// The default implementation invokes `+<class>JSONTransformer` on the
 // receiver if it's implemented.
 //
 // class - The class of the property to serialize. This property must not be
 //         nil.
 //
 // Returns a value transformer or nil if no transformation should be used.
-- (NSValueTransformer *)valueTransformerForPropertiesOfClass:(Class)class;
+- (NSValueTransformer *)transformerForModelPropertiesOfClass:(Class)class;
 
-// A value transformer that should be used for a given primitive type.
+// A value transformer that should be used for a properties of the given
+// primitive type.
+//
+// If `objCType` matches @encode(id), the value transformer returned by
+// -transformerForModelPropertiesOfClass: is used instead.
 //
 // The default implementation transforms properties that match @encode(BOOL)
 // using the MTLBooleanValueTransformerName transformer.
