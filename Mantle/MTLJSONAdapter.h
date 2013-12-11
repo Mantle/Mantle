@@ -127,7 +127,7 @@ extern const NSInteger MTLJSONAdapterErrorInvalidJSONDictionary;
 //       argument must not be nil.
 //
 // Returns a key path to use, or nil to omit the property from JSON.
-- (NSString *)JSONKeyPathForKey:(NSString *)key;
+- (NSString *)JSONKeyPathForPropertyKey:(NSString *)key;
 
 @end
 
