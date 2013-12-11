@@ -303,7 +303,9 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	objc_property_t property = class_getProperty(self.modelClass, key.UTF8String);
 
 	mtl_propertyAttributes *attributes = mtl_copyPropertyAttributes(property);
-	@onExit { free(attributes); };
+	@onExit {
+		free(attributes);
+	};
 
 	return attributes->objectClass;
 }
@@ -314,7 +316,9 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	objc_property_t property = class_getProperty(self.modelClass, key.UTF8String);
 
 	mtl_propertyAttributes *attributes = mtl_copyPropertyAttributes(property);
-	@onExit { free(attributes); };
+	@onExit {
+		free(attributes);
+	};
 
 	return attributes->type;
 }
