@@ -270,7 +270,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 		transformerForClass = [self valueTransformerForPropertiesOfClass:propertyClass];
 	}
 
-	return transformerForClass ?: [self valueTransformerForObjcType:[self objcTypeOfPropertyWithKey:key]];
+	return transformerForClass ?: [self valueTransformerForObjCType:[self objcTypeOfPropertyWithKey:key]];
 }
 
 - (NSValueTransformer *)valueTransformerForPropertiesOfClass:(Class)class {
@@ -289,8 +289,8 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	return result;
 }
 
-- (NSValueTransformer *)valueTransformerForObjcType:(const char *)objcType {
-	if (strcmp(objcType, @encode(BOOL)) == 0) {
+- (NSValueTransformer *)valueTransformerForObjCType:(const char *)objCType {
+	if (strcmp(objCType, @encode(BOOL)) == 0) {
 		return [NSValueTransformer valueTransformerForName:MTLBooleanValueTransformerName];
 	}
 
