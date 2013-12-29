@@ -173,4 +173,40 @@ extern const NSInteger MTLManagedObjectAdapterErrorUnsupportedRelationshipClass;
 //           serialization or insertion.
 + (id)managedObjectFromModel:(MTLModel<MTLManagedObjectSerializing> *)model insertingIntoContext:(NSManagedObjectContext *)context error:(NSError **)error;
 
+// An optional value transformer that should be used for properties of the given
+// class.
+//
+// A value transformer returned by the model's
+// +entityAttributeTransformerForKey: method is given precedence over the one
+// returned by this method.
+//
+// The default implementation invokes `+<class>EntityAttributeTransformer` on
+// the receiver if it's implemented.
+//
+// class - The class of the property to serialize. This property must not be
+//         nil.
+//
+// Returns a value transformer or nil if no transformation should be used.
+- (NSValueTransformer *)transformerForModelPropertiesOfClass:(Class)class;
+
+// A value transformer that should be used for a properties of the given
+// primitive type.
+//
+// If `objCType` matches @encode(id), the value transformer returned by
+// -transformerForModelPropertiesOfClass: is used instead.
+//
+// The default implementation simply returns nil.
+//
+// objCType - The type encoding for the value of this property. This is the type
+//            as it would be returned by the @encode() directive.
+//
+// Returns a value transformer or nil if no transformation should be used.
+- (NSValueTransformer *)transformerForModelPropertiesOfObjCType:(const char *)objCType;
+
+@end
+
+@interface MTLManagedObjectAdapter (ValueTransformers)
+
++ (NSValueTransformer *)NSURLEntityAttributeTransformer;
+
 @end

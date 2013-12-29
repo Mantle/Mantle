@@ -6,12 +6,16 @@
 //  Copyright (c) 2013 GitHub. All rights reserved.
 //
 
-#import "MTLManagedObjectAdapter.h"
+#import <objc/runtime.h>
+
+#import "EXTRuntimeExtensions.h"
 #import "EXTScope.h"
+#import "MTLManagedObjectAdapter.h"
 #import "MTLModel.h"
 #import "MTLTransformerErrorHandling.h"
 #import "MTLReflection.h"
 #import "NSArray+MTLManipulationAdditions.h"
+#import "NSValueTransformer+MTLPredefinedTransformerAdditions.h"
 
 NSString * const MTLManagedObjectAdapterErrorDomain = @"MTLManagedObjectAdapterErrorDomain";
 const NSInteger MTLManagedObjectAdapterErrorNoClassFound = 2;
@@ -49,6 +53,26 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 // A cached copy of the return value of +relationshipModelClassesByPropertyKey.
 @property (nonatomic, copy, readonly) NSDictionary *relationshipModelClassesByPropertyKey;
 
+// A cache of the return value of -valueTransformersForModelClass:
+@property (nonatomic, copy, readonly) NSDictionary *valueTransformerByPropertyKey;
+
+// Collect all value transformers needed for a given class.
+//
+// modelClass - The MTLModel for which to collect the transformers.
+//              This class must conform to <MTLManagedObjectSerializing>. This
+//              argument must not be nil.
+//
+// Returns a dictionary with the properties of modelClass that need
+// transformation as keys and the value transformers as values.
+- (NSDictionary *)valueTransformersForModelClass:(Class)class;
+
+// Returns the class of the property with the given key or `nil` if it's a
+// primitive property.
+- (Class)classOfPropertyWithKey:(NSString *)key;
+
+// Returns the type encoding of the property with the given key.
+- (const char *)objCTypeOfPropertyWithKey:(NSString *)key;
+
 // Initializes the receiver to serialize or deserialize a MTLModel of the given
 // class.
 - (id)initWithModelClass:(Class)modelClass;
@@ -77,14 +101,6 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 // that have been created so far. It should remain alive for the full process
 // of serializing the top-level MTLModel.
 + (id)managedObjectFromModel:(MTLModel<MTLManagedObjectSerializing> *)model insertingIntoContext:(NSManagedObjectContext *)context processedObjects:(CFMutableDictionaryRef)processedObjects error:(NSError **)error;
-
-// Looks up the NSValueTransformer that should be used for any attribute that
-// corresponds the given property key.
-//
-// key - The property key to transform from or to. This argument must not be nil.
-//
-// Returns a transformer to use, or nil to not transform the property.
-- (NSValueTransformer *)entityAttributeTransformerForKey:(NSString *)key;
 
 // Looks at propertyKeysForManagedObjectUniquing and forms an NSPredicate
 // using the uniquing keys and the provided model.
@@ -119,6 +135,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 
 	_modelClass = modelClass;
 	_managedObjectKeysByPropertyKey = [[modelClass managedObjectKeysByPropertyKey] copy];
+	_valueTransformerByPropertyKey = [self valueTransformersForModelClass:modelClass];
 
 	if ([modelClass respondsToSelector:@selector(relationshipModelClassesByPropertyKey)]) {
 		_relationshipModelClassesByPropertyKey = [[modelClass relationshipModelClassesByPropertyKey] copy];
@@ -165,7 +182,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 				return [managedObject valueForKey:managedObjectKey];
 			});
 
-			NSValueTransformer *transformer = [self entityAttributeTransformerForKey:propertyKey];
+			NSValueTransformer *transformer = self.valueTransformerByPropertyKey[propertyKey];
 			if ([transformer respondsToSelector:@selector(transformedValue:success:error:)]) {
 				id<MTLTransformerErrorHandling> errorHandlingTransformer = (id)transformer;
 
@@ -403,7 +420,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 			// double-free or leak the old or new values).
 			__autoreleasing id transformedValue = value;
 
-			NSValueTransformer *transformer = [self entityAttributeTransformerForKey:propertyKey];
+			NSValueTransformer *transformer = self.valueTransformerByPropertyKey[propertyKey];
 			if ([transformer.class allowsReverseTransformation]) {
 				if ([transformer respondsToSelector:@selector(reverseTransformedValue:success:error:)]) {
 					id<MTLTransformerErrorHandling> errorHandlingTransformer = (id)transformer;
@@ -571,28 +588,6 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 	return [adapter managedObjectFromModel:model insertingIntoContext:context processedObjects:processedObjects error:error];
 }
 
-- (NSValueTransformer *)entityAttributeTransformerForKey:(NSString *)key {
-	NSParameterAssert(key != nil);
-
-	SEL selector = MTLSelectorWithKeyPattern(key, "EntityAttributeTransformer");
-	if ([self.modelClass respondsToSelector:selector]) {
-		NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[self.modelClass methodSignatureForSelector:selector]];
-		invocation.target = self.modelClass;
-		invocation.selector = selector;
-		[invocation invoke];
-
-		__unsafe_unretained id result = nil;
-		[invocation getReturnValue:&result];
-		return result;
-	}
-
-	if ([self.modelClass respondsToSelector:@selector(entityAttributeTransformerForKey:)]) {
-		return [self.modelClass entityAttributeTransformerForKey:key];
-	}
-
-	return nil;
-}
-
 - (NSPredicate *)uniquingPredicateForModel:(MTLModel<MTLManagedObjectSerializing> *)model success:(BOOL *)success error:(NSError **)error {
 	if (![self.modelClass respondsToSelector:@selector(propertyKeysForManagedObjectUniquing)]) return nil;
 
@@ -610,7 +605,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 
 		id value = [model valueForKeyPath:propertyKey];
 
-		NSValueTransformer *transformer = [self entityAttributeTransformerForKey:propertyKey];
+		NSValueTransformer *transformer = self.valueTransformerByPropertyKey[propertyKey];
 		if ([transformer.class allowsReverseTransformation]) {
 			if ([transformer respondsToSelector:@selector(transformedValue:success:error:)]) {
 				id<MTLTransformerErrorHandling> errorHandlingTransformer = (id)transformer;
@@ -633,6 +628,102 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 
 	if (success != NULL) *success = YES;
 	return [NSCompoundPredicate andPredicateWithSubpredicates:subpredicates];
+}
+
+- (NSDictionary *)valueTransformersForModelClass:(Class)modelClass {
+	NSParameterAssert(modelClass != nil);
+	NSParameterAssert([modelClass isSubclassOfClass:MTLModel.class]);
+	NSParameterAssert([modelClass conformsToProtocol:@protocol(MTLManagedObjectSerializing)]);
+
+	NSMutableDictionary *result = [NSMutableDictionary dictionary];
+
+	for (NSString *key in [modelClass propertyKeys]) {
+		SEL selector = MTLSelectorWithKeyPattern(key, "EntityAttributeTransformer");
+		if ([self.modelClass respondsToSelector:selector]) {
+			NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[self.modelClass methodSignatureForSelector:selector]];
+			invocation.target = self.modelClass;
+			invocation.selector = selector;
+			[invocation invoke];
+
+			__unsafe_unretained id transformer = nil;
+			[invocation getReturnValue:&transformer];
+			result[key] = transformer;
+			continue;
+		}
+
+		if ([self.modelClass respondsToSelector:@selector(entityAttributeTransformerForKey:)]) {
+			result[key] = [self.modelClass entityAttributeTransformerForKey:key];
+			continue;
+		}
+
+		NSValueTransformer *transformer = nil;
+		Class propertyClass = [self classOfPropertyWithKey:key];
+		if (propertyClass != nil) {
+			transformer = [self transformerForModelPropertiesOfClass:propertyClass];
+		}
+
+		if (transformer == nil) {
+			transformer = [self transformerForModelPropertiesOfObjCType:[self objCTypeOfPropertyWithKey:key]];
+		}
+
+		if (transformer != nil) result[key] = transformer;
+	}
+
+	return result;
+}
+
+- (NSValueTransformer *)transformerForModelPropertiesOfClass:(Class)class {
+	NSParameterAssert(class != nil);
+
+	SEL selector = MTLSelectorWithKeyPattern(NSStringFromClass(class), "EntityAttributeTransformer");
+	if (![self.class respondsToSelector:selector]) return nil;
+
+	NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[self.class methodSignatureForSelector:selector]];
+	invocation.target = self.class;
+	invocation.selector = selector;
+	[invocation invoke];
+
+	__unsafe_unretained id result = nil;
+	[invocation getReturnValue:&result];
+	return result;
+}
+
+- (NSValueTransformer *)transformerForModelPropertiesOfObjCType:(const char *)objCType {
+	return nil;
+}
+
+- (Class)classOfPropertyWithKey:(NSString *)key {
+	NSParameterAssert(key != nil);
+
+	objc_property_t property = class_getProperty(self.modelClass, key.UTF8String);
+
+	mtl_propertyAttributes *attributes = mtl_copyPropertyAttributes(property);
+	@onExit {
+		free(attributes);
+	};
+
+	return attributes->objectClass;
+}
+
+- (const char *)objCTypeOfPropertyWithKey:(NSString *)key {
+	NSParameterAssert(key != nil);
+
+	objc_property_t property = class_getProperty(self.modelClass, key.UTF8String);
+
+	mtl_propertyAttributes *attributes = mtl_copyPropertyAttributes(property);
+	@onExit {
+		free(attributes);
+	};
+
+	return attributes->type;
+}
+
+@end
+
+@implementation MTLManagedObjectAdapter (ValueTransformers)
+
++ (NSValueTransformer *)NSURLEntityAttributeTransformer {
+	return [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
 }
 
 @end
