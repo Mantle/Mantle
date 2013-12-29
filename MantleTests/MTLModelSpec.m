@@ -115,12 +115,12 @@ it(@"should merge two models together", ^{
 	MTLTestModel *target = [[MTLTestModel alloc] initWithDictionary:@{ @"name": @"foo", @"count": @(5) } error:NULL];
 	expect(target).notTo.beNil();
 
-	MTLTestModel *source = [[MTLTestModel alloc] initWithDictionary:@{ @"name": @"bar", @"count": @(3) } error:NULL];
+	MTLTestModel *source = [[MTLTestModel alloc] initWithDictionary:@{ @"count": @(3) } error:NULL];
 	expect(source).notTo.beNil();
 
 	[target mergeValuesForKeysFromModel:source];
 
-	expect(target.name).to.equal(@"bar");
+	expect(target.name).to.equal(@"foo");
 	expect(target.count).to.equal(8);
 });
 
