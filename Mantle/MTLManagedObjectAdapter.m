@@ -6,9 +6,6 @@
 //  Copyright (c) 2013 GitHub. All rights reserved.
 //
 
-#import <objc/runtime.h>
-
-#import "EXTRuntimeExtensions.h"
 #import "EXTScope.h"
 #import "MTLManagedObjectAdapter.h"
 #import "MTLModel.h"

@@ -6,8 +6,6 @@
 //  Copyright (c) 2013 GitHub. All rights reserved.
 //
 
-#import <objc/runtime.h>
-
 #import "MTLJSONAdapter.h"
 #import "MTLModel.h"
 #import "MTLTransformerErrorHandling.h"
