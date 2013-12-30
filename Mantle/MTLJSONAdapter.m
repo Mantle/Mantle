@@ -8,12 +8,11 @@
 
 #import <objc/runtime.h>
 
-#import "EXTRuntimeExtensions.h"
-#import "EXTScope.h"
 #import "MTLJSONAdapter.h"
 #import "MTLModel.h"
 #import "MTLTransformerErrorHandling.h"
 #import "MTLReflection.h"
+#import "NSObject+MTLPropertyInspection.h"
 #import "NSValueTransformer+MTLPredefinedTransformerAdditions.h"
 
 NSString * const MTLJSONAdapterErrorDomain = @"MTLJSONAdapterErrorDomain";
@@ -47,13 +46,6 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 // Returns a dictionary with the properties of modelClass that need
 // transformation as keys and the value transformers as values.
 - (NSDictionary *)valueTransformersForModelClass:(Class)class;
-
-// Returns the class of the property with the given key or `nil` if it's a
-// primitive property.
-- (Class)classOfPropertyWithKey:(NSString *)key;
-
-// Returns the type encoding of the property with the given key.
-- (const char *)objCTypeOfPropertyWithKey:(NSString *)key;
 
 @end
 
@@ -288,13 +280,13 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 		}
 
 		NSValueTransformer *transformer = nil;
-		Class propertyClass = [self classOfPropertyWithKey:key];
+		Class propertyClass = [self.modelClass mtl_classOfPropertyWithKey:key];
 		if (propertyClass != nil) {
 			transformer = [self transformerForModelPropertiesOfClass:propertyClass];
 		}
 
 		if (transformer == nil) {
-			transformer = [self transformerForModelPropertiesOfObjCType:[self objCTypeOfPropertyWithKey:key]];
+			transformer = [self transformerForModelPropertiesOfObjCType:[self.modelClass mtl_objCTypeOfPropertyWithKey:key]];
 		}
 
 		if (transformer != nil) result[key] = transformer;
@@ -325,32 +317,6 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	}
 
 	return nil;
-}
-
-- (Class)classOfPropertyWithKey:(NSString *)key {
-	NSParameterAssert(key != nil);
-
-	objc_property_t property = class_getProperty(self.modelClass, key.UTF8String);
-
-	mtl_propertyAttributes *attributes = mtl_copyPropertyAttributes(property);
-	@onExit {
-		free(attributes);
-	};
-
-	return attributes->objectClass;
-}
-
-- (const char *)objCTypeOfPropertyWithKey:(NSString *)key {
-	NSParameterAssert(key != nil);
-
-	objc_property_t property = class_getProperty(self.modelClass, key.UTF8String);
-
-	mtl_propertyAttributes *attributes = mtl_copyPropertyAttributes(property);
-	@onExit {
-		free(attributes);
-	};
-
-	return attributes->type;
 }
 
 

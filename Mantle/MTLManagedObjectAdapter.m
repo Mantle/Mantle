@@ -16,6 +16,7 @@
 #import "MTLReflection.h"
 #import "NSArray+MTLManipulationAdditions.h"
 #import "NSValueTransformer+MTLPredefinedTransformerAdditions.h"
+#import "NSObject+MTLPropertyInspection.h"
 
 NSString * const MTLManagedObjectAdapterErrorDomain = @"MTLManagedObjectAdapterErrorDomain";
 const NSInteger MTLManagedObjectAdapterErrorNoClassFound = 2;
@@ -65,13 +66,6 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 // Returns a dictionary with the properties of modelClass that need
 // transformation as keys and the value transformers as values.
 - (NSDictionary *)valueTransformersForModelClass:(Class)class;
-
-// Returns the class of the property with the given key or `nil` if it's a
-// primitive property.
-- (Class)classOfPropertyWithKey:(NSString *)key;
-
-// Returns the type encoding of the property with the given key.
-- (const char *)objCTypeOfPropertyWithKey:(NSString *)key;
 
 // Initializes the receiver to serialize or deserialize a MTLModel of the given
 // class.
@@ -657,13 +651,13 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 		}
 
 		NSValueTransformer *transformer = nil;
-		Class propertyClass = [self classOfPropertyWithKey:key];
+		Class propertyClass = [self.modelClass mtl_classOfPropertyWithKey:key];
 		if (propertyClass != nil) {
 			transformer = [self transformerForModelPropertiesOfClass:propertyClass];
 		}
 
 		if (transformer == nil) {
-			transformer = [self transformerForModelPropertiesOfObjCType:[self objCTypeOfPropertyWithKey:key]];
+			transformer = [self transformerForModelPropertiesOfObjCType:[self.modelClass mtl_objCTypeOfPropertyWithKey:key]];
 		}
 
 		if (transformer != nil) result[key] = transformer;
@@ -690,32 +684,6 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 
 - (NSValueTransformer *)transformerForModelPropertiesOfObjCType:(const char *)objCType {
 	return nil;
-}
-
-- (Class)classOfPropertyWithKey:(NSString *)key {
-	NSParameterAssert(key != nil);
-
-	objc_property_t property = class_getProperty(self.modelClass, key.UTF8String);
-
-	mtl_propertyAttributes *attributes = mtl_copyPropertyAttributes(property);
-	@onExit {
-		free(attributes);
-	};
-
-	return attributes->objectClass;
-}
-
-- (const char *)objCTypeOfPropertyWithKey:(NSString *)key {
-	NSParameterAssert(key != nil);
-
-	objc_property_t property = class_getProperty(self.modelClass, key.UTF8String);
-
-	mtl_propertyAttributes *attributes = mtl_copyPropertyAttributes(property);
-	@onExit {
-		free(attributes);
-	};
-
-	return attributes->type;
 }
 
 @end
