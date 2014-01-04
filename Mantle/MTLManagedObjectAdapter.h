@@ -207,6 +207,8 @@ extern const NSInteger MTLManagedObjectAdapterErrorUnsupportedRelationshipClass;
 
 @interface MTLManagedObjectAdapter (ValueTransformers)
 
+// This value transformer is used by MTLManagedObjectAdapter to automatically
+// convert NSURL properties to strings and vice versa.
 + (NSValueTransformer *)NSURLEntityAttributeTransformer;
 
 @end
