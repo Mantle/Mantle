@@ -33,7 +33,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 @property (nonatomic, copy, readonly) NSDictionary *JSONKeyPathsByPropertyKey;
 
 // A cache of the return value of -valueTransformersForModelClass:
-@property (nonatomic, copy, readonly) NSDictionary *valueTransformerByPropertyKey;
+@property (nonatomic, copy, readonly) NSDictionary *valueTransformersByPropertyKey;
 
 // Collect all value transformers needed for a given class.
 //
@@ -109,7 +109,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 
 	_modelClass = modelClass;
 	_JSONKeyPathsByPropertyKey = [[modelClass JSONKeyPathsByPropertyKey] copy];
-	_valueTransformerByPropertyKey = [self valueTransformersForModelClass:modelClass];
+	_valueTransformersByPropertyKey = [self valueTransformersForModelClass:modelClass];
 
 	NSMutableDictionary *dictionaryValue = [[NSMutableDictionary alloc] initWithCapacity:JSONDictionary.count];
 
@@ -122,7 +122,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 		if (value == nil) continue;
 
 		@try {
-			NSValueTransformer *transformer = self.valueTransformerByPropertyKey[propertyKey];
+			NSValueTransformer *transformer = self.valueTransformersByPropertyKey[propertyKey];
 			if (transformer != nil) {
 				// Map NSNull -> nil for the transformer, and then back for the
 				// dictionary we're going to insert into.
@@ -180,7 +180,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	_model = model;
 	_modelClass = model.class;
 	_JSONKeyPathsByPropertyKey = [[model.class JSONKeyPathsByPropertyKey] copy];
-	_valueTransformerByPropertyKey = [self valueTransformersForModelClass:model.class];
+	_valueTransformersByPropertyKey = [self valueTransformersForModelClass:model.class];
 
 	return self;
 }
@@ -199,7 +199,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 
 		if (JSONKeyPath == nil) return;
 
-		NSValueTransformer *transformer = self.valueTransformerByPropertyKey[propertyKey];
+		NSValueTransformer *transformer = self.valueTransformersByPropertyKey[propertyKey];
 		if ([transformer.class allowsReverseTransformation]) {
 			// Map NSNull -> nil for the transformer, and then back for the
 			// dictionaryValue we're going to insert into.

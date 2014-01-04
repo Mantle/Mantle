@@ -52,7 +52,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 @property (nonatomic, copy, readonly) NSDictionary *relationshipModelClassesByPropertyKey;
 
 // A cache of the return value of -valueTransformersForModelClass:
-@property (nonatomic, copy, readonly) NSDictionary *valueTransformerByPropertyKey;
+@property (nonatomic, copy, readonly) NSDictionary *valueTransformersByPropertyKey;
 
 // Collect all value transformers needed for a given class.
 //
@@ -126,7 +126,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 
 	_modelClass = modelClass;
 	_managedObjectKeysByPropertyKey = [[modelClass managedObjectKeysByPropertyKey] copy];
-	_valueTransformerByPropertyKey = [self valueTransformersForModelClass:modelClass];
+	_valueTransformersByPropertyKey = [self valueTransformersForModelClass:modelClass];
 
 	if ([modelClass respondsToSelector:@selector(relationshipModelClassesByPropertyKey)]) {
 		_relationshipModelClassesByPropertyKey = [[modelClass relationshipModelClassesByPropertyKey] copy];
@@ -173,7 +173,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 				return [managedObject valueForKey:managedObjectKey];
 			});
 
-			NSValueTransformer *transformer = self.valueTransformerByPropertyKey[propertyKey];
+			NSValueTransformer *transformer = self.valueTransformersByPropertyKey[propertyKey];
 			if ([transformer respondsToSelector:@selector(transformedValue:success:error:)]) {
 				id<MTLTransformerErrorHandling> errorHandlingTransformer = (id)transformer;
 
@@ -411,7 +411,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 			// double-free or leak the old or new values).
 			__autoreleasing id transformedValue = value;
 
-			NSValueTransformer *transformer = self.valueTransformerByPropertyKey[propertyKey];
+			NSValueTransformer *transformer = self.valueTransformersByPropertyKey[propertyKey];
 			if ([transformer.class allowsReverseTransformation]) {
 				if ([transformer respondsToSelector:@selector(reverseTransformedValue:success:error:)]) {
 					id<MTLTransformerErrorHandling> errorHandlingTransformer = (id)transformer;
@@ -596,7 +596,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 
 		id value = [model valueForKeyPath:propertyKey];
 
-		NSValueTransformer *transformer = self.valueTransformerByPropertyKey[propertyKey];
+		NSValueTransformer *transformer = self.valueTransformersByPropertyKey[propertyKey];
 		if ([transformer.class allowsReverseTransformation]) {
 			if ([transformer respondsToSelector:@selector(transformedValue:success:error:)]) {
 				id<MTLTransformerErrorHandling> errorHandlingTransformer = (id)transformer;
