@@ -10,11 +10,14 @@
 
 @interface NSObject (MTLPropertyInspection)
 
-// Returns the class of the property with the given key or `nil` if it's a
-// primitive property.
+// Returns the class of the property with the given key. Returns `nil` if there
+// is no property that maches the key or it is a primitive property.
 + (Class)mtl_classOfPropertyWithKey:(NSString *)key;
 
-// Returns the type encoding of the property with the given key.
-+ (const char *)mtl_objCTypeOfPropertyWithKey:(NSString *)key;
+// Returns the type encoding of the property with the given key. Returns NULL if
+// there is no property that maches the key or it wasn't declared using a
+// @property statement.
+// You must free() the returned pointer.
++ (char *)mtl_objCTypeOfPropertyWithKey:(NSString *)key;
 
 @end

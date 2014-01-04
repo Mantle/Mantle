@@ -654,7 +654,12 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 		}
 
 		if (transformer == nil) {
-			transformer = [self transformerForModelPropertiesOfObjCType:[self.modelClass mtl_objCTypeOfPropertyWithKey:key]];
+			char *type = [self.modelClass mtl_objCTypeOfPropertyWithKey:key];
+			@onExit {
+				free(type);
+			};
+
+			transformer = [self transformerForModelPropertiesOfObjCType:type];
 		}
 
 		if (transformer != nil) result[key] = transformer;

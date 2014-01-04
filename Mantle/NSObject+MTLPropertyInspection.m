@@ -20,6 +20,8 @@
 
 	objc_property_t property = class_getProperty(self.class, key.UTF8String);
 
+	if (property == nil) return nil;
+
 	mtl_propertyAttributes *attributes = mtl_copyPropertyAttributes(property);
 	@onExit {
 		free(attributes);
@@ -28,17 +30,19 @@
 	return attributes->objectClass;
 }
 
-+ (const char *)mtl_objCTypeOfPropertyWithKey:(NSString *)key {
++ (char *)mtl_objCTypeOfPropertyWithKey:(NSString *)key {
 	NSParameterAssert(key != nil);
 
 	objc_property_t property = class_getProperty(self.class, key.UTF8String);
+
+	if (property == nil) return nil;
 
 	mtl_propertyAttributes *attributes = mtl_copyPropertyAttributes(property);
 	@onExit {
 		free(attributes);
 	};
 
-	return attributes->type;
+	return strdup(attributes->type);
 }
 
 @end

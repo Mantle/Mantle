@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 GitHub. All rights reserved.
 //
 
+#import "EXTScope.h"
 #import "MTLJSONAdapter.h"
 #import "MTLModel.h"
 #import "MTLTransformerErrorHandling.h"
@@ -284,7 +285,12 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 		}
 
 		if (transformer == nil) {
-			transformer = [self transformerForModelPropertiesOfObjCType:[self.modelClass mtl_objCTypeOfPropertyWithKey:key]];
+			char *type = [self.modelClass mtl_objCTypeOfPropertyWithKey:key];
+			@onExit {
+				free(type);
+			};
+
+			transformer = [self transformerForModelPropertiesOfObjCType:type];
 		}
 
 		if (transformer != nil) result[key] = transformer;
