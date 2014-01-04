@@ -142,7 +142,8 @@ extern const NSInteger MTLJSONAdapterErrorInvalidJSONDictionary;
 // is given precedence over the one returned by this method.
 //
 // The default implementation invokes `+<class>JSONTransformer` on the
-// receiver if it's implemented.
+// receiver if it's implemented. It supports NSURL conversion through
+// -NSURLJSONTransformer.
 //
 // class - The class of the property to serialize. This property must not be
 //         nil.

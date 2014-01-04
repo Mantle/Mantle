@@ -181,7 +181,8 @@ extern const NSInteger MTLManagedObjectAdapterErrorUnsupportedRelationshipClass;
 // returned by this method.
 //
 // The default implementation invokes `+<class>EntityAttributeTransformer` on
-// the receiver if it's implemented.
+// the receiver if it's implemented. It supports NSURL conversion through
+// -NSURLEntityAttributeTransformer.
 //
 // class - The class of the property to serialize. This property must not be
 //         nil.
