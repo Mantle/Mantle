@@ -667,10 +667,10 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 	NSParameterAssert(class != nil);
 
 	SEL selector = MTLSelectorWithKeyPattern(NSStringFromClass(class), "EntityAttributeTransformer");
-	if (![self.class respondsToSelector:selector]) return nil;
+	if (![self respondsToSelector:selector]) return nil;
 
-	NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[self.class methodSignatureForSelector:selector]];
-	invocation.target = self.class;
+	NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:selector]];
+	invocation.target = self;
 	invocation.selector = selector;
 	[invocation invoke];
 
@@ -687,7 +687,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 
 @implementation MTLManagedObjectAdapter (ValueTransformers)
 
-+ (NSValueTransformer *)NSURLEntityAttributeTransformer {
+- (NSValueTransformer *)NSURLEntityAttributeTransformer {
 	return [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
 }
 
