@@ -16,6 +16,10 @@
 // Used to cache the reflection performed in +propertyKeys.
 static void *MTLModelCachedPropertyKeysKey = &MTLModelCachedPropertyKeysKey;
 
+static void *MTLModelCachedTransitoryPropertyKeysKey = &MTLModelCachedTransitoryPropertyKeysKey;
+
+static void *MTLModelCachedPermanentPropertyKeysKey = &MTLModelCachedPermanentPropertyKeysKey;
+
 // Validates a value for an object and sets it if necessary.
 //
 // obj         - The object for which the value is being validated. This value
@@ -61,6 +65,10 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 }
 
 @interface MTLModel ()
+
++ (NSSet *)transitoryPropertyKeys;
+
++ (NSSet *)permanentPropertyKeys;
 
 // Enumerates all properties of the receiver's class hierarchy, starting at the
 // receiver, and continuing up until (but not including) MTLModel.
@@ -152,8 +160,63 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 	return keys;
 }
 
++ (NSSet *)transitoryPropertyKeys {
+	NSSet *cachedKeys = objc_getAssociatedObject(self, MTLModelCachedTransitoryPropertyKeysKey);
+	if (cachedKeys != nil) return cachedKeys;
+
+	NSMutableSet *keys = [NSMutableSet set];
+
+	for (NSString *propertyKey in self.propertyKeys) {
+		if ([self storageBehaviorForPropertyWithKey:propertyKey] == MTLPropertyStorageTransitory) {
+			[keys addObject:propertyKey];
+		}
+	}
+
+	// It doesn't really matter if we replace another thread's work, since we do
+	// it atomically and the result should be the same.
+	objc_setAssociatedObject(self, MTLModelCachedTransitoryPropertyKeysKey, keys, OBJC_ASSOCIATION_COPY);
+
+	return keys;
+}
+
++ (NSSet *)permanentPropertyKeys {
+	NSSet *cachedKeys = objc_getAssociatedObject(self, MTLModelCachedPermanentPropertyKeysKey);
+	if (cachedKeys != nil) return cachedKeys;
+
+	NSMutableSet *keys = [NSMutableSet set];
+
+	for (NSString *propertyKey in self.propertyKeys) {
+		if ([self storageBehaviorForPropertyWithKey:propertyKey] == MTLPropertyStoragePermanent) {
+			[keys addObject:propertyKey];
+		}
+	}
+
+	// It doesn't really matter if we replace another thread's work, since we do
+	// it atomically and the result should be the same.
+	objc_setAssociatedObject(self, MTLModelCachedPermanentPropertyKeysKey, keys, OBJC_ASSOCIATION_COPY);
+
+	return keys;
+}
+
 - (NSDictionary *)dictionaryValue {
-	return [self dictionaryWithValuesForKeys:self.class.propertyKeys.allObjects];
+	NSSet *keys = [self.class.transitoryPropertyKeys setByAddingObjectsFromSet:self.class.permanentPropertyKeys];
+
+	return [self dictionaryWithValuesForKeys:keys.allObjects];
+}
+
++ (MTLPropertyStorage)storageBehaviorForPropertyWithKey:(NSString *)propertyKey {
+	objc_property_t property = class_getProperty(self.class, propertyKey.UTF8String);
+
+	mtl_propertyAttributes *attributes = mtl_copyPropertyAttributes(property);
+	@onExit {
+		free(attributes);
+	};
+
+	if (attributes->weak) {
+		return MTLPropertyStorageTransitory;
+	} else {
+		return MTLPropertyStoragePermanent;
+	}
 }
 
 #pragma mark Merging
@@ -206,13 +269,15 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 #pragma mark NSObject
 
 - (NSString *)description {
-	return [NSString stringWithFormat:@"<%@: %p> %@", self.class, self, self.dictionaryValue];
+	NSDictionary *permanentProperties = [self dictionaryWithValuesForKeys:self.class.permanentPropertyKeys.allObjects];
+
+	return [NSString stringWithFormat:@"<%@: %p> %@", self.class, self, permanentProperties];
 }
 
 - (NSUInteger)hash {
 	NSUInteger value = 0;
 
-	for (NSString *key in self.class.propertyKeys) {
+	for (NSString *key in self.class.permanentPropertyKeys) {
 		value ^= [[self valueForKey:key] hash];
 	}
 
@@ -223,7 +288,7 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 	if (self == model) return YES;
 	if (![model isMemberOfClass:self.class]) return NO;
 
-	for (NSString *key in self.class.propertyKeys) {
+	for (NSString *key in self.class.permanentPropertyKeys) {
 		id selfValue = [self valueForKey:key];
 		id modelValue = [model valueForKey:key];
 

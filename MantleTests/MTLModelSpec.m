@@ -99,6 +99,13 @@ describe(@"with a dictionary of values", ^{
 		expect(copiedModel).to.equal(model);
 		expect(copiedModel).notTo.beIdenticalTo(model);
 	});
+
+	it(@"should consider weak properties for equality", ^{
+		MTLTestModel *copiedModel = [model copy];
+		copiedModel.weakModel = nil;
+
+		expect(model).to.equal(copiedModel);
+	});
 });
 
 it(@"should fail to initialize if dictionary validation fails", ^{
@@ -122,6 +129,10 @@ it(@"should merge two models together", ^{
 
 	expect(target.name).to.equal(@"bar");
 	expect(target.count).to.equal(8);
+});
+
+it(@"should consider weak properties transitory", ^{
+    expect([MTLTestModel storageBehaviorForPropertyWithKey:@"weakModel"]).to.equal(MTLPropertyStorageTransitory);
 });
 
 SpecEnd

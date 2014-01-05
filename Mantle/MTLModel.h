@@ -8,6 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
+typedef enum : NSUInteger {
+    MTLPropertyStorageNone,
+    MTLPropertyStorageTransitory,
+    MTLPropertyStoragePermanent,
+} MTLPropertyStorage;
+
 // An abstract base class for model objects, using reflection to provide
 // sensible default behaviors.
 //
@@ -63,6 +69,8 @@
 //
 // `model` must be an instance of the receiver's class or a subclass thereof.
 - (void)mergeValuesForKeysFromModel:(MTLModel *)model;
+
++ (MTLPropertyStorage)storageBehaviorForPropertyWithKey:(NSString *)propertyKey;
 
 // Compares the receiver with another object for equality.
 //
