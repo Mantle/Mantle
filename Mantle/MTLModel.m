@@ -83,6 +83,43 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 
 #pragma mark Lifecycle
 
++ (void)initialize {
+	NSMutableSet *propertyKeys = [NSMutableSet set];
+	NSMutableSet *transitoryKeys = [NSMutableSet set];
+	NSMutableSet *permanentKeys = [NSMutableSet set];
+
+	[self enumeratePropertiesUsingBlock:^(objc_property_t property, BOOL *stop) {
+		mtl_propertyAttributes *attributes = mtl_copyPropertyAttributes(property);
+		@onExit {
+			free(attributes);
+		};
+
+		if (attributes->readonly && attributes->ivar == NULL) return;
+
+		NSString *key = @(property_getName(property));
+		[propertyKeys addObject:key];
+
+		switch ([self storageBehaviorForPropertyWithKey:key]) {
+			case MTLPropertyStorageNone:
+				break;
+
+			case MTLPropertyStorageTransitory:
+				[transitoryKeys addObject:key];
+				break;
+
+			case MTLPropertyStoragePermanent:
+				[permanentKeys addObject:key];
+				break;
+		}
+	}];
+
+	// It doesn't really matter if we replace another thread's work, since we do
+	// it atomically and the result should be the same.
+	objc_setAssociatedObject(self, MTLModelCachedPropertyKeysKey, propertyKeys, OBJC_ASSOCIATION_COPY);
+	objc_setAssociatedObject(self, MTLModelCachedTransitoryPropertyKeysKey, transitoryKeys, OBJC_ASSOCIATION_COPY);
+	objc_setAssociatedObject(self, MTLModelCachedPermanentPropertyKeysKey, permanentKeys, OBJC_ASSOCIATION_COPY);
+}
+
 + (instancetype)modelWithDictionary:(NSDictionary *)dictionary error:(NSError **)error {
 	return [[self alloc] initWithDictionary:dictionary error:error];
 }
@@ -136,66 +173,15 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 }
 
 + (NSSet *)propertyKeys {
-	NSSet *cachedKeys = objc_getAssociatedObject(self, MTLModelCachedPropertyKeysKey);
-	if (cachedKeys != nil) return cachedKeys;
-
-	NSMutableSet *keys = [NSMutableSet set];
-
-	[self enumeratePropertiesUsingBlock:^(objc_property_t property, BOOL *stop) {
-		mtl_propertyAttributes *attributes = mtl_copyPropertyAttributes(property);
-		@onExit {
-			free(attributes);
-		};
-
-		if (attributes->readonly && attributes->ivar == NULL) return;
-
-		NSString *key = @(property_getName(property));
-		[keys addObject:key];
-	}];
-
-	// It doesn't really matter if we replace another thread's work, since we do
-	// it atomically and the result should be the same.
-	objc_setAssociatedObject(self, MTLModelCachedPropertyKeysKey, keys, OBJC_ASSOCIATION_COPY);
-
-	return keys;
+	return objc_getAssociatedObject(self, MTLModelCachedPropertyKeysKey);
 }
 
 + (NSSet *)transitoryPropertyKeys {
-	NSSet *cachedKeys = objc_getAssociatedObject(self, MTLModelCachedTransitoryPropertyKeysKey);
-	if (cachedKeys != nil) return cachedKeys;
-
-	NSMutableSet *keys = [NSMutableSet set];
-
-	for (NSString *propertyKey in self.propertyKeys) {
-		if ([self storageBehaviorForPropertyWithKey:propertyKey] == MTLPropertyStorageTransitory) {
-			[keys addObject:propertyKey];
-		}
-	}
-
-	// It doesn't really matter if we replace another thread's work, since we do
-	// it atomically and the result should be the same.
-	objc_setAssociatedObject(self, MTLModelCachedTransitoryPropertyKeysKey, keys, OBJC_ASSOCIATION_COPY);
-
-	return keys;
+	return objc_getAssociatedObject(self, MTLModelCachedTransitoryPropertyKeysKey);
 }
 
 + (NSSet *)permanentPropertyKeys {
-	NSSet *cachedKeys = objc_getAssociatedObject(self, MTLModelCachedPermanentPropertyKeysKey);
-	if (cachedKeys != nil) return cachedKeys;
-
-	NSMutableSet *keys = [NSMutableSet set];
-
-	for (NSString *propertyKey in self.propertyKeys) {
-		if ([self storageBehaviorForPropertyWithKey:propertyKey] == MTLPropertyStoragePermanent) {
-			[keys addObject:propertyKey];
-		}
-	}
-
-	// It doesn't really matter if we replace another thread's work, since we do
-	// it atomically and the result should be the same.
-	objc_setAssociatedObject(self, MTLModelCachedPermanentPropertyKeysKey, keys, OBJC_ASSOCIATION_COPY);
-
-	return keys;
+	return objc_getAssociatedObject(self, MTLModelCachedPermanentPropertyKeysKey);
 }
 
 - (NSDictionary *)dictionaryValue {
