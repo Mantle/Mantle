@@ -100,7 +100,7 @@ describe(@"with a dictionary of values", ^{
 		expect(copiedModel).notTo.beIdenticalTo(model);
 	});
 
-	it(@"should consider weak properties for equality", ^{
+	it(@"should not consider weak properties for equality", ^{
 		MTLTestModel *copiedModel = [model copy];
 		copiedModel.weakModel = nil;
 
