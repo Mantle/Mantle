@@ -68,3 +68,9 @@ extern const NSInteger MTLTestModelNameMissing;
 @property (nonatomic, assign) BOOL flag;
 
 @end
+
+@interface MTLNonPropertyModel : MTLModel <MTLJSONSerializing>
+
+- (NSURL *)homepage;
+
+@end

@@ -659,7 +659,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 				free(type);
 			};
 
-			transformer = [self transformerForModelPropertiesOfObjCType:type];
+			if (type != NULL) transformer = [self transformerForModelPropertiesOfObjCType:type];
 		}
 
 		if (transformer != nil) result[key] = transformer;
@@ -685,6 +685,8 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 }
 
 - (NSValueTransformer *)transformerForModelPropertiesOfObjCType:(const char *)objCType {
+	NSParameterAssert(objCType != NULL);
+
 	return nil;
 }
 

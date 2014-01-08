@@ -149,6 +149,16 @@ it(@"should implicitly transform BOOLs", ^{
 	expect(error).to.beNil();
 });
 
+it(@"should not invoke implicit transformers for property keys not actually backed by properties", ^{
+	MTLNonPropertyModel *model = [[MTLNonPropertyModel alloc] init];
+
+	NSError *error = nil;
+	NSDictionary *JSONDictionary = [MTLJSONAdapter JSONDictionaryFromModel:model error:&error];
+
+	expect(error).to.beNil();
+	expect(JSONDictionary[@"homepage"]).to.equal(model.homepage);
+});
+
 it(@"should fail to initialize if JSON transformer fails", ^{
 	NSDictionary *values = @{
 		@"URL": @666,

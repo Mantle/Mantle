@@ -290,7 +290,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 				free(type);
 			};
 
-			transformer = [self transformerForModelPropertiesOfObjCType:type];
+			if (type != NULL) transformer = [self transformerForModelPropertiesOfObjCType:type];
 		}
 
 		if (transformer != nil) result[key] = transformer;
@@ -316,6 +316,8 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 }
 
 - (NSValueTransformer *)transformerForModelPropertiesOfObjCType:(const char *)objCType {
+	NSParameterAssert(objCType != NULL);
+
 	if (strcmp(objCType, @encode(BOOL)) == 0) {
 		return [NSValueTransformer valueTransformerForName:MTLBooleanValueTransformerName];
 	}

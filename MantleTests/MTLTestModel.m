@@ -193,3 +193,23 @@ static NSUInteger modelVersion = 1;
 }
 
 @end
+
+@implementation MTLNonPropertyModel
+
++ (NSSet *)propertyKeys {
+	return [NSSet setWithObject:@"homepage"];
+}
+
+- (NSURL *)homepage {
+	return [NSURL URLWithString:@"about:blank"];
+}
+
+#pragma mark - MTLJSONSerializing
+
++ (NSDictionary *)JSONKeyPathsByPropertyKey {
+	return @{
+		@"homepage": @"homepage"
+	};
+}
+
+@end
