@@ -66,6 +66,8 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 
 @interface MTLModel ()
 
++ (void)generateKeys;
+
 + (NSSet *)transitoryPropertyKeys;
 
 + (NSSet *)permanentPropertyKeys;
@@ -83,7 +85,7 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 
 #pragma mark Lifecycle
 
-+ (void)initialize {
++ (void)generateKeys {
 	NSMutableSet *propertyKeys = [NSMutableSet set];
 	NSMutableSet *transitoryKeys = [NSMutableSet set];
 	NSMutableSet *permanentKeys = [NSMutableSet set];
@@ -173,14 +175,26 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 }
 
 + (NSSet *)propertyKeys {
+	if (objc_getAssociatedObject(self, MTLModelCachedPropertyKeysKey) == nil) {
+		[self generateKeys];
+	}
+
 	return objc_getAssociatedObject(self, MTLModelCachedPropertyKeysKey);
 }
 
 + (NSSet *)transitoryPropertyKeys {
+	if (objc_getAssociatedObject(self, MTLModelCachedTransitoryPropertyKeysKey) == nil) {
+		[self generateKeys];
+	}
+
 	return objc_getAssociatedObject(self, MTLModelCachedTransitoryPropertyKeysKey);
 }
 
 + (NSSet *)permanentPropertyKeys {
+	if (objc_getAssociatedObject(self, MTLModelCachedPermanentPropertyKeysKey) == nil) {
+		[self generateKeys];
+	}
+
 	return objc_getAssociatedObject(self, MTLModelCachedPermanentPropertyKeysKey);
 }
 
