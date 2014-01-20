@@ -259,6 +259,8 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 
 	return [MTLValueTransformer
 		transformerUsingForwardBlock:^ id (id <NSCopying> key, BOOL *success, NSError **error) {
+			if (key == nil) key = NSNull.null;
+
 			id result = dictionary[key];
 
 			if (result == nil) {
