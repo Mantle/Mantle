@@ -181,3 +181,69 @@ static NSUInteger modelVersion = 1;
 }
 
 @end
+
+@implementation MTLConformingModel
+
+#pragma mark Lifecycle
+
+- (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue error:(NSError **)error {
+	self = [super init];
+	if (self == nil) return nil;
+
+	_name = dictionaryValue[@"name"];
+
+	return self;
+}
+
+#pragma mark MTLModel
+
+- (NSDictionary *)dictionaryValue {
+	if (self.name == nil) return @{};
+
+	return @{
+		@"name": self.name
+	};
+}
+
++ (NSSet *)propertyKeys {
+	return [NSSet setWithObject:@"name"];
+}
+
+- (void)mergeValueForKey:(NSString *)key fromModel:(id<MTLModel>)model {
+	if ([key isEqualToString:@"name"]) {
+		self.name = [model dictionaryValue][@"name"];
+	}
+}
+
+- (void)mergeValuesForKeysFromModel:(id<MTLModel>)model {
+	self.name = [model dictionaryValue][@"name"];
+}
+
+#pragma mark MTLJSONSerializing
+
++ (NSDictionary *)JSONKeyPathsByPropertyKey {
+	return @{
+		@"name": @"name"
+	};
+}
+
+#pragma mark NSObject
+
+- (NSUInteger)hash {
+	return self.name.hash;
+}
+
+- (BOOL)isEqual:(MTLConformingModel *)model {
+	if (self == model) return YES;
+	if (![model isMemberOfClass:self.class]) return NO;
+
+	return self.name == model.name || [self.name isEqual:model.name];
+}
+
+#pragma mark NSCopying
+
+- (id)copyWithZone:(NSZone *)zone {
+	return self;
+}
+
+@end

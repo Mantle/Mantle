@@ -176,6 +176,19 @@ it(@"should parse a different model class", ^{
 	expect(serializationError).to.beNil();
 });
 
+it(@"should parse model classes not inheriting from MTLModel", ^{
+	NSDictionary *values = @{
+		@"name": @"foo",
+	};
+
+	NSError *error = nil;
+	MTLConformingModel *model = [MTLJSONAdapter modelOfClass:MTLConformingModel.class fromJSONDictionary:values error:&error];
+	expect(model).to.beKindOf(MTLConformingModel.class);
+	expect(error).to.beNil();
+
+	expect(model.name).to.equal(@"foo");
+});
+
 it(@"should return an error when no suitable model class is found", ^{
 	NSError *error = nil;
 	MTLTestModel *model = [MTLJSONAdapter modelOfClass:MTLSubstitutingTestModel.class fromJSONDictionary:@{} error:&error];

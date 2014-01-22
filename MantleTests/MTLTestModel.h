@@ -64,3 +64,10 @@ extern const NSInteger MTLTestModelNameMissing;
 @property (nonatomic, strong) NSURL *URL;
 
 @end
+
+// Conforms to MTLJSONSerializing but does not inherit from the MTLModel class.
+@interface MTLConformingModel : NSObject <MTLJSONSerializing>
+
+@property (nonatomic, copy) NSString *name;
+
+@end
