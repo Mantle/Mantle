@@ -7,22 +7,17 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "MTLModel.h"
 
-// An abstract base class for model objects, using reflection to provide
-// sensible default behaviors.
+@protocol MTLModel <NSObject, NSCopying>
+
+// A dictionary representing the properties of the receiver.
 //
-// The default implementations of <NSCopying>, -hash, and -isEqual: make use of
-// the +propertyKeys method.
-@interface MTLModel : NSObject <NSCopying>
-
-// Returns a new instance of the receiver initialized using
-// -initWithDictionary:error:.
-+ (instancetype)modelWithDictionary:(NSDictionary *)dictionaryValue error:(NSError **)error;
-
-// Initializes the receiver with default values.
+// The default implementation combines the values corresponding to all
+// +propertyKeys into a dictionary, with any nil values represented by NSNull.
 //
-// This is the designated initializer for this class.
-- (instancetype)init;
+// This property must never be nil.
+@property (nonatomic, copy, readonly) NSDictionary *dictionaryValue;
 
 // Initializes the receiver using key-value coding, setting the keys and values
 // in the given dictionary.
@@ -38,31 +33,41 @@
 // Returns an initialized model object, or nil if validation failed.
 - (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue error:(NSError **)error;
 
-// Returns the keys for all @property declarations, except for `readonly`
-// properties without ivars, or properties on MTLModel itself.
-+ (NSSet *)propertyKeys;
-
-// A dictionary representing the properties of the receiver.
-//
-// The default implementation combines the values corresponding to all
-// +propertyKeys into a dictionary, with any nil values represented by NSNull.
-//
-// This property must never be nil.
-@property (nonatomic, copy, readonly) NSDictionary *dictionaryValue;
-
 // Merges the value of the given key on the receiver with the value of the same
 // key from the given model object, giving precedence to the other model object.
 //
 // By default, this method looks for a `-merge<Key>FromModel:` method on the
 // receiver, and invokes it if found. If not found, and `model` is not nil, the
 // value for the given key is taken from `model`.
-- (void)mergeValueForKey:(NSString *)key fromModel:(MTLModel *)model;
+- (void)mergeValueForKey:(NSString *)key fromModel:(id<MTLModel>)model;
 
 // Merges the values of the given model object into the receiver, using
 // -mergeValueForKey:fromModel: for each key in +propertyKeys.
 //
 // `model` must be an instance of the receiver's class or a subclass thereof.
-- (void)mergeValuesForKeysFromModel:(MTLModel *)model;
+- (void)mergeValuesForKeysFromModel:(id<MTLModel>)model;
+
+// Returns the keys for all @property declarations, except for `readonly`
+// properties without ivars, or properties on MTLModel itself.
++ (NSSet *)propertyKeys;
+
+@end
+
+// An abstract base class for model objects, using reflection to provide
+// sensible default behaviors.
+//
+// The default implementations of <NSCopying>, -hash, and -isEqual: make use of
+// the +propertyKeys method.
+@interface MTLModel : NSObject <MTLModel>
+
+// Returns a new instance of the receiver initialized using
+// -initWithDictionary:error:.
++ (instancetype)modelWithDictionary:(NSDictionary *)dictionaryValue error:(NSError **)error;
+
+// Initializes the receiver with default values.
+//
+// This is the designated initializer for this class.
+- (instancetype)init;
 
 // Compares the receiver with another object for equality.
 //
