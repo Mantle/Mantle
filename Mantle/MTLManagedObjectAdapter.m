@@ -308,7 +308,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 	Class fetchRequestClass = NSClassFromString(@"NSFetchRequest");
 	NSAssert(fetchRequestClass != nil, @"CoreData.framework must be linked to use MTLManagedObjectAdapter");
 
-	// If a uniquing predicate is provided, perform a fetch request to guarentee a unique managed object.
+	// If a uniquing predicate is provided, perform a fetch request to guarantee a unique managed object.
 	__block NSManagedObject *managedObject = nil;
 	NSPredicate *uniquingPredicate = [self uniquingPredicateForModel:model];
 
