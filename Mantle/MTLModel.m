@@ -157,6 +157,25 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 	return keys;
 }
 
++ (NSSet *)strongPropertyKeys {
+	NSMutableSet *keys = [NSMutableSet set];
+
+	[self enumeratePropertiesUsingBlock:^(objc_property_t property, BOOL *stop) {
+		mtl_propertyAttributes *attributes = mtl_copyPropertyAttributes(property);
+		@onExit {
+			free(attributes);
+		};
+
+		if (attributes->readonly && attributes->ivar == NULL) return;
+		if (attributes->weak) return;
+
+		NSString *key = @(property_getName(property));
+		[keys addObject:key];
+	}];
+
+	return keys;
+}
+
 - (NSDictionary *)dictionaryValue {
 	return [self dictionaryWithValuesForKeys:self.class.propertyKeys.allObjects];
 }
@@ -209,15 +228,41 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 }
 
 #pragma mark NSObject
-
 - (NSString *)description {
-	return [NSString stringWithFormat:@"<%@: %p> %@", self.class, self, self.dictionaryValue];
+	NSDictionary *strongPropertyDictionary = [self dictionaryWithValuesForKeys:self.class.strongPropertyKeys.allObjects];
+	return [NSString stringWithFormat:@"<%@: %p> %@", self.class, self, strongPropertyDictionary];
+}
+
+-(NSString *)debugDescriptionForKeySet:(NSSet *)keySet {
+	NSMutableString *description = [NSMutableString stringWithString:@"{\n\t"];
+	for (NSString *name in keySet) {
+		[description appendFormat:@"%@ = \"%@\"\n\t", name, [[self valueForKey:name] debugDescription]];
+	}
+	[description appendString:@"\n\t}"];
+	return description;
+}
+
+- (NSString *)debugDescription {
+	static const NSString *mantleDebugDescriptionKey = @"Mantle debug description key";
+	NSMutableDictionary *threadDict = [[NSThread currentThread] threadDictionary];
+	NSMutableSet *processedElements = threadDict[mantleDebugDescriptionKey];
+	if (!processedElements) {
+		threadDict[mantleDebugDescriptionKey] = [NSMutableSet setWithObject:self];
+		NSString *descr = [NSString stringWithFormat:@"<%@: %p> %@", self.class, self, [self debugDescriptionForKeySet:self.class.propertyKeys]];
+		[threadDict removeObjectForKey:mantleDebugDescriptionKey];
+		return descr;
+	}
+	if ([processedElements containsObject:self]) {
+		return [NSString stringWithFormat:@"<%@: %p>", self.class, self];
+	}
+	[processedElements addObject:self];
+	return [NSString stringWithFormat:@"<%@: %p> %@", self.class, self, [self debugDescriptionForKeySet:self.class.propertyKeys]];
 }
 
 - (NSUInteger)hash {
 	NSUInteger value = 0;
 
-	for (NSString *key in self.class.propertyKeys) {
+	for (NSString *key in self.class.strongPropertyKeys) {
 		value ^= [[self valueForKey:key] hash];
 	}
 
