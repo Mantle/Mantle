@@ -392,7 +392,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 			NSValueTransformer *attributeTransformer = [self entityAttributeTransformerForKey:propertyKey];
 			if (attributeTransformer != nil) transformedValue = [attributeTransformer transformedValue:transformedValue];
 
-			if (![managedObject validateValue:&transformedValue forKey:managedObjectKey error:error]) return NO;
+			if (![managedObject validateValue:&transformedValue forKey:managedObjectKey error:&tmpError]) return NO;
 			[managedObject setValue:transformedValue forKey:managedObjectKey];
 
 			return YES;
@@ -502,8 +502,8 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 		}
 	}];
 
-	if (managedObject != nil && ![managedObject validateForInsert:error]) {
-		performInContext(context, ^ id {
+	if (managedObject != nil && ![managedObject validateForInsert:&tmpError]) {
+		managedObject = performInContext(context, ^ id {
 			[context deleteObject:managedObject];
 			return nil;
 		});
