@@ -226,6 +226,16 @@ describe(@"with a confined context", ^{
 			expect(error).notTo.beNil();
 		});
 
+		it(@"should return an error if model doesn't validate for insert", ^{
+			MTLParentIncorrectTestModel *parentModel = [MTLParentIncorrectTestModel modelWithDictionary:@{} error:NULL];
+
+			NSError *error;
+			NSManagedObject *managedObject = [MTLManagedObjectAdapter managedObjectFromModel:parentModel insertingIntoContext:context error:&error];
+
+			expect(managedObject).to.beNil();
+			expect(error).notTo.beNil();
+		});
+
 		it(@"should respect the uniqueness constraint", ^{
 			NSError *errorOne;
 			MTLParent *parentOne = [MTLManagedObjectAdapter managedObjectFromModel:parentModel insertingIntoContext:context error:&errorOne];

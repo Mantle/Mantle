@@ -502,8 +502,8 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 		}
 	}];
 
-	if (managedObject != nil && ![managedObject validateForInsert:error]) {
-		performInContext(context, ^ id {
+	if (managedObject != nil && ![managedObject validateForInsert:&tmpError]) {
+		managedObject = performInContext(context, ^ id {
 			[context deleteObject:managedObject];
 			return nil;
 		});
