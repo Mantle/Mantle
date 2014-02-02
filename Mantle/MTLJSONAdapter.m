@@ -14,9 +14,6 @@ NSString * const MTLJSONAdapterErrorDomain = @"MTLJSONAdapterErrorDomain";
 const NSInteger MTLJSONAdapterErrorNoClassFound = 2;
 const NSInteger MTLJSONAdapterErrorInvalidJSONDictionary = 3;
 
-// An exception was thrown and caught.
-static const NSInteger MTLJSONAdapterErrorExceptionThrown = 1;
-
 // Associated with the NSException that was caught.
 static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapterThrownException";
 
