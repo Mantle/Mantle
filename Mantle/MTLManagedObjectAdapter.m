@@ -34,9 +34,6 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 	return result;
 }
 
-// An exception was thrown and caught.
-const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
-
 @interface MTLManagedObjectAdapter ()
 
 // The MTLModel subclass being serialized or deserialized.
