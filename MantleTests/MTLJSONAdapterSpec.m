@@ -73,6 +73,24 @@ it(@"should initialize nested key paths from JSON", ^{
 	expect([MTLJSONAdapter JSONDictionaryFromModel:model]).to.equal(values);
 });
 
+it(@"should raise exception with an invalid key path from JSON",^{
+
+	@try {
+		NSDictionary *values = @{
+								 @"username": @"foo",
+								 @"nested": @"bar",
+								 @"count": @"0"
+								 };
+		
+		NSError *error = nil;
+		MTLTestModel *model = [MTLJSONAdapter modelOfClass:MTLTestModel.class fromJSONDictionary:values error:&error];
+		expect(model).beNil();
+	} @catch(NSException *exception) {
+		expect(exception.name).to.equal(@"NSUnknownKeyException");
+		expect(exception.reason).to.contain(@"valueForUndefinedKey:]: this class is not key value coding-compliant for the key name.");
+	}
+});
+
 it(@"should return nil and an error with a nil JSON dictionary", ^{
 	NSError *error = nil;
 	MTLJSONAdapter *adapter = [[MTLJSONAdapter alloc] initWithJSONDictionary:nil modelClass:MTLTestModel.class error:&error];

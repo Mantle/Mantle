@@ -106,10 +106,10 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 		NSString *JSONKeyPath = [self JSONKeyPathForPropertyKey:propertyKey];
 		if (JSONKeyPath == nil) continue;
 
-		id value = [JSONDictionary valueForKeyPath:JSONKeyPath];
-		if (value == nil) continue;
-
 		@try {
+			id value = [JSONDictionary valueForKeyPath:JSONKeyPath];
+			if (value == nil) continue;
+
 			NSValueTransformer *transformer = [self JSONTransformerForKey:propertyKey];
 			if (transformer != nil) {
 				// Map NSNull -> nil for the transformer, and then back for the
