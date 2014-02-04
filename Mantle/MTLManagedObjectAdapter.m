@@ -34,9 +34,6 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 	return result;
 }
 
-// An exception was thrown and caught.
-static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
-
 @interface MTLManagedObjectAdapter ()
 
 // The MTLModel subclass being serialized or deserialized.
@@ -308,7 +305,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 	Class fetchRequestClass = NSClassFromString(@"NSFetchRequest");
 	NSAssert(fetchRequestClass != nil, @"CoreData.framework must be linked to use MTLManagedObjectAdapter");
 
-	// If a uniquing predicate is provided, perform a fetch request to guarentee a unique managed object.
+	// If a uniquing predicate is provided, perform a fetch request to guarantee a unique managed object.
 	__block NSManagedObject *managedObject = nil;
 	NSPredicate *uniquingPredicate = [self uniquingPredicateForModel:model];
 
@@ -392,7 +389,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 			NSValueTransformer *attributeTransformer = [self entityAttributeTransformerForKey:propertyKey];
 			if (attributeTransformer != nil) transformedValue = [attributeTransformer transformedValue:transformedValue];
 
-			if (![managedObject validateValue:&transformedValue forKey:managedObjectKey error:error]) return NO;
+			if (![managedObject validateValue:&transformedValue forKey:managedObjectKey error:&tmpError]) return NO;
 			[managedObject setValue:transformedValue forKey:managedObjectKey];
 
 			return YES;
@@ -502,8 +499,8 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 		}
 	}];
 
-	if (managedObject != nil && ![managedObject validateForInsert:error]) {
-		performInContext(context, ^ id {
+	if (managedObject != nil && ![managedObject validateForInsert:&tmpError]) {
+		managedObject = performInContext(context, ^ id {
 			[context deleteObject:managedObject];
 			return nil;
 		});

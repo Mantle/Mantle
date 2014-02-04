@@ -23,6 +23,11 @@
 
 @end
 
+// Model for Parent entity which doesn't serialize required properties
+@interface MTLParentIncorrectTestModel : MTLModel <MTLManagedObjectSerializing>
+
+@end
+
 // Corresponds to the `Child` entity.
 @interface MTLChildTestModel : MTLModel <MTLManagedObjectSerializing>
 
