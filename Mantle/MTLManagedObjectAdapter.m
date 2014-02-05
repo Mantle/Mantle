@@ -132,7 +132,6 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 	NSAssert(entity != nil, @"%@ returned a nil +entity", managedObject);
 
 	NSManagedObjectContext *context = managedObject.managedObjectContext;
-	NSAssert(context != nil, @"%@ returned a nil +managedObjectContext", managedObject);
 
 	NSDictionary *managedObjectProperties = entity.propertiesByName;
 	MTLModel *model = [[self.modelClass alloc] init];
