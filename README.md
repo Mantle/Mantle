@@ -53,7 +53,7 @@ typedef enum : NSUInteger {
     _URL = [NSURL URLWithString:dictionary[@"url"]];
     _HTMLURL = [NSURL URLWithString:dictionary[@"html_url"]];
     _number = dictionary[@"number"];
-    
+
     if ([dictionary[@"state"] isEqualToString:@"open"]) {
         _state = GHIssueStateOpen;
     } else if ([dictionary[@"state"] isEqualToString:@"closed"]) {
@@ -431,6 +431,37 @@ NSDictionary *pictureMessage = @{
 XYTextMessage *messageA = [MTLJSONAdapter modelOfClass:XYMessage.class fromJSONDictionary:textMessage error:NULL];
 
 XYPictureMessage *messageB = [MTLJSONAdapter modelOfClass:XYMessage.class fromJSONDictionary:pictureMessage error:NULL];
+```
+
+Mantle also supports deserializing properties into unrelated types. In the following example `XYCPIPPacket` and
+`XYPostcard` only share a protocol.
+
+```objc
+@protocol XYMessage<NSObject>
+@property (nonatomic, copy, readonly) NSString *body;
+@end
+
+@interface XYTCPIPPacket
+@property (nonatomic, copy, readonly) NSString *body;
+@end
+
+@interface XYPostcard
+@property (nonatomic, copy, readonly) NSString *body;
+@end
+
+@interface XYEnvelope
+@property (nonatomic, retain) id <XYMessage> message;
+@end
+
+@implementation XYEnvelope
+
++ (NSValueTransformer *)messageJSONTransformer {
+    return [MTLValueTransformer mtl_JSONDictionaryTransformerWithModelClassFrom:^Class(id JSONDictionary) {
+        return NSClassFromString(JSONDictionary[@"type"]); // can be XYTCPIPPacket or XYPostcard
+    }];
+}
+
+@end
 ```
 
 ## Persistence

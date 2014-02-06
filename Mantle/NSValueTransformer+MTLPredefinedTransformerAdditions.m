@@ -45,24 +45,32 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 #pragma mark Customizable Transformers
 
 + (NSValueTransformer *)mtl_JSONDictionaryTransformerWithModelClass:(Class)modelClass {
-	NSParameterAssert([modelClass isSubclassOfClass:MTLModel.class]);
-	NSParameterAssert([modelClass conformsToProtocol:@protocol(MTLJSONSerializing)]);
+	return [NSValueTransformer mtl_JSONDictionaryTransformerWithModelClassFrom:^Class(id JSONDictionary) {
+		return modelClass;
+	}];
+}
 
-	return [MTLValueTransformer
++ (NSValueTransformer *)mtl_JSONDictionaryTransformerWithModelClassFrom:(Class (^)(id JSONDictionary))transformerFromDictionary
+{
+    return [MTLValueTransformer
 		reversibleTransformerWithForwardBlock:^ id (id JSONDictionary) {
 			if (JSONDictionary == nil) return nil;
-
-			NSAssert([JSONDictionary isKindOfClass:NSDictionary.class], @"Expected a dictionary, got: %@", JSONDictionary);
-
-			return [MTLJSONAdapter modelOfClass:modelClass fromJSONDictionary:JSONDictionary error:NULL];
+                
+            NSAssert([JSONDictionary isKindOfClass:NSDictionary.class], @"Expected a dictionary, got: %@", JSONDictionary);
+                
+            Class model = transformerFromDictionary(JSONDictionary);
+            NSAssert(model != NULL, @"Expected a model object");
+            NSAssert([model conformsToProtocol:@protocol(MTLJSONSerializing)], @"Expected a model object conforming to <MTLJSONSerializing>, got %@", model);
+                
+            return [MTLJSONAdapter modelOfClass:model fromJSONDictionary:JSONDictionary error:NULL];
 		}
-		reverseBlock:^ id (id model) {
+        reverseBlock:^ id (id model) {
 			if (model == nil) return nil;
-
-			NSAssert([model isKindOfClass:MTLModel.class], @"Expected a MTLModel object, got %@", model);
-			NSAssert([model conformsToProtocol:@protocol(MTLJSONSerializing)], @"Expected a model object conforming to <MTLJSONSerializing>, got %@", model);
-
-			return [MTLJSONAdapter JSONDictionaryFromModel:model];
+                
+            NSAssert([model isKindOfClass:MTLModel.class], @"Expected a MTLModel object, got %@", model);
+            NSAssert([model conformsToProtocol:@protocol(MTLJSONSerializing)], @"Expected a model object conforming to <MTLJSONSerializing>, got %@", model);
+                
+            return [MTLJSONAdapter JSONDictionaryFromModel:model];
 		}];
 }
 
