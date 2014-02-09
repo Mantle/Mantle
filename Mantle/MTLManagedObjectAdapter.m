@@ -22,7 +22,7 @@ const NSInteger MTLManagedObjectAdapterErrorUniqueFetchRequestFailed = 7;
 
 // Performs the given block in the context's queue, if it has one.
 static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
-	if (context.concurrencyType == NSConfinementConcurrencyType) {
+	if (context == nil || context.concurrencyType == NSConfinementConcurrencyType) {
 		return block();
 	}
 
@@ -132,6 +132,7 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 	NSAssert(entity != nil, @"%@ returned a nil +entity", managedObject);
 
 	NSManagedObjectContext *context = managedObject.managedObjectContext;
+	NSAssert(!(context == nil && managedObject.isFault), @"%@ returned a nil +managedObjectContext for faulted managed object", managedObject);
 
 	NSDictionary *managedObjectProperties = entity.propertiesByName;
 	MTLModel *model = [[self.modelClass alloc] init];
