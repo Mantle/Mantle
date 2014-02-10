@@ -33,6 +33,17 @@ extern NSString * const MTLBooleanValueTransformerName;
 // values back and forth.
 + (NSValueTransformer *)mtl_JSONDictionaryTransformerWithModelClass:(Class)modelClass;
 
+// Creates a reversible transformer to convert a JSON dictionary into a MTLModel
+// object, and vice-versa.
+//
+// classFor - A callback that returns the MTLModel subclass to attempt to parse
+//            from the JSON. The returned class must conform to <MTLJSONSerializing>.
+//            This argument must not be nil.
+//
+// Returns a reversible transformer which uses MTLJSONAdapter for transforming
+// values back and forth.
++ (NSValueTransformer *)mtl_JSONDictionaryTransformerWithModelClassFrom:(Class (^)(id JSONDictionary))transformerFromDictionary;
+
 // Creates a reversible transformer to convert an array of JSON dictionaries
 // into an array of MTLModel objects, and vice-versa.
 //

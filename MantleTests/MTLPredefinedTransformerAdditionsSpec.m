@@ -80,6 +80,33 @@ describe(@"JSON transformers", ^{
 		});
 	});
 
+	describe(@"dictionary transformer with callback", ^{
+		__block NSValueTransformer *transformer;
+		
+		__block MTLTestModel *model;
+		__block NSDictionary *JSONDictionary;
+		
+		before(^{
+			model = [[MTLTestModel alloc] init];
+			JSONDictionary = [MTLJSONAdapter JSONDictionaryFromModel:model];
+			
+			transformer = [NSValueTransformer mtl_JSONDictionaryTransformerWithModelClassFrom:^Class(id JSONDictionary) {
+				expect(JSONDictionary).toNot.beNil();
+				return MTLTestModel.class;
+			}];
+			expect(transformer).notTo.beNil();
+		});
+		
+		it(@"should transform a JSON dictionary into a model", ^{
+			expect([transformer transformedValue:JSONDictionary]).to.equal(model);
+		});
+		
+		it(@"should transform a model into a JSON dictionary", ^{
+			expect([transformer.class allowsReverseTransformation]).to.beTruthy();
+			expect([transformer reverseTransformedValue:model]).to.equal(JSONDictionary);
+		});
+	});
+	
 	describe(@"external representation array transformer", ^{
 		__block NSValueTransformer *transformer;
 
