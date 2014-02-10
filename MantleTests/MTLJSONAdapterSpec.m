@@ -74,12 +74,11 @@ it(@"should initialize nested key paths from JSON", ^{
 });
 
 it(@"should return nil and error with an invalid key path from JSON",^{
-
 	NSDictionary *values = @{
-							 @"username": @"foo",
-							 @"nested": @"bar",
-							 @"count": @"0"
-							 };
+		@"username": @"foo",
+		@"nested": @"bar",
+		@"count": @"0"
+	};
 	
 	NSError *error = nil;
 	MTLTestModel *model = [MTLJSONAdapter modelOfClass:MTLTestModel.class fromJSONDictionary:values error:&error];
