@@ -123,7 +123,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 			}
 
 			value = [value valueForKey:itemJSONKeyPathComponent];
-			if (value == nil) break;
+			if (value == nil || value == NSNull.null) break;
 		}
 
 		if (value == nil) continue;
