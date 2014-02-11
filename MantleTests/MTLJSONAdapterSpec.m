@@ -88,6 +88,23 @@ it(@"should return nil and error with an invalid key path from JSON",^{
 	expect(error.code).to.equal(MTLJSONAdapterErrorInvalidJSONDictionary);
 });
 
+it(@"should initialize without returning any error when using a JSON dictionary which Null.null as value",^{
+	NSDictionary *values = @{
+		@"username": @"foo",
+		@"nested": NSNull.null,
+		@"count": @"0"
+	};
+	
+	NSError *error = nil;
+	MTLTestModel *model = [MTLJSONAdapter modelOfClass:MTLTestModel.class fromJSONDictionary:values error:&error];
+	expect(model).notTo.beNil();
+	expect(error).to.beNil();
+	
+	expect(model.name).to.equal(@"foo");
+	expect(model.count).to.equal(0);
+	expect(model.nestedName).to.beNil();
+});
+
 it(@"should return nil and an error with a nil JSON dictionary", ^{
 	NSError *error = nil;
 	MTLJSONAdapter *adapter = [[MTLJSONAdapter alloc] initWithJSONDictionary:nil modelClass:MTLTestModel.class error:&error];
