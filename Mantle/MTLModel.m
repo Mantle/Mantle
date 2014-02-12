@@ -182,27 +182,36 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 }
 
 + (NSSet *)propertyKeys {
-	if (objc_getAssociatedObject(self, MTLModelCachedPropertyKeysKey) == nil) {
+	NSSet *propertyKeys = objc_getAssociatedObject(self, MTLModelCachedPropertyKeysKey);
+
+	if (propertyKeys == nil) {
 		[self generateAndCachePropertyKeys];
+		propertyKeys = objc_getAssociatedObject(self, MTLModelCachedPropertyKeysKey);
 	}
 
-	return objc_getAssociatedObject(self, MTLModelCachedPropertyKeysKey);
+	return propertyKeys;
 }
 
 + (NSSet *)transitoryPropertyKeys {
-	if (objc_getAssociatedObject(self, MTLModelCachedTransitoryPropertyKeysKey) == nil) {
+	NSSet *transitoryPropertyKeys = objc_getAssociatedObject(self, MTLModelCachedTransitoryPropertyKeysKey);
+
+	if (transitoryPropertyKeys == nil) {
 		[self generateAndCachePropertyKeys];
+		transitoryPropertyKeys = objc_getAssociatedObject(self, MTLModelCachedTransitoryPropertyKeysKey);
 	}
 
-	return objc_getAssociatedObject(self, MTLModelCachedTransitoryPropertyKeysKey);
+	return transitoryPropertyKeys;
 }
 
 + (NSSet *)permanentPropertyKeys {
-	if (objc_getAssociatedObject(self, MTLModelCachedPermanentPropertyKeysKey) == nil) {
+	NSSet *permanentPropertyKeys = objc_getAssociatedObject(self, MTLModelCachedPermanentPropertyKeysKey);
+
+	if (permanentPropertyKeys == nil) {
 		[self generateAndCachePropertyKeys];
+		permanentPropertyKeys = objc_getAssociatedObject(self, MTLModelCachedPermanentPropertyKeysKey);
 	}
 
-	return objc_getAssociatedObject(self, MTLModelCachedPermanentPropertyKeysKey);
+	return permanentPropertyKeys;
 }
 
 - (NSDictionary *)dictionaryValue {
