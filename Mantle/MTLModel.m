@@ -150,7 +150,7 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 		// a new object to be stored in this variable (and we don't want ARC to
 		// double-free or leak the old or new values).
 		__autoreleasing id value = [dictionary objectForKey:key];
-	
+
 		if ([value isEqual:NSNull.null]) value = nil;
 
 		BOOL success = MTLValidateAndSetValue(self, key, value, YES, error);
