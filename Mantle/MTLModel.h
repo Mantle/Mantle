@@ -8,13 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
-// Defines a property's storage behavior.
+// Defines a property's storage behavior, which affects how it will be copied,
+// compared, and persisted.
 typedef enum : NSUInteger {
 	// This property is not included in -description, -hash, or anything else.
 	MTLPropertyStorageNone,
 
 	// This property is included in one-off operations like -copy and
-	// -dictionaryValue but does not affect -isEqual or -hash.
+	// -dictionaryValue but does not affect -isEqual: or -hash.
 	// It may disappear at any time.
 	MTLPropertyStorageTransitory,
 
@@ -90,7 +91,7 @@ typedef enum : NSUInteger {
 // Compares the receiver with another object for equality.
 //
 // The default implementation is equivalent to comparing all properties of both
-// models for which -storageBehaviorForPropertyWithKey: returns
+// models for which +storageBehaviorForPropertyWithKey: returns
 // MTLPropertyStoragePermanent.
 //
 // Returns YES if the two models are considered equal, NO otherwise.
@@ -99,7 +100,7 @@ typedef enum : NSUInteger {
 // A string that describes the contents of the receiver.
 //
 // The default implementation is based on the receiver's class and all its
-// properties for which -storageBehaviorForPropertyWithKey: returns
+// properties for which +storageBehaviorForPropertyWithKey: returns
 // MTLPropertyStoragePermanent.
 - (NSString *)description;
 
