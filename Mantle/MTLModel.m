@@ -13,11 +13,15 @@
 #import "MTLReflection.h"
 #import <objc/runtime.h>
 
-// Used to cache the reflection performed in +propertyKeys.
+// Used to cache the reflection performed in +generateAndCachePropertyKeys.
 static void *MTLModelCachedPropertyKeysKey = &MTLModelCachedPropertyKeysKey;
 
+// Associated in +generateAndCachePropertyKeys with a set of all transitory
+// property keys.
 static void *MTLModelCachedTransitoryPropertyKeysKey = &MTLModelCachedTransitoryPropertyKeysKey;
 
+// Associated in +generateAndCachePropertyKeys with a set of all permanent
+// property keys.
 static void *MTLModelCachedPermanentPropertyKeysKey = &MTLModelCachedPermanentPropertyKeysKey;
 
 // Validates a value for an object and sets it if necessary.
@@ -66,10 +70,16 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 
 @interface MTLModel ()
 
+// Inspects all properties of this class using
+// +storageBehaviorForPropertyWithKey and caches the results.
 + (void)generateAndCachePropertyKeys;
 
+// Returns a set of all property keys for which
+// +storageBehaviorForPropertyWithKey returned MTLPropertyStorageTransitory.
 + (NSSet *)transitoryPropertyKeys;
 
+// Returns a set of all property keys for which
+// +storageBehaviorForPropertyWithKey returned MTLPropertyStoragePermanent.
 + (NSSet *)permanentPropertyKeys;
 
 // Enumerates all properties of the receiver's class hierarchy, starting at the
