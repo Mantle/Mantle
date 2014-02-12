@@ -64,3 +64,15 @@ extern const NSInteger MTLTestModelNameMissing;
 @property (nonatomic, strong) NSURL *URL;
 
 @end
+
+@interface MTLStorageBehaviorModel : MTLModel
+
+@property (readonly, nonatomic, assign) BOOL primitive;
+
+@property (readonly, nonatomic, assign) id assignProperty;
+@property (readonly, nonatomic, weak) id weakProperty;
+@property (readonly, nonatomic, strong) id strongProperty;
+
+@property (readonly, nonatomic, strong) id notIvarBacked;
+
+@end

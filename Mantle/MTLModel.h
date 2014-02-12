@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import "EXTRuntimeExtensions.h"
+
 // Defines a property's storage behavior, which affects how it will be copied,
 // compared, and persisted.
 typedef enum : NSUInteger {
@@ -82,16 +84,18 @@ typedef enum : NSUInteger {
 
 // The storage behavior of a given key.
 //
-// The default implementation returns MTLPropertyStorageTransitory for weak
-// properties and MTLPropertyStoragePermanent otherwise.
+// The default implementation returns MTLPropertyStorageTransitory for weak,
+// unsafe_unretained or assign properties of type id, MTLPropertyStorageNone for
+// properties that are readonly and not backed by an instance variable, and
+// MTLPropertyStoragePermanent otherwise.
 //
 // Returns the storage behavior for a given key on the receiver.
-+ (MTLPropertyStorage)storageBehaviorForPropertyWithKey:(NSString *)propertyKey;
++ (MTLPropertyStorage)storageBehaviorForPropertyWithKey:(NSString *)propertyKey attributes:(mtl_propertyAttributes *)attributes;
 
 // Compares the receiver with another object for equality.
 //
 // The default implementation is equivalent to comparing all properties of both
-// models for which +storageBehaviorForPropertyWithKey: returns
+// models for which +storageBehaviorForPropertyWithKey:attributes: returns
 // MTLPropertyStoragePermanent.
 //
 // Returns YES if the two models are considered equal, NO otherwise.
@@ -100,7 +104,7 @@ typedef enum : NSUInteger {
 // A string that describes the contents of the receiver.
 //
 // The default implementation is based on the receiver's class and all its
-// properties for which +storageBehaviorForPropertyWithKey: returns
+// properties for which +storageBehaviorForPropertyWithKey:attributes: returns
 // MTLPropertyStoragePermanent.
 - (NSString *)description;
 

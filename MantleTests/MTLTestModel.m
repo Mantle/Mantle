@@ -181,3 +181,11 @@ static NSUInteger modelVersion = 1;
 }
 
 @end
+
+@implementation MTLStorageBehaviorModel
+
+- (id)notIvarBacked {
+	return self;
+}
+
+@end

@@ -8,7 +8,6 @@
 
 #import "NSError+MTLModelException.h"
 #import "MTLModel.h"
-#import "EXTRuntimeExtensions.h"
 #import "EXTScope.h"
 #import "MTLReflection.h"
 #import <objc/runtime.h>
@@ -106,21 +105,19 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 			free(attributes);
 		};
 
-		if (attributes->readonly && attributes->ivar == NULL) return;
-
 		NSString *key = @(property_getName(property));
-		[propertyKeys addObject:key];
-
-		switch ([self storageBehaviorForPropertyWithKey:key]) {
+		switch ([self storageBehaviorForPropertyWithKey:key attributes:attributes]) {
 			case MTLPropertyStorageNone:
 				break;
 
 			case MTLPropertyStorageTransitory:
 				[transitoryKeys addObject:key];
+				[propertyKeys addObject:key];
 				break;
 
 			case MTLPropertyStoragePermanent:
 				[permanentKeys addObject:key];
+				[propertyKeys addObject:key];
 				break;
 		}
 	}];
@@ -214,19 +211,19 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 	return [self dictionaryWithValuesForKeys:keys.allObjects];
 }
 
-+ (MTLPropertyStorage)storageBehaviorForPropertyWithKey:(NSString *)propertyKey {
-	objc_property_t property = class_getProperty(self.class, propertyKey.UTF8String);
-
-	mtl_propertyAttributes *attributes = mtl_copyPropertyAttributes(property);
-	@onExit {
-		free(attributes);
-	};
-
-	if (attributes->weak) {
-		return MTLPropertyStorageTransitory;
-	} else {
-		return MTLPropertyStoragePermanent;
++ (MTLPropertyStorage)storageBehaviorForPropertyWithKey:(NSString *)propertyKey attributes:(mtl_propertyAttributes *)attributes {
+	if (attributes->readonly && attributes->ivar == NULL) {
+		return MTLPropertyStorageNone;
 	}
+
+	BOOL objectType = strcmp(attributes->type, @encode(id)) == 0;
+	BOOL assignPolicy = attributes->memoryManagementPolicy == mtl_propertyMemoryManagementPolicyAssign;
+
+	if (attributes->weak || (assignPolicy && objectType)) {
+		return MTLPropertyStorageTransitory;
+	}
+
+	return MTLPropertyStoragePermanent;
 }
 
 #pragma mark Merging
