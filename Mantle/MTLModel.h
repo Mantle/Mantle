@@ -84,10 +84,9 @@ typedef enum : NSUInteger {
 
 // The storage behavior of a given key.
 //
-// The default implementation returns MTLPropertyStorageTransitory for weak,
-// unsafe_unretained or assign properties of type id, MTLPropertyStorageNone for
-// properties that are readonly and not backed by an instance variable, and
-// MTLPropertyStoragePermanent otherwise.
+// The default implementation returns MTLPropertyStorageTransitory for weak
+// properties, MTLPropertyStorageNone for properties that are readonly and not
+// backed by an instance variable, and MTLPropertyStoragePermanent otherwise.
 //
 // Returns the storage behavior for a given key on the receiver.
 + (MTLPropertyStorage)storageBehaviorForPropertyWithKey:(NSString *)propertyKey;

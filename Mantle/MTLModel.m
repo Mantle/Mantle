@@ -229,10 +229,7 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 		return MTLPropertyStorageNone;
 	}
 
-	BOOL objectType = strcmp(attributes->type, @encode(id)) == 0;
-	BOOL assignPolicy = attributes->memoryManagementPolicy == mtl_propertyMemoryManagementPolicyAssign;
-
-	if (attributes->weak || (assignPolicy && objectType)) {
+	if (attributes->weak) {
 		return MTLPropertyStorageTransitory;
 	}
 

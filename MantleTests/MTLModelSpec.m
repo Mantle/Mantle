@@ -140,15 +140,15 @@ it(@"should consider primitive properties permanent", ^{
 	expect([MTLStorageBehaviorModel storageBehaviorForPropertyWithKey:@"primitive"]).to.equal(MTLPropertyStoragePermanent);
 });
 
-it(@"should consider object-type assign properties transitory", ^{
-	expect([MTLStorageBehaviorModel storageBehaviorForPropertyWithKey:@"assignProperty"]).to.equal(MTLPropertyStorageTransitory);
+it(@"should consider object-type assign properties permanent", ^{
+	expect([MTLStorageBehaviorModel storageBehaviorForPropertyWithKey:@"assignProperty"]).to.equal(MTLPropertyStoragePermanent);
 });
 
-it(@"should consider object-type weak properties transitory", ^{
+pending(@"should consider object-type weak properties transitory", ^{
 	expect([MTLStorageBehaviorModel storageBehaviorForPropertyWithKey:@"weakProperty"]).to.equal(MTLPropertyStorageTransitory);
 });
 
-pending(@"should consider object-type strong properties permanent", ^{
+it(@"should consider object-type strong properties permanent", ^{
 	expect([MTLStorageBehaviorModel storageBehaviorForPropertyWithKey:@"strongProperty"]).to.equal(MTLPropertyStoragePermanent);
 });
 
