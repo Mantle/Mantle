@@ -119,6 +119,16 @@ static NSUInteger modelVersion = 1;
 	};
 }
 
+#pragma mark Property Storage Behavior
+
++ (MTLPropertyStorage)storageBehaviorForPropertyWithKey:(NSString *)propertyKey {
+	if ([propertyKey isEqual:@"weakModel"]) {
+		return MTLPropertyStorageTransitory;
+	} else {
+		return [super storageBehaviorForPropertyWithKey:propertyKey];
+	}
+}
+
 #pragma mark Merging
 
 - (void)mergeCountFromModel:(MTLTestModel *)model {

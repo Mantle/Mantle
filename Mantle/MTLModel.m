@@ -227,13 +227,9 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 
 	if (attributes->readonly && attributes->ivar == NULL) {
 		return MTLPropertyStorageNone;
+	} else {
+		return MTLPropertyStoragePermanent;
 	}
-
-	if (attributes->weak) {
-		return MTLPropertyStorageTransitory;
-	}
-
-	return MTLPropertyStoragePermanent;
 }
 
 #pragma mark Merging

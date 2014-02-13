@@ -105,7 +105,7 @@ describe(@"with a dictionary of values", ^{
 		expect(copiedModel).notTo.beIdenticalTo(model);
 	});
 
-	it(@"should not consider weak properties for equality", ^{
+	it(@"should not consider -weakModel for equality", ^{
 		MTLTestModel *copiedModel = [model copy];
 		copiedModel.weakModel = nil;
 
@@ -142,10 +142,6 @@ it(@"should consider primitive properties permanent", ^{
 
 it(@"should consider object-type assign properties permanent", ^{
 	expect([MTLStorageBehaviorModel storageBehaviorForPropertyWithKey:@"assignProperty"]).to.equal(MTLPropertyStoragePermanent);
-});
-
-pending(@"should consider object-type weak properties transitory", ^{
-	expect([MTLStorageBehaviorModel storageBehaviorForPropertyWithKey:@"weakProperty"]).to.equal(MTLPropertyStorageTransitory);
 });
 
 it(@"should consider object-type strong properties permanent", ^{

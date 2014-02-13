@@ -36,7 +36,7 @@ extern const NSInteger MTLTestModelNameMissing;
 // Should not be stored in the dictionary value or JSON.
 @property (nonatomic, copy, readonly) NSString *dynamicName;
 
-// Should not be stored in JSON.
+// Should not be stored in JSON, has MTLPropertyStorageTransitory.
 @property (nonatomic, weak) MTLEmptyTestModel *weakModel;
 
 @end
