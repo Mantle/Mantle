@@ -8,6 +8,7 @@
 
 #import "NSError+MTLModelException.h"
 #import "MTLModel.h"
+#import "EXTRuntimeExtensions.h"
 #import "EXTScope.h"
 #import "MTLReflection.h"
 #import <objc/runtime.h>
@@ -100,13 +101,9 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 	NSMutableSet *permanentKeys = [NSMutableSet set];
 
 	[self enumeratePropertiesUsingBlock:^(objc_property_t property, BOOL *stop) {
-		mtl_propertyAttributes *attributes = mtl_copyPropertyAttributes(property);
-		@onExit {
-			free(attributes);
-		};
-
 		NSString *key = @(property_getName(property));
-		switch ([self storageBehaviorForPropertyWithKey:key attributes:attributes]) {
+
+		switch ([self storageBehaviorForPropertyWithKey:key]) {
 			case MTLPropertyStorageNone:
 				break;
 
@@ -220,7 +217,14 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 	return [self dictionaryWithValuesForKeys:keys.allObjects];
 }
 
-+ (MTLPropertyStorage)storageBehaviorForPropertyWithKey:(NSString *)propertyKey attributes:(mtl_propertyAttributes *)attributes {
++ (MTLPropertyStorage)storageBehaviorForPropertyWithKey:(NSString *)propertyKey {
+	objc_property_t property = class_getProperty(self.class, propertyKey.UTF8String);
+
+	mtl_propertyAttributes *attributes = mtl_copyPropertyAttributes(property);
+	@onExit {
+		free(attributes);
+	};
+
 	if (attributes->readonly && attributes->ivar == NULL) {
 		return MTLPropertyStorageNone;
 	}

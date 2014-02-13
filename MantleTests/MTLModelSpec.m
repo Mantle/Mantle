@@ -136,55 +136,24 @@ it(@"should merge two models together", ^{
 	expect(target.count).to.equal(8);
 });
 
-mtl_propertyAttributes *(^attributesForProperty)(Class, NSString *) = ^(Class class, NSString *propertyKey) {
-	objc_property_t property = class_getProperty(class, propertyKey.UTF8String);
-
-	return mtl_copyPropertyAttributes(property);
-};
-
 it(@"should consider primitive properties permanent", ^{
-	mtl_propertyAttributes *attributes = attributesForProperty(MTLStorageBehaviorModel.class, @"primitive");
-	@onExit {
-		free(attributes);
-	};
-
-	expect([MTLTestModel storageBehaviorForPropertyWithKey:@"primitive" attributes:attributes]).to.equal(MTLPropertyStoragePermanent);
+	expect([MTLStorageBehaviorModel storageBehaviorForPropertyWithKey:@"primitive"]).to.equal(MTLPropertyStoragePermanent);
 });
 
 it(@"should consider object-type assign properties transitory", ^{
-	mtl_propertyAttributes *attributes = attributesForProperty(MTLStorageBehaviorModel.class, @"assignProperty");
-	@onExit {
-		free(attributes);
-	};
-
-	expect([MTLTestModel storageBehaviorForPropertyWithKey:@"assignProperty" attributes:attributes]).to.equal(MTLPropertyStorageTransitory);
+	expect([MTLStorageBehaviorModel storageBehaviorForPropertyWithKey:@"assignProperty"]).to.equal(MTLPropertyStorageTransitory);
 });
 
 it(@"should consider object-type weak properties transitory", ^{
-	mtl_propertyAttributes *attributes = attributesForProperty(MTLStorageBehaviorModel.class, @"weakProperty");
-	@onExit {
-		free(attributes);
-	};
-
-	expect([MTLTestModel storageBehaviorForPropertyWithKey:@"weakProperty" attributes:attributes]).to.equal(MTLPropertyStorageTransitory);
+	expect([MTLStorageBehaviorModel storageBehaviorForPropertyWithKey:@"weakProperty"]).to.equal(MTLPropertyStorageTransitory);
 });
 
 pending(@"should consider object-type strong properties permanent", ^{
-	mtl_propertyAttributes *attributes = attributesForProperty(MTLStorageBehaviorModel.class, @"strongProperty");
-	@onExit {
-		free(attributes);
-	};
-
-	expect([MTLTestModel storageBehaviorForPropertyWithKey:@"strongProperty" attributes:attributes]).to.equal(MTLPropertyStoragePermanent);
+	expect([MTLStorageBehaviorModel storageBehaviorForPropertyWithKey:@"strongProperty"]).to.equal(MTLPropertyStoragePermanent);
 });
 
 it(@"should ignore readonly properties without backing ivar", ^{
-	mtl_propertyAttributes *attributes = attributesForProperty(MTLStorageBehaviorModel.class, @"notIvarBacked");
-	@onExit {
-		free(attributes);
-	};
-
-	expect([MTLTestModel storageBehaviorForPropertyWithKey:@"notIvarBacked" attributes:attributes]).to.equal(MTLPropertyStorageNone);
+	expect([MTLStorageBehaviorModel storageBehaviorForPropertyWithKey:@"notIvarBacked"]).to.equal(MTLPropertyStorageNone);
 });
 
 SpecEnd
