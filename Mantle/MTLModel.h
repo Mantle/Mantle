@@ -10,17 +10,19 @@
 
 // Defines a property's storage behavior, which affects how it will be copied,
 // compared, and persisted.
+//
+// MTLPropertyStorageNone       - This property is not included in -description,
+//                                -hash, or anything else.
+// MTLPropertyStorageTransitory - This property is included in one-off
+//                                operations like -copy and -dictionaryValue but
+//                                does not affect -isEqual: or -hash.
+//                                It may disappear at any time.
+// MTLPropertyStoragePermanent  - The property is included in serialization
+//                                (like `NSCoding`) and equality, since it can
+//                                be expected to stick around.
 typedef enum : NSUInteger {
-	// This property is not included in -description, -hash, or anything else.
 	MTLPropertyStorageNone,
-
-	// This property is included in one-off operations like -copy and
-	// -dictionaryValue but does not affect -isEqual: or -hash.
-	// It may disappear at any time.
 	MTLPropertyStorageTransitory,
-
-	// The property is included in serialization (like `NSCoding`) and equality,
-	// since it can be expected to stick around.
 	MTLPropertyStoragePermanent,
 } MTLPropertyStorage;
 
