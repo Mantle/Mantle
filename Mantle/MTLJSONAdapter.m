@@ -6,12 +6,14 @@
 //  Copyright (c) 2013 GitHub. All rights reserved.
 //
 
+#import <objc/runtime.h>
+
+#import "EXTRuntimeExtensions.h"
 #import "EXTScope.h"
 #import "MTLJSONAdapter.h"
 #import "MTLModel.h"
 #import "MTLTransformerErrorHandling.h"
 #import "MTLReflection.h"
-#import "NSObject+MTLPropertyInspection.h"
 #import "NSValueTransformer+MTLPredefinedTransformerAdditions.h"
 
 NSString * const MTLJSONAdapterErrorDomain = @"MTLJSONAdapterErrorDomain";
@@ -278,19 +280,23 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 			continue;
 		}
 
+		objc_property_t property = class_getProperty(modelClass, key.UTF8String);
+
+		if (property == NULL) continue;
+
+		mtl_propertyAttributes *attributes = mtl_copyPropertyAttributes(property);
+		@onExit {
+			free(attributes);
+		};
+
 		NSValueTransformer *transformer = nil;
-		Class propertyClass = [self.modelClass mtl_classOfPropertyWithKey:key];
-		if (propertyClass != nil) {
-			transformer = [self transformerForModelPropertiesOfClass:propertyClass];
+
+		if (attributes->objectClass != nil) {
+			transformer = [self transformerForModelPropertiesOfClass:attributes->objectClass];
 		}
 
-		if (transformer == nil) {
-			char *type = [self.modelClass mtl_copyObjCTypeOfPropertyWithKey:key];
-			@onExit {
-				free(type);
-			};
-
-			if (type != NULL) transformer = [self transformerForModelPropertiesOfObjCType:type];
+		if (transformer == nil && attributes->type != NULL) {
+			transformer = [self transformerForModelPropertiesOfObjCType:attributes->type];
 		}
 
 		if (transformer != nil) result[key] = transformer;
