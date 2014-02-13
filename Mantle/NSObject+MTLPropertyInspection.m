@@ -30,7 +30,7 @@
 	return attributes->objectClass;
 }
 
-+ (char *)mtl_objCTypeOfPropertyWithKey:(NSString *)key {
++ (char *)mtl_copyObjCTypeOfPropertyWithKey:(NSString *)key {
 	NSParameterAssert(key != nil);
 
 	objc_property_t property = class_getProperty(self.class, key.UTF8String);

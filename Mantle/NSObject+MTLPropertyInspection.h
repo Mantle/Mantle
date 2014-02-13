@@ -18,6 +18,6 @@
 // there is no property that maches the key or it wasn't declared using a
 // @property statement.
 // You must free() the returned pointer.
-+ (char *)mtl_objCTypeOfPropertyWithKey:(NSString *)key;
++ (char *)mtl_copyObjCTypeOfPropertyWithKey:(NSString *)key;
 
 @end

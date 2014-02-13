@@ -28,7 +28,7 @@ describe(@"+mtl_classOfPropertyWithKey:", ^{
 
 describe(@"+mtl_objCTypeOfPropertyWithKey:", ^{
 	it(@"should return the type-encoding of a property", ^{
-		char *actual = [MTLTestModel mtl_objCTypeOfPropertyWithKey:@"count"];
+		char *actual = [MTLTestModel mtl_copyObjCTypeOfPropertyWithKey:@"count"];
 
 		const char *expected = @encode(NSUInteger);
 

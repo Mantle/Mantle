@@ -285,7 +285,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 		}
 
 		if (transformer == nil) {
-			char *type = [self.modelClass mtl_objCTypeOfPropertyWithKey:key];
+			char *type = [self.modelClass mtl_copyObjCTypeOfPropertyWithKey:key];
 			@onExit {
 				free(type);
 			};

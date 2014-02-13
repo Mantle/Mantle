@@ -654,7 +654,7 @@ static const NSInteger MTLManagedObjectAdapterErrorExceptionThrown = 1;
 		}
 
 		if (transformer == nil) {
-			char *type = [self.modelClass mtl_objCTypeOfPropertyWithKey:key];
+			char *type = [self.modelClass mtl_copyObjCTypeOfPropertyWithKey:key];
 			@onExit {
 				free(type);
 			};
