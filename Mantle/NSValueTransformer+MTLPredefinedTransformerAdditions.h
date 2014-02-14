@@ -61,6 +61,14 @@ extern NSString * const MTLBooleanValueTransformerName;
 // transformations, and from objects to keys for reverse transformations.
 + (NSValueTransformer *)mtl_valueMappingTransformerWithDictionary:(NSDictionary *)dictionary;
 
+// A reversible value transformer which applies a transformer to each element of an array
+//
+// transformer - The NSValueTransformer to be applied to each element
+//
+// Returns a transformer which will apply the provided transformer
+// to each element in an NSArray
++ (NSValueTransformer *)mtl_arrayMappingTransformerWithTransformer:(NSValueTransformer *)transformer;
+
 @end
 
 @interface NSValueTransformer (UnavailableMTLPredefinedTransformerAdditions)
