@@ -7,6 +7,7 @@
 //
 
 #import "NSError+MTLModelException.h"
+#import "NSError+MTLValidation.h"
 #import "MTLModel.h"
 #import "EXTRuntimeExtensions.h"
 #import "EXTScope.h"
@@ -199,6 +200,121 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 		if (!success) return NO;
 	}
 
+	return YES;
+}
+
+- (BOOL)validateValue:(inout __autoreleasing id *)ioValue
+			   forKey:(NSString *)inKey
+				error:(out NSError *__autoreleasing *)outError {
+	if (![super validateValue:ioValue
+					   forKey:inKey
+						error:outError]) {
+		return NO;
+	}
+	if (!(*ioValue)) {
+		// No way to figure out if the value is of the same type as the property
+		return YES;
+	}
+	
+	objc_property_t property = class_getProperty([self class], [inKey UTF8String]);
+	mtl_propertyAttributes *attributes = mtl_copyPropertyAttributes(property);
+	@onExit {
+		free(attributes);
+	};
+	
+	Class propertyClass = attributes->objectClass;
+	Class valueClass = [*ioValue class];
+
+	// can be validated using property class
+	if (propertyClass) {
+		if ([valueClass isSubclassOfClass:propertyClass]) {
+			return YES;
+		}
+		// value is not a descendant of a property class
+		if (outError) {
+			*outError = [NSError mtl_validationErrorForProperty:inKey
+												   expectedType:NSStringFromClass(propertyClass)
+												   receivedType:NSStringFromClass(valueClass)];
+		}
+		return NO;
+	}
+	
+	// property is a primitive type
+	const char *propertyEncoding = attributes->type;
+	// first check if it's a special case when attribute is of type id
+	if (!propertyEncoding) {
+		return YES;
+	}
+	
+	// validating using encoding of the property
+
+	// BOOL
+	BOOL isBooleanConst = (*ioValue == (__bridge id)kCFBooleanFalse ||
+						   *ioValue == (__bridge id)kCFBooleanTrue);
+	if (isBooleanConst) {
+		// is property has type boolean
+		if (strcmp(propertyEncoding, @encode(BOOL)) == 0) {
+			return YES;
+		}
+		// Value is not one of two boolean constant
+		if (outError) {
+			*outError = [NSError mtl_validationErrorForProperty:inKey
+												   expectedType:@"BOOL"
+												   receivedType:[NSString stringWithFormat:@"%s", propertyEncoding]];
+		}
+		return NO;
+	}
+	
+	// Numbers
+	
+	// NSNumber, for now, we just simplify: we let NSNumber convert the
+	// underlying value to the appropriate value through KVC
+	// TODO: there is no way
+	if ([valueClass isSubclassOfClass:[NSNumber class]]) {
+		// make sure that the attribute is a numeric primitive
+		BOOL isNumericType = (
+			strcmp(propertyEncoding, @encode(unsigned int)) == 0 ||
+			strcmp(propertyEncoding, @encode(int)) == 0 ||
+			strcmp(propertyEncoding, @encode(float)) == 0 ||
+			strcmp(propertyEncoding, @encode(double)) == 0 ||
+			strcmp(propertyEncoding, @encode(long)) == 0 ||
+			strcmp(propertyEncoding, @encode(long long)) == 0 ||
+			strcmp(propertyEncoding, @encode(unsigned long)) == 0 ||
+			strcmp(propertyEncoding, @encode(unsigned long long)) == 0 ||
+			strcmp(propertyEncoding, @encode(unsigned char)) == 0 ||
+			strcmp(propertyEncoding, @encode(unsigned short)) == 0 ||
+			strcmp(propertyEncoding, @encode(char)) == 0 ||
+			strcmp(propertyEncoding, @encode(short)) == 0
+		);
+
+		if (isNumericType) {
+			return YES;
+		}
+		if (outError) {
+			*outError = [NSError mtl_validationErrorForProperty:inKey
+												   expectedType:[NSString stringWithFormat:@"%s", propertyEncoding]
+												   receivedType:NSStringFromClass(valueClass)];
+		}
+		return NO;
+	}
+	
+	// NSValue, most likely contains structures
+	if ([valueClass isSubclassOfClass:[NSValue class]]) {
+		// Just compare undelying encodings
+		const char *valueEncoding = [((NSValue *)*ioValue) objCType];
+		BOOL isStructEncodingValid = (strcmp(valueEncoding, propertyEncoding) == 0);
+		if (isStructEncodingValid) {
+			return YES;
+		}
+		if (outError) {
+			*outError = [NSError mtl_validationErrorForProperty:inKey
+												   expectedType:[NSString stringWithFormat:@"%s", propertyEncoding]
+												   receivedType:[NSString stringWithFormat:@"%s", valueEncoding]];
+		}
+		return NO;
+	}
+	
+	// actually we shouldn't get here
 	return YES;
 }
 
