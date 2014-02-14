@@ -9,15 +9,7 @@
 #import "MTLModel.h"
 
 #import "NSError+MTLModelException.h"
-
-// The domain for errors originating from MTLModel.
-static NSString * const MTLModelErrorDomain = @"MTLModelErrorDomain";
-
-// An exception was thrown and caught.
-static const NSInteger MTLModelErrorExceptionThrown = 1;
-
-// Associated with the NSException that was caught.
-static NSString * const MTLModelThrownExceptionErrorKey = @"MTLModelThrownException";
+#import "MTLError.h"
 
 @implementation NSError (MTLModelException)
 
