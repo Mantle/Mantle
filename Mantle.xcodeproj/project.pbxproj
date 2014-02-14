@@ -414,7 +414,6 @@
 			children = (
 				D08B5AAC16002694001FE685 /* MTLValueTransformer.h */,
 				D08B5AAD16002694001FE685 /* MTLValueTransformer.m */,
-				547165A31801977000E734DB /* MTLTransformerErrorHandling.h */,
 				5487912318210717007F8347 /* MTLTransformerErrorHandling.m */,
 			);
 			name = "Value Transformers";
@@ -466,6 +465,7 @@
 			children = (
 				D042FC4C15F72B23004E8054 /* Mantle.h */,
 				D0760E7015FFBF020060F550 /* Modules */,
+				547165A31801977000E734DB /* MTLTransformerErrorHandling.h */,
 				D090E62515F730B2005282F9 /* Extensions */,
 				D042FC4615F72B23004E8054 /* Supporting Files */,
 			);

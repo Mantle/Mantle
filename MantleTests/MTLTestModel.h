@@ -59,8 +59,18 @@ extern const NSInteger MTLTestModelNameMissing;
 @interface MTLURLModel : MTLModel <MTLJSONSerializing>
 
 // Defaults to http://github.com.
-//
-// Uses the MTLURLValueTransformerName transformer to serialize to an NSString.
 @property (nonatomic, strong) NSURL *URL;
+
+@end
+
+@interface MTLBoolModel : MTLModel <MTLJSONSerializing>
+
+@property (nonatomic, assign) BOOL flag;
+
+@end
+
+@interface MTLNonPropertyModel : MTLModel <MTLJSONSerializing>
+
+- (NSURL *)homepage;
 
 @end

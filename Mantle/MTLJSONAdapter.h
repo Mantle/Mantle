@@ -31,7 +31,7 @@
 // reversible, the transformer will also be used to convert the property value
 // back to JSON.
 //
-// If the receiver implements a `+<key>JSONTransformer` method, MTLJSONAdapter
+// If the receiver implements a `-<key>JSONTransformer` method, MTLJSONAdapter
 // will use the result of that method instead.
 //
 // Returns a value transformer, or nil if no transformation should be performed.
@@ -134,6 +134,45 @@ extern const NSInteger MTLJSONAdapterErrorInvalidJSONDictionary;
 //
 // Returns a key path to use, or nil to omit the property from JSON.
 - (NSString *)JSONKeyPathForPropertyKey:(NSString *)key;
+
+// An optional value transformer that should be used for properties of the given
+// class.
+//
+// A value transformer returned by the model's +JSONTransformerForKey: method
+// is given precedence over the one returned by this method.
+//
+// The default implementation invokes `+<class>JSONTransformer` on the
+// receiver if it's implemented. It supports NSURL conversion through
+// -NSURLJSONTransformer.
+//
+// class - The class of the property to serialize. This property must not be
+//         nil.
+//
+// Returns a value transformer or nil if no transformation should be used.
+- (NSValueTransformer *)transformerForModelPropertiesOfClass:(Class)class;
+
+// A value transformer that should be used for a properties of the given
+// primitive type.
+//
+// If `objCType` matches @encode(id), the value transformer returned by
+// -transformerForModelPropertiesOfClass: is used instead.
+//
+// The default implementation transforms properties that match @encode(BOOL)
+// using the MTLBooleanValueTransformerName transformer.
+//
+// objCType - The type encoding for the value of this property. This is the type
+//            as it would be returned by the @encode() directive.
+//
+// Returns a value transformer or nil if no transformation should be used.
+- (NSValueTransformer *)transformerForModelPropertiesOfObjCType:(const char *)objCType;
+
+@end
+
+@interface MTLJSONAdapter (ValueTransformers)
+
+// This value transformer is used by MTLJSONAdapter to automatically convert
+// NSURL properties to JSON strings and vice versa.
+- (NSValueTransformer *)NSURLJSONTransformer;
 
 @end
 
