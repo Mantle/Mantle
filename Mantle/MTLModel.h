@@ -119,3 +119,11 @@
 + (NSDictionary *)migrateExternalRepresentation:(NSDictionary *)externalRepresentation fromVersion:(NSUInteger)fromVersion __attribute__((deprecated("Replaced by -decodeValueForKey:withCoder:modelVersion:")));
 
 @end
+
+@protocol MTLTypeValidation <NSObject>
+
+@required
+// This method returns YES for all classes that support type validation.
++ (BOOL)supportsTypeValidation;
+
+@end

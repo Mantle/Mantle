@@ -140,6 +140,10 @@ static NSUInteger modelVersion = 1;
 
 @implementation MTLValidationModel
 
++ (BOOL)supportsTypeValidation {
+	return YES;
+}
+
 - (BOOL)validateName:(NSString **)name error:(NSError **)error {
 	if (*name != nil) return YES;
 	if (error != NULL) {

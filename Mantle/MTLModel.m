@@ -211,6 +211,12 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 						error:outError]) {
 		return NO;
 	}
+	
+	if (![self conformsToProtocol:@protocol(MTLTypeValidation)] || ![[self class] supportsTypeValidation]) {
+		return YES;
+	}
+	
+	
 	if (!(*ioValue)) {
 		// No way to figure out if the value is of the same type as the property
 		return YES;
