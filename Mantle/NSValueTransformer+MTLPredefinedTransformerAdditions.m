@@ -180,7 +180,7 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 				if (![JSONDictionary isKindOfClass:NSDictionary.class]) {
 					if (error != NULL) {
 						NSDictionary *userInfo = @{
-							NSLocalizedDescriptionKey: NSLocalizedString(@"Could not convert JSON array to model array", @""),
+							NSLocalizedDescriptionKey: NSLocalizedString(@"Could not convert JSON dictionary to model", @""),
 							NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Expected an NSDictionary or an NSNull, got: %@.", @""), JSONDictionary],
 							MTLTransformerErrorHandlingInputValueErrorKey : JSONDictionary
 						};
@@ -229,8 +229,8 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 				if (![model isKindOfClass:MTLModel.class]) {
 					if (error != NULL) {
 						NSDictionary *userInfo = @{
-							NSLocalizedDescriptionKey: NSLocalizedString(@"Could not convert JSON array to model array", @""),
-							NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Expected a MTLModel or an NSNull, got: %@.", @""), model],
+							NSLocalizedDescriptionKey: NSLocalizedString(@"Could not convert model object to JSON dictionary", @""),
+							NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Expected an MTLModel or an NSNull, got: %@.", @""), model],
 							MTLTransformerErrorHandlingInputValueErrorKey : model
 						};
 
