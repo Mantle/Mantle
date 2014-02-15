@@ -161,6 +161,36 @@ it(@"should fail to initialize if JSON dictionary validation fails", ^{
 	expect(error.code).to.equal(MTLTestModelNameTooLong);
 });
 
+it(@"should implicitly transform URLs", ^{
+	MTLURLModel *model = [[MTLURLModel alloc] init];
+
+	NSError *error = nil;
+	NSDictionary *JSONDictionary = [MTLJSONAdapter JSONDictionaryFromModel:model error:&error];
+
+	expect(JSONDictionary[@"URL"]).to.equal(@"http://github.com");
+	expect(error).to.beNil();
+});
+
+it(@"should implicitly transform BOOLs", ^{
+	MTLBoolModel *model = [[MTLBoolModel alloc] init];
+
+	NSError *error = nil;
+	NSDictionary *JSONDictionary = [MTLJSONAdapter JSONDictionaryFromModel:model error:&error];
+
+	expect(JSONDictionary[@"flag"]).to.beIdenticalTo((id)kCFBooleanFalse);
+	expect(error).to.beNil();
+});
+
+pending(@"should not invoke implicit transformers for property keys not actually backed by properties", ^{
+	MTLNonPropertyModel *model = [[MTLNonPropertyModel alloc] init];
+
+	NSError *error = nil;
+	NSDictionary *JSONDictionary = [MTLJSONAdapter JSONDictionaryFromModel:model error:&error];
+
+	expect(error).to.beNil();
+	expect(JSONDictionary[@"homepage"]).to.equal(model.homepage);
+});
+
 it(@"should fail to initialize if JSON transformer fails", ^{
 	NSDictionary *values = @{
 		@"URL": @666,

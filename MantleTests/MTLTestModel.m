@@ -182,12 +182,44 @@ static NSUInteger modelVersion = 1;
 
 @implementation MTLURLModel
 
+- (instancetype)init {
+	self = [super init];
+	if (self == nil) return nil;
+
+	self.URL = [NSURL URLWithString:@"http://github.com"];
+	return self;
+}
+
 + (NSDictionary *)JSONKeyPathsByPropertyKey {
 	return [NSDictionary mtl_identityPropertyMapWithModel:self];
 }
 
-+ (NSValueTransformer *)URLJSONTransformer {
-	return [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
+@end
+
+@implementation MTLBoolModel
+
++ (NSDictionary *)JSONKeyPathsByPropertyKey {
+	return [NSDictionary mtl_identityPropertyMapWithModel:self];
+}
+
+@end
+
+@implementation MTLNonPropertyModel
+
++ (NSSet *)propertyKeys {
+	return [NSSet setWithObject:@"homepage"];
+}
+
+- (NSURL *)homepage {
+	return [NSURL URLWithString:@"about:blank"];
+}
+
+#pragma mark - MTLJSONSerializing
+
++ (NSDictionary *)JSONKeyPathsByPropertyKey {
+	return @{
+		@"homepage": @"homepage"
+	};
 }
 
 @end

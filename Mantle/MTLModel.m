@@ -220,6 +220,8 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 + (MTLPropertyStorage)storageBehaviorForPropertyWithKey:(NSString *)propertyKey {
 	objc_property_t property = class_getProperty(self.class, propertyKey.UTF8String);
 
+	if (property == NULL) return MTLPropertyStorageNone;
+
 	mtl_propertyAttributes *attributes = mtl_copyPropertyAttributes(property);
 	@onExit {
 		free(attributes);
