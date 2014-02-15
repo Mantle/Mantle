@@ -249,27 +249,29 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 	// validating using encoding of the property
 
 	// BOOL
+	// Note: on pre 64 bit systems BOOL is defined as signed char,
+	// therefore there is no way to validate numeric values
 	BOOL isBooleanConst = (*ioValue == (__bridge id)kCFBooleanFalse ||
 						   *ioValue == (__bridge id)kCFBooleanTrue);
 	if (isBooleanConst) {
 		// is property has type boolean
 		if (strcmp(propertyEncoding, @encode(BOOL)) == 0) {
 			return YES;
+		} else {
+			// Value is not one of two boolean constant
+			if (outError) {
+				*outError = [NSError mtl_validationErrorForProperty:inKey
+													   expectedType:@"BOOL"
+													   receivedType:[NSString stringWithFormat:@"%s", propertyEncoding]];
+			}
+			return NO;
 		}
-		// Value is not one of two boolean constant
-		if (outError) {
-			*outError = [NSError mtl_validationErrorForProperty:inKey
-												   expectedType:@"BOOL"
-												   receivedType:[NSString stringWithFormat:@"%s", propertyEncoding]];
-		}
-		return NO;
 	}
 	
 	// Numbers
 	
-	// NSNumber, for now, we just simplify: we let NSNumber convert the
-	// underlying value to the appropriate value through KVC
-	// TODO: there is no way
+	// We let NSNumber convert the underlying value to the appropriate value
+	// through KVC
 	if ([valueClass isSubclassOfClass:[NSNumber class]]) {
 		// make sure that the attribute is a numeric primitive
 		BOOL isNumericType = (
@@ -289,13 +291,14 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 
 		if (isNumericType) {
 			return YES;
+		} else {
+			if (outError) {
+				*outError = [NSError mtl_validationErrorForProperty:inKey
+													   expectedType:[NSString stringWithFormat:@"%s", propertyEncoding]
+													   receivedType:NSStringFromClass(valueClass)];
+			}
+			return NO;
 		}
-		if (outError) {
-			*outError = [NSError mtl_validationErrorForProperty:inKey
-												   expectedType:[NSString stringWithFormat:@"%s", propertyEncoding]
-												   receivedType:NSStringFromClass(valueClass)];
-		}
-		return NO;
 	}
 	
 	// NSValue, most likely contains structures
