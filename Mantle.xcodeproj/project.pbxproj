@@ -20,14 +20,12 @@
 		54803A35178829A800011B39 /* NSError+MTLModelException.m in Sources */ = {isa = PBXBuildFile; fileRef = 54803A31178829A700011B39 /* NSError+MTLModelException.m */; };
 		54803A3B17882CCD00011B39 /* MTLErrorModelExceptionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 54803A3A17882CCD00011B39 /* MTLErrorModelExceptionSpec.m */; };
 		54803A3C17882CCD00011B39 /* MTLErrorModelExceptionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 54803A3A17882CCD00011B39 /* MTLErrorModelExceptionSpec.m */; };
-		5C11F6DD18AD366D00093419 /* NSError+MTLValidation.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C11F6DB18AD366D00093419 /* NSError+MTLValidation.h */; };
 		5C11F6DE18AD366D00093419 /* NSError+MTLValidation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C11F6DC18AD366D00093419 /* NSError+MTLValidation.m */; };
-		5C11F6E618AD36D700093419 /* MTLError.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C11F6E418AD36D700093419 /* MTLError.h */; };
+		5C11F6E618AD36D700093419 /* MTLError.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C11F6E418AD36D700093419 /* MTLError.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C11F6E718AD36D700093419 /* MTLError.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C11F6E518AD36D700093419 /* MTLError.m */; };
 		5C11F6EA18AD38D000093419 /* NSError+MTLValidation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C11F6DC18AD366D00093419 /* NSError+MTLValidation.m */; };
 		5C11F6EB18AD38D900093419 /* MTLError.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C11F6E518AD36D700093419 /* MTLError.m */; };
 		5C11F6EC18AD38DA00093419 /* MTLError.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C11F6E518AD36D700093419 /* MTLError.m */; };
-		5C11F6ED18AD38DD00093419 /* NSError+MTLValidation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C11F6DC18AD366D00093419 /* NSError+MTLValidation.m */; };
 		88080C18160A706900CCABF2 /* NSArray+MTLManipulationAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 88080C16160A706900CCABF2 /* NSArray+MTLManipulationAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88080C19160A706900CCABF2 /* NSArray+MTLManipulationAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 88080C17160A706900CCABF2 /* NSArray+MTLManipulationAdditions.m */; };
 		88080C1A160A706900CCABF2 /* NSArray+MTLManipulationAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 88080C17160A706900CCABF2 /* NSArray+MTLManipulationAdditions.m */; };
@@ -680,11 +678,10 @@
 				D0C27D0A16110973002FE587 /* NSDictionary+MTLManipulationAdditions.h in Headers */,
 				D0F117491614C5600092520B /* NSValueTransformer+MTLPredefinedTransformerAdditions.h in Headers */,
 				1ED5B5D0163A4E3C0072668E /* NSObject+MTLComparisonAdditions.h in Headers */,
-				5C11F6DD18AD366D00093419 /* NSError+MTLValidation.h in Headers */,
 				D01BD09D16CB432D00EC95C7 /* MTLJSONAdapter.h in Headers */,
 				D01BD0AF16CB52E800EC95C7 /* MTLModel+NSCoding.h in Headers */,
-				5C11F6E618AD36D700093419 /* MTLError.h in Headers */,
 				D0E51937170A06CF00E8897B /* MTLManagedObjectAdapter.h in Headers */,
+				5C11F6E618AD36D700093419 /* MTLError.h in Headers */,
 				D0BFC36F17476B4700F5DC5D /* NSValueTransformer+MTLInversionAdditions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1054,7 +1051,6 @@
 				D0A56B861804B16B00A84EDC /* NSValueTransformer+MTLInversionAdditions.m in Sources */,
 				D0A56B821804B16B00A84EDC /* NSDictionary+MTLManipulationAdditions.m in Sources */,
 				D0A56B781804B14F00A84EDC /* MTLModel+NSCoding.m in Sources */,
-				5C11F6ED18AD38DD00093419 /* NSError+MTLValidation.m in Sources */,
 				D0A56B7A1804B15600A84EDC /* MTLJSONAdapter.m in Sources */,
 				D0A56B7C1804B15600A84EDC /* MTLManagedObjectAdapter.m in Sources */,
 				D0A56B8B1804B1A000A84EDC /* EXTRuntimeExtensions.m in Sources */,
