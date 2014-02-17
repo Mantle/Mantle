@@ -11,3 +11,5 @@
 NSString * const MTLModelErrorDomain = @"MTLModelErrorDomain";
 
 NSString * const MTLModelThrownExceptionErrorKey = @"MTLModelThrownException";
+
+NSString * const MTLDetailedErrorsKey = @"MTLDetailedErrorsKey";

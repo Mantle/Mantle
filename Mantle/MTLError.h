@@ -14,6 +14,8 @@ extern NSString * const MTLModelErrorDomain;
 // Associated with the NSException that was caught.
 extern NSString * const MTLModelThrownExceptionErrorKey;
 
+extern NSString * const MTLDetailedErrorsKey;
+
 enum {
 	MTLModelErrorExceptionThrown    = 1,    // generic exceptin caught during parsing
 	MTLModelValidationError         = 2     // generic validation error
