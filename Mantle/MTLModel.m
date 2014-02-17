@@ -85,27 +85,53 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 	return [[self alloc] initWithDictionary:dictionary error:error];
 }
 
++ (instancetype)modelWithDictionary:(NSDictionary *)dictionaryValue options:(MTLParsingOptions)options error:(NSError *__autoreleasing *)error {
+	return [[self alloc] initWithDictionary:dictionaryValue options:options error:error];
+}
+
 - (instancetype)init {
 	// Nothing special by default, but we have a declaration in the header.
 	return [super init];
 }
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary error:(NSError **)error {
+	return [self initWithDictionary:dictionary options:0 error:error];
+}
+
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary options:(MTLParsingOptions)options error:(NSError *__autoreleasing *)error {
 	self = [self init];
 	if (self == nil) return nil;
-
+	
+	BOOL shouldIgnoreErrors = (options & MTLParsingOptionCombineValidationErrors) == MTLParsingOptionCombineValidationErrors;
+	NSMutableArray *errorsArray = [NSMutableArray array];
 	for (NSString *key in dictionary) {
 		// Mark this as being autoreleased, because validateValue may return
 		// a new object to be stored in this variable (and we don't want ARC to
 		// double-free or leak the old or new values).
 		__autoreleasing id value = [dictionary objectForKey:key];
-	
+		
 		if ([value isEqual:NSNull.null]) value = nil;
-
-		BOOL success = MTLValidateAndSetValue(self, key, value, YES, error);
-		if (!success) return nil;
+		
+		NSError *validationError = nil;
+		if (!MTLValidateAndSetValue(self, key, value, YES, &validationError)) {
+			// Validation failed
+			if (!shouldIgnoreErrors) {
+				// Should also return an error
+				if (error) {
+					*error = validationError;
+				}
+				return nil;
+			} else if (validationError) {
+				// collect errors
+				[errorsArray addObject:validationError];
+			}
+		}
 	}
-
+	if ([errorsArray count]) {
+		if (error) {
+			*error = [NSError mtl_umbrellaErrorWithErrors:errorsArray];
+		}
+	}
 	return self;
 }
 
@@ -323,8 +349,13 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 		return NO;
 	}
 	
-	// actually we shouldn't get here
-	return YES;
+	if (outError) {
+		*outError = [NSError mtl_validationErrorForProperty:inKey
+											   expectedType:[NSString stringWithFormat:@"%s", propertyEncoding]
+											   receivedType:NSStringFromClass(valueClass)];
+	}
+
+	return NO;
 }
 
 #pragma mark NSCopying

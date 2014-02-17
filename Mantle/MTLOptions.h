@@ -7,5 +7,5 @@
 //
 
 typedef NS_OPTIONS(NSInteger, MTLParsingOptions) {
-	MTLParsingIgnoreValidationErrors = (1UL << 0)
+	MTLParsingOptionCombineValidationErrors = (1UL << 0)
 };

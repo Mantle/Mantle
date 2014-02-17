@@ -10,6 +10,8 @@
 
 @interface NSError (MTLValidation)
 
++ (instancetype)mtl_umbrellaErrorWithErrors:(NSArray *)errors;
+
 + (instancetype)mtl_validationErrorForProperty:(NSString *)property
                                   expectedType:(NSString *)expectedType
                                   receivedType:(NSString *)receivedType;

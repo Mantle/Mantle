@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import "MTLOptions.h"
+
 // An abstract base class for model objects, using reflection to provide
 // sensible default behaviors.
 //
@@ -18,6 +20,8 @@
 // Returns a new instance of the receiver initialized using
 // -initWithDictionary:error:.
 + (instancetype)modelWithDictionary:(NSDictionary *)dictionaryValue error:(NSError **)error;
+
++ (instancetype)modelWithDictionary:(NSDictionary *)dictionaryValue options:(MTLParsingOptions)options error:(NSError **)error;
 
 // Initializes the receiver with default values.
 //
@@ -37,6 +41,8 @@
 //
 // Returns an initialized model object, or nil if validation failed.
 - (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue error:(NSError **)error;
+
+- (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue options:(MTLParsingOptions)options error:(NSError **)error;
 
 // Returns the keys for all @property declarations, except for `readonly`
 // properties without ivars, or properties on MTLModel itself.

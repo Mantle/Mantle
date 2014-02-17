@@ -12,6 +12,22 @@
 
 @implementation NSError (MTLValidation)
 
++ (instancetype)mtl_umbrellaErrorWithErrors:(NSArray *)errors {
+	NSParameterAssert(errors);
+	if ([errors count] == 1) {
+		return [errors firstObject];
+	}
+	
+	NSDictionary *userInfo = @{
+		NSLocalizedDescriptionKey : @"Several validation error occured",
+		MTLDetailedErrorsKey : errors
+	};
+	return [NSError errorWithDomain:MTLModelErrorDomain
+							   code:MTLModelValidationError
+						   userInfo:userInfo];
+	
+}
+
 + (instancetype)mtl_validationErrorForProperty:(NSString *)property
                                   expectedType:(NSString *)expectedType
                                   receivedType:(NSString *)receivedType {

@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import "MTLOptions.h"
+
 @class MTLModel;
 
 // A MTLModel object that supports being parsed from and serialized to JSON.
@@ -85,6 +87,8 @@ extern const NSInteger MTLJSONAdapterErrorInvalidJSONDictionary;
 // occurred.
 + (id)modelOfClass:(Class)modelClass fromJSONDictionary:(NSDictionary *)JSONDictionary error:(NSError **)error;
 
++ (id)modelOfClass:(Class)modelClass fromJSONDictionary:(NSDictionary *)JSONDictionary options:(MTLParsingOptions)options error:(NSError **)error;
+
 // Converts a model into a JSON representation.
 //
 // model - The model to use for JSON serialization. This argument must not be
@@ -109,6 +113,8 @@ extern const NSInteger MTLJSONAdapterErrorInvalidJSONDictionary;
 // Returns an initialized adapter upon success, or nil if a parsing error
 // occurred.
 - (id)initWithJSONDictionary:(NSDictionary *)JSONDictionary modelClass:(Class)modelClass error:(NSError **)error;
+
+- (id)initWithJSONDictionary:(NSDictionary *)JSONDictionary modelClass:(Class)modelClass options:(MTLParsingOptions)options error:(NSError **)error;
 
 // Initializes the receiver with an existing model.
 //
