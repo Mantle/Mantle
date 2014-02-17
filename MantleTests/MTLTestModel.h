@@ -50,7 +50,7 @@ typedef struct _MTLTestStructure {
 @interface MTLSubstitutingTestModel : MTLModel <MTLJSONSerializing>
 @end
 
-@interface MTLValidationModel : MTLModel <MTLTypeValidation>
+@interface MTLValidationModel : MTLModel <MTLTypeValidation, MTLJSONSerializing>
 
 @property (nonatomic, assign) MTLTestStructure structure;
 @property (nonatomic, assign) BOOL boolean;

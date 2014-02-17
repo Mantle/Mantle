@@ -27,6 +27,8 @@
 		5C11F6EB18AD38D900093419 /* MTLError.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C11F6E518AD36D700093419 /* MTLError.m */; };
 		5C11F6EC18AD38DA00093419 /* MTLError.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C11F6E518AD36D700093419 /* MTLError.m */; };
 		5CE7307118B152CD00EE3C9B /* MTLOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CE7306F18B152CD00EE3C9B /* MTLOptions.h */; };
+		5CE7307B18B1579600EE3C9B /* MTLModelParsingOptionsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CE7307818B1577A00EE3C9B /* MTLModelParsingOptionsSpec.m */; };
+		5CE7307C18B1579800EE3C9B /* MTLModelParsingOptionsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CE7307818B1577A00EE3C9B /* MTLModelParsingOptionsSpec.m */; };
 		88080C18160A706900CCABF2 /* NSArray+MTLManipulationAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 88080C16160A706900CCABF2 /* NSArray+MTLManipulationAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88080C19160A706900CCABF2 /* NSArray+MTLManipulationAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 88080C17160A706900CCABF2 /* NSArray+MTLManipulationAdditions.m */; };
 		88080C1A160A706900CCABF2 /* NSArray+MTLManipulationAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 88080C17160A706900CCABF2 /* NSArray+MTLManipulationAdditions.m */; };
@@ -256,6 +258,7 @@
 		5C11F6E418AD36D700093419 /* MTLError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTLError.h; sourceTree = "<group>"; };
 		5C11F6E518AD36D700093419 /* MTLError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLError.m; sourceTree = "<group>"; };
 		5CE7306F18B152CD00EE3C9B /* MTLOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTLOptions.h; sourceTree = "<group>"; };
+		5CE7307818B1577A00EE3C9B /* MTLModelParsingOptionsSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLModelParsingOptionsSpec.m; sourceTree = "<group>"; };
 		88080C16160A706900CCABF2 /* NSArray+MTLManipulationAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+MTLManipulationAdditions.h"; sourceTree = "<group>"; };
 		88080C17160A706900CCABF2 /* NSArray+MTLManipulationAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+MTLManipulationAdditions.m"; sourceTree = "<group>"; };
 		88080C1C160A719D00CCABF2 /* MTLArrayManipulationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLArrayManipulationSpec.m; sourceTree = "<group>"; };
@@ -528,9 +531,10 @@
 				D02E48E916CB8ACA00257645 /* MTLModelNSCodingSpec.m */,
 				D0760EC315FFCA250060F550 /* MTLModelSpec.m */,
 				547AE0FC17882ED100F4437D /* MTLModelValidationSpec.m */,
+				5CE7307818B1577A00EE3C9B /* MTLModelParsingOptionsSpec.m */,
 				D0F1174C1614C8000092520B /* MTLPredefinedTransformerAdditionsSpec.m */,
-				D08B5AB116002A23001FE685 /* MTLValueTransformerSpec.m */,
 				D0BFC36617476A5F00F5DC5D /* MTLValueTransformerInversionAdditionsSpec.m */,
+				D08B5AB116002A23001FE685 /* MTLValueTransformerSpec.m */,
 			);
 			name = Specs;
 			sourceTree = "<group>";
@@ -980,6 +984,7 @@
 				54803A3B17882CCD00011B39 /* MTLErrorModelExceptionSpec.m in Sources */,
 				D08B5AB216002A23001FE685 /* MTLValueTransformerSpec.m in Sources */,
 				88080C1D160A719D00CCABF2 /* MTLArrayManipulationSpec.m in Sources */,
+				5CE7307B18B1579600EE3C9B /* MTLModelParsingOptionsSpec.m in Sources */,
 				D064BA341613BA75004CA27A /* MTLTestNotificationObserver.m in Sources */,
 				D0C27CF6161107E5002FE587 /* MTLDictionaryManipulationSpec.m in Sources */,
 				547AE0FD17882ED100F4437D /* MTLModelValidationSpec.m in Sources */,
@@ -1027,6 +1032,7 @@
 				54803A3C17882CCD00011B39 /* MTLErrorModelExceptionSpec.m in Sources */,
 				D08B5AB316002A23001FE685 /* MTLValueTransformerSpec.m in Sources */,
 				88080C1E160A719D00CCABF2 /* MTLArrayManipulationSpec.m in Sources */,
+				5CE7307C18B1579800EE3C9B /* MTLModelParsingOptionsSpec.m in Sources */,
 				D064BA351613BA75004CA27A /* MTLTestNotificationObserver.m in Sources */,
 				D0C27CF7161107E5002FE587 /* MTLDictionaryManipulationSpec.m in Sources */,
 				547AE0FE17882ED100F4437D /* MTLModelValidationSpec.m in Sources */,

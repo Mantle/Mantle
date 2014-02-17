@@ -140,6 +140,13 @@ static NSUInteger modelVersion = 1;
 
 @implementation MTLValidationModel
 
++ (NSDictionary *)JSONKeyPathsByPropertyKey {
+	return @{
+		@"structure" : @"structure",
+		@"boolean" : @"boolean"
+	};
+}
+
 + (BOOL)supportsTypeValidation {
 	return YES;
 }
