@@ -182,13 +182,20 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 #pragma mark Serialization
 
 - (NSDictionary *)JSONDictionary {
-	NSDictionary *dictionaryValue = self.model.dictionaryValue;
-	NSMutableDictionary *JSONDictionary = [[NSMutableDictionary alloc] initWithCapacity:dictionaryValue.count];
+	return [self JSONDictionaryForValues:self.model.dictionaryValue];
+}
 
+- (NSDictionary *)JSONDictionaryForKeys:(NSArray *)keys {
+	return [self JSONDictionaryForValues:[self dictionaryWithValuesForKeys:keys]];
+}
+
+- (NSDictionary *)JSONDictionaryForValues:(NSDictionary *)dictionaryValue {
+	NSMutableDictionary *JSONDictionary = [[NSMutableDictionary alloc] initWithCapacity:dictionaryValue.count];
+	
 	[dictionaryValue enumerateKeysAndObjectsUsingBlock:^(NSString *propertyKey, id value, BOOL *stop) {
 		NSString *JSONKeyPath = [self JSONKeyPathForPropertyKey:propertyKey];
 		if (JSONKeyPath == nil) return;
-
+		
 		NSValueTransformer *transformer = [self JSONTransformerForKey:propertyKey];
 		if ([transformer.class allowsReverseTransformation]) {
 			// Map NSNull -> nil for the transformer, and then back for the
@@ -196,9 +203,9 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 			if ([value isEqual:NSNull.null]) value = nil;
 			value = [transformer reverseTransformedValue:value] ?: NSNull.null;
 		}
-
+		
 		NSArray *keyPathComponents = [JSONKeyPath componentsSeparatedByString:@"."];
-
+		
 		// Set up dictionaries at each step of the key path.
 		id obj = JSONDictionary;
 		for (NSString *component in keyPathComponents) {
@@ -207,13 +214,13 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 				// can set the whole key path afterward.
 				[obj setValue:[NSMutableDictionary dictionary] forKey:component];
 			}
-
+			
 			obj = [obj valueForKey:component];
 		}
-
+		
 		[JSONDictionary setValue:value forKeyPath:JSONKeyPath];
 	}];
-
+	
 	return JSONDictionary;
 }
 
