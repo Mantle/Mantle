@@ -232,21 +232,18 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 - (BOOL)validateValue:(inout __autoreleasing id *)ioValue
 			   forKey:(NSString *)inKey
 				error:(out NSError *__autoreleasing *)outError {
+	// If super validation failed, don't bother to continue.
+	// At this point individual keys are validated
 	if (![super validateValue:ioValue
 					   forKey:inKey
-						error:outError]) {
-		return NO;
-	}
+						error:outError]) return NO;
+
 	
-	if (![self conformsToProtocol:@protocol(MTLTypeValidation)] || ![[self class] supportsTypeValidation]) {
-		return YES;
-	}
+	if (![self conformsToProtocol:@protocol(MTLTypeValidation)] ||
+		![[self class] supportsTypeValidation]) return YES;
 	
-	
-	if (!(*ioValue)) {
-		// No way to figure out if the value is of the same type as the property
-		return YES;
-	}
+	// No way to figure out if the value is of the same type as the property
+	if (*ioValue == nil) return YES;
 	
 	objc_property_t property = class_getProperty([self class], [inKey UTF8String]);
 	mtl_propertyAttributes *attributes = mtl_copyPropertyAttributes(property);
@@ -256,104 +253,21 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 	
 	Class propertyClass = attributes->objectClass;
 	Class valueClass = [*ioValue class];
-
-	// can be validated using property class
-	if (propertyClass) {
-		if ([valueClass isSubclassOfClass:propertyClass]) {
-			return YES;
-		}
-		// value is not a descendant of a property class
-		if (outError) {
-			*outError = [NSError mtl_validationErrorForProperty:inKey
-												   expectedType:NSStringFromClass(propertyClass)
-												   receivedType:NSStringFromClass(valueClass)];
-		}
+	
+	if (propertyClass != nil && valueClass != nil) {
+		if ([valueClass isSubclassOfClass:propertyClass]) return YES;
+		if (outError != nil) *outError = [NSError mtl_validationErrorForProperty:inKey
+																	expectedType:NSStringFromClass(propertyClass)
+																	receivedType:NSStringFromClass(valueClass)];
 		return NO;
 	}
 	
-	// property is a primitive type
-	const char *propertyEncoding = attributes->type;
-	// first check if it's a special case when attribute is of type id
-	if (!propertyEncoding) {
-		return YES;
-	}
+	// the value expected to contain a boxed structure
+	if ([valueClass isSubclassOfClass:[NSValue class]]) return YES;
 	
-	// validating using encoding of the property
-
-	// BOOL
-	// Note: on pre 64 bit systems BOOL is defined as signed char,
-	// therefore there is no way to validate numeric values
-	BOOL isBooleanConst = (*ioValue == (__bridge id)kCFBooleanFalse ||
-						   *ioValue == (__bridge id)kCFBooleanTrue);
-	if (isBooleanConst) {
-		// is property has type boolean
-		if (strcmp(propertyEncoding, @encode(BOOL)) == 0) {
-			return YES;
-		} else {
-			// Value is not one of two boolean constant
-			if (outError) {
-				*outError = [NSError mtl_validationErrorForProperty:inKey
-													   expectedType:@"BOOL"
-													   receivedType:[NSString stringWithFormat:@"%s", propertyEncoding]];
-			}
-			return NO;
-		}
-	}
-	
-	// Numbers
-	
-	// We let NSNumber convert the underlying value to the appropriate value
-	// through KVC
-	if ([valueClass isSubclassOfClass:[NSNumber class]]) {
-		// make sure that the attribute is a numeric primitive
-		BOOL isNumericType = (
-			strcmp(propertyEncoding, @encode(unsigned int)) == 0 ||
-			strcmp(propertyEncoding, @encode(int)) == 0 ||
-			strcmp(propertyEncoding, @encode(float)) == 0 ||
-			strcmp(propertyEncoding, @encode(double)) == 0 ||
-			strcmp(propertyEncoding, @encode(long)) == 0 ||
-			strcmp(propertyEncoding, @encode(long long)) == 0 ||
-			strcmp(propertyEncoding, @encode(unsigned long)) == 0 ||
-			strcmp(propertyEncoding, @encode(unsigned long long)) == 0 ||
-			strcmp(propertyEncoding, @encode(unsigned char)) == 0 ||
-			strcmp(propertyEncoding, @encode(unsigned short)) == 0 ||
-			strcmp(propertyEncoding, @encode(char)) == 0 ||
-			strcmp(propertyEncoding, @encode(short)) == 0
-		);
-
-		if (isNumericType) {
-			return YES;
-		} else {
-			if (outError) {
-				*outError = [NSError mtl_validationErrorForProperty:inKey
-													   expectedType:[NSString stringWithFormat:@"%s", propertyEncoding]
-													   receivedType:NSStringFromClass(valueClass)];
-			}
-			return NO;
-		}
-	}
-	
-	// NSValue, most likely contains structures
-	if ([valueClass isSubclassOfClass:[NSValue class]]) {
-		// Just compare undelying encodings
-		const char *valueEncoding = [((NSValue *)*ioValue) objCType];
-		BOOL isStructEncodingValid = (strcmp(valueEncoding, propertyEncoding) == 0);
-		if (isStructEncodingValid) {
-			return YES;
-		}
-		if (outError) {
-			*outError = [NSError mtl_validationErrorForProperty:inKey
-												   expectedType:[NSString stringWithFormat:@"%s", propertyEncoding]
-												   receivedType:[NSString stringWithFormat:@"%s", valueEncoding]];
-		}
-		return NO;
-	}
-	
-	if (outError) {
-		*outError = [NSError mtl_validationErrorForProperty:inKey
-											   expectedType:[NSString stringWithFormat:@"%s", propertyEncoding]
-											   receivedType:NSStringFromClass(valueClass)];
-	}
+	if (outError != nil) *outError = [NSError mtl_validationErrorForProperty:inKey
+																expectedType:[NSString stringWithFormat:@"%s", attributes->type]
+																receivedType:NSStringFromClass(valueClass)];
 
 	return NO;
 }
