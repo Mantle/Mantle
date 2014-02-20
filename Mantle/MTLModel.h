@@ -126,6 +126,11 @@
 
 @end
 
+// Protocol allowing for opt-in validation of property types vs assigned value
+// types.
+// Currently, if you have a primitive property such as BOOL or struct,
+// it's recommended to implement a custom validation using -validate<Key>:error:
+// method.
 @protocol MTLTypeValidation <NSObject>
 
 @required

@@ -8,6 +8,8 @@
 
 #import "MTLTestModel.h"
 
+#import "NSError+MTLValidation.h"
+
 NSString * const MTLTestModelErrorDomain = @"MTLTestModelErrorDomain";
 const NSInteger MTLTestModelNameTooLong = 1;
 const NSInteger MTLTestModelNameMissing = 2;

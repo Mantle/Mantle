@@ -14,6 +14,7 @@ SpecBegin(MTLModelParsingOptionsSpec)
 __block NSDictionary *twoInvalidPropertiesDictionary;
 __block NSDictionary *oneInvalidPropertyDictionary;
 __block MTLTestStructure validTestStructure;
+
 beforeAll(^{
 	CGPoint point = (CGPoint){ 20, 20 };
 	twoInvalidPropertiesDictionary = @{

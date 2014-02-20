@@ -14,6 +14,7 @@ extern NSString * const MTLModelErrorDomain;
 // Associated with the NSException that was caught.
 extern NSString * const MTLModelThrownExceptionErrorKey;
 
+// Associated with the NSArray of errors if several occurred during validation.
 extern NSString * const MTLDetailedErrorsKey;
 
 enum {

@@ -7,5 +7,6 @@
 //
 
 typedef NS_OPTIONS(NSInteger, MTLParsingOptions) {
+	// Allows to continue parsing of a model after validation errors or exception
 	MTLParsingOptionCombineValidationErrors = (1UL << 0)
 };
