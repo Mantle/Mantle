@@ -156,8 +156,33 @@ static NSUInteger modelVersion = 1;
 	if (error != NULL) {
 		*error = [NSError errorWithDomain:MTLTestModelErrorDomain code:MTLTestModelNameMissing userInfo:nil];
 	}
-
 	return NO;
+}
+
+- (BOOL)validateStructure:(NSValue *__autoreleasing*)structureValue
+					error:(NSError *__autoreleasing*)error {
+	if (![*structureValue isKindOfClass:[NSValue class]]) {
+		if (error) {
+			*error = [NSError mtl_validationErrorForProperty:@"structure"
+												expectedType:@"MTLTestStructure"
+												receivedType:NSStringFromClass([*structureValue class])];
+		}
+		return NO;
+	}
+	
+	
+	if (strcmp([*structureValue objCType], @encode(MTLTestStructure)) != 0) {
+		if (error) *error = [NSError mtl_validationErrorForProperty:@"structure"
+												expectedType:@"MTLTestStructure"
+												receivedType:[NSString stringWithFormat:@"%s", [*structureValue objCType]]];
+		return NO;
+	}
+	
+	MTLTestStructure structure;
+	[*structureValue getValue:&structure];
+	self.structure = structure;
+	
+	return YES;
 }
 
 @end
