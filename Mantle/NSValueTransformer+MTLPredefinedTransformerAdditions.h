@@ -46,6 +46,17 @@ extern NSString * const MTLBooleanValueTransformerName;
 // array elements back and forth.
 + (NSValueTransformer<MTLTransformerErrorHandling> *)mtl_JSONArrayTransformerWithModelClass:(Class)modelClass;
 
+// An optionally reversible transformer which applies the given transformer to
+// each element of an array
+//
+// transformer - The transformer to apply to each element. If the transformer
+//               is reversible, the transformer returned by this method will be
+//               reversible.
+//
+// Returns a transformer which applies a transformation to each element of an
+// array
++ (NSValueTransformer<MTLTransformerErrorHandling> *)mtl_arrayMappingTransformerWithTransformer:(NSValueTransformer *)transformer;
+
 // A reversible value transformer to transform between the keys and objects of a
 // dictionary.
 //
