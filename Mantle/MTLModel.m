@@ -113,7 +113,7 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
         if (completion) {
             NSData *archivedSelf = [NSKeyedArchiver archivedDataWithRootObject:self];
             MTLModel *deepCopy = [NSKeyedUnarchiver unarchiveObjectWithData:archivedSelf];
-
+			
 			dispatch_async(dispatch_get_main_queue(), ^{
 				completion(deepCopy);
             });
