@@ -108,6 +108,17 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 	return self;
 }
 
+- (void)deepCopyWithCompletion:(void (^)(MTLModel *deepCopyOfModel))completion {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        if (completion) {
+            NSData *archivedSelf = [NSKeyedArchiver archivedDataWithRootObject:self];
+            MTLModel *deepCopy = [NSKeyedUnarchiver unarchiveObjectWithData:archivedSelf];
+            
+            completion(deepCopy);
+        }
+    });
+}
+
 #pragma mark Reflection
 
 + (void)enumeratePropertiesUsingBlock:(void (^)(objc_property_t property, BOOL *stop))block {
