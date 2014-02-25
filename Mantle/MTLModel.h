@@ -38,6 +38,13 @@
 // Returns an initialized model object, or nil if validation failed.
 - (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue error:(NSError **)error;
 
+// Initializes a deeply copied instance of the receiver. The receiver must conform to NSCoding.
+//
+// completion - The deep copy is made on a background thread. The completion block
+//              will be executed on the main thread once the deep copy is finished.
+//
+- (void)deepCopyWithCompletion:(void (^)(MTLModel *deepCopyOfModel))completion;
+
 // Returns the keys for all @property declarations, except for `readonly`
 // properties without ivars, or properties on MTLModel itself.
 + (NSSet *)propertyKeys;
