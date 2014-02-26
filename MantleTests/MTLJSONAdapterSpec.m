@@ -79,6 +79,38 @@ it(@"should initialize nested key paths from JSON", ^{
 	expect(serializationError).to.beNil();
 });
 
+it(@"should return nil and error with an invalid key path from JSON",^{
+	NSDictionary *values = @{
+		@"username": @"foo",
+		@"nested": @"bar",
+		@"count": @"0"
+	};
+	
+	NSError *error = nil;
+	MTLTestModel *model = [MTLJSONAdapter modelOfClass:MTLTestModel.class fromJSONDictionary:values error:&error];
+	expect(model).beNil();
+	expect(error).notTo.beNil();
+	expect(error.domain).to.equal(MTLJSONAdapterErrorDomain);
+	expect(error.code).to.equal(MTLJSONAdapterErrorInvalidJSONDictionary);
+});
+
+it(@"should initialize without returning any error when using a JSON dictionary which Null.null as value",^{
+	NSDictionary *values = @{
+		@"username": @"foo",
+		@"nested": NSNull.null,
+		@"count": @"0"
+	};
+	
+	NSError *error = nil;
+	MTLTestModel *model = [MTLJSONAdapter modelOfClass:MTLTestModel.class fromJSONDictionary:values error:&error];
+	expect(model).notTo.beNil();
+	expect(error).to.beNil();
+	
+	expect(model.name).to.equal(@"foo");
+	expect(model.count).to.equal(0);
+	expect(model.nestedName).to.beNil();
+});
+
 it(@"should return nil and an error with a nil JSON dictionary", ^{
 	NSError *error = nil;
 	MTLJSONAdapter *adapter = [[MTLJSONAdapter alloc] initWithJSONDictionary:nil modelClass:MTLTestModel.class error:&error];
@@ -127,6 +159,36 @@ it(@"should fail to initialize if JSON dictionary validation fails", ^{
 	expect(model).to.beNil();
 	expect(error.domain).to.equal(MTLTestModelErrorDomain);
 	expect(error.code).to.equal(MTLTestModelNameTooLong);
+});
+
+it(@"should implicitly transform URLs", ^{
+	MTLURLModel *model = [[MTLURLModel alloc] init];
+
+	NSError *error = nil;
+	NSDictionary *JSONDictionary = [MTLJSONAdapter JSONDictionaryFromModel:model error:&error];
+
+	expect(JSONDictionary[@"URL"]).to.equal(@"http://github.com");
+	expect(error).to.beNil();
+});
+
+it(@"should implicitly transform BOOLs", ^{
+	MTLBoolModel *model = [[MTLBoolModel alloc] init];
+
+	NSError *error = nil;
+	NSDictionary *JSONDictionary = [MTLJSONAdapter JSONDictionaryFromModel:model error:&error];
+
+	expect(JSONDictionary[@"flag"]).to.beIdenticalTo((id)kCFBooleanFalse);
+	expect(error).to.beNil();
+});
+
+it(@"should not invoke implicit transformers for property keys not actually backed by properties", ^{
+	MTLNonPropertyModel *model = [[MTLNonPropertyModel alloc] init];
+
+	NSError *error = nil;
+	NSDictionary *JSONDictionary = [MTLJSONAdapter JSONDictionaryFromModel:model error:&error];
+
+	expect(error).to.beNil();
+	expect(JSONDictionary[@"homepage"]).to.equal(model.homepage);
 });
 
 it(@"should fail to initialize if JSON transformer fails", ^{

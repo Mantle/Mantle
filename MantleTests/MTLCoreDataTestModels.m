@@ -55,15 +55,23 @@ NSString * const MTLCoreDataTestModelsDomain = @"MTLCoreDataTestModelsDomain";
 	}];
 }
 
-+ (NSValueTransformer *)URLEntityAttributeTransformer {
-	return [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
-}
-
 + (NSDictionary *)relationshipModelClassesByPropertyKey {
 	return @{
 		@"orderedChildren": MTLChildTestModel.class,
 		@"unorderedChildren": MTLChildTestModel.class,
 	};
+}
+
+@end
+
+@implementation MTLParentIncorrectTestModel
+
++ (NSString *)managedObjectEntityName {
+	return @"Parent";
+}
+
++ (NSDictionary *)managedObjectKeysByPropertyKey {
+	return @{};
 }
 
 @end
