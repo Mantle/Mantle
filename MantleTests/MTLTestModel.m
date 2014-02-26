@@ -25,10 +25,9 @@ static NSUInteger modelVersion = 1;
 
 - (BOOL)validateName:(NSString **)name error:(NSError **)error {
 	if ([*name length] < 10) return YES;
-	if (error != NULL) {
-		*error = [NSError errorWithDomain:MTLTestModelErrorDomain code:MTLTestModelNameTooLong userInfo:nil];
-	}
-
+	if (error != NULL) *error = [NSError errorWithDomain:MTLTestModelErrorDomain
+													code:MTLTestModelNameTooLong
+												userInfo:nil];
 	return NO;
 }
 
@@ -155,23 +154,20 @@ static NSUInteger modelVersion = 1;
 
 - (BOOL)validateName:(NSString **)name error:(NSError **)error {
 	if (*name != nil) return YES;
-	if (error != NULL) {
-		*error = [NSError errorWithDomain:MTLTestModelErrorDomain code:MTLTestModelNameMissing userInfo:nil];
-	}
+	if (error != NULL) *error = [NSError errorWithDomain:MTLTestModelErrorDomain
+													code:MTLTestModelNameMissing
+												userInfo:nil];
 	return NO;
 }
 
 - (BOOL)validateStructure:(NSValue *__autoreleasing*)structureValue
 					error:(NSError *__autoreleasing*)error {
 	if (![*structureValue isKindOfClass:[NSValue class]]) {
-		if (error) {
-			*error = [NSError mtl_validationErrorForProperty:@"structure"
-												expectedType:@"MTLTestStructure"
-												receivedType:NSStringFromClass([*structureValue class])];
-		}
+		if (error) *error = [NSError mtl_validationErrorForProperty:@"structure"
+													   expectedType:@"MTLTestStructure"
+													   receivedType:NSStringFromClass([*structureValue class])];
 		return NO;
 	}
-	
 	
 	if (strcmp([*structureValue objCType], @encode(MTLTestStructure)) != 0) {
 		if (error) *error = [NSError mtl_validationErrorForProperty:@"structure"

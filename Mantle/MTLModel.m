@@ -117,9 +117,7 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 			// Validation failed
 			if (!shouldIgnoreErrors) {
 				// Should also return an error
-				if (error) {
-					*error = validationError;
-				}
+				if (error) *error = validationError;
 				return nil;
 			} else if (validationError) {
 				// collect errors
@@ -127,11 +125,7 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 			}
 		}
 	}
-	if ([errorsArray count]) {
-		if (error) {
-			*error = [NSError mtl_umbrellaErrorWithErrors:errorsArray];
-		}
-	}
+	if ([errorsArray count] && error) *error = [NSError mtl_umbrellaErrorWithErrors:errorsArray];
 	return self;
 }
 

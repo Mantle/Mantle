@@ -21,6 +21,8 @@
 // -initWithDictionary:error:.
 + (instancetype)modelWithDictionary:(NSDictionary *)dictionaryValue error:(NSError **)error;
 
+// Returns a new instance of the receiver initialized using
+// -initWithDictionary:options:error:.
 + (instancetype)modelWithDictionary:(NSDictionary *)dictionaryValue options:(MTLParsingOptions)options error:(NSError **)error;
 
 // Initializes the receiver with default values.
@@ -42,6 +44,20 @@
 // Returns an initialized model object, or nil if validation failed.
 - (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue error:(NSError **)error;
 
+// Initializes the receiver using key-value coding, setting the keys and values
+// in the given dictionary.
+//
+// dictionaryValue - Property keys and values to set on the receiver. Any NSNull
+//                   values will be converted to nil before being used. KVC
+//                   validation methods will automatically be invoked for all of
+//                   the properties given. If nil, this method is equivalent to
+//                   -init.
+// options         - Options for parsing model objects. See `MTLParsingOptions`
+//                   for more information
+// error           - If not NULL, this may be set to any error that occurs
+//                   (like a KVC validation error).
+//
+// Returns an initialized model object, or nil if validation failed.
 - (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue options:(MTLParsingOptions)options error:(NSError **)error;
 
 // Returns the keys for all @property declarations, except for `readonly`
