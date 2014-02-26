@@ -13,8 +13,8 @@
 
 // A dictionary representing the properties of the receiver.
 //
-// The default implementation combines the values corresponding to all
-// +propertyKeys into a dictionary, with any nil values represented by NSNull.
+// Cmbines the values corresponding to all  +propertyKeys into a dictionary,
+// with any nil values represented by NSNull.
 //
 // This property must never be nil.
 @property (nonatomic, copy, readonly) NSDictionary *dictionaryValue;
@@ -35,10 +35,6 @@
 
 // Merges the value of the given key on the receiver with the value of the same
 // key from the given model object, giving precedence to the other model object.
-//
-// By default, this method looks for a `-merge<Key>FromModel:` method on the
-// receiver, and invokes it if found. If not found, and `model` is not nil, the
-// value for the given key is taken from `model`.
 - (void)mergeValueForKey:(NSString *)key fromModel:(id<MTLModel>)model;
 
 // Merges the values of the given model object into the receiver, using
@@ -68,6 +64,11 @@
 //
 // This is the designated initializer for this class.
 - (instancetype)init;
+
+// By default, this method looks for a `-merge<Key>FromModel:` method on the
+// receiver, and invokes it if found. If not found, and `model` is not nil, the
+// value for the given key is taken from `model`.
+- (void)mergeValueForKey:(NSString *)key fromModel:(id<MTLModel>)model;
 
 // Compares the receiver with another object for equality.
 //
