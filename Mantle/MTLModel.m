@@ -13,7 +13,7 @@
 #import "MTLReflection.h"
 #import <objc/runtime.h>
 
-// Used to cache the reflection performed in +generateAndCachePropertyKeys.
+// Used to cache the reflection performed in +propertyKeys.
 static void *MTLModelCachedPropertyKeysKey = &MTLModelCachedPropertyKeysKey;
 
 // Associated in +generateAndCachePropertyKeys with a set of all transitory
@@ -70,9 +70,9 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 
 @interface MTLModel ()
 
-// Inspects all properties of this class using
+// Inspects all properties of returned by +propertyKeys using
 // +storageBehaviorForPropertyWithKey and caches the results.
-+ (void)generateAndCachePropertyKeys;
++ (void)generateAndCacheStorageBehaviors;
 
 // Returns a set of all property keys for which
 // +storageBehaviorForPropertyWithKey returned MTLPropertyStorageTransitory.
@@ -95,33 +95,27 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 
 #pragma mark Lifecycle
 
-+ (void)generateAndCachePropertyKeys {
-	NSMutableSet *propertyKeys = [NSMutableSet set];
++ (void)generateAndCacheStorageBehaviors {
 	NSMutableSet *transitoryKeys = [NSMutableSet set];
 	NSMutableSet *permanentKeys = [NSMutableSet set];
 
-	[self enumeratePropertiesUsingBlock:^(objc_property_t property, BOOL *stop) {
-		NSString *key = @(property_getName(property));
-
-		switch ([self storageBehaviorForPropertyWithKey:key]) {
+	for (NSString *propertyKey in self.propertyKeys) {
+		switch ([self storageBehaviorForPropertyWithKey:propertyKey]) {
 			case MTLPropertyStorageNone:
 				break;
 
 			case MTLPropertyStorageTransitory:
-				[transitoryKeys addObject:key];
-				[propertyKeys addObject:key];
+				[transitoryKeys addObject:propertyKey];
 				break;
 
 			case MTLPropertyStoragePermanent:
-				[permanentKeys addObject:key];
-				[propertyKeys addObject:key];
+				[permanentKeys addObject:propertyKey];
 				break;
 		}
-	}];
+	}
 
 	// It doesn't really matter if we replace another thread's work, since we do
 	// it atomically and the result should be the same.
-	objc_setAssociatedObject(self, MTLModelCachedPropertyKeysKey, propertyKeys, OBJC_ASSOCIATION_COPY);
 	objc_setAssociatedObject(self, MTLModelCachedTransitoryPropertyKeysKey, transitoryKeys, OBJC_ASSOCIATION_COPY);
 	objc_setAssociatedObject(self, MTLModelCachedPermanentPropertyKeysKey, permanentKeys, OBJC_ASSOCIATION_COPY);
 }
@@ -179,21 +173,31 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 }
 
 + (NSSet *)propertyKeys {
-	NSSet *propertyKeys = objc_getAssociatedObject(self, MTLModelCachedPropertyKeysKey);
+	NSSet *cachedKeys = objc_getAssociatedObject(self, MTLModelCachedPropertyKeysKey);
+	if (cachedKeys != nil) return cachedKeys;
 
-	if (propertyKeys == nil) {
-		[self generateAndCachePropertyKeys];
-		propertyKeys = objc_getAssociatedObject(self, MTLModelCachedPropertyKeysKey);
-	}
+	NSMutableSet *keys = [NSMutableSet set];
 
-	return propertyKeys;
+	[self enumeratePropertiesUsingBlock:^(objc_property_t property, BOOL *stop) {
+		NSString *key = @(property_getName(property));
+
+		if ([self storageBehaviorForPropertyWithKey:key] != MTLPropertyStorageNone) {
+			 [keys addObject:key];
+		}
+	}];
+
+	// It doesn't really matter if we replace another thread's work, since we do
+	// it atomically and the result should be the same.
+	objc_setAssociatedObject(self, MTLModelCachedPropertyKeysKey, keys, OBJC_ASSOCIATION_COPY);
+
+	return keys;
 }
 
 + (NSSet *)transitoryPropertyKeys {
 	NSSet *transitoryPropertyKeys = objc_getAssociatedObject(self, MTLModelCachedTransitoryPropertyKeysKey);
 
 	if (transitoryPropertyKeys == nil) {
-		[self generateAndCachePropertyKeys];
+		[self generateAndCacheStorageBehaviors];
 		transitoryPropertyKeys = objc_getAssociatedObject(self, MTLModelCachedTransitoryPropertyKeysKey);
 	}
 
@@ -204,7 +208,7 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 	NSSet *permanentPropertyKeys = objc_getAssociatedObject(self, MTLModelCachedPermanentPropertyKeysKey);
 
 	if (permanentPropertyKeys == nil) {
-		[self generateAndCachePropertyKeys];
+		[self generateAndCacheStorageBehaviors];
 		permanentPropertyKeys = objc_getAssociatedObject(self, MTLModelCachedPermanentPropertyKeysKey);
 	}
 

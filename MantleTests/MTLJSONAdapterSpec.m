@@ -181,7 +181,7 @@ it(@"should implicitly transform BOOLs", ^{
 	expect(error).to.beNil();
 });
 
-pending(@"should not invoke implicit transformers for property keys not actually backed by properties", ^{
+it(@"should not invoke implicit transformers for property keys not actually backed by properties", ^{
 	MTLNonPropertyModel *model = [[MTLNonPropertyModel alloc] init];
 
 	NSError *error = nil;

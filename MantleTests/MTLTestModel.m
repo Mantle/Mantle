@@ -214,6 +214,14 @@ static NSUInteger modelVersion = 1;
 	return [NSURL URLWithString:@"about:blank"];
 }
 
++ (MTLPropertyStorage)storageBehaviorForPropertyWithKey:(NSString *)propertyKey {
+	if ([propertyKey isEqualTo:@"homepage"]) {
+		return MTLPropertyStoragePermanent;
+	}
+
+	return [super storageBehaviorForPropertyWithKey:propertyKey];
+}
+
 #pragma mark - MTLJSONSerializing
 
 + (NSDictionary *)JSONKeyPathsByPropertyKey {
