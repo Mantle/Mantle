@@ -163,10 +163,10 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 		if (![values isKindOfClass:NSArray.class]) {
 			if (error != NULL) {
 				NSDictionary *userInfo = @{
-										   NSLocalizedDescriptionKey: NSLocalizedString(@"Could not transform non-array type", @""),
-										   NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Expected an NSArray, got: %@.", @""), values],
-										   MTLTransformerErrorHandlingInputValueErrorKey: values
-										   };
+					NSLocalizedDescriptionKey: NSLocalizedString(@"Could not transform non-array type", @""),
+					NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Expected an NSArray, got: %@.", @""), values],
+					MTLTransformerErrorHandlingInputValueErrorKey: values
+				};
 				
 				*error = [NSError errorWithDomain:MTLTransformerErrorHandlingErrorDomain code:MTLTransformerErrorHandlingErrorInvalidInput userInfo:userInfo];
 			}
@@ -191,11 +191,11 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 				if (*success == NO) {
 					if (error != NULL) {
 						NSDictionary *userInfo = @{
-												   NSLocalizedDescriptionKey: NSLocalizedString(@"Could not transform array", @""),
-												   NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Could not transform value at index %d", @""), index],
-												   NSUnderlyingErrorKey: underlyingError,
-												   MTLTransformerErrorHandlingInputValueErrorKey: values
-												   };
+							NSLocalizedDescriptionKey: NSLocalizedString(@"Could not transform array", @""),
+							NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Could not transform value at index %d", @""), index],
+							NSUnderlyingErrorKey: underlyingError,
+							MTLTransformerErrorHandlingInputValueErrorKey: values
+						};
 						
 						*error = [NSError errorWithDomain:MTLTransformerErrorHandlingErrorDomain code:MTLTransformerErrorHandlingErrorInvalidInput userInfo:userInfo];
 					}
@@ -222,10 +222,10 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 			if (![values isKindOfClass:NSArray.class]) {
 				if (error != NULL) {
 					NSDictionary *userInfo = @{
-											   NSLocalizedDescriptionKey: NSLocalizedString(@"Could not transform non-array type", @""),
-											   NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Expected an NSArray, got: %@.", @""), values],
-											   MTLTransformerErrorHandlingInputValueErrorKey: values
-											   };
+						NSLocalizedDescriptionKey: NSLocalizedString(@"Could not transform non-array type", @""),
+						NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Expected an NSArray, got: %@.", @""), values],
+						MTLTransformerErrorHandlingInputValueErrorKey: values
+					};
 					
 					*error = [NSError errorWithDomain:MTLTransformerErrorHandlingErrorDomain code:MTLTransformerErrorHandlingErrorInvalidInput userInfo:userInfo];
 				}
@@ -250,11 +250,11 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 					if (*success == NO) {
 						if (error != NULL) {
 							NSDictionary *userInfo = @{
-													   NSLocalizedDescriptionKey: NSLocalizedString(@"Could not transform array", @""),
-													   NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Could not transform value at index %d", @""), index],
-													   NSUnderlyingErrorKey: underlyingError,
-													   MTLTransformerErrorHandlingInputValueErrorKey: values
-													   };
+								NSLocalizedDescriptionKey: NSLocalizedString(@"Could not transform array", @""),
+								NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Could not transform value at index %d", @""), index],
+								NSUnderlyingErrorKey: underlyingError,
+								MTLTransformerErrorHandlingInputValueErrorKey: values
+							};
 							
 							*error = [NSError errorWithDomain:MTLTransformerErrorHandlingErrorDomain code:MTLTransformerErrorHandlingErrorInvalidInput userInfo:userInfo];
 						}
