@@ -272,7 +272,7 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 			return transformedValues;
 		};
 	}
-	if (reverseBlock) {
+	if (reverseBlock != nil) {
 		return [MTLValueTransformer transformerUsingForwardBlock:forwardBlock reverseBlock:reverseBlock];
 	} else {
 		return [MTLValueTransformer transformerUsingForwardBlock:forwardBlock];
