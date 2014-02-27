@@ -215,7 +215,7 @@ static NSUInteger modelVersion = 1;
 }
 
 + (MTLPropertyStorage)storageBehaviorForPropertyWithKey:(NSString *)propertyKey {
-	if ([propertyKey isEqualTo:@"homepage"]) {
+	if ([propertyKey isEqualToString:@"homepage"]) {
 		return MTLPropertyStoragePermanent;
 	}
 
