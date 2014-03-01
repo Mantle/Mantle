@@ -196,7 +196,7 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 							NSUnderlyingErrorKey: underlyingError,
 							MTLTransformerErrorHandlingInputValueErrorKey: values
 						};
-						
+
 						*error = [NSError errorWithDomain:MTLTransformerErrorHandlingErrorDomain code:MTLTransformerErrorHandlingErrorInvalidInput userInfo:userInfo];
 					}
 					return nil;
@@ -211,7 +211,6 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 		}
 		
 		return transformedValues;
-		
 	};
 	
 	id (^reverseBlock)(NSArray *values, BOOL *success, NSError **error) = nil;
@@ -226,7 +225,7 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 						NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Expected an NSArray, got: %@.", @""), values],
 						MTLTransformerErrorHandlingInputValueErrorKey: values
 					};
-					
+
 					*error = [NSError errorWithDomain:MTLTransformerErrorHandlingErrorDomain code:MTLTransformerErrorHandlingErrorInvalidInput userInfo:userInfo];
 				}
 				*success = NO;
@@ -282,7 +281,7 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 + (NSValueTransformer<MTLTransformerErrorHandling> *)mtl_valueMappingTransformerWithDictionary:(NSDictionary *)dictionary {
 	NSParameterAssert(dictionary != nil);
 	NSParameterAssert(dictionary.count == [[NSSet setWithArray:dictionary.allValues] count]);
-	
+
 	return [MTLValueTransformer
 			transformerUsingForwardBlock:^ id (id <NSCopying> key, BOOL *success, NSError **error) {
 				if (key == nil) key = NSNull.null;
@@ -292,10 +291,10 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 				if (result == nil) {
 					if (error != NULL) {
 						NSDictionary *userInfo = @{
-												   NSLocalizedDescriptionKey: NSLocalizedString(@"Could not find associated value", @""),
-												   NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Expected %1$@ to contain a value for %2$@", @""), dictionary, key],
-												   MTLTransformerErrorHandlingInputValueErrorKey : key
-												   };
+							NSLocalizedDescriptionKey: NSLocalizedString(@"Could not find associated value", @""),
+							NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Expected %1$@ to contain a value for %2$@", @""), dictionary, key],
+							MTLTransformerErrorHandlingInputValueErrorKey : key
+						};
 						
 						*error = [NSError errorWithDomain:MTLTransformerErrorHandlingErrorDomain code:MTLTransformerErrorHandlingErrorInvalidInput userInfo:userInfo];
 					}
@@ -317,10 +316,10 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 				if (result == nil) {
 					if (error != NULL) {
 						NSDictionary *userInfo = @{
-												   NSLocalizedDescriptionKey: NSLocalizedString(@"Could not find associated key", @""),
-												   NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Expected %1$@ to contain a key that maps to %2$@", @""), dictionary, value],
-												   MTLTransformerErrorHandlingInputValueErrorKey : value
-												   };
+							NSLocalizedDescriptionKey: NSLocalizedString(@"Could not find associated key", @""),
+							NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Expected %1$@ to contain a key that maps to %2$@", @""), dictionary, value],
+							MTLTransformerErrorHandlingInputValueErrorKey : value
+						};
 						
 						*error = [NSError errorWithDomain:MTLTransformerErrorHandlingErrorDomain code:MTLTransformerErrorHandlingErrorInvalidInput userInfo:userInfo];
 					}
