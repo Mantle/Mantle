@@ -226,9 +226,7 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 - (BOOL)validateValue:(inout __autoreleasing id *)ioValue forKey:(NSString *)inKey error:(out NSError *__autoreleasing *)outError {
 	// If super validation failed, don't bother to continue.
 	// At this point individual keys are validated
-	if (![super validateValue:ioValue
-					   forKey:inKey
-						error:outError]) return NO;
+	if (![super validateValue:ioValue forKey:inKey error:outError]) return NO;
 	
 	// check if object implements validate<Key>:error:
 	SEL validateKeySelector = MTLSelectorWithCapitalizedKeyPattern("validate", inKey, ":error:");
