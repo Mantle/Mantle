@@ -223,16 +223,23 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 	return YES;
 }
 
-- (BOOL)validateValue:(inout __autoreleasing id *)ioValue
-			   forKey:(NSString *)inKey
-				error:(out NSError *__autoreleasing *)outError {
+- (BOOL)validateValue:(inout __autoreleasing id *)ioValue forKey:(NSString *)inKey error:(out NSError *__autoreleasing *)outError {
 	// If super validation failed, don't bother to continue.
 	// At this point individual keys are validated
 	if (![super validateValue:ioValue
 					   forKey:inKey
 						error:outError]) return NO;
-
 	
+	// check if object implements validate<Key>:error:
+	SEL validateKeySelector = MTLSelectorWithCapitalizedKeyPattern("validate", inKey, ":error:");
+	if ([self respondsToSelector:validateKeySelector]) return YES;
+	
+	// assuming JSONTransformer validating
+	if ([self conformsToProtocol:@protocol(MTLJSONSerializing)]) {
+		SEL jsonTransformerSelector = MTLSelectorWithKeyPattern(inKey, "JSONTransformer");
+		if ([[self class] respondsToSelector:jsonTransformerSelector]) return YES;
+	}
+		
 	if (![self conformsToProtocol:@protocol(MTLTypeValidation)] ||
 		![[self class] supportsTypeValidation]) return YES;
 	
