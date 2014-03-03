@@ -63,4 +63,13 @@ extern NSString * const MTLBooleanValueTransformerName;
 // transformations, and from objects to keys for reverse transformations.
 + (NSValueTransformer<MTLTransformerErrorHandling> *)mtl_valueMappingTransformerWithDictionary:(NSDictionary *)dictionary;
 
+// A value transformer that errors if the transformed value are not of the given
+// class.
+//
+// class - The expected class.
+//
+// Returns a transformer which will return an error if the transformed in value
+// is not a member of class. Otherwise, the value is simply passed through.
++ (NSValueTransformer<MTLTransformerErrorHandling> *)mtl_validatingTransformerForClass:(Class)class;
+
 @end
