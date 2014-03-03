@@ -328,7 +328,9 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	NSParameterAssert(class != nil);
 
 	SEL selector = MTLSelectorWithKeyPattern(NSStringFromClass(class), "JSONTransformer");
-	if (![self respondsToSelector:selector]) return nil;
+	if (![self respondsToSelector:selector]) {
+		return [NSValueTransformer mtl_validatingTransformerForClass:class];
+	}
 
 	NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:selector]];
 	invocation.target = self;
@@ -347,7 +349,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 		return [NSValueTransformer valueTransformerForName:MTLBooleanValueTransformerName];
 	}
 
-	return nil;
+	return [NSValueTransformer mtl_validatingTransformerForClass:NSValue.class];
 }
 
 

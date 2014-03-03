@@ -204,6 +204,20 @@ it(@"should fail to initialize if JSON transformer fails", ^{
 	expect(error.userInfo[MTLTransformerErrorHandlingInputValueErrorKey]).to.equal(@666);
 });
 
+it(@"should fail to deserialize if the JSON types don't match the properties", ^{
+	NSDictionary *values = @{
+		@"flag": @"Potentially"
+	};
+
+	NSError *error = nil;
+	MTLTestModel *model = [MTLJSONAdapter modelOfClass:MTLBoolModel.class fromJSONDictionary:values error:&error];
+	expect(model).to.beNil();
+
+	expect(error.domain).to.equal(MTLTransformerErrorHandlingErrorDomain);
+	expect(error.code).to.equal(MTLTransformerErrorHandlingErrorInvalidInput);
+	expect(error.userInfo[MTLTransformerErrorHandlingInputValueErrorKey]).to.equal(@"Potentially");
+});
+
 it(@"should fail to serialize if a JSON transformer errors", ^{
 	MTLURLModel *model = [[MTLURLModel alloc] init];
 
