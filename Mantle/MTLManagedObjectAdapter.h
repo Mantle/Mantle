@@ -49,9 +49,9 @@
 // The adapter will first map any keys provided by this method to the correct
 // keys in managedObjectKeysByPropertyKey.
 //
-// The adapator will then perform a fetch request in the provided context for
-// a managed object that matches the MTLModel's managedObjectEntityName and
-// has equal values set for the property keys on the MTLModel.
+// The adapter will then perform a fetch request in the provided context for a
+// managed object that matches the MTLModel's managedObjectEntityName and has
+// equal values set for the property keys on the MTLModel.
 //
 // The managed object returned by the fetch request will then be set with all
 // values from the MTLModel that the managed object is being converted from.
@@ -136,7 +136,7 @@ extern const NSInteger MTLManagedObjectAdapterErrorInvalidManagedObjectKey;
 // MTLManagedObjectAdapter.
 extern const NSInteger MTLManagedObjectAdapterErrorUnsupportedManagedObjectPropertyType;
 
-// The fetch request to find an exisiting managed object based on
+// The fetch request to find an existing managed object based on
 // `+propertyKeysForManagedObjectUniquing` failed.
 extern const NSInteger MTLManagedObjectAdapterErrorUniqueFetchRequestFailed;
 
