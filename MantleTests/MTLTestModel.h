@@ -41,11 +41,23 @@ extern const NSInteger MTLTestModelNameMissing;
 
 @end
 
+// A structure definition for `MTLSubstitutingTestModel` to parse
+typedef struct _MTLTestStructure {
+	NSUInteger count;
+	BOOL isOn;
+} MTLTestStructure;
+
 // Parses MTLTestModel objects from JSON instead.
 @interface MTLSubstitutingTestModel : MTLModel <MTLJSONSerializing>
 @end
 
-@interface MTLValidationModel : MTLModel
+@interface MTLValidationModel : MTLModel <MTLTypeValidation, MTLJSONSerializing>
+
+// MTLValidationModel validates if assigned structure is of matching type
+@property (nonatomic, assign) MTLTestStructure structure;
+
+// Expected values should be of type NSValue.
+@property (nonatomic, assign) BOOL boolean;
 
 // Defaults to nil, which is not considered valid.
 @property (nonatomic, copy) NSString *name;

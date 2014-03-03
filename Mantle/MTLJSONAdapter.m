@@ -43,7 +43,11 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 #pragma mark Convenience methods
 
 + (id)modelOfClass:(Class)modelClass fromJSONDictionary:(NSDictionary *)JSONDictionary error:(NSError **)error {
-	MTLJSONAdapter *adapter = [[self alloc] initWithJSONDictionary:JSONDictionary modelClass:modelClass error:error];
+	return [self modelOfClass:modelClass fromJSONDictionary:JSONDictionary options:0 error:error];
+}
+
++ (id)modelOfClass:(Class)modelClass fromJSONDictionary:(NSDictionary *)JSONDictionary options:(MTLParsingOptions)options error:(NSError *__autoreleasing *)error {
+	MTLJSONAdapter *adapter = [[self alloc] initWithJSONDictionary:JSONDictionary modelClass:modelClass options:options error:error];
 	return adapter.model;
 }
 
@@ -60,6 +64,10 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 }
 
 - (id)initWithJSONDictionary:(NSDictionary *)JSONDictionary modelClass:(Class)modelClass error:(NSError **)error {
+	return [self initWithJSONDictionary:JSONDictionary modelClass:modelClass options:0 error:error];
+}
+
+- (instancetype)initWithJSONDictionary:(NSDictionary *)JSONDictionary modelClass:(Class)modelClass options:(MTLParsingOptions)options error:(NSError *__autoreleasing *)error {
 	NSParameterAssert(modelClass != nil);
 	NSParameterAssert([modelClass isSubclassOfClass:MTLModel.class]);
 	NSParameterAssert([modelClass conformsToProtocol:@protocol(MTLJSONSerializing)]);
@@ -160,7 +168,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 		}
 	}
 
-	_model = [self.modelClass modelWithDictionary:dictionaryValue error:error];
+	_model = [self.modelClass modelWithDictionary:dictionaryValue options:options error:error];
 	if (_model == nil) return nil;
 
 	return self;

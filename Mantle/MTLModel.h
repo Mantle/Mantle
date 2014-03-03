@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import "MTLOptions.h"
+
 // An abstract base class for model objects, using reflection to provide
 // sensible default behaviors.
 //
@@ -18,6 +20,10 @@
 // Returns a new instance of the receiver initialized using
 // -initWithDictionary:error:.
 + (instancetype)modelWithDictionary:(NSDictionary *)dictionaryValue error:(NSError **)error;
+
+// Returns a new instance of the receiver initialized using
+// -initWithDictionary:options:error:.
++ (instancetype)modelWithDictionary:(NSDictionary *)dictionaryValue options:(MTLParsingOptions)options error:(NSError **)error;
 
 // Initializes the receiver with default values.
 //
@@ -37,6 +43,22 @@
 //
 // Returns an initialized model object, or nil if validation failed.
 - (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue error:(NSError **)error;
+
+// Initializes the receiver using key-value coding, setting the keys and values
+// in the given dictionary.
+//
+// dictionaryValue - Property keys and values to set on the receiver. Any NSNull
+//                   values will be converted to nil before being used. KVC
+//                   validation methods will automatically be invoked for all of
+//                   the properties given. If nil, this method is equivalent to
+//                   -init.
+// options         - Options for parsing model objects. See `MTLParsingOptions`
+//                   for more information
+// error           - If not NULL, this may be set to any error that occurs
+//                   (like a KVC validation error).
+//
+// Returns an initialized model object, or nil if validation failed.
+- (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue options:(MTLParsingOptions)options error:(NSError **)error;
 
 // Returns the keys for all @property declarations, except for `readonly`
 // properties without ivars, or properties on MTLModel itself.
@@ -117,5 +139,18 @@
 + (NSValueTransformer *)transformerForKey:(NSString *)key __attribute__((deprecated("Replaced by +JSONTransformerForKey: in <MTLJSONSerializing>")));
 
 + (NSDictionary *)migrateExternalRepresentation:(NSDictionary *)externalRepresentation fromVersion:(NSUInteger)fromVersion __attribute__((deprecated("Replaced by -decodeValueForKey:withCoder:modelVersion:")));
+
+@end
+
+// Protocol allowing for opt-in validation of property types vs assigned value
+// types.
+// Currently, if you have a primitive property such as BOOL or struct,
+// it's recommended to implement a custom validation using -validate<Key>:error:
+// method.
+@protocol MTLTypeValidation <NSObject>
+
+@required
+// This method returns YES for all classes that support type validation.
++ (BOOL)supportsTypeValidation;
 
 @end

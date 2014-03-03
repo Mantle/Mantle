@@ -7,6 +7,7 @@
 //
 
 #import "NSError+MTLModelException.h"
+#import "NSError+MTLValidation.h"
 #import "MTLModel.h"
 #import "EXTRuntimeExtensions.h"
 #import "EXTScope.h"
@@ -84,27 +85,47 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 	return [[self alloc] initWithDictionary:dictionary error:error];
 }
 
++ (instancetype)modelWithDictionary:(NSDictionary *)dictionaryValue options:(MTLParsingOptions)options error:(NSError *__autoreleasing *)error {
+	return [[self alloc] initWithDictionary:dictionaryValue options:options error:error];
+}
+
 - (instancetype)init {
 	// Nothing special by default, but we have a declaration in the header.
 	return [super init];
 }
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary error:(NSError **)error {
+	return [self initWithDictionary:dictionary options:0 error:error];
+}
+
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary options:(MTLParsingOptions)options error:(NSError *__autoreleasing *)error {
 	self = [self init];
 	if (self == nil) return nil;
-
+	
+	BOOL shouldIgnoreErrors = (options & MTLParsingOptionCombineValidationErrors) == MTLParsingOptionCombineValidationErrors;
+	NSMutableArray *errorsArray = [NSMutableArray array];
 	for (NSString *key in dictionary) {
 		// Mark this as being autoreleased, because validateValue may return
 		// a new object to be stored in this variable (and we don't want ARC to
 		// double-free or leak the old or new values).
 		__autoreleasing id value = [dictionary objectForKey:key];
-	
+		
 		if ([value isEqual:NSNull.null]) value = nil;
-
-		BOOL success = MTLValidateAndSetValue(self, key, value, YES, error);
-		if (!success) return nil;
+		
+		NSError *validationError = nil;
+		if (!MTLValidateAndSetValue(self, key, value, YES, &validationError)) {
+			// Validation failed
+			if (!shouldIgnoreErrors) {
+				// Should also return an error
+				if (error) *error = validationError;
+				return nil;
+			} else if (validationError) {
+				// collect errors
+				[errorsArray addObject:validationError];
+			}
+		}
 	}
-
+	if ([errorsArray count] && error) *error = [NSError mtl_umbrellaErrorWithErrors:errorsArray];
 	return self;
 }
 
@@ -200,6 +221,54 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 	}
 
 	return YES;
+}
+
+- (BOOL)validateValue:(inout __autoreleasing id *)ioValue forKey:(NSString *)inKey error:(out NSError *__autoreleasing *)outError {
+	// If super validation failed, don't bother to continue.
+	// At this point individual keys are validated
+	if (![super validateValue:ioValue forKey:inKey error:outError]) return NO;
+	
+	// check if object implements validate<Key>:error:
+	SEL validateKeySelector = MTLSelectorWithCapitalizedKeyPattern("validate", inKey, ":error:");
+	if ([self respondsToSelector:validateKeySelector]) return YES;
+	
+	// assuming JSONTransformer validating
+	if ([self conformsToProtocol:@protocol(MTLJSONSerializing)]) {
+		SEL jsonTransformerSelector = MTLSelectorWithKeyPattern(inKey, "JSONTransformer");
+		if ([[self class] respondsToSelector:jsonTransformerSelector]) return YES;
+	}
+		
+	if (![self conformsToProtocol:@protocol(MTLTypeValidation)] ||
+		![[self class] supportsTypeValidation]) return YES;
+	
+	// No way to figure out if the value is of the same type as the property
+	if (*ioValue == nil) return YES;
+	
+	objc_property_t property = class_getProperty([self class], [inKey UTF8String]);
+	mtl_propertyAttributes *attributes = mtl_copyPropertyAttributes(property);
+	@onExit {
+		free(attributes);
+	};
+	
+	Class propertyClass = attributes->objectClass;
+	Class valueClass = [*ioValue class];
+	
+	if (propertyClass != nil && valueClass != nil) {
+		if ([valueClass isSubclassOfClass:propertyClass]) return YES;
+		if (outError != nil) *outError = [NSError mtl_validationErrorForProperty:inKey
+																	expectedType:NSStringFromClass(propertyClass)
+																	receivedType:NSStringFromClass(valueClass)];
+		return NO;
+	}
+	
+	// the value expected to contain a boxed structure
+	if ([valueClass isSubclassOfClass:[NSValue class]]) return YES;
+	
+	if (outError != nil) *outError = [NSError mtl_validationErrorForProperty:inKey
+																expectedType:[NSString stringWithFormat:@"%s", attributes->type]
+																receivedType:NSStringFromClass(valueClass)];
+
+	return NO;
 }
 
 #pragma mark NSCopying

@@ -8,6 +8,8 @@
 
 #import "MTLTestModel.h"
 
+#import "NSError+MTLValidation.h"
+
 NSString * const MTLTestModelErrorDomain = @"MTLTestModelErrorDomain";
 const NSInteger MTLTestModelNameTooLong = 1;
 const NSInteger MTLTestModelNameMissing = 2;
@@ -23,10 +25,9 @@ static NSUInteger modelVersion = 1;
 
 - (BOOL)validateName:(NSString **)name error:(NSError **)error {
 	if ([*name length] < 10) return YES;
-	if (error != NULL) {
-		*error = [NSError errorWithDomain:MTLTestModelErrorDomain code:MTLTestModelNameTooLong userInfo:nil];
-	}
-
+	if (error != NULL) *error = [NSError errorWithDomain:MTLTestModelErrorDomain
+													code:MTLTestModelNameTooLong
+												userInfo:nil];
 	return NO;
 }
 
@@ -140,13 +141,46 @@ static NSUInteger modelVersion = 1;
 
 @implementation MTLValidationModel
 
++ (NSDictionary *)JSONKeyPathsByPropertyKey {
+	return @{
+		@"structure" : @"structure",
+		@"boolean" : @"boolean"
+	};
+}
+
++ (BOOL)supportsTypeValidation {
+	return YES;
+}
+
 - (BOOL)validateName:(NSString **)name error:(NSError **)error {
 	if (*name != nil) return YES;
-	if (error != NULL) {
-		*error = [NSError errorWithDomain:MTLTestModelErrorDomain code:MTLTestModelNameMissing userInfo:nil];
-	}
-
+	if (error != NULL) *error = [NSError errorWithDomain:MTLTestModelErrorDomain
+													code:MTLTestModelNameMissing
+												userInfo:nil];
 	return NO;
+}
+
+- (BOOL)validateStructure:(NSValue *__autoreleasing*)structureValue
+					error:(NSError *__autoreleasing*)error {
+	if (![*structureValue isKindOfClass:[NSValue class]]) {
+		if (error) *error = [NSError mtl_validationErrorForProperty:@"structure"
+													   expectedType:@"MTLTestStructure"
+													   receivedType:NSStringFromClass([*structureValue class])];
+		return NO;
+	}
+	
+	if (strcmp([*structureValue objCType], @encode(MTLTestStructure)) != 0) {
+		if (error) *error = [NSError mtl_validationErrorForProperty:@"structure"
+												expectedType:@"MTLTestStructure"
+												receivedType:[NSString stringWithFormat:@"%s", [*structureValue objCType]]];
+		return NO;
+	}
+	
+	MTLTestStructure structure;
+	[*structureValue getValue:&structure];
+	self.structure = structure;
+	
+	return YES;
 }
 
 @end
