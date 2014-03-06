@@ -178,8 +178,8 @@ extern const NSInteger MTLJSONAdapterErrorInvalidJSONDictionary;
 //              class must conform to <MTLJSONSerializing>. This argument must
 //              not be nil.
 //
-// Returns a reversible transformer which uses MTLJSONAdapter for transforming
-// values back and forth.
+// Returns a reversible transformer which uses the class of the receiver for
+// transforming values back and forth.
 + (NSValueTransformer<MTLTransformerErrorHandling> *)dictionaryTransformerWithModelClass:(Class)modelClass;
 
 // Creates a reversible transformer to convert an array of JSON dictionaries
@@ -189,8 +189,8 @@ extern const NSInteger MTLJSONAdapterErrorInvalidJSONDictionary;
 //              dictionary. This class must conform to <MTLJSONSerializing>.
 //              This argument must not be nil.
 //
-// Returns a reversible transformer which uses MTLJSONAdapter for transforming
-// array elements back and forth.
+// Returns a reversible transformer which uses the class of the receiver for
+// transforming array elements back and forth.
 + (NSValueTransformer<MTLTransformerErrorHandling> *)arrayTransformerWithModelClass:(Class)modelClass;
 
 // This value transformer is used by MTLJSONAdapter to automatically convert
