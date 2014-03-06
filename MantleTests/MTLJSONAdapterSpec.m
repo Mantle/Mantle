@@ -7,6 +7,7 @@
 //
 
 #import "MTLTestModel.h"
+#import "MTLTransformerErrorExamples.h"
 
 SpecBegin(MTLJSONAdapter)
 
@@ -246,6 +247,90 @@ it(@"should return an error when no suitable model class is found", ^{
 	expect(error).notTo.beNil();
 	expect(error.domain).to.equal(MTLJSONAdapterErrorDomain);
 	expect(error.code).to.equal(MTLJSONAdapterErrorNoClassFound);
+});
+
+describe(@"JSON transformers", ^{
+	describe(@"dictionary transformer", ^{
+		__block NSValueTransformer *transformer;
+		
+		__block MTLTestModel *model;
+		__block NSDictionary *JSONDictionary;
+		
+		before(^{
+			model = [[MTLTestModel alloc] init];
+			JSONDictionary = [MTLJSONAdapter JSONDictionaryFromModel:model error:NULL];
+			
+			transformer = [MTLJSONAdapter dictionaryTransformerWithModelClass:MTLTestModel.class];
+			expect(transformer).notTo.beNil();
+		});
+		
+		it(@"should transform a JSON dictionary into a model", ^{
+			expect([transformer transformedValue:JSONDictionary]).to.equal(model);
+		});
+		
+		it(@"should transform a model into a JSON dictionary", ^{
+			expect([transformer.class allowsReverseTransformation]).to.beTruthy();
+			expect([transformer reverseTransformedValue:model]).to.equal(JSONDictionary);
+		});
+		
+		itShouldBehaveLike(MTLTransformerErrorExamples, ^{
+			return @{
+				MTLTransformerErrorExamplesTransformer: transformer,
+				MTLTransformerErrorExamplesInvalidTransformationInput: NSNull.null,
+				MTLTransformerErrorExamplesInvalidReverseTransformationInput: NSNull.null
+			};
+		});
+	});
+	
+	describe(@"external representation array transformer", ^{
+		__block NSValueTransformer *transformer;
+		
+		__block NSArray *models;
+		__block NSArray *JSONDictionaries;
+		
+		beforeEach(^{
+			NSMutableArray *uniqueModels = [NSMutableArray array];
+			NSMutableArray *mutableDictionaries = [NSMutableArray array];
+			
+			for (NSUInteger i = 0; i < 10; i++) {
+				MTLTestModel *model = [[MTLTestModel alloc] init];
+				model.count = i;
+				
+				[uniqueModels addObject:model];
+				
+				NSDictionary *dict = [MTLJSONAdapter JSONDictionaryFromModel:model error:NULL];
+				expect(dict).notTo.beNil();
+				
+				[mutableDictionaries addObject:dict];
+			}
+			
+			uniqueModels[2] = NSNull.null;
+			mutableDictionaries[2] = NSNull.null;
+			
+			models = [uniqueModels copy];
+			JSONDictionaries = [mutableDictionaries copy];
+			
+			transformer = [MTLJSONAdapter arrayTransformerWithModelClass:MTLTestModel.class];
+			expect(transformer).notTo.beNil();
+		});
+		
+		it(@"should transform JSON dictionaries into models", ^{
+			expect([transformer transformedValue:JSONDictionaries]).to.equal(models);
+		});
+		
+		it(@"should transform models into JSON dictionaries", ^{
+			expect([transformer.class allowsReverseTransformation]).to.beTruthy();
+			expect([transformer reverseTransformedValue:models]).to.equal(JSONDictionaries);
+		});
+		
+		itShouldBehaveLike(MTLTransformerErrorExamples, ^{
+			return @{
+				MTLTransformerErrorExamplesTransformer: transformer,
+				MTLTransformerErrorExamplesInvalidTransformationInput: NSNull.null,
+				MTLTransformerErrorExamplesInvalidReverseTransformationInput: NSNull.null
+			};
+		});
+	});
 });
 
 SpecEnd
