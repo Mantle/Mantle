@@ -171,6 +171,60 @@ describe(@"JSON transformers", ^{
 	});
 });
 
+describe(@"array mapping transformer", ^{
+	__block NSValueTransformer *transformer;
+	__block NSArray *URLStrings;
+	__block NSArray *URLs;
+	
+	beforeEach(^{
+		NSValueTransformer *appliedTransformer = [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
+		URLStrings = @[
+			@"https://github.com/",
+			@"https://github.com/MantleFramework/Mantle",
+			@"http://apple.com"
+		];
+		
+		NSMutableArray *mutableURLs = [NSMutableArray array];
+		for (NSString *URLString in URLStrings) {
+			NSURL *URL = [appliedTransformer transformedValue:URLString];
+			expect(URL).notTo.beNil();
+			
+			[mutableURLs addObject:URL];
+		}
+		URLs = [mutableURLs copy];
+		
+		transformer = [NSValueTransformer mtl_arrayMappingTransformerWithTransformer:appliedTransformer];
+		expect(transformer).notTo.beNil();
+	});
+	
+	it(@"should apply the transformer to each element", ^{
+		expect([transformer transformedValue:URLStrings]).to.equal(URLs);
+	});
+	
+	it(@"should apply the transformer to each element in reverse", ^{
+		expect([transformer.class allowsReverseTransformation]).to.beTruthy();
+		expect([transformer reverseTransformedValue:URLs]).to.equal(URLStrings);
+	});
+	
+	it(@"should return a non-reversible transformer given a non-reversible transformer", ^{
+		NSValueTransformer *appliedTransformer = [MTLValueTransformer transformerUsingForwardBlock:^(NSString *str, BOOL *success, NSError **error) {
+			return [NSURL URLWithString:str];
+		}];
+		
+		NSValueTransformer *transformer = [NSValueTransformer mtl_arrayMappingTransformerWithTransformer:appliedTransformer];
+		expect([transformer.class allowsReverseTransformation]).to.beFalsy();
+		expect([transformer transformedValue:URLStrings]).to.equal(URLs);
+	});
+	
+	itShouldBehaveLike(MTLTransformerErrorExamples, ^{
+		return @{
+			MTLTransformerErrorExamplesTransformer: transformer,
+			MTLTransformerErrorExamplesInvalidTransformationInput: NSNull.null,
+			MTLTransformerErrorExamplesInvalidReverseTransformationInput: NSNull.null
+		};
+	});
+});
+
 describe(@"value mapping transformer", ^{
 	__block NSValueTransformer *transformer;
 
