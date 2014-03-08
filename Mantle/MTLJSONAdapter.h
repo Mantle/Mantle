@@ -52,7 +52,7 @@
 // to abort parsing (e.g., if the data is invalid).
 + (Class)classForParsingJSONDictionary:(NSDictionary *)JSONDictionary;
 
-// Specifies the subset properties that will be included in the JSON
+// Specifies the subset of properties that will be included in the JSON
 // representation.
 //
 // Subclasses overriding this method should combine their values with those of
