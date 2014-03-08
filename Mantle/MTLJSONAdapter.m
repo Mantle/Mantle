@@ -244,12 +244,23 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 
 	id JSONKeyPath = self.JSONKeyPathsByPropertyKey[key];
 	if ([JSONKeyPath isEqual:NSNull.null]) return nil;
-
+	
 	if (JSONKeyPath == nil) {
-		return key;
-	} else {
-		return JSONKeyPath;
+		JSONKeyPath = key;
 	}
+	
+	if ([self.modelClass respondsToSelector:@selector(propertyKeysForJSONRepresentation)]) {
+		NSSet *propertyKeys = [NSSet setWithArray:[self.modelClass propertyKeysForJSONRepresentation]];
+		
+		if ([propertyKeys containsObject:key]) {
+			return JSONKeyPath;
+		}
+		else {
+			return nil;
+		}
+	}
+	
+	return JSONKeyPath;
 }
 
 @end

@@ -162,3 +162,11 @@ static NSUInteger modelVersion = 1;
 }
 
 @end
+
+@implementation MTLPropertySubsetModel
+
++ (NSArray *)propertyKeysForJSONRepresentation {
+	return @[ @"name" ];
+}
+
+@end
