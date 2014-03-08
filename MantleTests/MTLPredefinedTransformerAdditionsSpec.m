@@ -25,6 +25,11 @@ it(@"should define a URL value transformer", ^{
 	expect([transformer transformedValue:URLString]).to.equal([NSURL URLWithString:URLString]);
 	expect([transformer reverseTransformedValue:[NSURL URLWithString:URLString]]).to.equal(URLString);
 
+	// Write temporary file for use in testing file URLs
+    NSURL *fileURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:@"file.txt"]];
+	expect([transformer transformedValue:fileURL.absoluteString]).to.equal(fileURL);
+	expect([transformer reverseTransformedValue:fileURL]).to.equal(fileURL.absoluteString);
+
 	expect([transformer transformedValue:nil]).to.beNil();
 	expect([transformer reverseTransformedValue:nil]).to.beNil();
 });

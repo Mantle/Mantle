@@ -23,7 +23,7 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 		MTLValueTransformer *URLValueTransformer = [MTLValueTransformer
 			reversibleTransformerWithForwardBlock:^ id (NSString *str) {
 				if (![str isKindOfClass:NSString.class]) return nil;
-				return [NSURL URLWithString:str];
+				return [NSURL URLWithString:str] ?: [NSURL fileURLWithPath:str];
 			}
 			reverseBlock:^ id (NSURL *URL) {
 				if (![URL isKindOfClass:NSURL.class]) return nil;
