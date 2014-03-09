@@ -171,7 +171,7 @@ describe(@"JSON transformers", ^{
 	});
 });
 
-describe(@"array mapping transformer", ^{
+describe(@"+mtl_arrayMappingTransformerWithTransformer:", ^{
 	__block NSValueTransformer *transformer;
 	
 	NSArray *URLStrings = @[
