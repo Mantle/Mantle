@@ -51,7 +51,7 @@ extern NSString * const MTLBooleanValueTransformerName;
 //
 // transformer - The transformer to apply to each element. If the transformer
 //               is reversible, the transformer returned by this method will be
-//               reversible.
+//               reversible. This argument must not be nil.
 //
 // Returns a transformer which applies a transformation to each element of an
 // array.
@@ -61,6 +61,7 @@ extern NSString * const MTLBooleanValueTransformerName;
 // dictionary.
 //
 // dictionary - The dictionary whose keys and values we should transform between.
+//				This argument must not be nil.
 //
 // Can for example be used for transforming between enum values and their string
 // representation.
