@@ -173,44 +173,54 @@ describe(@"JSON transformers", ^{
 
 describe(@"array mapping transformer", ^{
 	__block NSValueTransformer *transformer;
-	__block NSArray *URLStrings;
-	__block NSArray *URLs;
 	
-	beforeEach(^{
-		NSValueTransformer *appliedTransformer = [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
-		URLStrings = @[
-			@"https://github.com/",
-			@"https://github.com/MantleFramework",
-			@"http://apple.com"
-		];
+	NSArray *URLStrings = @[
+		@"https://github.com/",
+		@"https://github.com/MantleFramework",
+		@"http://apple.com"
+	];
+	NSArray *URLs = @[
+		[NSURL URLWithString:@"https://github.com/"],
+		[NSURL URLWithString:@"https://github.com/MantleFramework"],
+		[NSURL URLWithString:@"http://apple.com"]
+	];
+	
+	describe(@"when called with a reversible transformer", ^{
+		beforeEach(^{
+			NSValueTransformer *appliedTransformer = [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
+			transformer = [NSValueTransformer mtl_arrayMappingTransformerWithTransformer:appliedTransformer];
+			expect(transformer).notTo.beNil();
+		});
 		
-		URLs = @[
-			[NSURL URLWithString:@"https://github.com/"],
-			[NSURL URLWithString:@"https://github.com/MantleFramework"],
-			[NSURL URLWithString:@"http://apple.com"]
-		];
+		it(@"should allow reverse transformation", ^{
+			expect([transformer.class allowsReverseTransformation]).to.beTruthy();
+		});
 		
-		transformer = [NSValueTransformer mtl_arrayMappingTransformerWithTransformer:appliedTransformer];
-		expect(transformer).notTo.beNil();
+		it(@"should apply the transformer to each element", ^{
+			expect([transformer transformedValue:URLStrings]).to.equal(URLs);
+		});
+		
+		it(@"should apply the transformer to each element in reverse", ^{
+			expect([transformer reverseTransformedValue:URLs]).to.equal(URLStrings);
+		});
 	});
 	
-	it(@"should apply the transformer to each element", ^{
-		expect([transformer transformedValue:URLStrings]).to.equal(URLs);
-	});
-	
-	it(@"should apply the transformer to each element in reverse", ^{
-		expect([transformer.class allowsReverseTransformation]).to.beTruthy();
-		expect([transformer reverseTransformedValue:URLs]).to.equal(URLStrings);
-	});
-	
-	it(@"should return a non-reversible transformer given a non-reversible transformer", ^{
-		NSValueTransformer *appliedTransformer = [MTLValueTransformer transformerUsingForwardBlock:^(NSString *str, BOOL *success, NSError **error) {
-			return [NSURL URLWithString:str];
-		}];
+	describe(@"when called with a non-reversible transformer", ^{
+		beforeEach(^{
+			NSValueTransformer *appliedTransformer = [MTLValueTransformer transformerUsingForwardBlock:^(NSString *str, BOOL *success, NSError **error) {
+				return [NSURL URLWithString:str];
+			}];
+			transformer = [NSValueTransformer mtl_arrayMappingTransformerWithTransformer:appliedTransformer];
+			expect(transformer).notTo.beNil();
+		});
 		
-		NSValueTransformer *transformer = [NSValueTransformer mtl_arrayMappingTransformerWithTransformer:appliedTransformer];
-		expect([transformer.class allowsReverseTransformation]).to.beFalsy();
-		expect([transformer transformedValue:URLStrings]).to.equal(URLs);
+		it(@"should not allow reverse transformation", ^{
+			expect([transformer.class allowsReverseTransformation]).to.beFalsy();
+		});
+		
+		it(@"should apply the transformer to each element", ^{
+			expect([transformer transformedValue:URLStrings]).to.equal(URLs);
+		});
 	});
 	
 	itShouldBehaveLike(MTLTransformerErrorExamples, ^{
