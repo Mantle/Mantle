@@ -120,6 +120,16 @@ static NSUInteger modelVersion = 1;
 
 @end
 
+@implementation MTLArrayTestModel
+
++ (NSDictionary *)JSONKeyPathsByPropertyKey {
+	return @{
+		@"names": @"users.name"
+	};
+}
+
+@end
+
 @implementation MTLSubstitutingTestModel
 
 + (NSDictionary *)JSONKeyPathsByPropertyKey {
