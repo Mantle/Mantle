@@ -180,18 +180,15 @@ describe(@"array mapping transformer", ^{
 		NSValueTransformer *appliedTransformer = [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
 		URLStrings = @[
 			@"https://github.com/",
-			@"https://github.com/MantleFramework/Mantle",
+			@"https://github.com/MantleFramework",
 			@"http://apple.com"
 		];
 		
-		NSMutableArray *mutableURLs = [NSMutableArray array];
-		for (NSString *URLString in URLStrings) {
-			NSURL *URL = [appliedTransformer transformedValue:URLString];
-			expect(URL).notTo.beNil();
-			
-			[mutableURLs addObject:URL];
-		}
-		URLs = [mutableURLs copy];
+		URLs = @[
+			[NSURL URLWithString:@"https://github.com/"],
+			[NSURL URLWithString:@"https://github.com/MantleFramework"],
+			[NSURL URLWithString:@"http://apple.com"]
+		];
 		
 		transformer = [NSValueTransformer mtl_arrayMappingTransformerWithTransformer:appliedTransformer];
 		expect(transformer).notTo.beNil();
