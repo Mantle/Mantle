@@ -141,13 +141,18 @@ static void verifyAllowedClassesByPropertyKey(Class modelClass) {
 		return result;
 	}
 
-	if (coderRequiresSecureCoding(coder)) {
-		NSArray *allowedClasses = self.class.allowedSecureCodingClassesByPropertyKey[key];
-		NSAssert(allowedClasses != nil, @"No allowed classes specified for securely decoding key \"%@\" on %@", key, self.class);
-		
-		return [coder decodeObjectOfClasses:[NSSet setWithArray:allowedClasses] forKey:key];
-	} else {
-		return [coder decodeObjectForKey:key];
+	@try {
+		if (coderRequiresSecureCoding(coder)) {
+			NSArray *allowedClasses = self.class.allowedSecureCodingClassesByPropertyKey[key];
+			NSAssert(allowedClasses != nil, @"No allowed classes specified for securely decoding key \"%@\" on %@", key, self.class);
+			
+			return [coder decodeObjectOfClasses:[NSSet setWithArray:allowedClasses] forKey:key];
+		} else {
+			return [coder decodeObjectForKey:key];
+		}
+	} @catch (NSException *ex) {
+		NSLog(@"*** Caught exception decoding value for key \"%@\" on class %@: %@", key, self.class, ex);
+		@throw ex;
 	}
 }
 
@@ -212,24 +217,29 @@ static void verifyAllowedClassesByPropertyKey(Class modelClass) {
 
 	NSDictionary *encodingBehaviors = self.class.encodingBehaviorsByPropertyKey;
 	[self.dictionaryValue enumerateKeysAndObjectsUsingBlock:^(NSString *key, id value, BOOL *stop) {
-		// Skip nil values.
-		if ([value isEqual:NSNull.null]) return;
-
-		switch ([encodingBehaviors[key] unsignedIntegerValue]) {
-			// This will also match a nil behavior.
-			case MTLModelEncodingBehaviorExcluded:
-				break;
-
-			case MTLModelEncodingBehaviorUnconditional:
-				[coder encodeObject:value forKey:key];
-				break;
-
-			case MTLModelEncodingBehaviorConditional:
-				[coder encodeConditionalObject:value forKey:key];
-				break;
-
-			default:
-				NSAssert(NO, @"Unrecognized encoding behavior %@ for key \"%@\"", encodingBehaviors[key], key);
+		@try {
+			// Skip nil values.
+			if ([value isEqual:NSNull.null]) return;
+			
+			switch ([encodingBehaviors[key] unsignedIntegerValue]) {
+					// This will also match a nil behavior.
+				case MTLModelEncodingBehaviorExcluded:
+					break;
+					
+				case MTLModelEncodingBehaviorUnconditional:
+					[coder encodeObject:value forKey:key];
+					break;
+					
+				case MTLModelEncodingBehaviorConditional:
+					[coder encodeConditionalObject:value forKey:key];
+					break;
+					
+				default:
+					NSAssert(NO, @"Unrecognized encoding behavior %@ on class %@ for key \"%@\"", self.class, encodingBehaviors[key], key);
+			}
+		} @catch (NSException *ex) {
+			NSLog(@"*** Caught exception encoding value for key \"%@\" on class %@: %@", key, self.class, ex);
+			@throw ex;
 		}
 	}];
 }
