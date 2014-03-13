@@ -12,7 +12,7 @@
 
 // A dictionary representing the properties of the receiver.
 //
-// Cmbines the values corresponding to all  +propertyKeys into a dictionary,
+// Combines the values corresponding to all +propertyKeys into a dictionary,
 // with any nil values represented by NSNull.
 //
 // This property must never be nil.
