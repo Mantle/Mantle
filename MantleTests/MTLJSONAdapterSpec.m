@@ -218,6 +218,19 @@ it(@"should fail to deserialize if the JSON types don't match the properties", ^
 	expect(error.userInfo[MTLTransformerErrorHandlingInputValueErrorKey]).to.equal(@"Potentially");
 });
 
+fit(@"should acceppt any object for id properties", ^{
+	NSDictionary *values = @{
+		@"anyObject": @"Not an NSValue"
+	};
+
+	NSError *error = nil;
+	MTLIDModel *model = [MTLJSONAdapter modelOfClass:MTLIDModel.class fromJSONDictionary:values error:&error];
+	expect(model).notTo.beNil();
+	expect(model.anyObject).to.equal(@"Not an NSValue");
+
+	expect(error.domain).to.beNil();
+});
+
 it(@"should fail to serialize if a JSON transformer errors", ^{
 	MTLURLModel *model = [[MTLURLModel alloc] init];
 
