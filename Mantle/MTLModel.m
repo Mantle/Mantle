@@ -158,13 +158,13 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 
 #pragma mark Merging
 
-- (void)mergeValueForKey:(NSString *)key fromModel:(id<MTLModel>)model {
+- (void)mergeValueForKey:(NSString *)key fromModel:(NSObject<MTLModel> *)model {
 	NSParameterAssert(key != nil);
 
 	SEL selector = MTLSelectorWithCapitalizedKeyPattern("merge", key, "FromModel:");
 	if (![self respondsToSelector:selector]) {
 		if (model != nil) {
-			[self setValue:[(NSObject *)model valueForKey:key] forKey:key];
+			[self setValue:[model valueForKey:key] forKey:key];
 		}
 
 		return;

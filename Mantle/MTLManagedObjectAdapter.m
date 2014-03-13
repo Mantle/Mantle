@@ -146,7 +146,7 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 	NSManagedObjectContext *context = managedObject.managedObjectContext;
 
 	NSDictionary *managedObjectProperties = entity.propertiesByName;
-	id<MTLModel> model = [[self.modelClass alloc] init];
+	NSObject<MTLModel> *model = [[self.modelClass alloc] init];
 
 	// Pre-emptively consider this object processed, so that we don't get into
 	// any cycles when processing its relationships.
@@ -157,9 +157,9 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 		// a new object to be stored in this variable (and we don't want ARC to
 		// double-free or leak the old or new values).
 		__autoreleasing id replaceableValue = value;
-		if (![(NSObject *)model validateValue:&replaceableValue forKey:key error:error]) return NO;
+		if (![model validateValue:&replaceableValue forKey:key error:error]) return NO;
 
-		[(NSObject *)model setValue:replaceableValue forKey:key];
+		[model setValue:replaceableValue forKey:key];
 		return YES;
 	};
 
@@ -600,7 +600,7 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 	return nil;
 }
 
-- (NSPredicate *)uniquingPredicateForModel:(id<MTLManagedObjectSerializing>)model success:(BOOL *)success error:(NSError **)error {
+- (NSPredicate *)uniquingPredicateForModel:(NSObject<MTLManagedObjectSerializing> *)model success:(BOOL *)success error:(NSError **)error {
 	if (![self.modelClass respondsToSelector:@selector(propertyKeysForManagedObjectUniquing)]) return nil;
 
 	NSSet *propertyKeys = [self.modelClass propertyKeysForManagedObjectUniquing];
@@ -615,7 +615,7 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 
 		NSAssert(managedObjectKey != nil, @"%@ must map to a managed object key.", propertyKey);
 
-		id value = [(NSObject *)model valueForKeyPath:propertyKey];
+		id value = [model valueForKeyPath:propertyKey];
 
 		NSValueTransformer *transformer = self.valueTransformersByPropertyKey[propertyKey];
 		if ([transformer.class allowsReverseTransformation]) {
