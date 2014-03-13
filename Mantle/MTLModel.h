@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MTLModel.h"
 
 @protocol MTLModel <NSObject, NSCopying>
 
