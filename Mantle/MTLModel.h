@@ -8,6 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
+// This protocol defines the minimal interface that classes need to implement to
+// interact with Mantle adapters.
+//
+// It is intended for scenarios where inheriting from MTLModel is not feasible.
+// However, clients are encouraged to subclass the MTLModel class if they can.
+//
+// Clients that wish to implement their own adapters should target classes
+// conforming to this protocol rather than subclasses of MTLModel to ensure
+// maximum compatibility.
 @protocol MTLModel <NSObject, NSCopying>
 
 // A dictionary representing the properties of the receiver.
