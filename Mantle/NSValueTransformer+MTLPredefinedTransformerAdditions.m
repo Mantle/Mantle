@@ -309,7 +309,7 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 + (NSValueTransformer<MTLTransformerErrorHandling> *)mtl_validatingTransformerForClass:(Class)class {
 	NSParameterAssert(class != nil);
 
-	return [MTLValueTransformer transformerUsingForwardBlock:^id(id value, BOOL *success, NSError **error) {
+	return [MTLValueTransformer transformerUsingForwardBlock:^ id (id value, BOOL *success, NSError **error) {
 		if (value != nil && ![value isKindOfClass:class]) {
 			if (error != NULL) {
 				NSDictionary *userInfo = @{
