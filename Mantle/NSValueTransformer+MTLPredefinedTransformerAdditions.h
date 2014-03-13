@@ -66,7 +66,7 @@ extern NSString * const MTLBooleanValueTransformerName;
 // A value transformer that errors if the transformed value are not of the given
 // class.
 //
-// class - The expected class.
+// class - The expected class. This argument must not be nil.
 //
 // Returns a transformer which will return an error if the transformed in value
 // is not a member of class. Otherwise, the value is simply passed through.
