@@ -36,7 +36,7 @@ extern const NSInteger MTLTestModelNameMissing;
 // Should not be stored in the dictionary value or JSON.
 @property (nonatomic, copy, readonly) NSString *dynamicName;
 
-// Should not be stored in JSON.
+// Should not be stored in JSON, has MTLPropertyStorageTransitory.
 @property (nonatomic, weak) MTLEmptyTestModel *weakModel;
 
 @end
@@ -76,6 +76,16 @@ extern const NSInteger MTLTestModelNameMissing;
 - (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue error:(NSError **)error;
 
 @property (nonatomic, copy) NSString *name;
+
+@end
+
+@interface MTLStorageBehaviorModel : MTLModel
+
+@property (readonly, nonatomic, assign) BOOL primitive;
+
+@property (readonly, nonatomic, assign) id assignProperty;
+@property (readonly, nonatomic, weak) id weakProperty;
+@property (readonly, nonatomic, strong) id strongProperty;
 
 @end
 
