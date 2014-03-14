@@ -310,8 +310,9 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 
 		NSValueTransformer *transformer = nil;
 
-		Class propertyClass = attributes->objectClass;
-		if (propertyClass != NULL || strcmp(attributes->type, @encode(id)) == 0) {
+		if (*(attributes->type) == *(@encode(id))) {
+			Class propertyClass = attributes->objectClass;
+
 			if (propertyClass != nil) {
 				transformer = [self transformerForModelPropertiesOfClass:propertyClass];
 			}
