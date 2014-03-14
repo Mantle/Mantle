@@ -331,4 +331,26 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 			}];
 }
 
++ (NSValueTransformer<MTLTransformerErrorHandling> *)mtl_validatingTransformerForClass:(Class)class {
+	NSParameterAssert(class != nil);
+
+	return [MTLValueTransformer transformerUsingForwardBlock:^ id (id value, BOOL *success, NSError **error) {
+		if (value != nil && ![value isKindOfClass:class]) {
+			if (error != NULL) {
+				NSDictionary *userInfo = @{
+					NSLocalizedDescriptionKey: NSLocalizedString(@"Value did not match expected type", @""),
+					NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Expected %1$@ to be of class %2$@", @""), value, class],
+					MTLTransformerErrorHandlingInputValueErrorKey : value
+				};
+
+				*error = [NSError errorWithDomain:MTLTransformerErrorHandlingErrorDomain code:MTLTransformerErrorHandlingErrorInvalidInput userInfo:userInfo];
+			}
+			*success = NO;
+			return nil;
+		}
+
+		return value;
+	}];
+}
+
 @end

@@ -93,6 +93,12 @@ extern const NSInteger MTLTestModelNameMissing;
 
 @end
 
+@interface MTLIDModel : MTLModel <MTLJSONSerializing>
+
+@property (nonatomic, strong) id anyObject;
+
+@end
+
 @interface MTLNonPropertyModel : MTLModel <MTLJSONSerializing>
 
 - (NSURL *)homepage;

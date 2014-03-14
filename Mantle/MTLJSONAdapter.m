@@ -304,12 +304,16 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 
 		NSValueTransformer *transformer = nil;
 
-		if (attributes->objectClass != nil) {
-			transformer = [self transformerForModelPropertiesOfClass:attributes->objectClass];
-		}
+		if (*(attributes->type) == *(@encode(id))) {
+			Class propertyClass = attributes->objectClass;
 
-		if (transformer == nil && attributes->type != NULL) {
-			transformer = [self transformerForModelPropertiesOfObjCType:attributes->type];
+			if (propertyClass != nil) {
+				transformer = [self transformerForModelPropertiesOfClass:propertyClass];
+			}
+
+			if (transformer == nil) transformer = [NSValueTransformer mtl_validatingTransformerForClass:NSObject.class];
+		} else {
+			transformer = [self transformerForModelPropertiesOfObjCType:attributes->type] ?: [NSValueTransformer mtl_validatingTransformerForClass:NSValue.class];
 		}
 
 		if (transformer != nil) result[key] = transformer;
@@ -343,7 +347,6 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 
 	return nil;
 }
-
 
 @end
 
