@@ -70,6 +70,13 @@ extern const NSInteger MTLTestModelNameMissing;
 
 @end
 
+// Conforms to MTLJSONSerializing but does not inherit from the MTLModel class.
+@interface MTLConformingModel : NSObject <MTLJSONSerializing>
+
+@property (nonatomic, copy) NSString *name;
+
+@end
+
 @interface MTLStorageBehaviorModel : MTLModel
 
 @property (readonly, nonatomic, assign) BOOL primitive;
