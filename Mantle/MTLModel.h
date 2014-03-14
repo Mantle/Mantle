@@ -45,12 +45,6 @@
 // key from the given model object, giving precedence to the other model object.
 - (void)mergeValueForKey:(NSString *)key fromModel:(id<MTLModel>)model;
 
-// Merges the values of the given model object into the receiver, using
-// -mergeValueForKey:fromModel: for each key in +propertyKeys.
-//
-// `model` must be an instance of the receiver's class or a subclass thereof.
-- (void)mergeValuesForKeysFromModel:(id<MTLModel>)model;
-
 // Returns the keys for all @property declarations, except for `readonly`
 // properties without ivars, or properties on MTLModel itself.
 + (NSSet *)propertyKeys;
@@ -77,6 +71,12 @@
 // receiver, and invokes it if found. If not found, and `model` is not nil, the
 // value for the given key is taken from `model`.
 - (void)mergeValueForKey:(NSString *)key fromModel:(id<MTLModel>)model;
+
+// Merges the values of the given model object into the receiver, using
+// -mergeValueForKey:fromModel: for each key in +propertyKeys.
+//
+// `model` must be an instance of the receiver's class or a subclass thereof.
+- (void)mergeValuesForKeysFromModel:(id<MTLModel>)model;
 
 // Compares the receiver with another object for equality.
 //
