@@ -182,6 +182,6 @@ extern const NSInteger MTLJSONAdapterErrorInvalidJSONDictionary;
 
 + (NSDictionary *)JSONDictionaryFromModel:(MTLModel<MTLJSONSerializing> *)model __attribute__((deprecated("Replaced by +JSONDictionaryFromModel:error:")));
 
-- (NSDictionary *)JSONDictionary __attribute((deprecated("Replaced by -serializeToJSONDictionary:")));
+- (NSDictionary *)JSONDictionary __attribute__((deprecated("Replaced by -serializeToJSONDictionary:")));
 
 @end
