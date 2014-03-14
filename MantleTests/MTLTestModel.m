@@ -242,6 +242,12 @@ static NSUInteger modelVersion = 1;
 
 @end
 
+@interface MTLConformingModel ()
+
+- (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue error:(NSError **)error;
+
+@end
+
 @implementation MTLConformingModel
 
 #pragma mark Lifecycle
