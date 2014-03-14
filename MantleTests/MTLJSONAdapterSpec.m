@@ -218,7 +218,7 @@ it(@"should fail to deserialize if the JSON types don't match the properties", ^
 	expect(error.userInfo[MTLTransformerErrorHandlingInputValueErrorKey]).to.equal(@"Potentially");
 });
 
-fit(@"should acceppt any object for id properties", ^{
+it(@"should accept any object for id properties", ^{
 	NSDictionary *values = @{
 		@"anyObject": @"Not an NSValue"
 	};
