@@ -19,6 +19,19 @@
 // maximum compatibility.
 @protocol MTLModel <NSObject, NSCopying>
 
+// Initializes a new instance of the receiver using key-value coding, setting
+// the keys and values in the given dictionary.
+//
+// dictionaryValue - Property keys and values to set on the instance. Any NSNull
+//                   values will be converted to nil before being used. KVC
+//                   validation methods will automatically be invoked for all of
+//                   the properties given.
+// error           - If not NULL, this may be set to any error that occurs
+//                   (like a KVC validation error).
+//
+// Returns an initialized model object, or nil if validation failed.
++ (instancetype)modelWithDictionary:(NSDictionary *)dictionaryValue error:(NSError **)error;
+
 // A dictionary representing the properties of the receiver.
 //
 // Combines the values corresponding to all +propertyKeys into a dictionary,
@@ -58,9 +71,19 @@
 // the +propertyKeys method.
 @interface MTLModel : NSObject <MTLModel>
 
-// Returns a new instance of the receiver initialized using
-// -initWithDictionary:error:.
-+ (instancetype)modelWithDictionary:(NSDictionary *)dictionaryValue error:(NSError **)error;
+// Initializes the receiver using key-value coding, setting the keys and values
+// in the given dictionary.
+//
+// dictionaryValue - Property keys and values to set on the receiver. Any NSNull
+//                   values will be converted to nil before being used. KVC
+//                   validation methods will automatically be invoked for all of
+//                   the properties given. If nil, this method is equivalent to
+//                   -init.
+// error           - If not NULL, this may be set to any error that occurs
+//                   (like a KVC validation error).
+//
+// Returns an initialized model object, or nil if validation failed.
+- (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue error:(NSError **)error;
 
 // Initializes the receiver with default values.
 //

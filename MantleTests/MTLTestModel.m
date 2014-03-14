@@ -228,6 +228,10 @@ static NSUInteger modelVersion = 1;
 
 #pragma mark Lifecycle
 
++ (instancetype)modelWithDictionary:(NSDictionary *)dictionaryValue error:(NSError **)error {
+	return [[self alloc] initWithDictionary:dictionaryValue error:error];
+}
+
 - (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue error:(NSError **)error {
 	self = [super init];
 	if (self == nil) return nil;
