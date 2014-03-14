@@ -119,6 +119,16 @@ static NSUInteger modelVersion = 1;
 	};
 }
 
+#pragma mark Property Storage Behavior
+
++ (MTLPropertyStorage)storageBehaviorForPropertyWithKey:(NSString *)propertyKey {
+	if ([propertyKey isEqual:@"weakModel"]) {
+		return MTLPropertyStorageTransitory;
+	} else {
+		return [super storageBehaviorForPropertyWithKey:propertyKey];
+	}
+}
+
 #pragma mark Merging
 
 - (void)mergeCountFromModel:(MTLTestModel *)model {
@@ -214,12 +224,28 @@ static NSUInteger modelVersion = 1;
 	return [NSURL URLWithString:@"about:blank"];
 }
 
++ (MTLPropertyStorage)storageBehaviorForPropertyWithKey:(NSString *)propertyKey {
+	if ([propertyKey isEqual:@"homepage"]) {
+		return MTLPropertyStoragePermanent;
+	}
+
+	return [super storageBehaviorForPropertyWithKey:propertyKey];
+}
+
 #pragma mark - MTLJSONSerializing
 
 + (NSDictionary *)JSONKeyPathsByPropertyKey {
 	return @{
 		@"homepage": @"homepage"
 	};
+}
+
+@end
+
+@implementation MTLStorageBehaviorModel
+
+- (id)notIvarBacked {
+	return self;
 }
 
 @end
