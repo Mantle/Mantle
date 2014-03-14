@@ -94,6 +94,29 @@ it(@"should return nil and error with an invalid key path from JSON",^{
 	expect(error.code).to.equal(MTLJSONAdapterErrorInvalidJSONDictionary);
 });
 
+it(@"should support key paths across arrays", ^{
+	NSDictionary *values = @{
+		@"users": @[
+			@{
+				@"name": @"foo"
+			},
+			@{
+				@"name": @"bar"
+			},
+			@{
+				@"name": @"baz"
+			}
+		]
+	};
+
+	NSError *error = nil;
+	MTLArrayTestModel *model = [MTLJSONAdapter modelOfClass:MTLArrayTestModel.class fromJSONDictionary:values error:&error];
+	expect(model).notTo.beNil();
+	expect(error).to.beNil();
+
+	expect(model.names).to.equal((@[ @"foo", @"bar", @"baz" ]));
+});
+
 it(@"should initialize without returning any error when using a JSON dictionary which Null.null as value",^{
 	NSDictionary *values = @{
 		@"username": @"foo",
