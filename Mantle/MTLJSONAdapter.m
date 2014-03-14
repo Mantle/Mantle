@@ -115,18 +115,23 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	NSMutableDictionary *dictionaryValue = [[NSMutableDictionary alloc] initWithCapacity:JSONDictionary.count];
 
 	for (NSString *propertyKey in [self.modelClass propertyKeys]) {
-		NSString *JSONKeyPath = [self JSONKeyPathForPropertyKey:propertyKey];
+		id JSONKeyPaths = self.JSONKeyPathsByPropertyKey[propertyKey];
 
-		if (JSONKeyPath == nil) continue;
+		if (JSONKeyPaths == nil) continue;
 
 		id value;
+
 		@try {
-			value = [JSONDictionary valueForKeyPath:JSONKeyPath];
+			if ([JSONKeyPaths isKindOfClass:NSArray.class]) {
+				value = [JSONDictionary dictionaryWithValuesForKeys:JSONKeyPaths];
+			} else {
+				value = [JSONDictionary valueForKeyPath:JSONKeyPaths];
+			}
 		} @catch (NSException *ex) {
 			if (error != NULL) {
 				NSDictionary *userInfo = @{
 					NSLocalizedDescriptionKey: NSLocalizedString(@"Invalid JSON dictionary", nil),
-					NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"%1$@ could not be parsed because an invalid JSON dictionary was provided for key path \"%2$@\"", nil), modelClass, JSONKeyPath],
+					NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"%1$@ could not be parsed because an invalid JSON dictionary was provided for \"%2$@\"", nil), modelClass, JSONKeyPaths],
 					MTLJSONAdapterThrownExceptionErrorKey: ex
 				};
 
@@ -161,7 +166,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 
 			dictionaryValue[propertyKey] = value;
 		} @catch (NSException *ex) {
-			NSLog(@"*** Caught exception %@ parsing JSON key path \"%@\" from: %@", ex, JSONKeyPath, JSONDictionary);
+			NSLog(@"*** Caught exception %@ parsing JSON key path \"%@\" from: %@", ex, JSONKeyPaths, JSONDictionary);
 
 			// Fail fast in Debug builds.
 			#if DEBUG
@@ -212,9 +217,9 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	__block NSError *tmpError = nil;
 
 	[dictionaryValue enumerateKeysAndObjectsUsingBlock:^(NSString *propertyKey, id value, BOOL *stop) {
-		NSString *JSONKeyPath = [self JSONKeyPathForPropertyKey:propertyKey];
+		id JSONKeyPaths = self.JSONKeyPathsByPropertyKey[propertyKey];
 
-		if (JSONKeyPath == nil) return;
+		if (JSONKeyPaths == nil) return;
 
 		NSValueTransformer *transformer = self.valueTransformersByPropertyKey[propertyKey];
 		if ([transformer.class allowsReverseTransformation]) {
@@ -236,21 +241,32 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 			}
 		}
 
-		NSArray *keyPathComponents = [JSONKeyPath componentsSeparatedByString:@"."];
+		void (^createComponents)(id, NSArray *) = ^(id obj, NSArray *keyPathComponents) {
+			// Set up dictionaries at each step of the key path.
+			for (NSString *component in keyPathComponents) {
+				if ([obj valueForKey:component] == nil) {
+					// Insert an empty mutable dictionary at this spot so that we
+					// can set the whole key path afterward.
+					[obj setValue:[NSMutableDictionary dictionary] forKey:component];
+				}
 
-		// Set up dictionaries at each step of the key path.
-		id obj = JSONDictionary;
-		for (NSString *component in keyPathComponents) {
-			if ([obj valueForKey:component] == nil) {
-				// Insert an empty mutable dictionary at this spot so that we
-				// can set the whole key path afterward.
-				[obj setValue:[NSMutableDictionary dictionary] forKey:component];
+				obj = [obj valueForKey:component];
 			}
+		};
 
-			obj = [obj valueForKey:component];
+		if ([JSONKeyPaths isKindOfClass:NSString.class]) {
+			createComponents(JSONDictionary, [JSONKeyPaths componentsSeparatedByString:@"."]);
+
+			[JSONDictionary setValue:value forKeyPath:JSONKeyPaths];
 		}
 
-		[JSONDictionary setValue:value forKeyPath:JSONKeyPath];
+		if ([JSONKeyPaths isKindOfClass:NSArray.class]) {
+			for (NSString *JSONKeyPath in JSONKeyPaths) {
+				createComponents(JSONDictionary, [JSONKeyPath componentsSeparatedByString:@"."]);
+
+				[JSONDictionary setValue:value[JSONKeyPath] forKeyPath:JSONKeyPath];
+			}
+		}
 	}];
 
 	if (success) {
@@ -259,13 +275,6 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 		if (error != NULL) *error = tmpError;
 		return nil;
 	}
-}
-
-
-- (NSString *)JSONKeyPathForPropertyKey:(NSString *)key {
-	NSParameterAssert(key != nil);
-
-	return self.JSONKeyPathsByPropertyKey[key];
 }
 
 - (NSDictionary *)valueTransformersForModelClass:(Class)modelClass {

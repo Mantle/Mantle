@@ -10,6 +10,8 @@ extern NSString * const MTLTestModelErrorDomain;
 extern const NSInteger MTLTestModelNameTooLong;
 extern const NSInteger MTLTestModelNameMissing;
 
+
+
 @interface MTLEmptyTestModel : MTLModel
 @end
 
@@ -102,5 +104,12 @@ extern const NSInteger MTLTestModelNameMissing;
 @interface MTLNonPropertyModel : MTLModel <MTLJSONSerializing>
 
 - (NSURL *)homepage;
+
+@end
+
+@interface MTLMultiKeypathModel : MTLModel <MTLJSONSerializing>
+
+// This property is associated with the "location" and "length" keys in JSON.
+@property (readonly, nonatomic, assign) NSRange range;
 
 @end

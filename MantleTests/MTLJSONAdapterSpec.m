@@ -79,6 +79,25 @@ it(@"should initialize nested key paths from JSON", ^{
 	expect(serializationError).to.beNil();
 });
 
+it(@"it should initialize properties with multiple key paths from JSON", ^{
+	NSDictionary *values = @{
+		@"location": @20,
+		@"length": @12
+	};
+
+	NSError *error = nil;
+	MTLMultiKeypathModel *model = [MTLJSONAdapter modelOfClass:MTLMultiKeypathModel.class fromJSONDictionary:values error:&error];
+	expect(model).notTo.beNil();
+	expect(error).to.beNil();
+
+	expect(model.range.location).to.equal(20);
+	expect(model.range.length).to.equal(12);
+
+	__block NSError *serializationError;
+	expect([MTLJSONAdapter JSONDictionaryFromModel:model error:&serializationError]).to.equal(values);
+	expect(serializationError).to.beNil();
+});
+
 it(@"should return nil and error with an invalid key path from JSON",^{
 	NSDictionary *values = @{
 		@"username": @"foo",
