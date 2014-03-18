@@ -351,8 +351,7 @@ static NSUInteger modelVersion = 1;
 			NSUInteger length = [value[@"length"] unsignedIntegerValue];
 
 			return [NSValue valueWithRange:NSMakeRange(location, length)];
-		}
-		reverseBlock:^(NSValue *value, BOOL *success, NSError **error) {
+		} reverseBlock:^(NSValue *value, BOOL *success, NSError **error) {
 			NSRange range = value.rangeValue;
 
 			return @{
