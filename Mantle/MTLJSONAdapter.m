@@ -263,7 +263,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 		};
 
 		if ([JSONKeyPaths isKindOfClass:NSString.class]) {
-			createComponents(JSONDictionary, (NSString *)JSONKeyPaths);
+			createComponents(JSONDictionary, JSONKeyPaths);
 
 			[JSONDictionary setValue:value forKeyPath:JSONKeyPaths];
 		}
