@@ -79,7 +79,7 @@ it(@"should initialize nested key paths from JSON", ^{
 	expect(serializationError).to.beNil();
 });
 
-fit(@"it should initialize properties with multiple key paths from JSON", ^{
+it(@"it should initialize properties with multiple key paths from JSON", ^{
 	NSDictionary *values = @{
 		@"location": @20,
 		@"length": @12,
