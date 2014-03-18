@@ -247,7 +247,9 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 			}
 		}
 
-		void (^createComponents)(id, NSArray *) = ^(id obj, NSArray *keyPathComponents) {
+		void (^createComponents)(id, NSString *) = ^(id obj, NSString *keyPath) {
+			NSArray *keyPathComponents = [keyPath componentsSeparatedByString:@"."];
+
 			// Set up dictionaries at each step of the key path.
 			for (NSString *component in keyPathComponents) {
 				if ([obj valueForKey:component] == nil) {
@@ -261,14 +263,14 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 		};
 
 		if ([JSONKeyPaths isKindOfClass:NSString.class]) {
-			createComponents(JSONDictionary, [JSONKeyPaths componentsSeparatedByString:@"."]);
+			createComponents(JSONDictionary, (NSString *)JSONKeyPaths);
 
 			[JSONDictionary setValue:value forKeyPath:JSONKeyPaths];
 		}
 
 		if ([JSONKeyPaths isKindOfClass:NSArray.class]) {
 			for (NSString *JSONKeyPath in JSONKeyPaths) {
-				createComponents(JSONDictionary, [JSONKeyPath componentsSeparatedByString:@"."]);
+				createComponents(JSONDictionary, JSONKeyPath);
 
 				[JSONDictionary setValue:value[JSONKeyPath] forKeyPath:JSONKeyPath];
 			}
