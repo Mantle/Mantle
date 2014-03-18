@@ -151,7 +151,7 @@ extern const NSInteger MTLJSONAdapterErrorInvalidJSONDictionary;
 
 // Looks up the JSON key path in the model's +propertyKeys.
 //
-// Subclasses may override this method to customize the adapter's seralizing
+// Subclasses may override this method to customize the adapter's serializing
 // behavior. You should not call this method directly.
 //
 // The default implementation returns the result +JSONKeyPathsByPropertyKey
