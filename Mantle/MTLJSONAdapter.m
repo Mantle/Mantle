@@ -123,7 +123,13 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 
 		@try {
 			if ([JSONKeyPaths isKindOfClass:NSArray.class]) {
-				value = [JSONDictionary dictionaryWithValuesForKeys:JSONKeyPaths];
+				NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
+
+				for (NSString *keyPath in JSONKeyPaths) {
+					dictionary[keyPath] = [JSONDictionary valueForKeyPath:keyPath];
+				}
+
+				value = dictionary;
 			} else {
 				value = [JSONDictionary valueForKeyPath:JSONKeyPaths];
 			}

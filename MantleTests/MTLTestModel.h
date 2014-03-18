@@ -112,4 +112,8 @@ extern const NSInteger MTLTestModelNameMissing;
 // This property is associated with the "location" and "length" keys in JSON.
 @property (readonly, nonatomic, assign) NSRange range;
 
+// This property is associated with the "nested.location" and "nested.length"
+// keys in JSON.
+@property (readonly, nonatomic, assign) NSRange nestedRange;
+
 @end

@@ -340,7 +340,8 @@ static NSUInteger modelVersion = 1;
 
 + (NSDictionary *)JSONKeyPathsByPropertyKey {
 	return @{
-		@"range": @[ @"location", @"length" ]
+		@"range": @[ @"location", @"length" ],
+		@"nestedRange": @[ @"nested.location", @"nested.length" ]
 	};
 }
 
@@ -357,6 +358,23 @@ static NSUInteger modelVersion = 1;
 			return @{
 				@"location": @(range.location),
 				@"length": @(range.length)
+			};
+		}];
+}
+
++ (NSValueTransformer *)nestedRangeJSONTransformer {
+	return [MTLValueTransformer
+		transformerUsingForwardBlock:^(NSDictionary *value, BOOL *success, NSError **error) {
+			NSUInteger location = [value[@"nested.location"] unsignedIntegerValue];
+			NSUInteger length = [value[@"nested.length"] unsignedIntegerValue];
+
+			return [NSValue valueWithRange:NSMakeRange(location, length)];
+		} reverseBlock:^(NSValue *value, BOOL *success, NSError **error) {
+			NSRange range = value.rangeValue;
+
+			return @{
+				@"nested.location": @(range.location),
+				@"nested.length": @(range.length)
 			};
 		}];
 }
