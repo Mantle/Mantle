@@ -19,7 +19,32 @@
 // Subclasses overriding this method should combine their values with those of
 // `super`.
 //
+// Values in the dictionary can either be key paths in the JSON representation
+// of the receiver or an array of such key paths.
+// If an array is used, the value passed to the model or transformer will be a
+// dictionary mapping those key paths to the values from the JSON
+// representation.
+//
 // Any keys omitted will not participate in JSON serialization.
+//
+// For example:
+//
+//     + (NSDictionary *)JSONKeyPathsByPropertyKey {
+//         return @{
+//             @"name": @"POI.name",
+//             @"point": @[ @"latitude", @"longitude" ],
+//             @"starred": @"starred"
+//         };
+//     }
+//
+// will map the `starred` property to `JSONDictionary[@"starred"]`, `name` to
+// `JSONDictionary[@"POI"][@"name"]` and `point` to a dictionary equivalent
+// to:
+//
+//     @{
+//         @"latitude": JSONDictionary[@"latitude"],
+//         @"longitude": JSONDictionary[@"longitude"]
+//     }
 //
 // Returns a dictionary mapping property keys to one or multiple JSON key paths
 // (as strings or arrays of strings).
