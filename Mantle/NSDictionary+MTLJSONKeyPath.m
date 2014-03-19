@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 GitHub. All rights reserved.
 //
 
-#import "MTLJSONAdapter.h"
-
 #import "NSDictionary+MTLJSONKeyPath.h"
+
+#import "MTLJSONAdapter.h"
 
 @implementation NSDictionary (MTLJSONKeyPath)
 
