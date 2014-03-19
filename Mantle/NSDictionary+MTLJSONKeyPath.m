@@ -12,7 +12,7 @@
 
 @implementation NSDictionary (MTLJSONKeyPath)
 
-- (id)mtl_resolveJSONKeyPath:(NSString *)JSONKeyPath success:(BOOL *)success error:(NSError **)error {
+- (id)valueForJSONKeyPath:(NSString *)JSONKeyPath success:(BOOL *)success error:(NSError **)error {
 	NSArray *components = [JSONKeyPath componentsSeparatedByString:@"."];
 
 	id result = self;
