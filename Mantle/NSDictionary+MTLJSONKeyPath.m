@@ -34,7 +34,7 @@
 			return nil;
 		}
 
-		result = [result objectForKey:component];
+		result = result[component];
 	}
 
 	if (success != NULL) *success = YES;
