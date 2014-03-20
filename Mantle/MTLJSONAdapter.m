@@ -128,7 +128,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 
 			for (NSString *keyPath in JSONKeyPaths) {
 				BOOL success;
-				id value = [JSONDictionary valueForJSONKeyPath:keyPath success:&success error:error];
+				id value = [JSONDictionary mtl_valueForJSONKeyPath:keyPath success:&success error:error];
 
 				if (!success) return nil;
 
@@ -138,7 +138,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 			value = dictionary;
 		} else {
 			BOOL success;
-			value = [JSONDictionary valueForJSONKeyPath:JSONKeyPaths success:&success error:error];
+			value = [JSONDictionary mtl_valueForJSONKeyPath:JSONKeyPaths success:&success error:error];
 
 			if (!success) return nil;
 		}
