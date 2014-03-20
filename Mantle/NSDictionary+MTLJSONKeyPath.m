@@ -17,6 +17,8 @@
 
 	id result = self;
 	for (NSString *component in components) {
+		// Check the result before resolving the key path component to not
+		// affect the last value of the path.
 		if (result == nil || result == NSNull.null) break;
 
 		if (![result isKindOfClass:NSDictionary.class]) {
