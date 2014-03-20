@@ -10,18 +10,20 @@
 
 SpecBegin(MTLJSONAdapter)
 
-it(@"should initialize from JSON", ^{
+it(@"should initialize with a model class", ^{
 	NSDictionary *values = @{
 		@"username": NSNull.null,
 		@"count": @"5",
 	};
 
 	NSError *error = nil;
-	MTLJSONAdapter *adapter = [[MTLJSONAdapter alloc] initWithJSONDictionary:values modelClass:MTLTestModel.class error:&error];
+	MTLJSONAdapter *adapter = [[MTLJSONAdapter alloc] initWithModelClass:MTLTestModel.class];
 	expect(adapter).notTo.beNil();
 	expect(error).to.beNil();
 
-	MTLTestModel *model = (id)adapter.model;
+	MTLTestModel *model = (id)[adapter modelFromJSONDictionary:values error:&error];
+	expect(error).to.beNil();
+
 	expect(model).notTo.beNil();
 	expect(model.name).to.beNil();
 	expect(model.count).to.equal(5);
@@ -33,28 +35,7 @@ it(@"should initialize from JSON", ^{
 	};
 
 	__block NSError *serializationError;
-	expect([adapter serializeToJSONDictionary:&serializationError]).to.equal(JSONDictionary);
-	expect(serializationError).to.beNil();
-});
-
-it(@"should initialize from a model", ^{
-	MTLTestModel *model = [MTLTestModel modelWithDictionary:@{
-		@"name": @"foobar",
-		@"count": @5,
-	} error:NULL];
-
-	MTLJSONAdapter *adapter = [[MTLJSONAdapter alloc] initWithModel:model];
-	expect(adapter).notTo.beNil();
-	expect(adapter.model).to.beIdenticalTo(model);
-
-	NSDictionary *JSONDictionary = @{
-		@"username": @"foobar",
-		@"count": @"5",
-		@"nested": @{ @"name": NSNull.null },
-	};
-
-	__block NSError *serializationError;
-	expect([adapter serializeToJSONDictionary:&serializationError]).to.equal(JSONDictionary);
+	expect([adapter JSONDictionaryFromModel:model error:&serializationError]).to.equal(JSONDictionary);
 	expect(serializationError).to.beNil();
 });
 
@@ -159,25 +140,6 @@ it(@"should initialize without returning any error when using a JSON dictionary 
 	expect(model.name).to.equal(@"foo");
 	expect(model.count).to.equal(0);
 	expect(model.nestedName).to.beNil();
-});
-
-it(@"should return nil and an error with a nil JSON dictionary", ^{
-	NSError *error = nil;
-	MTLJSONAdapter *adapter = [[MTLJSONAdapter alloc] initWithJSONDictionary:nil modelClass:MTLTestModel.class error:&error];
-	expect(adapter).to.beNil();
-	expect(error).notTo.beNil();
-	expect(error.domain).to.equal(MTLJSONAdapterErrorDomain);
-	expect(error.code).to.equal(MTLJSONAdapterErrorInvalidJSONDictionary);
-});
-
-it(@"should return nil and an error with a wrong data type as dictionary", ^{
-	NSError *error = nil;
-	id wrongDictionary = @"";
-	MTLJSONAdapter *adapter = [[MTLJSONAdapter alloc] initWithJSONDictionary:wrongDictionary modelClass:MTLTestModel.class error:&error];
-	expect(adapter).to.beNil();
-	expect(error).notTo.beNil();
-	expect(error.domain).to.equal(MTLJSONAdapterErrorDomain);
-	expect(error.code).to.equal(MTLJSONAdapterErrorInvalidJSONDictionary);
 });
 
 it(@"should ignore unrecognized JSON keys", ^{
