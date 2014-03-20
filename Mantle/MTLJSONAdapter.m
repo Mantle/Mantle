@@ -8,6 +8,8 @@
 
 #import <objc/runtime.h>
 
+#import "NSDictionary+MTLJSONKeyPath.h"
+
 #import "EXTRuntimeExtensions.h"
 #import "EXTScope.h"
 #import "MTLJSONAdapter.h"
@@ -121,30 +123,24 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 
 		id value;
 
-		@try {
-			if ([JSONKeyPaths isKindOfClass:NSArray.class]) {
-				NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
+		if ([JSONKeyPaths isKindOfClass:NSArray.class]) {
+			NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
 
-				for (NSString *keyPath in JSONKeyPaths) {
-					dictionary[keyPath] = [JSONDictionary valueForKeyPath:keyPath];
-				}
+			for (NSString *keyPath in JSONKeyPaths) {
+				BOOL success;
+				id value = [JSONDictionary mtl_valueForJSONKeyPath:keyPath success:&success error:error];
 
-				value = dictionary;
-			} else {
-				value = [JSONDictionary valueForKeyPath:JSONKeyPaths];
-			}
-		} @catch (NSException *ex) {
-			if (error != NULL) {
-				NSDictionary *userInfo = @{
-					NSLocalizedDescriptionKey: NSLocalizedString(@"Invalid JSON dictionary", nil),
-					NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"%1$@ could not be parsed because an invalid JSON dictionary was provided for \"%2$@\"", nil), modelClass, JSONKeyPaths],
-					MTLJSONAdapterThrownExceptionErrorKey: ex
-				};
+				if (!success) return nil;
 
-				*error = [NSError errorWithDomain:MTLJSONAdapterErrorDomain code:MTLJSONAdapterErrorInvalidJSONDictionary userInfo:userInfo];
+				if (value != nil) dictionary[keyPath] = value;
 			}
 
-			return nil;
+			value = dictionary;
+		} else {
+			BOOL success;
+			value = [JSONDictionary mtl_valueForJSONKeyPath:JSONKeyPaths success:&success error:error];
+
+			if (!success) return nil;
 		}
 
 		if (value == nil) continue;
