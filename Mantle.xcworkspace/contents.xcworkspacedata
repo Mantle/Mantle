@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:Mantle.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:MantleTests/expecta/Expecta.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:MantleTests/specta/Specta.xcodeproj">
+   </FileRef>
+</Workspace>
