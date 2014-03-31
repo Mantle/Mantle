@@ -62,3 +62,8 @@ extern const NSInteger MTLTestModelNameMissing;
 // Returns a default name of 'foobar' when validateName:error: is invoked
 @interface MTLSelfValidatingModel : MTLValidationModel
 @end
+
+// Maps a non-existant property "name" to the "username" key in JSON.
+@interface MTLIllegalJSONMappingModel : MTLModel <MTLJSONSerializing>
+
+@end

@@ -63,6 +63,9 @@ extern const NSInteger MTLJSONAdapterErrorNoClassFound;
 // The provided JSONDictionary is not valid.
 extern const NSInteger MTLJSONAdapterErrorInvalidJSONDictionary;
 
+// The model's JSON mapping is incompatible with its property keys.
+extern const NSInteger MTLJSONAdapterErrorInvalidJSONMapping;
+
 // Converts a MTLModel object to and from a JSON dictionary.
 @interface MTLJSONAdapter : NSObject
 
