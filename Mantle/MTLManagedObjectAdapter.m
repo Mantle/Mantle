@@ -140,23 +140,6 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 	// any cycles when processing its relationships.
 	CFDictionaryAddValue(processedObjects, (__bridge void *)managedObject, (__bridge void *)model);
 
-	if ([self.modelClass respondsToSelector:@selector(propertyKeysForManagedObjectUniquing)]) {
-		NSMutableDictionary *dictionaryValue = [model.dictionaryValue mutableCopy];
-		[dictionaryValue removeObjectsForKeys:[[self.modelClass propertyKeysForManagedObjectUniquing] allObjects]];
-
-		BOOL placeholder = YES;
-		for (id value in [dictionaryValue allValues]) {
-			if (value && ![value isEqual:[NSNull null]]) {
-				placeholder = NO;
-				break;
-			}
-		}
-
-		if (placeholder) {
-			return managedObject;
-		}
-	}
-
 	BOOL (^setValueForKey)(NSString *, id) = ^(NSString *key, id value) {
 		// Mark this as being autoreleased, because validateValue may return
 		// a new object to be stored in this variable (and we don't want ARC to
@@ -197,7 +180,7 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 					for (NSManagedObject *nestedObject in relationshipCollection) {
 						MTLModel *model = [self.class modelOfClass:nestedClass fromManagedObject:nestedObject processedObjects:processedObjects error:error];
 						if (model == nil) return nil;
-
+						
 						[models addObject:model];
 					}
 
@@ -342,15 +325,15 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 				encountedError = YES;
 				if (error != NULL) {
 					NSString *failureReason = [NSString stringWithFormat:NSLocalizedString(@"Failed to fetch a managed object for uniqing predicate \"%@\".", @""), uniquingPredicate];
-
+					
 					NSDictionary *userInfo = @{
 						NSLocalizedDescriptionKey: NSLocalizedString(@"Could not serialize managed object", @""),
 						NSLocalizedFailureReasonErrorKey: failureReason,
 					};
-
+					
 					fetchRequestError = [NSError errorWithDomain:MTLManagedObjectAdapterErrorDomain code:MTLManagedObjectAdapterErrorUniqueFetchRequestFailed userInfo:userInfo];
 				}
-
+				
 				return nil;
 			}
 
@@ -504,7 +487,7 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 				return NO;
 			}
 		};
-
+		
 		if (!serializeProperty(managedObjectProperties[managedObjectKey])) {
 			performInContext(context, ^ id {
 				[context deleteObject:managedObject];
@@ -618,7 +601,7 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 		NSPredicate *subpredicate = [NSPredicate predicateWithFormat:@"%K == %@", managedObjectKey, transformedValue];
 		[subpredicates addObject:subpredicate];
 	}
-
+	
 	return [NSCompoundPredicate andPredicateWithSubpredicates:subpredicates];
 }
 
