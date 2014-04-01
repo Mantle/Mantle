@@ -34,7 +34,7 @@ SEL MTLSelectorWithCapitalizedKeyPattern(const char *prefix, NSString *key, cons
 	NSString *rest = [key substringFromIndex:1];
 	NSUInteger restLength = [rest maximumLengthOfBytesUsingEncoding:NSUTF8StringEncoding];
 
-    char *selector = malloc((prefixLength + initialLength + restLength + suffixLength + 1) * sizeof(char));
+	char *selector = malloc((prefixLength + initialLength + restLength + suffixLength + 1) * sizeof(char));
 	memcpy(selector, prefix, prefixLength * sizeof(char));
 
 	BOOL success = [initial getBytes:selector + prefixLength maxLength:initialLength usedLength:&initialLength encoding:NSUTF8StringEncoding options:0 range:NSMakeRange(0, initial.length) remainingRange:NULL];
@@ -46,7 +46,7 @@ SEL MTLSelectorWithCapitalizedKeyPattern(const char *prefix, NSString *key, cons
 	memcpy(selector + prefixLength + initialLength + restLength, suffix, suffixLength * sizeof(char));
 	selector[prefixLength + initialLength + restLength + suffixLength] = '\0';
 
-    SEL registeredSelector = sel_registerName(selector);
-    free(selector);
+	SEL registeredSelector = sel_registerName(selector);
+	free(selector);
 	return registeredSelector;
 }
