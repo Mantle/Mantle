@@ -117,6 +117,10 @@
 // nil to abort parsing (e.g., if the data is invalid).
 + (Class)classForDeserializingManagedObject:(NSManagedObject *)managedObject;
 
+- (void)mergeValueForKey:(NSString *)key fromManagedObject:(NSManagedObject *)managedObject;
+
+- (void)mergeValuesForKeysFromManagedObject:(NSManagedObject *)managedObject;
+
 @end
 
 // The domain for errors originating from MTLManagedObjectAdapter.

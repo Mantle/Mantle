@@ -287,6 +287,29 @@ describe(@"with a confined context", ^{
 			expect(child1Parent2).to.equal(child1Parent1);
 			expect(child2Parent2).to.equal(child3Parent1);
 		});
+		
+		fit(@"should try to merge existing values before overwriting data", ^{
+			NSError *error;
+			MTLParent *parentOne = [MTLManagedObjectAdapter managedObjectFromModel:parentModel insertingIntoContext:context error:&error];
+			expect(parentOne).notTo.beNil();
+			expect(error).to.beNil();
+			
+			MTLParentMergingTestModel *updatedParentModel = [MTLParentMergingTestModel modelWithDictionary:@{
+																											 @"date": [NSDate date],
+																											 @"numberString": @"1234",
+																											 @"requiredString": @"We expect this string to be 'merged' after insertion"
+																											 } error:NULL];
+			expect(parentModel).notTo.beNil();
+			
+			BOOL saveSuccessful = [context save:nil];
+			expect(saveSuccessful).to.equal(YES);
+			
+			NSString *initialValueOfRequiredString = updatedParentModel.requiredString;
+			MTLParent *updatedParentOne = [MTLManagedObjectAdapter managedObjectFromModel:updatedParentModel insertingIntoContext:context error:&error];
+			expect(updatedParentOne).notTo.beNil();
+			expect(updatedParentOne.string).notTo.equal(initialValueOfRequiredString);
+			expect(updatedParentOne.string).to.equal(@"merged");
+		});
 	});
 });
 

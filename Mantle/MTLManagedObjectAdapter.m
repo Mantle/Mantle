@@ -362,6 +362,11 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 
 		return nil;
 	}
+	
+	if (!managedObject.isInserted) {
+		// our CoreData store already has data for this model, we need to merge
+		[self mergeValuesOfModel:model forKeysFromManagedObject:managedObject];
+	}
 
 	// Assign all errors to this variable to work around a memory problem.
 	//
@@ -575,6 +580,24 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 		return key;
 	} else {
 		return managedObjectKey;
+	}
+}
+
+- (void)mergeValueOfModel:(MTLModel<MTLManagedObjectSerializing> *)model forKey:(NSString *)key fromManagedObject:(NSManagedObject *)managedObject {
+	if ([model respondsToSelector:@selector(mergeValueForKey:fromManagedObject:)]) {
+		[model mergeValueForKey:key fromManagedObject:managedObject];
+	}
+}
+
+- (void)mergeValuesOfModel:(MTLModel<MTLManagedObjectSerializing> *)model forKeysFromManagedObject:(NSManagedObject *)managedObject {
+	if (![[model.class managedObjectEntityName] isEqualToString:managedObject.entity.name]) return;
+	
+	if ([model respondsToSelector:@selector(mergeValuesForKeysFromManagedObject:)]) {
+		[model mergeValuesForKeysFromManagedObject:managedObject];
+	} else {
+		[[model.class managedObjectKeysByPropertyKey] enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *managedObjectKey, BOOL *stop) {
+			[self mergeValueOfModel:model forKey:key fromManagedObject:managedObject];
+		}];
 	}
 }
 
