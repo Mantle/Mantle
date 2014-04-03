@@ -34,6 +34,16 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 // completed.
 @property (nonatomic, strong, readonly) Class modelClass;
 
+// Used to cache the JSON mappings for a given class.
+@property (nonatomic, strong, readonly) NSMapTable *JSONKeyPathsByPropertyKeyByModelClass;
+
+// Used to cache the value transformers for a given class.
+@property (nonatomic, strong, readonly) NSMapTable *valueTransformersByModelClass;
+
+// Access to `JSONKeyPathsByPropertyKeyByModelClass` or
+// `valueTransformersByModelClass` should be made from this queue exclusively.
+@property (nonatomic, strong, readonly) dispatch_queue_t cacheAccessQueue;
+
 // Collect the JSON mapping for a given class.
 //
 // Subclasses may override this method to customize the adapter's serializing
@@ -90,6 +100,10 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	if (self == nil) return nil;
 
 	_modelClass = modelClass;
+
+	_JSONKeyPathsByPropertyKeyByModelClass = [NSMapTable strongToStrongObjectsMapTable];
+	_valueTransformersByModelClass = [NSMapTable strongToStrongObjectsMapTable];
+	_cacheAccessQueue = dispatch_queue_create("com.github.MantleFramework.JSONCacheQueue", DISPATCH_QUEUE_CONCURRENT);
 
 	return self;
 }
@@ -280,7 +294,14 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	NSParameterAssert(modelClass != nil);
 	NSParameterAssert([modelClass conformsToProtocol:@protocol(MTLJSONSerializing)]);
 
-	NSMutableDictionary *result = [NSMutableDictionary dictionary];
+	__block NSMutableDictionary *result;
+	dispatch_sync(self.cacheAccessQueue, ^{
+		result = [self.valueTransformersByModelClass objectForKey:modelClass];
+	});
+
+	if (result != nil) return result;
+
+	result = [NSMutableDictionary dictionary];
 
 	for (NSString *key in [modelClass propertyKeys]) {
 		SEL selector = MTLSelectorWithKeyPattern(key, "JSONTransformer");
@@ -327,6 +348,10 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 		if (transformer != nil) result[key] = transformer;
 	}
 
+	dispatch_barrier_sync(self.cacheAccessQueue, ^{
+		[self.valueTransformersByModelClass setObject:result forKey:modelClass];
+	});
+
 	return result;
 }
 
@@ -338,13 +363,26 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	NSParameterAssert(modelClass != nil);
 	NSParameterAssert([modelClass conformsToProtocol:@protocol(MTLJSONSerializing)]);
 
-	return [[modelClass JSONKeyPathsByPropertyKey] copy];
+	__block NSDictionary *result;
+	dispatch_sync(self.cacheAccessQueue, ^{
+		result = [self.JSONKeyPathsByPropertyKeyByModelClass objectForKey:modelClass];
+	});
+
+	if (result != nil) return result;
+
+	result = [[modelClass JSONKeyPathsByPropertyKey] copy];
+
+	dispatch_barrier_sync(self.cacheAccessQueue, ^{
+		[self.JSONKeyPathsByPropertyKeyByModelClass setObject:result forKey:modelClass];
+	});
+
+	return result;
 }
 
-- (NSValueTransformer *)transformerForModelPropertiesOfClass:(Class)class {
-	NSParameterAssert(class != nil);
+- (NSValueTransformer *)transformerForModelPropertiesOfClass:(Class)modelClass {
+	NSParameterAssert(modelClass != nil);
 
-	SEL selector = MTLSelectorWithKeyPattern(NSStringFromClass(class), "JSONTransformer");
+	SEL selector = MTLSelectorWithKeyPattern(NSStringFromClass(modelClass), "JSONTransformer");
 	if (![self respondsToSelector:selector]) return nil;
 
 	NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:selector]];
