@@ -7,6 +7,7 @@
 //
 
 #import "MTLTestModel.h"
+#import "MTLTestJSONAdapter.h"
 
 SpecBegin(MTLJSONAdapter)
 
@@ -228,6 +229,33 @@ it(@"should fail to deserialize if the JSON types don't match the properties", ^
 	expect(error.domain).to.equal(MTLTransformerErrorHandlingErrorDomain);
 	expect(error.code).to.equal(MTLTransformerErrorHandlingErrorInvalidInput);
 	expect(error.userInfo[MTLTransformerErrorHandlingInputValueErrorKey]).to.equal(@"Potentially");
+});
+
+it(@"should allows subclasses to filter serialized property keys", ^{
+	NSDictionary *values = @{
+		@"username": @"foo",
+		@"count": @"5",
+		@"nested": @{ @"name": NSNull.null }
+	};
+
+	MTLTestJSONAdapter *adapter = [[MTLTestJSONAdapter alloc] initWithModelClass:MTLTestModel.class];
+
+	NSError *error;
+	MTLTestModel *model = [adapter modelFromJSONDictionary:values error:&error];
+	expect(model).notTo.beNil();
+	expect(error).to.beNil();
+
+	NSDictionary *complete = [adapter JSONDictionaryFromModel:model error:&error];
+
+	expect(complete).to.equal(values);
+	expect(error).to.beNil();
+
+	adapter.ignoredPropertyKeys = [NSSet setWithObjects:@"count", @"nestedName", nil];
+
+	NSDictionary *partial = [adapter JSONDictionaryFromModel:model error:&error];
+
+	expect(partial).to.equal(@{ @"username": @"foo" });
+	expect(error).to.beNil();
 });
 
 it(@"should accept any object for id properties", ^{

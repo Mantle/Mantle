@@ -34,6 +34,19 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 // completed.
 @property (nonatomic, strong, readonly) Class modelClass;
 
+// Collect the JSON mapping for a given class.
+//
+// Subclasses may override this method to customize the adapter's serializing
+// behavior. You should not call this method directly.
+//
+// modelClass - The MTLModel subclass to attempt to parse from the JSON.
+//              This class must conform to <MTLJSONSerializing>. This argument
+//              must not be nil.
+//
+// Returns a copy of the return value of +JSONKeyPathsByPropertyKey for
+// modelClass.
+- (NSDictionary *)JSONKeyPathsByPropertyKeyForModelClass:(Class)modelClass;
+
 // Collect all value transformers needed for a given class.
 //
 // modelClass - The MTLModel subclass to attempt to parse from the JSON.
@@ -87,11 +100,13 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	NSParameterAssert(model != nil);
 	NSParameterAssert([model isKindOfClass:self.modelClass]);
 
-	NSDictionary *dictionaryValue = model.dictionaryValue;
-	NSMutableDictionary *JSONDictionary = [[NSMutableDictionary alloc] initWithCapacity:dictionaryValue.count];
-
 	NSDictionary *JSONKeyPathsByPropertyKey = [self JSONKeyPathsByPropertyKeyForModelClass:model.class];
 	NSDictionary *valueTransformersByPropertyKey = [self valueTransformersForModelClass:model.class];
+
+	NSSet *propertyKeysToSerialize = [self filterPropertyKeys:[NSSet setWithArray:JSONKeyPathsByPropertyKey.allKeys] forModel:model];
+
+	NSDictionary *dictionaryValue = [model.dictionaryValue dictionaryWithValuesForKeys:propertyKeysToSerialize.allObjects];
+	NSMutableDictionary *JSONDictionary = [[NSMutableDictionary alloc] initWithCapacity:dictionaryValue.count];
 
 	__block BOOL success = YES;
 	__block NSError *tmpError = nil;
@@ -313,6 +328,10 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	}
 
 	return result;
+}
+
+- (NSSet *)filterPropertyKeys:(NSSet *)propertyKeys forModel:(id<MTLJSONSerializing>)model {
+	return propertyKeys;
 }
 
 - (NSDictionary *)JSONKeyPathsByPropertyKeyForModelClass:(Class)modelClass {
