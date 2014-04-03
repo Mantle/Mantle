@@ -159,7 +159,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	}
 }
 
-- (id<MTLJSONSerializing>)modelFromJSONDictionary:(NSDictionary *)JSONDictionary error:(NSError **)error {
+- (id)modelFromJSONDictionary:(NSDictionary *)JSONDictionary error:(NSError **)error {
 	NSMutableDictionary *dictionaryValue = [[NSMutableDictionary alloc] initWithCapacity:JSONDictionary.count];
 
 	Class modelClass = self.modelClass;

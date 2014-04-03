@@ -131,7 +131,7 @@ extern const NSInteger MTLJSONAdapterErrorInvalidJSONDictionary;
 //                  deserializing.
 //
 // Returns a model object, or nil if a deserialization error occurred.
-- (id<MTLJSONSerializing>)modelFromJSONDictionary:(NSDictionary *)JSONDictionary error:(NSError **)error;
+- (id)modelFromJSONDictionary:(NSDictionary *)JSONDictionary error:(NSError **)error;
 
 // Serializes a model into JSON.
 //
