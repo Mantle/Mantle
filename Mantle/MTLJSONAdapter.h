@@ -110,7 +110,7 @@ extern const NSInteger MTLJSONAdapterErrorInvalidJSONDictionary;
 
 // Converts a array of models into a JSON representation.
 //
-// models - The array ofmodels to use for JSON serialization. This argument must not be
+// models - The array of models to use for JSON serialization. This argument must not be
 //         nil.
 //
 // Returns a JSON array, or nil if a serialization error occurred for any model.

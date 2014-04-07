@@ -207,7 +207,7 @@ it(@"should return an error when no suitable model class is found", ^{
 	expect(error.code).to.equal(MTLJSONAdapterErrorNoClassFound);
 });
 
-it(@"should initialize models from an array of JSON models", ^{
+it(@"should initialize models from an array of JSON dictionaries", ^{
 	NSDictionary *value1 = @{
 	    @"username": @"foo"
 	};
@@ -230,9 +230,9 @@ it(@"should initialize models from an array of JSON models", ^{
 
 it(@"should return nil and an error if it fails to initialize any model from an array", ^{
 	NSDictionary *value1 = @{
-							 @"username": @"foo",
-							 @"count": @"1",
-							 };
+	    @"username": @"foo",
+		@"count": @"1",
+	};
 	
 	NSDictionary *value2 = @{};
 	
