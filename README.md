@@ -53,7 +53,7 @@ typedef enum : NSUInteger {
     _URL = [NSURL URLWithString:dictionary[@"url"]];
     _HTMLURL = [NSURL URLWithString:dictionary[@"html_url"]];
     _number = dictionary[@"number"];
-    
+
     if ([dictionary[@"state"] isEqualToString:@"open"]) {
         _state = GHIssueStateOpen;
     } else if ([dictionary[@"state"] isEqualToString:@"closed"]) {
@@ -260,7 +260,8 @@ it easy to specify how new model data should be integrated.
 
 This is where reversible transformers really come in handy. `+[MTLJSONAdapter
 JSONDictionaryFromModel:]` can transform any model object conforming to
-`<MTLJSONSerializing>` back into a JSON dictionary.
+`<MTLJSONSerializing>` back into a JSON dictionary. `+[MTLJSONAdapter
+JSONArrayForModels:]` is the same but turns an array of model objects into an JSON array of dictionaries.
 
 > If the interface of `GHIssue` changes down the road, existing archives might break.
 
@@ -431,6 +432,15 @@ NSDictionary *pictureMessage = @{
 XYTextMessage *messageA = [MTLJSONAdapter modelOfClass:XYMessage.class fromJSONDictionary:textMessage error:NULL];
 
 XYPictureMessage *messageB = [MTLJSONAdapter modelOfClass:XYMessage.class fromJSONDictionary:pictureMessage error:NULL];
+```
+
+### `MTLJSONAdapter modelsOfClass: fromJSONArray:`
+
+Use this method to turn a JSON array of JSON dictionaries into an array of models conforming to `<MTLJSONSerializing>`.
+
+```objc
+NSError *error = nil;
+NSArray *users = [MTLJSONAdapter modelsOfClass:XYUser.class fromJSONArray:JSONArray error:&error];
 ```
 
 ## Persistence

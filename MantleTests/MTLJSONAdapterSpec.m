@@ -207,4 +207,62 @@ it(@"should return an error when no suitable model class is found", ^{
 	expect(error.code).to.equal(MTLJSONAdapterErrorNoClassFound);
 });
 
+it(@"should initialize models from an array of JSON models", ^{
+	NSDictionary *value1 = @{
+	    @"username": @"foo"
+	};
+	
+	NSDictionary *value2 = @{
+        @"username": @"bar"
+	};
+	NSArray *JSONModels = @[value1, value2];
+	
+	NSError *error = nil;
+	NSArray *mantleModels = [MTLJSONAdapter modelsOfClass:MTLTestModel.class fromJSONArray:JSONModels error:&error];
+	
+	expect(error).to.beNil();
+	expect(mantleModels).toNot.beNil();
+	expect(mantleModels.count).to.equal(2);
+	expect([mantleModels[0] valueForKey:@"name"]).to.equal(@"foo");
+	expect([mantleModels[1] valueForKey:@"name"]).to.equal(@"bar");
+	
+});
+
+it(@"should return nil and an error if it fails to initialize any model from an array", ^{
+	NSDictionary *value1 = @{
+							 @"username": @"foo",
+							 @"count": @"1",
+							 };
+	
+	NSDictionary *value2 = @{};
+	
+	NSArray *JSONModels = @[value1, value2];
+	
+	NSError *error = nil;
+	NSArray *mantleModels = [MTLJSONAdapter modelsOfClass:MTLSubstitutingTestModel.class fromJSONArray:JSONModels error:&error];
+	
+	expect(error).toNot.beNil();
+	expect(mantleModels).to.beNil();
+	
+});
+
+it(@"should return an array of dictionaries from models", ^{
+	
+	MTLTestModel *model1 = [[MTLTestModel alloc] init];
+	model1.name = @"foo";
+	
+	MTLTestModel *model2 = [[MTLTestModel alloc] init];
+	model2.name = @"bar";
+	
+	NSArray *JSONarray = [MTLJSONAdapter JSONArrayForModels:@[model1, model2]];
+	
+	
+	expect(JSONarray).toNot.beNil();
+	expect(JSONarray.count).to.equal(2);
+	expect([JSONarray[0] valueForKey:@"username"]).to.equal(@"foo");
+	expect([JSONarray[1] valueForKey:@"username"]).to.equal(@"bar");
+	
+});
+
+
 SpecEnd
