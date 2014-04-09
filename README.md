@@ -434,15 +434,6 @@ XYTextMessage *messageA = [MTLJSONAdapter modelOfClass:XYMessage.class fromJSOND
 XYPictureMessage *messageB = [MTLJSONAdapter modelOfClass:XYMessage.class fromJSONDictionary:pictureMessage error:NULL];
 ```
 
-### `MTLJSONAdapter modelsOfClass: fromJSONArray:`
-
-Use this method to turn a JSON array of JSON dictionaries into an array of models conforming to `<MTLJSONSerializing>`.
-
-```objc
-NSError *error = nil;
-NSArray *users = [MTLJSONAdapter modelsOfClass:XYUser.class fromJSONArray:JSONArray error:&error];
-```
-
 ## Persistence
 
 Mantle doesn't automatically persist your objects for you. However, `MTLModel`

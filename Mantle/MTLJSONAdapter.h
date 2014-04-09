@@ -85,36 +85,38 @@ extern const NSInteger MTLJSONAdapterErrorInvalidJSONDictionary;
 // occurred.
 + (id)modelOfClass:(Class)modelClass fromJSONDictionary:(NSDictionary *)JSONDictionary error:(NSError **)error;
 
-// Attempts to parse an array of JSON dictionary objects into a model objects of a specific class.
+// Attempts to parse an array of JSON dictionary objects into a model objects
+// of a specific class.
 //
 // modelClass     - The MTLModel subclass to attempt to parse from the JSON.
 //                  This class must conform to <MTLJSONSerializing>. This
 //                  argument must not be nil.
-// JSONArray	  - A array of dictionaries representing JSON data. This should match
-//                  the format returned by NSJSONSerialization. If this argument is
-//                  nil, the method returns nil.
+// JSONArray      - A array of dictionaries representing JSON data. This should
+//                  match the format returned by NSJSONSerialization. If this
+//                  argument is nil, the method returns nil.
 // error          - If not NULL, this may be set to an error that occurs during
-//                  parsing or initializing an any of the instances of `modelClass`.
+//                  parsing or initializing an any of the instances of
+//                  `modelClass`.
 //
-// Returns an array of `modelClass` upon success, or nil if a parsing error
-// occurred.
+// Returns an array of `modelClass` instances upon success, or nil if a parsing
+// error occurred.
 + (NSArray *)modelsOfClass:(Class)modelClass fromJSONArray:(NSArray *)JSONArray error:(NSError **)error;
 
 // Converts a model into a JSON representation.
 //
-// model - The model to use for JSON serialization. This argument must not be
-//         nil.
+// model          - The model to use for JSON serialization. This argument must
+//                  not be nil.
 //
 // Returns a JSON dictionary, or nil if a serialization error occurred.
 + (NSDictionary *)JSONDictionaryFromModel:(MTLModel<MTLJSONSerializing> *)model;
 
 // Converts a array of models into a JSON representation.
 //
-// models - The array of models to use for JSON serialization. This argument must not be
-//         nil.
+// models         - The array of models to use for JSON serialization. This
+//                  argument must not be nil.
 //
 // Returns a JSON array, or nil if a serialization error occurred for any model.
-+ (NSArray *)JSONArrayForModels:(NSArray *)models;
++ (NSArray *)JSONArrayFromModels:(NSArray *)models;
 
 // Initializes the receiver by attempting to parse a JSON dictionary into
 // a model object.

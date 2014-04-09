@@ -49,13 +49,13 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 
 + (NSArray *)modelsOfClass:(Class)modelClass fromJSONArray:(NSArray *)JSONArray error:(NSError **)error {
 	NSParameterAssert(JSONArray != nil);
-    NSParameterAssert([JSONArray isKindOfClass:NSArray.class]);
+	NSParameterAssert([JSONArray isKindOfClass:NSArray.class]);
 	
     NSMutableArray *models = [NSMutableArray arrayWithCapacity:JSONArray.count];
     for (NSDictionary *JSONDictionary in JSONArray){
 		MTLModel *model = [self modelOfClass:modelClass fromJSONDictionary:JSONDictionary error:error];
         
-		if (*error)return nil;
+		if (*error != NULL) return nil;
 		
 		[models addObject:model];
     }
@@ -68,15 +68,15 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	return adapter.JSONDictionary;
 }
 
-+ (NSArray *)JSONArrayForModels:(NSArray *)models {
++ (NSArray *)JSONArrayFromModels:(NSArray *)models {
 	NSParameterAssert([models isKindOfClass:NSArray.class]);
 	
 	NSMutableArray *jsonArray = [NSMutableArray arrayWithCapacity:models.count];
 	for (MTLModel<MTLJSONSerializing> *model in models) {
-		NSDictionary *jsonDictionary = [self JSONDictionaryFromModel:model];
-		if (!jsonDictionary) return nil;
-		
-		[jsonArray addObject:jsonDictionary];
+		NSDictionary *JSONDictionary = [self JSONDictionaryFromModel:model];
+		if (JSONDictionary == nil) return nil;
+
+        [jsonArray addObject:JSONDictionary];
 	}
     
 	return jsonArray;
