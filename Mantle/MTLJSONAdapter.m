@@ -51,14 +51,14 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	NSParameterAssert(JSONArray != nil);
 	NSParameterAssert([JSONArray isKindOfClass:NSArray.class]);
 	
-    NSMutableArray *models = [NSMutableArray arrayWithCapacity:JSONArray.count];
-    for (NSDictionary *JSONDictionary in JSONArray){
+	NSMutableArray *models = [NSMutableArray arrayWithCapacity:JSONArray.count];
+	for (NSDictionary *JSONDictionary in JSONArray){
 		MTLModel *model = [self modelOfClass:modelClass fromJSONDictionary:JSONDictionary error:error];
-        
+
 		if (*error != NULL) return nil;
 		
 		[models addObject:model];
-    }
+	}
 	
     return models;
 }
@@ -76,9 +76,9 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 		NSDictionary *JSONDictionary = [self JSONDictionaryFromModel:model];
 		if (JSONDictionary == nil) return nil;
 
-        [jsonArray addObject:JSONDictionary];
+		[jsonArray addObject:JSONDictionary];
 	}
-    
+
 	return jsonArray;
 }
 
