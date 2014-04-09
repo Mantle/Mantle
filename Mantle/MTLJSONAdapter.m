@@ -71,15 +71,15 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 + (NSArray *)JSONArrayFromModels:(NSArray *)models {
 	NSParameterAssert([models isKindOfClass:NSArray.class]);
 	
-	NSMutableArray *jsonArray = [NSMutableArray arrayWithCapacity:models.count];
+	NSMutableArray *JSONArray = [NSMutableArray arrayWithCapacity:models.count];
 	for (MTLModel<MTLJSONSerializing> *model in models) {
 		NSDictionary *JSONDictionary = [self JSONDictionaryFromModel:model];
 		if (JSONDictionary == nil) return nil;
 
-		[jsonArray addObject:JSONDictionary];
+		[JSONArray addObject:JSONDictionary];
 	}
 
-	return jsonArray;
+	return JSONArray;
 }
 
 #pragma mark Lifecycle

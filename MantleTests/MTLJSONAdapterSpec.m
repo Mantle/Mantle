@@ -233,7 +233,9 @@ it(@"should return nil and an error if it fails to initialize any model from an 
 		@"count": @"1",
 	};
 
-	NSDictionary *value2 = @{ };
+	NSDictionary *value2 = @{
+		@"count": @[ @"This won't parse" ],
+	};
 
 	NSArray *JSONModels = @[ value1, value2 ];
 
@@ -253,7 +255,7 @@ it(@"should return an array of dictionaries from models", ^{
 	MTLTestModel *model2 = [[MTLTestModel alloc] init];
 	model2.name = @"bar";
 
-	NSArray *JSONArray = [MTLJSONAdapter JSONArrayFromModels:@[model1, model2]];
+	NSArray *JSONArray = [MTLJSONAdapter JSONArrayFromModels:@[ model1, model2 ]];
 
 	expect(JSONArray).toNot.beNil();
 	expect(JSONArray).haveCountOf(2);
