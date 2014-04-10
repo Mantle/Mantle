@@ -49,16 +49,22 @@ extern NSString * const MTLBooleanValueTransformerName;
 //
 // dictionary - The dictionary whose keys and values we should transform between.
 //
+// defaultValue - The result of mapping, in case when key not found in dictinoary.
+//                This is helpful for non object property types.
+//
 // Can for example be used for transforming between enum values and their string
 // representation.
 //
 //   NSValueTransformer *valueTransformer = [NSValueTransformer mtl_valueMappingTransformerWithDictionary:@{
 //     @"foo": @(EnumDataTypeFoo),
 //     @"bar": @(EnumDataTypeBar),
-//   }];
+//   } defaultValue: @(EnumDataTypeUndefined)];
 //
 // Returns a transformer which will map from keys to objects for forward
 // transformations, and from objects to keys for reverse transformations.
++ (NSValueTransformer *)mtl_valueMappingTransformerWithDictionary:(NSDictionary *)dictionary defaultValue:(id)defaultValue;
+
+// Simply call full method with nil default value
 + (NSValueTransformer *)mtl_valueMappingTransformerWithDictionary:(NSDictionary *)dictionary;
 
 @end
