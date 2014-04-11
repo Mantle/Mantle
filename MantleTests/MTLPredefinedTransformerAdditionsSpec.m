@@ -132,21 +132,21 @@ describe(@"value mapping transformer", ^{
 		@[ @"zero" ]: @(MTLPredefinedTransformerAdditionsSpecEnumZero),
 		@"positive": @(MTLPredefinedTransformerAdditionsSpecEnumPositive),
 	};
-		
+
 	beforeEach(^{
 		transformer = [NSValueTransformer mtl_valueMappingTransformerWithDictionary:dictionary defaultValue:@(MTLPredefinedTransformerAdditionsSpecEnumDefault)];
 	});
-	
+
 	it(@"should transform enum values into strings", ^{
 		expect([transformer transformedValue:@"negative"]).to.equal(@(MTLPredefinedTransformerAdditionsSpecEnumNegative));
 		expect([transformer transformedValue:@[ @"zero" ]]).to.equal(@(MTLPredefinedTransformerAdditionsSpecEnumZero));
 		expect([transformer transformedValue:@"positive"]).to.equal(@(MTLPredefinedTransformerAdditionsSpecEnumPositive));
 		expect([transformer transformedValue:@"unknown"]).to.equal(@(MTLPredefinedTransformerAdditionsSpecEnumDefault));
 	});
-	
+
 	it(@"should transform strings into enum values", ^{
 		expect([transformer.class allowsReverseTransformation]).to.beTruthy();
-		
+
 		expect([transformer reverseTransformedValue:@(MTLPredefinedTransformerAdditionsSpecEnumNegative)]).to.equal(@"negative");
 		expect([transformer reverseTransformedValue:@(MTLPredefinedTransformerAdditionsSpecEnumZero)]).to.equal(@[ @"zero" ]);
 		expect([transformer reverseTransformedValue:@(MTLPredefinedTransformerAdditionsSpecEnumPositive)]).to.equal(@"positive");
