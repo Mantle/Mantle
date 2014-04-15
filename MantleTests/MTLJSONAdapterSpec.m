@@ -207,4 +207,19 @@ it(@"should return an error when no suitable model class is found", ^{
 	expect(error.code).to.equal(MTLJSONAdapterErrorNoClassFound);
 });
 
+it(@"should serialize a subset of properties to JSON", ^{
+	MTLPropertySubsetModel *model = [MTLPropertySubsetModel modelWithDictionary:@{
+		@"name": @"foobar",
+		@"count": @5
+	} error:NULL];
+	
+	MTLJSONAdapter *adapter = [[MTLJSONAdapter alloc] initWithModel:model];
+	
+	NSDictionary *JSONDictionary = @{
+		@"username": @"foobar"
+	};
+	
+	expect(adapter.JSONDictionary).to.equal(JSONDictionary);
+});
+
 SpecEnd

@@ -52,6 +52,15 @@
 // to abort parsing (e.g., if the data is invalid).
 + (Class)classForParsingJSONDictionary:(NSDictionary *)JSONDictionary;
 
+// Specifies the subset of properties that will be included in the JSON
+// representation.
+//
+// Subclasses overriding this method should combine their values with those of
+// `super`.
+//
+// Returns an array of property keys.
++ (NSArray *)propertyKeysForJSONRepresentation;
+
 @end
 
 // The domain for errors originating from MTLJSONAdapter.

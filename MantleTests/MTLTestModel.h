@@ -62,3 +62,8 @@ extern const NSInteger MTLTestModelNameMissing;
 // Returns a default name of 'foobar' when validateName:error: is invoked
 @interface MTLSelfValidatingModel : MTLValidationModel
 @end
+
+// Specifies a subset of property keys that should be stored in JSON. The subset
+// only contains a single property: "name".
+@interface MTLPropertySubsetModel : MTLTestModel
+@end
