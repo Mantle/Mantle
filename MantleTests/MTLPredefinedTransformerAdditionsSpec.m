@@ -132,7 +132,7 @@ describe(@"value mapping transformer", ^{
 		@[ @"zero" ]: @(MTLPredefinedTransformerAdditionsSpecEnumZero),
 		@"positive": @(MTLPredefinedTransformerAdditionsSpecEnumPositive),
 	};
-	
+
 	beforeEach(^{
 		transformer = [NSValueTransformer mtl_valueMappingTransformerWithDictionary:dictionary];
 	});
