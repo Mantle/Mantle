@@ -1,8 +1,8 @@
 # Mantle
 
-![Mantle logo, contributed by @rathathin](https://avatars1.githubusercontent.com/u/6173471)
+![Mantle logo, contributed by @rathahin](https://avatars1.githubusercontent.com/u/6173471)
 
-_(Thanks to [@rathathin](https://github.com/rathahin) for the logo!)_
+_(Thanks to [@rathatin](https://github.com/rathahin) for the logo!)_
 
 Mantle makes it easy to write a simple model layer for your Cocoa or Cocoa Touch
 application.
