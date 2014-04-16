@@ -65,5 +65,4 @@ extern const NSInteger MTLTestModelNameMissing;
 
 // Maps a non-existant property "name" to the "username" key in JSON.
 @interface MTLIllegalJSONMappingModel : MTLModel <MTLJSONSerializing>
-
 @end
