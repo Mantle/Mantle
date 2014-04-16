@@ -88,7 +88,7 @@ it(@"should return nil and error with an invalid key path from JSON",^{
 	expect(error.code).to.equal(MTLJSONAdapterErrorInvalidJSONDictionary);
 });
 
-fit(@"should return nil and error with an illegal JSON mapping", ^{
+it(@"should return nil and error with an illegal JSON mapping", ^{
 	NSDictionary *values = @{
 		@"username": @"foo"
 	};
