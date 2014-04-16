@@ -105,3 +105,17 @@
 }
 
 @end
+
+@implementation MTLIllegalManagedObjectMappingModel
+
++ (NSString *)managedObjectEntityName {
+	return @"Parent";
+}
+
++ (NSDictionary *)managedObjectKeysByPropertyKey {
+	return @{
+		@"name": @"username"
+	};
+}
+
+@end

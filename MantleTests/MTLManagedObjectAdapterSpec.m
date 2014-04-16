@@ -226,6 +226,20 @@ describe(@"with a confined context", ^{
 			expect(error).notTo.beNil();
 		});
 
+		it(@"should return nil and error with an illegal JSON mapping", ^{
+			MTLParent *parent = [MTLParent insertInManagedObjectContext:context];
+			expect(parent).notTo.beNil();
+
+			parent.string = @"foobar";
+
+			NSError *error = nil;
+			MTLIllegalManagedObjectMappingModel *model = [MTLManagedObjectAdapter modelOfClass:MTLIllegalManagedObjectMappingModel.class fromManagedObject:parent error:&error];
+			expect(model).beNil();
+			expect(error).notTo.beNil();
+			expect(error.domain).to.equal(MTLManagedObjectAdapterErrorDomain);
+			expect(error.code).to.equal(MTLManagedObjectAdapterErrorInvalidManagedObjectMapping);
+		});
+
 		it(@"should return an error if model doesn't validate for insert", ^{
 			MTLParentIncorrectTestModel *parentModel = [MTLParentIncorrectTestModel modelWithDictionary:@{} error:NULL];
 
