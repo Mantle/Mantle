@@ -590,8 +590,6 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 }
 
 - (void)mergeValuesOfModel:(MTLModel<MTLManagedObjectSerializing> *)model forKeysFromManagedObject:(NSManagedObject *)managedObject {
-	if (![[model.class managedObjectEntityName] isEqualToString:managedObject.entity.name]) return;
-	
 	if ([model respondsToSelector:@selector(mergeValuesForKeysFromManagedObject:)]) {
 		[model mergeValuesForKeysFromManagedObject:managedObject];
 	} else {
