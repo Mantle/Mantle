@@ -65,8 +65,8 @@ extern NSString * const MTLBooleanValueTransformerName;
 + (NSValueTransformer *)mtl_valueMappingTransformerWithDictionary:(NSDictionary *)dictionary defaultValue:(id)defaultValue reverseDefaultValue:(id)reverseDefaultValue;
 
 // Returns a value transformer created by calling
-// `+mtl_valueMappingTransformerWithDictionary:defaultValue:` with a default
-// value of `nil`.
+// `+mtl_valueMappingTransformerWithDictionary:defaultValue:reverseDefaultValue:`
+// with a default value of `nil` and a reverse default value of `nil`.
 + (NSValueTransformer *)mtl_valueMappingTransformerWithDictionary:(NSDictionary *)dictionary;
 
 @end
