@@ -288,7 +288,7 @@ describe(@"with a confined context", ^{
 			expect(child2Parent2).to.equal(child3Parent1);
 		});
 		
-		fit(@"should try to merge existing values before overwriting data", ^{
+		it(@"should try to merge existing values before overwriting data", ^{
 			NSError *error;
 			MTLParent *parentOne = [MTLManagedObjectAdapter managedObjectFromModel:parentModel insertingIntoContext:context error:&error];
 			expect(parentOne).notTo.beNil();
