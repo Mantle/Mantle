@@ -45,7 +45,7 @@
 @implementation MTLParentMergingTestModel
 
 - (void)mergeValueForKey:(NSString *)key fromManagedObject:(NSManagedObject *)managedObject {
-	if ([key isEqualToString:NSStringFromSelector(@selector(requiredString))]) {
+	if ([key isEqualToString:@"requiredString"]) {
 		self.requiredString = @"merged";
 	}
 }
