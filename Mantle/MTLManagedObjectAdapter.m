@@ -346,7 +346,12 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 		}
 	}
 
-	if (managedObject == nil) managedObject = [entityDescriptionClass insertNewObjectForEntityForName:entityName inManagedObjectContext:context];
+	if (managedObject == nil) {
+		managedObject = [entityDescriptionClass insertNewObjectForEntityForName:entityName inManagedObjectContext:context];
+	} else {
+		// Our CoreData store already has data for this model, we need to merge
+		[self mergeValuesOfModel:model forKeysFromManagedObject:managedObject];
+	}
 
 	if (managedObject == nil) {
 		if (error != NULL) {
@@ -361,11 +366,6 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 		}
 
 		return nil;
-	}
-	
-	if (!managedObject.isInserted) {
-		// our CoreData store already has data for this model, we need to merge
-		[self mergeValuesOfModel:model forKeysFromManagedObject:managedObject];
 	}
 
 	// Assign all errors to this variable to work around a memory problem.
