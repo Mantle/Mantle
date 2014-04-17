@@ -184,7 +184,9 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 }
 
 - (void)mergeValuesForKeysFromModel:(MTLModel *)model {
-	for (NSString *key in self.class.propertyKeys) {
+	NSMutableSet *propertyKeys = [self.class.propertyKeys mutableCopy];
+	[propertyKeys intersectSet:model.class.propertyKeys];
+	for (NSString *key in propertyKeys) {
 		[self mergeValueForKey:key fromModel:model];
 	}
 }

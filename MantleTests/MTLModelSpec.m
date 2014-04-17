@@ -124,4 +124,34 @@ it(@"should merge two models together", ^{
 	expect(target.count).to.equal(8);
 });
 
+describe(@"merging with model subclasses", ^{
+	it(@"should merge from subclass model", ^{
+		MTLTestModel *target = [[MTLTestModel alloc] initWithDictionary:@{ @"name": @"foo", @"count": @(5) } error:NULL];
+		expect(target).notTo.beNil();
+
+		MTLSubclassTestModel *source = [[MTLSubclassTestModel alloc] initWithDictionary:@{ @"name": @"bar", @"count": @(3), @"generation": @1, @"role": @"subclass" } error:NULL];
+		expect(source).notTo.beNil();
+
+		[target mergeValuesForKeysFromModel:source];
+
+		expect(target.name).to.equal(@"bar");
+		expect(target.count).to.equal(8);
+	});
+
+	it(@"should merge from superclass model", ^{
+		MTLSubclassTestModel *target = [[MTLSubclassTestModel alloc] initWithDictionary:@{ @"name": @"foo", @"count": @(5), @"generation": @1, @"role": @"subclass" } error:NULL];
+		expect(target).notTo.beNil();
+
+		MTLTestModel *source = [[MTLTestModel alloc] initWithDictionary:@{ @"name": @"bar", @"count": @(3) }  error:NULL];
+		expect(source).notTo.beNil();
+
+		[target mergeValuesForKeysFromModel:source];
+
+		expect(target.name).to.equal(@"bar");
+		expect(target.count).to.equal(8);
+		expect(target.generation).to.equal(1);
+		expect(target.role).to.equal(@"subclass");
+	});
+});
+
 SpecEnd
