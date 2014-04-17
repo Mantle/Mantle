@@ -294,11 +294,13 @@ describe(@"with a confined context", ^{
 			expect(parentOne).notTo.beNil();
 			expect(error).to.beNil();
 			
-			MTLParentMergingTestModel *updatedParentModel = [MTLParentMergingTestModel modelWithDictionary:@{
-																											 @"date": [NSDate date],
-																											 @"numberString": @"1234",
-																											 @"requiredString": @"We expect this string to be 'merged' after insertion"
-																											 } error:NULL];
+			NSDictionary *updates = @{
+									  @"date": [NSDate date],
+									  @"numberString": @"1234",
+									  @"requiredString": @"We expect this string to be 'merged' after insertion"
+									  };
+			MTLParentMergingTestModel *updatedParentModel = [MTLParentMergingTestModel modelWithDictionary:updates error:NULL];
+			
 			expect(parentModel).notTo.beNil();
 			
 			BOOL saveSuccessful = [context save:nil];
