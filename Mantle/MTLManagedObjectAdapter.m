@@ -584,15 +584,13 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 }
 
 - (void)mergeValueOfModel:(MTLModel<MTLManagedObjectSerializing> *)model forKey:(NSString *)key fromManagedObject:(NSManagedObject *)managedObject {
-	if ([model respondsToSelector:@selector(mergeValueForKey:fromManagedObject:)]) {
-		[model mergeValueForKey:key fromManagedObject:managedObject];
-	}
+	[model mergeValueForKey:key fromManagedObject:managedObject];
 }
 
 - (void)mergeValuesOfModel:(MTLModel<MTLManagedObjectSerializing> *)model forKeysFromManagedObject:(NSManagedObject *)managedObject {
 	if ([model respondsToSelector:@selector(mergeValuesForKeysFromManagedObject:)]) {
 		[model mergeValuesForKeysFromManagedObject:managedObject];
-	} else {
+	} else if ([model respondsToSelector:@selector(mergeValueForKey:fromManagedObject:)]) {
 		[[model.class managedObjectKeysByPropertyKey] enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *managedObjectKey, BOOL *stop) {
 			[self mergeValueOfModel:model forKey:key fromManagedObject:managedObject];
 		}];
