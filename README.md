@@ -1,6 +1,6 @@
 # Mantle
 
-![Mantle logo, contributed by @rathahin](https://avatars1.githubusercontent.com/u/6173471)
+![Mantle logo, contributed by @rathahin](https://avatars1.githubusercontent.com/u/6173471?s=140)
 
 _(Thanks to [@rathatin](https://github.com/rathahin) for the logo!)_
 
