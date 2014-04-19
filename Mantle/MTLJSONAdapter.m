@@ -49,8 +49,18 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 
 + (NSArray *)modelsOfClass:(Class)modelClass fromJSONArray:(NSArray *)JSONArray error:(NSError **)error {
 	NSParameterAssert(JSONArray != nil);
-	NSParameterAssert([JSONArray isKindOfClass:NSArray.class]);
-	
+
+	if (JSONArray == nil || ![JSONArray isKindOfClass:NSArray.class]) {
+		if (error != NULL) {
+			NSDictionary *userInfo = @{
+					NSLocalizedDescriptionKey: NSLocalizedString(@"Missing JSON array", @""),
+					NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"%@ could not be created because an invalid JSON array was provided: %@", @""), NSStringFromClass(modelClass), JSONArray.class],
+			};
+			*error = [NSError errorWithDomain:MTLJSONAdapterErrorDomain code:MTLJSONAdapterErrorInvalidJSONDictionary userInfo:userInfo];
+		}
+		return nil;
+	}
+
 	NSMutableArray *models = [NSMutableArray arrayWithCapacity:JSONArray.count];
 	for (NSDictionary *JSONDictionary in JSONArray){
 		MTLModel *model = [self modelOfClass:modelClass fromJSONDictionary:JSONDictionary error:error];
@@ -69,8 +79,9 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 }
 
 + (NSArray *)JSONArrayFromModels:(NSArray *)models {
+    NSParameterAssert(models != nil);
 	NSParameterAssert([models isKindOfClass:NSArray.class]);
-	
+
 	NSMutableArray *JSONArray = [NSMutableArray arrayWithCapacity:models.count];
 	for (MTLModel<MTLJSONSerializing> *model in models) {
 		NSDictionary *JSONDictionary = [self JSONDictionaryFromModel:model];
