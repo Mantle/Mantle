@@ -44,8 +44,8 @@ extern const NSInteger MTLTestModelNameMissing;
 @interface MTLSubclassTestModel : MTLTestModel
 
 // Properties to test merging between subclass and superclass
-@property (nonatomic) NSString *role;
-@property (nonatomic) NSNumber *generation;
+@property (nonatomic, copy) NSString *role;
+@property (nonatomic, copy) NSNumber *generation;
 
 @end
 
