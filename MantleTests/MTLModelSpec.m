@@ -129,11 +129,13 @@ describe(@"merging with model subclasses", ^{
 		MTLTestModel *target = [[MTLTestModel alloc] initWithDictionary:@{ @"name": @"foo", @"count": @(5) } error:NULL];
 		expect(target).notTo.beNil();
 
-		MTLSubclassTestModel *source = [[MTLSubclassTestModel alloc] initWithDictionary:@{ @"name": @"bar",
-																						   @"count": @(3),
-																						   @"generation": @1,
-																						   @"role": @"subclass", }
-																				  error:NULL];
+		MTLSubclassTestModel *source = [MTLSubclassTestModel modelWithDictionary:@{
+			@"name": @"bar",
+			@"count": @3,
+			@"generation": @1,
+			@"role": @"subclass"
+		} error:NULL];
+
 		expect(source).notTo.beNil();
 
 		[target mergeValuesForKeysFromModel:source];
@@ -143,11 +145,13 @@ describe(@"merging with model subclasses", ^{
 	});
 
 	it(@"should merge from superclass model", ^{
-		MTLSubclassTestModel *target = [[MTLSubclassTestModel alloc] initWithDictionary:@{ @"name": @"foo",
-																						   @"count": @(5),
-																						   @"generation": @1,
-																						   @"role": @"subclass", }
-																				  error:NULL];
+		MTLSubclassTestModel *target = [[MTLSubclassTestModel alloc] initWithDictionary:@{
+			@"name": @"foo",
+			@"count": @5,
+			@"generation": @1,
+			@"role": @"subclass"
+		} error:NULL];
+
 		expect(target).notTo.beNil();
 
 		MTLTestModel *source = [[MTLTestModel alloc] initWithDictionary:@{ @"name": @"bar", @"count": @(3) }  error:NULL];
