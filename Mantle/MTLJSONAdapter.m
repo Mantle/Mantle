@@ -48,7 +48,6 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 }
 
 + (NSArray *)modelsOfClass:(Class)modelClass fromJSONArray:(NSArray *)JSONArray error:(NSError **)error {
-	NSParameterAssert(JSONArray != nil);
 
 	if (JSONArray == nil || ![JSONArray isKindOfClass:NSArray.class]) {
 		if (error != NULL) {
