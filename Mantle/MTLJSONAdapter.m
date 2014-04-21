@@ -47,9 +47,48 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	return adapter.model;
 }
 
++ (NSArray *)modelsOfClass:(Class)modelClass fromJSONArray:(NSArray *)JSONArray error:(NSError **)error {
+	if (JSONArray == nil || ![JSONArray isKindOfClass:NSArray.class]) {
+		if (error != NULL) {
+			NSDictionary *userInfo = @{
+				NSLocalizedDescriptionKey: NSLocalizedString(@"Missing JSON array", @""),
+				NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"%@ could not be created because an invalid JSON array was provided: %@", @""), NSStringFromClass(modelClass), JSONArray.class],
+			};
+			*error = [NSError errorWithDomain:MTLJSONAdapterErrorDomain code:MTLJSONAdapterErrorInvalidJSONDictionary userInfo:userInfo];
+		}
+		return nil;
+	}
+
+	NSMutableArray *models = [NSMutableArray arrayWithCapacity:JSONArray.count];
+	for (NSDictionary *JSONDictionary in JSONArray){
+		MTLModel *model = [self modelOfClass:modelClass fromJSONDictionary:JSONDictionary error:error];
+
+		if (*error != NULL) return nil;
+		
+		[models addObject:model];
+	}
+	
+    return models;
+}
+
 + (NSDictionary *)JSONDictionaryFromModel:(MTLModel<MTLJSONSerializing> *)model {
 	MTLJSONAdapter *adapter = [[self alloc] initWithModel:model];
 	return adapter.JSONDictionary;
+}
+
++ (NSArray *)JSONArrayFromModels:(NSArray *)models {
+	NSParameterAssert(models != nil);
+	NSParameterAssert([models isKindOfClass:NSArray.class]);
+
+	NSMutableArray *JSONArray = [NSMutableArray arrayWithCapacity:models.count];
+	for (MTLModel<MTLJSONSerializing> *model in models) {
+		NSDictionary *JSONDictionary = [self JSONDictionaryFromModel:model];
+		if (JSONDictionary == nil) return nil;
+
+		[JSONArray addObject:JSONDictionary];
+	}
+
+	return JSONArray;
 }
 
 #pragma mark Lifecycle
