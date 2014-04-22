@@ -115,8 +115,8 @@ extern const NSInteger MTLJSONAdapterErrorInvalidJSONDictionary;
 
 // Initializes the receiver with a given model class.
 //
-// modelClass     - The MTLModel subclass to attempt to parse from the JSON.
-//                  This class must conform to <MTLJSONSerializing>. This
+// modelClass     - The MTLModel subclass to attempt to parse from the JSON and
+//                  back. This class must conform to <MTLJSONSerializing>. This
 //                  argument must not be nil.
 //
 // Returns an initialized adapter.
