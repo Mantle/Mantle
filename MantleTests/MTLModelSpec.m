@@ -146,6 +146,7 @@ describe(@"merging with model subclasses", ^{
 
 		expect(subclass).notTo.beNil();
 	});
+
 	it(@"should merge from subclass model", ^{
 
 		[superclass mergeValuesForKeysFromModel:subclass];
