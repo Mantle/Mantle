@@ -148,11 +148,13 @@ extern const NSInteger MTLJSONAdapterErrorInvalidJSONDictionary;
 // propertyKeys - The property keys for which `model` provides a mapping.
 // model        - The model being serialized.
 //
-// Subclasses may override this method to customize the serialization behavior
-// on a per-model basis.
+// Subclasses may override this method to determine which property keys should
+// be used when serializing `model`. For instance, this method can be used to
+// create more efficient updates of server-side resources.
+//
 // The default implementation simply returns `propertyKeys`.
 //
-// Returns a subset of property keys that should be serialized for a given
+// Returns a subset of propertyKeys that should be serialized for a given
 // model.
 - (NSSet *)serializablePropertyKeys:(NSSet *)propertyKeys forModel:(id<MTLJSONSerializing>)model;
 
