@@ -58,6 +58,16 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 // Returns a JSON adapter for modelClass, creating one of necessary.
 - (MTLJSONAdapter *)JSONAdapterForModelClass:(Class)modelClass;
 
+// Collect all value transformers needed for a given class.
+//
+// modelClass - The class from which to parse the JSON
+//              This class must conform to <MTLJSONSerializing>. This argument
+//              must not be nil.
+//
+// Returns a dictionary with the properties of modelClass that need
+// transformation as keys and the value transformers as values.
+- (NSDictionary *)valueTransformersForModelClass:(Class)modelClass;
+
 @end
 
 @implementation MTLJSONAdapter
