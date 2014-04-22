@@ -346,7 +346,12 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 		}
 	}
 
-	if (managedObject == nil) managedObject = [entityDescriptionClass insertNewObjectForEntityForName:entityName inManagedObjectContext:context];
+	if (managedObject == nil) {
+		managedObject = [entityDescriptionClass insertNewObjectForEntityForName:entityName inManagedObjectContext:context];
+	} else {
+		// Our CoreData store already has data for this model, we need to merge
+		[self mergeValuesOfModel:model forKeysFromManagedObject:managedObject];
+	}
 
 	if (managedObject == nil) {
 		if (error != NULL) {
@@ -575,6 +580,20 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 		return key;
 	} else {
 		return managedObjectKey;
+	}
+}
+
+- (void)mergeValueOfModel:(MTLModel<MTLManagedObjectSerializing> *)model forKey:(NSString *)key fromManagedObject:(NSManagedObject *)managedObject {
+	[model mergeValueForKey:key fromManagedObject:managedObject];
+}
+
+- (void)mergeValuesOfModel:(MTLModel<MTLManagedObjectSerializing> *)model forKeysFromManagedObject:(NSManagedObject *)managedObject {
+	if ([model respondsToSelector:@selector(mergeValuesForKeysFromManagedObject:)]) {
+		[model mergeValuesForKeysFromManagedObject:managedObject];
+	} else if ([model respondsToSelector:@selector(mergeValueForKey:fromManagedObject:)]) {
+		[[model.class managedObjectKeysByPropertyKey] enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *managedObjectKey, BOOL *stop) {
+			[self mergeValueOfModel:model forKey:key fromManagedObject:managedObject];
+		}];
 	}
 }
 

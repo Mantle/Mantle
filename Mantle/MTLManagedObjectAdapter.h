@@ -117,6 +117,39 @@
 // nil to abort parsing (e.g., if the data is invalid).
 + (Class)classForDeserializingManagedObject:(NSManagedObject *)managedObject;
 
+// Overriden when merging the value of the given key on the receiver with the
+// value of the same key from the given `NSManagedObject` requires custom
+// handling.
+//
+// By default, this method is not implemented, and precedence will be given to
+// the value of the receiving model implicitly.
+//
+// When implemented, this method is called when an existing `NSManagedObject`
+// is found for the receiving model, before updating the `NSManagedObject`'s
+// properties.
+//
+// When implementing, you should use `+managedObjectKeysByPropertyKey` to map
+// the given `key` to the appropriate `NSManagedObject` property.
+- (void)mergeValueForKey:(NSString *)key fromManagedObject:(NSManagedObject *)managedObject;
+
+// Overriden when merging values on the receiver with the given
+// `NSManagedObject` requires custom handling.
+//
+// By default, this method is not implemented, and precedence will be given to
+// the values of the receiving model implicitly.
+//
+// When implemented, this method is called when an existing `NSManagedObject`
+// is found for the receiving model, before updating the `NSManagedObject`'s
+// properties.
+//
+// When implementing, you should use `+managedObjectKeysByPropertyKey` to map
+// the given `key` to the appropriate `NSManagedObject` property.
+//
+// If you have also implemented `mergeValueForKey:fromManagedObject:` you have
+// to make sure to call `mergeValueForKey:fromManagedObject:` from this method
+// when appropriate.
+- (void)mergeValuesForKeysFromManagedObject:(NSManagedObject *)managedObject;
+
 @end
 
 // The domain for errors originating from MTLManagedObjectAdapter.
