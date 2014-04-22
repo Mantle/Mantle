@@ -107,6 +107,12 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	NSParameterAssert(model != nil);
 	NSParameterAssert([model isKindOfClass:self.modelClass]);
 
+	if (self.modelClass != model.class) {
+		MTLJSONAdapter *otherAdapter = [self JSONAdapterForModelClass:model.class];
+
+		return [otherAdapter JSONDictionaryFromModel:model error:error];
+	}
+
 	NSSet *propertyKeysToSerialize = [self serializablePropertyKeys:[NSSet setWithArray:self.JSONKeyPathsByPropertyKey.allKeys] forModel:model];
 
 	NSDictionary *dictionaryValue = [model.dictionaryValue dictionaryWithValuesForKeys:propertyKeysToSerialize.allObjects];

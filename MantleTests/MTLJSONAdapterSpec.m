@@ -305,6 +305,35 @@ it(@"should parse a different model class", ^{
 	expect(serializationError).to.beNil();
 });
 
+it(@"should serialize different model classes", ^{
+	MTLJSONAdapter *adapter = [[MTLJSONAdapter alloc] initWithModelClass:MTLClassClusterModel.class];
+
+	MTLChocolateClassClusterModel *chocolate = [MTLChocolateClassClusterModel modelWithDictionary:@{
+		@"bitterness": @100
+	} error:NULL];
+
+	NSError *error = nil;
+	NSDictionary *chocolateValues = [adapter JSONDictionaryFromModel:chocolate error:&error];
+
+	expect(error).to.beNil();
+	expect(chocolateValues).to.equal((@{
+		@"flavor": @"chocolate",
+		@"chocolate_bitterness": @"100"
+	}));
+
+	MTLStrawberryClassClusterModel *strawberry = [MTLStrawberryClassClusterModel modelWithDictionary:@{
+		@"freshness": @20
+	} error:NULL];
+
+	NSDictionary *strawberryValues = [adapter JSONDictionaryFromModel:strawberry error:&error];
+
+	expect(error).to.beNil();
+	expect(strawberryValues).to.equal((@{
+		@"flavor": @"strawberry",
+		@"strawberry_freshness": @20
+	}));
+});
+
 it(@"should parse model classes not inheriting from MTLModel", ^{
 	NSDictionary *values = @{
 		@"name": @"foo",
