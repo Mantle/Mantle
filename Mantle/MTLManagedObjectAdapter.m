@@ -680,11 +680,11 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 		NSValueTransformer *transformer = nil;
 
 		if (attributes->objectClass != nil) {
-			transformer = [self transformerForModelPropertiesOfClass:attributes->objectClass];
+			transformer = [self.class transformerForModelPropertiesOfClass:attributes->objectClass];
 		}
 
 		if (transformer == nil && attributes->type != NULL) {
-			transformer = [self transformerForModelPropertiesOfObjCType:attributes->type];
+			transformer = [self.class transformerForModelPropertiesOfObjCType:attributes->type];
 		}
 
 		if (transformer != nil) result[key] = transformer;
@@ -693,7 +693,7 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 	return result;
 }
 
-- (NSValueTransformer *)transformerForModelPropertiesOfClass:(Class)class {
++ (NSValueTransformer *)transformerForModelPropertiesOfClass:(Class)class {
 	NSParameterAssert(class != nil);
 
 	SEL selector = MTLSelectorWithKeyPattern(NSStringFromClass(class), "EntityAttributeTransformer");
@@ -709,7 +709,7 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 	return result;
 }
 
-- (NSValueTransformer *)transformerForModelPropertiesOfObjCType:(const char *)objCType {
++ (NSValueTransformer *)transformerForModelPropertiesOfObjCType:(const char *)objCType {
 	NSParameterAssert(objCType != NULL);
 
 	return nil;

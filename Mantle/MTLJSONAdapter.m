@@ -66,7 +66,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 //
 // Returns a dictionary with the properties of modelClass that need
 // transformation as keys and the value transformers as values.
-- (NSDictionary *)valueTransformersForModelClass:(Class)modelClass;
++ (NSDictionary *)valueTransformersForModelClass:(Class)modelClass;
 
 @end
 
@@ -103,7 +103,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	_modelClass = modelClass;
 
 	_JSONKeyPathsByPropertyKey = [modelClass JSONKeyPathsByPropertyKey];
-	_valueTransformersByPropertyKey = [self valueTransformersForModelClass:modelClass];
+	_valueTransformersByPropertyKey = [self.class valueTransformersForModelClass:modelClass];
 
 	_JSONAdaptersByModelClass = [NSMapTable strongToStrongObjectsMapTable];
 	_cacheAccessQueue = dispatch_queue_create("com.github.MantleFramework.JSONCacheQueue", DISPATCH_QUEUE_CONCURRENT);
@@ -297,7 +297,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	return [self.modelClass modelWithDictionary:dictionaryValue error:error];
 }
 
-- (NSDictionary *)valueTransformersForModelClass:(Class)modelClass {
++ (NSDictionary *)valueTransformersForModelClass:(Class)modelClass {
 	NSParameterAssert(modelClass != nil);
 	NSParameterAssert([modelClass conformsToProtocol:@protocol(MTLJSONSerializing)]);
 
@@ -375,7 +375,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	return propertyKeys;
 }
 
-- (NSValueTransformer *)transformerForModelPropertiesOfClass:(Class)modelClass {
++ (NSValueTransformer *)transformerForModelPropertiesOfClass:(Class)modelClass {
 	NSParameterAssert(modelClass != nil);
 
 	SEL selector = MTLSelectorWithKeyPattern(NSStringFromClass(modelClass), "JSONTransformer");
@@ -391,7 +391,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	return result;
 }
 
-- (NSValueTransformer *)transformerForModelPropertiesOfObjCType:(const char *)objCType {
++(NSValueTransformer *)transformerForModelPropertiesOfObjCType:(const char *)objCType {
 	NSParameterAssert(objCType != NULL);
 
 	if (strcmp(objCType, @encode(BOOL)) == 0) {
@@ -405,7 +405,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 
 @implementation MTLJSONAdapter (ValueTransformers)
 
-- (NSValueTransformer *)NSURLJSONTransformer {
++ (NSValueTransformer *)NSURLJSONTransformer {
 	return [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
 }
 

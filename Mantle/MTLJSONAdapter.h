@@ -164,19 +164,19 @@ extern const NSInteger MTLJSONAdapterErrorInvalidJSONDictionary;
 //
 // The default implementation invokes `+<class>JSONTransformer` on the
 // receiver if it's implemented. It supports NSURL conversion through
-// -NSURLJSONTransformer.
+// +NSURLJSONTransformer.
 //
 // class - The class of the property to serialize. This property must not be
 //         nil.
 //
 // Returns a value transformer or nil if no transformation should be used.
-- (NSValueTransformer *)transformerForModelPropertiesOfClass:(Class)class;
++ (NSValueTransformer *)transformerForModelPropertiesOfClass:(Class)class;
 
 // A value transformer that should be used for a properties of the given
 // primitive type.
 //
 // If `objCType` matches @encode(id), the value transformer returned by
-// -transformerForModelPropertiesOfClass: is used instead.
+// +transformerForModelPropertiesOfClass: is used instead.
 //
 // The default implementation transforms properties that match @encode(BOOL)
 // using the MTLBooleanValueTransformerName transformer.
@@ -185,7 +185,7 @@ extern const NSInteger MTLJSONAdapterErrorInvalidJSONDictionary;
 //            as it would be returned by the @encode() directive.
 //
 // Returns a value transformer or nil if no transformation should be used.
-- (NSValueTransformer *)transformerForModelPropertiesOfObjCType:(const char *)objCType;
++ (NSValueTransformer *)transformerForModelPropertiesOfObjCType:(const char *)objCType;
 
 @end
 
@@ -193,7 +193,7 @@ extern const NSInteger MTLJSONAdapterErrorInvalidJSONDictionary;
 
 // This value transformer is used by MTLJSONAdapter to automatically convert
 // NSURL properties to JSON strings and vice versa.
-- (NSValueTransformer *)NSURLJSONTransformer;
++ (NSValueTransformer *)NSURLJSONTransformer;
 
 @end
 
