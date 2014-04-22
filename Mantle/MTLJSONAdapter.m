@@ -43,10 +43,6 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 // Used to cache the JSON adapters returned by -JSONAdapterForModelClass:.
 @property (nonatomic, strong, readonly) NSMapTable *JSONAdaptersByModelClass;
 
-// Access to `JSONAdaptersByModelClass`should be made from this queue
-// exclusively.
-@property (nonatomic, strong, readonly) dispatch_queue_t cacheAccessQueue;
-
 // If +classForParsingJSONDictionary: returns a model class different from the
 // one this adapter was initialized with, use this method to obtain a cached
 // instance of a suitable adapter instead.
@@ -106,7 +102,6 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	_valueTransformersByPropertyKey = [self.class valueTransformersForModelClass:modelClass];
 
 	_JSONAdaptersByModelClass = [NSMapTable strongToStrongObjectsMapTable];
-	_cacheAccessQueue = dispatch_queue_create("com.github.MantleFramework.JSONCacheQueue", DISPATCH_QUEUE_CONCURRENT);
 
 	return self;
 }
@@ -355,20 +350,17 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	NSParameterAssert(modelClass != nil);
 	NSParameterAssert([modelClass conformsToProtocol:@protocol(MTLJSONSerializing)]);
 
-	__block MTLJSONAdapter *result;
-	dispatch_sync(self.cacheAccessQueue, ^{
-		result = [self.JSONAdaptersByModelClass objectForKey:modelClass];
-	});
+	@synchronized(self) {
+		MTLJSONAdapter *result = [self.JSONAdaptersByModelClass objectForKey:modelClass];
 
-	if (result != nil) return result;
+		if (result != nil) return result;
 
-	result = [[MTLJSONAdapter alloc] initWithModelClass:modelClass];
+		result = [[MTLJSONAdapter alloc] initWithModelClass:modelClass];
 
-	dispatch_barrier_sync(self.cacheAccessQueue, ^{
 		[self.JSONAdaptersByModelClass setObject:result forKey:modelClass];
-	});
 
-	return result;
+		return result;
+	}
 }
 
 - (NSSet *)serializablePropertyKeys:(NSSet *)propertyKeys forModel:(id<MTLJSONSerializing>)model {
