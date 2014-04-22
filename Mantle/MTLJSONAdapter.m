@@ -103,9 +103,11 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 
 	NSMutableDictionary *dictionaryValue = [[NSMutableDictionary alloc] initWithCapacity:JSONDictionary.count];
 
-	NSSet *mappedPropertyKeys = [NSSet setWithArray:self.JSONKeyPathsByPropertyKey.allKeys];
+	NSSet *propertyKeys = [self.modelClass propertyKeys];
 
-	if (![mappedPropertyKeys isSubsetOfSet:[self.modelClass propertyKeys]]) {
+	for (NSString *JSONKeyPath in self.JSONKeyPathsByPropertyKey.allKeys) {
+		if ([propertyKeys containsObject:JSONKeyPath]) continue;
+
 		if (error != NULL) {
 			NSDictionary *userInfo = @{
 				NSLocalizedDescriptionKey: NSLocalizedString(@"Invalid JSON mapping", nil),
@@ -118,7 +120,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 		return nil;
 	}
 
-	for (NSString *propertyKey in [self.modelClass propertyKeys]) {
+	for (NSString *propertyKey in propertyKeys) {
 		NSString *JSONKeyPath = [self JSONKeyPathForPropertyKey:propertyKey];
 		if (JSONKeyPath == nil) continue;
 

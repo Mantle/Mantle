@@ -251,9 +251,11 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 }
 
 + (id)modelOfClass:(Class)modelClass fromManagedObject:(NSManagedObject *)managedObject error:(NSError **)error {
-	NSSet *mappedPropertyKeys = [NSSet setWithArray:[modelClass managedObjectKeysByPropertyKey].allKeys];
+	NSSet *propertyKeys = [modelClass propertyKeys];
 
-	if (![mappedPropertyKeys isSubsetOfSet:[modelClass propertyKeys]]) {
+	for (NSString *mappedPropertyKey in [modelClass managedObjectKeysByPropertyKey].allKeys) {
+		if ([propertyKeys containsObject:mappedPropertyKey]) continue;
+
 		if (error != NULL) {
 			NSDictionary *userInfo = @{
 				NSLocalizedDescriptionKey: NSLocalizedString(@"Invalid entity attribute mapping", nil),
