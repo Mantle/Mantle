@@ -154,7 +154,7 @@ extern const NSInteger MTLJSONAdapterErrorInvalidJSONDictionary;
 //
 // Returns a subset of property keys that should be serialized for a given
 // model.
-- (NSSet *)filterPropertyKeys:(NSSet *)propertyKeys forModel:(id<MTLJSONSerializing>)model;
+- (NSSet *)serializablePropertyKeys:(NSSet *)propertyKeys forModel:(id<MTLJSONSerializing>)model;
 
 // An optional value transformer that should be used for properties of the given
 // class.
@@ -207,7 +207,7 @@ extern const NSInteger MTLJSONAdapterErrorInvalidJSONDictionary;
 
 - (NSDictionary *)JSONDictionary __attribute__((unavailable("Replaced by -JSONDictionaryFromModel:error:")));
 
-- (NSString *)JSONKeyPathForPropertyKey:(NSString *)key __attribute__((unavailable("Replaced by -filterPropertyKeys:forModel:")));
+- (NSString *)JSONKeyPathForPropertyKey:(NSString *)key __attribute__((unavailable("Replaced by -serializablePropertyKeys:forModel:")));
 
 - (id)initWithJSONDictionary:(NSDictionary *)JSONDictionary modelClass:(Class)modelClass error:(NSError **)error __attribute__((unavailable("Replaced by -initWithModelClass:")));
 
