@@ -125,44 +125,43 @@ it(@"should merge two models together", ^{
 });
 
 describe(@"merging with model subclasses", ^{
-	it(@"should merge from subclass model", ^{
-		MTLTestModel *target = [[MTLTestModel alloc] initWithDictionary:@{ @"name": @"foo", @"count": @(5) } error:NULL];
-		expect(target).notTo.beNil();
 
-		MTLSubclassTestModel *source = [MTLSubclassTestModel modelWithDictionary:@{
+	__block MTLTestModel *superclass;
+	__block MTLSubclassTestModel *subclass;
+
+	beforeEach(^{
+		superclass = [MTLTestModel modelWithDictionary:@{
+			@"name": @"foo",
+			@"count": @5
+		} error:NULL];
+
+		expect(superclass).notTo.beNil();
+
+		subclass = [MTLSubclassTestModel modelWithDictionary:@{
 			@"name": @"bar",
 			@"count": @3,
 			@"generation": @1,
 			@"role": @"subclass"
 		} error:NULL];
 
-		expect(source).notTo.beNil();
+		expect(subclass).notTo.beNil();
+	});
+	it(@"should merge from subclass model", ^{
 
-		[target mergeValuesForKeysFromModel:source];
+		[superclass mergeValuesForKeysFromModel:subclass];
 
-		expect(target.name).to.equal(@"bar");
-		expect(target.count).to.equal(8);
+		expect(superclass.name).to.equal(@"bar");
+		expect(superclass.count).to.equal(8);
 	});
 
 	it(@"should merge from superclass model", ^{
-		MTLSubclassTestModel *target = [[MTLSubclassTestModel alloc] initWithDictionary:@{
-			@"name": @"foo",
-			@"count": @5,
-			@"generation": @1,
-			@"role": @"subclass"
-		} error:NULL];
 
-		expect(target).notTo.beNil();
+		[subclass mergeValuesForKeysFromModel:superclass];
 
-		MTLTestModel *source = [[MTLTestModel alloc] initWithDictionary:@{ @"name": @"bar", @"count": @(3) }  error:NULL];
-		expect(source).notTo.beNil();
-
-		[target mergeValuesForKeysFromModel:source];
-
-		expect(target.name).to.equal(@"bar");
-		expect(target.count).to.equal(8);
-		expect(target.generation).to.equal(1);
-		expect(target.role).to.equal(@"subclass");
+		expect(subclass.name).to.equal(@"foo");
+		expect(subclass.count).to.equal(8);
+		expect(subclass.generation).to.equal(1);
+		expect(subclass.role).to.equal(@"subclass");
 	});
 });
 
