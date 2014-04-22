@@ -719,7 +719,7 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 
 @implementation MTLManagedObjectAdapter (ValueTransformers)
 
-- (NSValueTransformer *)NSURLEntityAttributeTransformer {
++ (NSValueTransformer *)NSURLEntityAttributeTransformer {
 	return [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
 }
 
