@@ -23,6 +23,11 @@
 
 @end
 
+// Model for Parent that has custom merging behaviour for CoreData
+@interface MTLParentMergingTestModel : MTLParentTestModel
+
+@end
+
 // Model for Parent entity which doesn't serialize required properties
 @interface MTLParentIncorrectTestModel : MTLModel <MTLManagedObjectSerializing>
 
