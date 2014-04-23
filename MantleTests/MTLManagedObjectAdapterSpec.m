@@ -313,6 +313,31 @@ describe(@"with a confined context", ^{
 			expect(updatedParentOne.string).notTo.equal(initialValueOfRequiredString);
 			expect(updatedParentOne.string).to.equal(@"merged");
 		});
+
+		xit(@"should not delete an existing managed object when failing to insert", ^{
+			NSError *error;
+			MTLParent *parentOne = [MTLManagedObjectAdapter managedObjectFromModel:parentModel insertingIntoContext:context error:&error];
+			expect(parentOne).notTo.beNil();
+			expect(error).to.beNil();
+
+			BOOL saveSuccessful = [context save:nil];
+			expect(saveSuccessful).to.equal(YES);
+
+			NSDictionary *updates = @{
+				@"date": [NSDate date],
+				@"numberString": @"1234",
+			};
+
+			MTLParentTestModel *badUpdatedParentModel = [MTLParentTestModel modelWithDictionary:updates error:NULL];
+
+			NSError *badUpdateError;
+			MTLParent *parentTwo = [MTLManagedObjectAdapter managedObjectFromModel:badUpdatedParentModel insertingIntoContext:context error:&badUpdateError];
+			expect(parentTwo).to.beNil();
+			expect(badUpdateError).notTo.beNil();
+
+			BOOL wasParentDeleted = [[context deletedObjects] containsObject:parentOne];
+			expect(wasParentDeleted).to.beFalsy();
+		});
 	});
 });
 
