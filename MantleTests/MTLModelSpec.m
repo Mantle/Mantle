@@ -125,7 +125,6 @@ it(@"should merge two models together", ^{
 });
 
 describe(@"merging with model subclasses", ^{
-
 	__block MTLTestModel *superclass;
 	__block MTLSubclassTestModel *subclass;
 
@@ -148,7 +147,6 @@ describe(@"merging with model subclasses", ^{
 	});
 
 	it(@"should merge from subclass model", ^{
-
 		[superclass mergeValuesForKeysFromModel:subclass];
 
 		expect(superclass.name).to.equal(@"bar");
@@ -156,7 +154,6 @@ describe(@"merging with model subclasses", ^{
 	});
 
 	it(@"should merge from superclass model", ^{
-
 		[subclass mergeValuesForKeysFromModel:superclass];
 
 		expect(subclass.name).to.equal(@"foo");
