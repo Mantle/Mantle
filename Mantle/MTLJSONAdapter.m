@@ -63,7 +63,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	for (NSDictionary *JSONDictionary in JSONArray){
 		MTLModel *model = [self modelOfClass:modelClass fromJSONDictionary:JSONDictionary error:error];
 
-		if (*error != NULL) return nil;
+		if (error != NULL && *error != NULL) return nil;
 		
 		[models addObject:model];
 	}
