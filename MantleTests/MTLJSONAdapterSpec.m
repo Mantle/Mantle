@@ -231,7 +231,7 @@ it(@"should fail to deserialize if the JSON types don't match the properties", ^
 	expect(error.userInfo[MTLTransformerErrorHandlingInputValueErrorKey]).to.equal(@"Potentially");
 });
 
-it(@"should allows subclasses to filter serialized property keys", ^{
+it(@"should allow subclasses to filter serialized property keys", ^{
 	NSDictionary *values = @{
 		@"username": @"foo",
 		@"count": @"5",
