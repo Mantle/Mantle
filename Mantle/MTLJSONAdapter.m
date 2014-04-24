@@ -47,18 +47,16 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 // one this adapter was initialized with, use this method to obtain a cached
 // instance of a suitable adapter instead.
 //
-// modelClass - The class from which to parse the JSON
-//              This class must conform to <MTLJSONSerializing>. This argument
-//              must not be nil.
+// modelClass - The class from which to parse the JSON. This class must conform
+//              to <MTLJSONSerializing>. This argument must not be nil.
 //
 // Returns a JSON adapter for modelClass, creating one of necessary.
 - (MTLJSONAdapter *)JSONAdapterForModelClass:(Class)modelClass;
 
 // Collect all value transformers needed for a given class.
 //
-// modelClass - The class from which to parse the JSON
-//              This class must conform to <MTLJSONSerializing>. This argument
-//              must not be nil.
+// modelClass - The class from which to parse the JSON. This class must conform
+//              to <MTLJSONSerializing>. This argument must not be nil.
 //
 // Returns a dictionary with the properties of modelClass that need
 // transformation as keys and the value transformers as values.
@@ -356,9 +354,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 		if (result != nil) return result;
 
 		result = [[MTLJSONAdapter alloc] initWithModelClass:modelClass];
-
 		[self.JSONAdaptersByModelClass setObject:result forKey:modelClass];
-
 		return result;
 	}
 }
@@ -383,7 +379,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	return result;
 }
 
-+(NSValueTransformer *)transformerForModelPropertiesOfObjCType:(const char *)objCType {
++ (NSValueTransformer *)transformerForModelPropertiesOfObjCType:(const char *)objCType {
 	NSParameterAssert(objCType != NULL);
 
 	if (strcmp(objCType, @encode(BOOL)) == 0) {
