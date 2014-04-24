@@ -22,7 +22,7 @@ it(@"should initialize with a model class", ^{
 	expect(adapter).notTo.beNil();
 	expect(error).to.beNil();
 
-	MTLTestModel *model = (id)[adapter modelFromJSONDictionary:values error:&error];
+	MTLTestModel *model = [adapter modelFromJSONDictionary:values error:&error];
 	expect(error).to.beNil();
 
 	expect(model).notTo.beNil();
