@@ -19,6 +19,7 @@ const NSInteger MTLManagedObjectAdapterErrorInvalidManagedObjectKey = 4;
 const NSInteger MTLManagedObjectAdapterErrorUnsupportedManagedObjectPropertyType = 5;
 const NSInteger MTLManagedObjectAdapterErrorUnsupportedRelationshipClass = 6;
 const NSInteger MTLManagedObjectAdapterErrorUniqueFetchRequestFailed = 7;
+const NSInteger MTLManagedObjectAdapterErrorInvalidManagedObjectMapping = 8;
 
 // Performs the given block in the context's queue, if it has one.
 static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
@@ -250,6 +251,23 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 }
 
 + (id)modelOfClass:(Class)modelClass fromManagedObject:(NSManagedObject *)managedObject error:(NSError **)error {
+	NSSet *propertyKeys = [modelClass propertyKeys];
+
+	for (NSString *mappedPropertyKey in [modelClass managedObjectKeysByPropertyKey]) {
+		if ([propertyKeys containsObject:mappedPropertyKey]) continue;
+
+		if (error != NULL) {
+			NSDictionary *userInfo = @{
+				NSLocalizedDescriptionKey: NSLocalizedString(@"Invalid entity attribute mapping", nil),
+				NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"%1$@ could not be parsed because its entity attribute mapping contains illegal property keys.", nil), modelClass]
+			};
+
+			*error = [NSError errorWithDomain:MTLManagedObjectAdapterErrorDomain code:MTLManagedObjectAdapterErrorInvalidManagedObjectMapping userInfo:userInfo];
+		}
+
+		return nil;
+	}
+
 	CFMutableDictionaryRef processedObjects = CFDictionaryCreateMutable(NULL, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
 	if (processedObjects == NULL) return nil;
 

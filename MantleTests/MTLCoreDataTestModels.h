@@ -59,3 +59,6 @@
 
 @end
 
+// Maps a non-existant property "name" to the "string" attribute.
+@interface MTLIllegalManagedObjectMappingModel : MTLModel <MTLManagedObjectSerializing>
+@end

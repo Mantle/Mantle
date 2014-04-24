@@ -183,6 +183,10 @@ extern const NSInteger MTLManagedObjectAdapterErrorUniqueFetchRequestFailed;
 // NSArray or NSSet of MTLModel<MTLManagedObjectSerializing> instances.
 extern const NSInteger MTLManagedObjectAdapterErrorUnsupportedRelationshipClass;
 
+// The model's implementation of +managedObjectKeysByPropertyKey included a key
+// which does not actually exist in +propertyKeys.
+extern const NSInteger MTLManagedObjectAdapterErrorInvalidManagedObjectMapping;
+
 // Converts a MTLModel object to and from an NSManagedObject.
 @interface MTLManagedObjectAdapter : NSObject
 

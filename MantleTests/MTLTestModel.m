@@ -175,3 +175,13 @@ static NSUInteger modelVersion = 1;
 }
 
 @end
+
+@implementation MTLIllegalJSONMappingModel
+
++ (NSDictionary *)JSONKeyPathsByPropertyKey {
+	return @{
+		@"name": @"username"
+	};
+}
+
+@end
