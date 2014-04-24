@@ -41,6 +41,14 @@ extern const NSInteger MTLTestModelNameMissing;
 
 @end
 
+@interface MTLSubclassTestModel : MTLTestModel
+
+// Properties to test merging between subclass and superclass
+@property (nonatomic, copy) NSString *role;
+@property (nonatomic, copy) NSNumber *generation;
+
+@end
+
 @interface MTLArrayTestModel : MTLModel <MTLJSONSerializing>
 
 // This property is associated with a "users.username" key in JSON.
