@@ -253,7 +253,7 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 + (id)modelOfClass:(Class)modelClass fromManagedObject:(NSManagedObject *)managedObject error:(NSError **)error {
 	NSSet *propertyKeys = [modelClass propertyKeys];
 
-	for (NSString *mappedPropertyKey in [modelClass managedObjectKeysByPropertyKey].allKeys) {
+	for (NSString *mappedPropertyKey in [modelClass managedObjectKeysByPropertyKey]) {
 		if ([propertyKeys containsObject:mappedPropertyKey]) continue;
 
 		if (error != NULL) {

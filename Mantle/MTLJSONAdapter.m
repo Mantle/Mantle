@@ -105,7 +105,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 
 	NSSet *propertyKeys = [self.modelClass propertyKeys];
 
-	for (NSString *JSONKeyPath in self.JSONKeyPathsByPropertyKey.allKeys) {
+	for (NSString *JSONKeyPath in self.JSONKeyPathsByPropertyKey) {
 		if ([propertyKeys containsObject:JSONKeyPath]) continue;
 
 		if (error != NULL) {
