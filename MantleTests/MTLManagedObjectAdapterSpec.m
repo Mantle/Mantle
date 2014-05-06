@@ -230,6 +230,20 @@ describe(@"with a confined context", ^{
 			expect(error).notTo.beNil();
 		});
 
+		it(@"should return nil and error with an illegal JSON mapping", ^{
+			MTLParent *parent = [MTLParent insertInManagedObjectContext:context];
+			expect(parent).notTo.beNil();
+
+			parent.string = @"foobar";
+
+			NSError *error = nil;
+			MTLIllegalManagedObjectMappingModel *model = [MTLManagedObjectAdapter modelOfClass:MTLIllegalManagedObjectMappingModel.class fromManagedObject:parent error:&error];
+			expect(model).beNil();
+			expect(error).notTo.beNil();
+			expect(error.domain).to.equal(MTLManagedObjectAdapterErrorDomain);
+			expect(error.code).to.equal(MTLManagedObjectAdapterErrorInvalidManagedObjectMapping);
+		});
+
 		it(@"should return an error if model doesn't validate for insert", ^{
 			MTLParentIncorrectTestModel *parentModel = [MTLParentIncorrectTestModel modelWithDictionary:@{} error:NULL];
 
@@ -301,6 +315,32 @@ describe(@"with a confined context", ^{
 			MTLChild *child2Parent2 = parentTwo.orderedChildren[1];
 			expect(child1Parent2).to.equal(child1Parent1);
 			expect(child2Parent2).to.equal(child3Parent1);
+		});
+
+		it(@"should try to merge existing values before overwriting data", ^{
+			NSError *error;
+			MTLParent *parentOne = [MTLManagedObjectAdapter managedObjectFromModel:parentModel insertingIntoContext:context error:&error];
+			expect(parentOne).notTo.beNil();
+			expect(error).to.beNil();
+
+			NSDictionary *updates = @{
+				@"date": [NSDate date],
+				@"numberString": @"1234",
+				@"requiredString": @"We expect this string to be 'merged' after insertion"
+			};
+
+			MTLParentMergingTestModel *updatedParentModel = [MTLParentMergingTestModel modelWithDictionary:updates error:NULL];
+
+			expect(parentModel).notTo.beNil();
+
+			BOOL saveSuccessful = [context save:nil];
+			expect(saveSuccessful).to.equal(YES);
+
+			NSString *initialValueOfRequiredString = updatedParentModel.requiredString;
+			MTLParent *updatedParentOne = [MTLManagedObjectAdapter managedObjectFromModel:updatedParentModel insertingIntoContext:context error:&error];
+			expect(updatedParentOne).notTo.beNil();
+			expect(updatedParentOne.string).notTo.equal(initialValueOfRequiredString);
+			expect(updatedParentOne.string).to.equal(@"merged");
 		});
 	});
 });

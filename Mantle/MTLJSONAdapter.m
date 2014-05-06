@@ -21,6 +21,7 @@
 NSString * const MTLJSONAdapterErrorDomain = @"MTLJSONAdapterErrorDomain";
 const NSInteger MTLJSONAdapterErrorNoClassFound = 2;
 const NSInteger MTLJSONAdapterErrorInvalidJSONDictionary = 3;
+const NSInteger MTLJSONAdapterErrorInvalidJSONMapping = 4;
 
 // An exception was thrown and caught.
 const NSInteger MTLJSONAdapterErrorExceptionThrown = 1;
@@ -40,7 +41,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 // A cached copy of the return value of -valueTransformersForModelClass:
 @property (nonatomic, copy, readonly) NSDictionary *valueTransformersByPropertyKey;
 
-// Used to cache the JSON adapters returned by -JSONAdapterForModelClass:.
+// Used to cache the JSON adapters returned by -JSONAdapterForModelClass:error:.
 @property (nonatomic, strong, readonly) NSMapTable *JSONAdaptersByModelClass;
 
 // If +classForParsingJSONDictionary: returns a model class different from the
@@ -49,9 +50,12 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 //
 // modelClass - The class from which to parse the JSON. This class must conform
 //              to <MTLJSONSerializing>. This argument must not be nil.
+// error -      If not NULL, this may be set to an error that occurs during
+//              initializing the adapter.
 //
-// Returns a JSON adapter for modelClass, creating one of necessary.
-- (MTLJSONAdapter *)JSONAdapterForModelClass:(Class)modelClass;
+// Returns a JSON adapter for modelClass, creating one of necessary. If no
+// adapter could be created, nil is returned.
+- (MTLJSONAdapter *)JSONAdapterForModelClass:(Class)modelClass error:(NSError **)error;
 
 // Collect all value transformers needed for a given class.
 //
@@ -69,15 +73,54 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 #pragma mark Convenience methods
 
 + (id)modelOfClass:(Class)modelClass fromJSONDictionary:(NSDictionary *)JSONDictionary error:(NSError **)error {
-	MTLJSONAdapter *adapter = [[self alloc] initWithModelClass:modelClass];
+	MTLJSONAdapter *adapter = [[self alloc] initWithModelClass:modelClass error:error];
 
 	return [adapter modelFromJSONDictionary:JSONDictionary error:error];
 }
 
++ (NSArray *)modelsOfClass:(Class)modelClass fromJSONArray:(NSArray *)JSONArray error:(NSError **)error {
+	if (JSONArray == nil || ![JSONArray isKindOfClass:NSArray.class]) {
+		if (error != NULL) {
+			NSDictionary *userInfo = @{
+				NSLocalizedDescriptionKey: NSLocalizedString(@"Missing JSON array", @""),
+				NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"%@ could not be created because an invalid JSON array was provided: %@", @""), NSStringFromClass(modelClass), JSONArray.class],
+			};
+			*error = [NSError errorWithDomain:MTLJSONAdapterErrorDomain code:MTLJSONAdapterErrorInvalidJSONDictionary userInfo:userInfo];
+		}
+		return nil;
+	}
+
+	NSMutableArray *models = [NSMutableArray arrayWithCapacity:JSONArray.count];
+	for (NSDictionary *JSONDictionary in JSONArray){
+		MTLModel *model = [self modelOfClass:modelClass fromJSONDictionary:JSONDictionary error:error];
+
+		if (model == nil) return nil;
+
+		[models addObject:model];
+	}
+
+	return models;
+}
+
 + (NSDictionary *)JSONDictionaryFromModel:(id<MTLJSONSerializing>)model error:(NSError **)error {
-	MTLJSONAdapter *adapter = [[self alloc] initWithModelClass:model.class];
+	MTLJSONAdapter *adapter = [[self alloc] initWithModelClass:model.class error:error];
 
 	return [adapter JSONDictionaryFromModel:model error:error];
+}
+
++ (NSArray *)JSONArrayFromModels:(NSArray *)models error:(NSError **)error {
+	NSParameterAssert(models != nil);
+	NSParameterAssert([models isKindOfClass:NSArray.class]);
+
+	NSMutableArray *JSONArray = [NSMutableArray arrayWithCapacity:models.count];
+	for (MTLModel<MTLJSONSerializing> *model in models) {
+		NSDictionary *JSONDictionary = [self JSONDictionaryFromModel:model error:error];
+		if (JSONDictionary == nil) return nil;
+
+		[JSONArray addObject:JSONDictionary];
+	}
+
+	return JSONArray;
 }
 
 #pragma mark Lifecycle
@@ -87,7 +130,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	return nil;
 }
 
-- (id)initWithModelClass:(Class)modelClass {
+- (id)initWithModelClass:(Class)modelClass error:(NSError **)error {
 	NSParameterAssert(modelClass != nil);
 	NSParameterAssert([modelClass conformsToProtocol:@protocol(MTLJSONSerializing)]);
 
@@ -97,6 +140,24 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	_modelClass = modelClass;
 
 	_JSONKeyPathsByPropertyKey = [modelClass JSONKeyPathsByPropertyKey];
+
+	NSSet *propertyKeys = [self.modelClass propertyKeys];
+
+	for (NSString *JSONKeyPath in _JSONKeyPathsByPropertyKey) {
+		if ([propertyKeys containsObject:JSONKeyPath]) continue;
+
+		if (error != NULL) {
+			NSDictionary *userInfo = @{
+				NSLocalizedDescriptionKey: NSLocalizedString(@"Invalid JSON mapping", nil),
+				NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"%1$@ could not be parsed because its JSON mapping contains illegal property keys.", nil), modelClass]
+			};
+
+			*error = [NSError errorWithDomain:MTLJSONAdapterErrorDomain code:MTLJSONAdapterErrorInvalidJSONMapping userInfo:userInfo];
+		}
+
+		return nil;
+	}
+
 	_valueTransformersByPropertyKey = [self.class valueTransformersForModelClass:modelClass];
 
 	_JSONAdaptersByModelClass = [NSMapTable strongToStrongObjectsMapTable];
@@ -111,7 +172,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	NSParameterAssert([model isKindOfClass:self.modelClass]);
 
 	if (self.modelClass != model.class) {
-		MTLJSONAdapter *otherAdapter = [self JSONAdapterForModelClass:model.class];
+		MTLJSONAdapter *otherAdapter = [self JSONAdapterForModelClass:model.class error:error];
 
 		return [otherAdapter JSONDictionaryFromModel:model error:error];
 	}
@@ -183,6 +244,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 		return JSONDictionary;
 	} else {
 		if (error != NULL) *error = tmpError;
+
 		return nil;
 	}
 }
@@ -206,7 +268,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 		if (class != self.modelClass) {
 			NSAssert([class conformsToProtocol:@protocol(MTLJSONSerializing)], @"Class %@ returned from +classForParsingJSONDictionary: does not conform to <MTLJSONSerializing>", class);
 
-			MTLJSONAdapter *otherAdapter = [self JSONAdapterForModelClass:class];
+			MTLJSONAdapter *otherAdapter = [self JSONAdapterForModelClass:class error:error];
 
 			return [otherAdapter modelFromJSONDictionary:JSONDictionary error:error];
 		}
@@ -344,7 +406,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	return result;
 }
 
-- (MTLJSONAdapter *)JSONAdapterForModelClass:(Class)modelClass {
+- (MTLJSONAdapter *)JSONAdapterForModelClass:(Class)modelClass error:(NSError **)error {
 	NSParameterAssert(modelClass != nil);
 	NSParameterAssert([modelClass conformsToProtocol:@protocol(MTLJSONSerializing)]);
 
@@ -353,8 +415,12 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 
 		if (result != nil) return result;
 
-		result = [[MTLJSONAdapter alloc] initWithModelClass:modelClass];
-		[self.JSONAdaptersByModelClass setObject:result forKey:modelClass];
+		result = [[MTLJSONAdapter alloc] initWithModelClass:modelClass error:error];
+
+		if (result != nil) {
+			[self.JSONAdaptersByModelClass setObject:result forKey:modelClass];
+		}
+
 		return result;
 	}
 }
@@ -403,6 +469,10 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-implementations"
+
++ (NSArray *)JSONArrayFromModels:(NSArray *)models {
+	return [self JSONArrayFromModels:models error:NULL];
+}
 
 + (NSDictionary *)JSONDictionaryFromModel:(MTLModel<MTLJSONSerializing> *)model {
 	return [self JSONDictionaryFromModel:model error:NULL];

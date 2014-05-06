@@ -278,59 +278,6 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 	}
 }
 
-+ (NSValueTransformer<MTLTransformerErrorHandling> *)mtl_valueMappingTransformerWithDictionary:(NSDictionary *)dictionary {
-	NSParameterAssert(dictionary != nil);
-	NSParameterAssert(dictionary.count == [[NSSet setWithArray:dictionary.allValues] count]);
-
-	return [MTLValueTransformer
-			transformerUsingForwardBlock:^ id (id <NSCopying> key, BOOL *success, NSError **error) {
-				if (key == nil) key = NSNull.null;
-				
-				id result = dictionary[key];
-				
-				if (result == nil) {
-					if (error != NULL) {
-						NSDictionary *userInfo = @{
-							NSLocalizedDescriptionKey: NSLocalizedString(@"Could not find associated value", @""),
-							NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Expected %1$@ to contain a value for %2$@", @""), dictionary, key],
-							MTLTransformerErrorHandlingInputValueErrorKey : key
-						};
-						
-						*error = [NSError errorWithDomain:MTLTransformerErrorHandlingErrorDomain code:MTLTransformerErrorHandlingErrorInvalidInput userInfo:userInfo];
-					}
-					*success = NO;
-					return nil;
-				}
-				
-				return result;
-			}
-			reverseBlock:^ id (id value, BOOL *success, NSError **error) {
-				__block id result = nil;
-				[dictionary enumerateKeysAndObjectsUsingBlock:^(id key, id anObject, BOOL *stop) {
-					if ([value isEqual:anObject]) {
-						result = key;
-						*stop = YES;
-					}
-				}];
-				
-				if (result == nil) {
-					if (error != NULL) {
-						NSDictionary *userInfo = @{
-							NSLocalizedDescriptionKey: NSLocalizedString(@"Could not find associated key", @""),
-							NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Expected %1$@ to contain a key that maps to %2$@", @""), dictionary, value],
-							MTLTransformerErrorHandlingInputValueErrorKey : value
-						};
-						
-						*error = [NSError errorWithDomain:MTLTransformerErrorHandlingErrorDomain code:MTLTransformerErrorHandlingErrorInvalidInput userInfo:userInfo];
-					}
-					*success = NO;
-					return nil;
-				}
-				
-				return result;
-			}];
-}
-
 + (NSValueTransformer<MTLTransformerErrorHandling> *)mtl_validatingTransformerForClass:(Class)class {
 	NSParameterAssert(class != nil);
 
@@ -338,10 +285,10 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 		if (value != nil && ![value isKindOfClass:class]) {
 			if (error != NULL) {
 				NSDictionary *userInfo = @{
-					NSLocalizedDescriptionKey: NSLocalizedString(@"Value did not match expected type", @""),
-					NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Expected %1$@ to be of class %2$@", @""), value, class],
-					MTLTransformerErrorHandlingInputValueErrorKey : value
-				};
+										   NSLocalizedDescriptionKey: NSLocalizedString(@"Value did not match expected type", @""),
+										   NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Expected %1$@ to be of class %2$@", @""), value, class],
+										   MTLTransformerErrorHandlingInputValueErrorKey : value
+										   };
 
 				*error = [NSError errorWithDomain:MTLTransformerErrorHandlingErrorDomain code:MTLTransformerErrorHandlingErrorInvalidInput userInfo:userInfo];
 			}
@@ -351,6 +298,31 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 
 		return value;
 	}];
+}
+
++ (NSValueTransformer *)mtl_valueMappingTransformerWithDictionary:(NSDictionary *)dictionary defaultValue:(id)defaultValue reverseDefaultValue:(id)reverseDefaultValue {
+	NSParameterAssert(dictionary != nil);
+	NSParameterAssert(dictionary.count == [[NSSet setWithArray:dictionary.allValues] count]);
+
+	return [MTLValueTransformer
+			transformerUsingForwardBlock:^ id (id <NSCopying> key, BOOL *success, NSError **error) {
+				return dictionary[key ?: NSNull.null] ?: defaultValue;
+			}
+			reverseBlock:^ id (id value, BOOL *success, NSError **error) {
+				__block id result = nil;
+				[dictionary enumerateKeysAndObjectsUsingBlock:^(id key, id anObject, BOOL *stop) {
+					if ([value isEqual:anObject]) {
+						result = key;
+						*stop = YES;
+					}
+				}];
+
+				return result ?: reverseDefaultValue;
+			}];
+}
+
++ (NSValueTransformer *)mtl_valueMappingTransformerWithDictionary:(NSDictionary *)dictionary {
+	return [self mtl_valueMappingTransformerWithDictionary:dictionary defaultValue:nil reverseDefaultValue:nil];
 }
 
 @end

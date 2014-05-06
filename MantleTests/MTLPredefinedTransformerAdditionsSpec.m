@@ -14,6 +14,7 @@ enum : NSInteger {
 	MTLPredefinedTransformerAdditionsSpecEnumNegative = -1,
 	MTLPredefinedTransformerAdditionsSpecEnumZero = 0,
 	MTLPredefinedTransformerAdditionsSpecEnumPositive = 1,
+	MTLPredefinedTransformerAdditionsSpecEnumDefault = 42,
 } MTLPredefinedTransformerAdditionsSpecEnum;
 
 SpecBegin(MTLPredefinedTransformerAdditions)
@@ -257,6 +258,20 @@ describe(@"value mapping transformer", ^{
 		expect([transformer reverseTransformedValue:@(MTLPredefinedTransformerAdditionsSpecEnumNegative)]).to.equal(@"negative");
 		expect([transformer reverseTransformedValue:@(MTLPredefinedTransformerAdditionsSpecEnumZero)]).to.equal(@[ @"zero" ]);
 		expect([transformer reverseTransformedValue:@(MTLPredefinedTransformerAdditionsSpecEnumPositive)]).to.equal(@"positive");
+	});
+
+	describe(@"default values", ^{
+		beforeEach(^{
+			transformer = [NSValueTransformer mtl_valueMappingTransformerWithDictionary:dictionary defaultValue:@(MTLPredefinedTransformerAdditionsSpecEnumDefault) reverseDefaultValue:@"default"];
+		});
+
+		it(@"should transform unknown strings into the default enum value", ^{
+			expect([transformer transformedValue:@"unknown"]).to.equal(@(MTLPredefinedTransformerAdditionsSpecEnumDefault));
+		});
+
+		it(@"should transform the default enum value into the default string", ^{
+			expect([transformer reverseTransformedValue:@(MTLPredefinedTransformerAdditionsSpecEnumDefault)]).to.equal(@"default");
+		});
 	});
 });
 
