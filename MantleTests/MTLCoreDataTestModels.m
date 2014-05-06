@@ -64,6 +64,16 @@ NSString * const MTLCoreDataTestModelsDomain = @"MTLCoreDataTestModelsDomain";
 
 @end
 
+@implementation MTLParentMergingTestModel
+
+- (void)mergeValueForKey:(NSString *)key fromManagedObject:(NSManagedObject *)managedObject {
+	if ([key isEqualToString:@"requiredString"]) {
+		self.requiredString = @"merged";
+	}
+}
+
+@end
+
 @implementation MTLParentIncorrectTestModel
 
 + (NSString *)managedObjectEntityName {
@@ -124,6 +134,20 @@ NSString * const MTLCoreDataTestModelsDomain = @"MTLCoreDataTestModelsDomain";
 
 + (NSString *)managedObjectEntityName {
 	return @"Empty";
+}
+
+@end
+
+@implementation MTLIllegalManagedObjectMappingModel
+
++ (NSString *)managedObjectEntityName {
+	return @"Parent";
+}
+
++ (NSDictionary *)managedObjectKeysByPropertyKey {
+	return @{
+		@"name": @"username"
+	};
 }
 
 @end

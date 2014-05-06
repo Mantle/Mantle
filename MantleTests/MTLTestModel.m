@@ -137,6 +137,9 @@ static NSUInteger modelVersion = 1;
 
 @end
 
+@implementation MTLSubclassTestModel
+@end
+
 @implementation MTLArrayTestModel
 
 + (NSDictionary *)JSONKeyPathsByPropertyKey {
@@ -377,6 +380,15 @@ static NSUInteger modelVersion = 1;
 				@"nested.length": @(range.length)
 			};
 		}];
+}
+@end
+
+@implementation MTLIllegalJSONMappingModel
+
++ (NSDictionary *)JSONKeyPathsByPropertyKey {
+	return @{
+		@"name": @"username"
+	};
 }
 
 @end

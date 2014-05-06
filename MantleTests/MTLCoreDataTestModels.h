@@ -27,6 +27,11 @@ extern NSString * const MTLCoreDataTestModelsDomain;
 
 @end
 
+// Model for Parent that has custom merging behaviour for CoreData
+@interface MTLParentMergingTestModel : MTLParentTestModel
+
+@end
+
 // Model for Parent entity which doesn't serialize required properties
 @interface MTLParentIncorrectTestModel : MTLModel <MTLManagedObjectSerializing>
 
@@ -58,3 +63,6 @@ extern NSString * const MTLCoreDataTestModelsDomain;
 
 @end
 
+// Maps a non-existant property "name" to the "string" attribute.
+@interface MTLIllegalManagedObjectMappingModel : MTLModel <MTLManagedObjectSerializing>
+@end
