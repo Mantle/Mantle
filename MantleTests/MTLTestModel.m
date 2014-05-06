@@ -392,3 +392,65 @@ static NSUInteger modelVersion = 1;
 }
 
 @end
+
+@implementation MTLClassClusterModel : MTLModel
+
++ (NSDictionary *)JSONKeyPathsByPropertyKey {
+	return @{
+		@"flavor": @"flavor"
+	};
+}
+
++ (Class)classForParsingJSONDictionary:(NSDictionary *)JSONDictionary {
+	if ([JSONDictionary[@"flavor"] isEqualToString:@"chocolate"]) {
+		return MTLChocolateClassClusterModel.class;
+	}
+
+	if ([JSONDictionary[@"flavor"] isEqualToString:@"strawberry"]) {
+		return MTLStrawberryClassClusterModel.class;
+	}
+
+	return nil;
+}
+
+@end
+
+@implementation MTLChocolateClassClusterModel : MTLClassClusterModel
+
++ (NSDictionary *)JSONKeyPathsByPropertyKey {
+	return [[super JSONKeyPathsByPropertyKey] mtl_dictionaryByAddingEntriesFromDictionary:@{
+		@"bitterness": @"chocolate_bitterness"
+	}];
+}
+
+- (NSString *)flavor {
+	return @"chocolate";
+}
+
++ (NSValueTransformer *)bitternessJSONTransformer {
+	return [MTLValueTransformer
+		transformerUsingForwardBlock:^(NSString *string, BOOL *success, NSError **error) {
+			NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+
+			return [formatter numberFromString:string];
+		}
+		reverseBlock:^(NSNumber *value, BOOL *success, NSError **error) {
+			return [value description];
+		}];
+}
+
+@end
+
+@implementation MTLStrawberryClassClusterModel
+
++ (NSDictionary *)JSONKeyPathsByPropertyKey {
+	return [[super JSONKeyPathsByPropertyKey] mtl_dictionaryByAddingEntriesFromDictionary:@{
+		@"freshness": @"strawberry_freshness"
+	}];
+}
+
+- (NSString *)flavor {
+	return @"strawberry";
+}
+
+@end

@@ -92,10 +92,6 @@ extern const NSInteger MTLJSONAdapterErrorInvalidJSONMapping;
 // Converts a MTLModel object to and from a JSON dictionary.
 @interface MTLJSONAdapter : NSObject
 
-// The model object that the receiver was initialized with, or that the receiver
-// parsed from a JSON dictionary.
-@property (nonatomic, strong, readonly) id<MTLJSONSerializing> model;
-
 // Attempts to parse a JSON dictionary into a model object.
 //
 // modelClass     - The MTLModel subclass to attempt to parse from the JSON.
@@ -149,48 +145,52 @@ extern const NSInteger MTLJSONAdapterErrorInvalidJSONMapping;
 // model.
 + (NSArray *)JSONArrayFromModels:(NSArray *)models error:(NSError **)error;
 
-// Initializes the receiver by attempting to parse a JSON dictionary into
-// a model object.
+// Initializes the receiver with a given model class.
+//
+// modelClass - The MTLModel subclass to attempt to parse from the JSON and
+//              back. This class must conform to <MTLJSONSerializing>. This
+//              argument must not be nil.
+// error -      If not NULL, this may be set to an error that occurs during
+//              initializing the receiver.
+//
+// Returns an initialized adapter.
+- (id)initWithModelClass:(Class)modelClass error:(NSError **)error;
+
+// Deserializes a model from a JSON dictionary.
 //
 // JSONDictionary - A dictionary representing JSON data. This should match the
-//                  format returned by NSJSONSerialization. If this argument is
-//                  nil, the method returns nil and an error with code
-//                  MTLJSONAdapterErrorInvalidJSONDictionary.
-// modelClass     - The MTLModel subclass to attempt to parse from the JSON.
-//                  This class must conform to <MTLJSONSerializing>. This
-//                  argument must not be nil.
+//                  format returned by NSJSONSerialization. This argument must
+//                  not be nil.
 // error          - If not NULL, this may be set to an error that occurs during
-//                  parsing or initializing an instance of `modelClass`.
+//                  deserializing.
 //
-// Returns an initialized adapter upon success, or nil if a parsing error
-// occurred.
-- (id)initWithJSONDictionary:(NSDictionary *)JSONDictionary modelClass:(Class)modelClass error:(NSError **)error;
+// Returns a model object, or nil if a deserialization error occurred.
+- (id)modelFromJSONDictionary:(NSDictionary *)JSONDictionary error:(NSError **)error;
 
-// Initializes the receiver with an existing model.
+// Serializes a model into JSON.
 //
 // model - The model to use for JSON serialization. This argument must not be
 //         nil.
-- (id)initWithModel:(id<MTLJSONSerializing>)model;
-
-// Serializes the receiver's `model` into JSON.
-//
 // error - If not NULL, this may be set to an error that occurs during
 //         serializing.
 //
-// Returns a JSON dictionary, or nil if a serialization error occurred.
-- (NSDictionary *)serializeToJSONDictionary:(NSError **)error;
+// Returns a model object, or nil if a serialization error occurred.
+- (NSDictionary *)JSONDictionaryFromModel:(id<MTLJSONSerializing>)model error:(NSError **)error;
 
-// Looks up the JSON key path in the model's +propertyKeys.
+// Filters the property keys used to serialize a given model.
 //
-// Subclasses may override this method to customize the adapter's serializing
-// behavior. You should not call this method directly.
+// propertyKeys - The property keys for which `model` provides a mapping.
+// model        - The model being serialized.
 //
-// The default implementation returns the result +JSONKeyPathsByPropertyKey
-// result of the current model class.
+// Subclasses may override this method to determine which property keys should
+// be used when serializing `model`. For instance, this method can be used to
+// create more efficient updates of server-side resources.
 //
-// Returns a dictionary mapping property keys to one or multiple JSON key paths
-// (as strings or arrays of strings).
-- (NSDictionary *)JSONKeyPathsByPropertyKey;
+// The default implementation simply returns `propertyKeys`.
+//
+// Returns a subset of propertyKeys that should be serialized for a given
+// model.
+- (NSSet *)serializablePropertyKeys:(NSSet *)propertyKeys forModel:(id<MTLJSONSerializing>)model;
 
 // An optional value transformer that should be used for properties of the given
 // class.
@@ -200,19 +200,19 @@ extern const NSInteger MTLJSONAdapterErrorInvalidJSONMapping;
 //
 // The default implementation invokes `+<class>JSONTransformer` on the
 // receiver if it's implemented. It supports NSURL conversion through
-// -NSURLJSONTransformer.
+// +NSURLJSONTransformer.
 //
 // class - The class of the property to serialize. This property must not be
 //         nil.
 //
 // Returns a value transformer or nil if no transformation should be used.
-- (NSValueTransformer *)transformerForModelPropertiesOfClass:(Class)class;
++ (NSValueTransformer *)transformerForModelPropertiesOfClass:(Class)class;
 
 // A value transformer that should be used for a properties of the given
 // primitive type.
 //
 // If `objCType` matches @encode(id), the value transformer returned by
-// -transformerForModelPropertiesOfClass: is used instead.
+// +transformerForModelPropertiesOfClass: is used instead.
 //
 // The default implementation transforms properties that match @encode(BOOL)
 // using the MTLBooleanValueTransformerName transformer.
@@ -221,7 +221,7 @@ extern const NSInteger MTLJSONAdapterErrorInvalidJSONMapping;
 //            as it would be returned by the @encode() directive.
 //
 // Returns a value transformer or nil if no transformation should be used.
-- (NSValueTransformer *)transformerForModelPropertiesOfObjCType:(const char *)objCType;
++ (NSValueTransformer *)transformerForModelPropertiesOfObjCType:(const char *)objCType;
 
 @end
 
@@ -229,7 +229,7 @@ extern const NSInteger MTLJSONAdapterErrorInvalidJSONMapping;
 
 // This value transformer is used by MTLJSONAdapter to automatically convert
 // NSURL properties to JSON strings and vice versa.
-- (NSValueTransformer *)NSURLJSONTransformer;
++ (NSValueTransformer *)NSURLJSONTransformer;
 
 @end
 
@@ -237,12 +237,16 @@ extern const NSInteger MTLJSONAdapterErrorInvalidJSONMapping;
 
 @interface MTLJSONAdapter (Deprecated)
 
+@property (nonatomic, strong, readonly) id<MTLJSONSerializing> model __attribute__((unavailable("Replaced by -modelFromJSONDictionary:error:")));
+
 + (NSArray *)JSONArrayFromModels:(NSArray *)models __attribute__((deprecated("Replaced by +JSONArrayFromModels:error:")));
 
 + (NSDictionary *)JSONDictionaryFromModel:(MTLModel<MTLJSONSerializing> *)model __attribute__((deprecated("Replaced by +JSONDictionaryFromModel:error:")));
 
-- (NSDictionary *)JSONDictionary __attribute__((deprecated("Replaced by -serializeToJSONDictionary:")));
-
-- (NSString *)JSONKeyPathForPropertyKey:(NSString *)key __attribute__((unavailable("Replaced by -JSONKeyPathsByPropertyKey")));
+- (NSDictionary *)JSONDictionary __attribute__((unavailable("Replaced by -JSONDictionaryFromModel:error:")));
+- (NSString *)JSONKeyPathForPropertyKey:(NSString *)key __attribute__((unavailable("Replaced by -serializablePropertyKeys:forModel:")));
+- (id)initWithJSONDictionary:(NSDictionary *)JSONDictionary modelClass:(Class)modelClass error:(NSError **)error __attribute__((unavailable("Replaced by -initWithModelClass:")));
+- (id)initWithModel:(id<MTLJSONSerializing>)model __attribute__((unavailable("Replaced by -initWithModelClass:")));
+- (NSDictionary *)serializeToJSONDictionary:(NSError **)error __attribute__((unavailable("Replaced by -JSONDictionaryFromModel:error:")));
 
 @end
