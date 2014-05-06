@@ -328,6 +328,59 @@ describe(@"with a confined context", ^{
 			expect(updatedParentOne.string).to.equal(@"merged");
 		});
 	});
+
+	describe(@"+managedObjectsFromModels:insertingIntoContext:errors:", ^{
+		it(@"should insert multiple objects", ^{
+			NSArray *models = @[
+			    [MTLParentTestModel modelWithDictionary:@{
+					@"date": [NSDate date],
+					@"numberString": @"1234",
+					@"requiredString": @"foobar"
+				} error:NULL],
+				[MTLParentTestModel modelWithDictionary:@{
+					@"date": [NSDate date],
+					@"numberString": @"1234",
+					@"requiredString": @"foobar"
+				} error:NULL],
+				[MTLParentTestModel modelWithDictionary:@{
+					@"date": [NSDate date],
+					@"numberString": @"1234",
+					@"requiredString": @"foobar"
+				} error:NULL],
+			];
+
+			NSArray *errors;
+			NSArray *managedObjects = [MTLManagedObjectAdapter managedObjectsFromModels:models insertingIntoContext:context errors:&errors];
+
+			expect(errors).to.beNil();
+			expect([managedObjects count]).to.equal(3);
+		});
+
+		it(@"should output any failed insertations into the errors", ^{
+			NSArray *models = @[
+				[MTLParentTestModel modelWithDictionary:@{
+					@"date": [NSDate date],
+					@"numberString": @"1234",
+					@"requiredString": @"foobar",
+				} error:NULL],
+				[MTLParentTestModel modelWithDictionary:@{
+					@"date": [NSDate date],
+					@"numberString": @"1234",
+				} error:NULL],
+				[MTLParentTestModel modelWithDictionary:@{
+					@"date": [NSDate date],
+					@"numberString": @"1234",
+					@"requiredString": @"foobar",
+				} error:NULL],
+			];
+
+			NSArray *errors;
+			NSArray *managedObjects = [MTLManagedObjectAdapter managedObjectsFromModels:models insertingIntoContext:context errors:&errors];
+
+			expect([errors count]).to.equal(1);
+			expect([managedObjects count]).to.equal(2);
+		});
+	});
 });
 
 describe(@"with a main queue context", ^{

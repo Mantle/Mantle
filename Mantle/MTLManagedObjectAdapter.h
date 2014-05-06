@@ -212,4 +212,14 @@ extern const NSInteger MTLManagedObjectAdapterErrorInvalidManagedObjectMapping;
 //           serialization or insertion.
 + (id)managedObjectFromModel:(MTLModel<MTLManagedObjectSerializing> *)model insertingIntoContext:(NSManagedObjectContext *)context error:(NSError **)error;
 
+// Serializes an array of MTLModel classes into an array of NSManagedObject.
+//
+// models  - An array of model object to serialize. This argument must not be nil.
+// context - The context into which to insert the created managed object. This
+//           argument must not be nil.
+// errors  - If not NULL, this may be set to an array of errors for each model
+//           that fails to insert.
+
++ (NSArray *)managedObjectsFromModels:(NSArray *)models insertingIntoContext:(NSManagedObjectContext *)context errors:(NSArray **)errors;
+
 @end

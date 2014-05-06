@@ -566,6 +566,31 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 	return [adapter managedObjectFromModel:model insertingIntoContext:context processedObjects:processedObjects error:error];
 }
 
++ (NSArray *)managedObjectsFromModels:(NSArray *)models insertingIntoContext:(NSManagedObjectContext *)context errors:(NSArray **)errors {
+	NSParameterAssert(models != nil);
+	NSParameterAssert(context != nil);
+
+	NSMutableArray *managedObjects = [NSMutableArray array];
+	NSMutableArray *insertErrors = [NSMutableArray array];
+
+	for (MTLModel<MTLManagedObjectSerializing> *model in models) {
+		NSError *managedObjectInsertError;
+		NSManagedObject *managedObject = [self managedObjectFromModel:model insertingIntoContext:context error:&managedObjectInsertError];
+
+		if (managedObject) {
+			[managedObjects addObject:managedObject];
+		} else {
+			[insertErrors addObject:managedObjectInsertError];
+		}
+	}
+
+	if (errors != NULL && [insertErrors count] > 0) {
+		*errors = [insertErrors copy];
+	}
+
+	return [managedObjects copy];
+}
+
 - (NSValueTransformer *)entityAttributeTransformerForKey:(NSString *)key {
 	NSParameterAssert(key != nil);
 
