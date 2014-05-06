@@ -87,6 +87,15 @@ it(@"it should initialize properties with multiple key paths from JSON", ^{
 	expect(serializationError).to.beNil();
 });
 
+it(@"should return nil and error with an illegal JSON mapping", ^{
+	NSError *error = nil;
+	MTLJSONAdapter *adapter = [[MTLJSONAdapter alloc] initWithModelClass:MTLIllegalJSONMappingModel.class error:&error];
+	expect(adapter).beNil();
+	expect(error).notTo.beNil();
+	expect(error.domain).to.equal(MTLJSONAdapterErrorDomain);
+	expect(error.code).to.equal(MTLJSONAdapterErrorInvalidJSONMapping);
+});
+
 it(@"should return nil and error with an invalid key path from JSON",^{
 	NSDictionary *values = @{
 		@"username": @"foo",
@@ -100,19 +109,6 @@ it(@"should return nil and error with an invalid key path from JSON",^{
 	expect(error).notTo.beNil();
 	expect(error.domain).to.equal(MTLJSONAdapterErrorDomain);
 	expect(error.code).to.equal(MTLJSONAdapterErrorInvalidJSONDictionary);
-});
-
-it(@"should return nil and error with an illegal JSON mapping", ^{
-	NSDictionary *values = @{
-		@"username": @"foo"
-	};
-
-	NSError *error = nil;
-	MTLIllegalJSONMappingModel *model = [MTLJSONAdapter modelOfClass:MTLIllegalJSONMappingModel.class fromJSONDictionary:values error:&error];
-	expect(model).beNil();
-	expect(error).notTo.beNil();
-	expect(error.domain).to.equal(MTLJSONAdapterErrorDomain);
-	expect(error.code).to.equal(MTLJSONAdapterErrorInvalidJSONMapping);
 });
 
 it(@"should not support key paths across arrays", ^{
