@@ -709,7 +709,9 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 
 			__unsafe_unretained id transformer = nil;
 			[invocation getReturnValue:&transformer];
-			result[key] = transformer;
+
+			if (transformer != nil) result[key] = transformer;
+
 			continue;
 		}
 
