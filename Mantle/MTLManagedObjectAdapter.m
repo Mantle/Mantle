@@ -316,55 +316,21 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 
 	NSString *entityName = [model.class managedObjectEntityName];
 	NSAssert(entityName != nil, @"%@ returned a nil +managedObjectEntityName", model.class);
-
-	Class entityDescriptionClass = NSClassFromString(@"NSEntityDescription");
-	NSAssert(entityDescriptionClass != nil, @"CoreData.framework must be linked to use MTLManagedObjectAdapter");
-
-	Class fetchRequestClass = NSClassFromString(@"NSFetchRequest");
-	NSAssert(fetchRequestClass != nil, @"CoreData.framework must be linked to use MTLManagedObjectAdapter");
-
-	// If a uniquing predicate is provided, perform a fetch request to guarantee a unique managed object.
-	__block NSManagedObject *managedObject = nil;
-	NSPredicate *uniquingPredicate = [self uniquingPredicateForModel:model];
-
-	if (uniquingPredicate != nil) {
-		__block NSError *fetchRequestError = nil;
-		__block BOOL encountedError = NO;
-		managedObject = performInContext(context, ^ id {
-			NSFetchRequest *fetchRequest = [[fetchRequestClass alloc] init];
-			fetchRequest.entity = [entityDescriptionClass entityForName:entityName inManagedObjectContext:context];
-			fetchRequest.predicate = uniquingPredicate;
-			fetchRequest.returnsObjectsAsFaults = NO;
-			fetchRequest.fetchLimit = 1;
-
-			NSArray *results = [context executeFetchRequest:fetchRequest error:&fetchRequestError];
-
-			if (results == nil) {
-				encountedError = YES;
-				if (error != NULL) {
-					NSString *failureReason = [NSString stringWithFormat:NSLocalizedString(@"Failed to fetch a managed object for uniqing predicate \"%@\".", @""), uniquingPredicate];
-					
-					NSDictionary *userInfo = @{
-						NSLocalizedDescriptionKey: NSLocalizedString(@"Could not serialize managed object", @""),
-						NSLocalizedFailureReasonErrorKey: failureReason,
-					};
-					
-					fetchRequestError = [NSError errorWithDomain:MTLManagedObjectAdapterErrorDomain code:MTLManagedObjectAdapterErrorUniqueFetchRequestFailed userInfo:userInfo];
-				}
-				
-				return nil;
-			}
-
-			return results.mtl_firstObject;
-		});
-
-		if (encountedError && error != NULL) {
-			*error = fetchRequestError;
-			return nil;
+	
+	__autoreleasing NSError *fetchError = nil;
+	__block NSManagedObject *managedObject = [self fetchExistingManagedObjectForModel:model inContext:context error:&fetchError];
+	
+	if (fetchError != nil) {
+		if (error != NULL) {
+			*error = fetchError;
 		}
+		return nil;
 	}
 
 	if (managedObject == nil) {
+		Class entityDescriptionClass = NSClassFromString(@"NSEntityDescription");
+		NSAssert(entityDescriptionClass != nil, @"CoreData.framework must be linked to use MTLManagedObjectAdapter");
+		
 		managedObject = [entityDescriptionClass insertNewObjectForEntityForName:entityName inManagedObjectContext:context];
 	} else {
 		// Our CoreData store already has data for this model, we need to merge
@@ -640,6 +606,61 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 	}
 	
 	return [NSCompoundPredicate andPredicateWithSubpredicates:subpredicates];
+}
+
+- (id)fetchExistingManagedObjectForModel:(MTLModel<MTLManagedObjectSerializing> *)model inContext:(NSManagedObjectContext *)context error:(NSError **)error {
+	__block NSManagedObject *managedObject = nil;
+	
+	// If a uniquing predicate is provided, perform a fetch request to guarantee a unique managed object.
+	NSPredicate *uniquingPredicate = [self uniquingPredicateForModel:model];
+		
+	if (uniquingPredicate != nil) {
+		Class fetchRequestClass = NSClassFromString(@"NSFetchRequest");
+		NSAssert(fetchRequestClass != nil, @"CoreData.framework must be linked to use MTLManagedObjectAdapter");
+		
+		Class entityDescriptionClass = NSClassFromString(@"NSEntityDescription");
+		NSAssert(entityDescriptionClass != nil, @"CoreData.framework must be linked to use MTLManagedObjectAdapter");
+		
+		NSString *entityName = [model.class managedObjectEntityName];
+		NSAssert(entityName != nil, @"%@ returned a nil +managedObjectEntityName", model.class);
+		
+		__block NSError *fetchRequestError = nil;
+		__block BOOL encountedError = NO;
+		managedObject = performInContext(context, ^ id {
+			NSFetchRequest *fetchRequest = [[fetchRequestClass alloc] init];
+			fetchRequest.entity = [entityDescriptionClass entityForName:entityName inManagedObjectContext:context];
+			fetchRequest.predicate = uniquingPredicate;
+			fetchRequest.returnsObjectsAsFaults = NO;
+			fetchRequest.fetchLimit = 1;
+
+			NSArray *results = [context executeFetchRequest:fetchRequest error:&fetchRequestError];
+
+			if (results == nil) {
+				encountedError = YES;
+				if (error != NULL) {
+					NSString *failureReason = [NSString stringWithFormat:NSLocalizedString(@"Failed to fetch a managed object for uniqing predicate \"%@\".", @""), uniquingPredicate];
+					
+					NSDictionary *userInfo = @{
+						NSLocalizedDescriptionKey: NSLocalizedString(@"Could not serialize managed object", @""),
+						NSLocalizedFailureReasonErrorKey: failureReason,
+					};
+					
+					fetchRequestError = [NSError errorWithDomain:MTLManagedObjectAdapterErrorDomain code:MTLManagedObjectAdapterErrorUniqueFetchRequestFailed userInfo:userInfo];
+				}
+				
+				return nil;
+			}
+
+			return results.mtl_firstObject;
+		});
+
+		if (encountedError && error != NULL) {
+			*error = fetchRequestError;
+			return nil;
+		}
+	}
+	
+	return managedObject;
 }
 
 @end
