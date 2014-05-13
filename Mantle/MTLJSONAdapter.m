@@ -144,11 +144,24 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	NSSet *propertyKeys = [self.modelClass propertyKeys];
 
 	for (NSString *mappedPropertyKey in _JSONKeyPathsByPropertyKey) {
-		if ([propertyKeys containsObject:mappedPropertyKey]) continue;
+		if (![propertyKeys containsObject:mappedPropertyKey]) {
+			NSAssert(NO, NSLocalizedString(@"%1$@ is not a property of %2$@.", nil), mappedPropertyKey, modelClass);
+			return nil;
+		}
 
-		NSAssert(NO, NSLocalizedString(@"%1$@ is not a property of %2$@.", nil), mappedPropertyKey, modelClass);
+		id value = _JSONKeyPathsByPropertyKey[mappedPropertyKey];
 
-		return nil;
+		if ([value isKindOfClass:NSArray.class]) {
+			for (NSString *keyPath in value) {
+				if ([keyPath isKindOfClass:NSString.class]) continue;
+
+				NSAssert(NO, NSLocalizedString(@"%1$@ must either map to a JSON key path or a JSON array of key paths, got: %@.", nil), mappedPropertyKey, value);
+				return nil;
+			}
+		} else if (![value isKindOfClass:NSString.class]) {
+			NSAssert(NO, NSLocalizedString(@"%1$@ must either map to a JSON key path or a JSON array of key paths, got: %@.", nil), mappedPropertyKey, value);
+			return nil;
+		}
 	}
 
 	_valueTransformersByPropertyKey = [self.class valueTransformersForModelClass:modelClass];

@@ -148,6 +148,16 @@ extern const NSInteger MTLTestModelNameMissing;
 @end
 
 // Maps a non-existant property "name" to the "username" key in JSON.
-@interface MTLIllegalJSONMappingModel : MTLModel <MTLJSONSerializing>
+@interface MTLIllegalJSONMappingModel1 : MTLModel <MTLJSONSerializing>
+
+@end
+
+// Maps a non-existant property "name" to NSNull.
+@interface MTLIllegalJSONMappingModel2 : MTLModel <MTLJSONSerializing>
+
+@end
+
+// Maps a non-existant property "name" to an NSArray of numbers.
+@interface MTLIllegalJSONMappingModel3 : MTLModel <MTLJSONSerializing>
 
 @end
