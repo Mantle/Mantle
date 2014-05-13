@@ -86,20 +86,6 @@ it(@"it should initialize properties with multiple key paths from JSON", ^{
 	expect(serializationError).to.beNil();
 });
 
-it(@"should throw an exception if initialized with an illegal JSON mapping", ^{
-	expect(^{
-		return [[MTLJSONAdapter alloc] initWithModelClass:MTLIllegalJSONMappingModel1.class];
-	}).to.raise(NSInternalInconsistencyException);
-
-	expect(^{
-		return [[MTLJSONAdapter alloc] initWithModelClass:MTLIllegalJSONMappingModel2.class];
-	}).to.raise(NSInternalInconsistencyException);
-
-	expect(^{
-		return [[MTLJSONAdapter alloc] initWithModelClass:MTLIllegalJSONMappingModel3.class];
-	}).to.raise(NSInternalInconsistencyException);
-});
-
 it(@"should return nil and error with an invalid key path from JSON",^{
 	NSDictionary *values = @{
 		@"username": @"foo",
