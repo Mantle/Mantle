@@ -145,7 +145,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 
 	for (NSString *mappedPropertyKey in _JSONKeyPathsByPropertyKey) {
 		if (![propertyKeys containsObject:mappedPropertyKey]) {
-			NSAssert(NO, NSLocalizedString(@"%1$@ is not a property of %2$@.", nil), mappedPropertyKey, modelClass);
+			NSAssert(NO, @"%@ is not a property of %@.", mappedPropertyKey, modelClass);
 			return nil;
 		}
 
@@ -155,11 +155,11 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 			for (NSString *keyPath in value) {
 				if ([keyPath isKindOfClass:NSString.class]) continue;
 
-				NSAssert(NO, NSLocalizedString(@"%1$@ must either map to a JSON key path or a JSON array of key paths, got: %@.", nil), mappedPropertyKey, value);
+				NSAssert(NO, @"%@ must either map to a JSON key path or a JSON array of key paths, got: %@.", mappedPropertyKey, value);
 				return nil;
 			}
 		} else if (![value isKindOfClass:NSString.class]) {
-			NSAssert(NO, NSLocalizedString(@"%1$@ must either map to a JSON key path or a JSON array of key paths, got: %@.", nil), mappedPropertyKey, value);
+			NSAssert(NO, @"%@ must either map to a JSON key path or a JSON array of key paths, got: %@.",mappedPropertyKey, value);
 			return nil;
 		}
 	}
