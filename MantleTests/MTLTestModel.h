@@ -146,18 +146,3 @@ extern const NSInteger MTLTestModelNameMissing;
 @property (readwrite, nonatomic, assign) NSUInteger freshness;
 
 @end
-
-// Maps a non-existant property "name" to the "username" key in JSON.
-@interface MTLIllegalJSONMappingModel1 : MTLModel <MTLJSONSerializing>
-
-@end
-
-// Maps a non-existant property "name" to NSNull.
-@interface MTLIllegalJSONMappingModel2 : MTLModel <MTLJSONSerializing>
-
-@end
-
-// Maps a non-existant property "name" to an NSArray of numbers.
-@interface MTLIllegalJSONMappingModel3 : MTLModel <MTLJSONSerializing>
-
-@end

@@ -444,33 +444,3 @@ static NSUInteger modelVersion = 1;
 }
 
 @end
-
-@implementation MTLIllegalJSONMappingModel1
-
-+ (NSDictionary *)JSONKeyPathsByPropertyKey {
-	return @{
-		@"name": @"username"
-	};
-}
-
-@end
-
-@implementation MTLIllegalJSONMappingModel2
-
-+ (NSDictionary *)JSONKeyPathsByPropertyKey {
-	return @{
-		@"name": NSNull.null
-	};
-}
-
-@end
-
-@implementation MTLIllegalJSONMappingModel3
-
-+ (NSDictionary *)JSONKeyPathsByPropertyKey {
-	return @{
-		@"name": @[ @666 ]
-	};
-}
-
-@end
