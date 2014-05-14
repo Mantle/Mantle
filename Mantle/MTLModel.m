@@ -93,19 +93,24 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 	self = [self init];
 	if (self == nil) return nil;
 
+	if (![self updateWithDictionary:dictionary error:error]) return nil;
+
+	return self;
+}
+
+- (BOOL)updateWithDictionary:(NSDictionary *)dictionary error:(NSError **)error {
 	for (NSString *key in dictionary) {
 		// Mark this as being autoreleased, because validateValue may return
 		// a new object to be stored in this variable (and we don't want ARC to
 		// double-free or leak the old or new values).
 		__autoreleasing id value = [dictionary objectForKey:key];
-	
+		
 		if ([value isEqual:NSNull.null]) value = nil;
-
-		BOOL success = MTLValidateAndSetValue(self, key, value, YES, error);
-		if (!success) return nil;
+		
+		if(!MTLValidateAndSetValue(self, key, value, YES, error)) return NO;
 	}
-
-	return self;
+	
+	return YES;
 }
 
 #pragma mark Reflection
