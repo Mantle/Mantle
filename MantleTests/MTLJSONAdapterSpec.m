@@ -17,11 +17,10 @@ it(@"should initialize with a model class", ^{
 		@"count": @"5",
 	};
 
-	NSError *error = nil;
-	MTLJSONAdapter *adapter = [[MTLJSONAdapter alloc] initWithModelClass:MTLTestModel.class error:&error];
+	MTLJSONAdapter *adapter = [[MTLJSONAdapter alloc] initWithModelClass:MTLTestModel.class];
 	expect(adapter).notTo.beNil();
-	expect(error).to.beNil();
 
+	NSError *error = nil;
 	MTLTestModel *model = [adapter modelFromJSONDictionary:values error:&error];
 	expect(error).to.beNil();
 
@@ -85,15 +84,6 @@ it(@"it should initialize properties with multiple key paths from JSON", ^{
 	__block NSError *serializationError;
 	expect([MTLJSONAdapter JSONDictionaryFromModel:model error:&serializationError]).to.equal(values);
 	expect(serializationError).to.beNil();
-});
-
-it(@"should return nil and error with an illegal JSON mapping", ^{
-	NSError *error = nil;
-	MTLJSONAdapter *adapter = [[MTLJSONAdapter alloc] initWithModelClass:MTLIllegalJSONMappingModel.class error:&error];
-	expect(adapter).beNil();
-	expect(error).notTo.beNil();
-	expect(error.domain).to.equal(MTLJSONAdapterErrorDomain);
-	expect(error.code).to.equal(MTLJSONAdapterErrorInvalidJSONMapping);
 });
 
 it(@"should return nil and error with an invalid key path from JSON",^{
@@ -247,10 +237,9 @@ it(@"should allow subclasses to filter serialized property keys", ^{
 		@"nested": @{ @"name": NSNull.null }
 	};
 
-	NSError *error;
-	MTLTestJSONAdapter *adapter = [[MTLTestJSONAdapter alloc] initWithModelClass:MTLTestModel.class error:&error];
-	expect(error).to.beNil();
+	MTLTestJSONAdapter *adapter = [[MTLTestJSONAdapter alloc] initWithModelClass:MTLTestModel.class];
 
+	NSError *error;
 	MTLTestModel *model = [adapter modelFromJSONDictionary:values error:&error];
 	expect(model).notTo.beNil();
 	expect(error).to.beNil();
@@ -316,14 +305,13 @@ it(@"should parse a different model class", ^{
 });
 
 it(@"should serialize different model classes", ^{
-	NSError *error = nil;
-	MTLJSONAdapter *adapter = [[MTLJSONAdapter alloc] initWithModelClass:MTLClassClusterModel.class error:&error];
-	expect(error).to.beNil();
+	MTLJSONAdapter *adapter = [[MTLJSONAdapter alloc] initWithModelClass:MTLClassClusterModel.class];
 
 	MTLChocolateClassClusterModel *chocolate = [MTLChocolateClassClusterModel modelWithDictionary:@{
 		@"bitterness": @100
 	} error:NULL];
 
+	NSError *error = nil;
 	NSDictionary *chocolateValues = [adapter JSONDictionaryFromModel:chocolate error:&error];
 
 	expect(error).to.beNil();

@@ -150,11 +150,9 @@ extern const NSInteger MTLJSONAdapterErrorInvalidJSONMapping;
 // modelClass - The MTLModel subclass to attempt to parse from the JSON and
 //              back. This class must conform to <MTLJSONSerializing>. This
 //              argument must not be nil.
-// error -      If not NULL, this may be set to an error that occurs during
-//              initializing the receiver.
 //
 // Returns an initialized adapter.
-- (id)initWithModelClass:(Class)modelClass error:(NSError **)error;
+- (id)initWithModelClass:(Class)modelClass;
 
 // Deserializes a model from a JSON dictionary.
 //

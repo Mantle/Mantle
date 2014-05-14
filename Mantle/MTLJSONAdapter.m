@@ -73,7 +73,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 #pragma mark Convenience methods
 
 + (id)modelOfClass:(Class)modelClass fromJSONDictionary:(NSDictionary *)JSONDictionary error:(NSError **)error {
-	MTLJSONAdapter *adapter = [[self alloc] initWithModelClass:modelClass error:error];
+	MTLJSONAdapter *adapter = [[self alloc] initWithModelClass:modelClass];
 
 	return [adapter modelFromJSONDictionary:JSONDictionary error:error];
 }
@@ -103,7 +103,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 }
 
 + (NSDictionary *)JSONDictionaryFromModel:(id<MTLJSONSerializing>)model error:(NSError **)error {
-	MTLJSONAdapter *adapter = [[self alloc] initWithModelClass:model.class error:error];
+	MTLJSONAdapter *adapter = [[self alloc] initWithModelClass:model.class];
 
 	return [adapter JSONDictionaryFromModel:model error:error];
 }
@@ -130,7 +130,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	return nil;
 }
 
-- (id)initWithModelClass:(Class)modelClass error:(NSError **)error {
+- (id)initWithModelClass:(Class)modelClass {
 	NSParameterAssert(modelClass != nil);
 	NSParameterAssert([modelClass conformsToProtocol:@protocol(MTLJSONSerializing)]);
 
@@ -143,19 +143,25 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 
 	NSSet *propertyKeys = [self.modelClass propertyKeys];
 
-	for (NSString *JSONKeyPath in _JSONKeyPathsByPropertyKey) {
-		if ([propertyKeys containsObject:JSONKeyPath]) continue;
-
-		if (error != NULL) {
-			NSDictionary *userInfo = @{
-				NSLocalizedDescriptionKey: NSLocalizedString(@"Invalid JSON mapping", nil),
-				NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"%1$@ could not be parsed because its JSON mapping contains illegal property keys.", nil), modelClass]
-			};
-
-			*error = [NSError errorWithDomain:MTLJSONAdapterErrorDomain code:MTLJSONAdapterErrorInvalidJSONMapping userInfo:userInfo];
+	for (NSString *mappedPropertyKey in _JSONKeyPathsByPropertyKey) {
+		if (![propertyKeys containsObject:mappedPropertyKey]) {
+			NSAssert(NO, @"%@ is not a property of %@.", mappedPropertyKey, modelClass);
+			return nil;
 		}
 
-		return nil;
+		id value = _JSONKeyPathsByPropertyKey[mappedPropertyKey];
+
+		if ([value isKindOfClass:NSArray.class]) {
+			for (NSString *keyPath in value) {
+				if ([keyPath isKindOfClass:NSString.class]) continue;
+
+				NSAssert(NO, @"%@ must either map to a JSON key path or a JSON array of key paths, got: %@.", mappedPropertyKey, value);
+				return nil;
+			}
+		} else if (![value isKindOfClass:NSString.class]) {
+			NSAssert(NO, @"%@ must either map to a JSON key path or a JSON array of key paths, got: %@.",mappedPropertyKey, value);
+			return nil;
+		}
 	}
 
 	_valueTransformersByPropertyKey = [self.class valueTransformersForModelClass:modelClass];
@@ -415,7 +421,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 
 		if (result != nil) return result;
 
-		result = [[MTLJSONAdapter alloc] initWithModelClass:modelClass error:error];
+		result = [[MTLJSONAdapter alloc] initWithModelClass:modelClass];
 
 		if (result != nil) {
 			[self.JSONAdaptersByModelClass setObject:result forKey:modelClass];
