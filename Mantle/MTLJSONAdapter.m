@@ -41,6 +41,47 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 
 @implementation MTLJSONAdapter
 
+#pragma mark Check parameters
+
+- (BOOL)checkJSONDictionary:(NSDictionary *)JSONDictionary modelClass:(Class)modelClass error:(NSError **)error {
+	NSParameterAssert(modelClass != nil);
+	//NSParameterAssert([modelClass isSubclassOfClass:MTLModel.class]);
+	NSParameterAssert([modelClass conformsToProtocol:@protocol(MTLModelProtocol)]);
+	NSParameterAssert([modelClass conformsToProtocol:@protocol(MTLJSONSerializing)]);
+	
+	if (JSONDictionary == nil || ![JSONDictionary isKindOfClass:NSDictionary.class]) {
+		if (error != NULL) {
+			NSDictionary *userInfo = @{
+									   NSLocalizedDescriptionKey: NSLocalizedString(@"Missing JSON dictionary", @""),
+									   NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"%@ could not be created because an invalid JSON dictionary was provided: %@", @""), NSStringFromClass(modelClass), JSONDictionary.class],
+									   };
+			*error = [NSError errorWithDomain:MTLJSONAdapterErrorDomain code:MTLJSONAdapterErrorInvalidJSONDictionary userInfo:userInfo];
+		}
+		return NO;
+	}
+	
+	if ([modelClass respondsToSelector:@selector(classForParsingJSONDictionary:)]) {
+		modelClass = [modelClass classForParsingJSONDictionary:JSONDictionary];
+		if (modelClass == nil) {
+			if (error != NULL) {
+				NSDictionary *userInfo = @{
+										   NSLocalizedDescriptionKey: NSLocalizedString(@"Could not parse JSON", @""),
+										   NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"No model class could be found to parse the JSON dictionary.", @"")
+										   };
+				
+				*error = [NSError errorWithDomain:MTLJSONAdapterErrorDomain code:MTLJSONAdapterErrorNoClassFound userInfo:userInfo];
+			}
+			
+			return NO;
+		}
+		
+		NSAssert([modelClass isSubclassOfClass:MTLModel.class], @"Class %@ returned from +classForParsingJSONDictionary: is not a subclass of MTLModel", modelClass);
+		NSAssert([modelClass conformsToProtocol:@protocol(MTLJSONSerializing)], @"Class %@ returned from +classForParsingJSONDictionary: does not conform to <MTLJSONSerializing>", modelClass);
+	}
+	
+	return YES;
+}
+
 #pragma mark Convenience methods
 
 + (id)modelOfClass:(Class)modelClass fromJSONDictionary:(NSDictionary *)JSONDictionary error:(NSError **)error {
@@ -72,7 +113,13 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	return models;
 }
 
-+ (NSDictionary *)JSONDictionaryFromModel:(MTLModel<MTLJSONSerializing> *)model {
++ (BOOL)updateModel:(id<MTLModelProtocol,MTLJSONSerializing>)model fromJSONDictionary:(NSDictionary *)JSONDictionary error:(NSError **)error {
+	MTLJSONAdapter *adapter = [[self alloc] initWithJSONDictionary:JSONDictionary model:model error:error];
+	
+	return *error == nil && adapter.model != nil;
+}
+
++ (NSDictionary *)JSONDictionaryFromModel:(id<MTLModelProtocol,MTLJSONSerializing>)model {
 	MTLJSONAdapter *adapter = [[self alloc] initWithModel:model];
 	return adapter.JSONDictionary;
 }
@@ -100,119 +147,15 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 }
 
 - (id)initWithJSONDictionary:(NSDictionary *)JSONDictionary modelClass:(Class)modelClass error:(NSError **)error {
-	NSParameterAssert(modelClass != nil);
-	NSParameterAssert([modelClass isSubclassOfClass:MTLModel.class]);
-	NSParameterAssert([modelClass conformsToProtocol:@protocol(MTLJSONSerializing)]);
-
-	if (JSONDictionary == nil || ![JSONDictionary isKindOfClass:NSDictionary.class]) {
-		if (error != NULL) {
-			NSDictionary *userInfo = @{
-				NSLocalizedDescriptionKey: NSLocalizedString(@"Missing JSON dictionary", @""),
-				NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"%@ could not be created because an invalid JSON dictionary was provided: %@", @""), NSStringFromClass(modelClass), JSONDictionary.class],
-			};
-			*error = [NSError errorWithDomain:MTLJSONAdapterErrorDomain code:MTLJSONAdapterErrorInvalidJSONDictionary userInfo:userInfo];
-		}
-		return nil;
-	}
-
-	if ([modelClass respondsToSelector:@selector(classForParsingJSONDictionary:)]) {
-		modelClass = [modelClass classForParsingJSONDictionary:JSONDictionary];
-		if (modelClass == nil) {
-			if (error != NULL) {
-				NSDictionary *userInfo = @{
-					NSLocalizedDescriptionKey: NSLocalizedString(@"Could not parse JSON", @""),
-					NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"No model class could be found to parse the JSON dictionary.", @"")
-				};
-
-				*error = [NSError errorWithDomain:MTLJSONAdapterErrorDomain code:MTLJSONAdapterErrorNoClassFound userInfo:userInfo];
-			}
-
-			return nil;
-		}
-
-		NSAssert([modelClass isSubclassOfClass:MTLModel.class], @"Class %@ returned from +classForParsingJSONDictionary: is not a subclass of MTLModel", modelClass);
-		NSAssert([modelClass conformsToProtocol:@protocol(MTLJSONSerializing)], @"Class %@ returned from +classForParsingJSONDictionary: does not conform to <MTLJSONSerializing>", modelClass);
-	}
-
+	if(![self checkJSONDictionary:JSONDictionary modelClass:modelClass error:error]) return nil;
+	
 	self = [super init];
 	if (self == nil) return nil;
 
 	_modelClass = modelClass;
 	_JSONKeyPathsByPropertyKey = [[modelClass JSONKeyPathsByPropertyKey] copy];
 
-	NSMutableDictionary *dictionaryValue = [[NSMutableDictionary alloc] initWithCapacity:JSONDictionary.count];
-
-	NSSet *propertyKeys = [self.modelClass propertyKeys];
-
-	for (NSString *JSONKeyPath in self.JSONKeyPathsByPropertyKey) {
-		if ([propertyKeys containsObject:JSONKeyPath]) continue;
-
-		if (error != NULL) {
-			NSDictionary *userInfo = @{
-				NSLocalizedDescriptionKey: NSLocalizedString(@"Invalid JSON mapping", nil),
-				NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"%1$@ could not be parsed because its JSON mapping contains illegal property keys.", nil), modelClass]
-			};
-
-			*error = [NSError errorWithDomain:MTLJSONAdapterErrorDomain code:MTLJSONAdapterErrorInvalidJSONMapping userInfo:userInfo];
-		}
-
-		return nil;
-	}
-
-	for (NSString *propertyKey in propertyKeys) {
-		NSString *JSONKeyPath = [self JSONKeyPathForPropertyKey:propertyKey];
-		if (JSONKeyPath == nil) continue;
-
-		id value;
-		@try {
-			value = [JSONDictionary valueForKeyPath:JSONKeyPath];
-		} @catch (NSException *ex) {
-			if (error != NULL) {
-				NSDictionary *userInfo = @{
-					NSLocalizedDescriptionKey: NSLocalizedString(@"Invalid JSON dictionary", nil),
-					NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"%1$@ could not be parsed because an invalid JSON dictionary was provided for key path \"%2$@\"", nil), modelClass, JSONKeyPath],
-					MTLJSONAdapterThrownExceptionErrorKey: ex
-				};
-
-				*error = [NSError errorWithDomain:MTLJSONAdapterErrorDomain code:MTLJSONAdapterErrorInvalidJSONDictionary userInfo:userInfo];
-			}
-
-			return nil;
-		}
-
-		if (value == nil) continue;
-
-		@try {
-			NSValueTransformer *transformer = [self JSONTransformerForKey:propertyKey];
-			if (transformer != nil) {
-				// Map NSNull -> nil for the transformer, and then back for the
-				// dictionary we're going to insert into.
-				if ([value isEqual:NSNull.null]) value = nil;
-				value = [transformer transformedValue:value] ?: NSNull.null;
-			}
-
-			dictionaryValue[propertyKey] = value;
-		} @catch (NSException *ex) {
-			NSLog(@"*** Caught exception %@ parsing JSON key path \"%@\" from: %@", ex, JSONKeyPath, JSONDictionary);
-
-			// Fail fast in Debug builds.
-			#if DEBUG
-			@throw ex;
-			#else
-			if (error != NULL) {
-				NSDictionary *userInfo = @{
-					NSLocalizedDescriptionKey: ex.description,
-					NSLocalizedFailureReasonErrorKey: ex.reason,
-					MTLJSONAdapterThrownExceptionErrorKey: ex
-				};
-
-				*error = [NSError errorWithDomain:MTLJSONAdapterErrorDomain code:MTLJSONAdapterErrorExceptionThrown userInfo:userInfo];
-			}
-
-			return nil;
-			#endif
-		}
-	}
+	NSDictionary *dictionaryValue = [self dictionaryValueFromJSONDictionary:JSONDictionary error:error];
 
 	_model = [self.modelClass modelWithDictionary:dictionaryValue error:error];
 	if (_model == nil) return nil;
@@ -220,7 +163,26 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	return self;
 }
 
-- (id)initWithModel:(MTLModel<MTLJSONSerializing> *)model {
+- (id)initWithJSONDictionary:(NSDictionary *)JSONDictionary model:(id<MTLModelProtocol,MTLJSONSerializing>)model error:(NSError **)error {
+	NSParameterAssert(model != nil);
+	
+	if(![self checkJSONDictionary:JSONDictionary modelClass:model.class error:error]) return nil;
+	
+	self = [super init];
+	if (self == nil) return nil;
+	
+	_model = model;
+	_modelClass = model.class;
+	_JSONKeyPathsByPropertyKey = [[model.class JSONKeyPathsByPropertyKey] copy];
+	
+	NSDictionary *dictionaryValue = [self dictionaryValueFromJSONDictionary:JSONDictionary error:error];
+
+	[_model updateWithDictionary:dictionaryValue error:error];
+	
+	return self;
+}
+
+- (id)initWithModel:(id<MTLModelProtocol,MTLJSONSerializing>)model {
 	NSParameterAssert(model != nil);
 
 	self = [super init];
@@ -234,6 +196,84 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 }
 
 #pragma mark Serialization
+
+- (NSDictionary *)dictionaryValueFromJSONDictionary:(NSDictionary *)JSONDictionary error:(NSError **)error {
+	NSMutableDictionary *dictionaryValue = [[NSMutableDictionary alloc] initWithCapacity:JSONDictionary.count];
+	
+	NSSet *propertyKeys = [self.modelClass propertyKeys];
+	
+	for (NSString *JSONKeyPath in self.JSONKeyPathsByPropertyKey) {
+		if ([propertyKeys containsObject:JSONKeyPath]) continue;
+		
+		if (error != NULL) {
+			NSDictionary *userInfo = @{
+									   NSLocalizedDescriptionKey: NSLocalizedString(@"Invalid JSON mapping", nil),
+									   NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"%1$@ could not be parsed because its JSON mapping contains illegal property keys.", nil), self.modelClass]
+									   };
+			
+			*error = [NSError errorWithDomain:MTLJSONAdapterErrorDomain code:MTLJSONAdapterErrorInvalidJSONMapping userInfo:userInfo];
+		}
+		
+		return nil;
+	}
+	
+	for (NSString *propertyKey in propertyKeys) {
+		NSString *JSONKeyPath = [self JSONKeyPathForPropertyKey:propertyKey];
+		if (JSONKeyPath == nil) continue;
+		
+		id value;
+		@try {
+			value = [JSONDictionary valueForKeyPath:JSONKeyPath];
+		} @catch (NSException *ex) {
+			if (error != NULL) {
+				NSDictionary *userInfo = @{
+										   NSLocalizedDescriptionKey: NSLocalizedString(@"Invalid JSON dictionary", nil),
+										   NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"%1$@ could not be parsed because an invalid JSON dictionary was provided for key path \"%2$@\"", nil), self.modelClass, JSONKeyPath],
+										   MTLJSONAdapterThrownExceptionErrorKey: ex
+										   };
+				
+				*error = [NSError errorWithDomain:MTLJSONAdapterErrorDomain code:MTLJSONAdapterErrorInvalidJSONDictionary userInfo:userInfo];
+			}
+			
+			return nil;
+		}
+		
+		if (value == nil) continue;
+		
+		@try {
+			NSValueTransformer *transformer = [self JSONTransformerForKey:propertyKey];
+			if (transformer != nil) {
+				// Map NSNull -> nil for the transformer, and then back for the
+				// dictionary we're going to insert into.
+				if ([value isEqual:NSNull.null]) value = nil;
+				value = [transformer transformedValue:value] ?: NSNull.null;
+			}
+			
+			dictionaryValue[propertyKey] = value;
+		} @catch (NSException *ex) {
+			NSLog(@"*** Caught exception %@ parsing JSON key path \"%@\" from: %@", ex, JSONKeyPath, JSONDictionary);
+			
+			// Fail fast in Debug builds.
+#if DEBUG
+			@throw ex;
+#else
+			if (error != NULL) {
+				NSDictionary *userInfo = @{
+										   NSLocalizedDescriptionKey: ex.description,
+										   NSLocalizedFailureReasonErrorKey: ex.reason,
+										   MTLJSONAdapterThrownExceptionErrorKey: ex
+										   };
+				
+				*error = [NSError errorWithDomain:MTLJSONAdapterErrorDomain code:MTLJSONAdapterErrorExceptionThrown userInfo:userInfo];
+			}
+			
+			return nil;
+#endif
+		}
+	}
+	
+	return dictionaryValue;
+}
 
 - (NSDictionary *)JSONDictionary {
 	NSDictionary *dictionaryValue = self.model.dictionaryValue;
