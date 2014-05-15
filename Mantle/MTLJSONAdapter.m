@@ -60,6 +60,10 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 		return NO;
 	}
 	
+	return YES;
+}
+
+- (Class)classForParsingJSONDictionary:(NSDictionary *)JSONDictionary fromModelClass:(Class)modelClass error:(NSError **)error {
 	if ([modelClass respondsToSelector:@selector(classForParsingJSONDictionary:)]) {
 		modelClass = [modelClass classForParsingJSONDictionary:JSONDictionary];
 		if (modelClass == nil) {
@@ -72,14 +76,14 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 				*error = [NSError errorWithDomain:MTLJSONAdapterErrorDomain code:MTLJSONAdapterErrorNoClassFound userInfo:userInfo];
 			}
 			
-			return NO;
+			return nil;
 		}
 		
 		NSAssert([modelClass isSubclassOfClass:MTLModel.class], @"Class %@ returned from +classForParsingJSONDictionary: is not a subclass of MTLModel", modelClass);
 		NSAssert([modelClass conformsToProtocol:@protocol(MTLJSONSerializing)], @"Class %@ returned from +classForParsingJSONDictionary: does not conform to <MTLJSONSerializing>", modelClass);
 	}
 	
-	return YES;
+	return modelClass;
 }
 
 #pragma mark Convenience methods
@@ -148,6 +152,9 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 
 - (id)initWithJSONDictionary:(NSDictionary *)JSONDictionary modelClass:(Class)modelClass error:(NSError **)error {
 	if(![self checkJSONDictionary:JSONDictionary modelClass:modelClass error:error]) return nil;
+	modelClass = [self classForParsingJSONDictionary:JSONDictionary fromModelClass:modelClass error:error];
+	
+	if(!modelClass) return nil;
 	
 	self = [super init];
 	if (self == nil) return nil;
@@ -168,6 +175,9 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	NSParameterAssert(model != nil);
 	
 	if(![self checkJSONDictionary:JSONDictionary modelClass:model.class error:error]) return nil;
+	Class modelClass = [self classForParsingJSONDictionary:JSONDictionary fromModelClass:model.class error:error];
+	
+	if(modelClass!=model.class) return nil;
 	
 	self = [super init];
 	if (self == nil) return nil;
