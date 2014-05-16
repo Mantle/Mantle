@@ -12,6 +12,7 @@
 
 NSString * const MTLJSONAdapterErrorDomain = @"MTLJSONAdapterErrorDomain";
 const NSInteger MTLJSONAdapterErrorNoClassFound = 2;
+const NSInteger MTLJSONAdapterErrorClassFoundOnUpdate = 5;
 const NSInteger MTLJSONAdapterErrorInvalidJSONDictionary = 3;
 const NSInteger MTLJSONAdapterErrorInvalidJSONMapping = 4;
 
@@ -177,7 +178,18 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	if(![self checkJSONDictionary:JSONDictionary modelClass:model.class error:error]) return nil;
 	Class modelClass = [self classForParsingJSONDictionary:JSONDictionary fromModelClass:model.class error:error];
 	
-	if(modelClass!=model.class) return nil;
+	if(modelClass!=model.class){
+		if (error != NULL) {
+			NSDictionary *userInfo = @{
+									   NSLocalizedDescriptionKey: NSLocalizedString(@"Could not parse JSON", @""),
+									   NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Model class be found to parse the JSON dictionary but isn't possible replace class on update.", @"")
+									   };
+			
+			*error = [NSError errorWithDomain:MTLJSONAdapterErrorDomain code:MTLJSONAdapterErrorClassFoundOnUpdate userInfo:userInfo];
+		}
+		
+		return nil;
+	}
 	
 	self = [super init];
 	if (self == nil) return nil;
