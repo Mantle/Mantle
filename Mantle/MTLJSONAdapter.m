@@ -7,7 +7,7 @@
 //
 
 #import "MTLJSONAdapter.h"
-#import "MTLModel.h"
+#import "MTLModelProtocol.h"
 #import "MTLReflection.h"
 
 NSString * const MTLJSONAdapterErrorDomain = @"MTLJSONAdapterErrorDomain";
@@ -24,7 +24,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 
 @interface MTLJSONAdapter ()
 
-// The MTLModel subclass being parsed, or the class of `model` if parsing has
+// The MTLModelProtocol conform class being parsed, or the class of `model` if parsing has
 // completed.
 @property (nonatomic, strong, readonly) Class modelClass;
 
@@ -80,7 +80,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 			return nil;
 		}
 		
-		NSAssert([modelClass isSubclassOfClass:MTLModel.class], @"Class %@ returned from +classForParsingJSONDictionary: is not a subclass of MTLModel", modelClass);
+		NSAssert([modelClass conformsToProtocol:@protocol(MTLModelProtocol)], @"Class %@ returned from +classForParsingJSONDictionary: is not a conform to protocol MTLModelProtocol", modelClass);
 		NSAssert([modelClass conformsToProtocol:@protocol(MTLJSONSerializing)], @"Class %@ returned from +classForParsingJSONDictionary: does not conform to <MTLJSONSerializing>", modelClass);
 	}
 	
@@ -108,7 +108,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 
 	NSMutableArray *models = [NSMutableArray arrayWithCapacity:JSONArray.count];
 	for (NSDictionary *JSONDictionary in JSONArray){
-		MTLModel *model = [self modelOfClass:modelClass fromJSONDictionary:JSONDictionary error:error];
+		id <MTLModelProtocol>model = [self modelOfClass:modelClass fromJSONDictionary:JSONDictionary error:error];
 
 		if (model == nil) return nil;
 		
@@ -142,7 +142,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	BOOL update = YES;
 	for(NSUInteger i=0; i<JSONArray.count; i++){
 		NSDictionary *JSONDictionary = [JSONArray objectAtIndex:i];
-		MTLModel<MTLJSONSerializing> *model = [models objectAtIndex:i];
+		id <MTLModelProtocol, MTLJSONSerializing> model = [models objectAtIndex:i];
 			
 		update &= [self updateModel:model fromJSONDictionary:JSONDictionary error:error];
 	}
@@ -160,7 +160,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	NSParameterAssert([models isKindOfClass:NSArray.class]);
 
 	NSMutableArray *JSONArray = [NSMutableArray arrayWithCapacity:models.count];
-	for (MTLModel<MTLJSONSerializing> *model in models) {
+	for (id <MTLModelProtocol, MTLJSONSerializing> model in models) {
 		NSDictionary *JSONDictionary = [self JSONDictionaryFromModel:model];
 		if (JSONDictionary == nil) return nil;
 
