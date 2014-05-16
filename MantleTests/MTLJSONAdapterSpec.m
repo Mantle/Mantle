@@ -485,57 +485,65 @@ it(@"should return an error when suitable model class is found on update", ^{
 	expect(error.code).to.equal(MTLJSONAdapterErrorClassFoundOnUpdate);
 });
 
-// Array not supported on update now
-//describe(@"Deserializing multiple models", ^{
-//	NSDictionary *value1 = @{
-//							 @"username": @"foo"
-//							 };
-//	
-//	NSDictionary *value2 = @{
-//							 @"username": @"bar"
-//							 };
-//	
-//	NSArray *JSONModels = @[ value1, value2 ];
-//	
-//	it(@"should initialize models from an array of JSON dictionaries", ^{
-//		NSError *error = nil;
-//		NSArray *mantleModels = [MTLJSONAdapter modelsOfClass:MTLTestModel.class fromJSONArray:JSONModels error:&error];
-//		
-//		expect(error).to.beNil();
-//		expect(mantleModels).toNot.beNil();
-//		expect(mantleModels).haveCountOf(2);
-//		expect([mantleModels[0] name]).to.equal(@"foo");
-//		expect([mantleModels[1] name]).to.equal(@"bar");
-//	});
-//	
-//	it(@"should not be affected by a NULL error parameter", ^{
-//		NSError *error = nil;
-//		NSArray *expected = [MTLJSONAdapter modelsOfClass:MTLTestModel.class fromJSONArray:JSONModels error:&error];
-//		NSArray *models = [MTLJSONAdapter modelsOfClass:MTLTestModel.class fromJSONArray:JSONModels error:NULL];
-//		
-//		expect(models).to.equal(expected);
-//	});
-//});
+describe(@"Deserializing multiple models", ^{
+	NSDictionary *value1 = @{
+							 @"username": @"foo"
+							 };
+	
+	NSDictionary *value2 = @{
+							 @"username": @"bar"
+							 };
+	MTLTestModel *model1 = [MTLTestModel modelWithDictionary:@{
+															  @"name": @"foobar"
+															  } error:NULL];
+	MTLTestModel *model2 = [MTLTestModel modelWithDictionary:@{
+															  @"name": @"foobar"
+															  } error:NULL];
+	
+	NSArray *JSONModels = @[ value1, value2 ];
+	NSArray *models = @[ model1, model2 ];
+	
+	it(@"should update models from an array of JSON dictionaries", ^{
+		NSError *error = nil;
+		BOOL updated = [MTLJSONAdapter upadeModels:models fromJSONArray:JSONModels error:&error];
+		expect(updated).notTo.beFalsy();
+		
+		expect(error).to.beNil();
+		expect([models[0] name]).to.equal(@"foo");
+		expect([models[1] name]).to.equal(@"bar");
+	});
+	
+	it(@"should not be affected by a NULL error parameter", ^{
+		NSError *error = nil;
+		NSArray *expected = [MTLJSONAdapter modelsOfClass:MTLTestModel.class fromJSONArray:JSONModels error:&error];
+		
+		expect(models).to.equal(expected);
+	});
+});
 
-//it(@"should return nil and an error if it fails to initialize any model from an array", ^{
-//	NSDictionary *value1 = @{
-//							 @"username": @"foo",
-//							 @"count": @"1",
-//							 };
-//	
-//	NSDictionary *value2 = @{
-//							 @"count": @[ @"This won't parse" ],
-//							 };
-//	
-//	NSArray *JSONModels = @[ value1, value2 ];
-//	
-//	NSError *error = nil;
-//	NSArray *mantleModels = [MTLJSONAdapter modelsOfClass:MTLSubstitutingTestModel.class fromJSONArray:JSONModels error:&error];
-//	
-//	expect(error).toNot.beNil();
-//	expect(error.domain).to.equal(MTLJSONAdapterErrorDomain);
-//	expect(error.code).to.equal(MTLJSONAdapterErrorNoClassFound);
-//	expect(mantleModels).to.beNil();
-//});
+it(@"should return NO and an error if it fails to update any models from an array", ^{
+	NSDictionary *value1 = @{
+							 @"username": @"foo",
+							 @"count": @"1",
+							 };
+	MTLTestModel *model1 = [MTLTestModel modelWithDictionary:@{
+															   @"name": @"foobar"
+															   } error:NULL];
+	MTLTestModel *model2 = [MTLTestModel modelWithDictionary:@{
+															   @"name": @"foobar"
+															   } error:NULL];
+	
+	NSArray *JSONModels = @[ value1 ];
+	NSArray *models = @[ model1, model2 ];
+	
+	NSError *error = nil;
+	BOOL updated = [MTLJSONAdapter upadeModels:models fromJSONArray:JSONModels error:&error];
+	expect(updated).beFalsy();
+	
+	expect(error).toNot.beNil();
+	expect(error.domain).to.equal(MTLJSONAdapterErrorDomain);
+	expect(error.code).to.equal(MTLJSONAdapterErrorInvalidJSONDictionary);
+});
+
 
 SpecEnd

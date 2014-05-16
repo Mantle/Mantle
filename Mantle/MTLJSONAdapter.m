@@ -54,7 +54,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 		if (error != NULL) {
 			NSDictionary *userInfo = @{
 									   NSLocalizedDescriptionKey: NSLocalizedString(@"Missing JSON dictionary", @""),
-									   NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"%@ could not be created because an invalid JSON dictionary was provided: %@", @""), NSStringFromClass(modelClass), JSONDictionary.class],
+									   NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"%@ could not be created or update because an invalid JSON dictionary was provided: %@", @""), NSStringFromClass(modelClass), JSONDictionary.class],
 									   };
 			*error = [NSError errorWithDomain:MTLJSONAdapterErrorDomain code:MTLJSONAdapterErrorInvalidJSONDictionary userInfo:userInfo];
 		}
@@ -122,6 +122,32 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	MTLJSONAdapter *adapter = [[self alloc] initWithJSONDictionary:JSONDictionary model:model error:error];
 	
 	return *error == nil && adapter.model != nil;
+}
+
++ (BOOL)upadeModels:(NSArray *)models fromJSONArray:(NSArray *)JSONArray error:(NSError **)error {
+	NSParameterAssert(models != nil);
+	NSParameterAssert([models isKindOfClass:NSArray.class]);
+	
+	if (JSONArray == nil || ![JSONArray isKindOfClass:NSArray.class] || JSONArray.count != models.count) {
+		if (error != NULL) {
+			NSDictionary *userInfo = @{
+									   NSLocalizedDescriptionKey: NSLocalizedString(@"Missing JSON array", @""),
+									   NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Models could not be update because an invalid JSON array was provided: %@", @""), JSONArray.class],
+									   };
+			*error = [NSError errorWithDomain:MTLJSONAdapterErrorDomain code:MTLJSONAdapterErrorInvalidJSONDictionary userInfo:userInfo];
+		}
+		return NO;
+	}
+	
+	BOOL update = YES;
+	for(NSUInteger i=0; i<JSONArray.count; i++){
+		NSDictionary *JSONDictionary = [JSONArray objectAtIndex:i];
+		MTLModel<MTLJSONSerializing> *model = [models objectAtIndex:i];
+			
+		update &= [self updateModel:model fromJSONDictionary:JSONDictionary error:error];
+	}
+	
+	return update;
 }
 
 + (NSDictionary *)JSONDictionaryFromModel:(id<MTLModelProtocol,MTLJSONSerializing>)model {
