@@ -15,7 +15,10 @@ SpecBegin(MTLManagedObjectAdapter)
 __block NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
 beforeEach(^{
-	NSManagedObjectModel *model = [NSManagedObjectModel mergedModelFromBundles:@[ [NSBundle bundleForClass:self.class] ]];
+	NSURL *url = [[NSBundle bundleForClass:self.class] URLForResource:@"TestModel" withExtension:@"momd"];
+	expect(url).notTo.beNil();
+
+	NSManagedObjectModel *model = [[NSManagedObjectModel alloc] initWithContentsOfURL:url];
 	expect(model).notTo.beNil();
 
 	persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:model];
