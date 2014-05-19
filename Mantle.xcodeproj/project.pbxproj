@@ -25,14 +25,27 @@
 		88080C1A160A706900CCABF2 /* NSArray+MTLManipulationAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 88080C17160A706900CCABF2 /* NSArray+MTLManipulationAdditions.m */; };
 		88080C1D160A719D00CCABF2 /* MTLArrayManipulationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88080C1C160A719D00CCABF2 /* MTLArrayManipulationSpec.m */; };
 		88080C1E160A719D00CCABF2 /* MTLArrayManipulationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88080C1C160A719D00CCABF2 /* MTLArrayManipulationSpec.m */; };
+		9F44865E1929EF0700E98AC4 /* MTLBaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F44865D1929EF0700E98AC4 /* MTLBaseModel.m */; };
+		9F44865F1929EF0700E98AC4 /* MTLBaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F44865D1929EF0700E98AC4 /* MTLBaseModel.m */; };
+		9F4486601929EF0700E98AC4 /* MTLBaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F44865D1929EF0700E98AC4 /* MTLBaseModel.m */; };
+		9F4486611929EF1900E98AC4 /* MTLBaseModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F793BDE1923A9D50029C432 /* MTLBaseModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9F4486621929EF1A00E98AC4 /* MTLBaseModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F793BDE1923A9D50029C432 /* MTLBaseModel.h */; };
+		9F448665192A13F600E98AC4 /* MTLJSONAdapterUpdateSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F448664192A13F600E98AC4 /* MTLJSONAdapterUpdateSpec.m */; };
+		9F448666192A13F600E98AC4 /* MTLJSONAdapterUpdateSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F448664192A13F600E98AC4 /* MTLJSONAdapterUpdateSpec.m */; };
 		9F793BD81923A1DD0029C432 /* MTLManagedObjectModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F793BD61923A1DD0029C432 /* MTLManagedObjectModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9F793BD91923A1DD0029C432 /* MTLManagedObjectModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F793BD71923A1DD0029C432 /* MTLManagedObjectModel.m */; };
 		9F793BDB1923A66C0029C432 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F793BDA1923A66C0029C432 /* CoreData.framework */; };
 		9F793BDC1923A90F0029C432 /* MTLManagedObjectModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F793BD71923A1DD0029C432 /* MTLManagedObjectModel.m */; };
 		9F793BDD1923A9100029C432 /* MTLManagedObjectModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F793BD71923A1DD0029C432 /* MTLManagedObjectModel.m */; };
-		9F7C496419250BE80075855E /* MTLModelProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F793BDE1923A9D50029C432 /* MTLModelProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9F7C496419250BE80075855E /* MTLBaseModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F793BDE1923A9D50029C432 /* MTLBaseModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9F7C496519250BF90075855E /* MTLReflection.h in Headers */ = {isa = PBXBuildFile; fileRef = D058FE1D16EFB3D2009DFB47 /* MTLReflection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9F7C496619250BF90075855E /* NSError+MTLModelException.h in Headers */ = {isa = PBXBuildFile; fileRef = 54803A30178829A700011B39 /* NSError+MTLModelException.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9F941345192752B90051921A /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F793BDA1923A66C0029C432 /* CoreData.framework */; };
+		9F94134D192756700051921A /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F793BDA1923A66C0029C432 /* CoreData.framework */; };
+		9F94134F192757690051921A /* MTLTestManagedObjectModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F94134E192757690051921A /* MTLTestManagedObjectModel.m */; };
+		9F941350192757690051921A /* MTLTestManagedObjectModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F94134E192757690051921A /* MTLTestManagedObjectModel.m */; };
+		9F94135219275C9D0051921A /* MTLManagedObjectModelSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F94135119275C9D0051921A /* MTLManagedObjectModelSpec.m */; };
+		9F94135319275C9D0051921A /* MTLManagedObjectModelSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F94135119275C9D0051921A /* MTLManagedObjectModelSpec.m */; };
 		D01BD09D16CB432D00EC95C7 /* MTLJSONAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = D01BD09B16CB432D00EC95C7 /* MTLJSONAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D01BD09E16CB432D00EC95C7 /* MTLJSONAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = D01BD09B16CB432D00EC95C7 /* MTLJSONAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D01BD09F16CB432D00EC95C7 /* MTLJSONAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = D01BD09C16CB432D00EC95C7 /* MTLJSONAdapter.m */; };
@@ -47,8 +60,6 @@
 		D021D939170F806B00C37E36 /* TestModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D021D936170F806B00C37E36 /* TestModel.xcdatamodeld */; };
 		D021D944170F878E00C37E36 /* MTLCoreDataTestModels.m in Sources */ = {isa = PBXBuildFile; fileRef = D021D943170F878E00C37E36 /* MTLCoreDataTestModels.m */; };
 		D021D945170F878E00C37E36 /* MTLCoreDataTestModels.m in Sources */ = {isa = PBXBuildFile; fileRef = D021D943170F878E00C37E36 /* MTLCoreDataTestModels.m */; };
-		D021D946170F8A7D00C37E36 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D021D93E170F807600C37E36 /* CoreData.framework */; };
-		D021D947170F8A8100C37E36 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D021D940170F807E00C37E36 /* CoreData.framework */; };
 		D02E48EA16CB8ACA00257645 /* MTLModelNSCodingSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D02E48E916CB8ACA00257645 /* MTLModelNSCodingSpec.m */; };
 		D02E48EB16CB8ACA00257645 /* MTLModelNSCodingSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D02E48E916CB8ACA00257645 /* MTLModelNSCodingSpec.m */; };
 		D02E48F116CB8ADB00257645 /* MTLJSONAdapterSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D02E48F016CB8ADB00257645 /* MTLJSONAdapterSpec.m */; };
@@ -169,18 +180,22 @@
 		88080C16160A706900CCABF2 /* NSArray+MTLManipulationAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+MTLManipulationAdditions.h"; sourceTree = "<group>"; };
 		88080C17160A706900CCABF2 /* NSArray+MTLManipulationAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+MTLManipulationAdditions.m"; sourceTree = "<group>"; };
 		88080C1C160A719D00CCABF2 /* MTLArrayManipulationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLArrayManipulationSpec.m; sourceTree = "<group>"; };
+		9F44865D1929EF0700E98AC4 /* MTLBaseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLBaseModel.m; sourceTree = "<group>"; };
+		9F4486631929F5A000E98AC4 /* MTLModelProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTLModelProtocol.h; sourceTree = "<group>"; };
+		9F448664192A13F600E98AC4 /* MTLJSONAdapterUpdateSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLJSONAdapterUpdateSpec.m; sourceTree = "<group>"; };
 		9F793BD61923A1DD0029C432 /* MTLManagedObjectModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTLManagedObjectModel.h; sourceTree = "<group>"; };
 		9F793BD71923A1DD0029C432 /* MTLManagedObjectModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLManagedObjectModel.m; sourceTree = "<group>"; };
 		9F793BDA1923A66C0029C432 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks/CoreData.framework; sourceTree = DEVELOPER_DIR; };
-		9F793BDE1923A9D50029C432 /* MTLModelProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTLModelProtocol.h; sourceTree = "<group>"; };
+		9F793BDE1923A9D50029C432 /* MTLBaseModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTLBaseModel.h; sourceTree = "<group>"; };
+		9F9413471927534E0051921A /* MTLTestManagedObjectModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTLTestManagedObjectModel.h; sourceTree = "<group>"; };
+		9F94134E192757690051921A /* MTLTestManagedObjectModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLTestManagedObjectModel.m; sourceTree = "<group>"; };
+		9F94135119275C9D0051921A /* MTLManagedObjectModelSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLManagedObjectModelSpec.m; sourceTree = "<group>"; };
 		D01BD09B16CB432D00EC95C7 /* MTLJSONAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTLJSONAdapter.h; sourceTree = "<group>"; };
 		D01BD09C16CB432D00EC95C7 /* MTLJSONAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLJSONAdapter.m; sourceTree = "<group>"; };
 		D01BD0AD16CB52E800EC95C7 /* MTLModel+NSCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MTLModel+NSCoding.h"; sourceTree = "<group>"; };
 		D01BD0AE16CB52E800EC95C7 /* MTLModel+NSCoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MTLModel+NSCoding.m"; sourceTree = "<group>"; };
 		D01BD0B916CB6F5700EC95C7 /* MTLTestModel-OldArchive.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "MTLTestModel-OldArchive.plist"; sourceTree = "<group>"; };
 		D021D937170F806B00C37E36 /* TestModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TestModel.xcdatamodel; sourceTree = "<group>"; };
-		D021D93E170F807600C37E36 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/CoreData.framework; sourceTree = DEVELOPER_DIR; };
-		D021D940170F807E00C37E36 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.1.sdk/System/Library/Frameworks/CoreData.framework; sourceTree = DEVELOPER_DIR; };
 		D021D942170F878E00C37E36 /* MTLCoreDataTestModels.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTLCoreDataTestModels.h; sourceTree = "<group>"; };
 		D021D943170F878E00C37E36 /* MTLCoreDataTestModels.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLCoreDataTestModels.m; sourceTree = "<group>"; };
 		D02E48E916CB8ACA00257645 /* MTLModelNSCodingSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLModelNSCodingSpec.m; sourceTree = "<group>"; };
@@ -265,7 +280,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D021D946170F8A7D00C37E36 /* CoreData.framework in Frameworks */,
 				D042FC5615F72B23004E8054 /* SenTestingKit.framework in Frameworks */,
 				D4ACA4E318DB996700EBD899 /* libSpecta.a in Frameworks */,
 				D4ACA4E518DB996C00EBD899 /* libExpecta.a in Frameworks */,
@@ -286,7 +300,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D021D947170F8A8100C37E36 /* CoreData.framework in Frameworks */,
+				9F94134D192756700051921A /* CoreData.framework in Frameworks */,
 				D042FC8815F72BC7004E8054 /* SenTestingKit.framework in Frameworks */,
 				D042FC8B15F72BC7004E8054 /* Foundation.framework in Frameworks */,
 				D042FC8E15F72BC7004E8054 /* libMantle-iOS.a in Frameworks */,
@@ -300,6 +314,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D0A56B481804B04900A84EDC /* Cocoa.framework in Frameworks */,
+				9F941345192752B90051921A /* CoreData.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -361,8 +376,6 @@
 				D090E63A15F73249005282F9 /* libextobjc */,
 				D042FC4415F72B23004E8054 /* Foundation.framework */,
 				D042FC5515F72B23004E8054 /* SenTestingKit.framework */,
-				D021D93E170F807600C37E36 /* CoreData.framework */,
-				D021D940170F807E00C37E36 /* CoreData.framework */,
 				D0A56B471804B04900A84EDC /* Cocoa.framework */,
 				D0A56B581804B04900A84EDC /* XCTest.framework */,
 				D0A56B491804B04900A84EDC /* Other Frameworks */,
@@ -408,6 +421,8 @@
 				D021D943170F878E00C37E36 /* MTLCoreDataTestModels.m */,
 				D0760EC715FFCA4E0060F550 /* MTLTestModel.h */,
 				D0760EC815FFCA4E0060F550 /* MTLTestModel.m */,
+				9F9413471927534E0051921A /* MTLTestManagedObjectModel.h */,
+				9F94134E192757690051921A /* MTLTestManagedObjectModel.m */,
 				D0C92DE115F72F6A00387438 /* MantleTests-Prefix.pch */,
 				D042FC5D15F72B23004E8054 /* MantleTests-Info.plist */,
 				D01BD0B916CB6F5700EC95C7 /* MTLTestModel-OldArchive.plist */,
@@ -419,7 +434,9 @@
 		D0760E7015FFBF020060F550 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
-				9F793BDE1923A9D50029C432 /* MTLModelProtocol.h */,
+				9F4486631929F5A000E98AC4 /* MTLModelProtocol.h */,
+				9F793BDE1923A9D50029C432 /* MTLBaseModel.h */,
+				9F44865D1929EF0700E98AC4 /* MTLBaseModel.m */,
 				D0760E7615FFBF330060F550 /* MTLModel.h */,
 				D0760E7715FFBF330060F550 /* MTLModel.m */,
 				9F793BD61923A1DD0029C432 /* MTLManagedObjectModel.h */,
@@ -442,9 +459,11 @@
 				D0C27CF5161107E5002FE587 /* MTLDictionaryManipulationSpec.m */,
 				54803A3A17882CCD00011B39 /* MTLErrorModelExceptionSpec.m */,
 				D02E48F016CB8ADB00257645 /* MTLJSONAdapterSpec.m */,
+				9F448664192A13F600E98AC4 /* MTLJSONAdapterUpdateSpec.m */,
 				D0ABD7A01746D56E006BEA7D /* MTLManagedObjectAdapterSpec.m */,
 				D02E48E916CB8ACA00257645 /* MTLModelNSCodingSpec.m */,
 				D0760EC315FFCA250060F550 /* MTLModelSpec.m */,
+				9F94135119275C9D0051921A /* MTLManagedObjectModelSpec.m */,
 				547AE0FC17882ED100F4437D /* MTLModelValidationSpec.m */,
 				D0F1174C1614C8000092520B /* MTLPredefinedTransformerAdditionsSpec.m */,
 				D08B5AB116002A23001FE685 /* MTLValueTransformerSpec.m */,
@@ -580,7 +599,7 @@
 				9F7C496519250BF90075855E /* MTLReflection.h in Headers */,
 				9F7C496619250BF90075855E /* NSError+MTLModelException.h in Headers */,
 				D0BFC36F17476B4700F5DC5D /* NSValueTransformer+MTLInversionAdditions.h in Headers */,
-				9F7C496419250BE80075855E /* MTLModelProtocol.h in Headers */,
+				9F7C496419250BE80075855E /* MTLBaseModel.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -596,6 +615,7 @@
 				D0A56B811804B16B00A84EDC /* NSDictionary+MTLManipulationAdditions.h in Headers */,
 				D0A56B831804B16B00A84EDC /* NSObject+MTLComparisonAdditions.h in Headers */,
 				D0A56B761804B14F00A84EDC /* MTLModel.h in Headers */,
+				9F4486621929EF1A00E98AC4 /* MTLBaseModel.h in Headers */,
 				D0A56B791804B15600A84EDC /* MTLJSONAdapter.h in Headers */,
 				D0A56B751804B14F00A84EDC /* Mantle.h in Headers */,
 				D0A56B851804B16B00A84EDC /* NSValueTransformer+MTLInversionAdditions.h in Headers */,
@@ -608,6 +628,7 @@
 			files = (
 				D8A172F81697E87A002CFCC8 /* Mantle.h in Headers */,
 				D8A172F91697E87A002CFCC8 /* MTLModel.h in Headers */,
+				9F4486611929EF1900E98AC4 /* MTLBaseModel.h in Headers */,
 				D8A172FA1697E87A002CFCC8 /* MTLValueTransformer.h in Headers */,
 				D8A172FC1697E87A002CFCC8 /* NSArray+MTLManipulationAdditions.h in Headers */,
 				D8A172FE1697E87A002CFCC8 /* NSDictionary+MTLManipulationAdditions.h in Headers */,
@@ -774,6 +795,7 @@
 			files = (
 				9F793BD91923A1DD0029C432 /* MTLManagedObjectModel.m in Sources */,
 				D0760E7915FFBF330060F550 /* MTLModel.m in Sources */,
+				9F44865E1929EF0700E98AC4 /* MTLBaseModel.m in Sources */,
 				D08B5AAF16002694001FE685 /* MTLValueTransformer.m in Sources */,
 				88080C19160A706900CCABF2 /* NSArray+MTLManipulationAdditions.m in Sources */,
 				D0C27D0B16110973002FE587 /* NSDictionary+MTLManipulationAdditions.m in Sources */,
@@ -805,9 +827,12 @@
 				D0F1174D1614C8000092520B /* MTLPredefinedTransformerAdditionsSpec.m in Sources */,
 				1ED5B5CC163A4E2B0072668E /* MTLComparisonAdditionsSpec.m in Sources */,
 				D02E48EA16CB8ACA00257645 /* MTLModelNSCodingSpec.m in Sources */,
+				9F94135219275C9D0051921A /* MTLManagedObjectModelSpec.m in Sources */,
+				9F448665192A13F600E98AC4 /* MTLJSONAdapterUpdateSpec.m in Sources */,
 				D02E48F116CB8ADB00257645 /* MTLJSONAdapterSpec.m in Sources */,
 				D021D938170F806B00C37E36 /* TestModel.xcdatamodeld in Sources */,
 				D021D944170F878E00C37E36 /* MTLCoreDataTestModels.m in Sources */,
+				9F94134F192757690051921A /* MTLTestManagedObjectModel.m in Sources */,
 				D0ABD7A11746D56E006BEA7D /* MTLManagedObjectAdapterSpec.m in Sources */,
 				D0BFC36717476A5F00F5DC5D /* MTLValueTransformerInversionAdditionsSpec.m in Sources */,
 			);
@@ -819,6 +844,7 @@
 			files = (
 				9F793BDC1923A90F0029C432 /* MTLManagedObjectModel.m in Sources */,
 				D0760E7A15FFBF330060F550 /* MTLModel.m in Sources */,
+				9F44865F1929EF0700E98AC4 /* MTLBaseModel.m in Sources */,
 				D08B5AB016002694001FE685 /* MTLValueTransformer.m in Sources */,
 				88080C1A160A706900CCABF2 /* NSArray+MTLManipulationAdditions.m in Sources */,
 				D0C27D0C16110973002FE587 /* NSDictionary+MTLManipulationAdditions.m in Sources */,
@@ -850,9 +876,12 @@
 				D0F1174E1614C8000092520B /* MTLPredefinedTransformerAdditionsSpec.m in Sources */,
 				1ED5B5CD163A4E2B0072668E /* MTLComparisonAdditionsSpec.m in Sources */,
 				D02E48EB16CB8ACA00257645 /* MTLModelNSCodingSpec.m in Sources */,
+				9F94135319275C9D0051921A /* MTLManagedObjectModelSpec.m in Sources */,
+				9F448666192A13F600E98AC4 /* MTLJSONAdapterUpdateSpec.m in Sources */,
 				D02E48F216CB8ADB00257645 /* MTLJSONAdapterSpec.m in Sources */,
 				D021D939170F806B00C37E36 /* TestModel.xcdatamodeld in Sources */,
 				D021D945170F878E00C37E36 /* MTLCoreDataTestModels.m in Sources */,
+				9F941350192757690051921A /* MTLTestManagedObjectModel.m in Sources */,
 				D0ABD7A21746D56E006BEA7D /* MTLManagedObjectAdapterSpec.m in Sources */,
 				D0BFC36817476A5F00F5DC5D /* MTLValueTransformerInversionAdditionsSpec.m in Sources */,
 			);
@@ -867,6 +896,7 @@
 				9F793BDD1923A9100029C432 /* MTLManagedObjectModel.m in Sources */,
 				D0A56B7E1804B15900A84EDC /* MTLValueTransformer.m in Sources */,
 				D0A56B801804B16B00A84EDC /* NSArray+MTLManipulationAdditions.m in Sources */,
+				9F4486601929EF0700E98AC4 /* MTLBaseModel.m in Sources */,
 				D0A56B881804B16B00A84EDC /* NSValueTransformer+MTLPredefinedTransformerAdditions.m in Sources */,
 				D0A56B841804B16B00A84EDC /* NSObject+MTLComparisonAdditions.m in Sources */,
 				D0A56B861804B16B00A84EDC /* NSValueTransformer+MTLInversionAdditions.m in Sources */,
@@ -903,7 +933,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PREFIX_HEADER = "Mantle/Mantle-Prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 			};
 			name = Debug;
@@ -916,7 +946,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PREFIX_HEADER = "Mantle/Mantle-Prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 			};
 			name = Release;
@@ -952,7 +982,10 @@
 			baseConfigurationReference = D094E48F1777619600906BF7 /* Mac-Application.xcconfig */;
 			buildSettings = {
 				CLANG_WARN_OBJC_REPEATED_USE_OF_WEAK = NO;
-				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+					"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks",
+				);
 				GCC_PREFIX_HEADER = "MantleTests/MantleTests-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
 					MantleTests/specta/src,
@@ -969,7 +1002,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D094E48F1777619600906BF7 /* Mac-Application.xcconfig */;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+					"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks",
+				);
 				GCC_PREFIX_HEADER = "MantleTests/MantleTests-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
 					MantleTests/specta/src,
@@ -1055,7 +1091,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PREFIX_HEADER = "Mantle/Mantle-Prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 			};
 			name = Profile;
@@ -1077,7 +1113,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D094E48F1777619600906BF7 /* Mac-Application.xcconfig */;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+					"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks",
+				);
 				GCC_PREFIX_HEADER = "MantleTests/MantleTests-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
 					MantleTests/specta/src,
@@ -1126,6 +1165,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D094E4931777619600906BF7 /* Mac-StaticLibrary.xcconfig */;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = include/Mantle;
 			};
@@ -1135,6 +1178,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D094E4931777619600906BF7 /* Mac-StaticLibrary.xcconfig */;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = include/Mantle;
 			};
@@ -1144,6 +1191,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D094E4931777619600906BF7 /* Mac-StaticLibrary.xcconfig */;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = include/Mantle;
 			};
@@ -1157,7 +1208,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PREFIX_HEADER = "Mantle/Mantle-Prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 			};
 			name = Test;
@@ -1180,7 +1231,10 @@
 			baseConfigurationReference = D094E48F1777619600906BF7 /* Mac-Application.xcconfig */;
 			buildSettings = {
 				CLANG_WARN_OBJC_REPEATED_USE_OF_WEAK = NO;
-				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+					"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks",
+				);
 				GCC_PREFIX_HEADER = "MantleTests/MantleTests-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
 					MantleTests/specta/src,
@@ -1230,6 +1284,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D094E4931777619600906BF7 /* Mac-StaticLibrary.xcconfig */;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = include/Mantle;
 			};

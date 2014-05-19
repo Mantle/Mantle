@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="3396" systemVersion="13A598" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13C1021" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="BadChild" representedClassName="MTLChild" syncable="YES">
         <attribute name="childID_BROKEN" attributeType="Integer 16" defaultValueString="0" indexed="YES" syncable="YES"/>
     </entity>
@@ -9,6 +9,7 @@
         <relationship name="parent2" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Parent" inverseName="orderedChildren" inverseEntity="Parent" syncable="YES"/>
     </entity>
     <entity name="Empty" syncable="YES"/>
+    <entity name="EmptyTestManagedObjectModel" representedClassName="MTLEmptyTestManagedObjectModel" syncable="YES"/>
     <entity name="Parent" representedClassName="MTLParent" syncable="YES">
         <attribute name="date" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="number" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
@@ -16,10 +17,23 @@
         <relationship name="orderedChildren" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Child" inverseName="parent2" inverseEntity="Child" syncable="YES"/>
         <relationship name="unorderedChildren" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Child" inverseName="parent1" inverseEntity="Child" syncable="YES"/>
     </entity>
+    <entity name="SubclassTestManagedObjectModel" representedClassName="MTLSubclassTestManagedObjectModel" parentEntity="TestManagedObjectModel" syncable="YES">
+        <attribute name="generation" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="role" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="TestManagedObjectModel" representedClassName="MTLTestManagedObjectModel" syncable="YES">
+        <attribute name="count" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="nestedName" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="weakModel" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="EmptyTestManagedObjectModel" syncable="YES"/>
+    </entity>
     <elements>
-        <element name="Child" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Empty" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Parent" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="BadChild" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="BadChild" positionX="0" positionY="0" width="128" height="60"/>
+        <element name="Child" positionX="0" positionY="0" width="128" height="90"/>
+        <element name="Empty" positionX="0" positionY="0" width="128" height="45"/>
+        <element name="EmptyTestManagedObjectModel" positionX="18" positionY="54" width="128" height="45"/>
+        <element name="Parent" positionX="0" positionY="0" width="128" height="30"/>
+        <element name="TestManagedObjectModel" positionX="9" positionY="45" width="128" height="103"/>
+        <element name="SubclassTestManagedObjectModel" positionX="18" positionY="63" width="128" height="30"/>
     </elements>
 </model>
