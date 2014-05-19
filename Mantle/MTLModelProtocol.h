@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 GitHub. All rights reserved.
 //
 
+#import <Foundation/Foundation.h>
+
 // This protocol rapresent the Mantle model interface
 @protocol MTLModelProtocol <NSObject>
 
@@ -91,5 +93,17 @@
 // reference to another MTLModel and both use the default behavior.
 // It is recommended to override -description in this scenario.
 - (NSString *)description;
+
+// Validates the model.
+//
+// The default implementation simply invokes -validateValue:forKey:error: with
+// all +propertyKeys and their current value. If -validateValue:forKey:error:
+// returns a new value, the property is set to that new value.
+//
+// error - If not NULL, this may be set to any error that occurs during
+//         validation
+//
+// Returns YES if the model is valid, or NO if the validation failed.
+- (BOOL)validate:(NSError **)error;
 
 @end
