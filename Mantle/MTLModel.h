@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "MTLModelProtocol.h"
+#import "MTLBaseModel.h"
 
 // An abstract base class for model objects, using reflection to provide
 // sensible default behaviors.
@@ -16,23 +16,6 @@
 // The default implementations of <NSCopying>, -hash, and -isEqual: make use of
 // the +propertyKeys method.
 @interface MTLModel : NSObject <MTLModelProtocol, NSCopying>
-
-@end
-
-// Implements validation logic for MTLModel.
-@interface MTLModel (Validation)
-
-// Validates the model.
-//
-// The default implementation simply invokes -validateValue:forKey:error: with
-// all +propertyKeys and their current value. If -validateValue:forKey:error:
-// returns a new value, the property is set to that new value.
-//
-// error - If not NULL, this may be set to any error that occurs during
-//         validation
-//
-// Returns YES if the model is valid, or NO if the validation failed.
-- (BOOL)validate:(NSError **)error;
 
 @end
 

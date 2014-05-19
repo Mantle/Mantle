@@ -8,7 +8,7 @@
 
 #import <CoreData/CoreData.h>
 
-#import "MTLModelProtocol.h"
+#import "MTLBaseModel.h"
 
 @interface MTLManagedObjectModel : NSManagedObject <MTLModelProtocol>
 

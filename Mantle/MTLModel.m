@@ -6,73 +6,16 @@
 //  Copyright (c) 2012 GitHub. All rights reserved.
 //
 
-#import "NSError+MTLModelException.h"
 #import "MTLModel.h"
-#import "EXTRuntimeExtensions.h"
-#import "EXTScope.h"
-#import "MTLReflection.h"
-#import <objc/runtime.h>
 
 // This coupling is needed for backwards compatibility in MTLModel's deprecated
 // methods.
 #import "MTLJSONAdapter.h"
 #import "MTLModel+NSCoding.h"
 
-// Used to cache the reflection performed in +propertyKeys.
-static void *MTLModelCachedPropertyKeysKey = &MTLModelCachedPropertyKeysKey;
-
-// Validates a value for an object and sets it if necessary.
-//
-// obj         - The object for which the value is being validated. This value
-//               must not be nil.
-// key         - The name of one of `obj`s properties. This value must not be
-//               nil.
-// value       - The new value for the property identified by `key`.
-// forceUpdate - If set to `YES`, the value is being updated even if validating
-//               it did not change it.
-// error       - If not NULL, this may be set to any error that occurs during
-//               validation
-//
-// Returns YES if `value` could be validated and set, or NO if an error
-// occurred.
-static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUpdate, NSError **error) {
-	// Mark this as being autoreleased, because validateValue may return
-	// a new object to be stored in this variable (and we don't want ARC to
-	// double-free or leak the old or new values).
-	__autoreleasing id validatedValue = value;
-
-	@try {
-		if (![obj validateValue:&validatedValue forKey:key error:error]) return NO;
-
-		if (forceUpdate || value != validatedValue) {
-			[obj setValue:validatedValue forKey:key];
-		}
-
-		return YES;
-	} @catch (NSException *ex) {
-		NSLog(@"*** Caught exception setting key \"%@\" : %@", key, ex);
-
-		// Fail fast in Debug builds.
-		#if DEBUG
-		@throw ex;
-		#else
-		if (error != NULL) {
-			*error = [NSError mtl_modelErrorWithException:ex];
-		}
-
-		return NO;
-		#endif
-	}
-}
-
 @interface MTLModel ()
 
-// Enumerates all properties of the receiver's class hierarchy, starting at the
-// receiver, and continuing up until (but not including) MTLModel.
-//
-// The given block will be invoked multiple times for any properties declared on
-// multiple classes in the hierarchy.
-+ (void)enumeratePropertiesUsingBlock:(void (^)(objc_property_t property, BOOL *stop))block;
+
 
 @end
 
@@ -98,116 +41,34 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 	return self;
 }
 
-- (BOOL)updateWithDictionary:(NSDictionary *)dictionary error:(NSError **)error {
-	for (NSString *key in dictionary) {
-		// Mark this as being autoreleased, because validateValue may return
-		// a new object to be stored in this variable (and we don't want ARC to
-		// double-free or leak the old or new values).
-		__autoreleasing id value = [dictionary objectForKey:key];
-		
-		if ([value isEqual:NSNull.null]) value = nil;
-		
-		if(!MTLValidateAndSetValue(self, key, value, YES, error)) return NO;
-	}
-	
-	return YES;
-}
-
 #pragma mark Reflection
 
-+ (void)enumeratePropertiesUsingBlock:(void (^)(objc_property_t property, BOOL *stop))block {
-	Class cls = self;
-	BOOL stop = NO;
-
-	while (!stop && ![cls isEqual:MTLModel.class]) {
-		unsigned count = 0;
-		objc_property_t *properties = class_copyPropertyList(cls, &count);
-
-		cls = cls.superclass;
-		if (properties == NULL) continue;
-
-		@onExit {
-			free(properties);
-		};
-
-		for (unsigned i = 0; i < count; i++) {
-			block(properties[i], &stop);
-			if (stop) break;
-		}
-	}
+- (BOOL)updateWithDictionary:(NSDictionary *)dictionary error:(NSError **)error {
+	return [MTLBaseModel updateModel:self withDictionary:dictionary error:error];
 }
 
 + (NSSet *)propertyKeys {
-	NSSet *cachedKeys = objc_getAssociatedObject(self, MTLModelCachedPropertyKeysKey);
-	if (cachedKeys != nil) return cachedKeys;
-
-	NSMutableSet *keys = [NSMutableSet set];
-
-	[self enumeratePropertiesUsingBlock:^(objc_property_t property, BOOL *stop) {
-		mtl_propertyAttributes *attributes = mtl_copyPropertyAttributes(property);
-		@onExit {
-			free(attributes);
-		};
-
-		if (attributes->readonly && attributes->ivar == NULL) return;
-
-		NSString *key = @(property_getName(property));
-		[keys addObject:key];
-	}];
-
-	// It doesn't really matter if we replace another thread's work, since we do
-	// it atomically and the result should be the same.
-	objc_setAssociatedObject(self, MTLModelCachedPropertyKeysKey, keys, OBJC_ASSOCIATION_COPY);
-
-	return keys;
+	return [MTLBaseModel propertyKeysFromModelClass:self.class];
 }
 
 - (NSDictionary *)dictionaryValue {
-	return [self dictionaryWithValuesForKeys:self.class.propertyKeys.allObjects];
+	return [MTLBaseModel dictionaryValueFromModel:self];
 }
 
 #pragma mark Merging
 
-- (void)mergeValueForKey:(NSString *)key fromModel:(MTLModel *)model {
-	NSParameterAssert(key != nil);
-
-	SEL selector = MTLSelectorWithCapitalizedKeyPattern("merge", key, "FromModel:");
-	if (![self respondsToSelector:selector]) {
-		if (model != nil) {
-			[self setValue:[model valueForKey:key] forKey:key];
-		}
-
-		return;
-	}
-
-	NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:selector]];
-	invocation.target = self;
-	invocation.selector = selector;
-
-	[invocation setArgument:&model atIndex:2];
-	[invocation invoke];
+- (void)mergeValueForKey:(NSString *)key fromModel:(id<MTLModelProtocol>)model {
+	[MTLBaseModel mergeValueForKey:key fromModel:model inModel:self];
 }
 
 - (void)mergeValuesForKeysFromModel:(MTLModel *)model {
-	NSSet *propertyKeys = model.class.propertyKeys;
-	for (NSString *key in self.class.propertyKeys) {
-		if (![propertyKeys containsObject:key]) continue;
-
-		[self mergeValueForKey:key fromModel:model];
-	}
+	[MTLBaseModel mergeValuesForKeysFromModel:model inModel:self];
 }
 
 #pragma mark Validation
 
 - (BOOL)validate:(NSError **)error {
-	for (NSString *key in self.class.propertyKeys) {
-		id value = [self valueForKey:key];
-
-		BOOL success = MTLValidateAndSetValue(self, key, value, NO, error);
-		if (!success) return NO;
-	}
-
-	return YES;
+	return [MTLBaseModel validateModel:self error:error];
 }
 
 #pragma mark NSCopying
@@ -219,7 +80,7 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 #pragma mark NSObject
 
 - (NSString *)description {
-	return [NSString stringWithFormat:@"<%@: %p> %@", self.class, self, self.dictionaryValue];
+	return [MTLBaseModel descriptionFromModel:self];
 }
 
 - (NSUInteger)hash {
