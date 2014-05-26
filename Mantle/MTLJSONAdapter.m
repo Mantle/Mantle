@@ -119,9 +119,12 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 }
 
 + (BOOL)updateModel:(id<MTLModelProtocol,MTLJSONSerializing>)model fromJSONDictionary:(NSDictionary *)JSONDictionary error:(NSError **)error {
-	MTLJSONAdapter *adapter = [[self alloc] initWithJSONDictionary:JSONDictionary model:model error:error];
+	NSError *tempError = nil;
+	MTLJSONAdapter *adapter = [[self alloc] initWithJSONDictionary:JSONDictionary model:model error:&tempError];
 	
-	return *error == nil && adapter.model != nil;
+	if(error != NULL) *error = tempError;
+	
+	return tempError == nil && adapter != nil && adapter.model != nil;
 }
 
 + (BOOL)upadeModels:(NSArray *)models fromJSONArray:(NSArray *)JSONArray error:(NSError **)error {
