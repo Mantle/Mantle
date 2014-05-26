@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#define __PROPERTY__ [[[[NSString stringWithFormat:@"%s",sel_getName(_cmd)] lowercaseString] stringByReplacingOccurrencesOfString:@"set" withString:@""] stringByReplacingOccurrencesOfString:@":" withString:@""]
+
 // This protocol rapresent the Mantle model interface
 @protocol MTLModelProtocol <NSObject>
 
