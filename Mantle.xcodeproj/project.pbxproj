@@ -29,7 +29,7 @@
 		9F44865F1929EF0700E98AC4 /* MTLBaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F44865D1929EF0700E98AC4 /* MTLBaseModel.m */; };
 		9F4486601929EF0700E98AC4 /* MTLBaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F44865D1929EF0700E98AC4 /* MTLBaseModel.m */; };
 		9F4486611929EF1900E98AC4 /* MTLBaseModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F793BDE1923A9D50029C432 /* MTLBaseModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		9F4486621929EF1A00E98AC4 /* MTLBaseModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F793BDE1923A9D50029C432 /* MTLBaseModel.h */; };
+		9F4486621929EF1A00E98AC4 /* MTLBaseModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F793BDE1923A9D50029C432 /* MTLBaseModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9F448665192A13F600E98AC4 /* MTLJSONAdapterUpdateSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F448664192A13F600E98AC4 /* MTLJSONAdapterUpdateSpec.m */; };
 		9F448666192A13F600E98AC4 /* MTLJSONAdapterUpdateSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F448664192A13F600E98AC4 /* MTLJSONAdapterUpdateSpec.m */; };
 		9F793BD81923A1DD0029C432 /* MTLManagedObjectModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F793BD61923A1DD0029C432 /* MTLManagedObjectModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -46,6 +46,11 @@
 		9F941350192757690051921A /* MTLTestManagedObjectModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F94134E192757690051921A /* MTLTestManagedObjectModel.m */; };
 		9F94135219275C9D0051921A /* MTLManagedObjectModelSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F94135119275C9D0051921A /* MTLManagedObjectModelSpec.m */; };
 		9F94135319275C9D0051921A /* MTLManagedObjectModelSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F94135119275C9D0051921A /* MTLManagedObjectModelSpec.m */; };
+		9FC13420192B3C6500352985 /* MTLModelProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F4486631929F5A000E98AC4 /* MTLModelProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9FC13421192B3C6500352985 /* MTLModelProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F4486631929F5A000E98AC4 /* MTLModelProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9FC13422192B3C6600352985 /* MTLModelProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F4486631929F5A000E98AC4 /* MTLModelProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9FC13423192B3C7800352985 /* MTLManagedObjectModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F793BD61923A1DD0029C432 /* MTLManagedObjectModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9FC13424192B3C7900352985 /* MTLManagedObjectModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F793BD61923A1DD0029C432 /* MTLManagedObjectModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D01BD09D16CB432D00EC95C7 /* MTLJSONAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = D01BD09B16CB432D00EC95C7 /* MTLJSONAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D01BD09E16CB432D00EC95C7 /* MTLJSONAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = D01BD09B16CB432D00EC95C7 /* MTLJSONAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D01BD09F16CB432D00EC95C7 /* MTLJSONAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = D01BD09C16CB432D00EC95C7 /* MTLJSONAdapter.m */; };
@@ -593,6 +598,7 @@
 				D0F117491614C5600092520B /* NSValueTransformer+MTLPredefinedTransformerAdditions.h in Headers */,
 				1ED5B5D0163A4E3C0072668E /* NSObject+MTLComparisonAdditions.h in Headers */,
 				D01BD09D16CB432D00EC95C7 /* MTLJSONAdapter.h in Headers */,
+				9FC13420192B3C6500352985 /* MTLModelProtocol.h in Headers */,
 				D01BD0AF16CB52E800EC95C7 /* MTLModel+NSCoding.h in Headers */,
 				D0E51937170A06CF00E8897B /* MTLManagedObjectAdapter.h in Headers */,
 				9F793BD81923A1DD0029C432 /* MTLManagedObjectModel.h in Headers */,
@@ -607,10 +613,12 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9FC13422192B3C6600352985 /* MTLModelProtocol.h in Headers */,
 				D0A56B7B1804B15600A84EDC /* MTLManagedObjectAdapter.h in Headers */,
 				D0A56B7F1804B16B00A84EDC /* NSArray+MTLManipulationAdditions.h in Headers */,
 				D0A56B771804B14F00A84EDC /* MTLModel+NSCoding.h in Headers */,
 				D0A56B871804B16B00A84EDC /* NSValueTransformer+MTLPredefinedTransformerAdditions.h in Headers */,
+				9FC13424192B3C7900352985 /* MTLManagedObjectModel.h in Headers */,
 				D0A56B7D1804B15900A84EDC /* MTLValueTransformer.h in Headers */,
 				D0A56B811804B16B00A84EDC /* NSDictionary+MTLManipulationAdditions.h in Headers */,
 				D0A56B831804B16B00A84EDC /* NSObject+MTLComparisonAdditions.h in Headers */,
@@ -626,10 +634,12 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9FC13421192B3C6500352985 /* MTLModelProtocol.h in Headers */,
 				D8A172F81697E87A002CFCC8 /* Mantle.h in Headers */,
 				D8A172F91697E87A002CFCC8 /* MTLModel.h in Headers */,
 				9F4486611929EF1900E98AC4 /* MTLBaseModel.h in Headers */,
 				D8A172FA1697E87A002CFCC8 /* MTLValueTransformer.h in Headers */,
+				9FC13423192B3C7800352985 /* MTLManagedObjectModel.h in Headers */,
 				D8A172FC1697E87A002CFCC8 /* NSArray+MTLManipulationAdditions.h in Headers */,
 				D8A172FE1697E87A002CFCC8 /* NSDictionary+MTLManipulationAdditions.h in Headers */,
 				D8A173021697E87A002CFCC8 /* NSValueTransformer+MTLPredefinedTransformerAdditions.h in Headers */,
