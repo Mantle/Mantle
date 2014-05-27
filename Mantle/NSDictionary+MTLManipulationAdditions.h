@@ -20,6 +20,12 @@
 
 // Creates a new dictionary with all the entries for the given keys removed from
 // the receiver.
-- (NSDictionary *)mtl_dictionaryByRemovingEntriesWithKeys:(NSSet *)keys;
+- (NSDictionary *)mtl_dictionaryByRemovingValuesForKeys:(NSArray *)keys;
+
+@end
+
+@interface NSDictionary (MTLManipulationAdditions_Deprecated)
+
+- (NSDictionary *)mtl_dictionaryByRemovingEntriesWithKeys:(NSSet *)keys __attribute__((deprecated("Replaced by +JSONArrayFromModels:error:")));
 
 @end
