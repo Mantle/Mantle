@@ -356,6 +356,17 @@ it(@"should return an error when no suitable model class is found", ^{
 	expect(error.code).to.equal(MTLJSONAdapterErrorNoClassFound);
 });
 
+it(@"should validate models", ^{
+	NSError *error = nil;
+	MTLValidationModel *model = [MTLJSONAdapter modelOfClass:MTLValidationModel.class fromJSONDictionary:@{} error:&error];
+
+	expect(model).to.beNil();
+
+	expect(error).notTo.beNil();
+	expect(error.domain).to.equal(MTLTestModelErrorDomain);
+	expect(error.code).to.equal(MTLTestModelNameMissing);
+});
+
 describe(@"Deserializing multiple models", ^{
 	NSDictionary *value1 = @{
 		@"username": @"foo"
