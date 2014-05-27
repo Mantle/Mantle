@@ -18,6 +18,10 @@
 		542921C917D750EB00AE432B /* MTLCoreDataObjects.m in Sources */ = {isa = PBXBuildFile; fileRef = 542921C717D750EB00AE432B /* MTLCoreDataObjects.m */; };
 		54314BD018ED78A6006F7517 /* MTLTestJSONAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 54314BCF18ED78A6006F7517 /* MTLTestJSONAdapter.m */; };
 		54314BD118ED78A6006F7517 /* MTLTestJSONAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 54314BCF18ED78A6006F7517 /* MTLTestJSONAdapter.m */; };
+		54380B8519352C42006A6240 /* MTLManagedObjectTest.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 54035ACC1927BBB300AAA6F3 /* MTLManagedObjectTest.xcdatamodeld */; };
+		54380B8719352C44006A6240 /* MTLManagedObjectTest.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 54035ACC1927BBB300AAA6F3 /* MTLManagedObjectTest.xcdatamodeld */; };
+		54380B8A19352EA2006A6240 /* MTLValidateAndSetValue.h in Headers */ = {isa = PBXBuildFile; fileRef = 54380B8819352EA2006A6240 /* MTLValidateAndSetValue.h */; };
+		54380B8B19352EA2006A6240 /* MTLValidateAndSetValue.m in Sources */ = {isa = PBXBuildFile; fileRef = 54380B8919352EA2006A6240 /* MTLValidateAndSetValue.m */; };
 		547165A41801977000E734DB /* MTLTransformerErrorHandling.h in Headers */ = {isa = PBXBuildFile; fileRef = 547165A31801977000E734DB /* MTLTransformerErrorHandling.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		547165A51801977000E734DB /* MTLTransformerErrorHandling.h in Headers */ = {isa = PBXBuildFile; fileRef = 547165A31801977000E734DB /* MTLTransformerErrorHandling.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		547AE0FD17882ED100F4437D /* MTLModelValidationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 547AE0FC17882ED100F4437D /* MTLModelValidationSpec.m */; };
@@ -174,6 +178,8 @@
 		542921C717D750EB00AE432B /* MTLCoreDataObjects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLCoreDataObjects.m; sourceTree = "<group>"; };
 		54314BCE18ED78A6006F7517 /* MTLTestJSONAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTLTestJSONAdapter.h; sourceTree = "<group>"; };
 		54314BCF18ED78A6006F7517 /* MTLTestJSONAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLTestJSONAdapter.m; sourceTree = "<group>"; };
+		54380B8819352EA2006A6240 /* MTLValidateAndSetValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTLValidateAndSetValue.h; sourceTree = "<group>"; };
+		54380B8919352EA2006A6240 /* MTLValidateAndSetValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLValidateAndSetValue.m; sourceTree = "<group>"; };
 		547165A31801977000E734DB /* MTLTransformerErrorHandling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTLTransformerErrorHandling.h; sourceTree = "<group>"; };
 		547AE0FC17882ED100F4437D /* MTLModelValidationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLModelValidationSpec.m; sourceTree = "<group>"; };
 		547F78531822BCFD00BBAB7B /* NSDictionary+MTLMappingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+MTLMappingAdditions.h"; sourceTree = "<group>"; };
@@ -444,6 +450,8 @@
 				D01BD0AE16CB52E800EC95C7 /* MTLModel+NSCoding.m */,
 				D058FE1D16EFB3D2009DFB47 /* MTLReflection.h */,
 				D058FE1E16EFB3D2009DFB47 /* MTLReflection.m */,
+				54380B8819352EA2006A6240 /* MTLValidateAndSetValue.h */,
+				54380B8919352EA2006A6240 /* MTLValidateAndSetValue.m */,
 				D01BD0AB16CB46B600EC95C7 /* Adapters */,
 				D01BD0AC16CB46BD00EC95C7 /* Value Transformers */,
 			);
@@ -590,6 +598,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				547F78551822BCFD00BBAB7B /* NSDictionary+MTLMappingAdditions.h in Headers */,
+				54380B8A19352EA2006A6240 /* MTLValidateAndSetValue.h in Headers */,
 				D0760E0515FFBD440060F550 /* Mantle.h in Headers */,
 				D0760E7815FFBF330060F550 /* MTLModel.h in Headers */,
 				D08B5AAE16002694001FE685 /* MTLValueTransformer.h in Headers */,
@@ -795,6 +804,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				54380B8B19352EA2006A6240 /* MTLValidateAndSetValue.m in Sources */,
 				D0760E7915FFBF330060F550 /* MTLModel.m in Sources */,
 				547F78571822BCFD00BBAB7B /* NSDictionary+MTLMappingAdditions.m in Sources */,
 				D08B5AAF16002694001FE685 /* MTLValueTransformer.m in Sources */,
