@@ -12,20 +12,6 @@
 
 SpecBegin(MTLManagedObject)
 
-__block NSPersistentStoreCoordinator *persistentStoreCoordinator;
-
-beforeEach(^{
-	NSURL *url = [[NSBundle bundleForClass:self.class] URLForResource:@"MTLManagedObjectTest" withExtension:@"momd"];
-	expect(url).notTo.beNil();
-
-	NSManagedObjectModel *model = [[NSManagedObjectModel alloc] initWithContentsOfURL:url];
-	expect(model).notTo.beNil();
-
-	persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:model];
-	expect(persistentStoreCoordinator).notTo.beNil();
-	expect([persistentStoreCoordinator addPersistentStoreWithType:NSInMemoryStoreType configuration:nil URL:nil options:nil error:NULL]).notTo.beNil();
-});
-
 it(@"should include properties from the entity that aren't exposed as properties", ^{
 	NSSet *expectedKeys = [NSSet setWithObjects:@"date", @"string", @"number", @"url", nil];
 
@@ -64,6 +50,80 @@ describe(@"when initialized with a dictionary", ^{
 
 	it(@"should not have a context", ^{
 		expect(model.managedObjectContext).to.beNil();
+	});
+});
+
+describe(@"Persisting a model", ^{
+	__block NSPersistentStoreCoordinator *persistentStoreCoordinator;
+	__block NSManagedObjectContext *context;
+	__block NSEntityDescription *entity;
+
+	__block MTLManagedObjectParent *parent;
+
+	beforeEach(^{
+		// It's necessary to use the exact same instance for the MOM.
+		// Loading it again from disk using -initWithContentsOfURL: will cause
+		// -[NSManagedObjectContext save:] to fail, even though the two models
+		// are considered equal.
+		//
+		// Is that expected behavior or a bug in CoreData?
+		NSManagedObjectModel *model = MTLManagedObjectParent.managedObjectModel;
+
+		persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:model];
+
+		expect(persistentStoreCoordinator).notTo.beNil();
+		expect(persistentStoreCoordinator.managedObjectModel).to.equal(model);
+		expect(persistentStoreCoordinator.managedObjectModel).to.equal(MTLManagedObjectParent.managedObjectModel);
+
+		NSPersistentStore *store = [persistentStoreCoordinator
+			addPersistentStoreWithType:NSInMemoryStoreType
+			configuration:nil
+			URL:nil
+			options:nil
+			error:NULL];
+
+		expect(store).notTo.beNil();
+
+		context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSConfinementConcurrencyType];
+		expect(context).notTo.beNil();
+
+		context.undoManager = nil;
+		context.persistentStoreCoordinator = persistentStoreCoordinator;
+
+		entity = [NSEntityDescription entityForName:@"Parent" inManagedObjectContext:context];
+		expect(entity).notTo.beNil();
+
+		parent = [MTLManagedObjectParent modelWithDictionary:@{
+			@"date": [NSDate dateWithTimeIntervalSince1970:0],
+			@"number": @5,
+			@"string": @"fuzzbuzz",
+			@"url": NSNull.null,
+		} error:NULL];
+		expect(parent.entity).to.equal(entity);
+
+		[context insertObject:parent];
+
+		NSError *error;
+		[context save:&error];
+
+		expect(error).to.beNil();
+	});
+
+	it(@"should give it a context", ^{
+		expect(parent.managedObjectContext).to.equal(context);
+	});
+
+	it(@"should allow it to be fetched", ^{
+		NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Parent"];
+		request.predicate = [NSPredicate predicateWithFormat:@"string == 'fuzzbuzz'"];
+
+		NSError *error;
+		id result = [context executeFetchRequest:request error:&error].lastObject;
+
+		expect(error).to.beNil();
+
+		expect(result).notTo.beNil();
+		expect(result).to.equal(parent);
 	});
 });
 

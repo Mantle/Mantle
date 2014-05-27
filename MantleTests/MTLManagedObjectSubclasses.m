@@ -15,7 +15,7 @@
 @dynamic string;
 @dynamic url;
 
-+ (NSEntityDescription *)entityDescription {
++ (NSManagedObjectModel *)managedObjectModel {
 	static NSManagedObjectModel *model;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
@@ -24,7 +24,11 @@
 		model = [[NSManagedObjectModel alloc] initWithContentsOfURL:url];
 	});
 
-	return [model entitiesByName][@"Parent"];
+	return model;
+}
+
++ (NSEntityDescription *)entityDescription {
+	return [[self managedObjectModel] entitiesByName][@"Parent"];
 }
 
 @end

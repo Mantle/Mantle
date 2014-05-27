@@ -15,4 +15,6 @@
 @property (readwrite, nonatomic, copy) NSString *string;
 @property (readwrite, nonatomic, copy) NSString *url;
 
++ (NSManagedObjectModel *)managedObjectModel;
+
 @end
