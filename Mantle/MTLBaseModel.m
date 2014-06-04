@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 GitHub. All rights reserved.
 //
 
-//#import "NSError+MTLModelException.h"
+#import "NSError+MTLModelException.h"
 #import "MTLBaseModel.h"
 #import "EXTRuntimeExtensions.h"
 #import "EXTScope.h"
