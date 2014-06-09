@@ -156,14 +156,14 @@ extern const NSInteger MTLJSONAdapterErrorInvalidJSONMapping;
 
 // Deserializes a model from a JSON dictionary.
 //
+// The adapter will call -validate: on the model and consider it an error if the
+// validation fails.
+//
 // JSONDictionary - A dictionary representing JSON data. This should match the
 //                  format returned by NSJSONSerialization. This argument must
 //                  not be nil.
 // error          - If not NULL, this may be set to an error that occurs during
 //                  deserializing or validation.
-//
-// The adapter will call -validate: on the model and consider it an error if the
-// validation fails.
 //
 // Returns a model object, or nil if a deserialization error occurred or the
 // model did not validate successfully.
