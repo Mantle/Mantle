@@ -170,6 +170,12 @@ static NSUInteger modelVersion = 1;
 
 @implementation MTLValidationModel
 
++ (NSDictionary *)JSONKeyPathsByPropertyKey {
+	return @{
+		@"name": @"name"
+	};
+}
+
 - (BOOL)validateName:(NSString **)name error:(NSError **)error {
 	if (*name != nil) return YES;
 	if (error != NULL) {
@@ -274,6 +280,10 @@ static NSUInteger modelVersion = 1;
 	_name = dictionaryValue[@"name"];
 
 	return self;
+}
+
+- (BOOL)validate:(NSError **)error {
+	return YES;
 }
 
 #pragma mark MTLModel

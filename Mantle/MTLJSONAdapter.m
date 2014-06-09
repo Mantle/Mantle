@@ -355,7 +355,9 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 		}
 	}
 
-	return [self.modelClass modelWithDictionary:dictionaryValue error:error];
+	id model = [self.modelClass modelWithDictionary:dictionaryValue error:error];
+
+	return [model validate:error] ? model : nil;
 }
 
 + (NSDictionary *)valueTransformersForModelClass:(Class)modelClass {

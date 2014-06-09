@@ -80,6 +80,14 @@ typedef enum : NSUInteger {
 // properties without ivars, or properties on MTLModel itself.
 + (NSSet *)propertyKeys;
 
+// Validates the model.
+//
+// error - If not NULL, this may be set to any error that occurs during
+//         validation
+//
+// Returns YES if the model is valid, or NO if the validation failed.
+- (BOOL)validate:(NSError **)error;
+
 @end
 
 // An abstract base class for model objects, using reflection to provide

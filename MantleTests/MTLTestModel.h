@@ -62,7 +62,7 @@ extern const NSInteger MTLTestModelNameMissing;
 @interface MTLSubstitutingTestModel : MTLModel <MTLJSONSerializing>
 @end
 
-@interface MTLValidationModel : MTLModel
+@interface MTLValidationModel : MTLModel <MTLJSONSerializing>
 
 // Defaults to nil, which is not considered valid.
 @property (nonatomic, copy) NSString *name;
