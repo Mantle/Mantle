@@ -27,7 +27,7 @@
 @implementation NSDictionary (MTLManipulationAdditions_Deprecated)
 
 #pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-implementations"
+#pragma clang diagnostic ignored "-Wdeprecated"
 
 - (NSDictionary *)mtl_dictionaryByRemovingEntriesWithKeys:(NSSet *)keys {
 	return [self mtl_dictionaryByRemovingValuesForKeys:keys.allObjects];
