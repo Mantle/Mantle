@@ -26,6 +26,6 @@
 
 @interface NSDictionary (MTLManipulationAdditions_Deprecated)
 
-- (NSDictionary *)mtl_dictionaryByRemovingEntriesWithKeys:(NSSet *)keys __attribute__((deprecated("Replaced by +mtl_dictionaryByRemovingValuesForKeys:")));
+- (NSDictionary *)mtl_dictionaryByRemovingEntriesWithKeys:(NSSet *)keys __attribute__((deprecated("Replaced by -mtl_dictionaryByRemovingValuesForKeys:")));
 
 @end
