@@ -375,7 +375,9 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 		}
 
 		if ([modelClass respondsToSelector:@selector(JSONTransformerForKey:)]) {
-			result[key] = [modelClass JSONTransformerForKey:key];
+			id transformer = [modelClass JSONTransformerForKey:key];
+			NSAssert(transformer != nil, @"+JSONTransformerForKey: must not return nil.");
+			result[key] = transformer;
 			continue;
 		}
 

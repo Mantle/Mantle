@@ -79,7 +79,7 @@
 // MTLManagedObjectAdapter will use the result of that method instead. This
 // method must not return nil.
 //
-// Returns a value transformer, or nil if no transformation should be performed.
+// Returns a value transformer.
 + (NSValueTransformer *)entityAttributeTransformerForKey:(NSString *)key;
 
 // Specifies the MTLModel subclasses that should be deserialized to the
