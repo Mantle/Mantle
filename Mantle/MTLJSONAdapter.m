@@ -228,8 +228,8 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	_JSONKeyPathsByPropertyKey = [[model.class JSONKeyPathsByPropertyKey] copy];
 	
 	NSDictionary *dictionaryValue = [self dictionaryValueFromJSONDictionary:JSONDictionary error:error];
-    if(!dictionaryValue) return nil;
-    
+	if(!dictionaryValue) return nil;
+	
 	[_model updateWithDictionary:dictionaryValue error:error];
 	
 	return self;

@@ -1,8 +1,8 @@
 //
-//  MTLJSONAdapterSpec.m
+//  MTLJSONAdapterUpdateSpec.m
 //  Mantle
 //
-//  Created by Justin Spahr-Summers on 2013-02-13.
+//  Created by Christian Bianciotto on 2014-05-09.
 //  Copyright (c) 2013 GitHub. All rights reserved.
 //
 

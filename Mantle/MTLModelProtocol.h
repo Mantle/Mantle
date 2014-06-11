@@ -36,8 +36,8 @@
 // Returns an initialized model object, or nil if validation failed.
 - (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue error:(NSError **)error;
 
-// Re-initializes the receiver using key-value coding, setting the keys and values
-// in the given dictionary.
+// Re-initializes the receiver using key-value coding, setting the keys and
+// values in the given dictionary.
 //
 // dictionaryValue - Property keys and values to set on the receiver. Any NSNull
 //                   values will be converted to nil before being used. KVC

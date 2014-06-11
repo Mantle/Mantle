@@ -2,8 +2,8 @@
 //  MTLTestManagedObjectModel.m
 //  Mantle
 //
-//  Created by Justin Spahr-Summers on 2012-09-11.
-//  Copyright (c) 2012 GitHub. All rights reserved.
+//  Created by Christian Bianciotto on 2014-05-19.
+//  Copyright (c) 2013 GitHub. All rights reserved.
 //
 
 #import "MTLTestManagedObjectModel.h"
@@ -38,19 +38,19 @@ const NSInteger MTLTestManagedObjectModelNameMissing = 2;
 #pragma mark Properties
 
 - (void)setCount:(NSUInteger)count {
-	[self willChangeValueForKey:@"count"];
-    [self setPrimitiveValue:[NSNumber numberWithUnsignedInteger:count] forKey:@"count"];
-    [self didChangeValueForKey:@"count"];
+	[self willChangeValueForKey:__PROPERTY__];
+	[self setPrimitiveValue:[NSNumber numberWithUnsignedInteger:count] forKey:__PROPERTY__];
+	[self didChangeValueForKey:__PROPERTY__];
 }
 
 - (NSUInteger)count {
-    NSUInteger a;
+	NSUInteger a;
 	
-    [self willAccessValueForKey:@"count"];
-    a = [[self primitiveValueForKey:@"count"] unsignedIntegerValue];
-    [self didAccessValueForKey:@"count"];
+	[self willAccessValueForKey:__PROPERTY__];
+	a = [[self primitiveValueForKey:__PROPERTY__] unsignedIntegerValue];
+	[self didAccessValueForKey:__PROPERTY__];
 	
-    return a;
+	return a;
 }
 
 - (BOOL)validateName:(NSString **)name error:(NSError **)error {
@@ -94,6 +94,24 @@ const NSInteger MTLTestManagedObjectModelNameMissing = 2;
 
 @end
 
+@implementation MTLArrayTestManagedObjectModel
+
+@synthesize names;
+
++ (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc {
+	NSParameterAssert(moc != nil);
+	
+	return [NSEntityDescription insertNewObjectForEntityForName:@"ArrayTestManagedObjectModel" inManagedObjectContext:moc];
+}
+
++ (NSDictionary *)JSONKeyPathsByPropertyKey {
+	return @{
+			 @"names": @"users.name"
+			 };
+}
+
+@end
+
 @implementation MTLSubclassTestManagedObjectModel
 
 @dynamic role;
@@ -107,81 +125,81 @@ const NSInteger MTLTestManagedObjectModelNameMissing = 2;
 
 @end
 
-//@implementation MTLArrayTestManagedObjectModel
-//
-//- (void)setNames:(NSArray *)names {
-//	
-//}
-//
-//- (NSArray *)names {
-//	return nil;
-//}
-//
-//+ (NSDictionary *)JSONKeyPathsByPropertyKey {
-//	return @{
-//		@"names": @"users.name"
-//	};
-//}
-//
-//@end
-//
-//@implementation MTLSubstitutingTestManagedObjectModel
-//
-//+ (NSDictionary *)JSONKeyPathsByPropertyKey {
-//	return @{};
-//}
-//
-//+ (Class)classForParsingJSONDictionary:(NSDictionary *)JSONDictionary {
-//	NSParameterAssert(JSONDictionary != nil);
-//
-//	if (JSONDictionary[@"username"] == nil) {
-//		return nil;
-//	} else {
-//		return MTLTestManagedObjectModel.class;
-//	}
-//}
-//
-//@end
-//
-//@implementation MTLValidationManagedObjectModel
-//
-//- (void)setName:(NSString *)name {
-//	
-//}
-//
-//- (NSString *)name {
-//	return nil;
-//}
-//
-//- (BOOL)validateName:(NSString **)name error:(NSError **)error {
-//	if (*name != nil) return YES;
-//	if (error != NULL) {
-//		*error = [NSError errorWithDomain:MTLTestManagedObjectModelErrorDomain code:MTLTestManagedObjectModelNameMissing userInfo:nil];
-//	}
-//
-//	return NO;
-//}
-//
-//@end
-//
-//@implementation MTLSelfValidatingManagedObjectModel
-//
-//- (BOOL)validateName:(NSString **)name error:(NSError **)error {
-//	if (*name != nil) return YES;
-//
-//	*name = @"foobar";
-//
-//	return YES;
-//}
-//
-//@end
-//
-//@implementation MTLIllegalJSONMappingManagedObjectModel
-//
-//+ (NSDictionary *)JSONKeyPathsByPropertyKey {
-//	return @{
-//		@"name": @"username"
-//	};
-//}
-//
-//@end
+@implementation MTLSubstitutingTestManagedObjectModel
+
++ (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc {
+	NSParameterAssert(moc != nil);
+	
+	return [NSEntityDescription insertNewObjectForEntityForName:@"SubstitutingTestManagedObjectModel" inManagedObjectContext:moc];
+}
+
++ (NSDictionary *)JSONKeyPathsByPropertyKey {
+	return @{};
+}
+
++ (Class)classForParsingJSONDictionary:(NSDictionary *)JSONDictionary {
+	NSParameterAssert(JSONDictionary != nil);
+	
+	if (JSONDictionary[@"username"] == nil) {
+		return nil;
+	} else {
+		return MTLTestManagedObjectModel.class;
+	}
+}
+
+@end
+
+@implementation MTLValidationManagedObjectModel
+
+@dynamic name;
+
++ (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc {
+	NSParameterAssert(moc != nil);
+	
+	return [NSEntityDescription insertNewObjectForEntityForName:@"ValidationManagedObjectModel" inManagedObjectContext:moc];
+}
+
+- (BOOL)validateName:(NSString **)name error:(NSError **)error {
+	if (*name != nil) return YES;
+	if (error != NULL) {
+		*error = [NSError errorWithDomain:MTLTestManagedObjectModelErrorDomain code:MTLTestManagedObjectModelNameMissing userInfo:nil];
+	}
+
+	return NO;
+}
+
+@end
+
+@implementation MTLSelfValidatingManagedObjectModel
+
++ (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc {
+	NSParameterAssert(moc != nil);
+	
+	return [NSEntityDescription insertNewObjectForEntityForName:@"SelfValidatingManagedObjectModel" inManagedObjectContext:moc];
+}
+
+- (BOOL)validateName:(NSString **)name error:(NSError **)error {
+	if (*name != nil) return YES;
+	
+	*name = @"foobar";
+	
+	return YES;
+}
+
+@end
+
+@implementation MTLIllegalJSONMappingManagedObjectModel
+
++ (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc {
+	NSParameterAssert(moc != nil);
+	
+	return [NSEntityDescription insertNewObjectForEntityForName:@"IllegalJSONMappingManagedObjectModel" inManagedObjectContext:moc];
+}
+
++ (NSDictionary *)JSONKeyPathsByPropertyKey {
+	return @{
+			 @"name": @"username"
+			 };
+}
+
+@end

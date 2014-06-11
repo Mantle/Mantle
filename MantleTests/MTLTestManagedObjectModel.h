@@ -2,8 +2,8 @@
 //  MTLTestManagedObjectModel.h
 //  Mantle
 //
-//  Created by Justin Spahr-Summers on 2012-09-11.
-//  Copyright (c) 2012 GitHub. All rights reserved.
+//  Created by Christian Bianciotto on 2014-05-19.
+//  Copyright (c) 2013 GitHub. All rights reserved.
 //
 
 extern NSString * const MTLTestManagedObjectModelErrorDomain;
@@ -50,28 +50,38 @@ extern const NSInteger MTLTestManagedObjectModelNameMissing;
 
 @end
 
-//@interface MTLArrayTestManagedObjectModel : MTLManagedObjectModel <MTLJSONSerializing>
-//
-//// This property is associated with a "users.username" key in JSON.
-//@property (nonatomic, copy) NSArray *names;
-//
-//@end
-//
-//// Parses MTLTestManagedObjectModel objects from JSON instead.
-//@interface MTLSubstitutingTestManagedObjectModel : MTLManagedObjectModel <MTLJSONSerializing>
-//@end
-//
-//@interface MTLValidationManagedObjectModel : MTLManagedObjectModel
-//
-//// Defaults to nil, which is not considered valid.
-//@property (nonatomic, copy) NSString *name;
-//
-//@end
-//
-//// Returns a default name of 'foobar' when validateName:error: is invoked
-//@interface MTLSelfValidatingManagedObjectModel : MTLValidationManagedObjectModel
-//@end
-//
-//// Maps a non-existant property "name" to the "username" key in JSON.
-//@interface MTLIllegalJSONMappingManagedObjectModel : MTLManagedObjectModel <MTLJSONSerializing>
-//@end
+@interface MTLArrayTestManagedObjectModel : MTLManagedObjectModel <MTLJSONSerializing>
+
++ (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc;
+
+// This property is associated with a "users.username" key in JSON.
+@property (nonatomic, copy) NSArray *names;
+
+@end
+
+// Parses MTLTestManagedObjectModel objects from JSON instead.
+@interface MTLSubstitutingTestManagedObjectModel : MTLManagedObjectModel <MTLJSONSerializing>
+
++ (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc;
+
+@end
+
+@interface MTLValidationManagedObjectModel : MTLManagedObjectModel
+
++ (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc;
+
+// Defaults to nil, which is not considered valid.
+@property (nonatomic, copy) NSString *name;
+
+@end
+
+// Returns a default name of 'foobar' when validateName:error: is invoked
+@interface MTLSelfValidatingManagedObjectModel : MTLValidationManagedObjectModel
+@end
+
+// Maps a non-existant property "name" to the "username" key in JSON.
+@interface MTLIllegalJSONMappingManagedObjectModel : MTLManagedObjectModel <MTLJSONSerializing>
+
++ (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc;
+
+@end

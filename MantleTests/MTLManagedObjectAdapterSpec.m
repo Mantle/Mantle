@@ -2,7 +2,7 @@
 //  MTLManagedObjectAdapterSpec.m
 //  Mantle
 //
-//  Created by Justin Spahr-Summers on 2013-05-17.
+//  Created by Christian Bianciotto on 2014-05-19.
 //  Copyright (c) 2013 GitHub. All rights reserved.
 //
 
