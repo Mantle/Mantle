@@ -75,7 +75,7 @@
 // attribute. If reversible, the transformer will also be used to convert the
 // managed object attribute back to the property.
 //
-// If the receiver implements a `-<key>EntityAttributeTransformer` method,
+// If the receiver implements a `+<key>EntityAttributeTransformer` method,
 // MTLManagedObjectAdapter will use the result of that method instead.
 //
 // Returns a value transformer, or nil if no transformation should be performed.
