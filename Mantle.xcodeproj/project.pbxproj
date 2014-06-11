@@ -46,6 +46,10 @@
 		9F941350192757690051921A /* MTLTestManagedObjectModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F94134E192757690051921A /* MTLTestManagedObjectModel.m */; };
 		9F94135219275C9D0051921A /* MTLManagedObjectModelSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F94135119275C9D0051921A /* MTLManagedObjectModelSpec.m */; };
 		9F94135319275C9D0051921A /* MTLManagedObjectModelSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F94135119275C9D0051921A /* MTLManagedObjectModelSpec.m */; };
+		9FA5DC681947436D00C54DF6 /* MTLManagedObjectModelValidationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FA5DC671947436D00C54DF6 /* MTLManagedObjectModelValidationSpec.m */; };
+		9FA5DC691947436D00C54DF6 /* MTLManagedObjectModelValidationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FA5DC671947436D00C54DF6 /* MTLManagedObjectModelValidationSpec.m */; };
+		9FA5DC6B1947519C00C54DF6 /* MTLJSONAdapterManagedObjectSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FA5DC6A1947519C00C54DF6 /* MTLJSONAdapterManagedObjectSpec.m */; };
+		9FA5DC6C1947519C00C54DF6 /* MTLJSONAdapterManagedObjectSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FA5DC6A1947519C00C54DF6 /* MTLJSONAdapterManagedObjectSpec.m */; };
 		9FC13420192B3C6500352985 /* MTLModelProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F4486631929F5A000E98AC4 /* MTLModelProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9FC13421192B3C6500352985 /* MTLModelProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F4486631929F5A000E98AC4 /* MTLModelProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9FC13422192B3C6600352985 /* MTLModelProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F4486631929F5A000E98AC4 /* MTLModelProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -195,6 +199,8 @@
 		9F9413471927534E0051921A /* MTLTestManagedObjectModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTLTestManagedObjectModel.h; sourceTree = "<group>"; };
 		9F94134E192757690051921A /* MTLTestManagedObjectModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLTestManagedObjectModel.m; sourceTree = "<group>"; };
 		9F94135119275C9D0051921A /* MTLManagedObjectModelSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLManagedObjectModelSpec.m; sourceTree = "<group>"; };
+		9FA5DC671947436D00C54DF6 /* MTLManagedObjectModelValidationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLManagedObjectModelValidationSpec.m; sourceTree = "<group>"; };
+		9FA5DC6A1947519C00C54DF6 /* MTLJSONAdapterManagedObjectSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLJSONAdapterManagedObjectSpec.m; sourceTree = "<group>"; };
 		D01BD09B16CB432D00EC95C7 /* MTLJSONAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTLJSONAdapter.h; sourceTree = "<group>"; };
 		D01BD09C16CB432D00EC95C7 /* MTLJSONAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLJSONAdapter.m; sourceTree = "<group>"; };
 		D01BD0AD16CB52E800EC95C7 /* MTLModel+NSCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MTLModel+NSCoding.h"; sourceTree = "<group>"; };
@@ -465,11 +471,13 @@
 				54803A3A17882CCD00011B39 /* MTLErrorModelExceptionSpec.m */,
 				D02E48F016CB8ADB00257645 /* MTLJSONAdapterSpec.m */,
 				9F448664192A13F600E98AC4 /* MTLJSONAdapterUpdateSpec.m */,
+				9FA5DC6A1947519C00C54DF6 /* MTLJSONAdapterManagedObjectSpec.m */,
 				D0ABD7A01746D56E006BEA7D /* MTLManagedObjectAdapterSpec.m */,
 				D02E48E916CB8ACA00257645 /* MTLModelNSCodingSpec.m */,
 				D0760EC315FFCA250060F550 /* MTLModelSpec.m */,
 				9F94135119275C9D0051921A /* MTLManagedObjectModelSpec.m */,
 				547AE0FC17882ED100F4437D /* MTLModelValidationSpec.m */,
+				9FA5DC671947436D00C54DF6 /* MTLManagedObjectModelValidationSpec.m */,
 				D0F1174C1614C8000092520B /* MTLPredefinedTransformerAdditionsSpec.m */,
 				D08B5AB116002A23001FE685 /* MTLValueTransformerSpec.m */,
 				D0BFC36617476A5F00F5DC5D /* MTLValueTransformerInversionAdditionsSpec.m */,
@@ -827,6 +835,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D0760EC415FFCA250060F550 /* MTLModelSpec.m in Sources */,
+				9FA5DC6B1947519C00C54DF6 /* MTLJSONAdapterManagedObjectSpec.m in Sources */,
 				D0760EC915FFCA4E0060F550 /* MTLTestModel.m in Sources */,
 				542921C817D750EB00AE432B /* MTLCoreDataObjects.m in Sources */,
 				54803A3B17882CCD00011B39 /* MTLErrorModelExceptionSpec.m in Sources */,
@@ -842,6 +851,7 @@
 				D02E48F116CB8ADB00257645 /* MTLJSONAdapterSpec.m in Sources */,
 				D021D938170F806B00C37E36 /* TestModel.xcdatamodeld in Sources */,
 				D021D944170F878E00C37E36 /* MTLCoreDataTestModels.m in Sources */,
+				9FA5DC681947436D00C54DF6 /* MTLManagedObjectModelValidationSpec.m in Sources */,
 				9F94134F192757690051921A /* MTLTestManagedObjectModel.m in Sources */,
 				D0ABD7A11746D56E006BEA7D /* MTLManagedObjectAdapterSpec.m in Sources */,
 				D0BFC36717476A5F00F5DC5D /* MTLValueTransformerInversionAdditionsSpec.m in Sources */,
@@ -876,6 +886,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D0760EC515FFCA250060F550 /* MTLModelSpec.m in Sources */,
+				9FA5DC6C1947519C00C54DF6 /* MTLJSONAdapterManagedObjectSpec.m in Sources */,
 				D0760ECA15FFCA4E0060F550 /* MTLTestModel.m in Sources */,
 				542921C917D750EB00AE432B /* MTLCoreDataObjects.m in Sources */,
 				54803A3C17882CCD00011B39 /* MTLErrorModelExceptionSpec.m in Sources */,
@@ -891,6 +902,7 @@
 				D02E48F216CB8ADB00257645 /* MTLJSONAdapterSpec.m in Sources */,
 				D021D939170F806B00C37E36 /* TestModel.xcdatamodeld in Sources */,
 				D021D945170F878E00C37E36 /* MTLCoreDataTestModels.m in Sources */,
+				9FA5DC691947436D00C54DF6 /* MTLManagedObjectModelValidationSpec.m in Sources */,
 				9F941350192757690051921A /* MTLTestManagedObjectModel.m in Sources */,
 				D0ABD7A21746D56E006BEA7D /* MTLManagedObjectAdapterSpec.m in Sources */,
 				D0BFC36817476A5F00F5DC5D /* MTLValueTransformerInversionAdditionsSpec.m in Sources */,
