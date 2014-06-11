@@ -55,7 +55,7 @@
 // reversible, the transformer will also be used to convert the property value
 // back to JSON.
 //
-// If the receiver implements a `-<key>JSONTransformer` method, MTLJSONAdapter
+// If the receiver implements a `+<key>JSONTransformer` method, MTLJSONAdapter
 // will use the result of that method instead.
 //
 // Returns a value transformer, or nil if no transformation should be performed.
