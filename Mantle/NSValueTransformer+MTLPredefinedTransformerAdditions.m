@@ -11,6 +11,7 @@
 #import "MTLModel.h"
 #import "MTLValueTransformer.h"
 
+NSString * const MTLIdentityValueTransformerName = @"MTLIdentityValueTransformerName";
 NSString * const MTLURLValueTransformerName = @"MTLURLValueTransformerName";
 NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerName";
 
@@ -20,6 +21,13 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 
 + (void)load {
 	@autoreleasepool {
+		MTLValueTransformer *identityValueTransformer = [MTLValueTransformer
+			transformerUsingReversibleBlock:^(id value, BOOL *success, NSError **error) {
+				return value;
+			}];
+
+		[NSValueTransformer setValueTransformer:identityValueTransformer forName:MTLIdentityValueTransformerName];
+
 		MTLValueTransformer *URLValueTransformer = [MTLValueTransformer
 			transformerUsingForwardBlock:^ id (NSString *str, BOOL *success, NSError **error) {
 				if (str == nil) return nil;

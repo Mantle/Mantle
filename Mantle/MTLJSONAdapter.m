@@ -369,14 +369,14 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 			__unsafe_unretained id transformer = nil;
 			[invocation getReturnValue:&transformer];
 
-			NSAssert(transformer != nil, @"%@ must not return nil.", NSStringFromSelector(selector));
+			NSAssert(transformer != nil, @"-%@ must not return nil, use MTLIdentityValueTransformerName to disable transformation.", NSStringFromSelector(selector));
 			result[key] = transformer;
 			continue;
 		}
 
 		if ([modelClass respondsToSelector:@selector(JSONTransformerForKey:)]) {
 			id transformer = [modelClass JSONTransformerForKey:key];
-			NSAssert(transformer != nil, @"+JSONTransformerForKey: must not return nil.");
+			NSAssert(transformer != nil, @"+JSONTransformerForKey: must not return nil, use MTLIdentityValueTransformerName to disable transformation.");
 			result[key] = transformer;
 			continue;
 		}

@@ -710,14 +710,14 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 			__unsafe_unretained id transformer = nil;
 			[invocation getReturnValue:&transformer];
 
-			NSAssert(transformer != nil, @"%@ must not return nil.", NSStringFromSelector(selector));
+			NSAssert(transformer != nil, @"-%@ must not return nil, use MTLIdentityValueTransformerName to disable transformation.", NSStringFromSelector(selector));
 			result[key] = transformer;
 			continue;
 		}
 
 		if ([self.modelClass respondsToSelector:@selector(entityAttributeTransformerForKey:)]) {
 			id transformer = [self.modelClass entityAttributeTransformerForKey:key];
-			NSAssert(transformer != nil, @"+entityAttributeTransformerForKey: must not return nil.");
+			NSAssert(transformer != nil, @"+entityAttributeTransformerForKey: must not return nil, use MTLIdentityValueTransformerName to disable transformation.");
 			result[key] = transformer;
 			continue;
 		}

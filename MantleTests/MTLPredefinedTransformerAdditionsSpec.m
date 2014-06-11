@@ -19,6 +19,28 @@ enum : NSInteger {
 
 SpecBegin(MTLPredefinedTransformerAdditions)
 
+describe(@"The identity transformer", ^{
+	__block NSValueTransformer *transformer;
+
+	beforeEach(^{
+		transformer = [NSValueTransformer valueTransformerForName:MTLIdentityValueTransformerName];
+
+		expect(transformer).notTo.beNil();
+		expect([transformer.class allowsReverseTransformation]).to.beTruthy();
+	});
+
+	it(@"should be reversible", ^{
+		expect([transformer.class allowsReverseTransformation]).to.beTruthy();
+	});
+
+	it(@"should not perform any conversion", ^{
+		id obj = [[NSObject alloc] init];
+
+		expect([transformer transformedValue:obj]).to.beIdenticalTo(obj);
+		expect([transformer reverseTransformedValue:obj]).to.beIdenticalTo(obj);
+	});
+});
+
 describe(@"The URL transformer", ^{
 	__block NSValueTransformer *transformer;
 
