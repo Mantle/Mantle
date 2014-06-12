@@ -144,19 +144,25 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 
 	NSSet *propertyKeys = [self.modelClass propertyKeys];
 
-	for (NSString *JSONKeyPath in self.JSONKeyPathsByPropertyKey) {
-		if ([propertyKeys containsObject:JSONKeyPath]) continue;
-
-		if (error != NULL) {
-			NSDictionary *userInfo = @{
-				NSLocalizedDescriptionKey: NSLocalizedString(@"Invalid JSON mapping", nil),
-				NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"%1$@ could not be parsed because its JSON mapping contains illegal property keys.", nil), modelClass]
-			};
-
-			*error = [NSError errorWithDomain:MTLJSONAdapterErrorDomain code:MTLJSONAdapterErrorInvalidJSONMapping userInfo:userInfo];
+	for (NSString *mappedPropertyKey in _JSONKeyPathsByPropertyKey) {
+		if (![propertyKeys containsObject:mappedPropertyKey]) {
+			NSAssert(NO, @"%@ is not a property of %@.", mappedPropertyKey, modelClass);
+			return nil;
 		}
 
-		return nil;
+		id value = _JSONKeyPathsByPropertyKey[mappedPropertyKey];
+
+		if ([value isKindOfClass:NSArray.class]) {
+			for (NSString *keyPath in value) {
+				if ([keyPath isKindOfClass:NSString.class]) continue;
+
+				NSAssert(NO, @"%@ must either map to a JSON key path or a JSON array of key paths, got: %@.", mappedPropertyKey, value);
+				return nil;
+			}
+		} else if (![value isKindOfClass:NSString.class]) {
+			NSAssert(NO, @"%@ must either map to a JSON key path or a JSON array of key paths, got: %@.",mappedPropertyKey, value);
+			return nil;
+		}
 	}
 
 	for (NSString *propertyKey in propertyKeys) {
