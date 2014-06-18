@@ -636,7 +636,7 @@
 			name = "Mantle Tests";
 			productName = MaverickTests;
 			productReference = D042FC5415F72B23004E8054 /* Mantle Tests.octest */;
-			productType = "com.apple.product-type.bundle";
+			productType = "com.apple.product-type.bundle.ocunit-test";
 		};
 		D042FC7815F72BC7004E8054 /* Mantle-iOS */ = {
 			isa = PBXNativeTarget;
@@ -671,7 +671,7 @@
 			name = "Mantle-iOS Tests";
 			productName = MaverickTests;
 			productReference = D042FC8715F72BC7004E8054 /* Mantle-iOS Tests.octest */;
-			productType = "com.apple.product-type.bundle";
+			productType = "com.apple.product-type.bundle.ocunit-test";
 		};
 		D0A56B451804B04900A84EDC /* Mantle-Mac */ = {
 			isa = PBXNativeTarget;
@@ -901,6 +901,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D094E4921777619600906BF7 /* Mac-Framework.xcconfig */;
 			buildSettings = {
+				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
@@ -914,6 +915,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D094E4921777619600906BF7 /* Mac-Framework.xcconfig */;
 			buildSettings = {
+				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
@@ -1040,6 +1042,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D094E4921777619600906BF7 /* Mac-Framework.xcconfig */;
 			buildSettings = {
+				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
@@ -1142,6 +1145,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D094E4921777619600906BF7 /* Mac-Framework.xcconfig */;
 			buildSettings = {
+				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
