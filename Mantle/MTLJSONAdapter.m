@@ -144,7 +144,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 
 	NSSet *propertyKeys = [self.modelClass propertyKeys];
 
-	for (NSString *mappedPropertyKey in _JSONKeyPathsByPropertyKey) {
+	for (NSString *mappedPropertyKey in self.JSONKeyPathsByPropertyKey) {
 		if (![propertyKeys containsObject:mappedPropertyKey]) {
 			NSAssert(NO, @"%@ is not a property of %@.", mappedPropertyKey, modelClass);
 			return nil;
@@ -152,7 +152,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 
 		id value = _JSONKeyPathsByPropertyKey[mappedPropertyKey];
 
-		if (![value isKindOfClass:NSString.class] && !(value == NSNull.null)) {
+		if (![value isKindOfClass:NSString.class] && value != NSNull.null) {
 			NSAssert(NO, @"%@ must either map to a JSON key path or NSNull, got: %@.",mappedPropertyKey, value);
 			return nil;
 		}
