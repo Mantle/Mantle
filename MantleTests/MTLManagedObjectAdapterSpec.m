@@ -118,6 +118,72 @@ describe(@"with a confined context", ^{
 			}
 		});
 	});
+	
+	describe(@"+modelsOfClass:fromManagedObjects:error:", ^{
+		__block MTLParent *parent1;
+		__block MTLParent *parent2;
+				
+		beforeEach(^{
+			parent1 = [MTLParent insertInManagedObjectContext:context];
+			parent1.string = @"foo";
+			expect(parent1).notTo.beNil();
+			
+			parent2 = [MTLParent insertInManagedObjectContext:context];
+			parent2.string = @"bar";
+			expect(parent2).notTo.beNil();
+			
+			for (NSUInteger i = 0; i < 3; i++) {
+				MTLChild *child = [MTLChild insertInManagedObjectContext:context];
+				expect(child).notTo.beNil();
+								
+				child.childID = @(i);
+				[parent1 addUnorderedChildrenObject:child];
+				[parent2 addOrderedChildrenObject:child];
+			}
+						
+			__block NSError *error = nil;
+			expect([context save:&error]).to.beTruthy();
+			expect(error).to.beNil();
+		});
+		
+		it(@"should initialize an array of MTLParentTestModels with children", ^{
+			NSError *error = nil;
+			NSArray *parentModels = [MTLManagedObjectAdapter modelsOfClass:MTLParentTestModel.class fromManagedObjects:@[ parent1, parent2 ] error:&error];
+			expect(parentModels).to.beKindOf(NSArray.class);
+			expect(parentModels).to.haveCountOf(2);
+			expect(error).to.beNil();
+			
+			MTLParentTestModel *parentModel1 = parentModels[0];
+			MTLParentTestModel *parentModel2 = parentModels[1];
+			
+			expect(parentModel1).to.beKindOf(MTLParentTestModel.class);
+			expect(parentModel1.requiredString).to.equal(@"foo");
+			
+			expect(parentModel2).to.beKindOf(MTLParentTestModel.class);
+			expect(parentModel2.requiredString).to.equal(@"bar");
+									
+			for (MTLChildTestModel *child in parentModel1.unorderedChildren) {
+				expect(child).to.beKindOf(MTLChildTestModel.class);
+				
+				expect(child.childID).to.beGreaterThanOrEqualTo(0);
+				expect(child.childID).to.beLessThan(3);
+				
+				expect(child.parent1).to.beIdenticalTo(parentModel1);
+				expect(child.parent2).to.beIdenticalTo(parentModel2);
+			}
+			
+			for (NSUInteger i = 0; i < 3; i++) {
+				MTLChildTestModel *child = parentModel2.orderedChildren[i];
+				expect(child).to.beKindOf(MTLChildTestModel.class);
+				
+				expect(child.childID).to.equal(i);
+				expect(child.parent1).to.beIdenticalTo(parentModel1);
+				expect(child.parent2).to.beIdenticalTo(parentModel2);
+			}
+			
+			expect(parentModel1.unorderedChildren).to.equal([NSSet setWithArray:parentModel2.orderedChildren]);
+		});
+	});
 
 	describe(@"+managedObjectFromModel:insertingIntoContext:error:", ^{
 		__block MTLParentTestModel *parentModel;
@@ -326,6 +392,107 @@ describe(@"with a confined context", ^{
 			expect(updatedParentOne).notTo.beNil();
 			expect(updatedParentOne.string).notTo.equal(initialValueOfRequiredString);
 			expect(updatedParentOne.string).to.equal(@"merged");
+		});
+	});
+	
+	describe(@"+managedObjectsFromModels:insertingIntoContext:error:", ^{
+		__block MTLParentTestModel *parentModel1;
+		__block MTLParentTestModel *parentModel2;
+
+		beforeEach(^{
+			parentModel1 = [MTLParentTestModel modelWithDictionary:@{
+				@"requiredString": @"foo"
+			} error:NULL];
+			expect(parentModel1).notTo.beNil();
+			
+			parentModel2 = [MTLParentTestModel modelWithDictionary:@{
+				@"requiredString": @"bar"
+			} error:NULL];
+			expect(parentModel2).notTo.beNil();
+
+			NSMutableArray *orderedChildren = [NSMutableArray array];
+			NSMutableSet *unorderedChildren = [NSMutableSet set];
+
+			for (NSUInteger i = 0; i < 3; i++) {
+				MTLChildTestModel *child = [MTLChildTestModel modelWithDictionary:@{
+					@"childID": @(i),
+					@"parent1": parentModel1,
+					@"parent2": parentModel2
+				} error:NULL];
+				expect(child).notTo.beNil();
+
+				[unorderedChildren addObject:child];
+				[orderedChildren addObject:child];
+			}
+
+			parentModel1.unorderedChildren = unorderedChildren;
+			parentModel2.orderedChildren = orderedChildren;
+		});
+		
+		it(@"should insert an array of managed objects with children", ^{
+			__block NSError *error = nil;
+			NSArray *parents = [MTLManagedObjectAdapter managedObjectsFromModels:@[ parentModel1, parentModel2 ] insertingIntoContext:context error:&error];
+			expect(parents).notTo.beNil();
+			expect(parents).to.beKindOf(NSArray.class);
+			expect(parents).to.haveCountOf(2);
+			expect(error).to.beNil();
+			
+			MTLParent *parent1 = parents[0];
+			MTLParent *parent2 = parents[1];
+									
+			expect(parent1).to.beKindOf(MTLParent.class);
+			expect(parent1.entity).to.equal(parentEntity);
+			expect(context.insertedObjects).to.contain(parent1);
+			
+			expect(parent2).to.beKindOf(MTLParent.class);
+			expect(parent2.entity).to.equal(parentEntity);
+			expect(context.insertedObjects).to.contain(parent2);
+			
+			expect(parent1.string).to.equal(@"foo");
+			expect(parent2.string).to.equal(@"bar");
+			
+			expect(parent1.unorderedChildren).to.haveCountOf(3);
+			expect(parent2.orderedChildren).to.haveCountOf(3);
+			
+			for (MTLChild *child in parent1.unorderedChildren) {
+				expect(child).to.beKindOf(MTLChild.class);
+				
+				expect(child.entity).to.equal(childEntity);
+				expect(context.insertedObjects).to.contain(child);
+				
+				expect(child.childID).to.beGreaterThanOrEqualTo(0);
+				expect(child.childID).to.beLessThan(3);
+				
+				expect(child.parent1).to.equal(parent1);
+				expect(child.parent2).to.equal(parent2);
+			}
+			
+			for (NSUInteger i = 0; i < 3; i++) {
+				MTLChild *child = parent2.orderedChildren[i];
+				expect(child).to.beKindOf(MTLChild.class);
+				
+				expect(child.entity).to.equal(childEntity);
+				expect(context.insertedObjects).to.contain(child);
+				
+				expect(child.childID).to.equal(i);
+				expect(child.parent1).to.equal(parent1);
+				expect(child.parent2).to.equal(parent2);
+			}
+			
+			expect(parent1.unorderedChildren).to.equal([parent2.orderedChildren set]);
+			
+			expect([context save:&error]).to.beTruthy();
+			expect(error).to.beNil();
+		});
+		
+		it(@"should return nil and an error if it fails for any object from an array", ^{
+			MTLParentIncorrectTestModel *model = [MTLParentIncorrectTestModel modelWithDictionary:@{} error:NULL];
+			expect(model).notTo.beNil();
+			
+			NSError *error = nil;
+			NSArray *managedObjects = [MTLManagedObjectAdapter managedObjectsFromModels:@[ parentModel1, parentModel2, model ] insertingIntoContext:context error:&error];
+			expect(managedObjects).to.beNil();
+			expect(error).notTo.beNil();
 		});
 	});
 });
