@@ -401,11 +401,13 @@ describe(@"with a confined context", ^{
 
 		beforeEach(^{
 			parentModel1 = [MTLParentTestModel modelWithDictionary:@{
+				@"numberString": @"11",
 				@"requiredString": @"foo"
 			} error:NULL];
 			expect(parentModel1).notTo.beNil();
 			
 			parentModel2 = [MTLParentTestModel modelWithDictionary:@{
+				@"numberString": @"22",
 				@"requiredString": @"bar"
 			} error:NULL];
 			expect(parentModel2).notTo.beNil();
