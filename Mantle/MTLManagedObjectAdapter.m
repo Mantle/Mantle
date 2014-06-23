@@ -836,6 +836,8 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 				currentTokenIndex++;
 			}
 		} while (comparisonResult == NSOrderedDescending && currentTokenIndex < uniquingTokens.count);
+		
+		if (currentTokenIndex >= uniquingTokens.count) break;
 	}
 
 	return YES;
