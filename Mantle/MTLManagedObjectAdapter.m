@@ -189,7 +189,7 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 				});
 
 				if (models == nil) return NO;
-				models = ([relationshipDescription isOrdered] ? [NSOrderedSet orderedSetWithArray:models] : [NSSet setWithArray:models]);
+				if (![relationshipDescription isOrdered]) models = [NSSet setWithArray:models];
 
 				return setValueForKey(propertyKey, models);
 			} else {
