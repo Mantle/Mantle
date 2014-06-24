@@ -117,6 +117,18 @@ describe(@"with a confined context", ^{
 				expect(child.parent2).to.beNil();
 			}
 		});
+
+		it(@"should convert an NSSet containing unordered children to an array", ^{
+			NSError *error;
+			MTLParentTestModel *parentModel = [MTLManagedObjectAdapter modelOfClass:MTLParentTestModel.class fromManagedObject:parent error:&error];
+			expect(parentModel.orderedChildren).to.beKindOf([NSArray class]);
+		});
+
+		it(@"should convert an NSOrderedSet containing ordered children to an array", ^{
+			NSError *error;
+			MTLParentTestModel *parentModel = [MTLManagedObjectAdapter modelOfClass:MTLParentTestModel.class fromManagedObject:parent error:&error];
+			expect(parentModel.unorderedChildren).to.beKindOf([NSArray class]);
+		});
 	});
 
 	describe(@"+managedObjectFromModel:insertingIntoContext:error:", ^{
@@ -131,7 +143,7 @@ describe(@"with a confined context", ^{
 			expect(parentModel).notTo.beNil();
 
 			NSMutableArray *orderedChildren = [NSMutableArray array];
-			NSMutableSet *unorderedChildren = [NSMutableSet set];
+			NSMutableArray *unorderedChildren = [NSMutableArray array];
 
 			for (NSUInteger i = 0; i < 3; i++) {
 				MTLChildTestModel *child = [MTLChildTestModel modelWithDictionary:@{
@@ -279,7 +291,7 @@ describe(@"with a confined context", ^{
 			MTLParentTestModel *parentModelCopy = [parentModel copy];
 			[[parentModelCopy mutableOrderedSetValueForKey:@"orderedChildren"] removeObjectAtIndex:1];
 
-			MTLChildTestModel *childToDeleteModel = [parentModelCopy.unorderedChildren anyObject];
+			MTLChildTestModel *childToDeleteModel = [parentModelCopy.unorderedChildren firstObject];
 			[[parentModelCopy mutableSetValueForKey:@"unorderedChildren"] removeObject:childToDeleteModel];
 
 			MTLParent *parentTwo = [MTLManagedObjectAdapter managedObjectFromModel:parentModelCopy insertingIntoContext:context error:&error];

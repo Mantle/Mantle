@@ -19,7 +19,7 @@
 @property (nonatomic, copy) NSString *requiredString;
 
 @property (nonatomic, copy) NSArray *orderedChildren;
-@property (nonatomic, copy) NSSet *unorderedChildren;
+@property (nonatomic, copy) NSArray *unorderedChildren;
 
 @end
 

@@ -174,7 +174,7 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 			}
 
 			if ([relationshipDescription isToMany]) {
-				id models = performInContext(context, ^ id {
+				NSArray *models = performInContext(context, ^ id {
 					id relationshipCollection = [managedObject valueForKey:managedObjectKey];
 					NSMutableArray *models = [NSMutableArray arrayWithCapacity:[relationshipCollection count]];
 
@@ -185,11 +185,10 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 						[models addObject:model];
 					}
 
-					return models;
+					return [models copy];
 				});
 
 				if (models == nil) return NO;
-				if (![relationshipDescription isOrdered]) models = [NSSet setWithArray:models];
 
 				return setValueForKey(propertyKey, models);
 			} else {
