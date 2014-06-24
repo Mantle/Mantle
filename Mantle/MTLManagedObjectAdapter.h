@@ -212,4 +212,18 @@ extern const NSInteger MTLManagedObjectAdapterErrorInvalidManagedObjectMapping;
 //           serialization or insertion.
 + (id)managedObjectFromModel:(MTLModel<MTLManagedObjectSerializing> *)model insertingIntoContext:(NSManagedObjectContext *)context error:(NSError **)error;
 
+// Attempts to retrieve an existing NSManagedObject for a given MTLModel object.
+//
+// By default, this method performs a fetch request with a predicate based on
+// model's `+propertyKeysForManagedObjectUniquing`.
+//
+// Subclasses may override this method to customize the adapter's behavior,
+// e.g. to provide some kind of caching.
+// You should not call this method directly.
+//
+// model   - The model object being serialized.
+// context - The context the returned managed object should belong to.
+// error   - If not NULL, this may be set to an error that occurs during fetch.
+- (id)fetchExistingManagedObjectForModel:(MTLModel<MTLManagedObjectSerializing> *)model inContext:(NSManagedObjectContext *)context error:(NSError **)error;
+
 @end
