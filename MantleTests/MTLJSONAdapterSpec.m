@@ -32,6 +32,31 @@ it(@"should initialize from JSON", ^{
 		@"nested": @{ @"name": NSNull.null },
 	};
 
+ 	expect(adapter.JSONDictionary).to.equal(JSONDictionary);
+});
+
+it(@"should initialize from JSON with keys containing periods", ^{
+	NSDictionary *values = @{
+							 @"com.namespace.username": @"foo",
+							 @"com.namespace.count": @"5",
+							 };
+	
+	NSError *error = nil;
+	MTLJSONAdapter *adapter = [[MTLJSONAdapter alloc] initWithJSONDictionary:values modelClass:MTLNamespaceTestModel.class error:&error];
+	expect(adapter).notTo.beNil();
+	expect(error).to.beNil();
+	
+	MTLTestModel *model = (id)adapter.model;
+	expect(model).notTo.beNil();
+	expect(model.name).to.equal(@"foo");
+	expect(model.count).to.equal(5);
+	
+	NSDictionary *JSONDictionary = @{
+									 @"com.namespace.username": @"foo",
+									 @"com.namespace.count": @"5",
+									 @"nested": @{ @"name": NSNull.null },
+									 };
+	
 	expect(adapter.JSONDictionary).to.equal(JSONDictionary);
 });
 
