@@ -221,6 +221,7 @@ static NSUInteger modelVersion = 1;
 + (NSDictionary *)JSONKeyPathsNamespacesByPropertyKey {
 	return @{
 			 @"name": @"com.namespace.",
+			 @"nestedName":@"com.namespace.",
 			 @"count": @"com.namespace."
 			 };
 }

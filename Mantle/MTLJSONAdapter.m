@@ -168,14 +168,18 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 		if (JSONKeyPath == nil) continue;
 		
 		NSString *JSONKeyPathNamespace = [self JSONKeyPathNamespaceForPropertyKey:propertyKey];
+		NSArray *JSONKeyPathComponents = [JSONKeyPath componentsSeparatedByString:@"."];
 		
 		if (JSONKeyPathNamespace) {
-			JSONKeyPath = [NSString stringWithFormat:@"%@%@",JSONKeyPathNamespace,JSONKeyPath];
+			JSONKeyPath = [NSString stringWithFormat:@"%@%@",JSONKeyPathNamespace,JSONKeyPathComponents.firstObject];
 		}
 
 		id value;
 		@try {
 			value = [JSONDictionary valueForKeyPath:JSONKeyPath];
+			if (JSONKeyPathNamespace && JSONKeyPathComponents.count > 1) {
+				value = value[JSONKeyPathComponents[1]];
+			}
 		} @catch (NSException *ex) {
 			if (error != NULL) {
 				NSDictionary *userInfo = @{
@@ -269,7 +273,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 		id obj = JSONDictionary;
 		for (NSString *component in keyPathComponents) {
 			NSString *consumedComponent = component;
-			if (namespaceString) {
+			if (namespaceString && [component isEqualToString:keyPathComponents.firstObject]) {
 				consumedComponent = [NSString stringWithFormat:@"%@%@",namespaceString,consumedComponent];
 			}
 			if ([obj valueForKey:consumedComponent] == nil) {
@@ -281,8 +285,17 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 			obj = [obj valueForKey:consumedComponent];
 		}
 		if (namespaceString) {
-			NSString *JSONKey = [NSString stringWithFormat:@"%@%@",namespaceString,JSONKeyPath];
-			JSONDictionary[JSONKey] = value;
+			NSString *keyPathSuffix = JSONKeyPath;
+			if (keyPathComponents.count > 1) {
+				keyPathSuffix = keyPathComponents.firstObject;
+			}
+			NSString *JSONKey = [NSString stringWithFormat:@"%@%@",namespaceString,keyPathSuffix];
+			if (keyPathComponents.count == 1) {
+				JSONDictionary[JSONKey] = value;
+			} else {
+				JSONDictionary[JSONKey][keyPathComponents[1]] = value;
+			}
+			
 		} else {
 			[JSONDictionary setValue:value forKeyPath:JSONKeyPath];
 		}

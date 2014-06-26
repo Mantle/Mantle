@@ -35,10 +35,11 @@ it(@"should initialize from JSON", ^{
  	expect(adapter.JSONDictionary).to.equal(JSONDictionary);
 });
 
-it(@"should initialize from JSON with keys containing periods", ^{
+it(@"should initialize nested key paths from JSON with keys containing periods", ^{
 	NSDictionary *values = @{
 							 @"com.namespace.username": @"foo",
 							 @"com.namespace.count": @"5",
+							 @"com.namespace.nested": @{@"name": @"bar"}
 							 };
 	
 	NSError *error = nil;
@@ -50,11 +51,12 @@ it(@"should initialize from JSON with keys containing periods", ^{
 	expect(model).notTo.beNil();
 	expect(model.name).to.equal(@"foo");
 	expect(model.count).to.equal(5);
+	expect(model.nestedName).to.equal(@"bar");
 	
 	NSDictionary *JSONDictionary = @{
 									 @"com.namespace.username": @"foo",
 									 @"com.namespace.count": @"5",
-									 @"nested": @{ @"name": NSNull.null },
+									 @"com.namespace.nested": @{ @"name": @"bar" },
 									 };
 	
 	expect(adapter.JSONDictionary).to.equal(JSONDictionary);
