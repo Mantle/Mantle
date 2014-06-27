@@ -28,6 +28,7 @@
 @property (readwrite, nonatomic, strong) NSDate *date;
 @property (readwrite, nonatomic, strong) NSNumber* number;
 @property (readwrite, nonatomic, copy) NSString *string;
+@property (readwrite, nonatomic, copy) NSString *url;
 
 @property (readwrite, nonatomic, copy) NSOrderedSet *orderedChildren;
 @property (readwrite, nonatomic, copy) NSSet *unorderedChildren;

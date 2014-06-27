@@ -7,6 +7,8 @@
 //
 
 #import "MTLTestManagedObjectModel.h"
+#import "MTLTestModel.h"
+#import "MTLTestJSONAdapter.h"
 
 SpecBegin(MTLJSONAdapterManagedObject)
 
@@ -28,113 +30,74 @@ beforeEach(^{
 	context.persistentStoreCoordinator = persistentStoreCoordinator;
 });
 
-it(@"should initialize from a model and JSON on update", ^{
+it(@"should update nested key paths from JSON", ^{
 	NSDictionary *values = @{
-							 @"username": NSNull.null,
-							 @"count": @"5",
+							 @"username": @"foo",
+							 @"nested": @{ @"name": @"bar" },
+							 @"count": @"0"
 							 };
 	MTLTestManagedObjectModel *model = [MTLTestManagedObjectModel insertInManagedObjectContext:context];
-	NSError *updateError = nil;
-	BOOL update = [model updateWithDictionary:@{
-												@"name": @"foobar",
-												@"count": @5,
-												} error:&updateError];
-	expect(update).notTo.beFalsy();
-	expect(updateError).to.beNil();
+	expect(model).notTo.beNil();
 	
 	NSError *error = nil;
-	MTLJSONAdapter *adapter = [[MTLJSONAdapter alloc] initWithJSONDictionary:values model:model error:&error];
-	expect(adapter).notTo.beNil();
+	BOOL updated = [MTLJSONAdapter updateModel:model fromJSONDictionary:values error:&error];
+	expect(updated).notTo.beFalsy();
 	expect(error).to.beNil();
 	
-	expect(model.name).to.beNil();
-	expect(model.count).to.equal(5);
-	
-	NSDictionary *JSONDictionary = @{
-									 @"username": NSNull.null,
-									 @"count": @"5",
-									 @"nested": @{ @"name": NSNull.null },
-									 };
-	
-	expect(adapter.JSONDictionary).to.equal(JSONDictionary);
-});
-
-it(@"should initialize from a model", ^{
-	MTLTestManagedObjectModel *model = [MTLTestManagedObjectModel insertInManagedObjectContext:context];
-	NSError *updateError = nil;
-	BOOL update = [model updateWithDictionary:@{
-												@"name": @"foobar",
-												@"count": @5,
-												} error:&updateError];
-	expect(update).notTo.beFalsy();
-	expect(updateError).to.beNil();
-
-	MTLJSONAdapter *adapter = [[MTLJSONAdapter alloc] initWithModel:model];
-	expect(adapter).notTo.beNil();
-	expect(adapter.model).to.beIdenticalTo(model);
-
-	NSDictionary *JSONDictionary = @{
-		@"username": @"foobar",
-		@"count": @"5",
-		@"nested": @{ @"name": NSNull.null },
-	};
-
-	expect(adapter.JSONDictionary).to.equal(JSONDictionary);
-});
-
-it(@"should initialize nested key paths from JSON", ^{
-	NSDictionary *values = @{
-		@"username": @"foo",
-		@"nested": @{ @"name": @"bar" },
-		@"count": @"0"
-	};
-	
-	MTLTestManagedObjectModel *model = [MTLTestManagedObjectModel insertInManagedObjectContext:context];
-
-	NSError *error = nil;
-	MTLJSONAdapter *adapter = [[MTLJSONAdapter alloc] initWithJSONDictionary:values model:model error:&error];
-	expect(adapter).notTo.beNil();
-	expect(error).to.beNil();
-
 	expect(model.name).to.equal(@"foo");
 	expect(model.count).to.equal(0);
 	expect(model.nestedName).to.equal(@"bar");
-
-	expect([MTLJSONAdapter JSONDictionaryFromModel:model]).to.equal(values);
+	
+	__block NSError *serializationError;
+	expect([MTLJSONAdapter JSONDictionaryFromModel:model error:&serializationError]).to.equal(values);
+	expect(serializationError).to.beNil();
 });
 
-it(@"should return NO and error with an invalid key path from JSON on update",^{
+it(@"it should update properties with multiple key paths from JSON", ^{
 	NSDictionary *values = @{
-		@"username": @"foo",
-		@"nested": @"bar",
-		@"count": @"0"
-	};
-
-	MTLTestManagedObjectModel *model = [MTLTestManagedObjectModel insertInManagedObjectContext:context];
+							 @"location": @20,
+							 @"length": @12,
+							 @"nested": @{
+									 @"location": @12,
+									 @"length": @34
+									 }
+							 };
+	MTLMultiKeypathManagedObjectModel *model = [MTLMultiKeypathManagedObjectModel insertInManagedObjectContext:context];
 	
 	NSError *error = nil;
-	MTLJSONAdapter *adapter = [[MTLJSONAdapter alloc] initWithJSONDictionary:values model:model error:&error];
-	expect(adapter).to.beNil();
+	BOOL updated = [MTLJSONAdapter updateModel:model fromJSONDictionary:values error:&error];
+	expect(updated).notTo.beFalsy();
+	expect(error).to.beNil();
+	
+	expect(model.range.location).to.equal(20);
+	expect(model.range.length).to.equal(12);
+	
+	expect(model.nestedRange.location).to.equal(12);
+	expect(model.nestedRange.length).to.equal(34);
+	
+	__block NSError *serializationError;
+	expect([MTLJSONAdapter JSONDictionaryFromModel:model error:&serializationError]).to.equal(values);
+	expect(serializationError).to.beNil();
+});
+
+it(@"should return NO and error with an invalid key path from JSON",^{
+	NSDictionary *values = @{
+							 @"username": @"foo",
+							 @"nested": @"bar",
+							 @"count": @"0"
+							 };
+	MTLTestManagedObjectModel *model = [MTLTestManagedObjectModel insertInManagedObjectContext:context];
+	expect(model).notTo.beNil();
+	
+	NSError *error = nil;
+	BOOL updated = [MTLJSONAdapter updateModel:model fromJSONDictionary:values error:&error];
+	expect(updated).to.beFalsy();
 	expect(error).notTo.beNil();
 	expect(error.domain).to.equal(MTLJSONAdapterErrorDomain);
 	expect(error.code).to.equal(MTLJSONAdapterErrorInvalidJSONDictionary);
 });
 
-it(@"should return NO and error with an illegal JSON mapping on update", ^{
-	NSDictionary *values = @{
-							 @"username": @"foo"
-							 };
-	MTLIllegalJSONMappingManagedObjectModel *model = [MTLIllegalJSONMappingManagedObjectModel insertInManagedObjectContext:context];
-	
-	NSError *error = nil;
-	BOOL updated = [MTLJSONAdapter updateModel:model fromJSONDictionary:values error:&error];
-	expect(updated).beFalsy();
-	expect(error).notTo.beNil();
-	expect(error.domain).to.equal(MTLJSONAdapterErrorDomain);
-	expect(error.code).to.equal(MTLJSONAdapterErrorInvalidJSONMapping);
-});
-
-it(@"should support key paths across arrays on update", ^{
+it(@"should not support key paths across arrays", ^{
 	NSDictionary *values = @{
 							 @"users": @[
 									 @{
@@ -149,22 +112,15 @@ it(@"should support key paths across arrays on update", ^{
 									 ]
 							 };
 	MTLArrayTestManagedObjectModel *model = [MTLArrayTestManagedObjectModel insertInManagedObjectContext:context];
-	NSError *updateError = nil;
-	BOOL update = [model updateWithDictionary:@{
-												@"names": @[
-														@"foobar"
-														]
-												} error:&updateError];
-	expect(update).notTo.beFalsy();
-	expect(updateError).to.beNil();
+	expect(model).notTo.beNil();
 	
 	NSError *error = nil;
 	BOOL updated = [MTLJSONAdapter updateModel:model fromJSONDictionary:values error:&error];
-	expect(updated).notTo.beFalsy();
-	expect(model).notTo.beNil();
-	expect(error).to.beNil();
+	expect(updated).to.beFalsy();
+	expect(error).notTo.beNil();
 	
-	expect(model.names).to.equal((@[ @"foo", @"bar", @"baz" ]));
+	expect(error.domain).to.equal(MTLJSONAdapterErrorDomain);
+	expect(error.code).to.equal(MTLJSONAdapterErrorInvalidJSONDictionary);
 });
 
 it(@"should update without returning any error when using a JSON dictionary which Null.null as value",^{
@@ -174,64 +130,19 @@ it(@"should update without returning any error when using a JSON dictionary whic
 							 @"count": @"0"
 							 };
 	MTLTestManagedObjectModel *model = [MTLTestManagedObjectModel insertInManagedObjectContext:context];
-	NSError *updateError = nil;
-	BOOL update = [model updateWithDictionary:@{
-												@"name": @"foobar",
-												@"count": @5,
-												}  error:&updateError];
-	expect(update).notTo.beFalsy();
-	expect(updateError).to.beNil();
+	expect(model).notTo.beNil();
 	
 	NSError *error = nil;
 	BOOL updated = [MTLJSONAdapter updateModel:model fromJSONDictionary:values error:&error];
 	expect(updated).notTo.beFalsy();
+	expect(error).to.beNil();
+	
 	expect(model.name).to.equal(@"foo");
 	expect(model.count).to.equal(0);
 	expect(model.nestedName).to.beNil();
 });
 
-it(@"should return NO and an error with a nil JSON dictionary on update", ^{
-	MTLTestManagedObjectModel *model = [MTLTestManagedObjectModel insertInManagedObjectContext:context];
-	NSError *updateError = nil;
-	BOOL update = [model updateWithDictionary:@{
-												@"name": @"foobar",
-												@"count": @5,
-												}  error:&updateError];
-	expect(update).notTo.beFalsy();
-	expect(updateError).to.beNil();
-	
-	NSError *error = nil;
-	BOOL updated = [MTLJSONAdapter updateModel:model fromJSONDictionary:nil error:&error];
-	expect(updated).beFalsy();
-	expect(model.name).to.equal(@"foobar");
-	expect(model.count).to.equal(5);
-	expect(error).notTo.beNil();
-	expect(error.domain).to.equal(MTLJSONAdapterErrorDomain);
-	expect(error.code).to.equal(MTLJSONAdapterErrorInvalidJSONDictionary);
-});
-
-it(@"should return NO and an error with a wrong data type as dictionary on update", ^{
-	id wrongDictionary = @"";
-	MTLTestManagedObjectModel *model = [MTLTestManagedObjectModel insertInManagedObjectContext:context];
-	NSError *updateError = nil;
-	BOOL update = [model updateWithDictionary:@{
-												@"name": @"foobar",
-												@"count": @5,
-												}  error:&updateError];
-	expect(update).notTo.beFalsy();
-	expect(updateError).to.beNil();
-	
-	NSError *error = nil;
-	BOOL updated = [MTLJSONAdapter updateModel:model fromJSONDictionary:wrongDictionary error:&error];
-	expect(updated).beFalsy();
-	expect(model.name).to.equal(@"foobar");
-	expect(model.count).to.equal(5);
-	expect(error).notTo.beNil();
-	expect(error.domain).to.equal(MTLJSONAdapterErrorDomain);
-	expect(error.code).to.equal(MTLJSONAdapterErrorInvalidJSONDictionary);
-});
-
-it(@"should ignore unrecognized JSON keys on update", ^{
+it(@"should ignore unrecognized JSON keys", ^{
 	NSDictionary *values = @{
 							 @"foobar": @"foo",
 							 @"count": @"2",
@@ -240,17 +151,13 @@ it(@"should ignore unrecognized JSON keys on update", ^{
 							 @"nested": @{ @"name": @"bar", @"stuffToIgnore": @5, @"moreNonsense": NSNull.null },
 							 };
 	MTLTestManagedObjectModel *model = [MTLTestManagedObjectModel insertInManagedObjectContext:context];
-	NSError *updateError = nil;
-	BOOL update = [model updateWithDictionary:@{
-												@"name": @"foobar",
-												@"count": @5,
-												}  error:&updateError];
-	expect(update).notTo.beFalsy();
-	expect(updateError).to.beNil();
+	expect(model).notTo.beNil();
 	
 	NSError *error = nil;
 	BOOL updated = [MTLJSONAdapter updateModel:model fromJSONDictionary:values error:&error];
 	expect(updated).notTo.beFalsy();
+	expect(error).to.beNil();
+	
 	expect(model.name).to.equal(@"buzz");
 	expect(model.count).to.equal(2);
 	expect(model.nestedName).to.equal(@"bar");
@@ -261,33 +168,155 @@ it(@"should fail to update if JSON dictionary validation fails", ^{
 							 @"username": @"this is too long a name",
 							 };
 	MTLTestManagedObjectModel *model = [MTLTestManagedObjectModel insertInManagedObjectContext:context];
-	NSError *updateError = nil;
-	BOOL update = [model updateWithDictionary:@{
-												@"name": @"foobar",
-												@"count": @5,
-												}  error:&updateError];
-	expect(update).notTo.beFalsy();
-	expect(updateError).to.beNil();
+	expect(model).notTo.beNil();
 	
 	NSError *error = nil;
 	BOOL updated = [MTLJSONAdapter updateModel:model fromJSONDictionary:values error:&error];
-	expect(updated).beFalsy();
-	expect(model.name).to.equal(@"foobar");
-	expect(model.count).to.equal(5);
+	expect(updated).to.beFalsy();
 	expect(error).notTo.beNil();
 	expect(error.domain).to.equal(MTLTestManagedObjectModelErrorDomain);
 	expect(error.code).to.equal(MTLTestManagedObjectModelNameTooLong);
 });
 
-it(@"should return an error when suitable model class is found on update", ^{
+it(@"should implicitly transform URLs", ^{
+	MTLURLManagedObjectModel *model = [MTLURLManagedObjectModel insertInManagedObjectContext:context];
+	model.URL=[NSURL URLWithString:@"http://github.com"];
+	expect(model).notTo.beNil();
+	
+	NSError *error = nil;
+	NSDictionary *JSONDictionary = [MTLJSONAdapter JSONDictionaryFromModel:model error:&error];
+	
+	expect(JSONDictionary[@"URL"]).to.equal(@"http://github.com");
+	expect(error).to.beNil();
+});
+
+it(@"should implicitly transform BOOLs", ^{
+	MTLBoolManagedObjectModel *model = [MTLBoolManagedObjectModel insertInManagedObjectContext:context];
+	expect(model).notTo.beNil();
+	
+	NSError *error = nil;
+	NSDictionary *JSONDictionary = [MTLJSONAdapter JSONDictionaryFromModel:model error:&error];
+	
+	expect(JSONDictionary[@"flag"]).to.beIdenticalTo((id)kCFBooleanFalse);
+	expect(error).to.beNil();
+});
+
+it(@"should not invoke implicit transformers for property keys not actually backed by properties", ^{
+	MTLNonPropertyManagedObjectModel *model = [MTLNonPropertyManagedObjectModel insertInManagedObjectContext:context];
+	expect(model).notTo.beNil();
+	
+	NSError *error = nil;
+	NSDictionary *JSONDictionary = [MTLJSONAdapter JSONDictionaryFromModel:model error:&error];
+	
+	expect(error).to.beNil();
+	expect(JSONDictionary[@"homepage"]).to.equal(model.homepage);
+});
+
+it(@"should fail to update if JSON transformer fails", ^{
+	NSDictionary *values = @{
+							 @"URL": @666,
+							 };
+	MTLURLManagedObjectModel *model = [MTLURLManagedObjectModel insertInManagedObjectContext:context];
+	expect(model).notTo.beNil();
+	
+	NSError *error = nil;
+	BOOL updated = [MTLJSONAdapter updateModel:model fromJSONDictionary:values error:&error];
+	expect(updated).to.beFalsy();
+	expect(error).notTo.beNil();
+	expect(error.domain).to.equal(MTLTransformerErrorHandlingErrorDomain);
+	expect(error.code).to.equal(MTLTransformerErrorHandlingErrorInvalidInput);
+	expect(error.userInfo[MTLTransformerErrorHandlingInputValueErrorKey]).to.equal(@666);
+});
+
+it(@"should fail to deserialize if the JSON types don't match the properties", ^{
+	NSDictionary *values = @{
+							 @"flag": @"Potentially"
+							 };
+	MTLBoolManagedObjectModel *model = [MTLBoolManagedObjectModel insertInManagedObjectContext:context];
+	expect(model).notTo.beNil();
+	
+	NSError *error = nil;
+	BOOL updated = [MTLJSONAdapter updateModel:model fromJSONDictionary:values error:&error];
+	expect(updated).to.beFalsy();
+	expect(error).notTo.beNil();
+	expect(error.domain).to.equal(MTLTransformerErrorHandlingErrorDomain);
+	expect(error.code).to.equal(MTLTransformerErrorHandlingErrorInvalidInput);
+	expect(error.userInfo[MTLTransformerErrorHandlingInputValueErrorKey]).to.equal(@"Potentially");
+});
+
+it(@"should allow subclasses to filter serialized property keys", ^{
+	NSDictionary *values = @{
+							 @"username": @"foo",
+							 @"count": @"5",
+							 @"nested": @{ @"name": NSNull.null }
+							 };
+	MTLTestManagedObjectModel *model = [MTLTestManagedObjectModel insertInManagedObjectContext:context];
+	expect(model).notTo.beNil();
+	
+	MTLTestJSONAdapter *adapter = [[MTLTestJSONAdapter alloc] initWithModelClass:MTLTestManagedObjectModel.class];
+	
+	NSError *error = nil;
+	BOOL updated = [MTLTestJSONAdapter updateModel:model fromJSONDictionary:values error:&error];
+	expect(updated).notTo.beFalsy();
+	expect(error).to.beNil();
+	
+	NSDictionary *complete = [adapter JSONDictionaryFromModel:model error:&error];
+	
+	expect(complete).to.equal(values);
+	expect(error).to.beNil();
+	
+	adapter.ignoredPropertyKeys = [NSSet setWithObjects:@"count", @"nestedName", nil];
+	
+	NSDictionary *partial = [adapter JSONDictionaryFromModel:model error:&error];
+	
+	expect(partial).to.equal(@{ @"username": @"foo" });
+	expect(error).to.beNil();
+});
+
+it(@"should accept any object for id properties", ^{
+	NSDictionary *values = @{
+							 @"anyObject": @"Not an NSValue"
+							 };
+	MTLIDManagedObjectModel *model = [MTLIDManagedObjectModel insertInManagedObjectContext:context];
+	expect(model).notTo.beNil();
+	
+	NSError *error = nil;
+	BOOL updated = [MTLJSONAdapter updateModel:model fromJSONDictionary:values error:&error];
+	expect(updated).notTo.beFalsy();
+	expect(error).to.beNil();
+	expect(model.anyObject).to.equal(@"Not an NSValue");
+	
+	expect(error.domain).to.beNil();
+});
+
+it(@"should return an error when suitable model class is found", ^{
+	NSDictionary *values = @{
+							 @"username": @"foo",
+							 @"nested": @{ @"name": @"bar" },
+							 @"count": @"0"
+							 };
 	MTLSubstitutingTestManagedObjectModel *model = [MTLSubstitutingTestManagedObjectModel insertInManagedObjectContext:context];
+	expect(model).notTo.beNil();
+	
+	NSError *error = nil;
+	BOOL updated = [MTLJSONAdapter updateModel:model fromJSONDictionary:values error:&error];
+	expect(updated).to.beFalsy();
+	expect(error).notTo.beNil();
+	
+	expect(error.domain).to.equal(MTLJSONAdapterErrorDomain);
+	expect(error.code).to.equal(MTLJSONAdapterErrorClassFoundOnUpdate);
+});
+
+it(@"should validate models", ^{
+	MTLValidationManagedObjectModel *model = [MTLValidationManagedObjectModel insertInManagedObjectContext:context];
+	expect(model).notTo.beNil();
 	
 	NSError *error = nil;
 	BOOL updated = [MTLJSONAdapter updateModel:model fromJSONDictionary:@{} error:&error];
-	expect(updated).beFalsy();
+	expect(updated).to.beFalsy();
 	expect(error).notTo.beNil();
-	expect(error.domain).to.equal(MTLJSONAdapterErrorDomain);
-	expect(error.code).to.equal(MTLJSONAdapterErrorClassFoundOnUpdate);
+	expect(error.domain).to.equal(MTLTestManagedObjectModelErrorDomain);
+	expect(error.code).to.equal(MTLTestManagedObjectModelNameMissing);
 });
 
 it(@"Deserializing multiple models", ^{
@@ -299,21 +328,9 @@ it(@"Deserializing multiple models", ^{
 							 @"username": @"bar"
 							 };
 	MTLTestManagedObjectModel *model1 = [MTLTestManagedObjectModel insertInManagedObjectContext:context];
-	NSError *updateError1 = nil;
-	BOOL update1 = [model1 updateWithDictionary:@{
-												@"name": @"foobar"
-												}  error:&updateError1];
-	expect(update1).notTo.beFalsy();
-	expect(updateError1).to.beNil();
-	
+	expect(model1).notTo.beNil();
 	MTLTestManagedObjectModel *model2 = [MTLTestManagedObjectModel insertInManagedObjectContext:context];
-	NSError *updateError2 = nil;
-	BOOL update2 = [model2 updateWithDictionary:@{
-												@"name": @"foobar"
-												}  error:&updateError2];
-	expect(update2).notTo.beFalsy();
-	expect(updateError2).to.beNil();
-	
+	expect(model2).notTo.beNil();
 	
 	NSArray *JSONModels = @[ value1, value2 ];
 	NSArray *models = @[ model1, model2 ];
@@ -327,6 +344,22 @@ it(@"Deserializing multiple models", ^{
 		expect([models[0] name]).to.equal(@"foo");
 		expect([models[1] name]).to.equal(@"bar");
 	});
+	
+	it(@"should not be affected by a NULL error parameter", ^{
+		NSError *error = nil;
+		
+		MTLTestManagedObjectModel *expected1 = [MTLTestManagedObjectModel insertInManagedObjectContext:context];
+		expect(expected1).notTo.beNil();
+		MTLTestManagedObjectModel *expected2 = [MTLTestManagedObjectModel insertInManagedObjectContext:context];
+		expect(expected2).notTo.beNil();
+		
+		NSArray *expected = @[ expected1, expected2 ];
+		
+		BOOL updated = [MTLJSONAdapter upadeModels:expected fromJSONArray:JSONModels error:&error];
+		expect(updated).notTo.beFalsy();
+		
+		expect(models).to.equal(expected);
+	});
 });
 
 it(@"should return NO and an error if it fails to update any models from an array", ^{
@@ -335,20 +368,9 @@ it(@"should return NO and an error if it fails to update any models from an arra
 							 @"count": @"1",
 							 };
 	MTLTestManagedObjectModel *model1 = [MTLTestManagedObjectModel insertInManagedObjectContext:context];
-	NSError *updateError1 = nil;
-	BOOL update1 = [model1 updateWithDictionary:@{
-												  @"name": @"foobar"
-												  }  error:&updateError1];
-	expect(update1).notTo.beFalsy();
-	expect(updateError1).to.beNil();
-	
+	expect(model1).notTo.beNil();
 	MTLTestManagedObjectModel *model2 = [MTLTestManagedObjectModel insertInManagedObjectContext:context];
-	NSError *updateError2 = nil;
-	BOOL update2 = [model2 updateWithDictionary:@{
-												  @"name": @"foobar"
-												  }  error:&updateError2];
-	expect(update2).notTo.beFalsy();
-	expect(updateError2).to.beNil();
+	expect(model2).notTo.beNil();
 	
 	NSArray *JSONModels = @[ value1 ];
 	NSArray *models = @[ model1, model2 ];
@@ -360,6 +382,24 @@ it(@"should return NO and an error if it fails to update any models from an arra
 	expect(error).toNot.beNil();
 	expect(error.domain).to.equal(MTLJSONAdapterErrorDomain);
 	expect(error.code).to.equal(MTLJSONAdapterErrorInvalidJSONDictionary);
+});
+
+it(@"should return an array of dictionaries from models", ^{
+	MTLTestManagedObjectModel *model1 = [MTLTestManagedObjectModel insertInManagedObjectContext:context];
+	model1.name = @"foo";
+	
+	MTLTestManagedObjectModel *model2 = [MTLTestManagedObjectModel insertInManagedObjectContext:context];
+	model2.name = @"bar";
+	
+	NSError *error;
+	NSArray *JSONArray = [MTLJSONAdapter JSONArrayFromModels:@[ model1, model2 ] error:&error];
+	
+	expect(error).to.beNil();
+	
+	expect(JSONArray).toNot.beNil();
+	expect(JSONArray).haveCountOf(2);
+	expect(JSONArray[0][@"username"]).to.equal(@"foo");
+	expect(JSONArray[1][@"username"]).to.equal(@"bar");
 });
 
 SpecEnd

@@ -15,7 +15,13 @@
 
 @interface MTLModel ()
 
+// Returns a set of all property keys for which
+// +storageBehaviorForPropertyWithKey returned MTLPropertyStorageTransitory.
++ (NSSet *)transitoryPropertyKeys;
 
+// Returns a set of all property keys for which
+// +storageBehaviorForPropertyWithKey returned MTLPropertyStoragePermanent.
++ (NSSet *)permanentPropertyKeys;
 
 @end
 
@@ -51,13 +57,25 @@
 	return [MTLBaseModel propertyKeysFromModelClass:self.class];
 }
 
++ (NSSet *)transitoryPropertyKeys {
+	return [MTLBaseModel transitoryPropertyKeysFromModelClass:self.class];
+}
+
++ (NSSet *)permanentPropertyKeys {
+	return [MTLBaseModel permanentPropertyKeysFromModelClass:self.class];
+}
+
 - (NSDictionary *)dictionaryValue {
 	return [MTLBaseModel dictionaryValueFromModel:self];
 }
 
++ (MTLPropertyStorage)storageBehaviorForPropertyWithKey:(NSString *)propertyKey {
+	return [MTLBaseModel storageBehaviorForPropertyWithKey:propertyKey ofModelClass:self.class];
+}
+
 #pragma mark Merging
 
-- (void)mergeValueForKey:(NSString *)key fromModel:(id<MTLModelProtocol>)model {
+- (void)mergeValueForKey:(NSString *)key fromModel:(id<MTLBaseModelProtocol>)model {
 	[MTLBaseModel mergeValueForKey:key fromModel:model inModel:self];
 }
 
@@ -85,26 +103,26 @@
 
 - (NSUInteger)hash {
 	NSUInteger value = 0;
-
-	for (NSString *key in self.class.propertyKeys) {
+	
+	for (NSString *key in self.class.permanentPropertyKeys) {
 		value ^= [[self valueForKey:key] hash];
 	}
-
+	
 	return value;
 }
 
 - (BOOL)isEqual:(MTLModel *)model {
 	if (self == model) return YES;
 	if (![model isMemberOfClass:self.class]) return NO;
-
-	for (NSString *key in self.class.propertyKeys) {
+	
+	for (NSString *key in self.class.permanentPropertyKeys) {
 		id selfValue = [self valueForKey:key];
 		id modelValue = [model valueForKey:key];
-
+		
 		BOOL valuesEqual = ((selfValue == nil && modelValue == nil) || [selfValue isEqual:modelValue]);
 		if (!valuesEqual) return NO;
 	}
-
+	
 	return YES;
 }
 

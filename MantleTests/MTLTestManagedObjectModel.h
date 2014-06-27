@@ -10,6 +10,8 @@ extern NSString * const MTLTestManagedObjectModelErrorDomain;
 extern const NSInteger MTLTestManagedObjectModelNameTooLong;
 extern const NSInteger MTLTestManagedObjectModelNameMissing;
 
+
+
 @interface MTLEmptyTestManagedObjectModel : MTLManagedObjectModel
 
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc;
@@ -66,7 +68,7 @@ extern const NSInteger MTLTestManagedObjectModelNameMissing;
 
 @end
 
-@interface MTLValidationManagedObjectModel : MTLManagedObjectModel
+@interface MTLValidationManagedObjectModel : MTLManagedObjectModel <MTLJSONSerializing>
 
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc;
 
@@ -77,6 +79,62 @@ extern const NSInteger MTLTestManagedObjectModelNameMissing;
 
 // Returns a default name of 'foobar' when validateName:error: is invoked
 @interface MTLSelfValidatingManagedObjectModel : MTLValidationManagedObjectModel
+@end
+
+@interface MTLURLManagedObjectModel : MTLManagedObjectModel <MTLJSONSerializing>
+
++ (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc;
+
+// Defaults to http://github.com.
+@property (nonatomic, strong) NSURL *URL;
+
+@end
+
+@interface MTLBoolManagedObjectModel : MTLManagedObjectModel <MTLJSONSerializing>
+
++ (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc;
+
+@property (nonatomic, assign) BOOL flag;
+
+@end
+
+@interface MTLIDManagedObjectModel : MTLManagedObjectModel <MTLJSONSerializing>
+
++ (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc;
+
+@property (nonatomic, strong) id anyObject;
+
+@end
+
+@interface MTLStorageBehaviorManagedObjectModel : MTLManagedObjectModel
+
+@property (readonly, nonatomic, assign) BOOL primitive;
+
+@property (readonly, nonatomic, assign) id assignProperty;
+@property (readonly, nonatomic, weak) id weakProperty;
+@property (readonly, nonatomic, strong) id strongProperty;
+
+@end
+
+@interface MTLMultiKeypathManagedObjectModel : MTLManagedObjectModel <MTLJSONSerializing>
+
++ (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc;
+
+// This property is associated with the "location" and "length" keys in JSON.
+@property (readonly, nonatomic, assign) NSRange range;
+
+// This property is associated with the "nested.location" and "nested.length"
+// keys in JSON.
+@property (readonly, nonatomic, assign) NSRange nestedRange;
+
+@end
+
+@interface MTLNonPropertyManagedObjectModel : MTLManagedObjectModel <MTLJSONSerializing>
+
++ (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc;
+
+- (NSURL *)homepage;
+
 @end
 
 // Maps a non-existant property "name" to the "username" key in JSON.

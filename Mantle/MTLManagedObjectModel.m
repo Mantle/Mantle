@@ -45,13 +45,17 @@
 	return [MTLBaseModel dictionaryValueFromModel:self];
 }
 
++ (MTLPropertyStorage)storageBehaviorForPropertyWithKey:(NSString *)propertyKey {
+	return [MTLBaseModel storageBehaviorForPropertyWithKey:propertyKey ofModelClass:self.class];
+}
+
 #pragma mark Merging
 
-- (void)mergeValueForKey:(NSString *)key fromModel:(id<MTLModelProtocol>)model {
+- (void)mergeValueForKey:(NSString *)key fromModel:(id<MTLBaseModelProtocol>)model {
 	[MTLBaseModel mergeValueForKey:key fromModel:model inModel:self];
 }
 
-- (void)mergeValuesForKeysFromModel:(id<MTLModelProtocol>)model {
+- (void)mergeValuesForKeysFromModel:(id<MTLBaseModelProtocol>)model {
 	[MTLBaseModel mergeValuesForKeysFromModel:model inModel:self];
 }
 
@@ -67,6 +71,7 @@
 	return [MTLBaseModel descriptionFromModel:self];
 }
 
+// Can not override (runtime exception)
 //- (NSUInteger)hash {
 //	NSUInteger value = 0;
 //	
@@ -77,6 +82,8 @@
 //	return value;
 //}
 //
+// Can not override isEqual: (runtime exception) on NSManagedObject, use NSManagedObject
+// implementation.
 //- (BOOL)isEqual:(MTLManagedObjectModel *)model {
 //	if (self == model) return YES;
 //	if (![model isMemberOfClass:self.class]) return NO;

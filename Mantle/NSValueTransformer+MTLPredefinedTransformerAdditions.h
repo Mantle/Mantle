@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import "MTLTransformerErrorHandling.h"
+
 // The name for a value transformer that converts strings into URLs and back.
 extern NSString * const MTLURLValueTransformerName;
 
@@ -31,7 +33,7 @@ extern NSString * const MTLBooleanValueTransformerName;
 //
 // Returns a reversible transformer which uses MTLJSONAdapter for transforming
 // values back and forth.
-+ (NSValueTransformer *)mtl_JSONDictionaryTransformerWithModelClass:(Class)modelClass;
++ (NSValueTransformer<MTLTransformerErrorHandling> *)mtl_JSONDictionaryTransformerWithModelClass:(Class)modelClass;
 
 // Creates a reversible transformer to convert an array of JSON dictionaries
 // into an array of MTLModel objects, and vice-versa.
@@ -42,7 +44,18 @@ extern NSString * const MTLBooleanValueTransformerName;
 //
 // Returns a reversible transformer which uses MTLJSONAdapter for transforming
 // array elements back and forth.
-+ (NSValueTransformer *)mtl_JSONArrayTransformerWithModelClass:(Class)modelClass;
++ (NSValueTransformer<MTLTransformerErrorHandling> *)mtl_JSONArrayTransformerWithModelClass:(Class)modelClass;
+
+// An optionally reversible transformer which applies the given transformer to
+// each element of an array.
+//
+// transformer - The transformer to apply to each element. If the transformer
+//               is reversible, the transformer returned by this method will be
+//               reversible. This argument must not be nil.
+//
+// Returns a transformer which applies a transformation to each element of an
+// array.
++ (NSValueTransformer<MTLTransformerErrorHandling> *)mtl_arrayMappingTransformerWithTransformer:(NSValueTransformer *)transformer;
 
 // A reversible value transformer to transform between the keys and objects of a
 // dictionary.
@@ -63,22 +76,22 @@ extern NSString * const MTLBooleanValueTransformerName;
 //     @"bar": @(EnumDataTypeBar),
 //   } defaultValue: @(EnumDataTypeUndefined) reverseDefaultValue: @"undefined"];
 //
-// Returns a transformer that will map from keys to values in dictionary
-// for forward transformation, and from values to keys for reverse
-// transformations. If no matching key or value can be found, the respective
-// default value is returned.
-+ (NSValueTransformer *)mtl_valueMappingTransformerWithDictionary:(NSDictionary *)dictionary defaultValue:(id)defaultValue reverseDefaultValue:(id)reverseDefaultValue;
+// Returns a transformer which will map from keys to objects for forward
+// transformations, and from objects to keys for reverse transformations.
++ (NSValueTransformer<MTLTransformerErrorHandling> *)mtl_valueMappingTransformerWithDictionary:(NSDictionary *)dictionary defaultValue:(id)defaultValue reverseDefaultValue:(id)reverseDefaultValue;
 
 // Returns a value transformer created by calling
 // `+mtl_valueMappingTransformerWithDictionary:defaultValue:reverseDefaultValue:`
 // with a default value of `nil` and a reverse default value of `nil`.
-+ (NSValueTransformer *)mtl_valueMappingTransformerWithDictionary:(NSDictionary *)dictionary;
++ (NSValueTransformer<MTLTransformerErrorHandling> *)mtl_valueMappingTransformerWithDictionary:(NSDictionary *)dictionary;
 
-@end
-
-@interface NSValueTransformer (UnavailableMTLPredefinedTransformerAdditions)
-
-+ (NSValueTransformer *)mtl_externalRepresentationTransformerWithModelClass:(Class)modelClass __attribute__((deprecated("Replaced by +mtl_JSONDictionaryTransformerWithModelClass:")));
-+ (NSValueTransformer *)mtl_externalRepresentationArrayTransformerWithModelClass:(Class)modelClass __attribute__((deprecated("Replaced by +mtl_JSONArrayTransformerWithModelClass:")));
+// A value transformer that errors if the transformed value are not of the given
+// class.
+//
+// class - The expected class. This argument must not be nil.
+//
+// Returns a transformer which will return an error if the transformed in value
+// is not a member of class. Otherwise, the value is simply passed through.
++ (NSValueTransformer<MTLTransformerErrorHandling> *)mtl_validatingTransformerForClass:(Class)class;
 
 @end
