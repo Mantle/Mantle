@@ -7,6 +7,9 @@
 //
 
 #import "MTLCoreDataTestModels.h"
+#import "NSDictionary+MTLMappingAdditions.h"
+
+NSString * const MTLCoreDataTestModelsDomain = @"MTLCoreDataTestModelsDomain";
 
 @implementation MTLParentTestModel
 
@@ -15,10 +18,13 @@
 }
 
 + (NSDictionary *)managedObjectKeysByPropertyKey {
-	return @{
+	NSDictionary *mapping = [NSDictionary mtl_identityPropertyMapWithModel:self];
+
+	return [mapping mtl_dictionaryByAddingEntriesFromDictionary:@{
 		@"numberString": @"number",
-		@"requiredString": @"string"
-	};
+		@"requiredString": @"string",
+		@"URL": @"url"
+	}];
 }
 
 + (NSSet *)propertyKeysForManagedObjectUniquing {
@@ -26,10 +32,26 @@
 }
 
 + (NSValueTransformer *)numberStringEntityAttributeTransformer {
-	return [MTLValueTransformer reversibleTransformerWithForwardBlock:^(NSString *str) {
-		return [NSDecimalNumber decimalNumberWithString:str];
-	} reverseBlock:^(NSNumber *num) {
+	return [MTLValueTransformer transformerUsingForwardBlock:^ id (NSNumber *num, BOOL *success, NSError **error) {
+		if (![num isKindOfClass:NSNumber.class]) {
+			if (error != NULL) {
+				*error = [NSError errorWithDomain:MTLCoreDataTestModelsDomain code:666 userInfo:nil];
+			}
+			*success = NO;
+			return nil;
+		}
+
 		return num.stringValue;
+	} reverseBlock:^ id (NSString *str, BOOL *success, NSError **error) {
+		if (![str isKindOfClass:NSString.class]) {
+			if (error != NULL) {
+				*error = [NSError errorWithDomain:MTLCoreDataTestModelsDomain code:666 userInfo:nil];
+			}
+			*success = NO;
+			return nil;
+		}
+
+		return [NSDecimalNumber decimalNumberWithString:str];
 	}];
 }
 
@@ -71,7 +93,7 @@
 }
 
 + (NSDictionary *)managedObjectKeysByPropertyKey {
-	return @{};
+	return [NSDictionary mtl_identityPropertyMapWithModel:self];
 }
 
 + (NSSet *)propertyKeysForManagedObjectUniquing {
@@ -94,7 +116,7 @@
 }
 
 + (NSDictionary *)managedObjectKeysByPropertyKey {
-	return @{};
+	return [NSDictionary mtl_identityPropertyMapWithModel:self];
 }
 
 + (NSSet *)propertyKeysForManagedObjectUniquing {
@@ -107,7 +129,7 @@
 @implementation MTLFailureModel
 
 + (NSDictionary *)managedObjectKeysByPropertyKey {
-	return @{};
+	return [NSDictionary mtl_identityPropertyMapWithModel:self];
 }
 
 + (NSString *)managedObjectEntityName {

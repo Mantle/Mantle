@@ -1,21 +1,18 @@
 //
-//  MTLModel.h
+//  MTLManagedObjectModel.h
 //  Mantle
 //
-//  Created by Justin Spahr-Summers on 2012-09-11.
-//  Copyright (c) 2012 GitHub. All rights reserved.
+//  Created by Christian Bianciotto on 14/05/14.
+//  Copyright (c) 2014 GitHub. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <CoreData/CoreData.h>
 
 #import "MTLBaseModel.h"
 
 // An abstract base class for model objects, using reflection to provide
 // sensible default behaviors.
-//
-// The default implementations of <NSCopying>, -hash, and -isEqual: make use of
-// the +propertyKeys method.
-@interface MTLModel : NSObject <MTLBaseModelProtocol, NSCopying>
+@interface MTLManagedObjectModel : NSManagedObject <MTLBaseModelProtocol>
 
 // Initializes the receiver using key-value coding, setting the keys and values
 // in the given dictionary.
@@ -73,14 +70,9 @@
 // Returns the storage behavior for a given key on the receiver.
 + (MTLPropertyStorage)storageBehaviorForPropertyWithKey:(NSString *)propertyKey;
 
-// Compares the receiver with another object for equality.
-//
-// The default implementation is equivalent to comparing all properties of both
-// models for which +storageBehaviorForPropertyWithKey: returns
-// MTLPropertyStoragePermanent.
-//
-// Returns YES if the two models are considered equal, NO otherwise.
-- (BOOL)isEqual:(id)object;
+// Can not override isEqual: (runtime exception) on NSManagedObject, use NSManagedObject
+// implementation.
+//- (BOOL)isEqual:(id)object;
 
 // A string that describes the contents of the receiver.
 //
@@ -92,7 +84,7 @@
 @end
 
 // Implements validation logic for MTLModel.
-@interface MTLModel (Validation)
+@interface MTLManagedObjectModel (Validation)
 
 // Validates the model.
 //
