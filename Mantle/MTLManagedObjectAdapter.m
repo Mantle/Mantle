@@ -65,28 +65,9 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 	NSParameterAssert(model != nil);
 	NSParameterAssert(uniquingValues != nil);
 	
-	NSArray *sortedKeys = [[uniquingValues allKeys] sortedArrayUsingSelector:@selector(compare:)];
-	NSArray *values = [uniquingValues objectsForKeys:sortedKeys notFoundMarker:NSNull.null];
+	NSMutableArray *models = [self mutableModelsForUniquingValues:uniquingValues forModelClass:model.class];
 	
-	NSMutableDictionary *currentDictionary = [self nestedDictionaryForModelClass:model.class];
-	
-	for (id value in values) {
-		if (value != values.lastObject) {
-			NSMutableDictionary *valueDictionary = currentDictionary[value];
-			if (valueDictionary == nil) {
-				valueDictionary = [NSMutableDictionary dictionary];
-				currentDictionary[value] = valueDictionary;
-			}
-			currentDictionary = valueDictionary;
-		}
-	}
-	
-	NSMutableArray *models = currentDictionary[values.lastObject];
-	
-	if (models == nil) {
-		models = [[NSMutableArray alloc] init];
-		currentDictionary[values.lastObject] = models;
-		
+	if (models.count == 0) {
 		NSMutableArray *uniquingValuesArray = [self mutableUniquingValuesForModelClass:model.class];
 		[uniquingValuesArray addObject:uniquingValues];
 	}
@@ -104,26 +85,7 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 }
 
 - (NSArray *)modelsForUniquingValues:(NSDictionary *)uniquingValues forModelClass:(Class)modelClass {
-	NSParameterAssert(uniquingValues != nil);
-	NSParameterAssert(modelClass != Nil);
-	
-	NSArray *sortedKeys = [[uniquingValues allKeys] sortedArrayUsingSelector:@selector(compare:)];
-	NSArray *values = [uniquingValues objectsForKeys:sortedKeys notFoundMarker:NSNull.null];
-	
-	NSMutableDictionary *currentDictionary = [self nestedDictionaryForModelClass:modelClass];
-	
-	for (id value in values) {
-		if (value != values.lastObject) {
-			NSMutableDictionary *valueDictionary = currentDictionary[value];
-			if (valueDictionary == nil) {
-				return nil;
-			}
-			currentDictionary = valueDictionary;
-		}
-	}
-	
-	NSMutableArray *mutableModels = currentDictionary[values.lastObject];
-	return [mutableModels copy];
+	return [[self mutableModelsForUniquingValues:uniquingValues forModelClass:modelClass] copy];
 }
 
 - (NSArray *)uniquingValuesForModelClass:(Class)modelClass {
@@ -132,18 +94,49 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 	return [[self mutableUniquingValuesForModelClass:modelClass] copy];
 }
 
-- (NSMutableDictionary *)nestedDictionaryForModelClass:(Class)modelClass {
+- (CFMutableDictionaryRef)nestedDictionaryForModelClass:(Class)modelClass {
 	NSParameterAssert(modelClass != Nil);
 	
 	NSString *modelClassString = NSStringFromClass(modelClass);
 	
-	NSMutableDictionary *dictionary = _nestedDictionariesByModelClass[modelClassString];
-	if (dictionary == nil) {
-		dictionary = [[NSMutableDictionary alloc] init];
-		_nestedDictionariesByModelClass[modelClassString] = dictionary;
+	CFMutableDictionaryRef dictionary = (__bridge CFMutableDictionaryRef)_nestedDictionariesByModelClass[modelClassString];
+	if (dictionary == NULL) {
+		dictionary = CFDictionaryCreateMutable(NULL, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+		_nestedDictionariesByModelClass[modelClassString] = (__bridge_transfer id)dictionary;
 	}
 	
 	return dictionary;
+}
+
+- (NSMutableArray *)mutableModelsForUniquingValues:(NSDictionary *)uniquingValues forModelClass:(Class)modelClass {
+	NSParameterAssert(uniquingValues != nil);
+	NSParameterAssert(modelClass != Nil);
+	
+	NSArray *sortedKeys = [[uniquingValues allKeys] sortedArrayUsingSelector:@selector(compare:)];
+	NSArray *values = [uniquingValues objectsForKeys:sortedKeys notFoundMarker:NSNull.null];
+	
+	CFMutableDictionaryRef currentDictionary = [self nestedDictionaryForModelClass:modelClass];
+	
+	for (id value in values) {
+		if (value != values.lastObject) {
+			CFMutableDictionaryRef valueDictionary = (CFMutableDictionaryRef)CFDictionaryGetValue(currentDictionary, (__bridge void *)value);
+			if (valueDictionary == NULL) {
+				valueDictionary = CFDictionaryCreateMutable(NULL, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+				CFDictionarySetValue(currentDictionary, (__bridge void *)value, valueDictionary);
+				CFRelease(valueDictionary);
+			}
+			
+			currentDictionary = valueDictionary;
+		}
+	}
+	
+	NSMutableArray *models = (__bridge id)CFDictionaryGetValue(currentDictionary, (__bridge void *)values.lastObject);
+	if (models == nil) {
+		models = [[NSMutableArray alloc] init];
+		CFDictionarySetValue(currentDictionary, (__bridge void *)values.lastObject, (__bridge void *)models);
+	}
+	
+	return models;
 }
 
 - (NSMutableArray *)mutableUniquingValuesForModelClass:(Class)modelClass {
