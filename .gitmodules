@@ -1,9 +1,9 @@
 [submodule "MantleTests/expecta"]
 	path = MantleTests/expecta
-	url = https://github.com/github/expecta.git
+	url = https://github.com/specta/expecta.git
 [submodule "MantleTests/specta"]
 	path = MantleTests/specta
-	url = https://github.com/github/specta.git
+	url = https://github.com/specta/specta.git
 [submodule "Configuration"]
 	path = Configuration
 	url = https://github.com/jspahrsummers/xcconfigs.git
