@@ -8,10 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol MTLModel;
+#import "MTLBaseModelProtocol.h"
 
 // A MTLModel object that supports being parsed from and serialized to JSON.
-@protocol MTLJSONSerializing <MTLModel>
+@protocol MTLJSONSerializing <MTLBaseModelProtocol>
 @required
 
 // Specifies how to map property keys to different key paths in JSON.
@@ -79,8 +79,11 @@
 // The domain for errors originating from MTLJSONAdapter.
 extern NSString * const MTLJSONAdapterErrorDomain;
 
-// +classForParsingJSONDictionary: returned nil for the given dictionary.
+// +classForParsingJSONDictionary: returned nil for the given dictionary on init.
 extern const NSInteger MTLJSONAdapterErrorNoClassFound;
+
+// +classForParsingJSONDictionary: returned not nil for the given dictionary on update.
+extern const NSInteger MTLJSONAdapterErrorClassFoundOnUpdate;
 
 // The provided JSONDictionary is not valid.
 extern const NSInteger MTLJSONAdapterErrorInvalidJSONDictionary;
@@ -123,6 +126,35 @@ extern const NSInteger MTLJSONAdapterErrorInvalidJSONMapping;
 // Returns an array of `modelClass` instances upon success, or nil if a parsing
 // error occurred.
 + (NSArray *)modelsOfClass:(Class)modelClass fromJSONArray:(NSArray *)JSONArray error:(NSError **)error;
+
+// Attempts to parse a JSON dictionary into a model object.
+//
+// model		  - The MTLModel subclass to attempt to parse from the JSON.
+//                  This object must conform to <MTLJSONSerializing>. This
+//                  argument must not be nil.
+// JSONDictionary - A dictionary representing JSON data. This should match the
+//                  format returned by NSJSONSerialization. If this argument is
+//                  nil, the method returns nil.
+// error          - If not NULL, this may be set to an error that occurs during
+//                  parsing or initializing an instance of `modelClass`.
+//
+// Returns an YES if parsing success, NO otherwise
++ (BOOL)updateModel:(id<MTLJSONSerializing>)model fromJSONDictionary:(NSDictionary *)JSONDictionary error:(NSError **)error;
+
+// Attempts to parse an array of JSON dictionary objects into an array of model objects.
+//
+// models	  - The array of MTLModel subclass to attempt to parse from the JSON. This
+//              objects must conform to <MTLJSONSerializing>. This argument must
+//              not be nil.
+// JSONArray  - A array of dictionaries representing JSON data. This should
+//              match the format returned by NSJSONSerialization. If this
+//              argument is nil, the method returns nil.
+// error      - If not NULL, this may be set to an error that occurs during
+//              parsing or initializing an any of the instances of
+//              `modelClass`.
+//
+// Returns an YES if parsing success, NO otherwise
++ (BOOL)upadeModels:(NSArray *)models fromJSONArray:(NSArray *)JSONArray error:(NSError **)error;
 
 // Converts a model into a JSON representation.
 //

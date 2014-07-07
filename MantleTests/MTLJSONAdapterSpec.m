@@ -437,5 +437,4 @@ it(@"should return an array of dictionaries from models", ^{
 	expect(JSONArray[1][@"username"]).to.equal(@"bar");
 });
 
-
 SpecEnd

@@ -277,9 +277,17 @@ static NSUInteger modelVersion = 1;
 	self = [super init];
 	if (self == nil) return nil;
 
-	_name = dictionaryValue[@"name"];
+	[self updateWithDictionary:dictionaryValue error:error];
 
 	return self;
+}
+
+- (BOOL)updateWithDictionary:(NSDictionary *)dictionaryValue error:(NSError *__autoreleasing *)error {
+	if(!dictionaryValue) return NO;
+	
+	_name = dictionaryValue[@"name"];
+	
+	return YES;
 }
 
 - (BOOL)validate:(NSError **)error {
@@ -300,13 +308,13 @@ static NSUInteger modelVersion = 1;
 	return [NSSet setWithObject:@"name"];
 }
 
-- (void)mergeValueForKey:(NSString *)key fromModel:(id<MTLModel>)model {
+- (void)mergeValueForKey:(NSString *)key fromModel:(id<MTLBaseModelProtocol>)model {
 	if ([key isEqualToString:@"name"]) {
 		self.name = [model dictionaryValue][@"name"];
 	}
 }
 
-- (void)mergeValuesForKeysFromModel:(id<MTLModel>)model {
+- (void)mergeValuesForKeysFromModel:(id<MTLBaseModelProtocol>)model {
 	self.name = [model dictionaryValue][@"name"];
 }
 

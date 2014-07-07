@@ -147,7 +147,7 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 	NSManagedObjectContext *context = managedObject.managedObjectContext;
 
 	NSDictionary *managedObjectProperties = entity.propertiesByName;
-	NSObject<MTLModel> *model = [[self.modelClass alloc] init];
+	NSObject<MTLBaseModelProtocol> *model = [[self.modelClass alloc] init];
 
 	// Pre-emptively consider this object processed, so that we don't get into
 	// any cycles when processing its relationships.
@@ -494,7 +494,7 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 					relationshipCollection = [NSMutableSet set];
 				}
 
-				for (id<MTLModel> model in value) {
+				for (id<MTLBaseModelProtocol> model in value) {
 					NSManagedObject *nestedObject = objectForRelationshipFromModel(model);
 					if (nestedObject == nil) return NO;
 
@@ -636,11 +636,11 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 	}
 }
 
-- (void)mergeValueOfModel:(MTLModel<MTLManagedObjectSerializing> *)model forKey:(NSString *)key fromManagedObject:(NSManagedObject *)managedObject {
+- (void)mergeValueOfModel:(id<MTLBaseModelProtocol, MTLManagedObjectSerializing>)model forKey:(NSString *)key fromManagedObject:(NSManagedObject *)managedObject {
 	[model mergeValueForKey:key fromManagedObject:managedObject];
 }
 
-- (void)mergeValuesOfModel:(MTLModel<MTLManagedObjectSerializing> *)model forKeysFromManagedObject:(NSManagedObject *)managedObject {
+- (void)mergeValuesOfModel:(id<MTLBaseModelProtocol, MTLManagedObjectSerializing>)model forKeysFromManagedObject:(NSManagedObject *)managedObject {
 	if ([model respondsToSelector:@selector(mergeValuesForKeysFromManagedObject:)]) {
 		[model mergeValuesForKeysFromManagedObject:managedObject];
 	} else if ([model respondsToSelector:@selector(mergeValueForKey:fromManagedObject:)]) {

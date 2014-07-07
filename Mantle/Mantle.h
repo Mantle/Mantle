@@ -8,7 +8,9 @@
 
 #import <Mantle/MTLJSONAdapter.h>
 #import <Mantle/MTLManagedObjectAdapter.h>
+#import <Mantle/MTLModelProtocol.h>
 #import <Mantle/MTLModel.h>
+#import <Mantle/MTLManagedObjectModel.h>
 #import <Mantle/MTLModel+NSCoding.h>
 #import <Mantle/MTLValueTransformer.h>
 #import <Mantle/MTLTransformerErrorHandling.h>

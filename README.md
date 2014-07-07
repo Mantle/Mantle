@@ -161,6 +161,8 @@ Nonetheless, if you're using or want to use Core Data in your app already,
 Mantle can still be a convenient translation layer between the API and your
 managed model objects.
 
+Is also possible to use a MTLManagedObjectModel class as base model to support some Mantle's functionalities.
+
 ## MTLModel
 
 Enter
@@ -270,6 +272,153 @@ JSONArrayForModels:]` is the same but turns an array of model objects into an JS
 `MTLModel` automatically saves the version of the model object that was used for
 archival. When unarchiving, `-decodeValueForKey:withCoder:modelVersion:` will
 be invoked if overridden, giving you a convenient hook to upgrade old data.
+
+### `MTLManagedObjectModel`
+
+```objc
+typedef enum : NSUInteger {
+    GHIssueStateOpen,
+    GHIssueStateClosed
+} GHIssueState;
+
+@interface GHIssue : MTLManagedObjectModel <MTLJSONSerializing>
+
+@property (nonatomic, copy) NSURL *URL;
+@property (nonatomic, copy) NSURL *HTMLURL;
+@property (nonatomic, copy) NSNumber *number;
+@property (nonatomic, assign) GHIssueState state;
+@property (nonatomic, copy) NSString *reporterLogin;
+@property (nonatomic, strong) GHUser *assignee;
+@property (nonatomic, copy) NSDate *updatedAt;
+
+@property (nonatomic, copy) NSString *title;
+@property (nonatomic, copy) NSString *body;
+
+@end
+```
+
+```objc
+@implementation GHIssue
+
+@dynamic URL;
+@dynamic HTMLURL;
+@dynamic number;
+@dynamic state;
+@dynamic reporterLogin;
+@dynamic assignee;
+@dynamic updatedAt;
+
+@dynamic title;
+@dynamic body;
+
+- (void)setURL:(NSURL *)URL {
+    [self willChangeValueForKey:__PROPERTY__];
+    [self setPrimitiveValue:URL.absoluteString forKey:__PROPERTY__];
+    [self didChangeValueForKey:__PROPERTY__];
+}
+
+- (NSURL *)URL {
+    NSURL *a;
+    
+    [self willAccessValueForKey:__PROPERTY__];
+    a = [NSURL URLWithString:[self primitiveValueForKey:__PROPERTY__]];
+    [self didAccessValueForKey:__PROPERTY__];
+	
+    return a;
+}
+
+- (void)setHTMLURL:(NSURL *)HTMLURL {
+    [self willChangeValueForKey:__PROPERTY__];
+    [self setPrimitiveValue:HTMLURL.absoluteString forKey:__PROPERTY__];
+    [self didChangeValueForKey:__PROPERTY__];
+}
+
+- (NSURL *)HTMLURL {
+    NSURL *a;
+    
+    [self willAccessValueForKey:__PROPERTY__];
+    a = [NSURL URLWithString:[self primitiveValueForKey:__PROPERTY__]];
+    [self didAccessValueForKey:__PROPERTY__];
+	
+    return a;
+}
+
+- (void)setState:(GHIssueState)state {
+    [self willChangeValueForKey:__PROPERTY__];
+    [self setPrimitiveValue:[NSNumber numberWithInt:state] forKey:__PROPERTY__];
+    [self didChangeValueForKey:__PROPERTY__];
+}
+
+- (GHIssueState)state {
+    int a;
+    
+    [self willAccessValueForKey:__PROPERTY__];
+    a = [[self primitiveValueForKey:__PROPERTY__] intValue];
+    [self didAccessValueForKey:__PROPERTY__];
+	
+    return a;
+}
+
++ (NSDateFormatter *)dateFormatter {
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
+    dateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ss'Z'";
+    return dateFormatter;
+}
+
++ (NSDictionary *)JSONKeyPathsByPropertyKey {
+    return @{
+			 @"URL": @"url",
+			 @"HTMLURL": @"html_url",
+			 @"reporterLogin": @"user.login",
+			 @"assignee": @"assignee",
+			 @"updatedAt": @"updated_at"
+			 };
+}
+
++ (NSValueTransformer *)URLJSONTransformer {
+    return [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
+}
+
++ (NSValueTransformer *)HTMLURLJSONTransformer {
+    return [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
+}
+
++ (NSValueTransformer *)stateJSONTransformer {
+    return [NSValueTransformer mtl_valueMappingTransformerWithDictionary:@{
+																		   @"open": @(GHIssueStateOpen),
+																		   @"closed": @(GHIssueStateClosed)
+																		   }];
+}
+
++ (NSValueTransformer *)assigneeJSONTransformer {
+	return [MTLValueTransformer reversibleTransformerWithForwardBlock:^(NSDictionary *dictionary) {
+		NSManagedObjectContext *context = [((AppDelegate *)[[UIApplication sharedApplication] delegate]) managedObjectContext];
+		GHUser *user = [NSEntityDescription insertNewObjectForEntityForName:@"User" inManagedObjectContext:context];
+		
+		[MTLJSONAdapter updateModel:user fromJSONDictionary:nil error:nil];
+		
+		return user;
+    } reverseBlock:^(GHUser *user) {
+        return user.dictionaryValue;
+    }];
+}
+
++ (NSValueTransformer *)updatedAtJSONTransformer {
+    return [MTLValueTransformer reversibleTransformerWithForwardBlock:^(NSString *str) {
+        return [self.dateFormatter dateFromString:str];
+    } reverseBlock:^(NSDate *date) {
+        return [self.dateFormatter stringFromDate:date];
+    }];
+}
+
+@end
+```
+
+Some Mantle's functionalities have not been implemented in `MTLManagedObjectModel` because `NSManagedObjectContext` are not retrieved. For same reason, `MTLManagedObjectModel` don't provide default implementations for `NSCopying` methods. 
+
+Using `__PROPERTY__` you can access the property name in the setter / getter functions. 
+
 
 ## MTLJSONSerializing
 

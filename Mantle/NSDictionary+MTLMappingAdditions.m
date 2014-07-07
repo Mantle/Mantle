@@ -6,14 +6,14 @@
 //  Copyright (c) 2013 GitHub. All rights reserved.
 //
 
-#import "MTLModel.h"
+#import "MTLBaseModelProtocol.h"
 
 #import "NSDictionary+MTLMappingAdditions.h"
 
 @implementation NSDictionary (MTLMappingAdditions)
 
 + (NSDictionary *)mtl_identityPropertyMapWithModel:(Class)class {
-	NSCParameterAssert([class isSubclassOfClass:MTLModel.class]);
+	NSCParameterAssert([class conformsToProtocol:@protocol(MTLBaseModelProtocol)]);
 
 	NSArray *propertyKeys = [class propertyKeys].allObjects;
 

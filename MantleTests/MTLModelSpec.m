@@ -47,58 +47,124 @@ it(@"should initialize to default values with a nil dictionary", ^{
 	MTLTestModel *dictionaryModel = [[MTLTestModel alloc] initWithDictionary:nil error:&error];
 	expect(dictionaryModel).notTo.beNil();
 	expect(error).to.beNil();
-
+	
 	MTLTestModel *defaultModel = [[MTLTestModel alloc] init];
 	expect(dictionaryModel).to.equal(defaultModel);
 });
 
-describe(@"with a dictionary of values", ^{
+it(@"should not update with a nil dictionary", ^{
+	NSError *error = nil;
+	MTLTestModel *dictionaryModel = [[MTLTestModel alloc] init];
+	BOOL upadte = [dictionaryModel updateWithDictionary:nil error:&error];
+	expect(upadte).notTo.beFalsy();
+	expect(error).to.beNil();
+	
+	MTLTestModel *defaultModel = [[MTLTestModel alloc] init];
+	expect(dictionaryModel).to.equal(defaultModel);
+});
+
+describe(@"init with a dictionary of values", ^{
 	__block MTLEmptyTestModel *emptyModel;
 	__block NSDictionary *values;
 	__block MTLTestModel *model;
-
+	
 	beforeEach(^{
 		emptyModel = [[MTLEmptyTestModel alloc] init];
 		expect(emptyModel).notTo.beNil();
-
+		
 		values = @{
-			@"name": @"foobar",
-			@"count": @(5),
-			@"nestedName": @"fuzzbuzz",
-			@"weakModel": emptyModel,
-		};
-
+				   @"name": @"foobar",
+				   @"count": @(5),
+				   @"nestedName": @"fuzzbuzz",
+				   @"weakModel": emptyModel,
+				   };
+		
 		NSError *error = nil;
 		model = [[MTLTestModel alloc] initWithDictionary:values error:&error];
 		expect(model).notTo.beNil();
 		expect(error).to.beNil();
 	});
-
+	
 	it(@"should initialize with the given values", ^{
 		expect(model.name).to.equal(@"foobar");
 		expect(model.count).to.equal(5);
 		expect(model.nestedName).to.equal(@"fuzzbuzz");
 		expect(model.weakModel).to.equal(emptyModel);
-
+		
 		expect(model.dictionaryValue).to.equal(values);
 		expect([model dictionaryWithValuesForKeys:values.allKeys]).to.equal(values);
 	});
-
+	
 	it(@"should compare equal to a matching model", ^{
 		expect(model).to.equal(model);
-
+		
 		MTLTestModel *matchingModel = [[MTLTestModel alloc] initWithDictionary:values error:NULL];
 		expect(model).to.equal(matchingModel);
 		expect(model.hash).to.equal(matchingModel.hash);
 		expect(model.dictionaryValue).to.equal(matchingModel.dictionaryValue);
 	});
-
+	
 	it(@"should not compare equal to different model", ^{
 		MTLTestModel *differentModel = [[MTLTestModel alloc] init];
 		expect(model).notTo.equal(differentModel);
 		expect(model.dictionaryValue).notTo.equal(differentModel.dictionaryValue);
 	});
+	
+	it(@"should implement <NSCopying>", ^{
+		MTLTestModel *copiedModel = [model copy];
+		expect(copiedModel).to.equal(model);
+		expect(copiedModel).notTo.beIdenticalTo(model);
+	});
+});
 
+describe(@"update with a dictionary of values", ^{
+	__block MTLEmptyTestModel *emptyModel;
+	__block NSDictionary *values;
+	__block MTLTestModel *model;
+	
+	beforeEach(^{
+		emptyModel = [[MTLEmptyTestModel alloc] init];
+		expect(emptyModel).notTo.beNil();
+		
+		values = @{
+				   @"name": @"foobar",
+				   @"count": @(5),
+				   @"nestedName": @"fuzzbuzz",
+				   @"weakModel": emptyModel,
+				   };
+		
+		NSError *error = nil;
+		model = [[MTLTestModel alloc] init];
+		BOOL update = [model updateWithDictionary:values error:&error];
+		expect(update).notTo.beFalsy();
+		expect(error).to.beNil();
+	});
+	
+	it(@"should initialize with the given values", ^{
+		expect(model.name).to.equal(@"foobar");
+		expect(model.count).to.equal(5);
+		expect(model.nestedName).to.equal(@"fuzzbuzz");
+		expect(model.weakModel).to.equal(emptyModel);
+		
+		expect(model.dictionaryValue).to.equal(values);
+		expect([model dictionaryWithValuesForKeys:values.allKeys]).to.equal(values);
+	});
+	
+	it(@"should compare equal to a matching model", ^{
+		expect(model).to.equal(model);
+		
+		MTLTestModel *matchingModel = [[MTLTestModel alloc] initWithDictionary:values error:NULL];
+		expect(model).to.equal(matchingModel);
+		expect(model.hash).to.equal(matchingModel.hash);
+		expect(model.dictionaryValue).to.equal(matchingModel.dictionaryValue);
+	});
+	
+	it(@"should not compare equal to different model", ^{
+		MTLTestModel *differentModel = [[MTLTestModel alloc] init];
+		expect(model).notTo.equal(differentModel);
+		expect(model.dictionaryValue).notTo.equal(differentModel.dictionaryValue);
+	});
+	
 	it(@"should implement <NSCopying>", ^{
 		MTLTestModel *copiedModel = [model copy];
 		expect(copiedModel).to.equal(model);
@@ -117,7 +183,18 @@ it(@"should fail to initialize if dictionary validation fails", ^{
 	NSError *error = nil;
 	MTLTestModel *model = [[MTLTestModel alloc] initWithDictionary:@{ @"name": @"this is too long a name" } error:&error];
 	expect(model).to.beNil();
+	
+	expect(error).notTo.beNil();
+	expect(error.domain).to.equal(MTLTestModelErrorDomain);
+	expect(error.code).to.equal(MTLTestModelNameTooLong);
+});
 
+it(@"should fail to update if dictionary validation fails", ^{
+	NSError *error = nil;
+	MTLTestModel *model = [[MTLTestModel alloc] init];
+	BOOL upadte = [model updateWithDictionary:@{ @"name": @"this is too long a name" } error:&error];
+	expect(upadte).to.beFalsy();
+	
 	expect(error).notTo.beNil();
 	expect(error.domain).to.equal(MTLTestModelErrorDomain);
 	expect(error.code).to.equal(MTLTestModelNameTooLong);

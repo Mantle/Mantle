@@ -8,11 +8,11 @@
 
 #import <CoreData/CoreData.h>
 
-@protocol MTLModel;
+@protocol MTLBaseModelProtocol;
 
 // A MTLModel object that supports being serialized to and from Core Data as an
 // NSManagedObject.
-@protocol MTLManagedObjectSerializing <MTLModel>
+@protocol MTLManagedObjectSerializing <MTLBaseModelProtocol>
 @required
 
 // The name of the Core Data entity that the receiver serializes to and
