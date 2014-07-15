@@ -27,6 +27,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, copy, readonly) NSString *reporterLogin;
 @property (nonatomic, copy, readonly) NSDate *updatedAt;
 @property (nonatomic, strong, readonly) GHUser *assignee;
+@property (nonatomic, assign, readonly) titleLength;
 
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) NSString *body;
@@ -61,6 +62,7 @@ typedef enum : NSUInteger {
     }
 
     _title = [dictionary[@"title"] copy];
+    _titleLength = [_title length];
     _body = [dictionary[@"body"] copy];
     _reporterLogin = [dictionary[@"user"][@"login"] copy];
     _assignee = [[GHUser alloc] initWithDictionary:dictionary[@"assignee"]];
@@ -79,6 +81,7 @@ typedef enum : NSUInteger {
     _number = [coder decodeObjectForKey:@"number"];
     _state = [coder decodeUnsignedIntegerForKey:@"state"];
     _title = [coder decodeObjectForKey:@"title"];
+    _titleLength = [_title length];
     _body = [coder decodeObjectForKey:@"body"];
     _reporterLogin = [coder decodeObjectForKey:@"reporterLogin"];
     _assignee = [coder decodeObjectForKey:@"assignee"];
@@ -111,7 +114,10 @@ typedef enum : NSUInteger {
     issue->_updatedAt = self.updatedAt;
 
     issue.title = self.title;
+    issue->_titleLength = [self.title length];
     issue.body = self.body;
+
+    return issue;
 }
 
 - (NSUInteger)hash {
@@ -186,6 +192,8 @@ typedef enum : NSUInteger {
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) NSString *body;
 
+@property (nonatomic, assign, readonly) NSUInteger titleLength;
+
 @end
 ```
 
@@ -236,6 +244,15 @@ typedef enum : NSUInteger {
     }];
 }
 
+- (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue error:(NSError **)error {
+  self = [super initWithDictionary:dictionaryValue error:error];
+  if (self) {
+    // Pre-compute an expensive operation.
+    _titleLength = [self.title length];
+  }
+  return self;
+}
+
 @end
 ```
 
@@ -269,6 +286,12 @@ JSONArrayForModels:]` is the same but turns an array of model objects into an JS
 archival. When unarchiving, `-decodeValueForKey:withCoder:modelVersion:` will
 be invoked if overridden, giving you a convenient hook to upgrade old data.
 
+> Some of my model's properties are "virtual" or computed locally.
+
+You may optionally override `MTLModel`'s `-initWithDictionary:error:` method to hook into serialization
+during initialization. Be sure to invoke `[super initWithDictionary:error]` whenever JSON deserialization
+should occur.
+
 ## MTLJSONSerializing
 
 In order to serialize your model objects from or into JSON, you need to
@@ -298,6 +321,7 @@ properties map to the keys in the JSON representation. Properties that map to
 @property (readonly, nonatomic, strong) NSDate *createdAt;
 
 @property (readonly, nonatomic, assign, getter = isMeUser) BOOL meUser;
+@property (readonly, nonatomic, strong) XYHelper *helper;
 
 @end
 
@@ -310,16 +334,25 @@ properties map to the keys in the JSON representation. Properties that map to
     };
 }
 
+- (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue error:(NSError *)error {
+  self = [super initWithDictionary:dictionaryValue error:error];
+  if (self) {
+    _helper = [Helper helperWithName:self.name createdAt:self.createdAt];
+  }
+  return self;
+}
+
 @end
 ```
 
-In this example, the `XYUser` class declares three properties that Mantle
+In this example, the `XYUser` class declares four properties that Mantle
 handles in different ways:
 
 - `name` is implicitly mapped to a key of the same name in the JSON
   representation.
 - `createdAt` is converted to its snake case equivalent.
 - `meUser` is not serialized into JSON.
+- `helper` is initialized exactly once after JSON deserialization.
 
 Use `-[NSDictionary mtl_dictionaryByAddingEntriesFromDictionary:]` if your
 model's superclass also implements `MTLJSONSerializing` to merge their mappings.
