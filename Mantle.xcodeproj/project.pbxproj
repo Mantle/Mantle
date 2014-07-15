@@ -695,7 +695,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastTestingUpgradeCheck = 0510;
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = GitHub;
 			};
 			buildConfigurationList = D042FC3515F72B23004E8054 /* Build configuration list for PBXProject "Mantle" */;
