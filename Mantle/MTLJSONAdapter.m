@@ -371,6 +371,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 
 			NSAssert(transformer != nil, @"%@ must not return nil.", NSStringFromSelector(selector));
 			result[key] = transformer;
+
 			continue;
 		}
 
