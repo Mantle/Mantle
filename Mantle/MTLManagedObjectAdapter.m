@@ -716,7 +716,10 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 		}
 
 		if ([self.modelClass respondsToSelector:@selector(entityAttributeTransformerForKey:)]) {
-			result[key] = [self.modelClass entityAttributeTransformerForKey:key];
+			NSValueTransformer *transformer = [self.modelClass entityAttributeTransformerForKey:key];
+
+			if (transformer != nil) result[key] = transformer;
+
 			continue;
 		}
 
