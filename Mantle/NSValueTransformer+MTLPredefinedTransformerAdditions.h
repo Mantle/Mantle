@@ -10,10 +10,6 @@
 
 #import "MTLTransformerErrorHandling.h"
 
-// The name for a value transformer that performs no conversion and always
-// succeeds.
-extern NSString * const MTLIdentityValueTransformerName;
-
 // The name for a value transformer that converts strings into URLs and back.
 extern NSString * const MTLURLValueTransformerName;
 
