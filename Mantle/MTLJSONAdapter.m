@@ -369,8 +369,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 			__unsafe_unretained id transformer = nil;
 			[invocation getReturnValue:&transformer];
 
-			NSAssert(transformer != nil, @"%@ must not return nil.", NSStringFromSelector(selector));
-			result[key] = transformer;
+			if (transformer != nil) result[key] = transformer;
 
 			continue;
 		}
