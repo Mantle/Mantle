@@ -58,7 +58,7 @@
 // If the receiver implements a `-<key>JSONTransformer` method, MTLJSONAdapter
 // will use the result of that method instead. This method must not return nil.
 //
-// Returns a value transformer.
+// Returns a value transformer, or nil if no transformation should be performed.
 + (NSValueTransformer *)JSONTransformerForKey:(NSString *)key;
 
 // Overridden to parse the receiver as a different class, based on information

@@ -716,9 +716,7 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 		}
 
 		if ([self.modelClass respondsToSelector:@selector(entityAttributeTransformerForKey:)]) {
-			id transformer = [self.modelClass entityAttributeTransformerForKey:key];
-			NSAssert(transformer != nil, @"+entityAttributeTransformerForKey: must not return nil.");
-			result[key] = transformer;
+			result[key] = [self.modelClass entityAttributeTransformerForKey:key];
 			continue;
 		}
 
