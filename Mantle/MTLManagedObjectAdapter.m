@@ -709,12 +709,17 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 
 			__unsafe_unretained id transformer = nil;
 			[invocation getReturnValue:&transformer];
-			result[key] = transformer;
+
+			if (transformer != nil) result[key] = transformer;
+
 			continue;
 		}
 
 		if ([self.modelClass respondsToSelector:@selector(entityAttributeTransformerForKey:)]) {
-			result[key] = [self.modelClass entityAttributeTransformerForKey:key];
+			NSValueTransformer *transformer = [self.modelClass entityAttributeTransformerForKey:key];
+
+			if (transformer != nil) result[key] = transformer;
+
 			continue;
 		}
 
