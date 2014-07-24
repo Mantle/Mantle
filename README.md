@@ -244,11 +244,6 @@ implementations for all these methods.
 
 The problems with the original example all happen to be fixed as well:
 
-> If the `url` or `html_url` field is missing, `+[NSURL URLWithString:]` will throw an exception.
-
-The URL transformer we used (included in Mantle) returns `nil` if given a `nil`
-string.
-
 > There's no way to update a `GHIssue` with new data from the server.
 
 `MTLModel` has an extensible `-mergeValuesForKeysFromModel:` method, which makes
