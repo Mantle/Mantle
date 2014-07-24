@@ -130,8 +130,6 @@ typedef enum : NSUInteger {
 Whew, that's a lot of boilerplate for something so simple! And, even then, there
 are some problems that this example doesn't address:
 
- * If the `url` or `html_url` field is missing, `+[NSURL URLWithString:]` will
-   throw an exception.
  * There's no way to update a `GHIssue` with new data from the server.
  * There's no way to turn a `GHIssue` _back_ into JSON.
  * `GHIssueState` shouldn't be encoded as-is. If the enum changes in the future,
