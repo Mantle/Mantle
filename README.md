@@ -27,7 +27,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, copy, readonly) NSString *reporterLogin;
 @property (nonatomic, copy, readonly) NSDate *updatedAt;
 @property (nonatomic, strong, readonly) GHUser *assignee;
-@property (nonatomic, assign, readonly) titleLength;
+@property (nonatomic, assign, readonly) NSDate *retrievedAt;
 
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) NSString *body;
@@ -62,7 +62,7 @@ typedef enum : NSUInteger {
     }
 
     _title = [dictionary[@"title"] copy];
-    _titleLength = [_title length];
+    _retrievedAt = [NSDate date];
     _body = [dictionary[@"body"] copy];
     _reporterLogin = [dictionary[@"user"][@"login"] copy];
     _assignee = [[GHUser alloc] initWithDictionary:dictionary[@"assignee"]];
@@ -81,7 +81,7 @@ typedef enum : NSUInteger {
     _number = [coder decodeObjectForKey:@"number"];
     _state = [coder decodeUnsignedIntegerForKey:@"state"];
     _title = [coder decodeObjectForKey:@"title"];
-    _titleLength = [_title length];
+    _retrievedAt = [NSDate date];
     _body = [coder decodeObjectForKey:@"body"];
     _reporterLogin = [coder decodeObjectForKey:@"reporterLogin"];
     _assignee = [coder decodeObjectForKey:@"assignee"];
@@ -114,7 +114,7 @@ typedef enum : NSUInteger {
     issue->_updatedAt = self.updatedAt;
 
     issue.title = self.title;
-    issue->_titleLength = [self.title length];
+    issue->_retrievedAt = [NSDate date];
     issue.body = self.body;
 
     return issue;
@@ -192,7 +192,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) NSString *body;
 
-@property (nonatomic, assign, readonly) NSUInteger titleLength;
+@property (nonatomic, assign, readonly) NSDate *retrievedAt;
 
 @end
 ```
@@ -247,8 +247,8 @@ typedef enum : NSUInteger {
 - (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue error:(NSError **)error {
   self = [super initWithDictionary:dictionaryValue error:error];
   if (self) {
-    // Pre-compute an expensive operation.
-    _titleLength = [self.title length];
+    // Store a value that needs to be determined locally upon initialization.
+    _retrievedAt = [NSDate date];
   }
   return self;
 }
