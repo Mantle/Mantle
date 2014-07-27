@@ -101,7 +101,7 @@ it(@"should return nil and error with an invalid key path from JSON",^{
 	expect(error.code).to.equal(MTLJSONAdapterErrorInvalidJSONDictionary);
 });
 
-it(@"should not support key paths across arrays", ^{
+it(@"should support key paths across arrays", ^{
 	NSDictionary *values = @{
 		@"users": @[
 			@{

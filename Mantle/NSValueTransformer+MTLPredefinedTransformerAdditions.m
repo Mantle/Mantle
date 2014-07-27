@@ -238,6 +238,7 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 				index++;
 				if (value == NSNull.null) {
 					[transformedValues addObject:NSNull.null];
+
 					continue;
 				}
 				
