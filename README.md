@@ -286,12 +286,6 @@ JSONArrayForModels:]` is the same but turns an array of model objects into an JS
 archival. When unarchiving, `-decodeValueForKey:withCoder:modelVersion:` will
 be invoked if overridden, giving you a convenient hook to upgrade old data.
 
-> Some of my model's properties are "virtual" or computed locally.
-
-You may optionally override `MTLModel`'s `-initWithDictionary:error:` method to hook into serialization
-during initialization. Be sure to invoke `[super initWithDictionary:error]` whenever JSON deserialization
-should occur.
-
 ## MTLJSONSerializing
 
 In order to serialize your model objects from or into JSON, you need to
