@@ -245,10 +245,10 @@ typedef enum : NSUInteger {
 }
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue error:(NSError **)error {
-  self = [super initWithDictionary:dictionaryValue error:error];
-  if (self) {
-    // Store a value that needs to be determined locally upon initialization.
-    _retrievedAt = [NSDate date];
+    self = [super initWithDictionary:dictionaryValue error:error];
+    if (self) {
+        // Store a value that needs to be determined locally upon initialization.
+        _retrievedAt = [NSDate date];
   }
   return self;
 }
@@ -329,11 +329,11 @@ properties map to the keys in the JSON representation. Properties that map to
 }
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue error:(NSError *)error {
-  self = [super initWithDictionary:dictionaryValue error:error];
-  if (self) {
-    _helper = [Helper helperWithName:self.name createdAt:self.createdAt];
-  }
-  return self;
+    self = [super initWithDictionary:dictionaryValue error:error];
+    if (self) {
+        _helper = [XYHelper helperWithName:self.name createdAt:self.createdAt];
+    }
+    return self;
 }
 
 @end
