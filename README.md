@@ -27,7 +27,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, copy, readonly) NSString *reporterLogin;
 @property (nonatomic, copy, readonly) NSDate *updatedAt;
 @property (nonatomic, strong, readonly) GHUser *assignee;
-@property (nonatomic, assign, readonly) NSDate *retrievedAt;
+@property (nonatomic, copy, readonly) NSDate *retrievedAt;
 
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) NSString *body;
@@ -192,7 +192,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) NSString *body;
 
-@property (nonatomic, assign, readonly) NSDate *retrievedAt;
+@property (nonatomic, copy, readonly) NSDate *retrievedAt;
 
 @end
 ```
