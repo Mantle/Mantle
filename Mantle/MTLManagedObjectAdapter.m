@@ -7,7 +7,7 @@
 //
 
 #import "MTLManagedObjectAdapter.h"
-#import "EXTScope.h"
+#import "MLEXTScope.h"
 #import "MTLModel.h"
 #import "MTLReflection.h"
 #import "NSArray+MTLManipulationAdditions.h"
