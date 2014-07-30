@@ -322,7 +322,7 @@ properties map to the keys in the JSON representation. Properties that map to
     };
 }
 
-- (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue error:(NSError *)error {
+- (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue error:(NSError **)error {
     self = [super initWithDictionary:dictionaryValue error:error];
     if (self == nil) return nil;
 
