@@ -1,3 +1,6 @@
+[![Dependency Status](https://www.versioneye.com/objective-c/mantle/1.5/badge.svg?style=flat)](https://www.versioneye.com/objective-c/mantle/1.5)
+[![Reference Status](https://www.versioneye.com/objective-c/mantle/reference_badge.svg?style=flat)](https://www.versioneye.com/objective-c/mantle/references)
+
 # Mantle
 
 Mantle makes it easy to write a simple model layer for your Cocoa or Cocoa Touch
