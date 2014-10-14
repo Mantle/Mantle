@@ -27,6 +27,10 @@
 // Initializes the receiver using key-value coding, setting the keys and values
 // in the given dictionary.
 //
+// Subclass implementations may override this method, calling the super
+// implementation, in order to perform further processing and initialization
+// after deserialization.
+//
 // dictionaryValue - Property keys and values to set on the receiver. Any NSNull
 //                   values will be converted to nil before being used. KVC
 //                   validation methods will automatically be invoked for all of
