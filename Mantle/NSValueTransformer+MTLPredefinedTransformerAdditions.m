@@ -73,7 +73,7 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 		reversibleTransformerWithForwardBlock:^ id (NSArray *dictionaries) {
 			if (dictionaries == nil) return nil;
 
-			NSAssert([dictionaries isKindOfClass:NSArray.class], @"Expected a array of dictionaries, got: %@", dictionaries);
+			NSAssert([dictionaries isKindOfClass:NSArray.class], @"Expected an array of dictionaries, got: %@", dictionaries);
 
 			NSMutableArray *models = [NSMutableArray arrayWithCapacity:dictionaries.count];
 			for (id JSONDictionary in dictionaries) {
@@ -95,7 +95,7 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 		reverseBlock:^ id (NSArray *models) {
 			if (models == nil) return nil;
 
-			NSAssert([models isKindOfClass:NSArray.class], @"Expected a array of MTLModels, got: %@", models);
+			NSAssert([models isKindOfClass:NSArray.class], @"Expected an array of MTLModels, got: %@", models);
 
 			NSMutableArray *dictionaries = [NSMutableArray arrayWithCapacity:models.count];
 			for (id model in models) {

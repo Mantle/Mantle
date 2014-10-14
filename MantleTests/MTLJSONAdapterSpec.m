@@ -115,19 +115,6 @@ it(@"should return nil and error with an invalid key path from JSON",^{
 	expect(error.code).to.equal(MTLJSONAdapterErrorInvalidJSONDictionary);
 });
 
-it(@"should return nil and error with an illegal JSON mapping", ^{
-	NSDictionary *values = @{
-		@"username": @"foo"
-	};
-
-	NSError *error = nil;
-	MTLIllegalJSONMappingModel *model = [MTLJSONAdapter modelOfClass:MTLIllegalJSONMappingModel.class fromJSONDictionary:values error:&error];
-	expect(model).beNil();
-	expect(error).notTo.beNil();
-	expect(error.domain).to.equal(MTLJSONAdapterErrorDomain);
-	expect(error.code).to.equal(MTLJSONAdapterErrorInvalidJSONMapping);
-});
-
 it(@"should support key paths across arrays", ^{
 	NSDictionary *values = @{
 		@"users": @[
