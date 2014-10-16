@@ -64,6 +64,11 @@ static NSUInteger modelVersion = 1;
 	};
 }
 
++ (NSDictionary *)JSONKeyPathsNamespacesByPropertyKey
+{
+	return @{};
+}
+
 + (NSValueTransformer *)countJSONTransformer {
 	return [MTLValueTransformer
 		reversibleTransformerWithForwardBlock:^(NSString *str) {
@@ -131,11 +136,21 @@ static NSUInteger modelVersion = 1;
 	};
 }
 
++ (NSDictionary *)JSONKeyPathsNamespacesByPropertyKey
+{
+	return @{};
+}
+
 @end
 
 @implementation MTLSubstitutingTestModel
 
 + (NSDictionary *)JSONKeyPathsByPropertyKey {
+	return @{};
+}
+
++ (NSDictionary *)JSONKeyPathsNamespacesByPropertyKey
+{
 	return @{};
 }
 
@@ -184,4 +199,32 @@ static NSUInteger modelVersion = 1;
 	};
 }
 
++ (NSDictionary *)JSONKeyPathsNamespacesByPropertyKey
+{
+	return @{};
+}
+
 @end
+
+@implementation MTLNamespaceTestModel
+
+#pragma mark MTLJSONSerializing
+
++ (NSDictionary *)JSONKeyPathsByPropertyKey {
+	return @{
+			 @"name": @"username",
+			 @"nestedName": @"nested.name",
+			 @"weakModel": NSNull.null,
+			 };
+}
+
++ (NSDictionary *)JSONKeyPathsNamespacesByPropertyKey {
+	return @{
+			 @"name": @"com.namespace.",
+			 @"nestedName":@"com.namespace.",
+			 @"count": @"com.namespace."
+			 };
+}
+
+@end
+

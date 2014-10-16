@@ -30,6 +30,9 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 // A cached copy of the return value of +JSONKeyPathsByPropertyKey.
 @property (nonatomic, copy, readonly) NSDictionary *JSONKeyPathsByPropertyKey;
 
+// A cached copy of the return value of +JSONKeyPathsNamespacesByPropertyKey.
+@property (nonatomic, copy, readonly) NSDictionary *JSONKeyPathsNamespacesByPropertyKey;
+
 // Looks up the NSValueTransformer that should be used for the given key.
 //
 // key - The property key to transform from or to. This argument must not be nil.
@@ -139,6 +142,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 
 	_modelClass = modelClass;
 	_JSONKeyPathsByPropertyKey = [[modelClass JSONKeyPathsByPropertyKey] copy];
+	_JSONKeyPathsNamespacesByPropertyKey = [[modelClass JSONKeyPathsNamespacesByPropertyKey] copy];
 
 	NSMutableDictionary *dictionaryValue = [[NSMutableDictionary alloc] initWithCapacity:JSONDictionary.count];
 
@@ -161,10 +165,20 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	for (NSString *propertyKey in propertyKeys) {
 		NSString *JSONKeyPath = [self JSONKeyPathForPropertyKey:propertyKey];
 		if (JSONKeyPath == nil) continue;
+		
+		NSString *JSONKeyPathNamespace = [self JSONKeyPathNamespaceForPropertyKey:propertyKey];
+		NSArray *JSONKeyPathComponents = [JSONKeyPath componentsSeparatedByString:@"."];
+		
+		if (JSONKeyPathNamespace) {
+			JSONKeyPath = [NSString stringWithFormat:@"%@%@",JSONKeyPathNamespace,JSONKeyPathComponents.firstObject];
+		}
 
 		id value;
 		@try {
 			value = [JSONDictionary valueForKeyPath:JSONKeyPath];
+			if (JSONKeyPathNamespace && JSONKeyPathComponents.count > 1) {
+				value = value[JSONKeyPathComponents[1]];
+			}
 		} @catch (NSException *ex) {
 			if (error != NULL) {
 				NSDictionary *userInfo = @{
@@ -228,6 +242,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	_model = model;
 	_modelClass = model.class;
 	_JSONKeyPathsByPropertyKey = [[model.class JSONKeyPathsByPropertyKey] copy];
+	_JSONKeyPathsNamespacesByPropertyKey = [[model.class JSONKeyPathsNamespacesByPropertyKey] copy];
 
 	return self;
 }
@@ -249,22 +264,42 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 			if ([value isEqual:NSNull.null]) value = nil;
 			value = [transformer reverseTransformedValue:value] ?: NSNull.null;
 		}
-
+		NSString *namespaceString = [self JSONKeyPathNamespaceForPropertyKey:propertyKey];
+				
 		NSArray *keyPathComponents = [JSONKeyPath componentsSeparatedByString:@"."];
 
 		// Set up dictionaries at each step of the key path.
 		id obj = JSONDictionary;
 		for (NSString *component in keyPathComponents) {
-			if ([obj valueForKey:component] == nil) {
+			NSString *consumedComponent = component;
+			if (namespaceString && [component isEqualToString:keyPathComponents.firstObject]) {
+				consumedComponent = [NSString stringWithFormat:@"%@%@",namespaceString,consumedComponent];
+			}
+			if ([obj valueForKey:consumedComponent] == nil) {
 				// Insert an empty mutable dictionary at this spot so that we
 				// can set the whole key path afterward.
-				[obj setValue:[NSMutableDictionary dictionary] forKey:component];
+				[obj setValue:[NSMutableDictionary dictionary] forKey:consumedComponent];
 			}
 
-			obj = [obj valueForKey:component];
+			obj = [obj valueForKey:consumedComponent];
+		}
+		if (namespaceString) {
+			NSString *keyPathSuffix = JSONKeyPath;
+			if (keyPathComponents.count > 1) {
+				keyPathSuffix = keyPathComponents.firstObject;
+			}
+			NSString *JSONKey = [NSString stringWithFormat:@"%@%@",namespaceString,keyPathSuffix];
+			if (keyPathComponents.count == 1) {
+				JSONDictionary[JSONKey] = value;
+			} else {
+				JSONDictionary[JSONKey][keyPathComponents[1]] = value;
+			}
+			
+		} else {
+			[JSONDictionary setValue:value forKeyPath:JSONKeyPath];
 		}
 
-		[JSONDictionary setValue:value forKeyPath:JSONKeyPath];
+		
 	}];
 
 	return JSONDictionary;
@@ -302,6 +337,19 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 		return key;
 	} else {
 		return JSONKeyPath;
+	}
+}
+
+- (NSString *)JSONKeyPathNamespaceForPropertyKey:(NSString *)key {
+	NSParameterAssert(key != nil);
+	
+	id JSONKeyPathNamespace = self.JSONKeyPathsNamespacesByPropertyKey[key];
+	if ([JSONKeyPathNamespace isEqual:NSNull.null]) return nil;
+	
+	if (JSONKeyPathNamespace == nil) {
+		return nil;
+	} else {
+		return JSONKeyPathNamespace;
 	}
 }
 
