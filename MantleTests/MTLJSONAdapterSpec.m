@@ -28,7 +28,7 @@ it(@"should initialize from JSON", ^{
 	MTLTestModel *model = (id)adapter.model;
 	expect(model).notTo(beNil());
 	expect(model.name).to(beNil());
-	expect(model.count).to(equal(5));
+	expect(@(model.count)).to(equal(@5));
 
 	NSDictionary *JSONDictionary = @{
 		@"username": NSNull.null,
@@ -71,7 +71,7 @@ it(@"should initialize nested key paths from JSON", ^{
 	expect(error).to(beNil());
 
 	expect(model.name).to(equal(@"foo"));
-	expect(model.count).to(equal(0));
+	expect(@(model.count)).to(equal(@0));
 	expect(model.nestedName).to(equal(@"bar"));
 
 	expect([MTLJSONAdapter JSONDictionaryFromModel:model]).to(equal(values));
@@ -86,10 +86,10 @@ it(@"should return nil and error with an invalid key path from JSON",^{
 
 	NSError *error = nil;
 	MTLTestModel *model = [MTLJSONAdapter modelOfClass:MTLTestModel.class fromJSONDictionary:values error:&error];
-	expect(model).beNil();
+	expect(model).to(beNil());
 	expect(error).notTo(beNil());
 	expect(error.domain).to(equal(MTLJSONAdapterErrorDomain));
-	expect(error.code).to(equal(MTLJSONAdapterErrorInvalidJSONDictionary));
+	expect(@(error.code)).to(equal(@(MTLJSONAdapterErrorInvalidJSONDictionary)));
 });
 
 it(@"should support key paths across arrays", ^{
@@ -128,7 +128,7 @@ it(@"should initialize without returning any error when using a JSON dictionary 
 	expect(error).to(beNil());
 
 	expect(model.name).to(equal(@"foo"));
-	expect(model.count).to(equal(0));
+	expect(@(model.count)).to(equal(@0));
 	expect(model.nestedName).to(beNil());
 });
 
@@ -138,7 +138,7 @@ it(@"should return nil and an error with a nil JSON dictionary", ^{
 	expect(adapter).to(beNil());
 	expect(error).notTo(beNil());
 	expect(error.domain).to(equal(MTLJSONAdapterErrorDomain));
-	expect(error.code).to(equal(MTLJSONAdapterErrorInvalidJSONDictionary));
+	expect(@(error.code)).to(equal(@(MTLJSONAdapterErrorInvalidJSONDictionary)));
 });
 
 it(@"should return nil and an error with a wrong data type as dictionary", ^{
@@ -148,7 +148,7 @@ it(@"should return nil and an error with a wrong data type as dictionary", ^{
 	expect(adapter).to(beNil());
 	expect(error).notTo(beNil());
 	expect(error.domain).to(equal(MTLJSONAdapterErrorDomain));
-	expect(error.code).to(equal(MTLJSONAdapterErrorInvalidJSONDictionary));
+	expect(@(error.code)).to(equal(@(MTLJSONAdapterErrorInvalidJSONDictionary)));
 });
 
 it(@"should ignore unrecognized JSON keys", ^{
@@ -166,7 +166,7 @@ it(@"should ignore unrecognized JSON keys", ^{
 	expect(error).to(beNil());
 
 	expect(model.name).to(equal(@"buzz"));
-	expect(model.count).to(equal(2));
+	expect(@(model.count)).to(equal(@2));
 	expect(model.nestedName).to(equal(@"bar"));
 });
 
@@ -179,7 +179,7 @@ it(@"should fail to initialize if JSON dictionary validation fails", ^{
 	MTLTestModel *model = [MTLJSONAdapter modelOfClass:MTLTestModel.class fromJSONDictionary:values error:&error];
 	expect(model).to(beNil());
 	expect(error.domain).to(equal(MTLTestModelErrorDomain));
-	expect(error.code).to(equal(MTLTestModelNameTooLong));
+	expect(@(error.code)).to(equal(@(MTLTestModelNameTooLong)));
 });
 
 it(@"should parse a different model class", ^{
@@ -191,11 +191,11 @@ it(@"should parse a different model class", ^{
 
 	NSError *error = nil;
 	MTLTestModel *model = [MTLJSONAdapter modelOfClass:MTLSubstitutingTestModel.class fromJSONDictionary:values error:&error];
-	expect(model).to(beKindOf(MTLTestModel.class));
+	expect(model).to(beAnInstanceOf(MTLTestModel.class));
 	expect(error).to(beNil());
 
 	expect(model.name).to(equal(@"foo"));
-	expect(model.count).to(equal(0));
+	expect(@(model.count)).to(equal(@0));
 	expect(model.nestedName).to(equal(@"bar"));
 
 	expect([MTLJSONAdapter JSONDictionaryFromModel:model]).to(equal(values));
@@ -208,7 +208,7 @@ it(@"should return an error when no suitable model class is found", ^{
 
 	expect(error).notTo(beNil());
 	expect(error.domain).to(equal(MTLJSONAdapterErrorDomain));
-	expect(error.code).to(equal(MTLJSONAdapterErrorNoClassFound));
+	expect(@(error.code)).to(equal(@(MTLJSONAdapterErrorNoClassFound)));
 });
 
 describe(@"Deserializing multiple models", ^{
@@ -228,7 +228,7 @@ describe(@"Deserializing multiple models", ^{
 
 		expect(error).to(beNil());
 		expect(mantleModels).notTo(beNil());
-		expect(mantleModels).haveCountOf(2);
+		expect(@(mantleModels.count)).to(equal(@2));
 		expect([mantleModels[0] name]).to(equal(@"foo"));
 		expect([mantleModels[1] name]).to(equal(@"bar"));
 	});
@@ -259,7 +259,7 @@ it(@"should return nil and an error if it fails to initialize any model from an 
 
 	expect(error).notTo(beNil());
 	expect(error.domain).to(equal(MTLJSONAdapterErrorDomain));
-	expect(error.code).to(equal(MTLJSONAdapterErrorNoClassFound));
+	expect(@(error.code)).to(equal(@(MTLJSONAdapterErrorNoClassFound)));
 	expect(mantleModels).to(beNil());
 });
 
@@ -273,7 +273,7 @@ it(@"should return an array of dictionaries from models", ^{
 	NSArray *JSONArray = [MTLJSONAdapter JSONArrayFromModels:@[ model1, model2 ]];
 
 	expect(JSONArray).notTo(beNil());
-	expect(JSONArray).haveCountOf(2);
+	expect(@(JSONArray.count)).to(equal(@2));
 	expect(JSONArray[0][@"username"]).to(equal(@"foo"));
 	expect(JSONArray[1][@"username"]).to(equal(@"bar"));
 });

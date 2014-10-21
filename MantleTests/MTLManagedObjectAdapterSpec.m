@@ -81,7 +81,7 @@ describe(@"with a confined context", ^{
 			parent.string = requiredString;
 
 			__block NSError *error = nil;
-			expect([context save:&error]).to(beTruthy());
+			expect(@([context save:&error])).to(beTruthy());
 			expect(error).to(beNil());
 
 			// Make sure that pending changes are picked up too.
@@ -92,30 +92,30 @@ describe(@"with a confined context", ^{
 		it(@"should initialize a MTLParentTestModel with children", ^{
 			NSError *error = nil;
 			MTLParentTestModel *parentModel = [MTLManagedObjectAdapter modelOfClass:MTLParentTestModel.class fromManagedObject:parent error:&error];
-			expect(parentModel).to(beKindOf(MTLParentTestModel.class));
+			expect(parentModel).to(beAnInstanceOf(MTLParentTestModel.class));
 			expect(error).to(beNil());
 
 			expect(parentModel.date).to(equal(date));
 			expect(parentModel.numberString).to(equal(numberString));
 			expect(parentModel.requiredString).to(equal(requiredString));
 
-			expect(parentModel.orderedChildren).to(haveCountOf(3));
-			expect(parentModel.unorderedChildren).to(haveCountOf(3));
+			expect(@(parentModel.orderedChildren.count)).to(equal(@3));
+			expect(@(parentModel.unorderedChildren.count)).to(equal(@3));
 
 			for (NSUInteger i = 0; i < 3; i++) {
 				MTLChildTestModel *child = parentModel.orderedChildren[i];
-				expect(child).to(beKindOf(MTLChildTestModel.class));
+				expect(child).to(beAnInstanceOf(MTLChildTestModel.class));
 
-				expect(child.childID).to(equal(i));
+				expect(@(child.childID)).to(equal(@(i)));
 				expect(child.parent1).to(beNil());
 				expect(child.parent2).to(beIdenticalTo(parentModel));
 			}
 
 			for (MTLChildTestModel *child in parentModel.unorderedChildren) {
-				expect(child).to(beKindOf(MTLChildTestModel.class));
+				expect(child).to(beAnInstanceOf(MTLChildTestModel.class));
 
-				expect(child.childID).to(beGreaterThanOrEqualTo(3));
-				expect(child.childID).to(beLessThan(6));
+				expect(@(child.childID)).to(beGreaterThanOrEqualTo(@3));
+				expect(@(child.childID)).to(beLessThan(@6));
 
 				expect(child.parent1).to(beIdenticalTo(parentModel));
 				expect(child.parent2).to(beNil());
@@ -165,7 +165,7 @@ describe(@"with a confined context", ^{
 			__block NSError *error = nil;
 			MTLParent *parent = [MTLManagedObjectAdapter managedObjectFromModel:parentModel insertingIntoContext:context error:&error];
 			expect(parent).notTo(beNil());
-			expect(parent).to(beKindOf(MTLParent.class));
+			expect(parent).to(beAnInstanceOf(MTLParent.class));
 			expect(error).to(beNil());
 
 			expect(parent.entity).to(equal(parentEntity));
@@ -175,36 +175,35 @@ describe(@"with a confined context", ^{
 			expect(parent.number.stringValue).to(equal(parentModel.numberString));
 			expect(parent.string).to(equal(parentModel.requiredString));
 
-			expect(parent.orderedChildren).to(haveCountOf(3));
-
-			expect(parent.unorderedChildren).to(haveCountOf(3));
+			expect(@(parent.orderedChildren.count)).to(equal(@3));
+			expect(@(parent.unorderedChildren.count)).to(equal(@3));
 
 			for (NSUInteger i = 0; i < 3; i++) {
 				MTLChild *child = parent.orderedChildren[i];
-				expect(child).to(beKindOf(MTLChild.class));
+				expect(child).to(beAnInstanceOf(MTLChild.class));
 
 				expect(child.entity).to(equal(childEntity));
 				expect(context.insertedObjects).to(contain(child));
 
-				expect(child.childID).to(equal(i));
+				expect(child.childID).to(equal(@(i)));
 				expect(child.parent1).to(beNil());
 				expect(child.parent2).to(equal(parent));
 			}
 
 			for (MTLChild *child in parent.unorderedChildren) {
-				expect(child).to(beKindOf(MTLChild.class));
+				expect(child).to(beAnInstanceOf(MTLChild.class));
 
 				expect(child.entity).to(equal(childEntity));
 				expect(context.insertedObjects).to(contain(child));
 
-				expect(child.childID).to(beGreaterThanOrEqualTo(3));
-				expect(child.childID).to(beLessThan(6));
+				expect(child.childID).to(beGreaterThanOrEqualTo(@3));
+				expect(child.childID).to(beLessThan(@6));
 
 				expect(child.parent1).to(equal(parent));
 				expect(child.parent2).to(beNil());
 			}
 
-			expect([context save:&error]).to(beTruthy());
+			expect(@([context save:&error])).to(beTruthy());
 			expect(error).to(beNil());
 		});
 
@@ -238,10 +237,10 @@ describe(@"with a confined context", ^{
 
 			NSError *error = nil;
 			MTLIllegalManagedObjectMappingModel *model = [MTLManagedObjectAdapter modelOfClass:MTLIllegalManagedObjectMappingModel.class fromManagedObject:parent error:&error];
-			expect(model).beNil();
+			expect(model).to(beNil());
 			expect(error).notTo(beNil());
 			expect(error.domain).to(equal(MTLManagedObjectAdapterErrorDomain));
-			expect(error.code).to(equal(MTLManagedObjectAdapterErrorInvalidManagedObjectMapping));
+			expect(@(error.code)).to(equal(@(MTLManagedObjectAdapterErrorInvalidManagedObjectMapping)));
 		});
 
 		it(@"should return an error if model doesn't validate for insert", ^{
@@ -273,8 +272,8 @@ describe(@"with a confined context", ^{
 			MTLParent *parentOne = [MTLManagedObjectAdapter managedObjectFromModel:parentModel insertingIntoContext:context error:&error];
 			expect(parentOne).notTo(beNil());
 			expect(error).to(beNil());
-			expect(parentOne.orderedChildren).to(haveCountOf(3));
-			expect(parentOne.unorderedChildren).to(haveCountOf(3));
+			expect(@(parentOne.orderedChildren.count)).to(equal(@3));
+			expect(@(parentOne.unorderedChildren.count)).to(equal(@3));
 
 			MTLChild *child1Parent1 = parentOne.orderedChildren[0];
 			MTLChild *child2Parent1 = parentOne.orderedChildren[1];
@@ -289,15 +288,15 @@ describe(@"with a confined context", ^{
 			MTLParent *parentTwo = [MTLManagedObjectAdapter managedObjectFromModel:parentModelCopy insertingIntoContext:context error:&error];
 			expect(parentTwo).notTo(beNil());
 			expect(error).to(beNil());
-			expect(parentTwo.orderedChildren).to(haveCountOf(2));
-			expect(parentTwo.unorderedChildren).to(haveCountOf(2));
+			expect(@(parentTwo.orderedChildren.count)).to(equal(@2));
+			expect(@(parentTwo.unorderedChildren.count)).to(equal(@2));
 
 			for (MTLChild *child in parentTwo.orderedChildren) {
 				expect(child.childID).notTo(equal(child2Parent1.childID));
 			}
 
 			for (MTLChild *child in parentTwo.unorderedChildren) {
-				expect(child.childID).notTo(equal(childToDeleteModel.childID));
+				expect(child.childID).notTo(equal(@(childToDeleteModel.childID)));
 			}
 
 			MTLChild *child1Parent2 = parentTwo.orderedChildren[0];
@@ -323,7 +322,7 @@ describe(@"with a confined context", ^{
 			expect(parentModel).notTo(beNil());
 
 			BOOL saveSuccessful = [context save:nil];
-			expect(saveSuccessful).to(equal(YES));
+			expect(@(saveSuccessful)).to(beTruthy());
 
 			NSString *initialValueOfRequiredString = updatedParentModel.requiredString;
 			MTLParent *updatedParentOne = [MTLManagedObjectAdapter managedObjectFromModel:updatedParentModel insertingIntoContext:context error:&error];
@@ -353,7 +352,7 @@ describe(@"with a main queue context", ^{
 
 		NSError *error = nil;
 		MTLParentTestModel *parentModel = [MTLManagedObjectAdapter modelOfClass:MTLParentTestModel.class fromManagedObject:parent error:&error];
-		expect(parentModel).to(beKindOf(MTLParentTestModel.class));
+		expect(parentModel).to(beAnInstanceOf(MTLParentTestModel.class));
 		expect(error).to(beNil());
 	});
 });
@@ -404,7 +403,7 @@ describe(@"with a child that fails serialization", ^{
 		MTLParent *parent = [MTLManagedObjectAdapter managedObjectFromModel:parentModel insertingIntoContext:context error:&error];
 		expect(parent).to(beNil());
 		expect(error).notTo(beNil());
-		expect([context save:&error]).to(beTruthy());
+		expect(@([context save:&error])).to(beTruthy());
 	});
 });
 

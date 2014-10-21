@@ -28,7 +28,7 @@ it(@"should initialize with default values", ^{
 	expect(model).notTo(beNil());
 
 	expect(model.name).to(beNil());
-	expect(model.count).to(equal(1));
+	expect(@(model.count)).to(equal(@1));
 
 	NSDictionary *expectedValues = @{
 		@"name": NSNull.null,
@@ -75,7 +75,7 @@ describe(@"with a dictionary of values", ^{
 
 	it(@"should initialize with the given values", ^{
 		expect(model.name).to(equal(@"foobar"));
-		expect(model.count).to(equal(5));
+		expect(@(model.count)).to(equal(@5));
 		expect(model.nestedName).to(equal(@"fuzzbuzz"));
 		expect(model.weakModel).to(equal(emptyModel));
 
@@ -88,7 +88,7 @@ describe(@"with a dictionary of values", ^{
 
 		MTLTestModel *matchingModel = [[MTLTestModel alloc] initWithDictionary:values error:NULL];
 		expect(model).to(equal(matchingModel));
-		expect(model.hash).to(equal(matchingModel.hash));
+		expect(@(model.hash)).to(equal(@(matchingModel.hash)));
 		expect(model.dictionaryValue).to(equal(matchingModel.dictionaryValue));
 	});
 
@@ -112,7 +112,7 @@ it(@"should fail to initialize if dictionary validation fails", ^{
 
 	expect(error).notTo(beNil());
 	expect(error.domain).to(equal(MTLTestModelErrorDomain));
-	expect(error.code).to(equal(MTLTestModelNameTooLong));
+	expect(@(error.code)).to(equal(@(MTLTestModelNameTooLong)));
 });
 
 it(@"should merge two models together", ^{
@@ -125,7 +125,7 @@ it(@"should merge two models together", ^{
 	[target mergeValuesForKeysFromModel:source];
 
 	expect(target.name).to(equal(@"bar"));
-	expect(target.count).to(equal(8));
+	expect(@(target.count)).to(equal(@8));
 });
 
 describe(@"merging with model subclasses", ^{
@@ -154,15 +154,15 @@ describe(@"merging with model subclasses", ^{
 		[superclass mergeValuesForKeysFromModel:subclass];
 
 		expect(superclass.name).to(equal(@"bar"));
-		expect(superclass.count).to(equal(8));
+		expect(@(superclass.count)).to(equal(@8));
 	});
 
 	it(@"should merge from superclass model", ^{
 		[subclass mergeValuesForKeysFromModel:superclass];
 
 		expect(subclass.name).to(equal(@"foo"));
-		expect(subclass.count).to(equal(8));
-		expect(subclass.generation).to(equal(1));
+		expect(@(subclass.count)).to(equal(@8));
+		expect(subclass.generation).to(equal(@1));
 		expect(subclass.role).to(equal(@"subclass"));
 	});
 });

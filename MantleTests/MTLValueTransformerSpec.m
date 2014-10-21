@@ -18,7 +18,7 @@ it(@"should return a forward transformer with a block", ^{
 	}];
 
 	expect(transformer).notTo(beNil());
-	expect([transformer.class allowsReverseTransformation]).to(beFalsy());
+	expect(@([transformer.class allowsReverseTransformation])).to(beFalsy());
 
 	expect([transformer transformedValue:@"foo"]).to(equal(@"foobar"));
 	expect([transformer transformedValue:@"bar"]).to(equal(@"barbar"));
@@ -30,7 +30,7 @@ it(@"should return a reversible transformer with a block", ^{
 	}];
 
 	expect(transformer).notTo(beNil());
-	expect([transformer.class allowsReverseTransformation]).to(beTruthy());
+	expect(@([transformer.class allowsReverseTransformation])).to(beTruthy());
 
 	expect([transformer transformedValue:@"foo"]).to(equal(@"foobar"));
 	expect([transformer reverseTransformedValue:@"foo"]).to(equal(@"foobar"));
@@ -46,7 +46,7 @@ it(@"should return a reversible transformer with forward and reverse blocks", ^{
 		}];
 
 	expect(transformer).notTo(beNil());
-	expect([transformer.class allowsReverseTransformation]).to(beTruthy());
+	expect(@([transformer.class allowsReverseTransformation])).to(beTruthy());
 
 	expect([transformer transformedValue:@"foo"]).to(equal(@"foobar"));
 	expect([transformer reverseTransformedValue:@"foobar"]).to(equal(@"foo"));

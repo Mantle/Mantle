@@ -38,7 +38,7 @@ it(@"should have default allowed classes", ^{
 });
 
 it(@"should default to version 0", ^{
-	expect(MTLEmptyTestModel.modelVersion).to(equal(0));
+	expect(@(MTLEmptyTestModel.modelVersion)).to(equal(@0));
 });
 
 describe(@"archiving", ^{
@@ -102,7 +102,7 @@ describe(@"archiving", ^{
 		expect(data).notTo(beNil());
 
 		NSArray *objects = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-		expect(objects.count).to(equal(2));
+		expect(@(objects.count)).to(equal(@2));
 		expect(objects[1]).to(equal(emptyModel));
 
 		MTLTestModel *unarchivedModel = objects[0];
@@ -121,7 +121,7 @@ describe(@"archiving", ^{
 		MTLTestModel *unarchivedModel = [NSKeyedUnarchiver unarchiveObjectWithData:data];
 		expect(unarchivedModel).notTo(beNil());
 		expect(unarchivedModel.name).to(equal(@"M: foobar"));
-		expect(unarchivedModel.count).to(equal(@5));
+		expect(@(unarchivedModel.count)).to(equal(@5));
 	});
 
 	it(@"should unarchive an external representation from the old model format", ^{

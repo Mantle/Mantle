@@ -24,7 +24,7 @@ QuickSpecBegin(MTLPredefinedTransformerAdditions)
 it(@"should define a URL value transformer", ^{
 	NSValueTransformer *transformer = [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
 	expect(transformer).notTo(beNil());
-	expect([transformer.class allowsReverseTransformation]).to(beTruthy());
+	expect(@([transformer.class allowsReverseTransformation])).to(beTruthy());
 
 	NSString *URLString = @"http://www.github.com/";
 	expect([transformer transformedValue:URLString]).to(equal([NSURL URLWithString:URLString]));
@@ -42,7 +42,7 @@ it(@"should define an NSNumber boolean value transformer", ^{
 
 	NSValueTransformer *transformer = [NSValueTransformer valueTransformerForName:MTLBooleanValueTransformerName];
 	expect(transformer).notTo(beNil());
-	expect([transformer.class allowsReverseTransformation]).to(beTruthy());
+	expect(@([transformer.class allowsReverseTransformation])).to(beTruthy());
 
 	expect([transformer transformedValue:booleanYES]).to(equal([NSNumber numberWithBool:YES]));
 	expect([transformer transformedValue:booleanYES]).to(equal((id)kCFBooleanTrue));
@@ -67,7 +67,7 @@ describe(@"JSON transformers", ^{
 		__block MTLTestModel *model;
 		__block NSDictionary *JSONDictionary;
 
-		before(^{
+		beforeEach(^{
 			model = [[MTLTestModel alloc] init];
 			JSONDictionary = [MTLJSONAdapter JSONDictionaryFromModel:model];
 
@@ -80,7 +80,7 @@ describe(@"JSON transformers", ^{
 		});
 
 		it(@"should transform a model into a JSON dictionary", ^{
-			expect([transformer.class allowsReverseTransformation]).to(beTruthy());
+			expect(@([transformer.class allowsReverseTransformation])).to(beTruthy());
 			expect([transformer reverseTransformedValue:model]).to(equal(JSONDictionary));
 		});
 	});
@@ -122,7 +122,7 @@ describe(@"JSON transformers", ^{
 		});
 
 		it(@"should transform models into JSON dictionaries", ^{
-			expect([transformer.class allowsReverseTransformation]).to(beTruthy());
+			expect(@([transformer.class allowsReverseTransformation])).to(beTruthy());
 			expect([transformer reverseTransformedValue:models]).to(equal(JSONDictionaries));
 		});
 	});
@@ -148,7 +148,7 @@ describe(@"value mapping transformer", ^{
 	});
 
 	it(@"should transform strings into enum values", ^{
-		expect([transformer.class allowsReverseTransformation]).to(beTruthy());
+		expect(@([transformer.class allowsReverseTransformation])).to(beTruthy());
 
 		expect([transformer reverseTransformedValue:@(MTLPredefinedTransformerAdditionsSpecEnumNegative)]).to(equal(@"negative"));
 		expect([transformer reverseTransformedValue:@(MTLPredefinedTransformerAdditionsSpecEnumZero)]).to(equal(@[ @"zero" ]));
