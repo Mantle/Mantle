@@ -76,6 +76,22 @@
 		D0E9C38E19F6DC5B000D427D /* NSValueTransformer+MTLPredefinedTransformerAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F117481614C5600092520B /* NSValueTransformer+MTLPredefinedTransformerAdditions.m */; };
 		D0E9C38F19F6DC83000D427D /* EXTRuntimeExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = D094E4771777617300906BF7 /* EXTRuntimeExtensions.m */; };
 		D0E9C39019F6DC87000D427D /* EXTScope.m in Sources */ = {isa = PBXBuildFile; fileRef = D094E4791777617300906BF7 /* EXTScope.m */; };
+		D0E9C39519F6DFD9000D427D /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0E9C39419F6DFD9000D427D /* Quick.framework */; };
+		D0E9C39919F6E008000D427D /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0E9C39819F6E008000D427D /* Nimble.framework */; };
+		D0E9C39A19F6E00F000D427D /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0E9C39819F6E008000D427D /* Nimble.framework */; };
+		D0E9C39B19F6E00F000D427D /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0E9C39419F6DFD9000D427D /* Quick.framework */; };
+		D0E9C39C19F6E04B000D427D /* MTLArrayManipulationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88080C1C160A719D00CCABF2 /* MTLArrayManipulationSpec.m */; };
+		D0E9C39D19F6E04B000D427D /* MTLComparisonAdditionsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1ED5B5CB163A4E2B0072668E /* MTLComparisonAdditionsSpec.m */; };
+		D0E9C39E19F6E04B000D427D /* MTLDictionaryManipulationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D0C27CF5161107E5002FE587 /* MTLDictionaryManipulationSpec.m */; };
+		D0E9C39F19F6E04B000D427D /* MTLErrorModelExceptionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 54803A3A17882CCD00011B39 /* MTLErrorModelExceptionSpec.m */; };
+		D0E9C3A019F6E04B000D427D /* MTLJSONAdapterSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D02E48F016CB8ADB00257645 /* MTLJSONAdapterSpec.m */; };
+		D0E9C3A119F6E04B000D427D /* MTLManagedObjectAdapterSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D0ABD7A01746D56E006BEA7D /* MTLManagedObjectAdapterSpec.m */; };
+		D0E9C3A219F6E04B000D427D /* MTLModelNSCodingSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D02E48E916CB8ACA00257645 /* MTLModelNSCodingSpec.m */; };
+		D0E9C3A319F6E04B000D427D /* MTLModelSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D0760EC315FFCA250060F550 /* MTLModelSpec.m */; };
+		D0E9C3A419F6E04B000D427D /* MTLModelValidationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 547AE0FC17882ED100F4437D /* MTLModelValidationSpec.m */; };
+		D0E9C3A519F6E04B000D427D /* MTLPredefinedTransformerAdditionsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F1174C1614C8000092520B /* MTLPredefinedTransformerAdditionsSpec.m */; };
+		D0E9C3A619F6E04B000D427D /* MTLValueTransformerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D08B5AB116002A23001FE685 /* MTLValueTransformerSpec.m */; };
+		D0E9C3A719F6E04B000D427D /* MTLValueTransformerInversionAdditionsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D0BFC36617476A5F00F5DC5D /* MTLValueTransformerInversionAdditionsSpec.m */; };
 		D0F117491614C5600092520B /* NSValueTransformer+MTLPredefinedTransformerAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = D0F117471614C5600092520B /* NSValueTransformer+MTLPredefinedTransformerAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D0F1174A1614C5600092520B /* NSValueTransformer+MTLPredefinedTransformerAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F117481614C5600092520B /* NSValueTransformer+MTLPredefinedTransformerAdditions.m */; };
 		D0F1174D1614C8000092520B /* MTLPredefinedTransformerAdditionsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F1174C1614C8000092520B /* MTLPredefinedTransformerAdditionsSpec.m */; };
@@ -179,6 +195,8 @@
 		D0E9C37519F6DB92000D427D /* Framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Framework.xcconfig; sourceTree = "<group>"; };
 		D0E9C39119F6DCBA000D427D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D0E9C39219F6DCC4000D427D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D0E9C39419F6DFD9000D427D /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Quick.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D0E9C39819F6E008000D427D /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Nimble.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0F117471614C5600092520B /* NSValueTransformer+MTLPredefinedTransformerAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSValueTransformer+MTLPredefinedTransformerAdditions.h"; sourceTree = "<group>"; };
 		D0F117481614C5600092520B /* NSValueTransformer+MTLPredefinedTransformerAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSValueTransformer+MTLPredefinedTransformerAdditions.m"; sourceTree = "<group>"; };
 		D0F1174C1614C8000092520B /* MTLPredefinedTransformerAdditionsSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLPredefinedTransformerAdditionsSpec.m; sourceTree = "<group>"; };
@@ -197,9 +215,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D0E9C39919F6E008000D427D /* Nimble.framework in Frameworks */,
 				BE3408E1196591F300C6C145 /* XCTest.framework in Frameworks */,
 				D021D946170F8A7D00C37E36 /* CoreData.framework in Frameworks */,
 				D042FC5A15F72B23004E8054 /* Mantle.framework in Frameworks */,
+				D0E9C39519F6DFD9000D427D /* Quick.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -215,6 +235,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				D0E9C36219F6DB38000D427D /* Mantle.framework in Frameworks */,
+				D0E9C39A19F6E00F000D427D /* Nimble.framework in Frameworks */,
+				D0E9C39B19F6E00F000D427D /* Quick.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -267,6 +289,8 @@
 		D042FC3E15F72B23004E8054 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D0E9C39819F6E008000D427D /* Nimble.framework */,
+				D0E9C39419F6DFD9000D427D /* Quick.framework */,
 				D090E63A15F73249005282F9 /* libextobjc */,
 				D042FC4415F72B23004E8054 /* Foundation.framework */,
 				D021D93E170F807600C37E36 /* CoreData.framework */,
@@ -719,6 +743,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D0E9C3A619F6E04B000D427D /* MTLValueTransformerSpec.m in Sources */,
+				D0E9C39C19F6E04B000D427D /* MTLArrayManipulationSpec.m in Sources */,
+				D0E9C3A019F6E04B000D427D /* MTLJSONAdapterSpec.m in Sources */,
+				D0E9C3A519F6E04B000D427D /* MTLPredefinedTransformerAdditionsSpec.m in Sources */,
+				D0E9C3A319F6E04B000D427D /* MTLModelSpec.m in Sources */,
+				D0E9C39F19F6E04B000D427D /* MTLErrorModelExceptionSpec.m in Sources */,
+				D0E9C3A719F6E04B000D427D /* MTLValueTransformerInversionAdditionsSpec.m in Sources */,
+				D0E9C3A219F6E04B000D427D /* MTLModelNSCodingSpec.m in Sources */,
+				D0E9C39E19F6E04B000D427D /* MTLDictionaryManipulationSpec.m in Sources */,
+				D0E9C39D19F6E04B000D427D /* MTLComparisonAdditionsSpec.m in Sources */,
+				D0E9C3A419F6E04B000D427D /* MTLModelValidationSpec.m in Sources */,
+				D0E9C3A119F6E04B000D427D /* MTLManagedObjectAdapterSpec.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1035,6 +1071,7 @@
 				D0E9C36E19F6DB38000D427D /* Profile */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D0E9C36F19F6DB38000D427D /* Build configuration list for PBXNativeTarget "Mantle-iOSTests" */ = {
 			isa = XCConfigurationList;
@@ -1045,6 +1082,7 @@
 				D0E9C37319F6DB38000D427D /* Profile */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
