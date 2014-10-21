@@ -10,7 +10,7 @@
 #import <Nimble/Nimble.h>
 #import <Quick/Quick.h>
 
-SpecBegin(MTLArrayManipulationAdditions)
+QuickSpecBegin(MTLArrayManipulationAdditions)
 
 describe(@"-mtl_firstObject", ^{
 	it(@"should return the first object", ^{
@@ -69,4 +69,4 @@ describe(@"-mtl_arrayByRemovingLastObject", ^{
 	});
 });
 
-SpecEnd
+QuickSpecEnd

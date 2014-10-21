@@ -14,7 +14,7 @@
 
 #import "MTLCoreDataTestModels.h"
 
-SpecBegin(MTLManagedObjectAdapter)
+QuickSpecBegin(MTLManagedObjectAdapterSpec)
 
 __block NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
@@ -408,4 +408,4 @@ describe(@"with a child that fails serialization", ^{
 	});
 });
 
-SpecEnd
+QuickSpecEnd

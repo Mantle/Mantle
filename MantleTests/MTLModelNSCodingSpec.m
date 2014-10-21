@@ -12,7 +12,7 @@
 
 #import "MTLTestModel.h"
 
-SpecBegin(MTLModelNSCoding)
+QuickSpecBegin(MTLModelNSCoding)
 
 it(@"should have default encoding behaviors", ^{
 	NSDictionary *behaviors = MTLTestModel.encodingBehaviorsByPropertyKey;
@@ -142,4 +142,4 @@ describe(@"archiving", ^{
 	});
 });
 
-SpecEnd
+QuickSpecEnd

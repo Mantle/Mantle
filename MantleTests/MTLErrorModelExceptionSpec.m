@@ -12,7 +12,7 @@
 
 #import "NSError+MTLModelException.h"
 
-SpecBegin(MTLErrorModelException)
+QuickSpecBegin(MTLErrorModelException)
 
 describe(@"+mtl_modelErrorWithException:", ^{
 	it(@"should return a new error for that exception", ^{
@@ -26,4 +26,4 @@ describe(@"+mtl_modelErrorWithException:", ^{
 	});
 });
 
-SpecEnd
+QuickSpecEnd

@@ -12,7 +12,7 @@
 
 #import "MTLTestModel.h"
 
-SpecBegin(MTLModel)
+QuickSpecBegin(MTLModelSpec)
 
 it(@"should not loop infinitely in +propertyKeys without any properties", ^{
 	expect(MTLEmptyTestModel.propertyKeys).to.equal([NSSet set]);
@@ -167,4 +167,4 @@ describe(@"merging with model subclasses", ^{
 	});
 });
 
-SpecEnd
+QuickSpecEnd

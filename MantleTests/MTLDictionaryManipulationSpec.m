@@ -10,7 +10,7 @@
 #import <Nimble/Nimble.h>
 #import <Quick/Quick.h>
 
-SpecBegin(MTLDictionaryManipulationAdditions)
+QuickSpecBegin(MTLDictionaryManipulationAdditions)
 
 describe(@"-mtl_dictionaryByAddingEntriesFromDictionary:", ^{
 	NSDictionary *dict = @{ @"foo": @"bar", @(5): NSNull.null };
@@ -64,4 +64,4 @@ describe(@"-mtl_dictionaryByRemovingEntriesWithKeys:", ^{
 	});
 });
 
-SpecEnd
+QuickSpecEnd

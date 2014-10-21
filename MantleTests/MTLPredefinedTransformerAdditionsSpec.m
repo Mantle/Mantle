@@ -19,7 +19,7 @@ enum : NSInteger {
 	MTLPredefinedTransformerAdditionsSpecEnumDefault = 42,
 } MTLPredefinedTransformerAdditionsSpecEnum;
 
-SpecBegin(MTLPredefinedTransformerAdditions)
+QuickSpecBegin(MTLPredefinedTransformerAdditions)
 
 it(@"should define a URL value transformer", ^{
 	NSValueTransformer *transformer = [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
@@ -170,4 +170,4 @@ describe(@"value mapping transformer", ^{
 	});
 });
 
-SpecEnd
+QuickSpecEnd

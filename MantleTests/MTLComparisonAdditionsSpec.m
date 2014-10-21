@@ -15,7 +15,7 @@
 
 #import "NSObject+MTLComparisonAdditions.h"
 
-SpecBegin(MTLComparisonAdditions)
+QuickSpecBegin(MTLComparisonAdditions)
 
 describe(@"MTLEqualObjects", ^{
 	id obj1 = @"Test1";
@@ -51,4 +51,4 @@ describe(@"MTLEqualObjects", ^{
 	});
 });
 
-SpecEnd
+QuickSpecEnd

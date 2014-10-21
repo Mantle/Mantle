@@ -14,7 +14,7 @@
 
 #import "MTLModel.h"
 
-SpecBegin(MTLModelValidation)
+QuickSpecBegin(MTLModelValidation)
 
 it(@"should fail with incorrect values", ^{
 	MTLValidationModel *model = [[MTLValidationModel alloc] init];
@@ -50,4 +50,4 @@ it(@"should apply values returned from -validateValue:error:", ^{
 	expect(error).to.beNil();
 });
 
-SpecEnd
+QuickSpecEnd

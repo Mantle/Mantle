@@ -10,7 +10,7 @@
 #import <Nimble/Nimble.h>
 #import <Quick/Quick.h>
 
-SpecBegin(MTLValueTransformer)
+QuickSpecBegin(MTLValueTransformerSpec)
 
 it(@"should return a forward transformer with a block", ^{
 	MTLValueTransformer *transformer = [MTLValueTransformer transformerWithBlock:^(NSString *str) {
@@ -52,4 +52,4 @@ it(@"should return a reversible transformer with forward and reverse blocks", ^{
 	expect([transformer reverseTransformedValue:@"foobar"]).to.equal(@"foo");
 });
 
-SpecEnd
+QuickSpecEnd

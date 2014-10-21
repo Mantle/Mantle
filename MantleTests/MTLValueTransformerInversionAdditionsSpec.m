@@ -33,7 +33,7 @@
 
 @end
 
-SpecBegin(MTLValueTransformerInversionAdditions)
+QuickSpecBegin(MTLValueTransformerInversionAdditions)
 
 __block TestTransformer *transformer;
 
@@ -58,4 +58,4 @@ it(@"should invert an inverted transformer", ^{
 	expect([inverted reverseTransformedValue:nil]).to.equal(@"reverse");
 });
 
-SpecEnd
+QuickSpecEnd

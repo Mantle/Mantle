@@ -12,7 +12,7 @@
 
 #import "MTLTestModel.h"
 
-SpecBegin(MTLJSONAdapter)
+QuickSpecBegin(MTLJSONAdapterSpec)
 
 it(@"should initialize from JSON", ^{
 	NSDictionary *values = @{
@@ -279,4 +279,4 @@ it(@"should return an array of dictionaries from models", ^{
 });
 
 
-SpecEnd
+QuickSpecEnd
