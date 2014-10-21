@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0510"
+   LastUpgradeVersion = "0610"
    version = "2.0">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D042FC3B15F72B23004E8054"
-               BuildableName = "Mantle.framework"
-               BlueprintName = "Mantle"
+               BuildableName = "Mantle-Mac.framework"
+               BlueprintName = "Mantle-Mac"
                ReferencedContainer = "container:Mantle.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -29,8 +29,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D042FC5315F72B23004E8054"
-               BuildableName = "Mantle Tests.xctest"
-               BlueprintName = "Mantle Tests"
+               BuildableName = "Mantle-MacTests.xctest"
+               BlueprintName = "Mantle-MacTests"
                ReferencedContainer = "container:Mantle.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -47,8 +47,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D042FC5315F72B23004E8054"
-               BuildableName = "Mantle Tests.xctest"
-               BlueprintName = "Mantle Tests"
+               BuildableName = "Mantle-MacTests.xctest"
+               BlueprintName = "Mantle-MacTests"
                ReferencedContainer = "container:Mantle.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -57,8 +57,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D042FC3B15F72B23004E8054"
-            BuildableName = "Mantle.framework"
-            BlueprintName = "Mantle"
+            BuildableName = "Mantle-Mac.framework"
+            BlueprintName = "Mantle-Mac"
             ReferencedContainer = "container:Mantle.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -77,8 +77,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D042FC3B15F72B23004E8054"
-            BuildableName = "Mantle.framework"
-            BlueprintName = "Mantle"
+            BuildableName = "Mantle-Mac.framework"
+            BlueprintName = "Mantle-Mac"
             ReferencedContainer = "container:Mantle.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -95,8 +95,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D042FC3B15F72B23004E8054"
-            BuildableName = "Mantle.framework"
-            BlueprintName = "Mantle"
+            BuildableName = "Mantle-Mac.framework"
+            BlueprintName = "Mantle-Mac"
             ReferencedContainer = "container:Mantle.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
