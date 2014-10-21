@@ -4,10 +4,4 @@
    <FileRef
       location = "group:Mantle.xcodeproj">
    </FileRef>
-   <FileRef
-      location = "group:MantleTests/expecta/Expecta.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:MantleTests/specta/Specta.xcodeproj">
-   </FileRef>
 </Workspace>
