@@ -397,7 +397,8 @@
 				D094E48E1777619600906BF7 /* Mac OS X */,
 				D094E4941777619600906BF7 /* README.md */,
 			);
-			path = Configuration;
+			name = Configuration;
+			path = External/xcconfigs;
 			sourceTree = "<group>";
 		};
 		D094E4801777619600906BF7 /* Base */ = {
