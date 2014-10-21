@@ -6,6 +6,10 @@
 //  Copyright (c) 2013 GitHub. All rights reserved.
 //
 
+#import <Mantle/Mantle.h>
+#import <Nimble/Nimble.h>
+#import <Quick/Quick.h>
+
 #import "MTLCoreDataObjects.h"
 
 #import "MTLCoreDataTestModels.h"
@@ -301,13 +305,13 @@ describe(@"with a confined context", ^{
 			expect(child1Parent2).to.equal(child1Parent1);
 			expect(child2Parent2).to.equal(child3Parent1);
 		});
-		
+
 		it(@"should try to merge existing values before overwriting data", ^{
 			NSError *error;
 			MTLParent *parentOne = [MTLManagedObjectAdapter managedObjectFromModel:parentModel insertingIntoContext:context error:&error];
 			expect(parentOne).notTo.beNil();
 			expect(error).to.beNil();
-			
+
 			NSDictionary *updates = @{
 				@"date": [NSDate date],
 				@"numberString": @"1234",
@@ -315,12 +319,12 @@ describe(@"with a confined context", ^{
 			};
 
 			MTLParentMergingTestModel *updatedParentModel = [MTLParentMergingTestModel modelWithDictionary:updates error:NULL];
-			
+
 			expect(parentModel).notTo.beNil();
-			
+
 			BOOL saveSuccessful = [context save:nil];
 			expect(saveSuccessful).to.equal(YES);
-			
+
 			NSString *initialValueOfRequiredString = updatedParentModel.requiredString;
 			MTLParent *updatedParentOne = [MTLManagedObjectAdapter managedObjectFromModel:updatedParentModel insertingIntoContext:context error:&error];
 			expect(updatedParentOne).notTo.beNil();
@@ -356,21 +360,21 @@ describe(@"with a main queue context", ^{
 
 describe(@"with a child that fails serialization", ^{
 	__block NSManagedObjectContext *context;
-	
+
 	__block NSEntityDescription *parentEntity;
 	__block NSEntityDescription *childEntity;
 	__block MTLParentTestModel *parentModel;
-	
+
 	beforeEach(^{
 		context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSConfinementConcurrencyType];
 		expect(context).notTo.beNil();
-		
+
 		context.undoManager = nil;
 		context.persistentStoreCoordinator = persistentStoreCoordinator;
-		
+
 		parentEntity = [NSEntityDescription entityForName:@"Parent" inManagedObjectContext:context];
 		expect(parentEntity).notTo.beNil();
-		
+
 		childEntity = [NSEntityDescription entityForName:@"BadChild" inManagedObjectContext:context];
 		expect(childEntity).notTo.beNil();
 
@@ -380,7 +384,7 @@ describe(@"with a child that fails serialization", ^{
 			@"requiredString": @"foobar"
 		} error:NULL];
 		expect(parentModel).notTo.beNil();
-		
+
 		NSMutableArray *orderedChildren = [NSMutableArray array];
 
 		for (NSUInteger i = 3; i < 6; i++) {
@@ -388,13 +392,13 @@ describe(@"with a child that fails serialization", ^{
 				@"childID": @(i)
 			} error:NULL];
 			expect(child).notTo.beNil();
-			
+
 			[orderedChildren addObject:child];
 		}
-		
+
 		parentModel.orderedChildren = orderedChildren;
 	});
-	
+
 	it(@"should insert a managed object with children", ^{
 		__block NSError *error = nil;
 		MTLParent *parent = [MTLManagedObjectAdapter managedObjectFromModel:parentModel insertingIntoContext:context error:&error];

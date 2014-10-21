@@ -6,6 +6,10 @@
 //  Copyright (c) 2012 GitHub. All rights reserved.
 //
 
+#import <Mantle/Mantle.h>
+#import <Nimble/Nimble.h>
+#import <Quick/Quick.h>
+
 SpecBegin(MTLArrayManipulationAdditions)
 
 describe(@"-mtl_firstObject", ^{
@@ -32,7 +36,7 @@ describe(@"-mtl_arrayByRemovingObject:", ^{
 		NSArray *expected = @[ @2, @3 ];
 		expect([array mtl_arrayByRemovingObject:@1]).to.equal(expected);
 	});
-	
+
 	it(@"should return an equivalent array if it doesn't contain the object", ^{
 		NSArray *array = @[ @1, @2, @3 ];
 		expect([array mtl_arrayByRemovingObject:@42]).to.equal(array);

@@ -6,6 +6,10 @@
 //  Copyright (c) 2013 GitHub. All rights reserved.
 //
 
+#import <Mantle/Mantle.h>
+#import <Nimble/Nimble.h>
+#import <Quick/Quick.h>
+
 #import "MTLTestModel.h"
 
 SpecBegin(MTLModelNSCoding)
@@ -27,7 +31,7 @@ it(@"should have default allowed classes", ^{
 	expect(allowedClasses[@"name"]).to.equal(@[ NSString.class ]);
 	expect(allowedClasses[@"count"]).to.equal(@[ NSValue.class ]);
 	expect(allowedClasses[@"weakModel"]).to.equal(@[ MTLEmptyTestModel.class ]);
-	
+
 	// Not encoded into archives.
 	expect(allowedClasses[@"nestedName"]).to.beNil();
 	expect(allowedClasses[@"dynamicName"]).to.beNil();
@@ -75,7 +79,7 @@ describe(@"archiving", ^{
 
 	it(@"should not archive excluded properties", ^{
 		model.nestedName = @"foobar";
-		
+
 		MTLTestModel *unarchivedModel = archiveAndUnarchiveModel();
 		expect(unarchivedModel.nestedName).to.beNil();
 		expect(unarchivedModel).notTo.equal(model);
@@ -86,7 +90,7 @@ describe(@"archiving", ^{
 
 	it(@"should not archive conditional properties if not encoded elsewhere", ^{
 		model.weakModel = emptyModel;
-		
+
 		MTLTestModel *unarchivedModel = archiveAndUnarchiveModel();
 		expect(unarchivedModel.weakModel).to.beNil();
 	});
@@ -100,7 +104,7 @@ describe(@"archiving", ^{
 		NSArray *objects = [NSKeyedUnarchiver unarchiveObjectWithData:data];
 		expect(objects.count).to.equal(2);
 		expect(objects[1]).to.equal(emptyModel);
-		
+
 		MTLTestModel *unarchivedModel = objects[0];
 		expect(unarchivedModel).to.equal(model);
 		expect(unarchivedModel.weakModel).to.equal(emptyModel);
@@ -133,7 +137,7 @@ describe(@"archiving", ^{
 			@"nestedName": @"fuzzbuzz",
 			@"weakModel": NSNull.null,
 		};
-		
+
 		expect(unarchivedModel.dictionaryValue).to.equal(expectedValues);
 	});
 });

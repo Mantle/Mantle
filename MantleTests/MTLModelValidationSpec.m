@@ -6,6 +6,10 @@
 //  Copyright (c) 2013 GitHub. All rights reserved.
 //
 
+#import <Mantle/Mantle.h>
+#import <Nimble/Nimble.h>
+#import <Quick/Quick.h>
+
 #import "MTLTestModel.h"
 
 #import "MTLModel.h"

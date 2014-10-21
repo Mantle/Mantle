@@ -6,6 +6,10 @@
 //  Copyright (c) 2013 GitHub. All rights reserved.
 //
 
+#import <Mantle/Mantle.h>
+#import <Nimble/Nimble.h>
+#import <Quick/Quick.h>
+
 #import "MTLTestModel.h"
 
 SpecBegin(MTLJSONAdapter)
@@ -25,7 +29,7 @@ it(@"should initialize from JSON", ^{
 	expect(model).notTo.beNil();
 	expect(model.name).to.beNil();
 	expect(model.count).to.equal(5);
-	
+
 	NSDictionary *JSONDictionary = @{
 		@"username": NSNull.null,
 		@"count": @"5",
@@ -79,7 +83,7 @@ it(@"should return nil and error with an invalid key path from JSON",^{
 		@"nested": @"bar",
 		@"count": @"0"
 	};
-	
+
 	NSError *error = nil;
 	MTLTestModel *model = [MTLJSONAdapter modelOfClass:MTLTestModel.class fromJSONDictionary:values error:&error];
 	expect(model).beNil();
@@ -117,12 +121,12 @@ it(@"should initialize without returning any error when using a JSON dictionary 
 		@"nested": NSNull.null,
 		@"count": @"0"
 	};
-	
+
 	NSError *error = nil;
 	MTLTestModel *model = [MTLJSONAdapter modelOfClass:MTLTestModel.class fromJSONDictionary:values error:&error];
 	expect(model).notTo.beNil();
 	expect(error).to.beNil();
-	
+
 	expect(model.name).to.equal(@"foo");
 	expect(model.count).to.equal(0);
 	expect(model.nestedName).to.beNil();

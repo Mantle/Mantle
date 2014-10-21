@@ -9,6 +9,10 @@
 //  See the LICENSE file for more information.
 //
 
+#import <Mantle/Mantle.h>
+#import <Nimble/Nimble.h>
+#import <Quick/Quick.h>
+
 #import "NSObject+MTLComparisonAdditions.h"
 
 SpecBegin(MTLComparisonAdditions)

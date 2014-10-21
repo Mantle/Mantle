@@ -6,6 +6,10 @@
 //  Copyright (c) 2012 GitHub. All rights reserved.
 //
 
+#import <Mantle/Mantle.h>
+#import <Nimble/Nimble.h>
+#import <Quick/Quick.h>
+
 #import "MTLTestModel.h"
 
 enum : NSInteger {
@@ -155,11 +159,11 @@ describe(@"value mapping transformer", ^{
 		beforeEach(^{
 			transformer = [NSValueTransformer mtl_valueMappingTransformerWithDictionary:dictionary defaultValue:@(MTLPredefinedTransformerAdditionsSpecEnumDefault) reverseDefaultValue:@"default"];
 		});
-		
+
 		it(@"should transform unknown strings into the default enum value", ^{
 			expect([transformer transformedValue:@"unknown"]).to.equal(@(MTLPredefinedTransformerAdditionsSpecEnumDefault));
 		});
-		
+
 		it(@"should transform the default enum value into the default string", ^{
 			expect([transformer reverseTransformedValue:@(MTLPredefinedTransformerAdditionsSpecEnumDefault)]).to.equal(@"default");
 		});
