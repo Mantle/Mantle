@@ -2,11 +2,11 @@
 //  Mantle.h
 //  Mantle
 //
-//  Created by Justin Spahr-Summers on 2014-10-21.
-//  Copyright (c) 2014 GitHub. All rights reserved.
+//  Created by Justin Spahr-Summers on 2012-09-04.
+//  Copyright (c) 2012 GitHub. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
 //! Project version number for Mantle.
 FOUNDATION_EXPORT double MantleVersionNumber;
@@ -14,6 +14,13 @@ FOUNDATION_EXPORT double MantleVersionNumber;
 //! Project version string for Mantle.
 FOUNDATION_EXPORT const unsigned char MantleVersionString[];
 
-// In this header, you should import all the public headers of your framework using statements like #import <Mantle/PublicHeader.h>
-
-
+#import <Mantle/MTLJSONAdapter.h>
+#import <Mantle/MTLManagedObjectAdapter.h>
+#import <Mantle/MTLModel.h>
+#import <Mantle/MTLModel+NSCoding.h>
+#import <Mantle/MTLValueTransformer.h>
+#import <Mantle/NSArray+MTLManipulationAdditions.h>
+#import <Mantle/NSDictionary+MTLManipulationAdditions.h>
+#import <Mantle/NSObject+MTLComparisonAdditions.h>
+#import <Mantle/NSValueTransformer+MTLInversionAdditions.h>
+#import <Mantle/NSValueTransformer+MTLPredefinedTransformerAdditions.h>
