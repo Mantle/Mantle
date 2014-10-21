@@ -21,11 +21,11 @@ it(@"should fail with incorrect values", ^{
 
 	NSError *error = nil;
 	BOOL success = [model validate:&error];
-	expect(success).to.beFalsy();
+	expect(success).to(beFalsy());
 
-	expect(error).notTo.beNil();
-	expect(error.domain).to.equal(MTLTestModelErrorDomain);
-	expect(error.code).to.equal(MTLTestModelNameMissing);
+	expect(error).notTo(beNil());
+	expect(error.domain).to(equal(MTLTestModelErrorDomain));
+	expect(error.code).to(equal(MTLTestModelNameMissing));
 });
 
 it(@"should succeed with correct values", ^{
@@ -33,9 +33,9 @@ it(@"should succeed with correct values", ^{
 
 	NSError *error = nil;
 	BOOL success = [model validate:&error];
-	expect(success).to.beTruthy();
+	expect(success).to(beTruthy());
 
-	expect(error).to.beNil();
+	expect(error).to(beNil());
 });
 
 it(@"should apply values returned from -validateValue:error:", ^{
@@ -43,11 +43,11 @@ it(@"should apply values returned from -validateValue:error:", ^{
 
 	NSError *error = nil;
 	BOOL success = [model validate:&error];
-	expect(success).to.beTruthy();
+	expect(success).to(beTruthy());
 
-	expect(model.name).to.equal(@"foobar");
+	expect(model.name).to(equal(@"foobar"));
 
-	expect(error).to.beNil();
+	expect(error).to(beNil());
 });
 
 QuickSpecEnd

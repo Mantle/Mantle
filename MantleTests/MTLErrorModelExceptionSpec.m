@@ -20,9 +20,9 @@ describe(@"+mtl_modelErrorWithException:", ^{
 
 		NSError *error = [NSError mtl_modelErrorWithException:exception];
 
-		expect(error).toNot.beNil();
-		expect(error.localizedDescription).to.equal(@"Just Testing");
-		expect(error.localizedFailureReason).to.equal(@"Just Testing");
+		expect(error).notTo(beNil());
+		expect(error.localizedDescription).to(equal(@"Just Testing"));
+		expect(error.localizedFailureReason).to(equal(@"Just Testing"));
 	});
 });
 
