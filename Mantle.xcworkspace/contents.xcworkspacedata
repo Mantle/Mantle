@@ -5,9 +5,9 @@
       location = "group:Mantle.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:MantleTests/expecta/Expecta.xcodeproj">
+      location = "group:External/Quick/Quick/Quick.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:MantleTests/specta/Specta.xcodeproj">
+      location = "group:External/Quick/Externals/Nimble/Nimble.xcodeproj">
    </FileRef>
 </Workspace>

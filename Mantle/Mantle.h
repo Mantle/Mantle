@@ -6,6 +6,14 @@
 //  Copyright (c) 2012 GitHub. All rights reserved.
 //
 
+#import <Foundation/Foundation.h>
+
+//! Project version number for Mantle.
+FOUNDATION_EXPORT double MantleVersionNumber;
+
+//! Project version string for Mantle.
+FOUNDATION_EXPORT const unsigned char MantleVersionString[];
+
 #import <Mantle/MTLJSONAdapter.h>
 #import <Mantle/MTLManagedObjectAdapter.h>
 #import <Mantle/MTLModel.h>

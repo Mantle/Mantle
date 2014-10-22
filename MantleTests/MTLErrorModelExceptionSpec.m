@@ -6,9 +6,13 @@
 //  Copyright (c) 2013 GitHub. All rights reserved.
 //
 
+#import <Mantle/Mantle.h>
+#import <Nimble/Nimble.h>
+#import <Quick/Quick.h>
+
 #import "NSError+MTLModelException.h"
 
-SpecBegin(MTLErrorModelException)
+QuickSpecBegin(MTLErrorModelException)
 
 describe(@"+mtl_modelErrorWithException:", ^{
 	it(@"should return a new error for that exception", ^{
@@ -16,10 +20,10 @@ describe(@"+mtl_modelErrorWithException:", ^{
 
 		NSError *error = [NSError mtl_modelErrorWithException:exception];
 
-		expect(error).toNot.beNil();
-		expect(error.localizedDescription).to.equal(@"Just Testing");
-		expect(error.localizedFailureReason).to.equal(@"Just Testing");
+		expect(error).notTo(beNil());
+		expect(error.localizedDescription).to(equal(@"Just Testing"));
+		expect(error.localizedFailureReason).to(equal(@"Just Testing"));
 	});
 });
 
-SpecEnd
+QuickSpecEnd

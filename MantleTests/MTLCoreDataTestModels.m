@@ -40,6 +40,10 @@
 	};
 }
 
+- (NSString *)description {
+	return [NSString stringWithFormat:@"<%@: %p>", self.class, self];
+}
+
 @end
 
 @implementation MTLParentMergingTestModel
@@ -60,6 +64,10 @@
 
 + (NSDictionary *)managedObjectKeysByPropertyKey {
 	return @{};
+}
+
+- (NSString *)description {
+	return [NSString stringWithFormat:@"<%@: %p>", self.class, self];
 }
 
 @end
@@ -85,6 +93,10 @@
 	};
 }
 
+- (NSString *)description {
+	return [NSString stringWithFormat:@"<%@: %p>", self.class, self];
+}
+
 @end
 
 @implementation MTLBadChildTestModel
@@ -101,6 +113,9 @@
 	return [NSSet setWithObjects:@"childID", nil];
 }
 
+- (NSString *)description {
+	return [NSString stringWithFormat:@"<%@: %p>", self.class, self];
+}
 
 @end
 
@@ -112,6 +127,10 @@
 
 + (NSString *)managedObjectEntityName {
 	return @"Empty";
+}
+
+- (NSString *)description {
+	return [NSString stringWithFormat:@"<%@: %p>", self.class, self];
 }
 
 @end
@@ -126,6 +145,10 @@
 	return @{
 		@"name": @"username"
 	};
+}
+
+- (NSString *)description {
+	return [NSString stringWithFormat:@"<%@: %p>", self.class, self];
 }
 
 @end
