@@ -34,8 +34,9 @@ static BOOL coderRequiresSecureCoding(NSCoder *coder) {
 // Returns all of the given class' encodable property keys (those that will not
 // be excluded from archives).
 static NSSet *encodablePropertyKeysForClass(Class modelClass) {
-	return [[modelClass encodingBehaviorsByPropertyKey] keysOfEntriesPassingTest:^ BOOL (NSString *propertyKey, NSNumber *behavior, BOOL *stop) {
-		return behavior.unsignedIntegerValue != MTLModelEncodingBehaviorExcluded;
+	return [[modelClass propertyKeys] objectsPassingTest:^BOOL(NSString *propertyKey, BOOL *stop) {
+		MTLPropertyStorage behavior = [modelClass storageBehaviorForPropertyWithKey:propertyKey];
+		return behavior != MTLPropertyStorageNone;
 	}];
 }
 
@@ -67,16 +68,7 @@ static void verifyAllowedClassesByPropertyKey(Class modelClass) {
 	NSMutableDictionary *behaviors = [[NSMutableDictionary alloc] initWithCapacity:propertyKeys.count];
 
 	for (NSString *key in propertyKeys) {
-		objc_property_t property = class_getProperty(self, key.UTF8String);
-		NSAssert(property != NULL, @"Could not find property \"%@\" on %@", key, self);
-
-		mtl_propertyAttributes *attributes = mtl_copyPropertyAttributes(property);
-		@onExit {
-			free(attributes);
-		};
-
-		MTLModelEncodingBehavior behavior = (attributes->weak ? MTLModelEncodingBehaviorConditional : MTLModelEncodingBehaviorUnconditional);
-		behaviors[key] = @(behavior);
+		behaviors[key] = @([self storageBehaviorForPropertyWithKey:key]);
 	}
 
 	return behaviors;
@@ -88,7 +80,7 @@ static void verifyAllowedClassesByPropertyKey(Class modelClass) {
 
 	// Get all property keys that could potentially be encoded.
 	NSSet *propertyKeys = [self.encodingBehaviorsByPropertyKey keysOfEntriesPassingTest:^ BOOL (NSString *propertyKey, NSNumber *behavior, BOOL *stop) {
-		return behavior.unsignedIntegerValue != MTLModelEncodingBehaviorExcluded;
+		return behavior.unsignedIntegerValue != MTLPropertyStorageNone;
 	}];
 
 	NSMutableDictionary *allowedClasses = [[NSMutableDictionary alloc] initWithCapacity:propertyKeys.count];
@@ -220,16 +212,16 @@ static void verifyAllowedClassesByPropertyKey(Class modelClass) {
 			// Skip nil values.
 			if ([value isEqual:NSNull.null]) return;
 			
-			switch ([encodingBehaviors[key] unsignedIntegerValue]) {
+			switch ([self.class storageBehaviorForPropertyWithKey:key]) {
 					// This will also match a nil behavior.
-				case MTLModelEncodingBehaviorExcluded:
+				case MTLPropertyStorageNone:
 					break;
 					
-				case MTLModelEncodingBehaviorUnconditional:
+				case MTLPropertyStoragePermanent:
 					[coder encodeObject:value forKey:key];
 					break;
 					
-				case MTLModelEncodingBehaviorConditional:
+				case MTLPropertyStorageTransitory:
 					[coder encodeConditionalObject:value forKey:key];
 					break;
 					
