@@ -28,7 +28,7 @@ const NSInteger MTLJSONAdapterErrorInvalidJSONMapping = 4;
 const NSInteger MTLJSONAdapterErrorExceptionThrown = 1;
 
 // Associated with the NSException that was caught.
-static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapterThrownException";
+NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapterThrownException";
 
 @interface MTLJSONAdapter ()
 

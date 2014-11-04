@@ -90,6 +90,13 @@ extern const NSInteger MTLJSONAdapterErrorInvalidJSONDictionary;
 /// does not actually exist in +propertyKeys.
 extern const NSInteger MTLJSONAdapterErrorInvalidJSONMapping;
 
+/// An exception was thrown and caught.
+extern const NSInteger MTLJSONAdapterErrorExceptionThrown;
+
+/// Associated with the NSException that was caught.
+extern NSString * const MTLJSONAdapterThrownExceptionErrorKey;
+
+
 /// Converts a MTLModel object to and from a JSON dictionary.
 @interface MTLJSONAdapter : NSObject
 
