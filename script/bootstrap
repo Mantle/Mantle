@@ -10,7 +10,7 @@ config ()
 {
     # A whitespace-separated list of executables that must be present and locatable.
     : ${REQUIRED_TOOLS="xctool"}
-    
+
     export REQUIRED_TOOLS
 }
 
@@ -28,7 +28,14 @@ main ()
         check_deps
     fi
 
-    local submodules=$(git submodule status 2>/dev/null)
+    local submodules=$(git submodule status)
+    local result=$?
+
+    if [ "$result" -ne "0" ]
+    then
+        exit $result
+    fi
+
     if [ -n "$submodules" ]
     then
         echo "*** Updating submodules..."

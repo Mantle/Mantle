@@ -6,18 +6,22 @@
 //  Copyright (c) 2012 GitHub. All rights reserved.
 //
 
-SpecBegin(MTLValueTransformer)
+#import <Mantle/Mantle.h>
+#import <Nimble/Nimble.h>
+#import <Quick/Quick.h>
+
+QuickSpecBegin(MTLValueTransformerSpec)
 
 it(@"should return a forward transformer with a block", ^{
 	MTLValueTransformer *transformer = [MTLValueTransformer transformerUsingForwardBlock:^(NSString *str, BOOL *success, NSError **error) {
 		return [str stringByAppendingString:@"bar"];
 	}];
 
-	expect(transformer).notTo.beNil();
-	expect([transformer.class allowsReverseTransformation]).to.beFalsy();
+	expect(transformer).notTo(beNil());
+	expect(@([transformer.class allowsReverseTransformation])).to(beFalsy());
 
-	expect([transformer transformedValue:@"foo"]).to.equal(@"foobar");
-	expect([transformer transformedValue:@"bar"]).to.equal(@"barbar");
+	expect([transformer transformedValue:@"foo"]).to(equal(@"foobar"));
+	expect([transformer transformedValue:@"bar"]).to(equal(@"barbar"));
 });
 
 it(@"should return a reversible transformer with a block", ^{
@@ -25,11 +29,11 @@ it(@"should return a reversible transformer with a block", ^{
 		return [str stringByAppendingString:@"bar"];
 	}];
 
-	expect(transformer).notTo.beNil();
-	expect([transformer.class allowsReverseTransformation]).to.beTruthy();
+	expect(transformer).notTo(beNil());
+	expect(@([transformer.class allowsReverseTransformation])).to(beTruthy());
 
-	expect([transformer transformedValue:@"foo"]).to.equal(@"foobar");
-	expect([transformer reverseTransformedValue:@"foo"]).to.equal(@"foobar");
+	expect([transformer transformedValue:@"foo"]).to(equal(@"foobar"));
+	expect([transformer reverseTransformedValue:@"foo"]).to(equal(@"foobar"));
 });
 
 it(@"should return a reversible transformer with forward and reverse blocks", ^{
@@ -41,11 +45,11 @@ it(@"should return a reversible transformer with forward and reverse blocks", ^{
 			return [str substringToIndex:str.length - 3];
 		}];
 
-	expect(transformer).notTo.beNil();
-	expect([transformer.class allowsReverseTransformation]).to.beTruthy();
+	expect(transformer).notTo(beNil());
+	expect(@([transformer.class allowsReverseTransformation])).to(beTruthy());
 
-	expect([transformer transformedValue:@"foo"]).to.equal(@"foobar");
-	expect([transformer reverseTransformedValue:@"foobar"]).to.equal(@"foo");
+	expect([transformer transformedValue:@"foo"]).to(equal(@"foobar"));
+	expect([transformer reverseTransformedValue:@"foobar"]).to(equal(@"foo"));
 });
 
-SpecEnd
+QuickSpecEnd

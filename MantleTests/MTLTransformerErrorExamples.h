@@ -6,6 +6,8 @@
 //  Copyright (c) 2013 GitHub. All rights reserved.
 //
 
+#import <Foundation/Foundation.h>
+
 extern NSString * const MTLTransformerErrorExamples;
 
 extern NSString * const MTLTransformerErrorExamplesTransformer;

@@ -6,6 +6,8 @@
 //  Copyright (c) 2012 GitHub. All rights reserved.
 //
 
+#import <Mantle/Mantle.h>
+
 extern NSString * const MTLTestModelErrorDomain;
 extern const NSInteger MTLTestModelNameTooLong;
 extern const NSInteger MTLTestModelNameMissing;
