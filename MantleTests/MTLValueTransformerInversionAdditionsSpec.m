@@ -6,6 +6,10 @@
 //  Copyright (c) 2013 GitHub. All rights reserved.
 //
 
+#import <Mantle/Mantle.h>
+#import <Nimble/Nimble.h>
+#import <Quick/Quick.h>
+
 @interface TestTransformer : NSValueTransformer
 @end
 
@@ -29,29 +33,29 @@
 
 @end
 
-SpecBegin(MTLValueTransformerInversionAdditions)
+QuickSpecBegin(MTLValueTransformerInversionAdditions)
 
 __block TestTransformer *transformer;
 
 beforeEach(^{
 	transformer = [[TestTransformer alloc] init];
-	expect(transformer).notTo.beNil();
+	expect(transformer).notTo(beNil());
 });
 
 it(@"should invert a transformer", ^{
 	NSValueTransformer *inverted = transformer.mtl_invertedTransformer;
-	expect(inverted).notTo.beNil();
+	expect(inverted).notTo(beNil());
 
-	expect([inverted transformedValue:nil]).to.equal(@"reverse");
-	expect([inverted reverseTransformedValue:nil]).to.equal(@"forward");
+	expect([inverted transformedValue:nil]).to(equal(@"reverse"));
+	expect([inverted reverseTransformedValue:nil]).to(equal(@"forward"));
 });
 
 it(@"should invert an inverted transformer", ^{
 	NSValueTransformer *inverted = transformer.mtl_invertedTransformer.mtl_invertedTransformer;
-	expect(inverted).notTo.beNil();
+	expect(inverted).notTo(beNil());
 
-	expect([inverted transformedValue:nil]).to.equal(@"forward");
-	expect([inverted reverseTransformedValue:nil]).to.equal(@"reverse");
+	expect([inverted transformedValue:nil]).to(equal(@"forward"));
+	expect([inverted reverseTransformedValue:nil]).to(equal(@"reverse"));
 });
 
-SpecEnd
+QuickSpecEnd
