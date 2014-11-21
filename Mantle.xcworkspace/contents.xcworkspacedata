@@ -8,6 +8,6 @@
       location = "group:Carthage.checkout/Quick/Quick.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:Carthage.checkout/Quick/Externals/Nimble/Nimble.xcodeproj">
+      location = "group:Carthage.checkout/Nimble/Nimble.xcodeproj">
    </FileRef>
 </Workspace>
