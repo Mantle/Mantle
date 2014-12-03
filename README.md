@@ -492,7 +492,7 @@ To add Mantle to your application:
     application.
 
 If you would prefer to use [CocoaPods](http://cocoapods.org), there are some
-[Mantle podspecs](https://github.com/CocoaPods/Specs/tree/master/Mantle) that
+[Mantle podspecs](https://github.com/CocoaPods/Specs/tree/master/Specs/Mantle) that
 have been generously contributed by third parties.
 
 If you’re instead developing Mantle on its own, use the `Mantle.xcworkspace` file.
