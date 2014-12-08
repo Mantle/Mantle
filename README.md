@@ -505,7 +505,3 @@ Mantle is released under the MIT license. See
 ## More Info
 
 Have a question? Please [open an issue](https://github.com/Mantle/Mantle/issues/new)!
-
-Mantle also has a chat room on [Slack](https://slack.com/). If you'd like
-to join, just [provide your email address](https://github.com/Mantle/Mantle/pull/357)
-and we'll happily send you an invite!
