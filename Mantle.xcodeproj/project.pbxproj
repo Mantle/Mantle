@@ -450,7 +450,7 @@
 				D094E4941777619600906BF7 /* README.md */,
 			);
 			name = Configuration;
-			path = Carthage.checkout/xcconfigs;
+			path = Carthage/Checkouts/xcconfigs;
 			sourceTree = "<group>";
 		};
 		D094E4801777619600906BF7 /* Base */ = {
