@@ -236,9 +236,9 @@ typedef enum : NSUInteger {
 
 + (NSValueTransformer *)updatedAtJSONTransformer {
     return [MTLValueTransformer reversibleTransformerWithForwardBlock:^(NSString *str) {
-        return [self.dateFormatter dateFromString:str];
+        return [self.class.dateFormatter dateFromString:str];
     } reverseBlock:^(NSDate *date) {
-        return [self.dateFormatter stringFromDate:date];
+        return [self.class.dateFormatter stringFromDate:date];
     }];
 }
 
