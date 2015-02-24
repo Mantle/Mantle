@@ -495,7 +495,7 @@ To add Mantle to your application:
     application.
 
 If you would prefer to use [CocoaPods](http://cocoapods.org), there are some
-[Mantle podspecs](https://github.com/CocoaPods/Specs/tree/master/Mantle) that
+[Mantle podspecs](https://github.com/CocoaPods/Specs/tree/master/Specs/Mantle) that
 have been generously contributed by third parties.
 
 If you’re instead developing Mantle on its own, use the `Mantle.xcworkspace` file.
@@ -508,7 +508,3 @@ Mantle is released under the MIT license. See
 ## More Info
 
 Have a question? Please [open an issue](https://github.com/Mantle/Mantle/issues/new)!
-
-Mantle also has a chat room on [Slack](https://slack.com/). If you'd like
-to join, just [provide your email address](https://github.com/Mantle/Mantle/pull/357)
-and we'll happily send you an invite!

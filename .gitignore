@@ -17,3 +17,5 @@ profile
 .idea/
 # Desktop Servies
 .DS_Store
+
+Carthage.build

@@ -1,6 +1,13 @@
-[submodule "External/xcconfigs"]
-	path = External/xcconfigs
+[submodule "Carthage.checkout/Nimble"]
+	path = Carthage/Checkouts/Nimble
+	url = https://github.com/Quick/Nimble.git
+[submodule "Carthage.checkout/Quick"]
+	path = Carthage/Checkouts/Quick
+	url = https://github.com/Quick/Quick.git
+[submodule "Carthage.checkout/xcconfigs"]
+	path = Carthage/Checkouts/xcconfigs
 	url = https://github.com/jspahrsummers/xcconfigs.git
-[submodule "External/Quick"]
-	path = External/Quick
-	url = https://github.com/github/Quick.git
+[submodule "Carthage/Checkouts/Nimble"]
+	url = https://github.com/Quick/Nimble.git
+[submodule "Carthage/Checkouts/Quick"]
+	url = https://github.com/Quick/Quick.git
