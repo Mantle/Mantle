@@ -68,6 +68,13 @@
 // `model` must be an instance of the receiver's class or a subclass thereof.
 - (void)mergeValuesForKeysFromModel:(MTLModel *)model;
 
+// This flag will be used by Mantle to give you the ability to have two different
+// `models` with the same property values.
+//
+// By default is NO. But if for domain restriction of your app is necessary to have different
+// `models` with identical values of its properties, please return YES in your models.
+- (BOOL)shouldBeIdentifiedUniquing;
+
 // Compares the receiver with another object for equality.
 //
 // The default implementation is equivalent to comparing both models'
