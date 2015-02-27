@@ -18,8 +18,12 @@
 #import "MTLJSONAdapter.h"
 #import "MTLModel+NSCoding.h"
 
+#import <QuartzCore/QuartzCore.h>
+
 // Used to cache the reflection performed in +propertyKeys.
 static void *MTLModelCachedPropertyKeysKey = &MTLModelCachedPropertyKeysKey;
+
+static NSString *MTLModelDefaultUniqueIdentifier = @"0";
 
 // Validates a value for an object and sets it if necessary.
 //
@@ -65,6 +69,13 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 	}
 }
 
+NS_INLINE NSString * MTLGetObjectUniqueIdentifier (MTLModel *objMTLmodel) {
+	if ([objMTLmodel shouldBeIdentifiedUniquing])
+		return [NSString stringWithFormat:@"%@-%f", NSStringFromClass(objMTLmodel.class), CACurrentMediaTime()];
+	else
+		return MTLModelDefaultUniqueIdentifier;
+}
+
 @interface MTLModel ()
 
 // Enumerates all properties of the receiver's class hierarchy, starting at the
@@ -73,6 +84,8 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 // The given block will be invoked multiple times for any properties declared on
 // multiple classes in the hierarchy.
 + (void)enumeratePropertiesUsingBlock:(void (^)(objc_property_t property, BOOL *stop))block;
+
+@property (nonatomic, copy, readonly) NSString *mtlUniqueIdentifier; 
 
 @end
 
@@ -104,6 +117,8 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 		BOOL success = MTLValidateAndSetValue(self, key, value, YES, error);
 		if (!success) return nil;
 	}
+	
+	_mtlUniqueIdentifier = [MTLGetObjectUniqueIdentifier(self) copy];
 
 	return self;
 }
@@ -212,6 +227,11 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 }
 
 #pragma mark NSObject
+
+- (BOOL)shouldBeIdentifiedUniquing
+{
+	return NO;
+}
 
 - (NSString *)description {
 	return [NSString stringWithFormat:@"<%@: %p> %@", self.class, self, self.dictionaryValue];

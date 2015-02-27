@@ -68,6 +68,9 @@
 // `model` must be an instance of the receiver's class or a subclass thereof.
 - (void)mergeValuesForKeysFromModel:(MTLModel *)model;
 
+
+- (BOOL)shouldBeIdentifiedUniquing;
+
 // Compares the receiver with another object for equality.
 //
 // The default implementation is equivalent to comparing both models'
