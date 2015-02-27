@@ -223,7 +223,10 @@ NS_INLINE NSString * MTLGetObjectUniqueIdentifier (MTLModel *objMTLmodel) {
 #pragma mark NSCopying
 
 - (instancetype)copyWithZone:(NSZone *)zone {
-	return [[self.class allocWithZone:zone] initWithDictionary:self.dictionaryValue error:NULL];
+	MTLModel *copiedModel = [[self.class allocWithZone:zone] initWithDictionary:self.dictionaryValue error:NULL];
+	copiedModel->_mtlUniqueIdentifier = self.mtlUniqueIdentifier;
+	
+	return copiedModel;
 }
 
 #pragma mark NSObject
@@ -251,6 +254,9 @@ NS_INLINE NSString * MTLGetObjectUniqueIdentifier (MTLModel *objMTLmodel) {
 	if (self == model) return YES;
 	if (![model isMemberOfClass:self.class]) return NO;
 
+	if ([self shouldBeIdentifiedUniquing]) 
+		return [self.mtlUniqueIdentifier isEqualToString:model.mtlUniqueIdentifier];	
+	
 	for (NSString *key in self.class.propertyKeys) {
 		id selfValue = [self valueForKey:key];
 		id modelValue = [model valueForKey:key];
