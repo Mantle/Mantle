@@ -9,7 +9,7 @@
 #import "MTLJSONAdapter.h"
 #import "MTLModel.h"
 #import "MTLReflection.h"
-
+#import <objc/objc-runtime.h>
 NSString * const MTLJSONAdapterErrorDomain = @"MTLJSONAdapterErrorDomain";
 const NSInteger MTLJSONAdapterErrorNoClassFound = 2;
 const NSInteger MTLJSONAdapterErrorInvalidJSONDictionary = 3;
@@ -212,8 +212,46 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 			#endif
 		}
 	}
+	
+	NSMutableDictionary *NewDic = [NSMutableDictionary new];
+	
+	NSArray *keys = [dictionaryValue allKeys];
+	id key,value;
+	
+	for (int i = 0; i < [keys count]; i++) {
+		key = [keys objectAtIndex:i];
+		value = [dictionaryValue objectForKey:key];
+		
+		for (NSString *mappedPropertyKey in self.JSONKeyPathsByPropertyKey) {
+			
+			if ([mappedPropertyKey isEqualToString:key]) {
+				unsigned int count;
+				objc_property_t *property_t_array = class_copyPropertyList([modelClass class], &count);
+				for (int i = 0 ; i < count ; i ++) {
+					objc_property_t pro_t = property_t_array[i];                    const char *pro_Attributes = property_getAttributes(pro_t);
+					const char *pro_name = property_getName(pro_t);
+					
+					NSString *pro_Attributes_Str = [NSString stringWithFormat:@"%s",pro_Attributes];
+					if ([mappedPropertyKey isEqualToString:[NSString stringWithFormat:@"%s",pro_name]]) {
+						NSRange rangeNum = [pro_Attributes_Str rangeOfString:@"NSNumber"];
+						if (rangeNum.length != 0) {
+							value = [NSNumber numberWithFloat:[value floatValue]];
+						}
+						NSRange rangeStr = [pro_Attributes_Str rangeOfString:@"NSString"];
+						if (rangeStr.length != 0) {
+							value = [NSString stringWithFormat:@"%@",value];
+						}
+					}
+				}
+				free(property_t_array);
+				
+			}
+			
+		}
+		NewDic[key] = value;
+	}
 
-	_model = [self.modelClass modelWithDictionary:dictionaryValue error:error];
+	_model = [self.modelClass modelWithDictionary:NewDic error:error];
 	if (_model == nil) return nil;
 
 	return self;
