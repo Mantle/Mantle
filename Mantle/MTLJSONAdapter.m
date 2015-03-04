@@ -232,7 +232,6 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 					objc_property_t pro_t = property_t_array[i];                    const char *pro_Attributes = property_getAttributes(pro_t);
 					const char *pro_name = property_getName(pro_t);
 					
-					NSLog(@"测试：%s",pro_Attributes);
 					NSString *pro_Attributes_Str = [NSString stringWithFormat:@"%s",pro_Attributes];
 					if ([mappedPropertyKey isEqualToString:[NSString stringWithFormat:@"%s",pro_name]]) {
 						NSRange rangeNum = [pro_Attributes_Str rangeOfString:@"NSNumber"];
