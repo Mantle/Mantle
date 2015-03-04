@@ -219,7 +219,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	NSArray *keys = [dictionaryValue allKeys];
 	id key,value;
 	
-	for (int i = 0; i < [keys count]; i++) {
+	for (NSInteger i = 0; i < [keys count]; i++) {
 		key = [keys objectAtIndex:i];
 		value = [dictionaryValue objectForKey:key];
 		
@@ -228,7 +228,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 			if ([mappedPropertyKey isEqualToString:key]) {
 				unsigned int count;
 				objc_property_t *property_t_array = class_copyPropertyList([modelClass class], &count);
-				for (int i = 0 ; i < count ; i ++) {
+				for (NSInteger i = 0 ; i < count ; i ++) {
 					objc_property_t pro_t = property_t_array[i];                    const char *pro_Attributes = property_getAttributes(pro_t);
 					const char *pro_name = property_getName(pro_t);
 					

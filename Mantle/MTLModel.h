@@ -123,3 +123,6 @@
 + (NSDictionary *)migrateExternalRepresentation:(NSDictionary *)externalRepresentation fromVersion:(NSUInteger)fromVersion __attribute__((deprecated("Replaced by -decodeValueForKey:withCoder:modelVersion:")));
 
 @end
+
+@interface MTLModel (NullableScalar)
+@end

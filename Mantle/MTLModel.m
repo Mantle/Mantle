@@ -244,9 +244,7 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 
 @end
 
-@interface MTLModel (KTVNullableScalar)
-@end
-@implementation MTLModel (KTVNullableScalar)
+@implementation MTLModel (NullableScalar)
 - (void)setNilValueForKey:(NSString *)key {
 	[self setValue:@0 forKey:key];  // For NSInteger/CGFloat/BOOL
 }
