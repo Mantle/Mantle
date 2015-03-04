@@ -9,7 +9,8 @@
 #import "MTLJSONAdapter.h"
 #import "MTLModel.h"
 #import "MTLReflection.h"
-#import <objc/objc-runtime.h>
+#import <objc/runtime.h>
+
 NSString * const MTLJSONAdapterErrorDomain = @"MTLJSONAdapterErrorDomain";
 const NSInteger MTLJSONAdapterErrorNoClassFound = 2;
 const NSInteger MTLJSONAdapterErrorInvalidJSONDictionary = 3;
