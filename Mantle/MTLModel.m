@@ -93,7 +93,9 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 	self = [self init];
 	if (self == nil) return nil;
 
-	for (NSString *key in dictionary) {
+	NSSet *keys = [self.class.propertyKeys setByAddingObjectsFromArray:dictionary.allKeys];
+
+	for (NSString *key in keys) {
 		// Mark this as being autoreleased, because validateValue may return
 		// a new object to be stored in this variable (and we don't want ARC to
 		// double-free or leak the old or new values).
