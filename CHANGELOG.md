@@ -13,6 +13,7 @@ milestone](https://github.com/Mantle/Mantle/issues?q=milestone%3A2.0+is%3Aclosed
 
  1. [Explicit JSON key paths](#explicit-json-key-paths)
  1. [Core Data adapter now separate](#core-data-adapter-now-separate)
+ 1. [OS X 10.9 and iOS 8]
 
 **[Additions and improvements](#additions-and-improvements)**
 
@@ -52,5 +53,14 @@ Mantle features.
  * Import the
    [MTLManagedObjectAdapter](https://github.com/Mantle/MTLManagedObjectAdapter)
    framework into your project.
+
+### OS X 10.9 and iOS 8
+
+Mantle now requires OS X 10.9+ or iOS 8+, for the use of Swift and dynamic
+frameworks.
+
+**To update:**
+
+ * Increase your project’s deployment target to at least OS X 10.9 or iOS 8.
 
 ## Additions and improvements
