@@ -125,9 +125,14 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 				return nil;
 			}
 
-			return [MTLJSONAdapter modelOfClass:modelClass fromJSONDictionary:JSONDictionary error:error];
+			id model = [MTLJSONAdapter modelOfClass:modelClass fromJSONDictionary:JSONDictionary error:error];
+			if (model == nil) {
+				*success = NO;
+			}
+
+			return model;
 		}
-		reverseBlock:^ id (id model, BOOL *success, NSError **error) {
+		reverseBlock:^ NSDictionary * (id model, BOOL *success, NSError **error) {
 			if (model == nil) return nil;
 
 			if (![model isKindOfClass:MTLModel.class] || ![model conformsToProtocol:@protocol(MTLJSONSerializing)]) {
@@ -144,7 +149,12 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 				return nil;
 			}
 
-			return [MTLJSONAdapter JSONDictionaryFromModel:model error:error];
+			NSDictionary *result = [MTLJSONAdapter JSONDictionaryFromModel:model error:error];
+			if (result == nil) {
+				*success = NO;
+			}
+
+			return result;
 		}];
 }
 
