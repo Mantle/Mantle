@@ -11,4 +11,31 @@ milestone](https://github.com/Mantle/Mantle/issues?q=milestone%3A2.0+is%3Aclosed
 
 **[Breaking changes](#breaking-changes)**
 
+ 1. [Explicit JSON key paths](#explicit-json-key-paths)
+
 **[Additions and improvements](#additions-and-improvements)**
+
+## Breaking changes
+
+### Explicit JSON key paths
+
+`+JSONKeyPathsForPropertyKey` will [no
+longer](https://github.com/Mantle/Mantle/pull/170) infer your property mappings
+automatically.
+
+Instead, you must explicitly specify every property that should
+be mapped, and any properties omitted will not be considered for JSON
+serialization or deserialization.
+
+For convenience, you can use `+[NSDictionary mtl_identityPropertyMapWithModel:]`
+to automatically create a one-to-one mapping that matches the previous default
+behavior.
+
+**To update:**
+
+ * Explicitly declare any property mappings in `+JSONKeyPathsForPropertyKey`
+   that were previously implicit.
+ * Optionally use `+[NSDictionary mtl_identityPropertyMapWithModel:]` for an
+   initial property map.
+
+## Additions and improvements
