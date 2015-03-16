@@ -69,7 +69,7 @@ frameworks.
 
 ### MTLModel protocol
 
-The new `<MTLModel>` protocol represents the basic behaviors expected from any
+The [new `<MTLModel>` protocol](https://github.com/Mantle/Mantle/pull/219) represents the basic behaviors expected from any
 model object, and can be used instead of the `MTLModel` class when inheritance
 is impossible, or to create more generic APIs.
 
