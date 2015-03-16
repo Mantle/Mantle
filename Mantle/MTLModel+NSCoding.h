@@ -8,21 +8,6 @@
 
 #import "MTLModel.h"
 
-// Defines how a MTLModel property key should be encoded into an archive.
-//
-// MTLModelEncodingBehaviorExcluded      - The property should never be encoded.
-// MTLModelEncodingBehaviorUnconditional - The property should always be
-//                                         encoded.
-// MTLModelEncodingBehaviorConditional   - The object should be encoded only
-//                                         if unconditionally encoded elsewhere.
-//                                         This should only be used for object
-//                                         properties.
-typedef enum : NSUInteger {
-    MTLModelEncodingBehaviorExcluded = 0,
-    MTLModelEncodingBehaviorUnconditional,
-    MTLModelEncodingBehaviorConditional,
-} MTLModelEncodingBehavior;
-
 // Implements default archiving and unarchiving behaviors for MTLModel.
 @interface MTLModel (NSCoding) <NSCoding>
 
@@ -38,29 +23,14 @@ typedef enum : NSUInteger {
 // Archives the receiver using the given coder.
 //
 // This will encode the receiver's +modelVersion, then the receiver's properties
-// according to the behaviors specified in +encodingBehaviorsByPropertyKey.
+// according to the behaviors specified by +storageBehaviorForPropertyWithKey:.
 - (void)encodeWithCoder:(NSCoder *)coder;
-
-// Determines how the +propertyKeys of the class are encoded into an archive.
-// The values of this dictionary should be boxed MTLModelEncodingBehavior
-// values.
-//
-// Any keys not present in the dictionary will be excluded from the archive.
-//
-// Subclasses overriding this method should combine their values with those of
-// `super`.
-//
-// Returns a dictionary mapping the receiver's +propertyKeys to default encoding
-// behaviors. If a property is an object with `weak` semantics, the default
-// behavior is MTLModelEncodingBehaviorConditional; otherwise, the default is
-// MTLModelEncodingBehaviorUnconditional.
-+ (NSDictionary *)encodingBehaviorsByPropertyKey;
 
 // Determines the classes that are allowed to be decoded for each of the
 // receiver's properties when using <NSSecureCoding>. The values of this
 // dictionary should be NSArrays of Class objects.
 //
-// If any encodable keys (as determined by +encodingBehaviorsByPropertyKey) are
+// If any encodable keys (as determined by +storageBehaviorForPropertyWithKey:) are
 // not present in the dictionary, an exception will be thrown during secure
 // encoding or decoding.
 //
@@ -68,7 +38,7 @@ typedef enum : NSUInteger {
 // `super`.
 //
 // Returns a dictionary mapping the receiver's encodable keys (as determined by
-// +encodingBehaviorsByPropertyKey) to default allowed classes, based on the
+// +storageBehaviorForPropertyWithKey:) to default allowed classes, based on the
 // type that each property is declared as. If type of an encodable property
 // cannot be determined (e.g., it is declared as `id`), it will be omitted from
 // the dictionary, and subclasses must provide a valid value to prevent an
