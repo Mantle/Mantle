@@ -6,11 +6,13 @@
 //  Copyright (c) 2013 GitHub. All rights reserved.
 //
 
+#import <Quick/Quick.h>
+#import <Nimble/Nimble.h>
 #import "MTLTestModel.h"
 
 #import "NSDictionary+MTLMappingAdditions.h"
 
-SpecBegin(MTLDictionaryMappingAdditions)
+QuickSpecBegin(MTLDictionaryMappingAdditions)
 
 it(@"should return a mapping", ^{
 	NSDictionary *mapping = @{
@@ -20,7 +22,7 @@ it(@"should return a mapping", ^{
 		@"weakModel": @"weakModel"
 	};
 
-	expect([NSDictionary mtl_identityPropertyMapWithModel:MTLTestModel.class]).to.equal(mapping);
+	expect([NSDictionary mtl_identityPropertyMapWithModel:MTLTestModel.class]).to(equal(mapping));
 });
 
-SpecEnd
+QuickSpecEnd

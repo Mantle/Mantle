@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0500"
+   LastUpgradeVersion = "0620"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,23 +14,23 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D042FC3B15F72B23004E8054"
+               BlueprintIdentifier = "D0E9C35619F6DB38000D427D"
                BuildableName = "Mantle.framework"
-               BlueprintName = "Mantle"
+               BlueprintName = "Mantle-iOS"
                ReferencedContainer = "container:Mantle.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
             buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
             buildForArchiving = "NO"
-            buildForAnalyzing = "YES">
+            buildForAnalyzing = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D042FC5315F72B23004E8054"
-               BuildableName = "Mantle Tests.octest"
-               BlueprintName = "Mantle Tests"
+               BlueprintIdentifier = "D0E9C36019F6DB38000D427D"
+               BuildableName = "Mantle-iOSTests.xctest"
+               BlueprintName = "Mantle-iOSTests"
                ReferencedContainer = "container:Mantle.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -46,13 +46,22 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D042FC5315F72B23004E8054"
-               BuildableName = "Mantle Tests.octest"
-               BlueprintName = "Mantle Tests"
+               BlueprintIdentifier = "D0E9C36019F6DB38000D427D"
+               BuildableName = "Mantle-iOSTests.xctest"
+               BlueprintName = "Mantle-iOSTests"
                ReferencedContainer = "container:Mantle.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "D0E9C35619F6DB38000D427D"
+            BuildableName = "Mantle.framework"
+            BlueprintName = "Mantle-iOS"
+            ReferencedContainer = "container:Mantle.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </TestAction>
    <LaunchAction
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
@@ -63,6 +72,15 @@
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "D0E9C35619F6DB38000D427D"
+            BuildableName = "Mantle.framework"
+            BlueprintName = "Mantle-iOS"
+            ReferencedContainer = "container:Mantle.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -70,8 +88,17 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
-      buildConfiguration = "Profile"
+      buildConfiguration = "Release"
       debugDocumentVersioning = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "D0E9C35619F6DB38000D427D"
+            BuildableName = "Mantle.framework"
+            BlueprintName = "Mantle-iOS"
+            ReferencedContainer = "container:Mantle.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

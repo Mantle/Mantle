@@ -13,5 +13,9 @@ build/*
 xcuserdata
 profile
 *.moved-aside
+# AppCode etc.
+.idea/
 # Desktop Servies
 .DS_Store
+
+Carthage.build
