@@ -18,4 +18,11 @@
 	return copy;
 }
 
+- (NSDictionary *)JSONDictionaryFromModel:(id<MTLJSONSerializing>)model error:(NSError **)error {
+	NSDictionary *dictionary = [super JSONDictionaryFromModel:model error:error];
+	return [dictionary mtl_dictionaryByAddingEntriesFromDictionary:@{
+		@"test": @YES
+	}];
+}
+
 @end

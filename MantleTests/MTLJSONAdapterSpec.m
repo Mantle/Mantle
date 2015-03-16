@@ -250,15 +250,20 @@ it(@"should allow subclasses to filter serialized property keys", ^{
 	expect(error).to(beNil());
 
 	NSDictionary *complete = [adapter JSONDictionaryFromModel:model error:&error];
+	NSDictionary *expected = [values mtl_dictionaryByAddingEntriesFromDictionary:@{ @"test": @YES }];
 
-	expect(complete).to(equal(values));
+	expect(complete).to(equal(expected));
 	expect(error).to(beNil());
 
 	adapter.ignoredPropertyKeys = [NSSet setWithObjects:@"count", @"nestedName", nil];
 
 	NSDictionary *partial = [adapter JSONDictionaryFromModel:model error:&error];
+	expected = @{
+		@"username": @"foo",
+		@"test": @YES,
+	};
 
-	expect(partial).to(equal(@{ @"username": @"foo" }));
+	expect(partial).to(equal(expected));
 	expect(error).to(beNil());
 });
 
@@ -453,6 +458,24 @@ describe(@"JSON transformers", ^{
 				MTLTransformerErrorExamplesInvalidReverseTransformationInput: NSNull.null
 			};
 		});
+	});
+
+	it(@"should use receiving class for serialization", ^{
+		NSDictionary *values = @{
+			@"username": @"foo",
+			@"count": @"5",
+			@"nested": @{ @"name": NSNull.null }
+		};
+		
+		NSValueTransformer *transformer = [MTLTestJSONAdapter dictionaryTransformerWithModelClass:MTLTestModel.class];
+
+		MTLTestModel *model = [transformer transformedValue:values];
+		expect(model).to(beAKindOf(MTLTestModel.class));
+		expect(model).notTo(beNil());
+
+		NSDictionary *serialized = [transformer reverseTransformedValue:model];
+		expect(serialized).notTo(beNil());
+		expect(serialized[@"test"]).to(beTruthy());
 	});
 });
 
