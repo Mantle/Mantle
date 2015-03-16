@@ -13,7 +13,7 @@ milestone](https://github.com/Mantle/Mantle/issues?q=milestone%3A2.0+is%3Aclosed
 
  1. [Explicit JSON key paths](#explicit-json-key-paths)
  1. [Core Data adapter now separate](#core-data-adapter-now-separate)
- 1. [OS X 10.9 and iOS 8]
+ 1. [OS X 10.9 and iOS 8](#os-x-109-and-ios-8)
 
 **[Additions and improvements](#additions-and-improvements)**
 
