@@ -12,6 +12,7 @@ milestone](https://github.com/Mantle/Mantle/issues?q=milestone%3A2.0+is%3Aclosed
 **[Breaking changes](#breaking-changes)**
 
  1. [Explicit JSON key paths](#explicit-json-key-paths)
+ 1. [Core Data adapter now separate](#core-data-adapter-now-separate)
 
 **[Additions and improvements](#additions-and-improvements)**
 
@@ -37,5 +38,19 @@ behavior.
    that were previously implicit.
  * Optionally use `+[NSDictionary mtl_identityPropertyMapWithModel:]` for an
    initial property map.
+
+### Core Data adapter now separate
+
+The `MTLManagedObjectAdapter` class, used for converting to and from Core Data
+objects, has been moved to [its own
+framework](https://github.com/Mantle/MTLManagedObjectAdapter). This better
+indicates its “semi-official” status, as it gets less attention than the core
+Mantle features.
+
+**To update:**
+
+ * Import the
+   [MTLManagedObjectAdapter](https://github.com/Mantle/MTLManagedObjectAdapter)
+   framework into your project.
 
 ## Additions and improvements
