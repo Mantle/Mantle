@@ -17,6 +17,8 @@ milestone](https://github.com/Mantle/Mantle/issues?q=milestone%3A2.0+is%3Aclosed
 
 **[Additions and improvements](#additions-and-improvements)**
 
+ 1. [MTLModel protocol](#mtlmodel-protocol)
+
 ## Breaking changes
 
 ### Explicit JSON key paths
@@ -64,3 +66,17 @@ frameworks.
  * Increase your project’s deployment target to at least OS X 10.9 or iOS 8.
 
 ## Additions and improvements
+
+### MTLModel protocol
+
+The new `<MTLModel>` protocol represents the basic behaviors expected from any
+model object, and can be used instead of the `MTLModel` class when inheritance
+is impossible, or to create more generic APIs.
+
+For example, `<MTLModel>` conformance can be added to the objects from other
+persistence frameworks in order to use those objects in conjunction with
+Mantle’s adapters.
+
+Accordingly, `MTLJSONAdapter` has been updated to only depend on `<MTLModel>`
+conformance, and no longer requires a `MTLModel` subclass in order to serialize
+or deserialize from JSON.
