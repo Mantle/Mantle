@@ -20,9 +20,9 @@ milestone](https://github.com/Mantle/Mantle/issues?q=milestone%3A2.0+is%3Aclosed
 **[Additions and improvements](#additions-and-improvements)**
 
  1. [MTLModel protocol](#mtlmodel-protocol)
- 1. [Type checking during JSON parsing](#type-checking-during-json-parsing)
  1. [Error handling for value transformers](#error-handling-for-value-transformers)
  1. [Storage behaviors for properties](#storage-behaviors-for-properties)
+ 1. [Type checking during JSON parsing](#type-checking-during-json-parsing)
 
 ## Breaking changes
 
@@ -116,18 +116,6 @@ Accordingly, `MTLJSONAdapter` has been updated to only depend on `<MTLModel>`
 conformance, and no longer requires a `MTLModel` subclass in order to serialize
 or deserialize from JSON.
 
-### Type checking during JSON parsing
-
-`MTLJSONAdapter` now [implicitly
-validates](https://github.com/Mantle/Mantle/pull/251) the type of values
-assigned to your `<MTLModel>` objects during JSON parsing.
-
-This can be prevent errors like an `NSString` being assigned to a `BOOL`
-property.
-
-This is only a simple safety check, though, and cannot catch every kind of
-error! Continue to verify that your types align ahead of time.
-
 ### Error handling for value transformers
 
 The [new `<MTLTransformerErrorHandling>`
@@ -154,3 +142,15 @@ default behavior of methods like `-dictionaryValue`, `-isEqual:`,
 Properties which have been omitted from `+propertyKeys` by default will continue
 to be omitted under the new API, with a default behavior of
 `MTLPropertyStorageNone`.
+
+### Type checking during JSON parsing
+
+`MTLJSONAdapter` now [implicitly
+validates](https://github.com/Mantle/Mantle/pull/251) the type of values
+assigned to your `<MTLModel>` objects during JSON parsing.
+
+This can be prevent errors like an `NSString` being assigned to a `BOOL`
+property.
+
+This is only a simple safety check, though, and cannot catch every kind of
+error! Continue to verify that your types align ahead of time.
