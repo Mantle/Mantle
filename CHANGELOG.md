@@ -14,6 +14,7 @@ milestone](https://github.com/Mantle/Mantle/issues?q=milestone%3A2.0+is%3Aclosed
  1. [Explicit JSON key paths](#explicit-json-key-paths)
  1. [Core Data adapter now separate](#core-data-adapter-now-separate)
  1. [OS X 10.9 and iOS 8](#os-x-109-and-ios-8)
+ 1. [JSON key paths can only traverse objects](#json-key-paths-can-only-traverse-objects)
 
 **[Additions and improvements](#additions-and-improvements)**
 
@@ -65,6 +66,21 @@ frameworks.
 **To update:**
 
  * Increase your project’s deployment target to at least OS X 10.9 or iOS 8.
+
+### JSON key paths can only traverse objects
+
+Every element of a JSON key path specified in `+JSONKeyPathsByPropertyKey` [must
+now refer to an object](https://github.com/Mantle/Mantle/pull/275) (dictionary).
+
+It was [previously possible](https://github.com/Mantle/Mantle/issues/257) to use
+an array as a key path element, but this was unintended behavior, and is now
+explicitly disallowed.
+
+**To update:**
+
+ * If you were using an array as an element in a key path, change the key path
+   to end at the array, and [update your JSON transformer](https://github.com/Mantle/Mantle/issues/257#issuecomment-36846503)
+   to handle the nested elements instead.
 
 ## Additions and improvements
 
