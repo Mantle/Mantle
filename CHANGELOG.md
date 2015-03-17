@@ -13,6 +13,7 @@ milestone](https://github.com/Mantle/Mantle/issues?q=milestone%3A2.0+is%3Aclosed
 
  1. [Explicit JSON key paths](#explicit-json-key-paths)
  1. [Core Data adapter now separate](#core-data-adapter-now-separate)
+ 1. [Managed object transformers reversed](#managed-object-transformers-reversed)
  1. [OS X 10.9 and iOS 8](#os-x-109-and-ios-8)
  1. [JSON key paths can only traverse objects](#json-key-paths-can-only-traverse-objects)
 
@@ -57,6 +58,21 @@ Mantle features.
  * Import the
    [MTLManagedObjectAdapter](https://github.com/Mantle/MTLManagedObjectAdapter)
    framework into your project.
+
+### Managed object transformers reversed
+
+In addition to being [a separate framework](#core-data-adapter-now-separate),
+the behavior of `MTLManagedObjectAdapter` has changed as well—specifically, the
+direction of managed object attribute transformers has been flipped.
+
+Managed object transformers now convert _from_ managed object attributes _to_
+model properties in the forward direction. In the reverse direction, they
+convert from properties to managed object attributes.
+
+**To update:**
+
+ * Swap the forward and reverse transformation logic of any custom managed
+   object transformers.
 
 ### OS X 10.9 and iOS 8
 
