@@ -22,6 +22,7 @@ milestone](https://github.com/Mantle/Mantle/issues?q=milestone%3A2.0+is%3Aclosed
  1. [MTLModel protocol](#mtlmodel-protocol)
  1. [Type checking during JSON parsing](#type-checking-during-json-parsing)
  1. [Error handling for value transformers](#error-handling-for-value-transformers)
+ 1. [Storage behaviors for properties](#storage-behaviors-for-properties)
 
 ## Breaking changes
 
@@ -142,3 +143,14 @@ with the following new methods that provide error information:
 
 Similarly, the predefined transformers that Mantle provides now provide error
 information upon failure as well.
+
+### Storage behaviors for properties
+
+The [new `+storageBehaviorForPropertyWithKey:`
+method](https://github.com/Mantle/Mantle/pull/210) can be used to redefine the
+default behavior of methods like `-dictionaryValue`, `-isEqual:`,
+`-description`, and `-copy` all at once.
+
+Properties which have been omitted from `+propertyKeys` by default will continue
+to be omitted under the new API, with a default behavior of
+`MTLPropertyStorageNone`.
