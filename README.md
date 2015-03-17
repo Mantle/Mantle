@@ -1,6 +1,4 @@
-# Mantle
-
-[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+# Mantle [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 
 Mantle makes it easy to write a simple model layer for your Cocoa or Cocoa Touch
 application.
