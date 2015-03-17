@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @protocol MTLModel;
+@protocol MTLTransformerErrorHandling;
 
 // A MTLModel object that supports being parsed from and serialized to JSON.
 @protocol MTLJSONSerializing <MTLModel>
@@ -228,6 +229,28 @@ extern const NSInteger MTLJSONAdapterErrorInvalidJSONMapping;
 @end
 
 @interface MTLJSONAdapter (ValueTransformers)
+
+// Creates a reversible transformer to convert a JSON dictionary into a MTLModel
+// object, and vice-versa.
+//
+// modelClass - The MTLModel subclass to attempt to parse from the JSON. This
+//              class must conform to <MTLJSONSerializing>. This argument must
+//              not be nil.
+//
+// Returns a reversible transformer which uses the class of the receiver for
+// transforming values back and forth.
++ (NSValueTransformer<MTLTransformerErrorHandling> *)dictionaryTransformerWithModelClass:(Class)modelClass;
+
+// Creates a reversible transformer to convert an array of JSON dictionaries
+// into an array of MTLModel objects, and vice-versa.
+//
+// modelClass - The MTLModel subclass to attempt to parse from each JSON
+//              dictionary. This class must conform to <MTLJSONSerializing>.
+//              This argument must not be nil.
+//
+// Returns a reversible transformer which uses the class of the receiver for
+// transforming array elements back and forth.
++ (NSValueTransformer<MTLTransformerErrorHandling> *)arrayTransformerWithModelClass:(Class)modelClass;
 
 // This value transformer is used by MTLJSONAdapter to automatically convert
 // NSURL properties to JSON strings and vice versa.

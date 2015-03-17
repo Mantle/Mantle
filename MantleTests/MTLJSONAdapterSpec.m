@@ -10,8 +10,9 @@
 #import <Nimble/Nimble.h>
 #import <Quick/Quick.h>
 
-#import "MTLTestModel.h"
 #import "MTLTestJSONAdapter.h"
+#import "MTLTestModel.h"
+#import "MTLTransformerErrorExamples.h"
 
 QuickSpecBegin(MTLJSONAdapterSpec)
 
@@ -249,15 +250,20 @@ it(@"should allow subclasses to filter serialized property keys", ^{
 	expect(error).to(beNil());
 
 	NSDictionary *complete = [adapter JSONDictionaryFromModel:model error:&error];
+	NSDictionary *expected = [values mtl_dictionaryByAddingEntriesFromDictionary:@{ @"test": @YES }];
 
-	expect(complete).to(equal(values));
+	expect(complete).to(equal(expected));
 	expect(error).to(beNil());
 
 	adapter.ignoredPropertyKeys = [NSSet setWithObjects:@"count", @"nestedName", nil];
 
 	NSDictionary *partial = [adapter JSONDictionaryFromModel:model error:&error];
+	expected = @{
+		@"username": @"foo",
+		@"test": @YES,
+	};
 
-	expect(partial).to(equal(@{ @"username": @"foo" }));
+	expect(partial).to(equal(expected));
 	expect(error).to(beNil());
 });
 
@@ -371,6 +377,108 @@ it(@"should validate models", ^{
 	expect(@(error.code)).to(equal(@(MTLTestModelNameMissing)));
 });
 
+describe(@"JSON transformers", ^{
+	describe(@"dictionary transformer", ^{
+		__block NSValueTransformer *transformer;
+		
+		__block MTLTestModel *model;
+		__block NSDictionary *JSONDictionary;
+		
+		beforeEach(^{
+			model = [[MTLTestModel alloc] init];
+			JSONDictionary = [MTLJSONAdapter JSONDictionaryFromModel:model error:NULL];
+			
+			transformer = [MTLJSONAdapter dictionaryTransformerWithModelClass:MTLTestModel.class];
+			expect(transformer).notTo(beNil());
+		});
+		
+		it(@"should transform a JSON dictionary into a model", ^{
+			expect([transformer transformedValue:JSONDictionary]).to(equal(model));
+		});
+		
+		it(@"should transform a model into a JSON dictionary", ^{
+			expect(@([transformer.class allowsReverseTransformation])).to(beTruthy());
+			expect([transformer reverseTransformedValue:model]).to(equal(JSONDictionary));
+		});
+		
+		itBehavesLike(MTLTransformerErrorExamples, ^{
+			return @{
+				MTLTransformerErrorExamplesTransformer: transformer,
+				MTLTransformerErrorExamplesInvalidTransformationInput: NSNull.null,
+				MTLTransformerErrorExamplesInvalidReverseTransformationInput: NSNull.null
+			};
+		});
+	});
+	
+	describe(@"external representation array transformer", ^{
+		__block NSValueTransformer *transformer;
+		
+		__block NSArray *models;
+		__block NSArray *JSONDictionaries;
+		
+		beforeEach(^{
+			NSMutableArray *uniqueModels = [NSMutableArray array];
+			NSMutableArray *mutableDictionaries = [NSMutableArray array];
+			
+			for (NSUInteger i = 0; i < 10; i++) {
+				MTLTestModel *model = [[MTLTestModel alloc] init];
+				model.count = i;
+				
+				[uniqueModels addObject:model];
+				
+				NSDictionary *dict = [MTLJSONAdapter JSONDictionaryFromModel:model error:NULL];
+				expect(dict).notTo(beNil());
+				
+				[mutableDictionaries addObject:dict];
+			}
+			
+			uniqueModels[2] = NSNull.null;
+			mutableDictionaries[2] = NSNull.null;
+			
+			models = [uniqueModels copy];
+			JSONDictionaries = [mutableDictionaries copy];
+			
+			transformer = [MTLJSONAdapter arrayTransformerWithModelClass:MTLTestModel.class];
+			expect(transformer).notTo(beNil());
+		});
+		
+		it(@"should transform JSON dictionaries into models", ^{
+			expect([transformer transformedValue:JSONDictionaries]).to(equal(models));
+		});
+		
+		it(@"should transform models into JSON dictionaries", ^{
+			expect(@([transformer.class allowsReverseTransformation])).to(beTruthy());
+			expect([transformer reverseTransformedValue:models]).to(equal(JSONDictionaries));
+		});
+		
+		itBehavesLike(MTLTransformerErrorExamples, ^{
+			return @{
+				MTLTransformerErrorExamplesTransformer: transformer,
+				MTLTransformerErrorExamplesInvalidTransformationInput: NSNull.null,
+				MTLTransformerErrorExamplesInvalidReverseTransformationInput: NSNull.null
+			};
+		});
+	});
+
+	it(@"should use receiving class for serialization", ^{
+		NSDictionary *values = @{
+			@"username": @"foo",
+			@"count": @"5",
+			@"nested": @{ @"name": NSNull.null }
+		};
+		
+		NSValueTransformer *transformer = [MTLTestJSONAdapter dictionaryTransformerWithModelClass:MTLTestModel.class];
+
+		MTLTestModel *model = [transformer transformedValue:values];
+		expect(model).to(beAKindOf(MTLTestModel.class));
+		expect(model).notTo(beNil());
+
+		NSDictionary *serialized = [transformer reverseTransformedValue:model];
+		expect(serialized).notTo(beNil());
+		expect(serialized[@"test"]).to(beTruthy());
+	});
+});
+
 describe(@"Deserializing multiple models", ^{
 	NSDictionary *value1 = @{
 		@"username": @"foo"
@@ -440,6 +548,5 @@ it(@"should return an array of dictionaries from models", ^{
 	expect(JSONArray[0][@"username"]).to(equal(@"foo"));
 	expect(JSONArray[1][@"username"]).to(equal(@"bar"));
 });
-
 
 QuickSpecEnd

@@ -8,6 +8,7 @@
 
 #import <Mantle/Mantle.h>
 
+// Adds a custom key "test" to constructed JSON.
 @interface MTLTestJSONAdapter : MTLJSONAdapter
 
 // These property keys are not serialized.

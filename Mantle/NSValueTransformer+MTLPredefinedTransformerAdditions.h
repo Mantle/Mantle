@@ -24,28 +24,6 @@ extern NSString * const MTLBooleanValueTransformerName;
 
 @interface NSValueTransformer (MTLPredefinedTransformerAdditions)
 
-// Creates a reversible transformer to convert a JSON dictionary into a MTLModel
-// object, and vice-versa.
-//
-// modelClass - The MTLModel subclass to attempt to parse from the JSON. This
-//              class must conform to <MTLJSONSerializing>. This argument must
-//              not be nil.
-//
-// Returns a reversible transformer which uses MTLJSONAdapter for transforming
-// values back and forth.
-+ (NSValueTransformer<MTLTransformerErrorHandling> *)mtl_JSONDictionaryTransformerWithModelClass:(Class)modelClass;
-
-// Creates a reversible transformer to convert an array of JSON dictionaries
-// into an array of MTLModel objects, and vice-versa.
-//
-// modelClass - The MTLModel subclass to attempt to parse from each JSON
-//              dictionary. This class must conform to <MTLJSONSerializing>.
-//              This argument must not be nil.
-//
-// Returns a reversible transformer which uses MTLJSONAdapter for transforming
-// array elements back and forth.
-+ (NSValueTransformer<MTLTransformerErrorHandling> *)mtl_JSONArrayTransformerWithModelClass:(Class)modelClass;
-
 // An optionally reversible transformer which applies the given transformer to
 // each element of an array.
 //
@@ -93,5 +71,9 @@ extern NSString * const MTLBooleanValueTransformerName;
 // Returns a transformer which will return an error if the transformed in value
 // is not a member of class. Otherwise, the value is simply passed through.
 + (NSValueTransformer<MTLTransformerErrorHandling> *)mtl_validatingTransformerForClass:(Class)class;
+
++ (NSValueTransformer<MTLTransformerErrorHandling> *)mtl_JSONDictionaryTransformerWithModelClass:(Class)modelClass __attribute__((deprecated("Replaced by +[MTLJSONAdapter dictionaryTransformerWithModelClass:]")));
+
++ (NSValueTransformer<MTLTransformerErrorHandling> *)mtl_JSONArrayTransformerWithModelClass:(Class)modelClass __attribute__((deprecated("Replaced by +[MTLJSONAdapter arrayTransformerWithModelClass:]")));
 
 @end

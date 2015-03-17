@@ -103,67 +103,6 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 
 #pragma mark Customizable Transformers
 
-+ (NSValueTransformer<MTLTransformerErrorHandling> *)mtl_JSONDictionaryTransformerWithModelClass:(Class)modelClass {
-	NSParameterAssert([modelClass isSubclassOfClass:MTLModel.class]);
-	NSParameterAssert([modelClass conformsToProtocol:@protocol(MTLJSONSerializing)]);
-
-	return [MTLValueTransformer
-		transformerUsingForwardBlock:^ id (id JSONDictionary, BOOL *success, NSError **error) {
-			if (JSONDictionary == nil) return nil;
-
-			if (![JSONDictionary isKindOfClass:NSDictionary.class]) {
-				if (error != NULL) {
-					NSDictionary *userInfo = @{
-						NSLocalizedDescriptionKey: NSLocalizedString(@"Could not convert JSON dictionary to model object", @""),
-						NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Expected an NSDictionary, got: %@", @""), JSONDictionary],
-						MTLTransformerErrorHandlingInputValueErrorKey : JSONDictionary
-					};
-
-					*error = [NSError errorWithDomain:MTLTransformerErrorHandlingErrorDomain code:MTLTransformerErrorHandlingErrorInvalidInput userInfo:userInfo];
-				}
-				*success = NO;
-				return nil;
-			}
-
-			id model = [MTLJSONAdapter modelOfClass:modelClass fromJSONDictionary:JSONDictionary error:error];
-			if (model == nil) {
-				*success = NO;
-			}
-
-			return model;
-		}
-		reverseBlock:^ NSDictionary * (id model, BOOL *success, NSError **error) {
-			if (model == nil) return nil;
-
-			if (![model isKindOfClass:MTLModel.class] || ![model conformsToProtocol:@protocol(MTLJSONSerializing)]) {
-				if (error != NULL) {
-					NSDictionary *userInfo = @{
-						NSLocalizedDescriptionKey: NSLocalizedString(@"Could not convert model object to JSON dictionary", @""),
-						NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Expected a MTLModel object conforming to <MTLJSONSerializing>, got: %@.", @""), model],
-						MTLTransformerErrorHandlingInputValueErrorKey : model
-					};
-
-					*error = [NSError errorWithDomain:MTLTransformerErrorHandlingErrorDomain code:MTLTransformerErrorHandlingErrorInvalidInput userInfo:userInfo];
-				}
-				*success = NO;
-				return nil;
-			}
-
-			NSDictionary *result = [MTLJSONAdapter JSONDictionaryFromModel:model error:error];
-			if (result == nil) {
-				*success = NO;
-			}
-
-			return result;
-		}];
-}
-
-+ (NSValueTransformer<MTLTransformerErrorHandling> *)mtl_JSONArrayTransformerWithModelClass:(Class)modelClass {
-	id<MTLTransformerErrorHandling> dictionaryTransformer = [self mtl_JSONDictionaryTransformerWithModelClass:modelClass];
-	
-	return [self mtl_arrayMappingTransformerWithTransformer:dictionaryTransformer];
-}
-
 + (NSValueTransformer<MTLTransformerErrorHandling> *)mtl_arrayMappingTransformerWithTransformer:(NSValueTransformer *)transformer {
 	NSParameterAssert(transformer != nil);
 	
@@ -335,5 +274,18 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 + (NSValueTransformer *)mtl_valueMappingTransformerWithDictionary:(NSDictionary *)dictionary {
 	return [self mtl_valueMappingTransformerWithDictionary:dictionary defaultValue:nil reverseDefaultValue:nil];
 }
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
+
++ (NSValueTransformer<MTLTransformerErrorHandling> *)mtl_JSONDictionaryTransformerWithModelClass:(Class)modelClass {
+	return [MTLJSONAdapter dictionaryTransformerWithModelClass:modelClass];
+}
+
++ (NSValueTransformer<MTLTransformerErrorHandling> *)mtl_JSONArrayTransformerWithModelClass:(Class)modelClass {
+	return [MTLJSONAdapter arrayTransformerWithModelClass:modelClass];
+}
+
+#pragma clang diagnostic pop
 
 @end
