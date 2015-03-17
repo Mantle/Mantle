@@ -357,6 +357,49 @@ describe(@"with a main queue context", ^{
 	});
 });
 
+describe(@"without context", ^{
+	__block NSManagedObjectContext *context; // used for entity descriptions, not for persistence
+	__block MTLParent *parent;
+
+	__block NSDate *date;
+	__block NSString *numberString;
+	__block NSString *string;
+
+	beforeEach(^{
+		context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
+		expect(context).notTo.beNil();
+
+		context.undoManager = nil;
+		context.persistentStoreCoordinator = persistentStoreCoordinator;
+
+		date = [NSDate date];
+		numberString = @"123456789";
+		string = @"foobar";
+
+		NSEntityDescription *parentEntity = [NSEntityDescription entityForName:@"Parent" inManagedObjectContext:context];
+		expect(parentEntity).notTo.beNil();
+
+		parent = (MTLParent *)[[NSManagedObject alloc] initWithEntity:parentEntity insertIntoManagedObjectContext:nil];
+		expect(parent).notTo.beNil();
+		expect(parent.managedObjectContext).to.beNil();
+
+		parent.date = date;
+		parent.number = @([numberString integerValue]);
+		parent.string = string;
+	});
+
+	it(@"should serialize to model without context", ^{
+		NSError *error = nil;
+		MTLParentTestModel *parentModel = [MTLManagedObjectAdapter modelOfClass:MTLParentTestModel.class fromManagedObject:parent error:&error];
+		expect(parentModel).to.beKindOf(MTLParentTestModel.class);
+		expect(error).to.beNil();
+
+		expect(parentModel.date).to.equal(date);
+		expect(parentModel.numberString).to.equal(numberString);
+		expect(parentModel.requiredString).to.equal(string);
+	});
+});
+
 describe(@"with a child that fails serialization", ^{
 	__block NSManagedObjectContext *context;
 
