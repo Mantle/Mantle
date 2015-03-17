@@ -12,6 +12,7 @@ milestone](https://github.com/Mantle/Mantle/issues?q=milestone%3A2.0+is%3Aclosed
 **[Breaking changes](#breaking-changes)**
 
  1. [Explicit JSON key paths](#explicit-json-key-paths)
+ 1. [Predefined transformers now part of JSON adapter](#predefined-transformers-now-part-of-json-adapter)
  1. [Core Data adapter now separate](#core-data-adapter-now-separate)
  1. [Managed object transformers reversed](#managed-object-transformers-reversed)
  1. [OS X 10.9 and iOS 8](#os-x-109-and-ios-8)
@@ -46,6 +47,25 @@ behavior.
    that were previously implicit.
  * Optionally use `+[NSDictionary mtl_identityPropertyMapWithModel:]` for an
    initial property map.
+
+### Predefined transformers now part of JSON adapter
+
+The `+mtl_JSONDictionaryTransformerWithModelClass:` and
+`+mtl_JSONArrayWithModelClass:` methods [have
+moved](https://github.com/Mantle/Mantle/pull/474) to `MTLJSONAdapter`.
+
+This allows custom JSON adapter subclasses to substitute their own transformers
+with additional logic, and moves the transformers closer to their actual point
+of use.
+
+**To update:**
+
+ * Replace occurrences of `+[NSValueTransformer
+   mtl_JSONDictionaryTransformerWithModelClass:]` with `+[MTLJSONAdapter
+   dictionaryTransformerWithModelClass:]`
+ * Replace occurrences of `+[NSValueTransformer
+   mtl_JSONArrayTransformerWithModelClass:]` with `+[MTLJSONAdapter
+   arrayTransformerWithModelClass:]`
 
 ### Core Data adapter now separate
 
