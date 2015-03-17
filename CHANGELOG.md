@@ -74,7 +74,8 @@ convert from properties to managed object attributes.
 **To update:**
 
  * Swap the forward and reverse transformation logic of any custom managed
-   object transformers.
+   object transformers, or use `-mtl_invertedTransformer` to do it
+   automatically.
 
 ### OS X 10.9 and iOS 8
 
