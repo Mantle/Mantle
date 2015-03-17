@@ -10,12 +10,12 @@
 
 @interface NSValueTransformer (MTLInversionAdditions)
 
-// Flips the direction of the receiver's transformation, such that
-// -transformedValue: will become -reverseTransformedValue:, and vice-versa.
-//
-// The receiver must allow reverse transformation.
-//
-// Returns an inverted transformer.
+/// Flips the direction of the receiver's transformation, such that
+/// -transformedValue: will become -reverseTransformedValue:, and vice-versa.
+///
+/// The receiver must allow reverse transformation.
+///
+/// Returns an inverted transformer.
 - (NSValueTransformer *)mtl_invertedTransformer;
 
 @end
