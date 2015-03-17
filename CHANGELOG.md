@@ -21,6 +21,7 @@ milestone](https://github.com/Mantle/Mantle/issues?q=milestone%3A2.0+is%3Aclosed
 
  1. [MTLModel protocol](#mtlmodel-protocol)
  1. [Type checking during JSON parsing](#type-checking-during-json-parsing)
+ 1. [Error handling for value transformers](#error-handling-for-value-transformers)
 
 ## Breaking changes
 
@@ -125,3 +126,19 @@ property.
 
 This is only a simple safety check, though, and cannot catch every kind of
 error! Continue to verify that your types align ahead of time.
+
+### Error handling for value transformers
+
+The [new `<MTLTransformerErrorHandling>`
+protocol](https://github.com/Mantle/Mantle/pull/153) can be used to add error
+reporting behaviors to any `NSValueTransformer`.
+
+`MTLValueTransformer` has been updated to take advantage of the new interface,
+with the following new methods that provide error information:
+
+ * `+transformerUsingForwardBlock:`
+ * `+transformerUsingReversibleBlock:`
+ * `+transformerUsingForwardBlock:reverseBlock:`
+
+Similarly, the predefined transformers that Mantle provides now provide error
+information upon failure as well.
