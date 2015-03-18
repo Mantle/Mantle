@@ -35,6 +35,140 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 	return result;
 }
 
+// Encapsulates tasks related to collecting managed object uniquing values.
+@interface MTLUniquingValuesStorage : NSObject
+
+- (void)addModel:(MTLModel *)model withUniquingValues:(NSDictionary *)uniquingValues;
+
+- (NSArray *)modelClasses;
+- (NSArray *)modelsForUniquingValues:(NSDictionary *)uniquingValues forModelClass:(Class)modelClass;
+- (NSArray *)uniquingValuesForModelClass:(Class)modelClass;
+
+@end
+
+@implementation MTLUniquingValuesStorage {
+	NSMutableDictionary *_nestedDictionariesByModelClass;
+	NSMutableDictionary *_uniquingValuesByModelClass;
+}
+
+- (id)init {
+	self = [super init];
+	if (self == nil) return nil;
+	
+	_nestedDictionariesByModelClass = [NSMutableDictionary dictionary];
+	_uniquingValuesByModelClass = [NSMutableDictionary dictionary];
+	
+	return self;
+}
+
+- (void)addModel:(MTLModel *)model withUniquingValues:(NSDictionary *)uniquingValues {
+	NSParameterAssert(model != nil);
+	NSParameterAssert(uniquingValues != nil);
+	
+	NSMutableArray *models = [self mutableModelsForUniquingValues:uniquingValues forModelClass:model.class];
+	
+	if (models.count == 0) {
+		NSMutableArray *uniquingValuesArray = [self mutableUniquingValuesForModelClass:model.class];
+		[uniquingValuesArray addObject:uniquingValues];
+	}
+	
+	[models addObject:model];
+}
+
+- (NSArray *)modelClasses {
+	NSArray *modelClassStrings = [_nestedDictionariesByModelClass allKeys];
+	NSMutableArray *modelClasses = [[NSMutableArray alloc] initWithCapacity:modelClassStrings.count];
+	for (NSString *modelClassString in modelClassStrings) {
+		[modelClasses addObject:NSClassFromString(modelClassString)];
+	}
+	return [modelClasses copy];
+}
+
+- (NSArray *)modelsForUniquingValues:(NSDictionary *)uniquingValues forModelClass:(Class)modelClass {
+	return [[self mutableModelsForUniquingValues:uniquingValues forModelClass:modelClass] copy];
+}
+
+- (NSArray *)uniquingValuesForModelClass:(Class)modelClass {
+	NSParameterAssert(modelClass != Nil);
+	
+	return [[self mutableUniquingValuesForModelClass:modelClass] copy];
+}
+
+- (CFMutableDictionaryRef)nestedDictionaryForModelClass:(Class)modelClass {
+	NSParameterAssert(modelClass != Nil);
+	
+	NSString *modelClassString = NSStringFromClass(modelClass);
+	
+	CFMutableDictionaryRef dictionary = (__bridge CFMutableDictionaryRef)_nestedDictionariesByModelClass[modelClassString];
+	if (dictionary == NULL) {
+		dictionary = CFDictionaryCreateMutable(NULL, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+		_nestedDictionariesByModelClass[modelClassString] = (__bridge_transfer id)dictionary;
+	}
+	
+	return dictionary;
+}
+
+- (NSMutableArray *)mutableModelsForUniquingValues:(NSDictionary *)uniquingValues forModelClass:(Class)modelClass {
+	NSParameterAssert(uniquingValues != nil);
+	NSParameterAssert(modelClass != Nil);
+	
+	NSArray *sortedKeys = [[uniquingValues allKeys] sortedArrayUsingSelector:@selector(compare:)];
+	NSArray *values = [uniquingValues objectsForKeys:sortedKeys notFoundMarker:NSNull.null];
+	
+	CFMutableDictionaryRef currentDictionary = [self nestedDictionaryForModelClass:modelClass];
+	
+	for (id value in values) {
+		if (value != values.lastObject) {
+			CFMutableDictionaryRef valueDictionary = (CFMutableDictionaryRef)CFDictionaryGetValue(currentDictionary, (__bridge void *)value);
+			if (valueDictionary == NULL) {
+				valueDictionary = CFDictionaryCreateMutable(NULL, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+				CFDictionarySetValue(currentDictionary, (__bridge void *)value, valueDictionary);
+				CFRelease(valueDictionary);
+			}
+			
+			currentDictionary = valueDictionary;
+		}
+	}
+	
+	NSMutableArray *models = (__bridge id)CFDictionaryGetValue(currentDictionary, (__bridge void *)values.lastObject);
+	if (models == nil) {
+		models = [[NSMutableArray alloc] init];
+		CFDictionarySetValue(currentDictionary, (__bridge void *)values.lastObject, (__bridge void *)models);
+	}
+	
+	return models;
+}
+
+- (NSMutableArray *)mutableUniquingValuesForModelClass:(Class)modelClass {
+	NSParameterAssert(modelClass != Nil);
+	
+	NSString *modelClassString = NSStringFromClass(modelClass);
+	
+	NSMutableArray *array = _uniquingValuesByModelClass[modelClassString];
+	if (array == nil) {
+		array = [[NSMutableArray alloc] init];
+		_uniquingValuesByModelClass[modelClassString] = array;
+	}
+	
+	return array;
+}
+
+@end
+
+
+// Provides a bridge between MTLModels and a corresponding managed object - even
+// if the latter has not been created yet.
+@interface MTLManagedObjectHolder : NSObject
+
+@property (nonatomic, strong) NSManagedObject *managedObject;
+
+@end
+
+@implementation MTLManagedObjectHolder
+
+@end
+
+
 @interface MTLManagedObjectAdapter ()
 
 // The MTLModel subclass being serialized or deserialized.
@@ -63,9 +197,9 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 + (id)modelOfClass:(Class)modelClass fromManagedObject:(NSManagedObject *)managedObject processedObjects:(CFMutableDictionaryRef)processedObjects error:(NSError **)error;
 
 // Invoked from
-// +managedObjectFromModel:insertingIntoContext:processedObjects:error: after
+// +managedObjectFromModel:insertingIntoContext:processedObjects:existingObjects:error: after
 // the receiver's properties have been initialized.
-- (id)managedObjectFromModel:(MTLModel<MTLManagedObjectSerializing> *)model insertingIntoContext:(NSManagedObjectContext *)context processedObjects:(CFMutableDictionaryRef)processedObjects error:(NSError **)error;
+- (id)managedObjectFromModel:(MTLModel<MTLManagedObjectSerializing> *)model insertingIntoContext:(NSManagedObjectContext *)context processedObjects:(CFMutableDictionaryRef)processedObjects existingObjects:(CFMutableDictionaryRef)existingObjects error:(NSError **)error;
 
 // Performs the actual work of serialization. This method is also invoked when
 // processing relationships, to create a new adapter (if needed) to handle them.
@@ -73,7 +207,39 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 // `processedObjects` is a dictionary mapping MTLModels to the NSManagedObjects
 // that have been created so far. It should remain alive for the full process
 // of serializing the top-level MTLModel.
-+ (id)managedObjectFromModel:(MTLModel<MTLManagedObjectSerializing> *)model insertingIntoContext:(NSManagedObjectContext *)context processedObjects:(CFMutableDictionaryRef)processedObjects error:(NSError **)error;
+//
+// `existingObjects` is a dictionary mapping MTLModels to MTLManagedObjectHolder
+// instances according to uniquing rules. A holder may or may not contain an
+// existing managed object.
++ (id)managedObjectFromModel:(MTLModel<MTLManagedObjectSerializing> *)model insertingIntoContext:(NSManagedObjectContext *)context processedObjects:(CFMutableDictionaryRef)processedObjects existingObjects:(CFMutableDictionaryRef)existingObjects error:(NSError **)error;
+
+// Traverses hierarchy of the given MTLModel and collects uniquing values that
+// will be used to perform batch fetch requests for existing managed objects.
+//
+// `processedObjects` is a set of MTLModels processed so far.
++ (void)collectUniquingValuesInModelGraph:(MTLModel<MTLManagedObjectSerializing> *)model uniquingValuesStorage:(MTLUniquingValuesStorage *)uniquingValuesStorage processedObjects:(CFMutableSetRef)processedObjects context:(NSManagedObjectContext *)context;
+
+// Returns a dictionary of managed object key and values which can be used for
+// uniquing for the given MTLModel, or nil if there's no uniquing for this model
+// class.
++ (NSDictionary *)uniquingValuesForModel:(MTLModel<MTLManagedObjectSerializing> *)model;
+
+// Performs an actual fetch request for previously collected uniquing values.
+//
+// `managedObjectHoldersByModel` is a dictionary mapping MTLModels to
+// MTLManagedObjectHolders.
++ (BOOL)fetchExistingManagedObjectsForModelClass:(Class)modelClass uniquingValuesStorage:(MTLUniquingValuesStorage *)uniquingValuesStorage managedObjectHoldersByModel:(CFMutableDictionaryRef)managedObjectHoldersByModel context:(NSManagedObjectContext *)context error:(NSError **)error;
+
+// Looks up the NSValueTransformer that should be used for any attribute that
+// corresponds the given property key and MTLModel subclass.
+//
+// key		- The property key to transform from or to. This argument must not
+//			  be nil.
+// modelClass - The MTLModel subclass being serialized. This class must conform
+//			  to <MTLManagedObjectSerializing>. This argument must not be nil.
+//
+// Returns a transformer to use, or nil to not transform the property.
++ (NSValueTransformer *)entityAttributeTransformerForKey:(NSString *)key forModelClass:(Class)modelClass;
 
 // Looks up the NSValueTransformer that should be used for any attribute that
 // corresponds the given property key.
@@ -83,18 +249,15 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 // Returns a transformer to use, or nil to not transform the property.
 - (NSValueTransformer *)entityAttributeTransformerForKey:(NSString *)key;
 
-// Looks up the managed object key that corresponds to the given key.
+// Looks up the managed object keys that correspond to the property keys of the
+// given MTLModel subclass. Omitted property keys are excluded.
 //
-// key - The property key to retrieve the corresponding managed object key for.
-//       This argument must not be nil.
+// modelClass - The MTLModel subclass being serialized. This class must conform
+//			  to <MTLManagedObjectSerializing>. This argument must not be nil.
 //
-// Returns a key to use, or nil to omit the property from managed object
-// serialization.
-- (NSString *)managedObjectKeyForKey:(NSString *)key;
-
-// Looks at propertyKeysForManagedObjectUniquing and forms an NSPredicate
-// using the uniquing keys and the provided model.
-- (NSPredicate *)uniquingPredicateForModel:(MTLModel<MTLManagedObjectSerializing> *)model;
+// Returns a dictionary containing property keys as keys and corresponding
+// managed objects keys as values.
++ (NSDictionary *)managedObjectKeysByPropertyKeyForModelClass:(Class)modelClass;
 
 @end
 
@@ -114,7 +277,7 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 	if (self == nil) return nil;
 
 	_modelClass = modelClass;
-	_managedObjectKeysByPropertyKey = [[modelClass managedObjectKeysByPropertyKey] copy];
+	_managedObjectKeysByPropertyKey = [self.class managedObjectKeysByPropertyKeyForModelClass:modelClass];
 
 	if ([modelClass respondsToSelector:@selector(relationshipModelClassesByPropertyKey)]) {
 		_relationshipModelClassesByPropertyKey = [[modelClass relationshipModelClassesByPropertyKey] copy];
@@ -153,7 +316,7 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 	};
 
 	for (NSString *propertyKey in [self.modelClass propertyKeys]) {
-		NSString *managedObjectKey = [self managedObjectKeyForKey:propertyKey];
+		NSString *managedObjectKey = self.managedObjectKeysByPropertyKey[propertyKey];
 		if (managedObjectKey == nil) continue;
 
 		BOOL (^deserializeAttribute)(NSAttributeDescription *) = ^(NSAttributeDescription *attributeDescription) {
@@ -251,6 +414,13 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 }
 
 + (id)modelOfClass:(Class)modelClass fromManagedObject:(NSManagedObject *)managedObject error:(NSError **)error {
+	NSParameterAssert(managedObject != nil);
+	
+	NSArray *models = [self modelsOfClass:modelClass fromManagedObjects:@[ managedObject ] error:error];
+	return models.mtl_firstObject;
+}
+
++ (NSArray *)modelsOfClass:(Class)modelClass fromManagedObjects:(NSArray *)managedObjects error:(NSError **)error {
 	NSSet *propertyKeys = [modelClass propertyKeys];
 
 	for (NSString *mappedPropertyKey in [modelClass managedObjectKeysByPropertyKey]) {
@@ -274,8 +444,18 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 	@onExit {
 		CFRelease(processedObjects);
 	};
-
-	return [self modelOfClass:modelClass fromManagedObject:managedObject processedObjects:processedObjects error:error];
+	
+	NSMutableArray *models = [[NSMutableArray alloc] initWithCapacity:managedObjects.count];
+	
+	for (NSManagedObject *managedObject in managedObjects) {
+		id model = [self modelOfClass:modelClass fromManagedObject:managedObject processedObjects:processedObjects error:error];
+		
+		if (model == nil) return nil;
+		
+		[models addObject:model];
+	}
+	
+	return models;
 }
 
 + (id)modelOfClass:(Class)modelClass fromManagedObject:(NSManagedObject *)managedObject processedObjects:(CFMutableDictionaryRef)processedObjects error:(NSError **)error {
@@ -309,10 +489,11 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 	return [adapter modelFromManagedObject:managedObject processedObjects:processedObjects error:error];
 }
 
-- (id)managedObjectFromModel:(MTLModel<MTLManagedObjectSerializing> *)model insertingIntoContext:(NSManagedObjectContext *)context processedObjects:(CFMutableDictionaryRef)processedObjects error:(NSError **)error {
+- (id)managedObjectFromModel:(MTLModel<MTLManagedObjectSerializing> *)model insertingIntoContext:(NSManagedObjectContext *)context processedObjects:(CFMutableDictionaryRef)processedObjects existingObjects:(CFMutableDictionaryRef)existingObjects error:(NSError **)error {
 	NSParameterAssert(model != nil);
 	NSParameterAssert(context != nil);
 	NSParameterAssert(processedObjects != nil);
+	NSParameterAssert(existingObjects != nil);
 
 	NSString *entityName = [model.class managedObjectEntityName];
 	NSAssert(entityName != nil, @"%@ returned a nil +managedObjectEntityName", model.class);
@@ -320,49 +501,9 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 	Class entityDescriptionClass = NSClassFromString(@"NSEntityDescription");
 	NSAssert(entityDescriptionClass != nil, @"CoreData.framework must be linked to use MTLManagedObjectAdapter");
 
-	Class fetchRequestClass = NSClassFromString(@"NSFetchRequest");
-	NSAssert(fetchRequestClass != nil, @"CoreData.framework must be linked to use MTLManagedObjectAdapter");
-
-	// If a uniquing predicate is provided, perform a fetch request to guarantee a unique managed object.
-	__block NSManagedObject *managedObject = nil;
-	NSPredicate *uniquingPredicate = [self uniquingPredicateForModel:model];
-
-	if (uniquingPredicate != nil) {
-		__block NSError *fetchRequestError = nil;
-		__block BOOL encountedError = NO;
-		managedObject = performInContext(context, ^ id {
-			NSFetchRequest *fetchRequest = [[fetchRequestClass alloc] init];
-			fetchRequest.entity = [entityDescriptionClass entityForName:entityName inManagedObjectContext:context];
-			fetchRequest.predicate = uniquingPredicate;
-			fetchRequest.returnsObjectsAsFaults = NO;
-			fetchRequest.fetchLimit = 1;
-
-			NSArray *results = [context executeFetchRequest:fetchRequest error:&fetchRequestError];
-
-			if (results == nil) {
-				encountedError = YES;
-				if (error != NULL) {
-					NSString *failureReason = [NSString stringWithFormat:NSLocalizedString(@"Failed to fetch a managed object for uniqing predicate \"%@\".", @""), uniquingPredicate];
-					
-					NSDictionary *userInfo = @{
-						NSLocalizedDescriptionKey: NSLocalizedString(@"Could not serialize managed object", @""),
-						NSLocalizedFailureReasonErrorKey: failureReason,
-					};
-					
-					fetchRequestError = [NSError errorWithDomain:MTLManagedObjectAdapterErrorDomain code:MTLManagedObjectAdapterErrorUniqueFetchRequestFailed userInfo:userInfo];
-				}
-				
-				return nil;
-			}
-
-			return results.mtl_firstObject;
-		});
-
-		if (encountedError && error != NULL) {
-			*error = fetchRequestError;
-			return nil;
-		}
-	}
+	// Check if we already have a corresponding existing managed object.
+	MTLManagedObjectHolder *managedObjectHolder = (__bridge MTLManagedObjectHolder *)CFDictionaryGetValue(existingObjects, (__bridge void *)model);
+	__block NSManagedObject *managedObject = managedObjectHolder.managedObject;
 
 	if (managedObject == nil) {
 		managedObject = [entityDescriptionClass insertNewObjectForEntityForName:entityName inManagedObjectContext:context];
@@ -394,12 +535,14 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 	// Pre-emptively consider this object processed, so that we don't get into
 	// any cycles when processing its relationships.
 	CFDictionaryAddValue(processedObjects, (__bridge void *)model, (__bridge void *)managedObject);
+	
+	managedObjectHolder.managedObject = managedObject;
 
 	NSDictionary *dictionaryValue = model.dictionaryValue;
 	NSDictionary *managedObjectProperties = managedObject.entity.propertiesByName;
 
 	[dictionaryValue enumerateKeysAndObjectsUsingBlock:^(NSString *propertyKey, id value, BOOL *stop) {
-		NSString *managedObjectKey = [self managedObjectKeyForKey:propertyKey];
+		NSString *managedObjectKey = self.managedObjectKeysByPropertyKey[propertyKey];
 		if (managedObjectKey == nil) return;
 		if ([value isEqual:NSNull.null]) value = nil;
 
@@ -432,7 +575,7 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 				return nil;
 			}
 
-			return [self.class managedObjectFromModel:model insertingIntoContext:context processedObjects:processedObjects error:&tmpError];
+			return [self.class managedObjectFromModel:model insertingIntoContext:context processedObjects:processedObjects existingObjects:existingObjects error:&tmpError];
 		};
 
 		BOOL (^serializeRelationship)(NSRelationshipDescription *) = ^(NSRelationshipDescription *relationshipDescription) {
@@ -537,25 +680,66 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 }
 
 + (id)managedObjectFromModel:(MTLModel<MTLManagedObjectSerializing> *)model insertingIntoContext:(NSManagedObjectContext *)context error:(NSError **)error {
-	CFDictionaryKeyCallBacks keyCallbacks = kCFTypeDictionaryKeyCallBacks;
+	NSParameterAssert(model != nil);
+	
+	NSArray *managedObjects = [self managedObjectsFromModels:@[ model ] insertingIntoContext:context error:error];
+	return managedObjects.mtl_firstObject;
+}
 
++ (NSArray *)managedObjectsFromModels:(NSArray *)models insertingIntoContext:(NSManagedObjectContext *)context error:(NSError **)error {
+	MTLUniquingValuesStorage *uniquingValuesStorage = [[MTLUniquingValuesStorage alloc] init];
+	
 	// Compare MTLModel keys using pointer equality, not -isEqual:.
+	CFSetCallBacks setCallbacks = kCFTypeSetCallBacks;
+	setCallbacks.equal = NULL;
+	
+	CFDictionaryKeyCallBacks keyCallbacks = kCFTypeDictionaryKeyCallBacks;
 	keyCallbacks.equal = NULL;
 
+	
+	CFMutableSetRef processedObjectsSet = CFSetCreateMutable(NULL, 0, &setCallbacks);
+	@onExit {
+		CFRelease(processedObjectsSet);
+	};
+	
+	for (MTLModel<MTLManagedObjectSerializing> *model in models) {
+		[self collectUniquingValuesInModelGraph:model uniquingValuesStorage:uniquingValuesStorage processedObjects:processedObjectsSet context:context];
+	}
+	
+	CFMutableDictionaryRef existingObjects = CFDictionaryCreateMutable(NULL, 0, &keyCallbacks, &kCFTypeDictionaryValueCallBacks);
+	@onExit {
+		CFRelease(existingObjects);
+	};
+	
+	for (Class modelClass in [uniquingValuesStorage modelClasses]) {
+		BOOL success = [self fetchExistingManagedObjectsForModelClass:modelClass uniquingValuesStorage:uniquingValuesStorage managedObjectHoldersByModel:existingObjects context:context error:error];
+		
+		if (!success) return nil;
+	}
+	
 	CFMutableDictionaryRef processedObjects = CFDictionaryCreateMutable(NULL, 0, &keyCallbacks, &kCFTypeDictionaryValueCallBacks);
-	if (processedObjects == NULL) return nil;
-
 	@onExit {
 		CFRelease(processedObjects);
 	};
-
-	return [self managedObjectFromModel:model insertingIntoContext:context processedObjects:processedObjects error:error];
+	
+	NSMutableArray *managedObjects = [[NSMutableArray alloc] initWithCapacity:models.count];
+	
+	for (MTLModel<MTLManagedObjectSerializing> *model in models) {
+		id managedObject = [self managedObjectFromModel:model insertingIntoContext:context processedObjects:processedObjects existingObjects:existingObjects error:error];
+		
+		if (managedObject == nil) return nil;
+		
+		[managedObjects addObject:managedObject];
+	}
+	
+	return managedObjects;
 }
 
-+ (id)managedObjectFromModel:(MTLModel<MTLManagedObjectSerializing> *)model insertingIntoContext:(NSManagedObjectContext *)context processedObjects:(CFMutableDictionaryRef)processedObjects error:(NSError **)error {
++ (id)managedObjectFromModel:(MTLModel<MTLManagedObjectSerializing> *)model insertingIntoContext:(NSManagedObjectContext *)context processedObjects:(CFMutableDictionaryRef)processedObjects existingObjects:(CFMutableDictionaryRef)existingObjects error:(NSError **)error {
 	NSParameterAssert(model != nil);
 	NSParameterAssert(context != nil);
 	NSParameterAssert(processedObjects != nil);
+	NSParameterAssert(existingObjects != nil);
 
 	const void *existingManagedObject = CFDictionaryGetValue(processedObjects, (__bridge void *)model);
 	if (existingManagedObject != NULL) {
@@ -563,42 +747,225 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 	}
 
 	MTLManagedObjectAdapter *adapter = [[self alloc] initWithModelClass:model.class];
-	return [adapter managedObjectFromModel:model insertingIntoContext:context processedObjects:processedObjects error:error];
+	return [adapter managedObjectFromModel:model insertingIntoContext:context processedObjects:processedObjects existingObjects:existingObjects error:error];
 }
 
-- (NSValueTransformer *)entityAttributeTransformerForKey:(NSString *)key {
-	NSParameterAssert(key != nil);
++ (void)collectUniquingValuesInModelGraph:(MTLModel<MTLManagedObjectSerializing> *)model uniquingValuesStorage:(MTLUniquingValuesStorage *)uniquingValuesStorage processedObjects:(CFMutableSetRef)processedObjects context:(NSManagedObjectContext *)context {
+	NSParameterAssert(model != nil);
+	NSParameterAssert(uniquingValuesStorage != nil);
+	NSParameterAssert(context != nil);
+	
+	if (CFSetContainsValue(processedObjects, (__bridge void *)model)) return;
+	CFSetAddValue(processedObjects, (__bridge void *)model);
+		
+	NSDictionary *uniquingValues = [self uniquingValuesForModel:model];
+	if (uniquingValues != nil) {
+		[uniquingValuesStorage addModel:model withUniquingValues:uniquingValues];
+	}
 
+	Class entityDescriptionClass = NSClassFromString(@"NSEntityDescription");
+	NSAssert(entityDescriptionClass != nil, @"CoreData.framework must be linked to use MTLManagedObjectAdapter");
+	
+	NSString *entityName = [model.class managedObjectEntityName];
+	
+	NSEntityDescription *entityDescription = [entityDescriptionClass entityForName:entityName inManagedObjectContext:context];
+	NSDictionary *relationships = entityDescription.relationshipsByName;
+	NSDictionary *managedObjectKeysByPropertyKey = [self managedObjectKeysByPropertyKeyForModelClass:model.class];
+	
+	NSDictionary *dictionaryValue = model.dictionaryValue;
+	
+	[dictionaryValue enumerateKeysAndObjectsUsingBlock:^(NSString *propertyKey, id value, BOOL *stop) {
+		if (value == NSNull.null) return;
+		
+		NSString *managedObjectKey = managedObjectKeysByPropertyKey[propertyKey];
+		if (managedObjectKey == nil) return;
+		
+		NSRelationshipDescription *relationship = relationships[managedObjectKey];
+		if (!relationship) return;
+		
+		if ([relationship isToMany]) {
+			for (id child in value) {
+				[self collectUniquingValuesInModelGraph:child uniquingValuesStorage:uniquingValuesStorage processedObjects:processedObjects context:context];
+			}
+		} else {
+			[self collectUniquingValuesInModelGraph:value uniquingValuesStorage:uniquingValuesStorage processedObjects:processedObjects context:context];
+		}
+	}];
+}
+
++ (NSDictionary *)uniquingValuesForModel:(MTLModel<MTLManagedObjectSerializing> *)model {
+	NSParameterAssert(model != nil);
+	if (![model.class respondsToSelector:@selector(propertyKeysForManagedObjectUniquing)]) return nil;
+	
+	NSSet *propertyKeys = [model.class propertyKeysForManagedObjectUniquing];
+	if (propertyKeys == nil) return nil;
+	
+	NSAssert(propertyKeys.count > 0, @"+propertyKeysForManagedObjectUniquing must not be empty.");
+	
+	NSDictionary *managedObjectKeysByPropertyKey = [self managedObjectKeysByPropertyKeyForModelClass:model.class];
+	
+	NSMutableDictionary *uniquingValues = [NSMutableDictionary dictionaryWithCapacity:propertyKeys.count];
+	
+	for (NSString *propertyKey in propertyKeys) {
+		id value = [model valueForKeyPath:propertyKey];
+		
+		NSString *managedObjectKey = managedObjectKeysByPropertyKey[propertyKey];
+		NSAssert(managedObjectKey != nil, @"%@ must map to a managed object key.", propertyKey);
+		
+		NSValueTransformer *attributeTransformer = [self entityAttributeTransformerForKey:propertyKey forModelClass:model.class];
+		if (attributeTransformer != nil) value = [attributeTransformer transformedValue:value];
+		
+		uniquingValues[managedObjectKey] = value ?: NSNull.null;
+	}
+	
+	return [uniquingValues copy];
+}
+
++ (BOOL)fetchExistingManagedObjectsForModelClass:(Class)modelClass uniquingValuesStorage:(MTLUniquingValuesStorage *)uniquingValuesStorage managedObjectHoldersByModel:(CFMutableDictionaryRef)managedObjectHoldersByModel context:(NSManagedObjectContext *)context error:(NSError **)error {
+	NSParameterAssert(modelClass != Nil);
+	NSParameterAssert(uniquingValuesStorage != nil);
+	NSParameterAssert(managedObjectHoldersByModel != nil);
+	NSParameterAssert(context != nil);
+	
+	NSSet *propertyKeys = [modelClass propertyKeysForManagedObjectUniquing];
+	NSDictionary *managedObjectKeysByPropertyKey = [self managedObjectKeysByPropertyKeyForModelClass:modelClass];
+	NSArray *managedObjectKeys = [managedObjectKeysByPropertyKey objectsForKeys:[propertyKeys allObjects] notFoundMarker:NSNull.null];
+	
+	NSArray *uniquingValuesArray = [uniquingValuesStorage uniquingValuesForModelClass:modelClass];
+	
+	NSMutableArray *subpredicates = [NSMutableArray arrayWithCapacity:propertyKeys.count];
+	
+	for (NSString *managedObjectKey in managedObjectKeys) {
+		NSMutableArray *managedObjectValues = [NSMutableArray arrayWithCapacity:uniquingValuesArray.count];
+		
+		for (NSDictionary *uniquingValues in uniquingValuesArray) {
+			[managedObjectValues addObject:uniquingValues[managedObjectKey]];
+		}
+		
+		NSPredicate *subpredicate = [NSPredicate predicateWithFormat:@"%K in %@", managedObjectKey, [NSSet setWithArray:managedObjectValues]];
+		[subpredicates addObject:subpredicate];
+	}
+	
+	NSPredicate *uniquingPredicate = [NSCompoundPredicate andPredicateWithSubpredicates:subpredicates];
+
+	
+	NSString *entityName = [modelClass managedObjectEntityName];
+	NSAssert(entityName != nil, @"%@ returned a nil +managedObjectEntityName", modelClass);
+	
+	Class entityDescriptionClass = NSClassFromString(@"NSEntityDescription");
+	NSAssert(entityDescriptionClass != nil, @"CoreData.framework must be linked to use MTLManagedObjectAdapter");
+	
+	Class fetchRequestClass = NSClassFromString(@"NSFetchRequest");
+	NSAssert(fetchRequestClass != nil, @"CoreData.framework must be linked to use MTLManagedObjectAdapter");
+	
+	__block NSError *fetchRequestError = nil;
+	__block BOOL encounteredError = NO;
+	NSArray *managedObjects = performInContext(context, ^ id {
+		NSFetchRequest *fetchRequest = [[fetchRequestClass alloc] init];
+		fetchRequest.entity = [entityDescriptionClass entityForName:entityName inManagedObjectContext:context];
+		fetchRequest.predicate = uniquingPredicate;
+		fetchRequest.returnsObjectsAsFaults = NO;
+		
+		NSArray *results = [context executeFetchRequest:fetchRequest error:&fetchRequestError];
+		
+		if (results == nil) {
+			encounteredError = YES;
+			if (error != NULL) {
+				NSString *failureReason = [NSString stringWithFormat:NSLocalizedString(@"Failed to fetch a managed object for uniqing predicate \"%@\".", @""), uniquingPredicate];
+				
+				NSDictionary *userInfo = @{
+					NSLocalizedDescriptionKey: NSLocalizedString(@"Could not serialize managed object", @""),
+					NSLocalizedFailureReasonErrorKey: failureReason,
+				};
+				
+				fetchRequestError = [NSError errorWithDomain:MTLManagedObjectAdapterErrorDomain code:MTLManagedObjectAdapterErrorUniqueFetchRequestFailed userInfo:userInfo];
+			}
+			
+			return nil;
+		}
+		
+		return results;
+	});
+	
+	if (encounteredError && error != NULL) {
+		*error = fetchRequestError;
+		return NO;
+	}
+	
+	
+	for (NSDictionary *uniquingValues in uniquingValuesArray) {
+		MTLManagedObjectHolder *managedObjectHolder = [[MTLManagedObjectHolder alloc] init];
+		NSArray *models = [uniquingValuesStorage modelsForUniquingValues:uniquingValues forModelClass:modelClass];
+		for (id model in models) {
+			CFDictionarySetValue(managedObjectHoldersByModel, (__bridge void *)model, (__bridge void *)managedObjectHolder);
+		}
+	}
+	
+	for (NSManagedObject *managedObject in managedObjects) {
+		NSMutableDictionary *uniquingValues = [[NSMutableDictionary alloc] initWithCapacity:propertyKeys.count];
+		
+		for (NSString *propertyKey in propertyKeys) {
+			NSString *managedObjectKey = managedObjectKeysByPropertyKey[propertyKey];
+			
+			id value = [managedObject valueForKey:managedObjectKey];
+			if (value == nil) value = NSNull.null;
+			
+			uniquingValues[managedObjectKey] = value;
+		}
+		
+		NSArray *models = [uniquingValuesStorage modelsForUniquingValues:uniquingValues forModelClass:modelClass];
+		
+		if (models != nil) {
+			MTLManagedObjectHolder *managedObjectHolder = (__bridge MTLManagedObjectHolder *)CFDictionaryGetValue(managedObjectHoldersByModel, (__bridge void *)models.mtl_firstObject);
+			managedObjectHolder.managedObject = managedObject;
+		}
+	}
+
+	return YES;
+}
+
++ (NSValueTransformer *)entityAttributeTransformerForKey:(NSString *)key forModelClass:(Class)modelClass {
+	NSParameterAssert(key != nil);
+	NSParameterAssert(modelClass != Nil);
+	
 	SEL selector = MTLSelectorWithKeyPattern(key, "EntityAttributeTransformer");
-	if ([self.modelClass respondsToSelector:selector]) {
-		NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[self.modelClass methodSignatureForSelector:selector]];
-		invocation.target = self.modelClass;
+	if ([modelClass respondsToSelector:selector]) {
+		NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[modelClass methodSignatureForSelector:selector]];
+		invocation.target = modelClass;
 		invocation.selector = selector;
 		[invocation invoke];
-
+		
 		__unsafe_unretained id result = nil;
 		[invocation getReturnValue:&result];
 		return result;
 	}
-
-	if ([self.modelClass respondsToSelector:@selector(entityAttributeTransformerForKey:)]) {
-		return [self.modelClass entityAttributeTransformerForKey:key];
+	
+	if ([modelClass respondsToSelector:@selector(entityAttributeTransformerForKey:)]) {
+		return [modelClass entityAttributeTransformerForKey:key];
 	}
-
+	
 	return nil;
 }
 
-- (NSString *)managedObjectKeyForKey:(NSString *)key {
-	NSParameterAssert(key != nil);
+- (NSValueTransformer *)entityAttributeTransformerForKey:(NSString *)key {
+	return [self.class entityAttributeTransformerForKey:key forModelClass:self.modelClass];
+}
 
-	id managedObjectKey = self.managedObjectKeysByPropertyKey[key];
-	if ([managedObjectKey isEqual:NSNull.null]) return nil;
-
-	if (managedObjectKey == nil) {
-		return key;
-	} else {
-		return managedObjectKey;
++ (NSDictionary *)managedObjectKeysByPropertyKeyForModelClass:(Class)modelClass {
+	NSSet *propertyKeys = [modelClass propertyKeys];
+	NSDictionary *managedObjectKeysByPropertyKey = [modelClass managedObjectKeysByPropertyKey];
+	
+	NSMutableDictionary *filteredKeys = [[NSMutableDictionary alloc] initWithCapacity:propertyKeys.count];
+	
+	for (NSString *key in propertyKeys) {
+		id managedObjectKey = managedObjectKeysByPropertyKey[key];
+		
+		if ([managedObjectKey isEqual:NSNull.null]) continue;
+		
+		filteredKeys[key] = managedObjectKey ?: key;
 	}
+	
+	return [filteredKeys copy];
 }
 
 - (void)mergeValueOfModel:(MTLModel<MTLManagedObjectSerializing> *)model forKey:(NSString *)key fromManagedObject:(NSManagedObject *)managedObject {
@@ -613,33 +980,6 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 			[self mergeValueOfModel:model forKey:key fromManagedObject:managedObject];
 		}];
 	}
-}
-
-- (NSPredicate *)uniquingPredicateForModel:(MTLModel<MTLManagedObjectSerializing> *)model {
-	if (![self.modelClass respondsToSelector:@selector(propertyKeysForManagedObjectUniquing)]) return nil;
-
-	NSSet *propertyKeys = [self.modelClass propertyKeysForManagedObjectUniquing];
-
-	if (propertyKeys == nil) return nil;
-
-	NSAssert(propertyKeys.count > 0, @"+propertyKeysForManagedObjectUniquing must not be empty.");
-
-	NSMutableArray *subpredicates = [NSMutableArray array];
-	for (NSString *propertyKey in propertyKeys) {
-		NSString *managedObjectKey = [self managedObjectKeyForKey:propertyKey];
-
-		NSAssert(managedObjectKey != nil, @"%@ must map to a managed object key.", propertyKey);
-
-		id transformedValue = [model valueForKeyPath:propertyKey];
-
-		NSValueTransformer *attributeTransformer = [self entityAttributeTransformerForKey:propertyKey];
-		if (attributeTransformer != nil) transformedValue = [attributeTransformer transformedValue:transformedValue];
-
-		NSPredicate *subpredicate = [NSPredicate predicateWithFormat:@"%K == %@", managedObjectKey, transformedValue];
-		[subpredicates addObject:subpredicate];
-	}
-	
-	return [NSCompoundPredicate andPredicateWithSubpredicates:subpredicates];
 }
 
 @end

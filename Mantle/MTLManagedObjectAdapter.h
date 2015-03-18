@@ -203,6 +203,19 @@ extern const NSInteger MTLManagedObjectAdapterErrorInvalidManagedObjectMapping;
 // occurred.
 + (id)modelOfClass:(Class)modelClass fromManagedObject:(NSManagedObject *)managedObject error:(NSError **)error;
 
+// Attempts to deserialize an array of NSManagedObjects into a MTLModel objects.
+//
+// modelClass    -  The MTLModel subclass to return. This class must conform to
+//                  <MTLManagedObjectSerializing>. This argument must not be nil.
+// managedObjects - The managed objects to deserialize. If this argument is nil,
+//                  the method returns nil.
+// error          - If not NULL, this may be set to an error that occurs during
+//                  deserialization or initializing an instance of `modelClass`.
+//
+// Returns an array of `modelClass` upon success, or nil if an error
+// occurred.
++ (NSArray *)modelsOfClass:(Class)modelClass fromManagedObjects:(NSArray *)managedObjects error:(NSError **)error;
+
 // Serializes a MTLModel into an NSManagedObject.
 //
 // model   - The model object to serialize. This argument must not be nil.
@@ -211,5 +224,14 @@ extern const NSInteger MTLManagedObjectAdapterErrorInvalidManagedObjectMapping;
 // error   - If not NULL, this may be set to an error that occurs during
 //           serialization or insertion.
 + (id)managedObjectFromModel:(MTLModel<MTLManagedObjectSerializing> *)model insertingIntoContext:(NSManagedObjectContext *)context error:(NSError **)error;
+
+// Serializes an array of MTLModel objects into an array of NSManagedObjects.
+//
+// models  - The array to serialize. This argument must not be nil.
+// context - The context into which to insert the created managed objects. This
+//           argument must not be nil.
+// error   - If not NULL, this may be set to an error that occurs during
+//           serialization or insertion.
++ (NSArray *)managedObjectsFromModels:(NSArray *)models insertingIntoContext:(NSManagedObjectContext *)context error:(NSError **)error;
 
 @end
