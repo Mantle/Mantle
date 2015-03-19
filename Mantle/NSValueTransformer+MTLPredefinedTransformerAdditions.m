@@ -34,7 +34,7 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 
 		MTLValueTransformer *booleanValueTransformer = [MTLValueTransformer
 			reversibleTransformerWithBlock:^ id (NSNumber *boolean) {
-				if (![boolean isKindOfClass:NSNumber.class]) return nil;
+				if (![boolean isKindOfClass:NSNumber.class]) return (NSNumber *)kCFBooleanFalse;
 				return (NSNumber *)(boolean.boolValue ? kCFBooleanTrue : kCFBooleanFalse);
 			}];
 
