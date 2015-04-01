@@ -8,22 +8,45 @@
 
 #import <Foundation/Foundation.h>
 
-typedef id (^MTLValueTransformerBlock)(id);
+#import "MTLTransformerErrorHandling.h"
 
-//
-// A value transformer supporting block-based transformation.
-//
-@interface MTLValueTransformer : NSValueTransformer
+/// A block that represents a transformation.
+///
+/// value   - The value to transform.
+/// success - The block must set this parameter to indicate whether the
+///           transformation was successful.
+///           MTLValueTransformer will always call this block with *success
+///           initialized to YES.
+/// error   - If not NULL, this may be set to an error that occurs during
+///           transforming the value.
+///
+/// Returns the result of the transformation, which may be nil.
+typedef id (^MTLValueTransformerBlock)(id value, BOOL *success, NSError **error);
 
-// Returns a transformer which transforms values using the given block. Reverse
-// transformations will not be allowed.
-+ (instancetype)transformerWithBlock:(MTLValueTransformerBlock)transformationBlock;
+///
+/// A value transformer supporting block-based transformation.
+///
+@interface MTLValueTransformer : NSValueTransformer <MTLTransformerErrorHandling>
 
-// Returns a transformer which transforms values using the given block, for
-// forward or reverse transformations.
-+ (instancetype)reversibleTransformerWithBlock:(MTLValueTransformerBlock)transformationBlock;
+/// Returns a transformer which transforms values using the given block. Reverse
+/// transformations will not be allowed.
++ (instancetype)transformerUsingForwardBlock:(MTLValueTransformerBlock)transformation;
 
-// Returns a transformer which transforms values using the given blocks.
-+ (instancetype)reversibleTransformerWithForwardBlock:(MTLValueTransformerBlock)forwardBlock reverseBlock:(MTLValueTransformerBlock)reverseBlock;
+/// Returns a transformer which transforms values using the given block, for
+/// forward or reverse transformations.
++ (instancetype)transformerUsingReversibleBlock:(MTLValueTransformerBlock)transformation;
+
+/// Returns a transformer which transforms values using the given blocks.
++ (instancetype)transformerUsingForwardBlock:(MTLValueTransformerBlock)forwardTransformation reverseBlock:(MTLValueTransformerBlock)reverseTransformation;
+
+@end
+
+@interface MTLValueTransformer (Deprecated)
+
++ (NSValueTransformer *)transformerWithBlock:(id (^)(id))transformationBlock __attribute__((deprecated("Replaced by +transformerUsingForwardBlock:")));
+
++ (NSValueTransformer *)reversibleTransformerWithBlock:(id (^)(id))transformationBlock __attribute__((deprecated("Replaced by +transformerUsingReversibleBlock:")));
+
++ (NSValueTransformer *)reversibleTransformerWithForwardBlock:(id (^)(id))forwardBlock reverseBlock:(id (^)(id))reverseBlock __attribute__((deprecated("Replaced by +transformerUsingForwardBlock:reverseBlock:")));
 
 @end

@@ -10,14 +10,14 @@
 
 @interface NSError (MTLModelException)
 
-// Creates a new error for an exception that occured during updating an
-// MTLModel.
-//
-// exception - The exception that was thrown while updating the model.
-//             This argument must not be nil.
-//
-// Returns an error that takes its localized description and failure reason
-// from the exception.
+/// Creates a new error for an exception that occured during updating an
+/// MTLModel.
+///
+/// exception - The exception that was thrown while updating the model.
+///             This argument must not be nil.
+///
+/// Returns an error that takes its localized description and failure reason
+/// from the exception.
 + (instancetype)mtl_modelErrorWithException:(NSException *)exception;
 
 @end
