@@ -24,6 +24,7 @@ milestone](https://github.com/Mantle/Mantle/issues?q=milestone%3A2.0+is%3Aclosed
  1. [Error handling for value transformers](#error-handling-for-value-transformers)
  1. [Storage behaviors for properties](#storage-behaviors-for-properties)
  1. [Type checking during JSON parsing](#type-checking-during-json-parsing)
+ 1. [Mapping multiple JSON fields to a single property](#mapping-multiple-json-fields-to-a-single-property)
 
 ## Breaking changes
 
@@ -175,3 +176,13 @@ property.
 
 This is only a simple safety check, though, and cannot catch every kind of
 error! Continue to verify that your types align ahead of time.
+
+### Mapping multiple JSON fields to a single property
+
+`MTLJSONAdapter` can now map multiple fields to a single property, and 
+vice-versa. Specify a dictionary of keypaths for the property when implementing 
+`+JSONKeyPathsByPropertyKey` rather than an `NSString`.
+
+The default behaviour is to set the property to a dictionary of values for the 
+specified keypaths. If you specify a value transformer for the given property 
+key, this transformer will receive an `NSDictionary` of values.
