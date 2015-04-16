@@ -480,11 +480,7 @@ To add Mantle to your application:
  1. Run `script/bootstrap` from within the Mantle folder.
  1. Drag and drop `Mantle.xcodeproj` into your application's Xcode project or
     workspace.
- 1. On the "General" tab of your application target, link Mantle.
-    * **On iOS**, add `Mantle.framework` to the "Embedded Binaries" build phase.
-    * **On OS X**, add `Mantle.framework` to the "Linked Frameworks and Libraries" build phase. 
-    Mantle must also be added to any "Copy Frameworks" build phase. If you don't already have 
-    one, simply add a "Copy Files" build phase and target the "Frameworks" destination.
+ 1. On the "General" tab of your application target, add `Mantle.framework` to the "Embedded Binaries".
  1. Add `"$(BUILD_ROOT)/../IntermediateBuildFilesPath/UninstalledProducts/include" $(inherited)`
     to the "Header Search Paths" build setting (this is only
     necessary for archive builds, but it has no negative effect otherwise).
