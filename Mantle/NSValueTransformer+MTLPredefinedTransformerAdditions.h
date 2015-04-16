@@ -70,7 +70,7 @@ extern NSString * const MTLBooleanValueTransformerName;
 ///
 /// Returns a transformer which will return an error if the transformed in value
 /// is not a member of class. Otherwise, the value is simply passed through.
-+ (NSValueTransformer<MTLTransformerErrorHandling> *)mtl_validatingTransformerForClass:(Class)class;
++ (NSValueTransformer<MTLTransformerErrorHandling> *)mtl_validatingTransformerForClass:(Class)modelClass;
 
 + (NSValueTransformer<MTLTransformerErrorHandling> *)mtl_JSONDictionaryTransformerWithModelClass:(Class)modelClass __attribute__((deprecated("Replaced by +[MTLJSONAdapter dictionaryTransformerWithModelClass:]")));
 

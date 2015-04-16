@@ -16,6 +16,6 @@
 ///
 /// Returns a dictionary that maps all properties of the given class to
 /// themselves.
-+ (NSDictionary *)mtl_identityPropertyMapWithModel:(Class)class;
++ (NSDictionary *)mtl_identityPropertyMapWithModel:(Class)modelClass;
 
 @end
