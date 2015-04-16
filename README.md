@@ -489,6 +489,11 @@ To add Mantle to your application:
     to add the appropriate Mantle target to the "Target Dependencies" of your
     application.
 
+[Carthage](https://github.com/Carthage/Carthage) users can simply add Mantle to their `Cartfile`:
+```
+github "Mantle/Mantle"
+```
+
 If you would prefer to use [CocoaPods](http://cocoapods.org), there are some
 [Mantle podspecs](https://github.com/CocoaPods/Specs/tree/master/Specs/Mantle) that
 have been generously contributed by third parties.
