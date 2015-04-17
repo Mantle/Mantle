@@ -235,10 +235,10 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 		if (value != nil && ![value isKindOfClass:modelClass]) {
 			if (error != NULL) {
 				NSDictionary *userInfo = @{
-										   NSLocalizedDescriptionKey: NSLocalizedString(@"Value did not match expected type", @""),
-										   NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Expected %1$@ to be of class %2$@", @""), value, modelClass],
-										   MTLTransformerErrorHandlingInputValueErrorKey : value
-										   };
+					NSLocalizedDescriptionKey: NSLocalizedString(@"Value did not match expected type", @""),
+					NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Expected %1$@ to be of class %2$@ but got %3$@", @""), value, modelClass, [value class]],
+					MTLTransformerErrorHandlingInputValueErrorKey : value
+				};
 
 				*error = [NSError errorWithDomain:MTLTransformerErrorHandlingErrorDomain code:MTLTransformerErrorHandlingErrorInvalidInput userInfo:userInfo];
 			}
