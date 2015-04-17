@@ -470,7 +470,7 @@ in memory at once, Core Data may be a better choice.
 
 ## System Requirements
 
-Mantle supports OS X 10.7+ and iOS 5.0+.
+Mantle supports OS X 10.9+ and iOS 8.0+.
 
 ## Importing Mantle
 
