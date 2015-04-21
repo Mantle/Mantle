@@ -481,13 +481,6 @@ To add Mantle to your application:
  1. Drag and drop `Mantle.xcodeproj` into your application's Xcode project or
     workspace.
  1. On the "General" tab of your application target, add `Mantle.framework` to the "Embedded Binaries".
- 1. Add `"$(BUILD_ROOT)/../IntermediateBuildFilesPath/UninstalledProducts/include" $(inherited)`
-    to the "Header Search Paths" build setting (this is only
-    necessary for archive builds, but it has no negative effect otherwise).
- 1. **For iOS targets**, add `-ObjC` to the "Other Linker Flags" build setting.
- 1. **If you added Mantle to a project (not a workspace)**, you will also need
-    to add the appropriate Mantle target to the "Target Dependencies" of your
-    application.
 
 [Carthage](https://github.com/Carthage/Carthage) users can simply add Mantle to their `Cartfile`:
 ```
