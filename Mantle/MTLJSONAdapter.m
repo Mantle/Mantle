@@ -184,10 +184,13 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 		return [otherAdapter JSONDictionaryFromModel:model error:error];
 	}
 
-	NSSet *propertyKeysToSerialize = [self serializablePropertyKeys:[NSSet setWithArray:self.JSONKeyPathsByPropertyKey.allKeys] forModel:model];
-
-	NSDictionary *dictionaryValue = [model.dictionaryValue dictionaryWithValuesForKeys:propertyKeysToSerialize.allObjects];
-	NSMutableDictionary *JSONDictionary = [[NSMutableDictionary alloc] initWithCapacity:dictionaryValue.count];
+    NSMutableSet *propertyKeysToSerialize = [[self serializablePropertyKeys:[NSSet setWithArray:self.JSONKeyPathsByPropertyKey.allKeys] forModel:model] mutableCopy];
+    
+    NSMutableDictionary *dictionaryValue = [[model dictionaryValue] mutableCopy];
+    [propertyKeysToSerialize intersectSet:[NSSet setWithArray:[dictionaryValue allKeys]]];
+    
+    [dictionaryValue dictionaryWithValuesForKeys:propertyKeysToSerialize.allObjects];
+    NSMutableDictionary *JSONDictionary = [[NSMutableDictionary alloc] initWithCapacity:dictionaryValue.count];
 
 	__block BOOL success = YES;
 	__block NSError *tmpError = nil;
