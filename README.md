@@ -478,21 +478,13 @@ To add Mantle to your application:
 
  1. Add the Mantle repository as a submodule of your application's repository.
  1. Run `script/bootstrap` from within the Mantle folder.
- 1. Drag and drop `Mantle.xcodeproj` into your application's Xcode project or
-    workspace.
- 1. On the "Build Phases" tab of your application target, add Mantle to the
-    "Link Binary With Libraries" phase.
-    * **On iOS**, add `libMantle.a`.
-    * **On OS X**, add `Mantle.framework`. Mantle must also be added to any
-      "Copy Frameworks" build phase. If you don't already have one, simply add a
-      "Copy Files" build phase and target the "Frameworks" destination.
- 1. Add `"$(BUILD_ROOT)/../IntermediateBuildFilesPath/UninstalledProducts/include" $(inherited)`
-    to the "Header Search Paths" build setting (this is only
-    necessary for archive builds, but it has no negative effect otherwise).
- 1. **For iOS targets**, add `-ObjC` to the "Other Linker Flags" build setting.
- 1. **If you added Mantle to a project (not a workspace)**, you will also need
-    to add the appropriate Mantle target to the "Target Dependencies" of your
-    application.
+ 1. Drag and drop `Mantle.xcodeproj` into your application's Xcode project. Unfortunately, an [Xcode bug](http://www.openradar.appspot.com/19676555) means you should probably not add it to a workspace.
+ 1. On the "General" tab of your application target, add `Mantle.framework` to the "Embedded Binaries".
+
+[Carthage](https://github.com/Carthage/Carthage) users can simply add Mantle to their `Cartfile`:
+```
+github "Mantle/Mantle"
+```
 
 If you would prefer to use [CocoaPods](http://cocoapods.org), there are some
 [Mantle podspecs](https://github.com/CocoaPods/Specs/tree/master/Specs/Mantle) that
