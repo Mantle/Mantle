@@ -10,7 +10,7 @@
 
 @interface NSError (MTLModelException)
 
-/// Creates a new error for an exception that occured during updating an
+/// Creates a new error for an exception that occurred during updating an
 /// MTLModel.
 ///
 /// exception - The exception that was thrown while updating the model.
