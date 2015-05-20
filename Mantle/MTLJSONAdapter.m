@@ -371,7 +371,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 		SEL selector = MTLSelectorWithKeyPattern(key, "JSONTransformer");
 		if ([modelClass respondsToSelector:selector]) {
 			IMP imp = [modelClass methodForSelector:selector];
-			NSValueTransformer*(*function)(id, SEL) = (void *)imp;
+			NSValueTransformer * (*function)(id, SEL) = (NSValueTransformer * (*)(id, SEL))imp;
 			__unsafe_unretained NSValueTransformer *transformer = function(modelClass, selector);
 
 			if (transformer != nil) result[key] = transformer;
@@ -444,9 +444,9 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 
 	SEL selector = MTLSelectorWithKeyPattern(NSStringFromClass(modelClass), "JSONTransformer");
 	if (![self respondsToSelector:selector]) return nil;
-
+	
 	IMP imp = [self methodForSelector:selector];
-	NSValueTransformer*(*function)(id, SEL) = (void *)imp;
+	NSValueTransformer * (*function)(id, SEL) = (NSValueTransformer * (*)(id, SEL))imp;
 	__unsafe_unretained NSValueTransformer *result = function(self, selector);
 	
 	return result;
