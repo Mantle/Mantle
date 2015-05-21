@@ -128,15 +128,10 @@ static void verifyAllowedClassesByPropertyKey(Class modelClass) {
 
 	SEL selector = MTLSelectorWithCapitalizedKeyPattern("decode", key, "WithCoder:modelVersion:");
 	if ([self respondsToSelector:selector]) {
-		NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:selector]];
-		invocation.target = self;
-		invocation.selector = selector;
-		[invocation setArgument:&coder atIndex:2];
-		[invocation setArgument:&modelVersion atIndex:3];
-		[invocation invoke];
-
-		__unsafe_unretained id result = nil;
-		[invocation getReturnValue:&result];
+		IMP imp = [self methodForSelector:selector];
+		id (*function)(id, SEL, NSCoder *, NSUInteger) = (id (*)(id, SEL, NSCoder *, NSUInteger))imp;
+		__unsafe_unretained id result = function(self, selector, coder, modelVersion);
+		
 		return result;
 	}
 

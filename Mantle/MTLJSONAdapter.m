@@ -370,13 +370,9 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 	for (NSString *key in [modelClass propertyKeys]) {
 		SEL selector = MTLSelectorWithKeyPattern(key, "JSONTransformer");
 		if ([modelClass respondsToSelector:selector]) {
-			NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[modelClass methodSignatureForSelector:selector]];
-			invocation.target = modelClass;
-			invocation.selector = selector;
-			[invocation invoke];
-
-			__unsafe_unretained id transformer = nil;
-			[invocation getReturnValue:&transformer];
+			IMP imp = [modelClass methodForSelector:selector];
+			NSValueTransformer * (*function)(id, SEL) = (NSValueTransformer * (*)(id, SEL))imp;
+			__unsafe_unretained NSValueTransformer *transformer = function(modelClass, selector);
 
 			if (transformer != nil) result[key] = transformer;
 
@@ -448,14 +444,11 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 
 	SEL selector = MTLSelectorWithKeyPattern(NSStringFromClass(modelClass), "JSONTransformer");
 	if (![self respondsToSelector:selector]) return nil;
-
-	NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:selector]];
-	invocation.target = self;
-	invocation.selector = selector;
-	[invocation invoke];
-
-	__unsafe_unretained id result = nil;
-	[invocation getReturnValue:&result];
+	
+	IMP imp = [self methodForSelector:selector];
+	NSValueTransformer * (*function)(id, SEL) = (NSValueTransformer * (*)(id, SEL))imp;
+	__unsafe_unretained NSValueTransformer *result = function(self, selector);
+	
 	return result;
 }
 
