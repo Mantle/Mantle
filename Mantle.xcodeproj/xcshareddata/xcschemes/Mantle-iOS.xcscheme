@@ -22,7 +22,7 @@
          </BuildActionEntry>
          <BuildActionEntry
             buildForTesting = "YES"
-            buildForRunning = "YES"
+            buildForRunning = "NO"
             buildForProfiling = "YES"
             buildForArchiving = "NO"
             buildForAnalyzing = "YES">
@@ -53,6 +53,15 @@
             </BuildableReference>
          </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "D042FC7815F72BC7004E8054"
+            BuildableName = "libMantle-iOS.a"
+            BlueprintName = "Mantle-iOS"
+            ReferencedContainer = "container:Mantle.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </TestAction>
    <LaunchAction
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
@@ -63,6 +72,15 @@
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "D042FC7815F72BC7004E8054"
+            BuildableName = "libMantle-iOS.a"
+            BlueprintName = "Mantle-iOS"
+            ReferencedContainer = "container:Mantle.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -72,6 +90,15 @@
       useCustomWorkingDirectory = "NO"
       buildConfiguration = "Profile"
       debugDocumentVersioning = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "D042FC7815F72BC7004E8054"
+            BuildableName = "libMantle-iOS.a"
+            BlueprintName = "Mantle-iOS"
+            ReferencedContainer = "container:Mantle.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
