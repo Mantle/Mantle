@@ -12,6 +12,21 @@
 
 #import "MTLTestModel.h"
 
+@interface MTLJSONAdapter (SpecExtensions)
+
+// Used for testing transformer lifetimes.
++ (NSValueTransformer *)NSDateJSONTransformer;
+
+@end
+
+@implementation MTLJSONAdapter (SpecExtensions)
+
++ (NSValueTransformer *)NSDateJSONTransformer {
+	return [[NSValueTransformer alloc] init];
+}
+
+@end
+
 QuickSpecBegin(MTLJSONAdapterSpec)
 
 it(@"should initialize from JSON", ^{
@@ -278,5 +293,17 @@ it(@"should return an array of dictionaries from models", ^{
 	expect(JSONArray[1][@"username"]).to(equal(@"bar"));
 });
 
+it(@"should not leak transformers", ^{
+	__weak id weakTransformer;
+
+	@autoreleasepool {
+		id transformer = [MTLJSONAdapter transformerForModelPropertiesOfClass:NSDate.class];
+		weakTransformer = transformer;
+
+		expect(transformer).notTo(beNil());
+	}
+
+	expect(weakTransformer).toEventually(beNil());
+});
 
 QuickSpecEnd

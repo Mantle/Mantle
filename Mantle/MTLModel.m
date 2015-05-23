@@ -176,7 +176,7 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 	}
 
 	IMP imp = [self methodForSelector:selector];
-	void (*function)(id, SEL, MTLModel *) = (void (*)(id, SEL, MTLModel *))imp;
+	void (*function)(id, SEL, MTLModel *) = (__typeof__(function))imp;
 	function(self, selector, model);
 }
 

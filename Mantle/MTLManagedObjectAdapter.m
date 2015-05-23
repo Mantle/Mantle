@@ -572,8 +572,8 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 	SEL selector = MTLSelectorWithKeyPattern(key, "EntityAttributeTransformer");
 	if ([self.modelClass respondsToSelector:selector]) {
 		IMP imp = [self.modelClass methodForSelector:selector];
-		NSValueTransformer * (*function)(id, SEL) = (NSValueTransformer * (*)(id, SEL))imp;
-		__unsafe_unretained NSValueTransformer *transformer = function(self.modelClass, selector);
+		NSValueTransformer * (*function)(id, SEL) = (__typeof__(function))imp;
+		NSValueTransformer *transformer = function(self.modelClass, selector);
 		return transformer;
 	}
 
