@@ -81,11 +81,11 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 			transformerUsingReversibleBlock:^ id (NSNumber *boolean, BOOL *success, NSError **error) {
 				if (boolean == nil) return nil;
 
-				if (![boolean isKindOfClass:NSNumber.class]) {
+				if (![boolean isKindOfClass:NSNumber.class] && ![boolean isKindOfClass:NSString.class]) {
 					if (error != NULL) {
 						NSDictionary *userInfo = @{
-							NSLocalizedDescriptionKey: NSLocalizedString(@"Could not convert number to boolean-backed number or vice-versa", @""),
-							NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Expected an NSNumber, got: %@.", @""), boolean],
+							NSLocalizedDescriptionKey: NSLocalizedString(@"Could not convert number or string to boolean-backed number or vice-versa", @""),
+							NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Expected an NSNumber or NSString, got: %@.", @""), boolean],
 							MTLTransformerErrorHandlingInputValueErrorKey : boolean
 						};
 
