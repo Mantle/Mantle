@@ -105,6 +105,12 @@ extern const NSInteger MTLTestModelNameMissing;
 
 @end
 
+@interface MTLStringModel : MTLModel <MTLJSONSerializing>
+
+@property (readwrite, nonatomic, copy) NSString *string;
+
+@end
+
 @interface MTLIDModel : MTLModel <MTLJSONSerializing>
 
 @property (nonatomic, strong) id anyObject;

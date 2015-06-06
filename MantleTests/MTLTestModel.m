@@ -223,6 +223,14 @@ static NSUInteger modelVersion = 1;
 
 @end
 
+@implementation MTLStringModel
+
++ (NSDictionary *)JSONKeyPathsByPropertyKey {
+	return [NSDictionary mtl_identityPropertyMapWithModel:self];
+}
+
+@end
+
 @implementation MTLIDModel
 
 + (NSDictionary *)JSONKeyPathsByPropertyKey {

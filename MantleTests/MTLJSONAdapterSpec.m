@@ -236,7 +236,7 @@ it(@"should fail to initialize if JSON transformer fails", ^{
 	expect(error.userInfo[MTLTransformerErrorHandlingInputValueErrorKey]).to(equal(@666));
 });
 
-it(@"should fail to deserialize if the JSON types don't match the properties", ^{
+it(@"should fail to deserialize if the JSON types don't match the primitive properties", ^{
 	NSDictionary *values = @{
 		@"flag": @"Potentially"
 	};
@@ -248,6 +248,20 @@ it(@"should fail to deserialize if the JSON types don't match the properties", ^
 	expect(error.domain).to(equal(MTLTransformerErrorHandlingErrorDomain));
 	expect(@(error.code)).to(equal(@(MTLTransformerErrorHandlingErrorInvalidInput)));
 	expect(error.userInfo[MTLTransformerErrorHandlingInputValueErrorKey]).to(equal(@"Potentially"));
+});
+
+it(@"should fail to deserialize if the JSON types don't match the properties", ^{
+	NSDictionary *values = @{
+		@"string": @666
+	};
+
+	NSError *error = nil;
+	MTLTestModel *model = [MTLJSONAdapter modelOfClass:MTLStringModel.class fromJSONDictionary:values error:&error];
+	expect(model).to(beNil());
+
+	expect(error.domain).to(equal(MTLTransformerErrorHandlingErrorDomain));
+	expect(@(error.code)).to(equal(@(MTLTransformerErrorHandlingErrorInvalidInput)));
+	expect(error.userInfo[MTLTransformerErrorHandlingInputValueErrorKey]).to(equal(@666));
 });
 
 it(@"should allow subclasses to filter serialized property keys", ^{
