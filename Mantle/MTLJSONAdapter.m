@@ -406,7 +406,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 			}
 			
 			// For User defined MTLModel, we should try to parse it with dictionaryTransformer, since we are inside of json adapter now.
-			if (nil == transformer && [propertyClass isSubclassOfClass:MTLModel.class]) {
+			if (nil == transformer && [propertyClass conformsToProtocol:@protocol(MTLJSONSerializing)]) {
 				transformer = [MTLJSONAdapter dictionaryTransformerWithModelClass:propertyClass];
 			}
 			
