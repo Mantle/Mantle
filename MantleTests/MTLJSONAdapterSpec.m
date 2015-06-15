@@ -577,4 +577,56 @@ it(@"should not leak transformers", ^{
 	expect(weakTransformer).toEventually(beNil());
 });
 
+it(@"should initialize a MTLJSONSerializingProperty with MTLJSONAdapter by default", ^{
+	NSDictionary *serializingValues = @{
+							 @"username": @"testName",
+							 @"count": @"5",
+							 };
+	
+	
+	NSDictionary *JSONDictionary = @{
+									 @"property": @"property0",
+									 @"mtlJSONSerializingProperty": serializingValues,
+									 @"nonMTLJSONSerializingProperty": @{}
+									 };
+	
+	MTLJSONAdapter *adapter = [[MTLJSONAdapter alloc] initWithModelClass:MTLPropertyModel.class];
+	expect(adapter).notTo(beNil());
+	
+	NSError *error = nil;
+	MTLPropertyModel *model = [adapter modelFromJSONDictionary:JSONDictionary error:&error];
+	expect(error).to(beNil());
+	
+	expect(model).notTo(beNil());
+	expect(model.property).to(equal(@"property0"));
+	expect(model.mtlJSONSerializingProperty).notTo(beNil());
+	expect(model.mtlJSONSerializingProperty.name).to(equal(@"testName"));
+	
+});
+
+it(@"should only initialize a MTLJSONSerializingProperty with MTLJSONAdaptor by default, not MTLModel", ^{
+	NSDictionary *serializingValues = @{
+										@"username": @"testName",
+										@"count": @"5",
+										};
+	
+	
+	NSDictionary *JSONDictionary = @{
+									 @"property": @"property0",
+									 @"mtlJSONSerializingProperty": serializingValues,
+									 @"nonMTLJSONSerializingProperty": @{}
+									 };
+	
+	MTLJSONAdapter *adapter = [[MTLJSONAdapter alloc] initWithModelClass:MTLPropertyModel.class];
+	expect(adapter).notTo(beNil());
+	
+	NSError *error = nil;
+	MTLPropertyModel *model = [adapter modelFromJSONDictionary:JSONDictionary error:&error];
+	expect(error).to(beNil());
+	expect(model).notTo(beNil());
+	
+	NSString *emptyModel = NSStringFromClass(MTLTestModel.class);
+	NSString *propertyType = NSStringFromClass(model.nonMTLJSONSerializingProperty.class);
+	expect(propertyType).notTo(equal(emptyModel));
+});
 QuickSpecEnd
