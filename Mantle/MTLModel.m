@@ -283,7 +283,9 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 #pragma mark NSCopying
 
 - (instancetype)copyWithZone:(NSZone *)zone {
-	return [[self.class allocWithZone:zone] initWithDictionary:self.dictionaryValue error:NULL];
+	MTLModel *copy = [[self.class allocWithZone:zone] init];
+	[copy setValuesForKeysWithDictionary:self.dictionaryValue];
+	return copy;
 }
 
 #pragma mark NSObject
