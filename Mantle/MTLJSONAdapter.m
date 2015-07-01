@@ -294,7 +294,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 			NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
 
 			for (NSString *keyPath in JSONKeyPaths) {
-				BOOL success;
+				BOOL success = NO;
 				id value = [JSONDictionary mtl_valueForJSONKeyPath:keyPath success:&success error:error];
 
 				if (!success) return nil;
@@ -304,7 +304,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 
 			value = dictionary;
 		} else {
-			BOOL success;
+			BOOL success = NO;
 			value = [JSONDictionary mtl_valueForJSONKeyPath:JSONKeyPaths success:&success error:error];
 
 			if (!success) return nil;
@@ -444,11 +444,11 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 
 	SEL selector = MTLSelectorWithKeyPattern(NSStringFromClass(modelClass), "JSONTransformer");
 	if (![self respondsToSelector:selector]) return nil;
-	
+
 	IMP imp = [self methodForSelector:selector];
 	NSValueTransformer * (*function)(id, SEL) = (__typeof__(function))imp;
 	NSValueTransformer *result = function(self, selector);
-	
+
 	return result;
 }
 
@@ -469,11 +469,11 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 + (NSValueTransformer<MTLTransformerErrorHandling> *)dictionaryTransformerWithModelClass:(Class)modelClass {
 	NSParameterAssert([modelClass isSubclassOfClass:MTLModel.class]);
 	NSParameterAssert([modelClass conformsToProtocol:@protocol(MTLJSONSerializing)]);
-	
+
 	return [MTLValueTransformer
 		transformerUsingForwardBlock:^ id (id JSONDictionary, BOOL *success, NSError **error) {
 			if (JSONDictionary == nil) return nil;
-			
+
 			if (![JSONDictionary isKindOfClass:NSDictionary.class]) {
 				if (error != NULL) {
 					NSDictionary *userInfo = @{
@@ -481,13 +481,13 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 						NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Expected an NSDictionary, got: %@", @""), JSONDictionary],
 						MTLTransformerErrorHandlingInputValueErrorKey : JSONDictionary
 					};
-					
+
 					*error = [NSError errorWithDomain:MTLTransformerErrorHandlingErrorDomain code:MTLTransformerErrorHandlingErrorInvalidInput userInfo:userInfo];
 				}
 				*success = NO;
 				return nil;
 			}
-			
+
 			id model = [self modelOfClass:modelClass fromJSONDictionary:JSONDictionary error:error];
 			if (model == nil) {
 				*success = NO;
@@ -497,7 +497,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 		}
 		reverseBlock:^ NSDictionary * (id model, BOOL *success, NSError **error) {
 			if (model == nil) return nil;
-			
+
 			if (![model isKindOfClass:MTLModel.class] || ![model conformsToProtocol:@protocol(MTLJSONSerializing)]) {
 				if (error != NULL) {
 					NSDictionary *userInfo = @{
@@ -505,13 +505,13 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 						NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Expected a MTLModel object conforming to <MTLJSONSerializing>, got: %@.", @""), model],
 						MTLTransformerErrorHandlingInputValueErrorKey : model
 					};
-					
+
 					*error = [NSError errorWithDomain:MTLTransformerErrorHandlingErrorDomain code:MTLTransformerErrorHandlingErrorInvalidInput userInfo:userInfo];
 				}
 				*success = NO;
 				return nil;
 			}
-			
+
 			NSDictionary *result = [self JSONDictionaryFromModel:model error:error];
 			if (result == nil) {
 				*success = NO;
@@ -523,11 +523,11 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 
 + (NSValueTransformer<MTLTransformerErrorHandling> *)arrayTransformerWithModelClass:(Class)modelClass {
 	id<MTLTransformerErrorHandling> dictionaryTransformer = [self dictionaryTransformerWithModelClass:modelClass];
-	
+
 	return [MTLValueTransformer
 		transformerUsingForwardBlock:^ id (NSArray *dictionaries, BOOL *success, NSError **error) {
 			if (dictionaries == nil) return nil;
-			
+
 			if (![dictionaries isKindOfClass:NSArray.class]) {
 				if (error != NULL) {
 					NSDictionary *userInfo = @{
@@ -535,20 +535,20 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 						NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Expected an NSArray, got: %@.", @""), dictionaries],
 						MTLTransformerErrorHandlingInputValueErrorKey : dictionaries
 					};
-					
+
 					*error = [NSError errorWithDomain:MTLTransformerErrorHandlingErrorDomain code:MTLTransformerErrorHandlingErrorInvalidInput userInfo:userInfo];
 				}
 				*success = NO;
 				return nil;
 			}
-			
+
 			NSMutableArray *models = [NSMutableArray arrayWithCapacity:dictionaries.count];
 			for (id JSONDictionary in dictionaries) {
 				if (JSONDictionary == NSNull.null) {
 					[models addObject:NSNull.null];
 					continue;
 				}
-				
+
 				if (![JSONDictionary isKindOfClass:NSDictionary.class]) {
 					if (error != NULL) {
 						NSDictionary *userInfo = @{
@@ -556,27 +556,27 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 							NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Expected an NSDictionary or an NSNull, got: %@.", @""), JSONDictionary],
 							MTLTransformerErrorHandlingInputValueErrorKey : JSONDictionary
 						};
-						
+
 						*error = [NSError errorWithDomain:MTLTransformerErrorHandlingErrorDomain code:MTLTransformerErrorHandlingErrorInvalidInput userInfo:userInfo];
 					}
 					*success = NO;
 					return nil;
 				}
-				
+
 				id model = [dictionaryTransformer transformedValue:JSONDictionary success:success error:error];
-				
+
 				if (*success == NO) return nil;
-				
+
 				if (model == nil) continue;
-				
+
 				[models addObject:model];
 			}
-			
+
 			return models;
 		}
 		reverseBlock:^ id (NSArray *models, BOOL *success, NSError **error) {
 			if (models == nil) return nil;
-			
+
 			if (![models isKindOfClass:NSArray.class]) {
 				if (error != NULL) {
 					NSDictionary *userInfo = @{
@@ -584,20 +584,20 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 						NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Expected an NSArray, got: %@.", @""), models],
 						MTLTransformerErrorHandlingInputValueErrorKey : models
 					};
-					
+
 					*error = [NSError errorWithDomain:MTLTransformerErrorHandlingErrorDomain code:MTLTransformerErrorHandlingErrorInvalidInput userInfo:userInfo];
 				}
 				*success = NO;
 				return nil;
 			}
-			
+
 			NSMutableArray *dictionaries = [NSMutableArray arrayWithCapacity:models.count];
 			for (id model in models) {
 				if (model == NSNull.null) {
 					[dictionaries addObject:NSNull.null];
 					continue;
 				}
-				
+
 				if (![model isKindOfClass:MTLModel.class]) {
 					if (error != NULL) {
 						NSDictionary *userInfo = @{
@@ -605,22 +605,22 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 							NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Expected a MTLModel or an NSNull, got: %@.", @""), model],
 							MTLTransformerErrorHandlingInputValueErrorKey : model
 						};
-						
+
 						*error = [NSError errorWithDomain:MTLTransformerErrorHandlingErrorDomain code:MTLTransformerErrorHandlingErrorInvalidInput userInfo:userInfo];
 					}
 					*success = NO;
 					return nil;
 				}
-				
+
 				NSDictionary *dict = [dictionaryTransformer reverseTransformedValue:model success:success error:error];
-				
+
 				if (*success == NO) return nil;
-				
+
 				if (dict == nil) continue;
-				
+
 				[dictionaries addObject:dict];
 			}
-			
+
 			return dictionaries;
 		}];
 }
