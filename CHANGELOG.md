@@ -180,7 +180,7 @@ error! Continue to verify that your types align ahead of time.
 ### Mapping multiple JSON fields to a single property
 
 `MTLJSONAdapter` can now map multiple fields to a single property, and 
-vice-versa. Specify a dictionary of keypaths for the property when implementing 
+vice-versa. Specify an array of keypaths for the property when implementing 
 `+JSONKeyPathsByPropertyKey` rather than an `NSString`.
 
 The default behaviour is to set the property to a dictionary of values for the 
