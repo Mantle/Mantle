@@ -11,6 +11,7 @@
 #import "EXTRuntimeExtensions.h"
 #import "EXTScope.h"
 #import "MTLReflection.h"
+#import "NSObject+MTLDescription.h"
 #import <objc/runtime.h>
 
 // Used to cache the reflection performed in +propertyKeys.
@@ -291,7 +292,7 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 - (NSString *)description {
 	NSDictionary *permanentProperties = [self dictionaryWithValuesForKeys:self.class.permanentPropertyKeys.allObjects];
 
-	return [NSString stringWithFormat:@"<%@: %p> %@", self.class, self, permanentProperties];
+	return [NSString stringWithFormat:@"<%@: %p> %@", self.class, self, [permanentProperties mtl_description]];
 }
 
 - (NSUInteger)hash {
