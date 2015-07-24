@@ -467,7 +467,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 @implementation MTLJSONAdapter (ValueTransformers)
 
 + (NSValueTransformer<MTLTransformerErrorHandling> *)dictionaryTransformerWithModelClass:(Class)modelClass {
-	NSParameterAssert([modelClass isSubclassOfClass:MTLModel.class]);
+	NSParameterAssert([modelClass conformsToProtocol:@protocol(MTLModel)]);
 	NSParameterAssert([modelClass conformsToProtocol:@protocol(MTLJSONSerializing)]);
 	
 	return [MTLValueTransformer
