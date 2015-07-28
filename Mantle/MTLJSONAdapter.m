@@ -469,6 +469,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 + (NSValueTransformer<MTLTransformerErrorHandling> *)dictionaryTransformerWithModelClass:(Class)modelClass {
 	NSParameterAssert([modelClass isSubclassOfClass:MTLModel.class]);
 	NSParameterAssert([modelClass conformsToProtocol:@protocol(MTLJSONSerializing)]);
+	MTLJSONAdapter *adapter = [[self alloc] initWithModelClass:modelClass];
 	
 	return [MTLValueTransformer
 		transformerUsingForwardBlock:^ id (id JSONDictionary, BOOL *success, NSError **error) {
@@ -488,7 +489,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 				return nil;
 			}
 			
-			id model = [self modelOfClass:modelClass fromJSONDictionary:JSONDictionary error:error];
+			id model = [adapter modelFromJSONDictionary:JSONDictionary error:error];
 			if (model == nil) {
 				*success = NO;
 			}
@@ -512,7 +513,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 				return nil;
 			}
 			
-			NSDictionary *result = [self JSONDictionaryFromModel:model error:error];
+			NSDictionary *result = [adapter JSONDictionaryFromModel:model error:error];
 			if (result == nil) {
 				*success = NO;
 			}
