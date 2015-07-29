@@ -355,6 +355,12 @@ static NSUInteger modelVersion = 1;
 
 @end
 
+@implementation MTLStorageBehaviorModelSubclass
+
+@dynamic strongProperty;
+
+@end
+
 @implementation MTLMultiKeypathModel
 
 #pragma mark MTLJSONSerializing

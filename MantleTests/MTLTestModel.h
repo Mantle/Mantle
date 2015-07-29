@@ -97,6 +97,20 @@ extern const NSInteger MTLTestModelNameMissing;
 @property (readonly, nonatomic, weak) id weakProperty;
 @property (readonly, nonatomic, strong) id strongProperty;
 
+@property (readonly, nonatomic, copy) NSDate *dateFromProtocol;
+
+@end
+
+@protocol MTLDateProtocol <NSObject>
+
+@property (readonly, nonatomic, copy) NSDate *dateFromProtocol;
+
+@end
+
+@interface MTLStorageBehaviorModelSubclass : MTLStorageBehaviorModel <MTLDateProtocol>
+
+@property (readonly, nonatomic, strong) id strongProperty; // shadows superclass without providing storage
+
 @end
 
 @interface MTLBoolModel : MTLModel <MTLJSONSerializing>

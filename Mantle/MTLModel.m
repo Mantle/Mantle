@@ -232,7 +232,12 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 	};
 
 	if (attributes->readonly && attributes->ivar == NULL) {
-		return MTLPropertyStorageNone;
+		if ([self isEqual:MTLModel.class]) {
+			return MTLPropertyStorageNone;
+		} else {
+			// Check superclass in case the subclass redeclares a property that falls through
+			return [self.superclass storageBehaviorForPropertyWithKey:propertyKey];
+		}
 	} else {
 		return MTLPropertyStoragePermanent;
 	}
