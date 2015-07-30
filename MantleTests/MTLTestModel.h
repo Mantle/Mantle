@@ -97,13 +97,13 @@ extern const NSInteger MTLTestModelNameMissing;
 @property (readonly, nonatomic, weak) id weakProperty;
 @property (readonly, nonatomic, strong) id strongProperty;
 
-@property (readonly, nonatomic, copy) NSDate *dateFromProtocol;
+@property (readonly, nonatomic, strong) id declaredInProtocol;
 
 @end
 
 @protocol MTLDateProtocol <NSObject>
 
-@property (readonly, nonatomic, copy) NSDate *dateFromProtocol;
+@property (readonly, nonatomic, strong) id declaredInProtocol;
 
 @end
 

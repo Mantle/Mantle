@@ -156,8 +156,8 @@ it(@"should ignore readonly properties without backing ivar", ^{
 });
 
 it(@"should consider properties declared in protocol, and backed by ivar in superclass, permanent", ^{
-	expect(@([MTLStorageBehaviorModel storageBehaviorForPropertyWithKey:@"dateFromProtocol"])).to(equal(@(MTLPropertyStoragePermanent)));
-	expect(@([MTLStorageBehaviorModelSubclass storageBehaviorForPropertyWithKey:@"dateFromProtocol"])).to(equal(@(MTLPropertyStoragePermanent)));
+	expect(@([MTLStorageBehaviorModel storageBehaviorForPropertyWithKey:@"declaredInProtocol"])).to(equal(@(MTLPropertyStoragePermanent)));
+	expect(@([MTLStorageBehaviorModelSubclass storageBehaviorForPropertyWithKey:@"declaredInProtocol"])).to(equal(@(MTLPropertyStoragePermanent)));
 });
 
 describe(@"merging with model subclasses", ^{
