@@ -137,26 +137,22 @@ it(@"should merge two models together", ^{
 
 it(@"should consider primitive properties permanent", ^{
 	expect(@([MTLStorageBehaviorModel storageBehaviorForPropertyWithKey:@"primitive"])).to(equal(@(MTLPropertyStoragePermanent)));
-	expect(@([MTLStorageBehaviorModelSubclass storageBehaviorForPropertyWithKey:@"primitive"])).to(equal(@(MTLPropertyStoragePermanent)));
 });
 
 it(@"should consider object-type assign properties permanent", ^{
 	expect(@([MTLStorageBehaviorModel storageBehaviorForPropertyWithKey:@"assignProperty"])).to(equal(@(MTLPropertyStoragePermanent)));
-	expect(@([MTLStorageBehaviorModelSubclass storageBehaviorForPropertyWithKey:@"assignProperty"])).to(equal(@(MTLPropertyStoragePermanent)));
 });
 
 it(@"should consider object-type strong properties permanent", ^{
 	expect(@([MTLStorageBehaviorModel storageBehaviorForPropertyWithKey:@"strongProperty"])).to(equal(@(MTLPropertyStoragePermanent)));
-	expect(@([MTLStorageBehaviorModelSubclass storageBehaviorForPropertyWithKey:@"strongProperty"])).to(equal(@(MTLPropertyStoragePermanent)));
 });
 
 it(@"should ignore readonly properties without backing ivar", ^{
 	expect(@([MTLStorageBehaviorModel storageBehaviorForPropertyWithKey:@"notIvarBacked"])).to(equal(@(MTLPropertyStorageNone)));
-	expect(@([MTLStorageBehaviorModelSubclass storageBehaviorForPropertyWithKey:@"notIvarBacked"])).to(equal(@(MTLPropertyStorageNone)));
 });
 
-it(@"should consider properties declared in protocol, and backed by ivar in superclass, permanent", ^{
-	expect(@([MTLStorageBehaviorModel storageBehaviorForPropertyWithKey:@"declaredInProtocol"])).to(equal(@(MTLPropertyStoragePermanent)));
+it(@"should consider properties declared in subclass with storage in superclass permanent", ^{
+	expect(@([MTLStorageBehaviorModelSubclass storageBehaviorForPropertyWithKey:@"strongProperty"])).to(equal(@(MTLPropertyStoragePermanent)));
 	expect(@([MTLStorageBehaviorModelSubclass storageBehaviorForPropertyWithKey:@"declaredInProtocol"])).to(equal(@(MTLPropertyStoragePermanent)));
 });
 
