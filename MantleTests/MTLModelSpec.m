@@ -156,6 +156,11 @@ it(@"should consider properties declared in subclass with storage in superclass 
 	expect(@([MTLStorageBehaviorModelSubclass storageBehaviorForPropertyWithKey:@"declaredInProtocol"])).to(equal(@(MTLPropertyStoragePermanent)));
 });
 
+it(@"should ignore optional protocol properties not implemented", ^{
+	expect(@([MTLOptionalPropertyModel storageBehaviorForPropertyWithKey:@"optionalUnimplementedProperty"])).to(equal(@(MTLPropertyStorageNone)));
+	expect(@([MTLOptionalPropertyModel storageBehaviorForPropertyWithKey:@"optionalImplementedProperty"])).to(equal(@(MTLPropertyStoragePermanent)));
+});
+
 describe(@"merging with model subclasses", ^{
 	__block MTLTestModel *superclass;
 	__block MTLSubclassTestModel *subclass;
@@ -193,10 +198,6 @@ describe(@"merging with model subclasses", ^{
 		expect(subclass.generation).to(equal(@1));
 		expect(subclass.role).to(equal(@"subclass"));
 	});
-});
-
-it(@"should ignore optional protocol properties not implemented", ^{
-	expect(@([MTLOptionalPropertyModel storageBehaviorForPropertyWithKey:@"optionalProperty"])).to(equal(@(MTLPropertyStorageNone)));
 });
 
 

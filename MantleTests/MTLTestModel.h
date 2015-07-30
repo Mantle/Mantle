@@ -173,10 +173,13 @@ extern const NSInteger MTLTestModelNameMissing;
 @protocol MTLOptionalPropertyProtocol
 
 @optional
-@property (readwrite, nonatomic, copy) NSString *optionalProperty;
+@property (readwrite, nonatomic, strong) id optionalUnimplementedProperty;
+@property (readwrite, nonatomic, strong) id optionalImplementedProperty;
 
 @end
 
 @interface MTLOptionalPropertyModel : MTLModel <MTLOptionalPropertyProtocol>
+
+@property (readwrite, nonatomic, strong) id optionalImplementedProperty;
 
 @end
