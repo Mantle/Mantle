@@ -97,6 +97,7 @@ extern const NSInteger MTLTestModelNameMissing;
 @property (readonly, nonatomic, weak) id weakProperty;
 @property (readonly, nonatomic, strong) id strongProperty;
 
+@property (readonly, nonatomic, strong) id shadowedInSubclass;
 @property (readonly, nonatomic, strong) id declaredInProtocol;
 
 @end
@@ -109,7 +110,7 @@ extern const NSInteger MTLTestModelNameMissing;
 
 @interface MTLStorageBehaviorModelSubclass : MTLStorageBehaviorModel <MTLDateProtocol>
 
-@property (readonly, nonatomic, strong) id strongProperty; // shadows superclass without providing storage
+@property (readonly, nonatomic, strong) id shadowedInSubclass;
 
 @end
 

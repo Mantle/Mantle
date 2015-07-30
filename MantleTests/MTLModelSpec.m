@@ -152,7 +152,7 @@ it(@"should ignore readonly properties without backing ivar", ^{
 });
 
 it(@"should consider properties declared in subclass with storage in superclass permanent", ^{
-	expect(@([MTLStorageBehaviorModelSubclass storageBehaviorForPropertyWithKey:@"strongProperty"])).to(equal(@(MTLPropertyStoragePermanent)));
+	expect(@([MTLStorageBehaviorModelSubclass storageBehaviorForPropertyWithKey:@"shadowedInSubclass"])).to(equal(@(MTLPropertyStoragePermanent)));
 	expect(@([MTLStorageBehaviorModelSubclass storageBehaviorForPropertyWithKey:@"declaredInProtocol"])).to(equal(@(MTLPropertyStoragePermanent)));
 });
 

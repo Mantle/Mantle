@@ -357,7 +357,7 @@ static NSUInteger modelVersion = 1;
 
 @implementation MTLStorageBehaviorModelSubclass
 
-@dynamic strongProperty;
+@dynamic shadowedInSubclass;
 
 @end
 
