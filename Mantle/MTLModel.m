@@ -231,9 +231,9 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 		free(attributes);
 	};
 	
-	Method getterMethod = class_getInstanceMethod(self.class, attributes->getter);
-	Method setterMethod = class_getInstanceMethod(self.class, attributes->setter);
-	if (!attributes->dynamic && attributes->ivar == NULL && getterMethod == NULL && setterMethod == NULL) {
+	BOOL hasGetter = [self instancesRespondToSelector:attributes->getter];
+	BOOL hasSetter = [self instancesRespondToSelector:attributes->setter];
+	if (!attributes->dynamic && attributes->ivar == NULL && !hasGetter && !hasSetter) {
 		return MTLPropertyStorageNone;
 	} else if (attributes->readonly && attributes->ivar == NULL) {
 		if ([self isEqual:MTLModel.class]) {
