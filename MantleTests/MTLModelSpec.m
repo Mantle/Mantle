@@ -190,4 +190,9 @@ describe(@"merging with model subclasses", ^{
 	});
 });
 
+it(@"should ignore optional protocol properties not implemented", ^{
+	expect(@([MTLOptionalPropertyModel storageBehaviorForPropertyWithKey:@"optionalProperty"])).to(equal(@(MTLPropertyStorageNone)));
+});
+
+
 QuickSpecEnd

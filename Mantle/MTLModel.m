@@ -230,8 +230,12 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 	@onExit {
 		free(attributes);
 	};
-
-	if (attributes->readonly && attributes->ivar == NULL) {
+	
+	Method getterMethod = class_getInstanceMethod(self.class, attributes->getter);
+	Method setterMethod = class_getInstanceMethod(self.class, attributes->setter);
+	if (!attributes->dynamic && attributes->ivar == NULL && getterMethod == NULL && setterMethod == NULL) {
+		return MTLPropertyStorageNone;
+	} else if (attributes->readonly && attributes->ivar == NULL) {
 		return MTLPropertyStorageNone;
 	} else {
 		return MTLPropertyStoragePermanent;
