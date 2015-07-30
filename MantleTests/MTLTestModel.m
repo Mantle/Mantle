@@ -468,3 +468,7 @@ static NSUInteger modelVersion = 1;
 }
 
 @end
+
+@implementation MTLOptionalPropertyModel
+
+@end

@@ -168,3 +168,15 @@ extern const NSInteger MTLTestModelNameMissing;
 @property (readwrite, nonatomic, assign) NSUInteger freshness;
 
 @end
+
+
+@protocol MTLOptionalPropertyProtocol
+
+@optional
+@property (readwrite, nonatomic, copy) NSString *optionalProperty;
+
+@end
+
+@interface MTLOptionalPropertyModel : MTLModel <MTLOptionalPropertyProtocol>
+
+@end
