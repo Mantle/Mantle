@@ -97,6 +97,21 @@ extern const NSInteger MTLTestModelNameMissing;
 @property (readonly, nonatomic, weak) id weakProperty;
 @property (readonly, nonatomic, strong) id strongProperty;
 
+@property (readonly, nonatomic, strong) id shadowedInSubclass;
+@property (readonly, nonatomic, strong) id declaredInProtocol;
+
+@end
+
+@protocol MTLDateProtocol <NSObject>
+
+@property (readonly, nonatomic, strong) id declaredInProtocol;
+
+@end
+
+@interface MTLStorageBehaviorModelSubclass : MTLStorageBehaviorModel <MTLDateProtocol>
+
+@property (readonly, nonatomic, strong) id shadowedInSubclass;
+
 @end
 
 @interface MTLBoolModel : MTLModel <MTLJSONSerializing>
@@ -159,10 +174,13 @@ extern const NSInteger MTLTestModelNameMissing;
 @protocol MTLOptionalPropertyProtocol
 
 @optional
-@property (readwrite, nonatomic, copy) NSString *optionalProperty;
+@property (readwrite, nonatomic, strong) id optionalUnimplementedProperty;
+@property (readwrite, nonatomic, strong) id optionalImplementedProperty;
 
 @end
 
 @interface MTLOptionalPropertyModel : MTLModel <MTLOptionalPropertyProtocol>
+
+@property (readwrite, nonatomic, strong) id optionalImplementedProperty;
 
 @end
