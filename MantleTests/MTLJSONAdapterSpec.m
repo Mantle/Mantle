@@ -59,6 +59,15 @@ it(@"should initialize with a model class", ^{
 	expect(serializationError).to(beNil());
 });
 
+it(@"should return nil and error with nil JSON dictionary",^{	
+	NSError *error = nil;
+	MTLTestModel *model = [MTLJSONAdapter modelOfClass:MTLTestModel.class fromJSONDictionary:nil error:&error];
+	expect(model).to(beNil());
+	expect(error).notTo(beNil());
+	expect(error.domain).to(equal(MTLJSONAdapterErrorDomain));
+	expect(@(error.code)).to(equal(@(MTLJSONAdapterErrorInvalidJSONDictionary)));
+});
+
 it(@"should initialize nested key paths from JSON", ^{
 	NSDictionary *values = @{
 		@"username": @"foo",
