@@ -229,7 +229,7 @@ it(@"should fail to initialize if JSON transformer fails", ^{
 	};
 
 	NSError *error = nil;
-	MTLTestModel *model = [MTLJSONAdapter modelOfClass:MTLURLModel.class fromJSONDictionary:values error:&error];
+	MTLModel *model = [MTLJSONAdapter modelOfClass:MTLURLModel.class fromJSONDictionary:values error:&error];
 	expect(model).to(beNil());
 	expect(error.domain).to(equal(MTLTransformerErrorHandlingErrorDomain));
 	expect(@(error.code)).to(equal(@(MTLTransformerErrorHandlingErrorInvalidInput)));
@@ -242,7 +242,7 @@ it(@"should fail to deserialize if the JSON types don't match the primitive prop
 	};
 
 	NSError *error = nil;
-	MTLTestModel *model = [MTLJSONAdapter modelOfClass:MTLBoolModel.class fromJSONDictionary:values error:&error];
+	MTLModel *model = [MTLJSONAdapter modelOfClass:MTLBoolModel.class fromJSONDictionary:values error:&error];
 	expect(model).to(beNil());
 
 	expect(error.domain).to(equal(MTLTransformerErrorHandlingErrorDomain));
@@ -256,7 +256,7 @@ it(@"should fail to deserialize if the JSON types don't match the properties", ^
 	};
 
 	NSError *error = nil;
-	MTLTestModel *model = [MTLJSONAdapter modelOfClass:MTLStringModel.class fromJSONDictionary:values error:&error];
+	MTLModel *model = [MTLJSONAdapter modelOfClass:MTLStringModel.class fromJSONDictionary:values error:&error];
 	expect(model).to(beNil());
 
 	expect(error.domain).to(equal(MTLTransformerErrorHandlingErrorDomain));
