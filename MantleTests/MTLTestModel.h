@@ -184,3 +184,18 @@ extern const NSInteger MTLTestModelNameMissing;
 @property (readwrite, nonatomic, strong) id optionalImplementedProperty;
 
 @end
+
+
+@interface MTLRecursiveUserModel : MTLModel <MTLJSONSerializing>
+
+@property (nonatomic, copy, readonly) NSString *name;
+@property (nonatomic, copy, readonly) NSArray *groups;
+
+@end
+
+@interface MTLRecursiveGroupModel : MTLModel <MTLJSONSerializing>
+
+@property (nonatomic, readonly) MTLRecursiveUserModel *owner;
+@property (nonatomic, readonly) NSArray *users;
+
+@end

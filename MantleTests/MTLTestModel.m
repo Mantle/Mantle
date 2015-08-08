@@ -472,3 +472,37 @@ static NSUInteger modelVersion = 1;
 @implementation MTLOptionalPropertyModel
 
 @end
+
+@implementation MTLRecursiveUserModel
+
++ (NSDictionary *)JSONKeyPathsByPropertyKey {
+	return @{
+		@"name": @"name",
+		@"groups": @"groups",
+	};
+}
+
++ (NSValueTransformer *)groupsJSONTransformer {
+	return [MTLJSONAdapter arrayTransformerWithModelClass:MTLRecursiveGroupModel.class];
+}
+
+@end
+
+@implementation MTLRecursiveGroupModel
+
++ (NSDictionary *)JSONKeyPathsByPropertyKey {
+	return @{
+		@"owner": @"owner",
+		@"users": @"users",
+	};
+}
+
++ (NSValueTransformer *)ownerJSONTransformer {
+	return [MTLJSONAdapter dictionaryTransformerWithModelClass:MTLRecursiveUserModel.class];
+}
+
++ (NSValueTransformer *)usersJSONTransformer {
+	return [MTLJSONAdapter arrayTransformerWithModelClass:MTLRecursiveUserModel.class];
+}
+
+@end

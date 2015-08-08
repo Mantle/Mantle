@@ -591,4 +591,19 @@ it(@"should not leak transformers", ^{
 	expect(weakTransformer).toEventually(beNil());
 });
 
+it(@"should support recursive models", ^{
+	NSDictionary *dictionary = @{
+		@"owner": @{ @"name": @"Cameron" },
+		@"users": @[
+			@{ @"name": @"Dimitri" },
+			@{ @"name": @"John" },
+		],
+	};
+
+	NSError *error = nil;
+	MTLRecursiveGroupModel *group = [MTLJSONAdapter modelOfClass:MTLRecursiveGroupModel.class fromJSONDictionary:dictionary error:&error];
+	expect(group).notTo(beNil());
+	expect(@(group.users.count)).to(equal(@2));
+});
+
 QuickSpecEnd
