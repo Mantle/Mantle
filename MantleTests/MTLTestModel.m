@@ -476,11 +476,14 @@ static NSUInteger modelVersion = 1;
 @implementation MTLRecursiveUserModel
 
 + (NSDictionary *)JSONKeyPathsByPropertyKey {
-	return @{@"name": @"name", @"groups": @"groups"};
+	return @{
+		@"name": @"name",
+		@"groups": @"groups",
+	};
 }
 
 + (NSValueTransformer *)groupsJSONTransformer {
-	return [MTLJSONAdapter arrayTransformerWithModelClass:[MTLRecursiveGroupModel class]];
+	return [MTLJSONAdapter arrayTransformerWithModelClass:MTLRecursiveGroupModel.class];
 }
 
 @end
@@ -488,15 +491,18 @@ static NSUInteger modelVersion = 1;
 @implementation MTLRecursiveGroupModel
 
 + (NSDictionary *)JSONKeyPathsByPropertyKey {
-	return @{@"owner": @"owner", @"users": @"users"};
+	return @{
+		@"owner": @"owner",
+		@"users": @"users",
+	};
 }
 
 + (NSValueTransformer *)ownerJSONTransformer {
-	return [MTLJSONAdapter dictionaryTransformerWithModelClass:[MTLRecursiveUserModel class]];
+	return [MTLJSONAdapter dictionaryTransformerWithModelClass:MTLRecursiveUserModel.class];
 }
 
 + (NSValueTransformer *)usersJSONTransformer {
-	return [MTLJSONAdapter arrayTransformerWithModelClass:[MTLRecursiveUserModel class]];
+	return [MTLJSONAdapter arrayTransformerWithModelClass:MTLRecursiveUserModel.class];
 }
 
 @end
