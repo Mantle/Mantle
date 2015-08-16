@@ -50,10 +50,10 @@ NSString *lowercaseStringPath = @keypath(NSString.new, lowercaseString);
  *
  * @code
  
- NSString *employessFirstNamePath = @collectionKeypath(department.employees, Employee.new, firstName)
+ NSString *employeesFirstNamePath = @collectionKeypath(department.employees, Employee.new, firstName)
  // => @"employees.firstName"
  
- NSString *employessFirstNamePath = @collectionKeypath(Department.new, employees, Employee.new, firstName)
+ NSString *employeesFirstNamePath = @collectionKeypath(Department.new, employees, Employee.new, firstName)
  // => @"employees.firstName"
 
  * @endcode
