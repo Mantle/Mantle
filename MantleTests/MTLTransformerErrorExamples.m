@@ -36,7 +36,7 @@ QuickConfigurationBegin(MTLTransformerErrorExamplesConfiguration)
 
 		it(@"should return errors occurring during transformation", ^{
 			__block NSError *error;
-			__block BOOL success;
+			__block BOOL success = NO;
 
 			expect([transformer transformedValue:invalidTransformationInput success:&success error:&error]).to(beNil());
 			expect(@(success)).to(beFalsy());
@@ -50,7 +50,7 @@ QuickConfigurationBegin(MTLTransformerErrorExamplesConfiguration)
 			if (![transformer.class allowsReverseTransformation]) return;
 
 			__block NSError *error;
-			__block BOOL success;
+			__block BOOL success = NO;
 
 			expect([transformer reverseTransformedValue:invalidReverseTransformationInput success:&success error:&error]).to(beNil());
 			expect(@(success)).to(beFalsy());
