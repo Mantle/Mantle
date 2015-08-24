@@ -405,6 +405,12 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 				transformer = [self transformerForModelPropertiesOfClass:propertyClass];
 			}
 
+
+			// For user-defined MTLModel, try parse it with dictionaryTransformer.
+			if (nil == transformer && [propertyClass conformsToProtocol:@protocol(MTLJSONSerializing)]) {
+				transformer = [self dictionaryTransformerWithModelClass:propertyClass];
+			}
+			
 			if (transformer == nil) transformer = [NSValueTransformer mtl_validatingTransformerForClass:propertyClass ?: NSObject.class];
 		} else {
 			transformer = [self transformerForModelPropertiesOfObjCType:attributes->type] ?: [NSValueTransformer mtl_validatingTransformerForClass:NSValue.class];

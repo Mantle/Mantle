@@ -506,3 +506,15 @@ static NSUInteger modelVersion = 1;
 }
 
 @end
+
+@implementation MTLPropertyDefaultAdaptorModel
+
++ (NSDictionary *)JSONKeyPathsByPropertyKey {
+	return @{
+				@"property": @"property",
+				@"conformingMTLJSONSerializingProperty": @"conformingMTLJSONSerializingProperty",
+				@"nonConformingMTLJSONSerializingProperty": @"nonConformingMTLJSONSerializingProperty"
+			};;
+}
+
+@end

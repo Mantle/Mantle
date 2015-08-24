@@ -606,4 +606,46 @@ it(@"should support recursive models", ^{
 	expect(@(group.users.count)).to(equal(@2));
 });
 
+it(@"should initialize a MTLJSONSerializingProperty with MTLJSONAdapter by default", ^{
+	NSDictionary *JSONDictionary = @{
+		@"property": @"property0",
+		@"conformingMTLJSONSerializingProperty":@{
+				@"username": @"testName",
+				@"count": @"5",
+		}
+	};
+
+	MTLJSONAdapter *adapter = [[MTLJSONAdapter alloc] initWithModelClass:MTLPropertyDefaultAdaptorModel.class];
+	expect(adapter).notTo(beNil());
+
+	NSError *error = nil;
+	MTLPropertyDefaultAdaptorModel *model = [MTLJSONAdapter modelOfClass:MTLPropertyDefaultAdaptorModel.class fromJSONDictionary:JSONDictionary error:&error];
+	expect(error).to(beNil());
+	expect(model).notTo(beNil());
+	expect(model.property).to(equal(@"property0"));
+	expect(model.conformingMTLJSONSerializingProperty).notTo(beNil());
+	expect(model.conformingMTLJSONSerializingProperty.name).to(equal(@"testName"));
+});
+
+it(@"should only initialize a MTLJSONSerializingProperty with MTLJSONAdaptor by default, not MTLModel", ^{
+	NSDictionary *JSONDictionary = @{
+		@"property": @"property0",
+		@"conformingMTLJSONSerializingProperty":@{
+					@"username": @"testName",
+					@"count": @"5",
+		},
+		@"nonConformingMTLJSONSerializingProperty": @{}// should not be parsed correctly
+	};
+
+	MTLJSONAdapter *adapter = [[MTLJSONAdapter alloc] initWithModelClass:MTLPropertyDefaultAdaptorModel.class];
+	expect(adapter).notTo(beNil());
+
+	NSError *error = nil;
+	MTLPropertyDefaultAdaptorModel *model = [adapter modelFromJSONDictionary:JSONDictionary error:&error];
+	expect(error).notTo(beNil());
+	
+	expect(model).to(beNil());
+
+});
+
 QuickSpecEnd
