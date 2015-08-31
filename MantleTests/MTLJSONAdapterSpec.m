@@ -606,46 +606,50 @@ it(@"should support recursive models", ^{
 	expect(@(group.users.count)).to(equal(@2));
 });
 
-it(@"should initialize a MTLJSONSerializingProperty with MTLJSONAdapter by default", ^{
+it(@"should automatically transform a property that conforms to MTLJSONSerializing", ^{
 	NSDictionary *JSONDictionary = @{
-		@"property": @"property0",
+		@"property": @"property",
 		@"conformingMTLJSONSerializingProperty":@{
-				@"username": @"testName",
-				@"count": @"5",
-		}
+			@"username": @"testName",
+			@"count": @"5",
+		},
+		@"nonConformingMTLJSONSerializingProperty": NSNull.null
 	};
 
-	MTLJSONAdapter *adapter = [[MTLJSONAdapter alloc] initWithModelClass:MTLPropertyDefaultAdaptorModel.class];
+	MTLJSONAdapter *adapter = [[MTLJSONAdapter alloc] initWithModelClass:MTLPropertyDefaultAdapterModel.class];
 	expect(adapter).notTo(beNil());
 
 	NSError *error = nil;
-	MTLPropertyDefaultAdaptorModel *model = [MTLJSONAdapter modelOfClass:MTLPropertyDefaultAdaptorModel.class fromJSONDictionary:JSONDictionary error:&error];
-	expect(error).to(beNil());
+	MTLPropertyDefaultAdapterModel *model = [MTLJSONAdapter modelOfClass:MTLPropertyDefaultAdapterModel.class fromJSONDictionary:JSONDictionary error:&error];
 	expect(model).notTo(beNil());
-	expect(model.property).to(equal(@"property0"));
 	expect(model.conformingMTLJSONSerializingProperty).notTo(beNil());
 	expect(model.conformingMTLJSONSerializingProperty.name).to(equal(@"testName"));
+	expect(model.nonConformingMTLJSONSerializingProperty).to(beNil());
+	expect(model.property).to(equal(@"property"));
+	expect(error).to(beNil());
 });
 
-it(@"should only initialize a MTLJSONSerializingProperty with MTLJSONAdaptor by default, not MTLModel", ^{
+it(@"should not automatically transform a property that conforms to MTLModel but not MTLJSONSerializing", ^{
 	NSDictionary *JSONDictionary = @{
-		@"property": @"property0",
+		@"property": @"property",
 		@"conformingMTLJSONSerializingProperty":@{
-					@"username": @"testName",
-					@"count": @"5",
+			@"username": @"testName",
+			@"count": @"5",
 		},
-		@"nonConformingMTLJSONSerializingProperty": @{}// should not be parsed correctly
+		/// Triggers an error since the dictionary is not automatically parsed
+		/// and no transformer is supplied.
+		@"nonConformingMTLJSONSerializingProperty": @{}
 	};
 
-	MTLJSONAdapter *adapter = [[MTLJSONAdapter alloc] initWithModelClass:MTLPropertyDefaultAdaptorModel.class];
+	MTLJSONAdapter *adapter = [[MTLJSONAdapter alloc] initWithModelClass:MTLPropertyDefaultAdapterModel.class];
 	expect(adapter).notTo(beNil());
 
 	NSError *error = nil;
-	MTLPropertyDefaultAdaptorModel *model = [adapter modelFromJSONDictionary:JSONDictionary error:&error];
-	expect(error).notTo(beNil());
-	
+	MTLPropertyDefaultAdapterModel *model = [adapter modelFromJSONDictionary:JSONDictionary error:&error];
 	expect(model).to(beNil());
-
+	expect(error).notTo(beNil());
+	expect(error.domain).to(equal(MTLTransformerErrorHandlingErrorDomain));
+	expect(@(error.code)).to(equal(@(MTLTransformerErrorHandlingErrorInvalidInput)));
 });
 
 QuickSpecEnd

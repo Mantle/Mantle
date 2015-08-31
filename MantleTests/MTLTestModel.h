@@ -199,11 +199,10 @@ extern const NSInteger MTLTestModelNameMissing;
 @property (nonatomic, readonly) NSArray *users;
 @end
 
-// This is for testing parsing MTLJSONSerializing property by default.
-@interface MTLPropertyDefaultAdaptorModel : MTLModel<MTLJSONSerializing>
+@interface MTLPropertyDefaultAdapterModel : MTLModel<MTLJSONSerializing>
 
-@property (nonatomic, strong) NSString *property;
-@property (nonatomic, strong) MTLTestModel *conformingMTLJSONSerializingProperty;
-@property (nonatomic, strong) MTLEmptyTestModel *nonConformingMTLJSONSerializingProperty;
+@property (readwrite, nonatomic, strong) MTLEmptyTestModel *nonConformingMTLJSONSerializingProperty;
+@property (readwrite, nonatomic, strong) MTLTestModel *conformingMTLJSONSerializingProperty;
+@property (readwrite, nonatomic, strong) NSString *property;
 
 @end
