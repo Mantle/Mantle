@@ -654,6 +654,7 @@
 		D042FC3215F72B23004E8054 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0700;
 				LastTestingUpgradeCheck = 0510;
 				LastUpgradeCheck = 0620;
 				ORGANIZATIONNAME = GitHub;
