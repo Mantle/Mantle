@@ -25,6 +25,17 @@
 		88080C1A160A706900CCABF2 /* NSArray+MTLManipulationAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 88080C17160A706900CCABF2 /* NSArray+MTLManipulationAdditions.m */; };
 		88080C1D160A719D00CCABF2 /* MTLArrayManipulationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88080C1C160A719D00CCABF2 /* MTLArrayManipulationSpec.m */; };
 		88080C1E160A719D00CCABF2 /* MTLArrayManipulationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88080C1C160A719D00CCABF2 /* MTLArrayManipulationSpec.m */; };
+		ADB222A01BBF0E9A00A86D62 /* Mantle.h in Copy Modulemap */ = {isa = PBXBuildFile; fileRef = D042FC4C15F72B23004E8054 /* Mantle.h */; };
+		ADB222A11BBF0E9A00A86D62 /* MTLModel.h in Copy Modulemap */ = {isa = PBXBuildFile; fileRef = D0760E7615FFBF330060F550 /* MTLModel.h */; };
+		ADB222A21BBF0E9A00A86D62 /* MTLModel+NSCoding.h in Copy Modulemap */ = {isa = PBXBuildFile; fileRef = D01BD0AD16CB52E800EC95C7 /* MTLModel+NSCoding.h */; };
+		ADB222A31BBF0E9A00A86D62 /* MTLJSONAdapter.h in Copy Modulemap */ = {isa = PBXBuildFile; fileRef = D01BD09B16CB432D00EC95C7 /* MTLJSONAdapter.h */; };
+		ADB222A41BBF0E9A00A86D62 /* MTLManagedObjectAdapter.h in Copy Modulemap */ = {isa = PBXBuildFile; fileRef = D0E51935170A06CF00E8897B /* MTLManagedObjectAdapter.h */; };
+		ADB222A51BBF0E9A00A86D62 /* MTLValueTransformer.h in Copy Modulemap */ = {isa = PBXBuildFile; fileRef = D08B5AAC16002694001FE685 /* MTLValueTransformer.h */; };
+		ADB222A61BBF0E9A00A86D62 /* NSArray+MTLManipulationAdditions.h in Copy Modulemap */ = {isa = PBXBuildFile; fileRef = 88080C16160A706900CCABF2 /* NSArray+MTLManipulationAdditions.h */; };
+		ADB222A71BBF0E9A00A86D62 /* NSDictionary+MTLManipulationAdditions.h in Copy Modulemap */ = {isa = PBXBuildFile; fileRef = D0C27D0816110973002FE587 /* NSDictionary+MTLManipulationAdditions.h */; };
+		ADB222A81BBF0E9A00A86D62 /* NSObject+MTLComparisonAdditions.h in Copy Modulemap */ = {isa = PBXBuildFile; fileRef = 1ED5B5CE163A4E3C0072668E /* NSObject+MTLComparisonAdditions.h */; };
+		ADB222A91BBF0E9A00A86D62 /* NSValueTransformer+MTLInversionAdditions.h in Copy Modulemap */ = {isa = PBXBuildFile; fileRef = D0BFC36D17476B4700F5DC5D /* NSValueTransformer+MTLInversionAdditions.h */; };
+		ADB222AA1BBF0E9A00A86D62 /* NSValueTransformer+MTLPredefinedTransformerAdditions.h in Copy Modulemap */ = {isa = PBXBuildFile; fileRef = D0F117471614C5600092520B /* NSValueTransformer+MTLPredefinedTransformerAdditions.h */; };
 		B7496AF31B0FDF8A007AABE8 /* module.modulemap in Copy Modulemap */ = {isa = PBXBuildFile; fileRef = B7496AE61B0FDE0F007AABE8 /* module.modulemap */; };
 		D01BD09D16CB432D00EC95C7 /* MTLJSONAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = D01BD09B16CB432D00EC95C7 /* MTLJSONAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D01BD09E16CB432D00EC95C7 /* MTLJSONAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = D01BD09B16CB432D00EC95C7 /* MTLJSONAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -157,6 +168,17 @@
 			dstSubfolderSpec = 16;
 			files = (
 				B7496AF31B0FDF8A007AABE8 /* module.modulemap in Copy Modulemap */,
+				ADB222A01BBF0E9A00A86D62 /* Mantle.h in Copy Modulemap */,
+				ADB222A11BBF0E9A00A86D62 /* MTLModel.h in Copy Modulemap */,
+				ADB222A21BBF0E9A00A86D62 /* MTLModel+NSCoding.h in Copy Modulemap */,
+				ADB222A31BBF0E9A00A86D62 /* MTLJSONAdapter.h in Copy Modulemap */,
+				ADB222A41BBF0E9A00A86D62 /* MTLManagedObjectAdapter.h in Copy Modulemap */,
+				ADB222A51BBF0E9A00A86D62 /* MTLValueTransformer.h in Copy Modulemap */,
+				ADB222A61BBF0E9A00A86D62 /* NSArray+MTLManipulationAdditions.h in Copy Modulemap */,
+				ADB222A71BBF0E9A00A86D62 /* NSDictionary+MTLManipulationAdditions.h in Copy Modulemap */,
+				ADB222A81BBF0E9A00A86D62 /* NSObject+MTLComparisonAdditions.h in Copy Modulemap */,
+				ADB222A91BBF0E9A00A86D62 /* NSValueTransformer+MTLInversionAdditions.h in Copy Modulemap */,
+				ADB222AA1BBF0E9A00A86D62 /* NSValueTransformer+MTLPredefinedTransformerAdditions.h in Copy Modulemap */,
 			);
 			name = "Copy Modulemap";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -659,10 +681,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D042FC9815F72BC7004E8054 /* Build configuration list for PBXNativeTarget "Mantle-iOS" */;
 			buildPhases = (
+				B7496AF21B0FDF73007AABE8 /* Copy Modulemap */,
+				D8A172F71697E860002CFCC8 /* Headers */,
 				D042FC7515F72BC7004E8054 /* Sources */,
 				D042FC7615F72BC7004E8054 /* Frameworks */,
-				D8A172F71697E860002CFCC8 /* Headers */,
-				B7496AF21B0FDF73007AABE8 /* Copy Modulemap */,
 			);
 			buildRules = (
 			);
@@ -984,7 +1006,7 @@
 			buildSettings = {
 				DEFINES_MODULE = YES;
 				DSTROOT = /tmp/$PRODUCT_NAME.dst;
-				MODULEMAP_FILE = "$(PROJECT_DIR)/Mantle/Mantle.modulemap";
+				MODULEMAP_FILE = "$(PROJECT_DIR)/Mantle/module.modulemap";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = include/Mantle;
@@ -997,7 +1019,7 @@
 			buildSettings = {
 				DEFINES_MODULE = YES;
 				DSTROOT = /tmp/$PRODUCT_NAME.dst;
-				MODULEMAP_FILE = "$(PROJECT_DIR)/Mantle/Mantle.modulemap";
+				MODULEMAP_FILE = "$(PROJECT_DIR)/Mantle/module.modulemap";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = include/Mantle;
@@ -1097,7 +1119,7 @@
 			buildSettings = {
 				DEFINES_MODULE = YES;
 				DSTROOT = /tmp/$PRODUCT_NAME.dst;
-				MODULEMAP_FILE = "$(PROJECT_DIR)/Mantle/Mantle.modulemap";
+				MODULEMAP_FILE = "$(PROJECT_DIR)/Mantle/module.modulemap";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = include/Mantle;
@@ -1203,7 +1225,7 @@
 			buildSettings = {
 				DEFINES_MODULE = YES;
 				DSTROOT = /tmp/$PRODUCT_NAME.dst;
-				MODULEMAP_FILE = "$(PROJECT_DIR)/Mantle/Mantle.modulemap";
+				MODULEMAP_FILE = "$(PROJECT_DIR)/Mantle/module.modulemap";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = include/Mantle;
