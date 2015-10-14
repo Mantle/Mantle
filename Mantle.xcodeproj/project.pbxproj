@@ -39,8 +39,8 @@
 		D08B5AAE16002694001FE685 /* MTLValueTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = D08B5AAC16002694001FE685 /* MTLValueTransformer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D08B5AAF16002694001FE685 /* MTLValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = D08B5AAD16002694001FE685 /* MTLValueTransformer.m */; };
 		D08B5AB216002A23001FE685 /* MTLValueTransformerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D08B5AB116002A23001FE685 /* MTLValueTransformerSpec.m */; };
-		D094E47B1777617500906BF7 /* EXTRuntimeExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = D094E4771777617300906BF7 /* EXTRuntimeExtensions.m */; };
-		D094E47D1777617800906BF7 /* EXTScope.m in Sources */ = {isa = PBXBuildFile; fileRef = D094E4791777617300906BF7 /* EXTScope.m */; };
+		D094E47B1777617500906BF7 /* MTLEXTRuntimeExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = D094E4771777617300906BF7 /* MTLEXTRuntimeExtensions.m */; };
+		D094E47D1777617800906BF7 /* MTLEXTScope.m in Sources */ = {isa = PBXBuildFile; fileRef = D094E4791777617300906BF7 /* MTLEXTScope.m */; };
 		D0ABD7A11746D56E006BEA7D /* MTLManagedObjectAdapterSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D0ABD7A01746D56E006BEA7D /* MTLManagedObjectAdapterSpec.m */; };
 		D0BFC36717476A5F00F5DC5D /* MTLValueTransformerInversionAdditionsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D0BFC36617476A5F00F5DC5D /* MTLValueTransformerInversionAdditionsSpec.m */; };
 		D0BFC36F17476B4700F5DC5D /* NSValueTransformer+MTLInversionAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = D0BFC36D17476B4700F5DC5D /* NSValueTransformer+MTLInversionAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -74,8 +74,8 @@
 		D0E9C38C19F6DC5B000D427D /* NSValueTransformer+MTLInversionAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D0BFC36E17476B4700F5DC5D /* NSValueTransformer+MTLInversionAdditions.m */; };
 		D0E9C38D19F6DC5B000D427D /* NSValueTransformer+MTLPredefinedTransformerAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = D0F117471614C5600092520B /* NSValueTransformer+MTLPredefinedTransformerAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D0E9C38E19F6DC5B000D427D /* NSValueTransformer+MTLPredefinedTransformerAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F117481614C5600092520B /* NSValueTransformer+MTLPredefinedTransformerAdditions.m */; };
-		D0E9C38F19F6DC83000D427D /* EXTRuntimeExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = D094E4771777617300906BF7 /* EXTRuntimeExtensions.m */; };
-		D0E9C39019F6DC87000D427D /* EXTScope.m in Sources */ = {isa = PBXBuildFile; fileRef = D094E4791777617300906BF7 /* EXTScope.m */; };
+		D0E9C38F19F6DC83000D427D /* MTLEXTRuntimeExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = D094E4771777617300906BF7 /* MTLEXTRuntimeExtensions.m */; };
+		D0E9C39019F6DC87000D427D /* MTLEXTScope.m in Sources */ = {isa = PBXBuildFile; fileRef = D094E4791777617300906BF7 /* MTLEXTScope.m */; };
 		D0E9C39519F6DFD9000D427D /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0E9C39419F6DFD9000D427D /* Quick.framework */; };
 		D0E9C39919F6E008000D427D /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0E9C39819F6E008000D427D /* Nimble.framework */; };
 		D0E9C39A19F6E00F000D427D /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0E9C39819F6E008000D427D /* Nimble.framework */; };
@@ -179,11 +179,11 @@
 		D08B5AAC16002694001FE685 /* MTLValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTLValueTransformer.h; sourceTree = "<group>"; };
 		D08B5AAD16002694001FE685 /* MTLValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLValueTransformer.m; sourceTree = "<group>"; };
 		D08B5AB116002A23001FE685 /* MTLValueTransformerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLValueTransformerSpec.m; sourceTree = "<group>"; };
-		D094E4751777617300906BF7 /* EXTKeyPathCoding.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EXTKeyPathCoding.h; sourceTree = "<group>"; };
-		D094E4761777617300906BF7 /* EXTRuntimeExtensions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EXTRuntimeExtensions.h; sourceTree = "<group>"; };
-		D094E4771777617300906BF7 /* EXTRuntimeExtensions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EXTRuntimeExtensions.m; sourceTree = "<group>"; };
-		D094E4781777617300906BF7 /* EXTScope.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EXTScope.h; sourceTree = "<group>"; };
-		D094E4791777617300906BF7 /* EXTScope.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EXTScope.m; sourceTree = "<group>"; };
+		D094E4751777617300906BF7 /* MTLEXTKeyPathCoding.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTLEXTKeyPathCoding.h; sourceTree = "<group>"; };
+		D094E4761777617300906BF7 /* MTLEXTRuntimeExtensions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTLEXTRuntimeExtensions.h; sourceTree = "<group>"; };
+		D094E4771777617300906BF7 /* MTLEXTRuntimeExtensions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MTLEXTRuntimeExtensions.m; sourceTree = "<group>"; };
+		D094E4781777617300906BF7 /* MTLEXTScope.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTLEXTScope.h; sourceTree = "<group>"; };
+		D094E4791777617300906BF7 /* MTLEXTScope.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MTLEXTScope.m; sourceTree = "<group>"; };
 		D094E47A1777617300906BF7 /* metamacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = metamacros.h; sourceTree = "<group>"; };
 		D094E4811777619600906BF7 /* Common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
 		D094E4831777619600906BF7 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
@@ -430,11 +430,11 @@
 		D090E63A15F73249005282F9 /* libextobjc */ = {
 			isa = PBXGroup;
 			children = (
-				D094E4751777617300906BF7 /* EXTKeyPathCoding.h */,
-				D094E4761777617300906BF7 /* EXTRuntimeExtensions.h */,
-				D094E4771777617300906BF7 /* EXTRuntimeExtensions.m */,
-				D094E4781777617300906BF7 /* EXTScope.h */,
-				D094E4791777617300906BF7 /* EXTScope.m */,
+				D094E4751777617300906BF7 /* MTLEXTKeyPathCoding.h */,
+				D094E4761777617300906BF7 /* MTLEXTRuntimeExtensions.h */,
+				D094E4771777617300906BF7 /* MTLEXTRuntimeExtensions.m */,
+				D094E4781777617300906BF7 /* MTLEXTScope.h */,
+				D094E4791777617300906BF7 /* MTLEXTScope.m */,
 				D094E47A1777617300906BF7 /* metamacros.h */,
 			);
 			name = libextobjc;
@@ -720,8 +720,8 @@
 				D058FE2116EFB3D2009DFB47 /* MTLReflection.m in Sources */,
 				D0E51939170A06CF00E8897B /* MTLManagedObjectAdapter.m in Sources */,
 				D0BFC37117476B4700F5DC5D /* NSValueTransformer+MTLInversionAdditions.m in Sources */,
-				D094E47B1777617500906BF7 /* EXTRuntimeExtensions.m in Sources */,
-				D094E47D1777617800906BF7 /* EXTScope.m in Sources */,
+				D094E47B1777617500906BF7 /* MTLEXTRuntimeExtensions.m in Sources */,
+				D094E47D1777617800906BF7 /* MTLEXTScope.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -765,8 +765,8 @@
 				D0E9C38819F6DC5B000D427D /* NSDictionary+MTLManipulationAdditions.m in Sources */,
 				D0E9C38219F6DC5B000D427D /* MTLValueTransformer.m in Sources */,
 				D0E9C38C19F6DC5B000D427D /* NSValueTransformer+MTLInversionAdditions.m in Sources */,
-				D0E9C38F19F6DC83000D427D /* EXTRuntimeExtensions.m in Sources */,
-				D0E9C39019F6DC87000D427D /* EXTScope.m in Sources */,
+				D0E9C38F19F6DC83000D427D /* MTLEXTRuntimeExtensions.m in Sources */,
+				D0E9C39019F6DC87000D427D /* MTLEXTScope.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
