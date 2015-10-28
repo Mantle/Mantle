@@ -508,7 +508,7 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 		reverseBlock:^ NSDictionary * (id model, BOOL *success, NSError **error) {
 			if (model == nil) return nil;
 			
-			if (![model isKindOfClass:MTLModel.class] || ![model conformsToProtocol:@protocol(MTLJSONSerializing)]) {
+			if (![model conformsToProtocol:@protocol(MTLModel)] || ![model conformsToProtocol:@protocol(MTLJSONSerializing)]) {
 				if (error != NULL) {
 					NSDictionary *userInfo = @{
 						NSLocalizedDescriptionKey: NSLocalizedString(@"Could not convert model object to JSON dictionary", @""),
