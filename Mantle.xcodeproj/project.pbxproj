@@ -326,9 +326,7 @@
 		D0F117481614C5600092520B /* NSValueTransformer+MTLPredefinedTransformerAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSValueTransformer+MTLPredefinedTransformerAdditions.m"; sourceTree = "<group>"; };
 		D0F1174C1614C8000092520B /* MTLPredefinedTransformerAdditionsSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLPredefinedTransformerAdditionsSpec.m; sourceTree = "<group>"; };
 		F91FC0131BE2584B00457767 /* Mantle-tvOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "Mantle-tvOS.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
-		F91FC0141BE2584C00457767 /* Mantle-iOS copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Mantle-iOS copy-Info.plist"; path = "/Users/karol/Desktop/Mantle/Mantle-iOS copy-Info.plist"; sourceTree = "<absolute>"; };
 		F91FC03C1BE2584F00457767 /* Mantle-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Mantle-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		F91FC03D1BE2584F00457767 /* Mantle-iOSTests copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Mantle-iOSTests copy-Info.plist"; path = "/Users/karol/Desktop/Mantle/Mantle-iOSTests copy-Info.plist"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -417,8 +415,6 @@
 				D042FC3E15F72B23004E8054 /* Frameworks */,
 				D094E47F1777619600906BF7 /* Configuration */,
 				D042FC3D15F72B23004E8054 /* Products */,
-				F91FC0141BE2584C00457767 /* Mantle-iOS copy-Info.plist */,
-				F91FC03D1BE2584F00457767 /* Mantle-iOSTests copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 			usesTabs = 1;
@@ -1366,7 +1362,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
-				INFOPLIST_FILE = "Mantle-iOS copy-Info.plist";
+				INFOPLIST_FILE = Mantle/Info.plist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -1381,7 +1377,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
-				INFOPLIST_FILE = "Mantle-iOS copy-Info.plist";
+				INFOPLIST_FILE = Mantle/Info.plist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -1396,7 +1392,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
-				INFOPLIST_FILE = "Mantle-iOS copy-Info.plist";
+				INFOPLIST_FILE = Mantle/Info.plist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -1411,7 +1407,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
-				INFOPLIST_FILE = "Mantle-iOS copy-Info.plist";
+				INFOPLIST_FILE = Mantle/Info.plist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -1427,7 +1423,7 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "Mantle-iOSTests copy-Info.plist";
+				INFOPLIST_FILE = MantleTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1443,7 +1439,7 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "Mantle-iOSTests copy-Info.plist";
+				INFOPLIST_FILE = MantleTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1459,7 +1455,7 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "Mantle-iOSTests copy-Info.plist";
+				INFOPLIST_FILE = MantleTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -1474,7 +1470,7 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "Mantle-iOSTests copy-Info.plist";
+				INFOPLIST_FILE = MantleTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
