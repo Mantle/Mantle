@@ -197,12 +197,12 @@
 			remoteGlobalIDString = D0E9C35619F6DB38000D427D;
 			remoteInfo = Mantle;
 		};
-		F91FC0171BE2584F00457767 /* PBXContainerItemProxy */ = {
+		F91FC03E1BE2614100457767 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D042FC3215F72B23004E8054 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = D0E9C35619F6DB38000D427D;
-			remoteInfo = Mantle;
+			remoteGlobalIDString = F91FBFE91BE2584B00457767;
+			remoteInfo = "Mantle-tvOS";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -817,7 +817,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				F91FC0161BE2584F00457767 /* PBXTargetDependency */,
+				F91FC03F1BE2614100457767 /* PBXTargetDependency */,
 			);
 			name = "Mantle-tvOSTests";
 			productName = MantleTests;
@@ -1073,10 +1073,10 @@
 			target = D0E9C35619F6DB38000D427D /* Mantle-iOS */;
 			targetProxy = D0E9C36319F6DB38000D427D /* PBXContainerItemProxy */;
 		};
-		F91FC0161BE2584F00457767 /* PBXTargetDependency */ = {
+		F91FC03F1BE2614100457767 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = D0E9C35619F6DB38000D427D /* Mantle-iOS */;
-			targetProxy = F91FC0171BE2584F00457767 /* PBXContainerItemProxy */;
+			target = F91FBFE91BE2584B00457767 /* Mantle-tvOS */;
+			targetProxy = F91FC03E1BE2614100457767 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
