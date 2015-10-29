@@ -1380,6 +1380,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Mantle/Info.plist;
+				TARGETED_DEVICE_FAMILY = 3;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -1395,6 +1396,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Mantle/Info.plist;
+				TARGETED_DEVICE_FAMILY = 3;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -1410,6 +1412,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = Mantle/Info.plist;
+				TARGETED_DEVICE_FAMILY = 3;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -1425,6 +1428,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Mantle/Info.plist;
+				TARGETED_DEVICE_FAMILY = 3;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -1444,6 +1448,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = 3;
 			};
 			name = Debug;
 		};
@@ -1461,6 +1466,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = 3;
 			};
 			name = Test;
 		};
@@ -1477,6 +1483,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
+				TARGETED_DEVICE_FAMILY = 3;
 			};
 			name = Release;
 		};
@@ -1493,6 +1500,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
+				TARGETED_DEVICE_FAMILY = 3;
 			};
 			name = Profile;
 		};
