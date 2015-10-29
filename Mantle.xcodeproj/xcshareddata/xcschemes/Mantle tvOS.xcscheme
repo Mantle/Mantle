@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "F91FBFE91BE2584B00457767"
-               BuildableName = "Mantle-tvOS.framework"
+               BuildableName = "Mantle.framework"
                BlueprintName = "Mantle-tvOS"
                ReferencedContainer = "container:Mantle.xcodeproj">
             </BuildableReference>
@@ -43,7 +43,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "F91FBFE91BE2584B00457767"
-            BuildableName = "Mantle-tvOS.framework"
+            BuildableName = "Mantle.framework"
             BlueprintName = "Mantle-tvOS"
             ReferencedContainer = "container:Mantle.xcodeproj">
          </BuildableReference>
@@ -65,7 +65,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "F91FBFE91BE2584B00457767"
-            BuildableName = "Mantle-tvOS.framework"
+            BuildableName = "Mantle.framework"
             BlueprintName = "Mantle-tvOS"
             ReferencedContainer = "container:Mantle.xcodeproj">
          </BuildableReference>
@@ -83,7 +83,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "F91FBFE91BE2584B00457767"
-            BuildableName = "Mantle-tvOS.framework"
+            BuildableName = "Mantle.framework"
             BlueprintName = "Mantle-tvOS"
             ReferencedContainer = "container:Mantle.xcodeproj">
          </BuildableReference>
