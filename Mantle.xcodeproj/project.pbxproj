@@ -325,7 +325,7 @@
 		D0F117471614C5600092520B /* NSValueTransformer+MTLPredefinedTransformerAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSValueTransformer+MTLPredefinedTransformerAdditions.h"; sourceTree = "<group>"; };
 		D0F117481614C5600092520B /* NSValueTransformer+MTLPredefinedTransformerAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSValueTransformer+MTLPredefinedTransformerAdditions.m"; sourceTree = "<group>"; };
 		D0F1174C1614C8000092520B /* MTLPredefinedTransformerAdditionsSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLPredefinedTransformerAdditionsSpec.m; sourceTree = "<group>"; };
-		F91FC0131BE2584B00457767 /* Mantle-tvOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "Mantle-tvOS.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F91FC0131BE2584B00457767 /* Mantle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Mantle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F91FC03C1BE2584F00457767 /* Mantle-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Mantle-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F91FC0411BE264B300457767 /* tvOS-Application.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "tvOS-Application.xcconfig"; path = "tvOS/tvOS-Application.xcconfig"; sourceTree = "<group>"; };
 		F91FC0421BE264B300457767 /* tvOS-Base.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "tvOS-Base.xcconfig"; path = "tvOS/tvOS-Base.xcconfig"; sourceTree = "<group>"; };
@@ -430,7 +430,7 @@
 				D042FC5415F72B23004E8054 /* Mantle-MacTests.xctest */,
 				D0E9C35719F6DB38000D427D /* Mantle.framework */,
 				D0E9C36119F6DB38000D427D /* Mantle-iOSTests.xctest */,
-				F91FC0131BE2584B00457767 /* Mantle-tvOS.framework */,
+				F91FC0131BE2584B00457767 /* Mantle.framework */,
 				F91FC03C1BE2584F00457767 /* Mantle-tvOSTests.xctest */,
 			);
 			name = Products;
@@ -818,7 +818,7 @@
 			);
 			name = "Mantle-tvOS";
 			productName = Mantle;
-			productReference = F91FC0131BE2584B00457767 /* Mantle-tvOS.framework */;
+			productReference = F91FC0131BE2584B00457767 /* Mantle.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		F91FC0151BE2584F00457767 /* Mantle-tvOSTests */ = {
@@ -1379,7 +1379,6 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				INFOPLIST_FILE = Mantle/Info.plist;
-				PRODUCT_NAME = "$(TARGET_NAME)";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -1394,7 +1393,6 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				INFOPLIST_FILE = Mantle/Info.plist;
-				PRODUCT_NAME = "$(TARGET_NAME)";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -1409,7 +1407,6 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				INFOPLIST_FILE = Mantle/Info.plist;
-				PRODUCT_NAME = "$(TARGET_NAME)";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -1424,7 +1421,6 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				INFOPLIST_FILE = Mantle/Info.plist;
-				PRODUCT_NAME = "$(TARGET_NAME)";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
