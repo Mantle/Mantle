@@ -1372,7 +1372,7 @@
 		};
 		F91FC00F1BE2584B00457767 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D0E9C37419F6DB8A000D427D /* iOS-Framework.xcconfig */;
+			baseConfigurationReference = F91FC0431BE264B300457767 /* tvOS-Framework.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
@@ -1388,7 +1388,7 @@
 		};
 		F91FC0101BE2584B00457767 /* Test */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D0E9C37419F6DB8A000D427D /* iOS-Framework.xcconfig */;
+			baseConfigurationReference = F91FC0431BE264B300457767 /* tvOS-Framework.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
@@ -1404,7 +1404,7 @@
 		};
 		F91FC0111BE2584B00457767 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D0E9C37419F6DB8A000D427D /* iOS-Framework.xcconfig */;
+			baseConfigurationReference = F91FC0431BE264B300457767 /* tvOS-Framework.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
@@ -1420,7 +1420,7 @@
 		};
 		F91FC0121BE2584B00457767 /* Profile */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D0E9C37419F6DB8A000D427D /* iOS-Framework.xcconfig */;
+			baseConfigurationReference = F91FC0431BE264B300457767 /* tvOS-Framework.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
@@ -1436,7 +1436,7 @@
 		};
 		F91FC0381BE2584F00457767 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D094E48B1777619600906BF7 /* iOS-Application.xcconfig */;
+			baseConfigurationReference = F91FC0411BE264B300457767 /* tvOS-Application.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1453,7 +1453,7 @@
 		};
 		F91FC0391BE2584F00457767 /* Test */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D094E48B1777619600906BF7 /* iOS-Application.xcconfig */;
+			baseConfigurationReference = F91FC0411BE264B300457767 /* tvOS-Application.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1470,7 +1470,7 @@
 		};
 		F91FC03A1BE2584F00457767 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D094E48B1777619600906BF7 /* iOS-Application.xcconfig */;
+			baseConfigurationReference = F91FC0411BE264B300457767 /* tvOS-Application.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1486,7 +1486,7 @@
 		};
 		F91FC03B1BE2584F00457767 /* Profile */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D094E48B1777619600906BF7 /* iOS-Application.xcconfig */;
+			baseConfigurationReference = F91FC0411BE264B300457767 /* tvOS-Application.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
