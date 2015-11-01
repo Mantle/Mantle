@@ -101,7 +101,6 @@
 		D0E9C39E19F6E04B000D427D /* MTLDictionaryManipulationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D0C27CF5161107E5002FE587 /* MTLDictionaryManipulationSpec.m */; };
 		D0E9C39F19F6E04B000D427D /* MTLErrorModelExceptionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 54803A3A17882CCD00011B39 /* MTLErrorModelExceptionSpec.m */; };
 		D0E9C3A019F6E04B000D427D /* MTLJSONAdapterSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D02E48F016CB8ADB00257645 /* MTLJSONAdapterSpec.m */; };
-		D0E9C3A119F6E04B000D427D /* (null) in Sources */ = {isa = PBXBuildFile; };
 		D0E9C3A219F6E04B000D427D /* MTLModelNSCodingSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D02E48E916CB8ACA00257645 /* MTLModelNSCodingSpec.m */; };
 		D0E9C3A319F6E04B000D427D /* MTLModelSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D0760EC315FFCA250060F550 /* MTLModelSpec.m */; };
 		D0E9C3A419F6E04B000D427D /* MTLModelValidationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 547AE0FC17882ED100F4437D /* MTLModelValidationSpec.m */; };
@@ -110,11 +109,8 @@
 		D0E9C3A719F6E04B000D427D /* MTLValueTransformerInversionAdditionsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D0BFC36617476A5F00F5DC5D /* MTLValueTransformerInversionAdditionsSpec.m */; };
 		D0E9C3A919F6E5AA000D427D /* SwiftSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E9C3A819F6E5AA000D427D /* SwiftSpec.swift */; };
 		D0E9C3AA19F6E5AA000D427D /* SwiftSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E9C3A819F6E5AA000D427D /* SwiftSpec.swift */; };
-		D0E9C3AB19F6E733000D427D /* (null) in Sources */ = {isa = PBXBuildFile; };
-		D0E9C3AC19F6E733000D427D /* (null) in Sources */ = {isa = PBXBuildFile; };
 		D0E9C3AD19F6E733000D427D /* MTLTestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D0760EC815FFCA4E0060F550 /* MTLTestModel.m */; };
 		D0E9C3AE19F6E749000D427D /* MTLTestModel-OldArchive.plist in Resources */ = {isa = PBXBuildFile; fileRef = D01BD0B916CB6F5700EC95C7 /* MTLTestModel-OldArchive.plist */; };
-		D0E9C3AF19F6E74C000D427D /* (null) in Sources */ = {isa = PBXBuildFile; };
 		D0E9C3B119F6E776000D427D /* Nimble.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = D0E9C39819F6E008000D427D /* Nimble.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D0E9C3B219F6E778000D427D /* Quick.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = D0E9C39419F6DFD9000D427D /* Quick.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D0E9C3B319F6E7D3000D427D /* Mantle.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = D0E9C35719F6DB38000D427D /* Mantle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -154,12 +150,10 @@
 		F91FC00B1BE2584B00457767 /* metamacros.h in Headers */ = {isa = PBXBuildFile; fileRef = D094E47A1777617300906BF7 /* metamacros.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		F91FC00C1BE2584B00457767 /* Mantle.h in Headers */ = {isa = PBXBuildFile; fileRef = D042FC4C15F72B23004E8054 /* Mantle.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F91FC0191BE2584F00457767 /* MTLValueTransformerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D08B5AB116002A23001FE685 /* MTLValueTransformerSpec.m */; };
-		F91FC01A1BE2584F00457767 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		F91FC01B1BE2584F00457767 /* MTLArrayManipulationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88080C1C160A719D00CCABF2 /* MTLArrayManipulationSpec.m */; };
 		F91FC01C1BE2584F00457767 /* MTLJSONAdapterSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D02E48F016CB8ADB00257645 /* MTLJSONAdapterSpec.m */; };
 		F91FC01D1BE2584F00457767 /* MTLPredefinedTransformerAdditionsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F1174C1614C8000092520B /* MTLPredefinedTransformerAdditionsSpec.m */; };
 		F91FC01E1BE2584F00457767 /* MTLModelSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D0760EC315FFCA250060F550 /* MTLModelSpec.m */; };
-		F91FC01F1BE2584F00457767 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		F91FC0201BE2584F00457767 /* MTLTestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D0760EC815FFCA4E0060F550 /* MTLTestModel.m */; };
 		F91FC0211BE2584F00457767 /* MTLErrorModelExceptionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 54803A3A17882CCD00011B39 /* MTLErrorModelExceptionSpec.m */; };
 		F91FC0221BE2584F00457767 /* MTLValueTransformerInversionAdditionsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D0BFC36617476A5F00F5DC5D /* MTLValueTransformerInversionAdditionsSpec.m */; };
@@ -167,12 +161,10 @@
 		F91FC0241BE2584F00457767 /* MTLTestJSONAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = D053177D1A168F8B00A5FBE2 /* MTLTestJSONAdapter.m */; };
 		F91FC0251BE2584F00457767 /* MTLDictionaryManipulationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D0C27CF5161107E5002FE587 /* MTLDictionaryManipulationSpec.m */; };
 		F91FC0261BE2584F00457767 /* MTLComparisonAdditionsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1ED5B5CB163A4E2B0072668E /* MTLComparisonAdditionsSpec.m */; };
-		F91FC0271BE2584F00457767 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		F91FC0281BE2584F00457767 /* MTLTransformerErrorExamples.m in Sources */ = {isa = PBXBuildFile; fileRef = 541B02B41805EC4C000DA87C /* MTLTransformerErrorExamples.m */; };
 		F91FC0291BE2584F00457767 /* SwiftSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E9C3A819F6E5AA000D427D /* SwiftSpec.swift */; };
 		F91FC02A1BE2584F00457767 /* MTLDictionaryMappingSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 54D5E9EC18182D150014896C /* MTLDictionaryMappingSpec.m */; };
 		F91FC02B1BE2584F00457767 /* MTLModelValidationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 547AE0FC17882ED100F4437D /* MTLModelValidationSpec.m */; };
-		F91FC02C1BE2584F00457767 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		F91FC02E1BE2584F00457767 /* Mantle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0E9C35719F6DB38000D427D /* Mantle.framework */; };
 		F91FC02F1BE2584F00457767 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0E9C39819F6E008000D427D /* Nimble.framework */; };
 		F91FC0301BE2584F00457767 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0E9C39419F6DFD9000D427D /* Quick.framework */; };
@@ -1004,12 +996,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				D0E9C3A619F6E04B000D427D /* MTLValueTransformerSpec.m in Sources */,
-				D0E9C3AC19F6E733000D427D /* (null) in Sources */,
 				D0E9C39C19F6E04B000D427D /* MTLArrayManipulationSpec.m in Sources */,
 				D0E9C3A019F6E04B000D427D /* MTLJSONAdapterSpec.m in Sources */,
 				D0E9C3A519F6E04B000D427D /* MTLPredefinedTransformerAdditionsSpec.m in Sources */,
 				D0E9C3A319F6E04B000D427D /* MTLModelSpec.m in Sources */,
-				D0E9C3AB19F6E733000D427D /* (null) in Sources */,
 				D0E9C3AD19F6E733000D427D /* MTLTestModel.m in Sources */,
 				D0E9C39F19F6E04B000D427D /* MTLErrorModelExceptionSpec.m in Sources */,
 				D0E9C3A719F6E04B000D427D /* MTLValueTransformerInversionAdditionsSpec.m in Sources */,
@@ -1017,12 +1007,10 @@
 				D053177F1A168F8B00A5FBE2 /* MTLTestJSONAdapter.m in Sources */,
 				D0E9C39E19F6E04B000D427D /* MTLDictionaryManipulationSpec.m in Sources */,
 				D0E9C39D19F6E04B000D427D /* MTLComparisonAdditionsSpec.m in Sources */,
-				D0E9C3AF19F6E74C000D427D /* (null) in Sources */,
 				D05317701A168D3400A5FBE2 /* MTLTransformerErrorExamples.m in Sources */,
 				D0E9C3AA19F6E5AA000D427D /* SwiftSpec.swift in Sources */,
 				D053176F1A168D2D00A5FBE2 /* MTLDictionaryMappingSpec.m in Sources */,
 				D0E9C3A419F6E04B000D427D /* MTLModelValidationSpec.m in Sources */,
-				D0E9C3A119F6E04B000D427D /* (null) in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1054,12 +1042,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				F91FC0191BE2584F00457767 /* MTLValueTransformerSpec.m in Sources */,
-				F91FC01A1BE2584F00457767 /* (null) in Sources */,
 				F91FC01B1BE2584F00457767 /* MTLArrayManipulationSpec.m in Sources */,
 				F91FC01C1BE2584F00457767 /* MTLJSONAdapterSpec.m in Sources */,
 				F91FC01D1BE2584F00457767 /* MTLPredefinedTransformerAdditionsSpec.m in Sources */,
 				F91FC01E1BE2584F00457767 /* MTLModelSpec.m in Sources */,
-				F91FC01F1BE2584F00457767 /* (null) in Sources */,
 				F91FC0201BE2584F00457767 /* MTLTestModel.m in Sources */,
 				F91FC0211BE2584F00457767 /* MTLErrorModelExceptionSpec.m in Sources */,
 				F91FC0221BE2584F00457767 /* MTLValueTransformerInversionAdditionsSpec.m in Sources */,
@@ -1067,12 +1053,10 @@
 				F91FC0241BE2584F00457767 /* MTLTestJSONAdapter.m in Sources */,
 				F91FC0251BE2584F00457767 /* MTLDictionaryManipulationSpec.m in Sources */,
 				F91FC0261BE2584F00457767 /* MTLComparisonAdditionsSpec.m in Sources */,
-				F91FC0271BE2584F00457767 /* (null) in Sources */,
 				F91FC0281BE2584F00457767 /* MTLTransformerErrorExamples.m in Sources */,
 				F91FC0291BE2584F00457767 /* SwiftSpec.swift in Sources */,
 				F91FC02A1BE2584F00457767 /* MTLDictionaryMappingSpec.m in Sources */,
 				F91FC02B1BE2584F00457767 /* MTLModelValidationSpec.m in Sources */,
-				F91FC02C1BE2584F00457767 /* (null) in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
