@@ -63,6 +63,42 @@ extern NSString * const MTLBooleanValueTransformerName;
 /// with a default value of `nil` and a reverse default value of `nil`.
 + (NSValueTransformer<MTLTransformerErrorHandling> *)mtl_valueMappingTransformerWithDictionary:(NSDictionary *)dictionary;
 
+/// A reversible value transformer to transform between a date and its string
+/// representation
+///
+/// dateFormat - The date format used by the date formatter (http://www.unicode.org/reports/tr35/tr35-31/tr35-dates.html#Date_Field_Symbol_Table)
+/// calendar   - The calendar used by the date formatter
+/// locale     - The locale used by the date formatter
+/// timeZone   - The time zone used by the date formatter
+///
+/// Returns a transformer which will map from strings to dates for forward
+/// transformations, and from dates to strings for reverse transformations.
++ (NSValueTransformer<MTLTransformerErrorHandling> *)mtl_dateTransformerWithDateFormat:(NSString *)dateFormat calendar:(NSCalendar *)calendar locale:(NSLocale *)locale timeZone:(NSTimeZone *)timeZone defaultDate:(NSDate *)defaultDate;
+
+/// Returns a value transformer created by calling
+/// `+mtl_dateTransformerWithDateFormat:calendar:locale:timeZone:defaultDate:`
+/// with a calendar, locale, time zone and default date of `nil`.
++ (NSValueTransformer<MTLTransformerErrorHandling> *)mtl_dateTransformerWithDateFormat:(NSString *)dateFormat locale:(NSLocale *)locale;
+
+/// A reversible value transformer to transform between a number and its string
+/// representation
+///
+/// numberStyle - The number style used by the number formatter
+///
+/// Returns a transformer which will map from strings to numbers for forward
+/// transformations, and from numbers to strings for reverse transformations.
++ (NSValueTransformer<MTLTransformerErrorHandling> *)mtl_numberTransformerWithNumberStyle:(NSNumberFormatterStyle)numberStyle locale:(NSLocale *)locale;
+
+/// A reversible value transformer to transform between an object and its string
+/// representation
+///
+/// formatter   - The formatter used to perform the transformation
+/// objectClass - The class of object that the formatter operates on
+///
+/// Returns a transformer which will map from strings to objects for forward
+/// transformations, and from objects to strings for reverse transformations.
++ (NSValueTransformer<MTLTransformerErrorHandling> *)mtl_transformerWithFormatter:(NSFormatter *)formatter forObjectClass:(Class)objectClass;
+
 /// A value transformer that errors if the transformed value are not of the given
 /// class.
 ///

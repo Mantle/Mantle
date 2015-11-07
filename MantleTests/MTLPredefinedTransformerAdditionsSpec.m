@@ -193,4 +193,84 @@ describe(@"value mapping transformer", ^{
 	});
 });
 
+describe(@"date format transformer", ^{
+	__block NSValueTransformer<MTLTransformerErrorHandling> *transformer;
+
+	beforeEach(^{
+		transformer = [NSValueTransformer mtl_dateTransformerWithDateFormat:@"MMMM d, yyyy" calendar:[NSCalendar calendarWithIdentifier:NSCalendarIdentifierGregorian] locale:[NSLocale localeWithLocaleIdentifier:@"en_US"] timeZone:[NSTimeZone timeZoneWithName:@"America/Los_Angeles"] defaultDate:nil];
+		expect(transformer).notTo(beNil());
+		expect(@([transformer.class allowsReverseTransformation])).to(beTruthy());
+		expect([transformer transformedValue:nil]).to(beNil());
+		expect([transformer reverseTransformedValue:nil]).to(beNil());
+	});
+
+	it(@"should transform strings into dates", ^{
+		expect([transformer transformedValue:@"September 25, 2015"]).to(equal([NSDate dateWithTimeIntervalSince1970:1443164400]));
+	});
+
+	it(@"should transform dates into strings", ^{
+		expect([transformer reverseTransformedValue:[NSDate dateWithTimeIntervalSince1970:1183135260]]).to(equal(@"June 29, 2007"));
+	});
+
+	it(@"should surface date formatter error descriptions", ^{
+		__block NSError *error;
+		__block BOOL success = NO;
+		
+		expect([transformer transformedValue:@"September 37, 2015" success:&success error:&error]).to(beNil());
+		expect(@(success)).to(beFalsy());
+		expect(error).notTo(beNil());
+		expect(error.domain).to(equal(MTLTransformerErrorHandlingErrorDomain));
+		expect(@(error.code)).to(equal(@(MTLTransformerErrorHandlingErrorInvalidInput)));
+		expect(error.userInfo[NSLocalizedFailureReasonErrorKey]).notTo(beNil());
+	});
+
+	itBehavesLike(MTLTransformerErrorExamples, ^{
+		return @{
+			MTLTransformerErrorExamplesTransformer: transformer,
+			MTLTransformerErrorExamplesInvalidTransformationInput: NSNull.null,
+			MTLTransformerErrorExamplesInvalidReverseTransformationInput: NSNull.null
+		};
+	});
+});
+
+describe(@"number format transformer", ^{
+	__block NSValueTransformer<MTLTransformerErrorHandling> *transformer;
+
+	beforeEach(^{
+		transformer = [NSValueTransformer mtl_numberTransformerWithNumberStyle:NSNumberFormatterDecimalStyle locale:[NSLocale localeWithLocaleIdentifier:@"en_US"]];
+		expect(transformer).notTo(beNil());
+		expect(@([transformer.class allowsReverseTransformation])).to(beTruthy());
+		expect([transformer transformedValue:nil]).to(beNil());
+		expect([transformer reverseTransformedValue:nil]).to(beNil());
+	});
+
+	it(@"should transform strings into numbers", ^{
+		expect([transformer transformedValue:@"0.12345"]).to(equal(@0.12345));
+	});
+
+	it(@"should transform numbers into strings", ^{
+		expect([transformer reverseTransformedValue:@12345.678]).to(equal(@"12,345.678"));
+	});
+
+	it(@"should surface number formatter error descriptions", ^{
+		__block NSError *error;
+		__block BOOL success = NO;
+
+		expect([transformer transformedValue:@"Apple" success:&success error:&error]).to(beNil());
+		expect(@(success)).to(beFalsy());
+		expect(error).notTo(beNil());
+		expect(error.domain).to(equal(MTLTransformerErrorHandlingErrorDomain));
+		expect(@(error.code)).to(equal(@(MTLTransformerErrorHandlingErrorInvalidInput)));
+		expect(error.userInfo[NSLocalizedFailureReasonErrorKey]).notTo(beNil());
+	});
+
+	itBehavesLike(MTLTransformerErrorExamples, ^{
+		return @{
+			MTLTransformerErrorExamplesTransformer: transformer,
+			MTLTransformerErrorExamplesInvalidTransformationInput: NSNull.null,
+			MTLTransformerErrorExamplesInvalidReverseTransformationInput: NSNull.null
+		};
+	});
+});
+
 QuickSpecEnd
