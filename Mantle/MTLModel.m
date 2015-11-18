@@ -13,6 +13,8 @@
 #import "MTLReflection.h"
 #import <objc/runtime.h>
 
+#define TYPE_EQUAL(propertyType, Type) (strcmp(propertyType, @encode(Type)) == 0)
+
 // Used to cache the reflection performed in +propertyKeys.
 static void *MTLModelCachedPropertyKeysKey = &MTLModelCachedPropertyKeysKey;
 
@@ -329,6 +331,29 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 	}
 
 	return YES;
+}
+
+- (void)setNilValueForKey:(NSString *)key {
+	objc_property_t property = class_getProperty([self class], [key UTF8String]);
+	if (property != NULL) {
+		NSString *attributesString = [NSString stringWithUTF8String:property_getAttributes(property)];
+		NSArray * attributes = [attributesString componentsSeparatedByString:@","];
+		NSString * propertyType = [attributes.firstObject substringFromIndex:1];
+		const char * rawPropertyType = [propertyType UTF8String];
+		if (TYPE_EQUAL(rawPropertyType, float) ||
+			TYPE_EQUAL(rawPropertyType, double) ||
+			TYPE_EQUAL(rawPropertyType, long) ||
+			TYPE_EQUAL(rawPropertyType, long long) ||
+			TYPE_EQUAL(rawPropertyType, unsigned long long) ||
+			TYPE_EQUAL(rawPropertyType, int) ||
+			TYPE_EQUAL(rawPropertyType, unsigned int) ||
+			TYPE_EQUAL(rawPropertyType, BOOL) ||
+			TYPE_EQUAL(rawPropertyType, Boolean)) {
+			[self setValue:@(0) forKey:key];
+			return;
+		}
+	}
+	[super setNilValueForKey:key];
 }
 
 @end
