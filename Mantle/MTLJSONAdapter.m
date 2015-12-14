@@ -164,22 +164,21 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 
 		id value;
 		@try {
-                        value = [JSONDictionary valueForKeyPath:JSONKeyPath];
-                        if ([JSONKeyPath rangeOfString:@"\\."].location == NSNotFound) {
-                                value = [JSONDictionary valueForKeyPath:JSONKeyPath];
-                        } else {
-                                NSString *sep = [NSString stringWithFormat:@"%c", (char)0x1F];
-                                NSString *escapeStr = [JSONKeyPath stringByReplacingOccurrencesOfString:@"\\." withString:sep];
-                                __block id tmp = JSONDictionary;
-                                [[escapeStr componentsSeparatedByString:@"."] enumerateObjectsUsingBlock:^(NSString * _Nonnull key, NSUInteger idx, BOOL * _Nonnull stop) {
-                                         if ([key rangeOfString:sep].location == NSNotFound) {
-                                                tmp = tmp[key];
-                                         } else {
-                                                tmp = tmp[[key stringByReplacingOccurrencesOfString:sep withString:@"."]];
-                                         }
-                                }];
-                                value = tmp;
-                        }
+			if ([JSONKeyPath rangeOfString:@"\\."].location == NSNotFound) {
+				value = [JSONDictionary valueForKeyPath:JSONKeyPath];
+			} else {
+				NSString *sep = [NSString stringWithFormat:@"%c", (char)0x1F];
+				NSString *escapeStr = [JSONKeyPath stringByReplacingOccurrencesOfString:@"\\." withString:sep];
+				__block id tmp = JSONDictionary;
+				[[escapeStr componentsSeparatedByString:@"."] enumerateObjectsUsingBlock:^(NSString *key, NSUInteger idx, BOOL *stop) {
+					if ([key rangeOfString:sep].location == NSNotFound) {
+						tmp = tmp[key];
+					} else {
+						tmp = tmp[[key stringByReplacingOccurrencesOfString:sep withString:@"."]];
+					}
+				}];
+				value = tmp;
+			}
 		} @catch (NSException *ex) {
 			if (error != NULL) {
 				NSDictionary *userInfo = @{
