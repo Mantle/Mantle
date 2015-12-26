@@ -343,7 +343,7 @@ NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapterThrownE
 			#else
 			if (error != NULL) {
 				NSDictionary *userInfo = @{
-					NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Caught exception parsing JSON key path \"%@\" for model class: %@", JSONKeyPath, modelClass],
+					NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Caught exception parsing JSON key path \"%@\" for model class: %@", JSONKeyPaths, modelClass],
 					NSLocalizedRecoverySuggestionErrorKey: ex.description,
 					NSLocalizedFailureReasonErrorKey: ex.reason,
 					MTLJSONAdapterThrownExceptionErrorKey: ex
