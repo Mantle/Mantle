@@ -96,7 +96,6 @@ extern const NSInteger MTLJSONAdapterErrorExceptionThrown;
 /// Associated with the NSException that was caught.
 extern NSString * const MTLJSONAdapterThrownExceptionErrorKey;
 
-
 /// Converts a MTLModel object to and from a JSON dictionary.
 @interface MTLJSONAdapter : NSObject
 
