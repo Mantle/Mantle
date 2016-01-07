@@ -222,13 +222,13 @@ NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapterThrownE
 
 			// Set up dictionaries at each step of the key path.
 			for (NSString *component in keyPathComponents) {
-				if ([obj valueForKey:component] == nil) {
+				if ([obj objectForKey:component] == nil) {
 					// Insert an empty mutable dictionary at this spot so that we
 					// can set the whole key path afterward.
 					[obj setValue:[NSMutableDictionary dictionary] forKey:component];
 				}
 
-				obj = [obj valueForKey:component];
+				obj = [obj objectForKey:component];
 			}
 		};
 
