@@ -277,7 +277,7 @@ extern NSString * const MTLJSONAdapterThrownExceptionErrorKey;
 - (NSDictionary *)JSONDictionary __attribute__((unavailable("Replaced by -JSONDictionaryFromModel:error:")));
 - (NSString *)JSONKeyPathForPropertyKey:(NSString *)key __attribute__((unavailable("Replaced by -serializablePropertyKeys:forModel:")));
 - (id)initWithJSONDictionary:(NSDictionary *)JSONDictionary modelClass:(Class)modelClass error:(NSError **)error __attribute__((unavailable("Replaced by -initWithModelClass:")));
-- (id)initWithModel:(id<MTLJSONSerializing>)model __attribute__((unavailable("Replaced by -initWithModelClass:")));
-- (NSDictionary *)serializeToJSONDictionary:(NSError **)error __attribute__((unavailable("Replaced by -JSONDictionaryFromModel:error:")));
+- (id)initWithModel:(id<MTLJSONSerializing>)model __attribute__((unavailable("Replaced by -initWithModelClass:"))) NS_SWIFT_UNAVAILABLE("Replaced by -initWithModelClass:");
+- (NSDictionary *)serializeToJSONDictionary:(NSError **)error __attribute__((unavailable("Replaced by -JSONDictionaryFromModel:error:"))) NS_SWIFT_UNAVAILABLE("Replaced by -JSONDictionaryFromModel:error:");
 
 @end
