@@ -644,20 +644,3 @@ NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapterThrownE
 }
 
 @end
-
-@implementation MTLJSONAdapter (Deprecated)
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-implementations"
-
-+ (NSArray *)JSONArrayFromModels:(NSArray *)models {
-	return [self JSONArrayFromModels:models error:NULL];
-}
-
-+ (NSDictionary *)JSONDictionaryFromModel:(MTLModel<MTLJSONSerializing> *)model {
-	return [self JSONDictionaryFromModel:model error:NULL];
-}
-
-#pragma clang diagnostic pop
-
-@end
