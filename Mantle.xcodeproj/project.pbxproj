@@ -917,6 +917,7 @@
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = "$PRODUCT_NAME/$PRODUCT_NAME-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Debug;
@@ -931,6 +932,7 @@
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = "$PRODUCT_NAME/$PRODUCT_NAME-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Release;
@@ -1064,6 +1066,7 @@
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = "$PRODUCT_NAME/$PRODUCT_NAME-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Profile;
@@ -1170,6 +1173,7 @@
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = "$PRODUCT_NAME/$PRODUCT_NAME-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Test;
