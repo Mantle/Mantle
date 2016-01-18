@@ -38,11 +38,9 @@
 		ADB222AA1BBF0E9A00A86D62 /* NSValueTransformer+MTLPredefinedTransformerAdditions.h in Copy Modulemap */ = {isa = PBXBuildFile; fileRef = D0F117471614C5600092520B /* NSValueTransformer+MTLPredefinedTransformerAdditions.h */; };
 		B7496AF31B0FDF8A007AABE8 /* module.modulemap in Copy Modulemap */ = {isa = PBXBuildFile; fileRef = B7496AE61B0FDE0F007AABE8 /* module.modulemap */; };
 		D01BD09D16CB432D00EC95C7 /* MTLJSONAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = D01BD09B16CB432D00EC95C7 /* MTLJSONAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D01BD09E16CB432D00EC95C7 /* MTLJSONAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = D01BD09B16CB432D00EC95C7 /* MTLJSONAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D01BD09F16CB432D00EC95C7 /* MTLJSONAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = D01BD09C16CB432D00EC95C7 /* MTLJSONAdapter.m */; };
 		D01BD0A016CB432D00EC95C7 /* MTLJSONAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = D01BD09C16CB432D00EC95C7 /* MTLJSONAdapter.m */; };
 		D01BD0AF16CB52E800EC95C7 /* MTLModel+NSCoding.h in Headers */ = {isa = PBXBuildFile; fileRef = D01BD0AD16CB52E800EC95C7 /* MTLModel+NSCoding.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D01BD0B016CB52E800EC95C7 /* MTLModel+NSCoding.h in Headers */ = {isa = PBXBuildFile; fileRef = D01BD0AD16CB52E800EC95C7 /* MTLModel+NSCoding.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D01BD0B116CB52E800EC95C7 /* MTLModel+NSCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = D01BD0AE16CB52E800EC95C7 /* MTLModel+NSCoding.m */; };
 		D01BD0B216CB52E800EC95C7 /* MTLModel+NSCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = D01BD0AE16CB52E800EC95C7 /* MTLModel+NSCoding.m */; };
 		D01BD0BA16CB6F5700EC95C7 /* MTLTestModel-OldArchive.plist in Resources */ = {isa = PBXBuildFile; fileRef = D01BD0B916CB6F5700EC95C7 /* MTLTestModel-OldArchive.plist */; };
@@ -113,7 +111,6 @@
 		D0BFC36717476A5F00F5DC5D /* MTLValueTransformerInversionAdditionsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D0BFC36617476A5F00F5DC5D /* MTLValueTransformerInversionAdditionsSpec.m */; };
 		D0BFC36817476A5F00F5DC5D /* MTLValueTransformerInversionAdditionsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D0BFC36617476A5F00F5DC5D /* MTLValueTransformerInversionAdditionsSpec.m */; };
 		D0BFC36F17476B4700F5DC5D /* NSValueTransformer+MTLInversionAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = D0BFC36D17476B4700F5DC5D /* NSValueTransformer+MTLInversionAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D0BFC37017476B4700F5DC5D /* NSValueTransformer+MTLInversionAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = D0BFC36D17476B4700F5DC5D /* NSValueTransformer+MTLInversionAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D0BFC37117476B4700F5DC5D /* NSValueTransformer+MTLInversionAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D0BFC36E17476B4700F5DC5D /* NSValueTransformer+MTLInversionAdditions.m */; };
 		D0BFC37217476B4700F5DC5D /* NSValueTransformer+MTLInversionAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D0BFC36E17476B4700F5DC5D /* NSValueTransformer+MTLInversionAdditions.m */; };
 		D0C27CF6161107E5002FE587 /* MTLDictionaryManipulationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D0C27CF5161107E5002FE587 /* MTLDictionaryManipulationSpec.m */; };
@@ -122,7 +119,6 @@
 		D0C27D0B16110973002FE587 /* NSDictionary+MTLManipulationAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D0C27D0916110973002FE587 /* NSDictionary+MTLManipulationAdditions.m */; };
 		D0C27D0C16110973002FE587 /* NSDictionary+MTLManipulationAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D0C27D0916110973002FE587 /* NSDictionary+MTLManipulationAdditions.m */; };
 		D0E51937170A06CF00E8897B /* MTLManagedObjectAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = D0E51935170A06CF00E8897B /* MTLManagedObjectAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D0E51938170A06CF00E8897B /* MTLManagedObjectAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = D0E51935170A06CF00E8897B /* MTLManagedObjectAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D0E51939170A06CF00E8897B /* MTLManagedObjectAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = D0E51936170A06CF00E8897B /* MTLManagedObjectAdapter.m */; };
 		D0E5193A170A06CF00E8897B /* MTLManagedObjectAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = D0E51936170A06CF00E8897B /* MTLManagedObjectAdapter.m */; };
 		D0F117491614C5600092520B /* NSValueTransformer+MTLPredefinedTransformerAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = D0F117471614C5600092520B /* NSValueTransformer+MTLPredefinedTransformerAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -134,13 +130,6 @@
 		D4ACA4E518DB996C00EBD899 /* libExpecta.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D4ACA4E418DB996C00EBD899 /* libExpecta.a */; };
 		D4ACA4E718DB998100EBD899 /* libExpecta-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D4ACA4E618DB998100EBD899 /* libExpecta-iOS.a */; };
 		D4ACA4E918DB998500EBD899 /* libSpecta-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D4ACA4E818DB998500EBD899 /* libSpecta-iOS.a */; };
-		D8A172F81697E87A002CFCC8 /* Mantle.h in Headers */ = {isa = PBXBuildFile; fileRef = D042FC4C15F72B23004E8054 /* Mantle.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D8A172F91697E87A002CFCC8 /* MTLModel.h in Headers */ = {isa = PBXBuildFile; fileRef = D0760E7615FFBF330060F550 /* MTLModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D8A172FA1697E87A002CFCC8 /* MTLValueTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = D08B5AAC16002694001FE685 /* MTLValueTransformer.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D8A172FC1697E87A002CFCC8 /* NSArray+MTLManipulationAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 88080C16160A706900CCABF2 /* NSArray+MTLManipulationAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D8A172FE1697E87A002CFCC8 /* NSDictionary+MTLManipulationAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = D0C27D0816110973002FE587 /* NSDictionary+MTLManipulationAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D8A173021697E87A002CFCC8 /* NSValueTransformer+MTLPredefinedTransformerAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = D0F117471614C5600092520B /* NSValueTransformer+MTLPredefinedTransformerAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D8A173031697E87A002CFCC8 /* NSObject+MTLComparisonAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1ED5B5CE163A4E3C0072668E /* NSObject+MTLComparisonAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -620,24 +609,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D8A172F71697E860002CFCC8 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				D8A172F81697E87A002CFCC8 /* Mantle.h in Headers */,
-				D8A172F91697E87A002CFCC8 /* MTLModel.h in Headers */,
-				D8A172FA1697E87A002CFCC8 /* MTLValueTransformer.h in Headers */,
-				D8A172FC1697E87A002CFCC8 /* NSArray+MTLManipulationAdditions.h in Headers */,
-				D8A172FE1697E87A002CFCC8 /* NSDictionary+MTLManipulationAdditions.h in Headers */,
-				D8A173021697E87A002CFCC8 /* NSValueTransformer+MTLPredefinedTransformerAdditions.h in Headers */,
-				D8A173031697E87A002CFCC8 /* NSObject+MTLComparisonAdditions.h in Headers */,
-				D01BD09E16CB432D00EC95C7 /* MTLJSONAdapter.h in Headers */,
-				D01BD0B016CB52E800EC95C7 /* MTLModel+NSCoding.h in Headers */,
-				D0E51938170A06CF00E8897B /* MTLManagedObjectAdapter.h in Headers */,
-				D0BFC37017476B4700F5DC5D /* NSValueTransformer+MTLInversionAdditions.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
@@ -682,7 +653,6 @@
 			buildConfigurationList = D042FC9815F72BC7004E8054 /* Build configuration list for PBXNativeTarget "Mantle-iOS" */;
 			buildPhases = (
 				B7496AF21B0FDF73007AABE8 /* Copy Modulemap */,
-				D8A172F71697E860002CFCC8 /* Headers */,
 				D042FC7515F72BC7004E8054 /* Sources */,
 				D042FC7615F72BC7004E8054 /* Frameworks */,
 			);
