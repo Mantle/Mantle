@@ -571,14 +571,10 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 
 	SEL selector = MTLSelectorWithKeyPattern(key, "EntityAttributeTransformer");
 	if ([self.modelClass respondsToSelector:selector]) {
-		NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[self.modelClass methodSignatureForSelector:selector]];
-		invocation.target = self.modelClass;
-		invocation.selector = selector;
-		[invocation invoke];
-
-		__unsafe_unretained id result = nil;
-		[invocation getReturnValue:&result];
-		return result;
+		IMP imp = [self.modelClass methodForSelector:selector];
+		NSValueTransformer * (*function)(id, SEL) = (__typeof__(function))imp;
+		NSValueTransformer *transformer = function(self.modelClass, selector);
+		return transformer;
 	}
 
 	if ([self.modelClass respondsToSelector:@selector(entityAttributeTransformerForKey:)]) {
