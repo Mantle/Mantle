@@ -103,12 +103,6 @@ describe(@"+mtl_arrayMappingTransformerWithTransformer:", ^{
 		[NSURL URLWithString:@"https://github.com/MantleFramework"],
 		[NSURL URLWithString:@"http://apple.com"]
 	];
-	
-	beforeEach(^{
-		NSValueTransformer *appliedTransformer = [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
-		transformer = [NSValueTransformer mtl_arrayMappingTransformerWithTransformer:appliedTransformer];
-		expect(transformer).notTo(beNil());
-	});
 
 	describe(@"when called with a reversible transformer", ^{
 		beforeEach(^{
@@ -148,6 +142,12 @@ describe(@"+mtl_arrayMappingTransformerWithTransformer:", ^{
 		});
 	});
 
+	beforeEach(^{
+		NSValueTransformer *appliedTransformer = [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
+		transformer = [NSValueTransformer mtl_arrayMappingTransformerWithTransformer:appliedTransformer];
+		expect(transformer).notTo(beNil());
+	});
+	
 	itBehavesLike(MTLTransformerErrorExamples, ^{
 		return @{
 			MTLTransformerErrorExamplesTransformer: transformer,
