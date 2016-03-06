@@ -28,7 +28,7 @@ const NSInteger MTLJSONAdapterErrorInvalidJSONMapping = 4;
 const NSInteger MTLJSONAdapterErrorExceptionThrown = 1;
 
 // Associated with the NSException that was caught.
-static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapterThrownException";
+NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapterThrownException";
 
 @interface MTLJSONAdapter ()
 
@@ -343,7 +343,8 @@ static NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapter
 			#else
 			if (error != NULL) {
 				NSDictionary *userInfo = @{
-					NSLocalizedDescriptionKey: ex.description,
+					NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Caught exception parsing JSON key path \"%@\" for model class: %@", JSONKeyPaths, self.modelClass],
+					NSLocalizedRecoverySuggestionErrorKey: ex.description,
 					NSLocalizedFailureReasonErrorKey: ex.reason,
 					MTLJSONAdapterThrownExceptionErrorKey: ex
 				};
