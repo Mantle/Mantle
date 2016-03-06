@@ -1392,6 +1392,7 @@
 				TARGETED_DEVICE_FAMILY = 3;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mantle.$(PRODUCT_NAME:rfc1034identifier)";
 			};
 			name = Debug;
 		};
@@ -1408,6 +1409,7 @@
 				TARGETED_DEVICE_FAMILY = 3;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mantle.$(PRODUCT_NAME:rfc1034identifier)";
 			};
 			name = Test;
 		};
@@ -1424,6 +1426,7 @@
 				TARGETED_DEVICE_FAMILY = 3;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mantle.$(PRODUCT_NAME:rfc1034identifier)";
 			};
 			name = Release;
 		};
@@ -1440,6 +1443,7 @@
 				TARGETED_DEVICE_FAMILY = 3;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mantle.$(PRODUCT_NAME:rfc1034identifier)";
 			};
 			name = Profile;
 		};
@@ -1458,6 +1462,7 @@
 				SDKROOT = appletvos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = 3;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mantle.$(PRODUCT_NAME:rfc1034identifier)";
 			};
 			name = Debug;
 		};
@@ -1476,6 +1481,7 @@
 				SDKROOT = appletvos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = 3;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mantle.$(PRODUCT_NAME:rfc1034identifier)";
 			};
 			name = Test;
 		};
@@ -1493,6 +1499,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mantle.$(PRODUCT_NAME:rfc1034identifier)";
 			};
 			name = Release;
 		};
@@ -1510,6 +1517,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mantle.$(PRODUCT_NAME:rfc1034identifier)";
 			};
 			name = Profile;
 		};
