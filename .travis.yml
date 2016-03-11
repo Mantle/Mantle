@@ -1,6 +1,5 @@
 language: objective-c
 osx_image: xcode7.2
-script: script/cibuild
 notifications:
   email: false
   campfire:
@@ -8,3 +7,7 @@ notifications:
     on_failure: always
     rooms:
     - secure: "QVVzkmaWyLgGMOgtaBF2EUQS3Ot1Bj7jc8CI7L1mqxrDpNnxtemgSNBkvFNrec0RoSMiHBY9t+aVdnHsCLlqhDs3mX55zxlbTJPDpFTVI2p77n90teuOr1kK+a3DYoyaxO6acrAJwhjOe6j9zd3o/su+VG5OsXqCXhBFfnc863w="
+script:
+- xcodebuild -scheme 'Mantle Mac' test
+- xcodebuild -scheme 'Mantle iOS' -sdk iphonesimulator test
+- xcodebuild -scheme 'Mantle watchOS' build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
