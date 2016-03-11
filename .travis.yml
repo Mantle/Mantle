@@ -7,7 +7,12 @@ notifications:
     on_failure: always
     rooms:
     - secure: "QVVzkmaWyLgGMOgtaBF2EUQS3Ot1Bj7jc8CI7L1mqxrDpNnxtemgSNBkvFNrec0RoSMiHBY9t+aVdnHsCLlqhDs3mX55zxlbTJPDpFTVI2p77n90teuOr1kK+a3DYoyaxO6acrAJwhjOe6j9zd3o/su+VG5OsXqCXhBFfnc863w="
+before_install:
+- brew update
+- brew install carthage || brew outdated carthage || brew upgrade carthage
+install:
+- carthage bootstrap
 script:
-- xcodebuild -scheme 'Mantle Mac' test
-- xcodebuild -scheme 'Mantle iOS' -sdk iphonesimulator test
-- xcodebuild -scheme 'Mantle watchOS' build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
+- xcodebuild -workspace Mantle.xcworkspace -scheme 'Mantle Mac' test
+- xcodebuild -workspace Mantle.xcworkspace -scheme 'Mantle iOS' -sdk iphonesimulator test
+- xcodebuild -workspace Mantle.xcworkspace -scheme 'Mantle watchOS' build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
