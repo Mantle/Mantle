@@ -82,6 +82,13 @@ extern const NSInteger MTLTestModelNameMissing;
 
 @end
 
+@interface MTLURLSubclassModel : MTLURLModel
+
+// Defaults to http://github.com/Mantle/Mantle.
+@property (nonatomic, strong) NSURL *otherURL;
+
+@end
+
 // Conforms to MTLJSONSerializing but does not inherit from the MTLModel class.
 @interface MTLConformingModel : NSObject <MTLJSONSerializing>
 
