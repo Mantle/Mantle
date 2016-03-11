@@ -10,6 +10,11 @@
 		1ED5B5CC163A4E2B0072668E /* MTLComparisonAdditionsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1ED5B5CB163A4E2B0072668E /* MTLComparisonAdditionsSpec.m */; };
 		1ED5B5D0163A4E3C0072668E /* NSObject+MTLComparisonAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1ED5B5CE163A4E3C0072668E /* NSObject+MTLComparisonAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1ED5B5D1163A4E3C0072668E /* NSObject+MTLComparisonAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1ED5B5CF163A4E3C0072668E /* NSObject+MTLComparisonAdditions.m */; };
+		256D00E41C92C3E60075F4F7 /* MTLRuntimeRoutines.h in Headers */ = {isa = PBXBuildFile; fileRef = 256D00E11C92C3E60075F4F7 /* MTLRuntimeRoutines.h */; };
+		256D00E51C92C3EE0075F4F7 /* MTLRuntimeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 256D00DF1C92C3E60075F4F7 /* MTLRuntimeTests.m */; };
+		256D00E61C92C3EF0075F4F7 /* MTLRuntimeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 256D00DF1C92C3E60075F4F7 /* MTLRuntimeTests.m */; };
+		256D00E71C92C3F20075F4F7 /* MTLRuntimeRoutines.m in Sources */ = {isa = PBXBuildFile; fileRef = 256D00E01C92C3E60075F4F7 /* MTLRuntimeRoutines.m */; };
+		256D00E81C92C3F20075F4F7 /* MTLRuntimeRoutines.m in Sources */ = {isa = PBXBuildFile; fileRef = 256D00E01C92C3E60075F4F7 /* MTLRuntimeRoutines.m */; };
 		547AE0FD17882ED100F4437D /* MTLModelValidationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 547AE0FC17882ED100F4437D /* MTLModelValidationSpec.m */; };
 		54803A34178829A800011B39 /* NSError+MTLModelException.m in Sources */ = {isa = PBXBuildFile; fileRef = 54803A31178829A700011B39 /* NSError+MTLModelException.m */; };
 		54803A3B17882CCD00011B39 /* MTLErrorModelExceptionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 54803A3A17882CCD00011B39 /* MTLErrorModelExceptionSpec.m */; };
@@ -160,6 +165,9 @@
 		1ED5B5CB163A4E2B0072668E /* MTLComparisonAdditionsSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLComparisonAdditionsSpec.m; sourceTree = "<group>"; };
 		1ED5B5CE163A4E3C0072668E /* NSObject+MTLComparisonAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+MTLComparisonAdditions.h"; sourceTree = "<group>"; };
 		1ED5B5CF163A4E3C0072668E /* NSObject+MTLComparisonAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+MTLComparisonAdditions.m"; sourceTree = "<group>"; };
+		256D00DF1C92C3E60075F4F7 /* MTLRuntimeTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MTLRuntimeTests.m; path = RuntimeTests/MTLRuntimeTests.m; sourceTree = "<group>"; };
+		256D00E01C92C3E60075F4F7 /* MTLRuntimeRoutines.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MTLRuntimeRoutines.m; path = RuntimeTests/MTLRuntimeRoutines.m; sourceTree = "<group>"; };
+		256D00E11C92C3E60075F4F7 /* MTLRuntimeRoutines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MTLRuntimeRoutines.h; path = RuntimeTests/MTLRuntimeRoutines.h; sourceTree = "<group>"; };
 		541B02B31805EC4C000DA87C /* MTLTransformerErrorExamples.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTLTransformerErrorExamples.h; sourceTree = "<group>"; };
 		541B02B41805EC4C000DA87C /* MTLTransformerErrorExamples.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLTransformerErrorExamples.m; sourceTree = "<group>"; };
 		547165A31801977000E734DB /* MTLTransformerErrorHandling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTLTransformerErrorHandling.h; sourceTree = "<group>"; };
@@ -289,6 +297,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		256D00D31C92C18B0075F4F7 /* Runtime Tests */ = {
+			isa = PBXGroup;
+			children = (
+				256D00DF1C92C3E60075F4F7 /* MTLRuntimeTests.m */,
+				256D00E11C92C3E60075F4F7 /* MTLRuntimeRoutines.h */,
+				256D00E01C92C3E60075F4F7 /* MTLRuntimeRoutines.m */,
+			);
+			name = "Runtime Tests";
+			sourceTree = "<group>";
+		};
 		D01BD0AB16CB46B600EC95C7 /* Adapters */ = {
 			isa = PBXGroup;
 			children = (
@@ -354,6 +372,7 @@
 				D042FC4C15F72B23004E8054 /* Mantle.h */,
 				D0760E7015FFBF020060F550 /* Modules */,
 				D090E62515F730B2005282F9 /* Extensions */,
+				256D00D31C92C18B0075F4F7 /* Runtime Tests */,
 				D042FC4615F72B23004E8054 /* Supporting Files */,
 			);
 			path = Mantle;
@@ -560,6 +579,7 @@
 				D01BD09D16CB432D00EC95C7 /* MTLJSONAdapter.h in Headers */,
 				D05317721A168D3D00A5FBE2 /* MTLTransformerErrorHandling.h in Headers */,
 				D01BD0AF16CB52E800EC95C7 /* MTLModel+NSCoding.h in Headers */,
+				256D00E41C92C3E60075F4F7 /* MTLRuntimeRoutines.h in Headers */,
 				A18397E81BA341DC00AB37BA /* metamacros.h in Headers */,
 				D0BFC36F17476B4700F5DC5D /* NSValueTransformer+MTLInversionAdditions.h in Headers */,
 			);
@@ -768,12 +788,14 @@
 				D0760EC915FFCA4E0060F550 /* MTLTestModel.m in Sources */,
 				54803A3B17882CCD00011B39 /* MTLErrorModelExceptionSpec.m in Sources */,
 				D05317711A168D3500A5FBE2 /* MTLTransformerErrorExamples.m in Sources */,
+				256D00E51C92C3EE0075F4F7 /* MTLRuntimeTests.m in Sources */,
 				D0E9C3A919F6E5AA000D427D /* SwiftSpec.swift in Sources */,
 				D08B5AB216002A23001FE685 /* MTLValueTransformerSpec.m in Sources */,
 				88080C1D160A719D00CCABF2 /* MTLArrayManipulationSpec.m in Sources */,
 				D053177E1A168F8B00A5FBE2 /* MTLTestJSONAdapter.m in Sources */,
 				D0C27CF6161107E5002FE587 /* MTLDictionaryManipulationSpec.m in Sources */,
 				547AE0FD17882ED100F4437D /* MTLModelValidationSpec.m in Sources */,
+				256D00E71C92C3F20075F4F7 /* MTLRuntimeRoutines.m in Sources */,
 				D0F1174D1614C8000092520B /* MTLPredefinedTransformerAdditionsSpec.m in Sources */,
 				1ED5B5CC163A4E2B0072668E /* MTLComparisonAdditionsSpec.m in Sources */,
 				D02E48EA16CB8ACA00257645 /* MTLModelNSCodingSpec.m in Sources */,
@@ -824,6 +846,8 @@
 				D053177F1A168F8B00A5FBE2 /* MTLTestJSONAdapter.m in Sources */,
 				D0E9C39E19F6E04B000D427D /* MTLDictionaryManipulationSpec.m in Sources */,
 				D0E9C39D19F6E04B000D427D /* MTLComparisonAdditionsSpec.m in Sources */,
+				256D00E61C92C3EF0075F4F7 /* MTLRuntimeTests.m in Sources */,
+				256D00E81C92C3F20075F4F7 /* MTLRuntimeRoutines.m in Sources */,
 				D0E9C3AF19F6E74C000D427D /* (null) in Sources */,
 				D05317701A168D3400A5FBE2 /* MTLTransformerErrorExamples.m in Sources */,
 				D0E9C3AA19F6E5AA000D427D /* SwiftSpec.swift in Sources */,
