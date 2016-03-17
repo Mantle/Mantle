@@ -193,6 +193,19 @@ it(@"should fail to initialize if JSON dictionary validation fails", ^{
 	expect(@(error.code)).to(equal(@(MTLTestModelNameTooLong)));
 });
 
+it(@"should implicitly transform NSStrings to URLs", ^{
+	NSDictionary *values = @{
+		@"URL": @"http://github.com/1",
+		@"otherURL": @"http://github.com/2",
+	};
+	
+	NSError *error = nil;
+	MTLURLSubclassModel *model = [MTLJSONAdapter modelOfClass:MTLURLSubclassModel.class fromJSONDictionary:values error:&error];
+	expect(model.URL).to(equal([NSURL URLWithString:@"http://github.com/1"]));
+	expect(model.otherURL).to(equal([NSURL URLWithString:@"http://github.com/2"]));
+	expect(error).to(beNil());
+});
+
 it(@"should implicitly transform URLs", ^{
 	MTLURLModel *model = [[MTLURLModel alloc] init];
 

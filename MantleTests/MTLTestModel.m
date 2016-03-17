@@ -215,6 +215,25 @@ static NSUInteger modelVersion = 1;
 
 @end
 
+@implementation MTLURLSubclassModel
+
+- (instancetype)init {
+	self = [super init];
+	if (self == nil) return nil;
+	
+	self.otherURL = [NSURL URLWithString:@"http://github.com/Mantle/Mantle"];
+	return self;
+}
+
++ (NSValueTransformer *)JSONTransformerForKey:(NSString *)key {
+	return @{
+		// Not provided transformer for self.URL
+		@"otherURL": [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName],
+	}[key];
+}
+
+@end
+
 @implementation MTLBoolModel
 
 + (NSDictionary *)JSONKeyPathsByPropertyKey {
