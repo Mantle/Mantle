@@ -39,6 +39,7 @@ typedef id (^MTLValueTransformerBlock)(id value, BOOL *success, NSError **error)
 /// Returns a transformer which transforms values using the given blocks.
 + (instancetype)transformerUsingForwardBlock:(MTLValueTransformerBlock)forwardTransformation reverseBlock:(MTLValueTransformerBlock)reverseTransformation;
 
+/// Returns a transformer which transforms values using the opposed blocks.
 @property (nonatomic, copy, readonly) MTLValueTransformer *reverse;
 
 @end
