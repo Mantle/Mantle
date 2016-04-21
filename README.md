@@ -382,6 +382,8 @@ deserializing from JSON.
 }
 ```
 
+`key` is the key that applies to your model object; not the original JSON key. Keep this in mind if you transform the key names using `+JSONKeyPathsByPropertyKey`.
+
 For added convenience, if you implement `+<key>JSONTransformer`,
 `MTLJSONAdapter` will use the result of that method instead. For example, dates
 that are commonly represented as strings in JSON can be transformed to `NSDate`s
