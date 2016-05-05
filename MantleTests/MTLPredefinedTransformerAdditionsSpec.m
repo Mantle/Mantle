@@ -40,6 +40,11 @@ describe(@"The URL transformer", ^{
 		expect([transformer transformedValue:nil]).to(beNil());
 		expect([transformer reverseTransformedValue:nil]).to(beNil());
 	});
+	
+	it(@"should convert NSString with forbidden url symbols to NSURL", ^{
+		NSString *urlString = @"https://en.wikipedia.org/wiki/Arsène_Wenger";
+		expect([transformer transformedValue:urlString]).notTo(beNil());
+	});
 
 	itBehavesLike(MTLTransformerErrorExamples, ^{
 		return @{
