@@ -38,8 +38,10 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 					return nil;
 				}
 
-				NSURL *result = [NSURL URLWithString:str];
-
+				NSString *urlString = [str stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+				NSURLComponents *urlComponents = [NSURLComponents componentsWithString:urlString];
+				NSURL *result = (urlComponents.host) ? urlComponents.URL : nil;
+				
 				if (result == nil) {
 					if (error != NULL) {
 						NSDictionary *userInfo = @{
