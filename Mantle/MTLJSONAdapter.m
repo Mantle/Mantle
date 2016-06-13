@@ -498,7 +498,11 @@ NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapterThrownE
 			}
 
 			if (!adapter) {
-				adapter = [[self alloc] initWithModelClass:modelClass];
+				@synchronized (self) {
+					if (!adapter) {
+						adapter = [[self alloc] initWithModelClass:modelClass];
+					}
+				}
 			}
 			id model = [adapter modelFromJSONDictionary:JSONDictionary error:error];
 			if (model == nil) {
@@ -525,7 +529,11 @@ NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapterThrownE
 			}
 
 			if (!adapter) {
-				adapter = [[self alloc] initWithModelClass:modelClass];
+				@synchronized (self) {
+					if (!adapter) {
+						adapter = [[self alloc] initWithModelClass:modelClass];
+					}
+				}
 			}
 			NSDictionary *result = [adapter JSONDictionaryFromModel:model error:error];
 			if (result == nil) {
