@@ -115,11 +115,6 @@ typedef enum : NSUInteger {
 /// Returns an initialized model object, or nil if validation failed.
 - (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue error:(NSError **)error;
 
-/// Initializes the receiver with default values.
-///
-/// This is the designated initializer for this class.
-- (instancetype)init;
-
 /// By default, this method looks for a `-merge<Key>FromModel:` method on the
 /// receiver, and invokes it if found. If not found, and `model` is not nil, the
 /// value for the given key is taken from `model`.

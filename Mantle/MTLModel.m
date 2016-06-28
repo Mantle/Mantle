@@ -124,13 +124,8 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 	return [[self alloc] initWithDictionary:dictionary error:error];
 }
 
-- (instancetype)init {
-	// Nothing special by default, but we have a declaration in the header.
-	return [super init];
-}
-
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary error:(NSError **)error {
-	self = [self init];
+	self = [super init];
 	if (self == nil) return nil;
 
 	for (NSString *key in dictionary) {
