@@ -325,23 +325,25 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 		id modelValue = [model valueForKey:key];
 
 		if (selfValue == nil && modelValue == nil) {
-			return YES;
+			continue;
 		}
 		
 		if ([modelValue isKindOfClass:[NSArray class]] && [selfValue isEqualToArray:modelValue]) {
-			return YES;
+			continue;
 		}
 		
 		if ([modelValue isKindOfClass:[NSDictionary class]] && [selfValue isEqualToDictionary:modelValue]) {
-			return YES;
+			continue;
 		}
 		
 		if ([selfValue isEqual:modelValue]) {
-			return YES;
+			continue;
 		}
+		
+		return NO;
 	}
 
-	return NO;
+	return YES;
 }
 
 @end
