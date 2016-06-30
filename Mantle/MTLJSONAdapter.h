@@ -262,6 +262,10 @@ extern NSString * const MTLJSONAdapterThrownExceptionErrorKey;
 /// NSURL properties to JSON strings and vice versa.
 + (NSValueTransformer *)NSURLJSONTransformer;
 
+/// This value transformer is used by MTLJSONAdapter to automatically convert
+/// NSUUID properties to JSON strings and vice versa.
++ (NSValueTransformer *)NSUUIDJSONTransformer;
+
 @end
 
 @class MTLModel;

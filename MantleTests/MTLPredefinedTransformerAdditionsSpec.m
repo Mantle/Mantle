@@ -50,6 +50,34 @@ describe(@"The URL transformer", ^{
 	});
 });
 
+describe(@"The UUID transformer", ^{
+	__block NSValueTransformer *transformer;
+	
+	beforeEach(^{
+		transformer = [NSValueTransformer valueTransformerForName:MTLUUIDValueTransformerName];
+		
+		expect(transformer).notTo(beNil());
+		expect(@([transformer.class allowsReverseTransformation])).to(beTruthy());
+	});
+	
+	it(@"should convert NSStrings to NSUUIDs and back", ^{
+		NSString *UUIDString = @"4A275FBD-8217-4397-964B-403F4C2B8545";
+		expect([transformer transformedValue:UUIDString]).to(equal([[NSUUID alloc] initWithUUIDString:UUIDString]));
+		expect([transformer reverseTransformedValue:[[NSUUID alloc] initWithUUIDString:UUIDString]]).to(equal(UUIDString));
+		
+		expect([transformer transformedValue:nil]).to(beNil());
+		expect([transformer reverseTransformedValue:nil]).to(beNil());
+	});
+	
+	itBehavesLike(MTLTransformerErrorExamples, ^{
+		return @{
+			MTLTransformerErrorExamplesTransformer: transformer,
+			MTLTransformerErrorExamplesInvalidTransformationInput: @"not a valid UUID",
+			MTLTransformerErrorExamplesInvalidReverseTransformationInput: NSNull.null
+		};
+	});
+});
+
 describe(@"The number transformer", ^{
 	__block NSValueTransformer *transformer;
 

@@ -12,6 +12,7 @@
 #import "MTLValueTransformer.h"
 
 NSString * const MTLURLValueTransformerName = @"MTLURLValueTransformerName";
+NSString * const MTLUUIDValueTransformerName = @"MTLUUIDValueTransformerName";
 NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerName";
 
 @implementation NSValueTransformer (MTLPredefinedTransformerAdditions)
@@ -77,6 +78,59 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 
 		[NSValueTransformer setValueTransformer:URLValueTransformer forName:MTLURLValueTransformerName];
 
+		MTLValueTransformer *UUIDValueTransformer = [MTLValueTransformer
+				transformerUsingForwardBlock:^id(NSString *string, BOOL *success, NSError **error) {
+					if (string == nil) return nil;
+					
+					if (![string isKindOfClass:NSString.class]) {
+						if (error) {
+							NSDictionary *userInfo = @{
+								NSLocalizedDescriptionKey: NSLocalizedString(@"Could not convert string to UUID", @""),
+								NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Expected an NSString, got: %@.", @""), string],
+								MTLTransformerErrorHandlingInputValueErrorKey : string
+							};
+							*error = [NSError errorWithDomain:MTLTransformerErrorHandlingErrorDomain code:MTLTransformerErrorHandlingErrorInvalidInput userInfo:userInfo];
+						}
+						*success = NO;
+						return nil;
+					}
+					
+					NSUUID *result = [[NSUUID alloc] initWithUUIDString:string];
+					
+					if (result == nil) {
+						if (error) {
+							NSDictionary *userInfo = @{
+								NSLocalizedDescriptionKey: NSLocalizedString(@"Could not convert string to UUID", @""),
+								NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Input UUID string %@ was malformed", @""), string],
+													   MTLTransformerErrorHandlingInputValueErrorKey : string
+							};
+							*error = [NSError errorWithDomain:MTLTransformerErrorHandlingErrorDomain code:MTLTransformerErrorHandlingErrorInvalidInput userInfo:userInfo];
+						}
+						*success = NO;
+						return nil;
+					}
+					
+					return result;
+				}
+				reverseBlock:^id(NSUUID *uuid, BOOL *success, NSError **error) {
+					if (uuid == nil) return nil;
+					
+					if (![uuid isKindOfClass:NSUUID.class]) {
+						if (error != NULL) {
+							NSDictionary *userInfo = @{NSLocalizedDescriptionKey: NSLocalizedString(@"Could not convert UUID to string", @""),
+													   NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Expected an NSUUID, got: %@.", @""), uuid],
+													   MTLTransformerErrorHandlingInputValueErrorKey : uuid};
+							*error = [NSError errorWithDomain:MTLTransformerErrorHandlingErrorDomain code:MTLTransformerErrorHandlingErrorInvalidInput userInfo:userInfo];
+						}
+						*success = NO;
+						return nil;
+					}
+					
+					return uuid.UUIDString;
+				}];
+		
+		[NSValueTransformer setValueTransformer:UUIDValueTransformer forName:MTLUUIDValueTransformerName];
+		
 		MTLValueTransformer *booleanValueTransformer = [MTLValueTransformer
 			transformerUsingReversibleBlock:^ id (NSNumber *boolean, BOOL *success, NSError **error) {
 				if (boolean == nil) return nil;
