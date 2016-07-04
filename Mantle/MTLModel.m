@@ -328,11 +328,51 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 			continue;
 		}
 		
-		if ([modelValue isKindOfClass:[NSArray class]] && [selfValue isEqualToArray:modelValue]) {
+		if ([selfValue isKindOfClass:NSAttributedString.class] && [selfValue isEqualToAttributedString:modelValue]) {
 			continue;
 		}
 		
-		if ([modelValue isKindOfClass:[NSDictionary class]] && [selfValue isEqualToDictionary:modelValue]) {
+		if ([selfValue isKindOfClass:NSData.class] && [selfValue isEqualToData:modelValue]) {
+			continue;
+		}
+		
+		if ([selfValue isKindOfClass:NSDate.class] && [selfValue isEqualToDate:modelValue]) {
+			continue;
+		}
+		
+		if ([selfValue isKindOfClass:NSDictionary.class] && [selfValue isEqualToDictionary:modelValue]) {
+			continue;
+		}
+		
+		if ([selfValue isKindOfClass:NSHashTable.class] && [selfValue isEqualToHashTable:modelValue]) {
+			continue;
+		}
+		
+		if ([selfValue isKindOfClass:NSIndexSet.class] && [selfValue isEqualToIndexSet:modelValue]) {
+			continue;
+		}
+		
+		if ([selfValue isKindOfClass:NSNumber.class] && [selfValue isEqualToNumber:modelValue]) {
+			continue;
+		}
+		
+		if ([selfValue isKindOfClass:NSOrderedSet.class] && [selfValue isEqualToOrderedSet:modelValue]) {
+			continue;
+		}
+		
+		if ([selfValue isKindOfClass:NSSet.class] && [selfValue isEqualToSet:modelValue]) {
+			continue;
+		}
+		
+		if ([selfValue isKindOfClass:NSString.class] && [selfValue isEqualToString:modelValue]) {
+			continue;
+		}
+		
+		if ([selfValue isKindOfClass:NSTimeZone.class] && [selfValue isEqualToTimeZone:modelValue]) {
+			continue;
+		}
+		
+		if ([selfValue isKindOfClass:NSValue.class] && [selfValue isEqualToValue:modelValue]) {
 			continue;
 		}
 		
