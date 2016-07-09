@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D1FFF94A1B898C4200AB9875"
-               BuildableName = "Mantle.framework"
+               BuildableName = ".framework"
                BlueprintName = "Mantle-watchOS"
                ReferencedContainer = "container:Mantle.xcodeproj">
             </BuildableReference>
@@ -46,7 +46,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D1FFF94A1B898C4200AB9875"
-            BuildableName = "Mantle.framework"
+            BuildableName = ".framework"
             BlueprintName = "Mantle-watchOS"
             ReferencedContainer = "container:Mantle.xcodeproj">
          </BuildableReference>
@@ -64,7 +64,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D1FFF94A1B898C4200AB9875"
-            BuildableName = "Mantle.framework"
+            BuildableName = ".framework"
             BlueprintName = "Mantle-watchOS"
             ReferencedContainer = "container:Mantle.xcodeproj">
          </BuildableReference>
