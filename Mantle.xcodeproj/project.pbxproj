@@ -101,7 +101,6 @@
 		D0E9C39E19F6E04B000D427D /* MTLDictionaryManipulationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D0C27CF5161107E5002FE587 /* MTLDictionaryManipulationSpec.m */; };
 		D0E9C39F19F6E04B000D427D /* MTLErrorModelExceptionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 54803A3A17882CCD00011B39 /* MTLErrorModelExceptionSpec.m */; };
 		D0E9C3A019F6E04B000D427D /* MTLJSONAdapterSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D02E48F016CB8ADB00257645 /* MTLJSONAdapterSpec.m */; };
-		D0E9C3A119F6E04B000D427D /* (null) in Sources */ = {isa = PBXBuildFile; };
 		D0E9C3A219F6E04B000D427D /* MTLModelNSCodingSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D02E48E916CB8ACA00257645 /* MTLModelNSCodingSpec.m */; };
 		D0E9C3A319F6E04B000D427D /* MTLModelSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D0760EC315FFCA250060F550 /* MTLModelSpec.m */; };
 		D0E9C3A419F6E04B000D427D /* MTLModelValidationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 547AE0FC17882ED100F4437D /* MTLModelValidationSpec.m */; };
@@ -110,17 +109,69 @@
 		D0E9C3A719F6E04B000D427D /* MTLValueTransformerInversionAdditionsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D0BFC36617476A5F00F5DC5D /* MTLValueTransformerInversionAdditionsSpec.m */; };
 		D0E9C3A919F6E5AA000D427D /* SwiftSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E9C3A819F6E5AA000D427D /* SwiftSpec.swift */; };
 		D0E9C3AA19F6E5AA000D427D /* SwiftSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E9C3A819F6E5AA000D427D /* SwiftSpec.swift */; };
-		D0E9C3AB19F6E733000D427D /* (null) in Sources */ = {isa = PBXBuildFile; };
-		D0E9C3AC19F6E733000D427D /* (null) in Sources */ = {isa = PBXBuildFile; };
 		D0E9C3AD19F6E733000D427D /* MTLTestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D0760EC815FFCA4E0060F550 /* MTLTestModel.m */; };
 		D0E9C3AE19F6E749000D427D /* MTLTestModel-OldArchive.plist in Resources */ = {isa = PBXBuildFile; fileRef = D01BD0B916CB6F5700EC95C7 /* MTLTestModel-OldArchive.plist */; };
-		D0E9C3AF19F6E74C000D427D /* (null) in Sources */ = {isa = PBXBuildFile; };
 		D0E9C3B119F6E776000D427D /* Nimble.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = D0E9C39819F6E008000D427D /* Nimble.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D0E9C3B219F6E778000D427D /* Quick.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = D0E9C39419F6DFD9000D427D /* Quick.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D0E9C3B319F6E7D3000D427D /* Mantle.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = D0E9C35719F6DB38000D427D /* Mantle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D0F117491614C5600092520B /* NSValueTransformer+MTLPredefinedTransformerAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = D0F117471614C5600092520B /* NSValueTransformer+MTLPredefinedTransformerAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D0F1174A1614C5600092520B /* NSValueTransformer+MTLPredefinedTransformerAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F117481614C5600092520B /* NSValueTransformer+MTLPredefinedTransformerAdditions.m */; };
 		D0F1174D1614C8000092520B /* MTLPredefinedTransformerAdditionsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F1174C1614C8000092520B /* MTLPredefinedTransformerAdditionsSpec.m */; };
+		F91FBFEB1BE2584B00457767 /* NSError+MTLModelException.m in Sources */ = {isa = PBXBuildFile; fileRef = 54803A31178829A700011B39 /* NSError+MTLModelException.m */; };
+		F91FBFEC1BE2584B00457767 /* NSValueTransformer+MTLPredefinedTransformerAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F117481614C5600092520B /* NSValueTransformer+MTLPredefinedTransformerAdditions.m */; };
+		F91FBFED1BE2584B00457767 /* NSDictionary+MTLMappingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 547F78541822BCFD00BBAB7B /* NSDictionary+MTLMappingAdditions.m */; };
+		F91FBFEE1BE2584B00457767 /* MTLReflection.m in Sources */ = {isa = PBXBuildFile; fileRef = D058FE1E16EFB3D2009DFB47 /* MTLReflection.m */; };
+		F91FBFEF1BE2584B00457767 /* NSDictionary+MTLJSONKeyPath.m in Sources */ = {isa = PBXBuildFile; fileRef = 54EDCD0918D9B34F005796FC /* NSDictionary+MTLJSONKeyPath.m */; };
+		F91FBFF01BE2584B00457767 /* MTLModel+NSCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = D01BD0AE16CB52E800EC95C7 /* MTLModel+NSCoding.m */; };
+		F91FBFF11BE2584B00457767 /* NSObject+MTLComparisonAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1ED5B5CF163A4E3C0072668E /* NSObject+MTLComparisonAdditions.m */; };
+		F91FBFF21BE2584B00457767 /* MTLModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D0760E7715FFBF330060F550 /* MTLModel.m */; };
+		F91FBFF31BE2584B00457767 /* MTLJSONAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = D01BD09C16CB432D00EC95C7 /* MTLJSONAdapter.m */; };
+		F91FBFF41BE2584B00457767 /* NSArray+MTLManipulationAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 88080C17160A706900CCABF2 /* NSArray+MTLManipulationAdditions.m */; };
+		F91FBFF51BE2584B00457767 /* MTLTransformerErrorHandling.m in Sources */ = {isa = PBXBuildFile; fileRef = 5487912318210717007F8347 /* MTLTransformerErrorHandling.m */; };
+		F91FBFF61BE2584B00457767 /* NSDictionary+MTLManipulationAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D0C27D0916110973002FE587 /* NSDictionary+MTLManipulationAdditions.m */; };
+		F91FBFF71BE2584B00457767 /* MTLValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = D08B5AAD16002694001FE685 /* MTLValueTransformer.m */; };
+		F91FBFF81BE2584B00457767 /* NSValueTransformer+MTLInversionAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D0BFC36E17476B4700F5DC5D /* NSValueTransformer+MTLInversionAdditions.m */; };
+		F91FBFF91BE2584B00457767 /* EXTRuntimeExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = D094E4771777617300906BF7 /* EXTRuntimeExtensions.m */; };
+		F91FBFFA1BE2584B00457767 /* EXTScope.m in Sources */ = {isa = PBXBuildFile; fileRef = D094E4791777617300906BF7 /* EXTScope.m */; };
+		F91FBFFD1BE2584B00457767 /* NSArray+MTLManipulationAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 88080C16160A706900CCABF2 /* NSArray+MTLManipulationAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F91FBFFE1BE2584B00457767 /* MTLModel+NSCoding.h in Headers */ = {isa = PBXBuildFile; fileRef = D01BD0AD16CB52E800EC95C7 /* MTLModel+NSCoding.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F91FBFFF1BE2584B00457767 /* NSObject+MTLComparisonAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1ED5B5CE163A4E3C0072668E /* NSObject+MTLComparisonAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F91FC0001BE2584B00457767 /* EXTKeyPathCoding.h in Headers */ = {isa = PBXBuildFile; fileRef = D094E4751777617300906BF7 /* EXTKeyPathCoding.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		F91FC0011BE2584B00457767 /* MTLValueTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = D08B5AAC16002694001FE685 /* MTLValueTransformer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F91FC0021BE2584B00457767 /* EXTScope.h in Headers */ = {isa = PBXBuildFile; fileRef = D094E4781777617300906BF7 /* EXTScope.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		F91FC0031BE2584B00457767 /* NSValueTransformer+MTLInversionAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = D0BFC36D17476B4700F5DC5D /* NSValueTransformer+MTLInversionAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F91FC0041BE2584B00457767 /* MTLTransformerErrorHandling.h in Headers */ = {isa = PBXBuildFile; fileRef = 547165A31801977000E734DB /* MTLTransformerErrorHandling.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F91FC0051BE2584B00457767 /* NSDictionary+MTLMappingAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 547F78531822BCFD00BBAB7B /* NSDictionary+MTLMappingAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F91FC0061BE2584B00457767 /* NSValueTransformer+MTLPredefinedTransformerAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = D0F117471614C5600092520B /* NSValueTransformer+MTLPredefinedTransformerAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F91FC0071BE2584B00457767 /* EXTRuntimeExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = D094E4761777617300906BF7 /* EXTRuntimeExtensions.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		F91FC0081BE2584B00457767 /* MTLJSONAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = D01BD09B16CB432D00EC95C7 /* MTLJSONAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F91FC0091BE2584B00457767 /* MTLModel.h in Headers */ = {isa = PBXBuildFile; fileRef = D0760E7615FFBF330060F550 /* MTLModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F91FC00A1BE2584B00457767 /* NSDictionary+MTLManipulationAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = D0C27D0816110973002FE587 /* NSDictionary+MTLManipulationAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F91FC00B1BE2584B00457767 /* metamacros.h in Headers */ = {isa = PBXBuildFile; fileRef = D094E47A1777617300906BF7 /* metamacros.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		F91FC00C1BE2584B00457767 /* Mantle.h in Headers */ = {isa = PBXBuildFile; fileRef = D042FC4C15F72B23004E8054 /* Mantle.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F91FC0191BE2584F00457767 /* MTLValueTransformerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D08B5AB116002A23001FE685 /* MTLValueTransformerSpec.m */; };
+		F91FC01B1BE2584F00457767 /* MTLArrayManipulationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88080C1C160A719D00CCABF2 /* MTLArrayManipulationSpec.m */; };
+		F91FC01C1BE2584F00457767 /* MTLJSONAdapterSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D02E48F016CB8ADB00257645 /* MTLJSONAdapterSpec.m */; };
+		F91FC01D1BE2584F00457767 /* MTLPredefinedTransformerAdditionsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F1174C1614C8000092520B /* MTLPredefinedTransformerAdditionsSpec.m */; };
+		F91FC01E1BE2584F00457767 /* MTLModelSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D0760EC315FFCA250060F550 /* MTLModelSpec.m */; };
+		F91FC0201BE2584F00457767 /* MTLTestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D0760EC815FFCA4E0060F550 /* MTLTestModel.m */; };
+		F91FC0211BE2584F00457767 /* MTLErrorModelExceptionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 54803A3A17882CCD00011B39 /* MTLErrorModelExceptionSpec.m */; };
+		F91FC0221BE2584F00457767 /* MTLValueTransformerInversionAdditionsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D0BFC36617476A5F00F5DC5D /* MTLValueTransformerInversionAdditionsSpec.m */; };
+		F91FC0231BE2584F00457767 /* MTLModelNSCodingSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D02E48E916CB8ACA00257645 /* MTLModelNSCodingSpec.m */; };
+		F91FC0241BE2584F00457767 /* MTLTestJSONAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = D053177D1A168F8B00A5FBE2 /* MTLTestJSONAdapter.m */; };
+		F91FC0251BE2584F00457767 /* MTLDictionaryManipulationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D0C27CF5161107E5002FE587 /* MTLDictionaryManipulationSpec.m */; };
+		F91FC0261BE2584F00457767 /* MTLComparisonAdditionsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1ED5B5CB163A4E2B0072668E /* MTLComparisonAdditionsSpec.m */; };
+		F91FC0281BE2584F00457767 /* MTLTransformerErrorExamples.m in Sources */ = {isa = PBXBuildFile; fileRef = 541B02B41805EC4C000DA87C /* MTLTransformerErrorExamples.m */; };
+		F91FC0291BE2584F00457767 /* SwiftSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E9C3A819F6E5AA000D427D /* SwiftSpec.swift */; };
+		F91FC02A1BE2584F00457767 /* MTLDictionaryMappingSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 54D5E9EC18182D150014896C /* MTLDictionaryMappingSpec.m */; };
+		F91FC02B1BE2584F00457767 /* MTLModelValidationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 547AE0FC17882ED100F4437D /* MTLModelValidationSpec.m */; };
+		F91FC02E1BE2584F00457767 /* Mantle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0E9C35719F6DB38000D427D /* Mantle.framework */; };
+		F91FC02F1BE2584F00457767 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0E9C39819F6E008000D427D /* Nimble.framework */; };
+		F91FC0301BE2584F00457767 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0E9C39419F6DFD9000D427D /* Quick.framework */; };
+		F91FC0321BE2584F00457767 /* MTLTestModel-OldArchive.plist in Resources */ = {isa = PBXBuildFile; fileRef = D01BD0B916CB6F5700EC95C7 /* MTLTestModel-OldArchive.plist */; };
+		F91FC0341BE2584F00457767 /* Nimble.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = D0E9C39819F6E008000D427D /* Nimble.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F91FC0351BE2584F00457767 /* Quick.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = D0E9C39419F6DFD9000D427D /* Quick.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F91FC0361BE2584F00457767 /* Mantle.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = D0E9C35719F6DB38000D427D /* Mantle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -138,6 +189,13 @@
 			remoteGlobalIDString = D0E9C35619F6DB38000D427D;
 			remoteInfo = Mantle;
 		};
+		F91FC03E1BE2614100457767 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D042FC3215F72B23004E8054 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F91FBFE91BE2584B00457767;
+			remoteInfo = "Mantle-tvOS";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -150,6 +208,19 @@
 				D0E9C3B119F6E776000D427D /* Nimble.framework in Copy Frameworks */,
 				D0E9C3B219F6E778000D427D /* Quick.framework in Copy Frameworks */,
 				D0E9C3B319F6E7D3000D427D /* Mantle.framework in Copy Frameworks */,
+			);
+			name = "Copy Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F91FC0331BE2584F00457767 /* Copy Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				F91FC0341BE2584F00457767 /* Nimble.framework in Copy Frameworks */,
+				F91FC0351BE2584F00457767 /* Quick.framework in Copy Frameworks */,
+				F91FC0361BE2584F00457767 /* Mantle.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -246,6 +317,12 @@
 		D0F117471614C5600092520B /* NSValueTransformer+MTLPredefinedTransformerAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSValueTransformer+MTLPredefinedTransformerAdditions.h"; sourceTree = "<group>"; };
 		D0F117481614C5600092520B /* NSValueTransformer+MTLPredefinedTransformerAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSValueTransformer+MTLPredefinedTransformerAdditions.m"; sourceTree = "<group>"; };
 		D0F1174C1614C8000092520B /* MTLPredefinedTransformerAdditionsSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLPredefinedTransformerAdditionsSpec.m; sourceTree = "<group>"; };
+		F91FC0131BE2584B00457767 /* Mantle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Mantle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F91FC03C1BE2584F00457767 /* Mantle-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Mantle-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F91FC0411BE264B300457767 /* tvOS-Application.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "tvOS-Application.xcconfig"; path = "tvOS/tvOS-Application.xcconfig"; sourceTree = "<group>"; };
+		F91FC0421BE264B300457767 /* tvOS-Base.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "tvOS-Base.xcconfig"; path = "tvOS/tvOS-Base.xcconfig"; sourceTree = "<group>"; };
+		F91FC0431BE264B300457767 /* tvOS-Framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "tvOS-Framework.xcconfig"; path = "tvOS/tvOS-Framework.xcconfig"; sourceTree = "<group>"; };
+		F91FC0441BE264B300457767 /* tvOS-StaticLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "tvOS-StaticLibrary.xcconfig"; path = "tvOS/tvOS-StaticLibrary.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -283,6 +360,23 @@
 				D0E9C36219F6DB38000D427D /* Mantle.framework in Frameworks */,
 				D0E9C39A19F6E00F000D427D /* Nimble.framework in Frameworks */,
 				D0E9C39B19F6E00F000D427D /* Quick.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F91FBFFB1BE2584B00457767 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F91FC02D1BE2584F00457767 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F91FC02E1BE2584F00457767 /* Mantle.framework in Frameworks */,
+				F91FC02F1BE2584F00457767 /* Nimble.framework in Frameworks */,
+				F91FC0301BE2584F00457767 /* Quick.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -328,6 +422,8 @@
 				D042FC5415F72B23004E8054 /* Mantle-MacTests.xctest */,
 				D0E9C35719F6DB38000D427D /* Mantle.framework */,
 				D0E9C36119F6DB38000D427D /* Mantle-iOSTests.xctest */,
+				F91FC0131BE2584B00457767 /* Mantle.framework */,
+				F91FC03C1BE2584F00457767 /* Mantle-tvOSTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -469,6 +565,7 @@
 				D094E4801777619600906BF7 /* Base */,
 				D094E48A1777619600906BF7 /* iOS */,
 				D094E48E1777619600906BF7 /* Mac OS X */,
+				F91FC0401BE2649900457767 /* tvOS */,
 				D094E4941777619600906BF7 /* README.md */,
 			);
 			name = Configuration;
@@ -539,6 +636,17 @@
 			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
+		F91FC0401BE2649900457767 /* tvOS */ = {
+			isa = PBXGroup;
+			children = (
+				F91FC0411BE264B300457767 /* tvOS-Application.xcconfig */,
+				F91FC0421BE264B300457767 /* tvOS-Base.xcconfig */,
+				F91FC0431BE264B300457767 /* tvOS-Framework.xcconfig */,
+				F91FC0441BE264B300457767 /* tvOS-StaticLibrary.xcconfig */,
+			);
+			name = tvOS;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -585,6 +693,29 @@
 				D0E9C38719F6DC5B000D427D /* NSDictionary+MTLManipulationAdditions.h in Headers */,
 				A18397E71BA341D900AB37BA /* metamacros.h in Headers */,
 				D0E9C37619F6DC5B000D427D /* Mantle.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F91FBFFC1BE2584B00457767 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F91FBFFD1BE2584B00457767 /* NSArray+MTLManipulationAdditions.h in Headers */,
+				F91FBFFE1BE2584B00457767 /* MTLModel+NSCoding.h in Headers */,
+				F91FBFFF1BE2584B00457767 /* NSObject+MTLComparisonAdditions.h in Headers */,
+				F91FC0001BE2584B00457767 /* EXTKeyPathCoding.h in Headers */,
+				F91FC0011BE2584B00457767 /* MTLValueTransformer.h in Headers */,
+				F91FC0021BE2584B00457767 /* EXTScope.h in Headers */,
+				F91FC0031BE2584B00457767 /* NSValueTransformer+MTLInversionAdditions.h in Headers */,
+				F91FC0041BE2584B00457767 /* MTLTransformerErrorHandling.h in Headers */,
+				F91FC0051BE2584B00457767 /* NSDictionary+MTLMappingAdditions.h in Headers */,
+				F91FC0061BE2584B00457767 /* NSValueTransformer+MTLPredefinedTransformerAdditions.h in Headers */,
+				F91FC0071BE2584B00457767 /* EXTRuntimeExtensions.h in Headers */,
+				F91FC0081BE2584B00457767 /* MTLJSONAdapter.h in Headers */,
+				F91FC0091BE2584B00457767 /* MTLModel.h in Headers */,
+				F91FC00A1BE2584B00457767 /* NSDictionary+MTLManipulationAdditions.h in Headers */,
+				F91FC00B1BE2584B00457767 /* metamacros.h in Headers */,
+				F91FC00C1BE2584B00457767 /* Mantle.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -664,6 +795,43 @@
 			productReference = D0E9C36119F6DB38000D427D /* Mantle-iOSTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		F91FBFE91BE2584B00457767 /* Mantle-tvOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F91FC00E1BE2584B00457767 /* Build configuration list for PBXNativeTarget "Mantle-tvOS" */;
+			buildPhases = (
+				F91FBFEA1BE2584B00457767 /* Sources */,
+				F91FBFFB1BE2584B00457767 /* Frameworks */,
+				F91FBFFC1BE2584B00457767 /* Headers */,
+				F91FC00D1BE2584B00457767 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Mantle-tvOS";
+			productName = Mantle;
+			productReference = F91FC0131BE2584B00457767 /* Mantle.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		F91FC0151BE2584F00457767 /* Mantle-tvOSTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F91FC0371BE2584F00457767 /* Build configuration list for PBXNativeTarget "Mantle-tvOSTests" */;
+			buildPhases = (
+				F91FC0181BE2584F00457767 /* Sources */,
+				F91FC02D1BE2584F00457767 /* Frameworks */,
+				F91FC0311BE2584F00457767 /* Resources */,
+				F91FC0331BE2584F00457767 /* Copy Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F91FC03F1BE2614100457767 /* PBXTargetDependency */,
+			);
+			name = "Mantle-tvOSTests";
+			productName = MantleTests;
+			productReference = F91FC03C1BE2584F00457767 /* Mantle-tvOSTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -699,6 +867,8 @@
 				D042FC5315F72B23004E8054 /* Mantle-MacTests */,
 				D0E9C35619F6DB38000D427D /* Mantle-iOS */,
 				D0E9C36019F6DB38000D427D /* Mantle-iOSTests */,
+				F91FBFE91BE2584B00457767 /* Mantle-tvOS */,
+				F91FC0151BE2584F00457767 /* Mantle-tvOSTests */,
 			);
 		};
 /* End PBXProject section */
@@ -731,6 +901,21 @@
 			buildActionMask = 2147483647;
 			files = (
 				D0E9C3AE19F6E749000D427D /* MTLTestModel-OldArchive.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F91FC00D1BE2584B00457767 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F91FC0311BE2584F00457767 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F91FC0321BE2584F00457767 /* MTLTestModel-OldArchive.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -811,12 +996,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				D0E9C3A619F6E04B000D427D /* MTLValueTransformerSpec.m in Sources */,
-				D0E9C3AC19F6E733000D427D /* (null) in Sources */,
 				D0E9C39C19F6E04B000D427D /* MTLArrayManipulationSpec.m in Sources */,
 				D0E9C3A019F6E04B000D427D /* MTLJSONAdapterSpec.m in Sources */,
 				D0E9C3A519F6E04B000D427D /* MTLPredefinedTransformerAdditionsSpec.m in Sources */,
 				D0E9C3A319F6E04B000D427D /* MTLModelSpec.m in Sources */,
-				D0E9C3AB19F6E733000D427D /* (null) in Sources */,
 				D0E9C3AD19F6E733000D427D /* MTLTestModel.m in Sources */,
 				D0E9C39F19F6E04B000D427D /* MTLErrorModelExceptionSpec.m in Sources */,
 				D0E9C3A719F6E04B000D427D /* MTLValueTransformerInversionAdditionsSpec.m in Sources */,
@@ -824,12 +1007,56 @@
 				D053177F1A168F8B00A5FBE2 /* MTLTestJSONAdapter.m in Sources */,
 				D0E9C39E19F6E04B000D427D /* MTLDictionaryManipulationSpec.m in Sources */,
 				D0E9C39D19F6E04B000D427D /* MTLComparisonAdditionsSpec.m in Sources */,
-				D0E9C3AF19F6E74C000D427D /* (null) in Sources */,
 				D05317701A168D3400A5FBE2 /* MTLTransformerErrorExamples.m in Sources */,
 				D0E9C3AA19F6E5AA000D427D /* SwiftSpec.swift in Sources */,
 				D053176F1A168D2D00A5FBE2 /* MTLDictionaryMappingSpec.m in Sources */,
 				D0E9C3A419F6E04B000D427D /* MTLModelValidationSpec.m in Sources */,
-				D0E9C3A119F6E04B000D427D /* (null) in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F91FBFEA1BE2584B00457767 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F91FBFEB1BE2584B00457767 /* NSError+MTLModelException.m in Sources */,
+				F91FBFEC1BE2584B00457767 /* NSValueTransformer+MTLPredefinedTransformerAdditions.m in Sources */,
+				F91FBFED1BE2584B00457767 /* NSDictionary+MTLMappingAdditions.m in Sources */,
+				F91FBFEE1BE2584B00457767 /* MTLReflection.m in Sources */,
+				F91FBFEF1BE2584B00457767 /* NSDictionary+MTLJSONKeyPath.m in Sources */,
+				F91FBFF01BE2584B00457767 /* MTLModel+NSCoding.m in Sources */,
+				F91FBFF11BE2584B00457767 /* NSObject+MTLComparisonAdditions.m in Sources */,
+				F91FBFF21BE2584B00457767 /* MTLModel.m in Sources */,
+				F91FBFF31BE2584B00457767 /* MTLJSONAdapter.m in Sources */,
+				F91FBFF41BE2584B00457767 /* NSArray+MTLManipulationAdditions.m in Sources */,
+				F91FBFF51BE2584B00457767 /* MTLTransformerErrorHandling.m in Sources */,
+				F91FBFF61BE2584B00457767 /* NSDictionary+MTLManipulationAdditions.m in Sources */,
+				F91FBFF71BE2584B00457767 /* MTLValueTransformer.m in Sources */,
+				F91FBFF81BE2584B00457767 /* NSValueTransformer+MTLInversionAdditions.m in Sources */,
+				F91FBFF91BE2584B00457767 /* EXTRuntimeExtensions.m in Sources */,
+				F91FBFFA1BE2584B00457767 /* EXTScope.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F91FC0181BE2584F00457767 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F91FC0191BE2584F00457767 /* MTLValueTransformerSpec.m in Sources */,
+				F91FC01B1BE2584F00457767 /* MTLArrayManipulationSpec.m in Sources */,
+				F91FC01C1BE2584F00457767 /* MTLJSONAdapterSpec.m in Sources */,
+				F91FC01D1BE2584F00457767 /* MTLPredefinedTransformerAdditionsSpec.m in Sources */,
+				F91FC01E1BE2584F00457767 /* MTLModelSpec.m in Sources */,
+				F91FC0201BE2584F00457767 /* MTLTestModel.m in Sources */,
+				F91FC0211BE2584F00457767 /* MTLErrorModelExceptionSpec.m in Sources */,
+				F91FC0221BE2584F00457767 /* MTLValueTransformerInversionAdditionsSpec.m in Sources */,
+				F91FC0231BE2584F00457767 /* MTLModelNSCodingSpec.m in Sources */,
+				F91FC0241BE2584F00457767 /* MTLTestJSONAdapter.m in Sources */,
+				F91FC0251BE2584F00457767 /* MTLDictionaryManipulationSpec.m in Sources */,
+				F91FC0261BE2584F00457767 /* MTLComparisonAdditionsSpec.m in Sources */,
+				F91FC0281BE2584F00457767 /* MTLTransformerErrorExamples.m in Sources */,
+				F91FC0291BE2584F00457767 /* SwiftSpec.swift in Sources */,
+				F91FC02A1BE2584F00457767 /* MTLDictionaryMappingSpec.m in Sources */,
+				F91FC02B1BE2584F00457767 /* MTLModelValidationSpec.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -845,6 +1072,11 @@
 			isa = PBXTargetDependency;
 			target = D0E9C35619F6DB38000D427D /* Mantle-iOS */;
 			targetProxy = D0E9C36319F6DB38000D427D /* PBXContainerItemProxy */;
+		};
+		F91FC03F1BE2614100457767 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F91FBFE91BE2584B00457767 /* Mantle-tvOS */;
+			targetProxy = F91FC03E1BE2614100457767 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1147,6 +1379,148 @@
 			};
 			name = Profile;
 		};
+		F91FC00F1BE2584B00457767 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F91FC0431BE264B300457767 /* tvOS-Framework.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = Mantle/Info.plist;
+				TARGETED_DEVICE_FAMILY = 3;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mantle.$(PRODUCT_NAME:rfc1034identifier)";
+			};
+			name = Debug;
+		};
+		F91FC0101BE2584B00457767 /* Test */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F91FC0431BE264B300457767 /* tvOS-Framework.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = Mantle/Info.plist;
+				TARGETED_DEVICE_FAMILY = 3;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mantle.$(PRODUCT_NAME:rfc1034identifier)";
+			};
+			name = Test;
+		};
+		F91FC0111BE2584B00457767 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F91FC0431BE264B300457767 /* tvOS-Framework.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				ENABLE_BITCODE = YES;
+				INFOPLIST_FILE = Mantle/Info.plist;
+				TARGETED_DEVICE_FAMILY = 3;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mantle.$(PRODUCT_NAME:rfc1034identifier)";
+			};
+			name = Release;
+		};
+		F91FC0121BE2584B00457767 /* Profile */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F91FC0431BE264B300457767 /* tvOS-Framework.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = Mantle/Info.plist;
+				TARGETED_DEVICE_FAMILY = 3;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mantle.$(PRODUCT_NAME:rfc1034identifier)";
+			};
+			name = Profile;
+		};
+		F91FC0381BE2584F00457767 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F91FC0411BE264B300457767 /* tvOS-Application.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = MantleTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = 3;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mantle.$(PRODUCT_NAME:rfc1034identifier)";
+			};
+			name = Debug;
+		};
+		F91FC0391BE2584F00457767 /* Test */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F91FC0411BE264B300457767 /* tvOS-Application.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = MantleTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = 3;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mantle.$(PRODUCT_NAME:rfc1034identifier)";
+			};
+			name = Test;
+		};
+		F91FC03A1BE2584F00457767 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F91FC0411BE264B300457767 /* tvOS-Application.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = MantleTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				TARGETED_DEVICE_FAMILY = 3;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mantle.$(PRODUCT_NAME:rfc1034identifier)";
+			};
+			name = Release;
+		};
+		F91FC03B1BE2584F00457767 /* Profile */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F91FC0411BE264B300457767 /* tvOS-Application.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = MantleTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				TARGETED_DEVICE_FAMILY = 3;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mantle.$(PRODUCT_NAME:rfc1034identifier)";
+			};
+			name = Profile;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1201,6 +1575,28 @@
 				D0E9C37119F6DB38000D427D /* Test */,
 				D0E9C37219F6DB38000D427D /* Release */,
 				D0E9C37319F6DB38000D427D /* Profile */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F91FC00E1BE2584B00457767 /* Build configuration list for PBXNativeTarget "Mantle-tvOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F91FC00F1BE2584B00457767 /* Debug */,
+				F91FC0101BE2584B00457767 /* Test */,
+				F91FC0111BE2584B00457767 /* Release */,
+				F91FC0121BE2584B00457767 /* Profile */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F91FC0371BE2584F00457767 /* Build configuration list for PBXNativeTarget "Mantle-tvOSTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F91FC0381BE2584F00457767 /* Debug */,
+				F91FC0391BE2584F00457767 /* Test */,
+				F91FC03A1BE2584F00457767 /* Release */,
+				F91FC03B1BE2584F00457767 /* Profile */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
