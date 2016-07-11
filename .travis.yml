@@ -27,6 +27,12 @@ matrix:
         - XCODE_ACTION=test
         - XCODE_SDK=iphonesimulator
         - XCODE_DESTINATION="name=iPhone 6s"
+    - xcode_scheme: "Mantle-watchOS"
+      osx_image: xcode7.3
+      env:
+        - XCODE_ACTION=build
+        - XCODE_SDK=watchsimulator
+        - XCODE_DESTINATION="name=Apple Watch - 38mm"
 notifications:
   email: false
   campfire:
