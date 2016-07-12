@@ -13,6 +13,9 @@
 /// The name for a value transformer that converts strings into URLs and back.
 extern NSString * const MTLURLValueTransformerName;
 
+/// The name for a value transformer that converts strings into NSUUIDs and back.
+extern NSString * const MTLUUIDValueTransformerName;
+
 /// Ensure an NSNumber is backed by __NSCFBoolean/CFBooleanRef
 ///
 /// NSJSONSerialization, and likely other serialization libraries, ordinarily
