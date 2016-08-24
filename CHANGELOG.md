@@ -30,7 +30,7 @@ milestone](https://github.com/Mantle/Mantle/issues?q=milestone%3A2.0+is%3Aclosed
 
 ### Explicit JSON key paths
 
-`+JSONKeyPathsForPropertyKey` will [no
+`+JSONKeyPathsByPropertyKey` will [no
 longer](https://github.com/Mantle/Mantle/pull/170) infer your property mappings
 automatically.
 
@@ -44,7 +44,7 @@ behavior.
 
 **To update:**
 
- * Explicitly declare any property mappings in `+JSONKeyPathsForPropertyKey`
+ * Explicitly declare any property mappings in `+JSONKeyPathsByPropertyKey`
    that were previously implicit.
  * Optionally use `+[NSDictionary mtl_identityPropertyMapWithModel:]` for an
    initial property map.
