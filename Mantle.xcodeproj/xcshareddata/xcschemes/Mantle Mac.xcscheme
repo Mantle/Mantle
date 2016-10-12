@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0710"
+   LastUpgradeVersion = "0800"
    version = "2.0">
    <BuildAction
       parallelizeBuildables = "NO"
@@ -30,7 +30,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "1F925EAC195C0D6300ED456B"
                BuildableName = "Nimble.framework"
-               BlueprintName = "Nimble-OSX"
+               BlueprintName = "Nimble-macOS"
                ReferencedContainer = "container:Carthage/Checkouts/Nimble/Nimble.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -44,7 +44,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "DAEB6B8D1943873100289F44"
                BuildableName = "Quick.framework"
-               BlueprintName = "Quick-OSX"
+               BlueprintName = "Quick-macOS"
                ReferencedContainer = "container:Carthage/Checkouts/Quick/Quick.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
