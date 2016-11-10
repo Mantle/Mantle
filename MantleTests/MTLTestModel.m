@@ -24,7 +24,7 @@ static NSUInteger modelVersion = 1;
 
 #pragma mark Properties
 
-- (BOOL)validateName:(NSString **)name error:(NSError **)error {
+- (BOOL)validateName:(NSString **)name error:(NSError * __autoreleasing *)error {
 	if ([*name length] < 10) return YES;
 	if (error != NULL) {
 		*error = [NSError errorWithDomain:MTLTestModelErrorDomain code:MTLTestModelNameTooLong userInfo:nil];
@@ -176,7 +176,7 @@ static NSUInteger modelVersion = 1;
 	};
 }
 
-- (BOOL)validateName:(NSString **)name error:(NSError **)error {
+- (BOOL)validateName:(NSString **)name error:(NSError * __autoreleasing *)error {
 	if (*name != nil) return YES;
 	if (error != NULL) {
 		*error = [NSError errorWithDomain:MTLTestModelErrorDomain code:MTLTestModelNameMissing userInfo:nil];
@@ -189,7 +189,7 @@ static NSUInteger modelVersion = 1;
 
 @implementation MTLSelfValidatingModel
 
-- (BOOL)validateName:(NSString **)name error:(NSError **)error {
+- (BOOL)validateName:(NSString **)name error:(NSError * __autoreleasing *)error {
 	if (*name != nil) return YES;
 
 	*name = @"foobar";
@@ -323,7 +323,7 @@ static NSUInteger modelVersion = 1;
 
 @interface MTLConformingModel ()
 
-- (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue error:(NSError **)error;
+- (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue error:(NSError * __autoreleasing *)error;
 
 @end
 
@@ -331,11 +331,11 @@ static NSUInteger modelVersion = 1;
 
 #pragma mark Lifecycle
 
-+ (instancetype)modelWithDictionary:(NSDictionary *)dictionaryValue error:(NSError **)error {
++ (instancetype)modelWithDictionary:(NSDictionary *)dictionaryValue error:(NSError * __autoreleasing *)error {
 	return [[self alloc] initWithDictionary:dictionaryValue error:error];
 }
 
-- (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue error:(NSError **)error {
+- (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue error:(NSError * __autoreleasing *)error {
 	self = [super init];
 	if (self == nil) return nil;
 
@@ -344,7 +344,7 @@ static NSUInteger modelVersion = 1;
 	return self;
 }
 
-- (BOOL)validate:(NSError **)error {
+- (BOOL)validate:(NSError * __autoreleasing *)error {
 	return YES;
 }
 

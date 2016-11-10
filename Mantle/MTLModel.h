@@ -48,7 +48,7 @@ typedef enum : NSUInteger {
 ///                   (like a KVC validation error).
 ///
 /// Returns an initialized model object, or nil if validation failed.
-+ (instancetype)modelWithDictionary:(NSDictionary *)dictionaryValue error:(NSError **)error;
++ (instancetype)modelWithDictionary:(NSDictionary *)dictionaryValue error:(NSError * __autoreleasing *)error;
 
 /// A dictionary representing the properties of the receiver.
 ///
@@ -74,7 +74,7 @@ typedef enum : NSUInteger {
 ///                   (like a KVC validation error).
 ///
 /// Returns an initialized model object, or nil if validation failed.
-- (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue error:(NSError **)error;
+- (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue error:(NSError * __autoreleasing *)error;
 
 /// Merges the value of the given key on the receiver with the value of the same
 /// key from the given model object, giving precedence to the other model object.
@@ -90,7 +90,7 @@ typedef enum : NSUInteger {
 ///         validation
 ///
 /// Returns YES if the model is valid, or NO if the validation failed.
-- (BOOL)validate:(NSError **)error;
+- (BOOL)validate:(NSError * __autoreleasing *)error;
 
 @end
 
@@ -113,7 +113,7 @@ typedef enum : NSUInteger {
 ///                   (like a KVC validation error).
 ///
 /// Returns an initialized model object, or nil if validation failed.
-- (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue error:(NSError **)error;
+- (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue error:(NSError * __autoreleasing *)error;
 
 /// Initializes the receiver with default values.
 ///
@@ -174,6 +174,6 @@ typedef enum : NSUInteger {
 ///         validation
 ///
 /// Returns YES if the model is valid, or NO if the validation failed.
-- (BOOL)validate:(NSError **)error;
+- (BOOL)validate:(NSError * __autoreleasing *)error;
 
 @end
