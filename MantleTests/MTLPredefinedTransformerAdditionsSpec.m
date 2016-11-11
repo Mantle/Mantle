@@ -154,7 +154,7 @@ describe(@"+mtl_arrayMappingTransformerWithTransformer:", ^{
 
 	describe(@"when called with a non-reversible transformer", ^{
 		beforeEach(^{
-			NSValueTransformer *appliedTransformer = [MTLValueTransformer transformerUsingForwardBlock:^(NSString *str, BOOL *success, NSError **error) {
+			NSValueTransformer *appliedTransformer = [MTLValueTransformer transformerUsingForwardBlock:^(NSString *str, BOOL *success, NSError * __autoreleasing *error) {
 				return [NSURL URLWithString:str];
 			}];
 			transformer = [NSValueTransformer mtl_arrayMappingTransformerWithTransformer:appliedTransformer];

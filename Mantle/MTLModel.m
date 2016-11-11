@@ -38,7 +38,7 @@ static void *MTLModelCachedPermanentPropertyKeysKey = &MTLModelCachedPermanentPr
 //
 // Returns YES if `value` could be validated and set, or NO if an error
 // occurred.
-static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUpdate, NSError **error) {
+static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUpdate, NSError * __autoreleasing *error) {
 	// Mark this as being autoreleased, because validateValue may return
 	// a new object to be stored in this variable (and we don't want ARC to
 	// double-free or leak the old or new values).

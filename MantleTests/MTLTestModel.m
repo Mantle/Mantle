@@ -73,10 +73,10 @@ static NSUInteger modelVersion = 1;
 
 + (NSValueTransformer *)countJSONTransformer {
 	return [MTLValueTransformer
-		transformerUsingForwardBlock:^(NSString *str, BOOL *success, NSError **error) {
+		transformerUsingForwardBlock:^(NSString *str, BOOL *success, NSError * __autoreleasing *error) {
 			return @(str.integerValue);
 		}
-		reverseBlock:^(NSNumber *num, BOOL *success, NSError **error) {
+		reverseBlock:^(NSNumber *num, BOOL *success, NSError * __autoreleasing *error) {
 			return num.stringValue;
 		}];
 }
@@ -428,12 +428,12 @@ static NSUInteger modelVersion = 1;
 
 + (NSValueTransformer *)rangeJSONTransformer {
 	return [MTLValueTransformer
-		transformerUsingForwardBlock:^(NSDictionary *value, BOOL *success, NSError **error) {
+		transformerUsingForwardBlock:^(NSDictionary *value, BOOL *success, NSError * __autoreleasing *error) {
 			NSUInteger location = [value[@"location"] unsignedIntegerValue];
 			NSUInteger length = [value[@"length"] unsignedIntegerValue];
 
 			return [NSValue valueWithRange:NSMakeRange(location, length)];
-		} reverseBlock:^(NSValue *value, BOOL *success, NSError **error) {
+		} reverseBlock:^(NSValue *value, BOOL *success, NSError * __autoreleasing *error) {
 			NSRange range = value.rangeValue;
 
 			return @{
@@ -445,12 +445,12 @@ static NSUInteger modelVersion = 1;
 
 + (NSValueTransformer *)nestedRangeJSONTransformer {
 	return [MTLValueTransformer
-		transformerUsingForwardBlock:^(NSDictionary *value, BOOL *success, NSError **error) {
+		transformerUsingForwardBlock:^(NSDictionary *value, BOOL *success, NSError * __autoreleasing *error) {
 			NSUInteger location = [value[@"nested.location"] unsignedIntegerValue];
 			NSUInteger length = [value[@"nested.length"] unsignedIntegerValue];
 
 			return [NSValue valueWithRange:NSMakeRange(location, length)];
-		} reverseBlock:^(NSValue *value, BOOL *success, NSError **error) {
+		} reverseBlock:^(NSValue *value, BOOL *success, NSError * __autoreleasing *error) {
 			NSRange range = value.rangeValue;
 
 			return @{
@@ -497,12 +497,12 @@ static NSUInteger modelVersion = 1;
 
 + (NSValueTransformer *)bitternessJSONTransformer {
 	return [MTLValueTransformer
-		transformerUsingForwardBlock:^(NSString *string, BOOL *success, NSError **error) {
+		transformerUsingForwardBlock:^(NSString *string, BOOL *success, NSError * __autoreleasing *error) {
 			NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
 
 			return [formatter numberFromString:string];
 		}
-		reverseBlock:^(NSNumber *value, BOOL *success, NSError **error) {
+		reverseBlock:^(NSNumber *value, BOOL *success, NSError * __autoreleasing *error) {
 			return [value description];
 		}];
 }

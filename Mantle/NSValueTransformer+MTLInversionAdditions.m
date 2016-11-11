@@ -20,15 +20,15 @@
 
 		id<MTLTransformerErrorHandling> errorHandlingSelf = (id)self;
 
-		return [MTLValueTransformer transformerUsingForwardBlock:^(id value, BOOL *success, NSError **error) {
+		return [MTLValueTransformer transformerUsingForwardBlock:^(id value, BOOL *success, NSError * __autoreleasing *error) {
 			return [errorHandlingSelf reverseTransformedValue:value success:success error:error];
-		} reverseBlock:^(id value, BOOL *success, NSError **error) {
+		} reverseBlock:^(id value, BOOL *success, NSError * __autoreleasing *error) {
 			return [errorHandlingSelf transformedValue:value success:success error:error];
 		}];
 	} else {
-		return [MTLValueTransformer transformerUsingForwardBlock:^(id value, BOOL *success, NSError **error) {
+		return [MTLValueTransformer transformerUsingForwardBlock:^(id value, BOOL *success, NSError * __autoreleasing *error) {
 			return [self reverseTransformedValue:value];
-		} reverseBlock:^(id value, BOOL *success, NSError **error) {
+		} reverseBlock:^(id value, BOOL *success, NSError * __autoreleasing *error) {
 			return [self transformedValue:value];
 		}];
 	}

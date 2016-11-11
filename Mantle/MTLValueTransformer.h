@@ -21,7 +21,7 @@
 ///           transforming the value.
 ///
 /// Returns the result of the transformation, which may be nil.
-typedef id (^MTLValueTransformerBlock)(id value, BOOL *success, NSError **error);
+typedef id (^MTLValueTransformerBlock)(id value, BOOL *success, NSError * __autoreleasing *error);
 
 ///
 /// A value transformer supporting block-based transformation.

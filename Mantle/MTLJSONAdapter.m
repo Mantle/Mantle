@@ -480,7 +480,7 @@ NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapterThrownE
 	__block MTLJSONAdapter *adapter;
 	
 	return [MTLValueTransformer
-		transformerUsingForwardBlock:^ id (id JSONDictionary, BOOL *success, NSError **error) {
+		transformerUsingForwardBlock:^ id (id JSONDictionary, BOOL *success, NSError * __autoreleasing *error) {
 			if (JSONDictionary == nil) return nil;
 			
 			if (![JSONDictionary isKindOfClass:NSDictionary.class]) {
@@ -507,7 +507,7 @@ NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapterThrownE
 
 			return model;
 		}
-		reverseBlock:^ NSDictionary * (id model, BOOL *success, NSError **error) {
+		reverseBlock:^ NSDictionary * (id model, BOOL *success, NSError * __autoreleasing *error) {
 			if (model == nil) return nil;
 			
 			if (![model conformsToProtocol:@protocol(MTLModel)] || ![model conformsToProtocol:@protocol(MTLJSONSerializing)]) {
@@ -540,7 +540,7 @@ NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapterThrownE
 	id<MTLTransformerErrorHandling> dictionaryTransformer = [self dictionaryTransformerWithModelClass:modelClass];
 	
 	return [MTLValueTransformer
-		transformerUsingForwardBlock:^ id (NSArray *dictionaries, BOOL *success, NSError **error) {
+		transformerUsingForwardBlock:^ id (NSArray *dictionaries, BOOL *success, NSError * __autoreleasing *error) {
 			if (dictionaries == nil) return nil;
 			
 			if (![dictionaries isKindOfClass:NSArray.class]) {
@@ -589,7 +589,7 @@ NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapterThrownE
 			
 			return models;
 		}
-		reverseBlock:^ id (NSArray *models, BOOL *success, NSError **error) {
+		reverseBlock:^ id (NSArray *models, BOOL *success, NSError * __autoreleasing *error) {
 			if (models == nil) return nil;
 			
 			if (![models isKindOfClass:NSArray.class]) {
