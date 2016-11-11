@@ -24,7 +24,7 @@ static NSUInteger modelVersion = 1;
 
 #pragma mark Properties
 
-- (BOOL)validateName:(NSString **)name error:(NSError * __autoreleasing *)error {
+- (BOOL)validateName:(NSString * __autoreleasing *)name error:(NSError * __autoreleasing *)error {
 	if ([*name length] < 10) return YES;
 	if (error != NULL) {
 		*error = [NSError errorWithDomain:MTLTestModelErrorDomain code:MTLTestModelNameTooLong userInfo:nil];
@@ -176,7 +176,7 @@ static NSUInteger modelVersion = 1;
 	};
 }
 
-- (BOOL)validateName:(NSString **)name error:(NSError * __autoreleasing *)error {
+- (BOOL)validateName:(NSString * __autoreleasing *)name error:(NSError * __autoreleasing *)error {
 	if (*name != nil) return YES;
 	if (error != NULL) {
 		*error = [NSError errorWithDomain:MTLTestModelErrorDomain code:MTLTestModelNameMissing userInfo:nil];
@@ -189,7 +189,7 @@ static NSUInteger modelVersion = 1;
 
 @implementation MTLSelfValidatingModel
 
-- (BOOL)validateName:(NSString **)name error:(NSError * __autoreleasing *)error {
+- (BOOL)validateName:(NSString * __autoreleasing *)name error:(NSError * __autoreleasing *)error {
 	if (*name != nil) return YES;
 
 	*name = @"foobar";
