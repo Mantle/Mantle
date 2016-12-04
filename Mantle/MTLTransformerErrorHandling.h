@@ -42,7 +42,7 @@ extern NSString * const MTLTransformerErrorHandlingInputValueErrorKey;
 ///
 /// Returns the result of the transformation which may be nil. Clients should
 /// inspect the success parameter to decide how to proceed with the result.
-- (id)transformedValue:(id)value success:(BOOL *)success error:(NSError **)error;
+- (id)transformedValue:(id)value success:(BOOL *)success error:(NSError * __autoreleasing *)error;
 
 @optional
 
@@ -61,6 +61,6 @@ extern NSString * const MTLTransformerErrorHandlingInputValueErrorKey;
 /// Returns the result of the reverse transformation which may be nil. Clients
 /// should inspect the success parameter to decide how to proceed with the
 /// result.
-- (id)reverseTransformedValue:(id)value success:(BOOL *)success error:(NSError **)error;
+- (id)reverseTransformedValue:(id)value success:(BOOL *)success error:(NSError * __autoreleasing *)error;
 
 @end

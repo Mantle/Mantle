@@ -22,7 +22,7 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 + (void)load {
 	@autoreleasepool {
 		MTLValueTransformer *URLValueTransformer = [MTLValueTransformer
-			transformerUsingForwardBlock:^ id (NSString *str, BOOL *success, NSError **error) {
+			transformerUsingForwardBlock:^ id (NSString *str, BOOL *success, NSError * __autoreleasing *error) {
 				if (str == nil) return nil;
 
 				if (![str isKindOfClass:NSString.class]) {
@@ -57,7 +57,7 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 
 				return result;
 			}
-			reverseBlock:^ id (NSURL *URL, BOOL *success, NSError **error) {
+			reverseBlock:^ id (NSURL *URL, BOOL *success, NSError * __autoreleasing *error) {
 				if (URL == nil) return nil;
 
 				if (![URL isKindOfClass:NSURL.class]) {
@@ -79,7 +79,7 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 		[NSValueTransformer setValueTransformer:URLValueTransformer forName:MTLURLValueTransformerName];
 
 		MTLValueTransformer *UUIDValueTransformer = [MTLValueTransformer
-				transformerUsingForwardBlock:^id(NSString *string, BOOL *success, NSError **error) {
+				transformerUsingForwardBlock:^id(NSString *string, BOOL *success, NSError * __autoreleasing *error) {
 					if (string == nil) return nil;
 					
 					if (![string isKindOfClass:NSString.class]) {
@@ -112,7 +112,7 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 					
 					return result;
 				}
-				reverseBlock:^id(NSUUID *uuid, BOOL *success, NSError **error) {
+				reverseBlock:^id(NSUUID *uuid, BOOL *success, NSError * __autoreleasing *error) {
 					if (uuid == nil) return nil;
 					
 					if (![uuid isKindOfClass:NSUUID.class]) {
@@ -132,7 +132,7 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 		[NSValueTransformer setValueTransformer:UUIDValueTransformer forName:MTLUUIDValueTransformerName];
 		
 		MTLValueTransformer *booleanValueTransformer = [MTLValueTransformer
-			transformerUsingReversibleBlock:^ id (NSNumber *boolean, BOOL *success, NSError **error) {
+			transformerUsingReversibleBlock:^ id (NSNumber *boolean, BOOL *success, NSError * __autoreleasing *error) {
 				if (boolean == nil) return nil;
 
 				if (![boolean isKindOfClass:NSNumber.class]) {
@@ -160,7 +160,7 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 + (NSValueTransformer<MTLTransformerErrorHandling> *)mtl_arrayMappingTransformerWithTransformer:(NSValueTransformer *)transformer {
 	NSParameterAssert(transformer != nil);
 	
-	id (^forwardBlock)(NSArray *values, BOOL *success, NSError **error) = ^ id (NSArray *values, BOOL *success, NSError **error) {
+	id (^forwardBlock)(NSArray *values, BOOL *success, NSError * __autoreleasing *error) = ^ id (NSArray *values, BOOL *success, NSError * __autoreleasing *error) {
 		if (values == nil) return nil;
 		
 		if (![values isKindOfClass:NSArray.class]) {
@@ -216,9 +216,9 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 		return transformedValues;
 	};
 	
-	id (^reverseBlock)(NSArray *values, BOOL *success, NSError **error) = nil;
+	id (^reverseBlock)(NSArray *values, BOOL *success, NSError * __autoreleasing *error) = nil;
 	if (transformer.class.allowsReverseTransformation) {
-		reverseBlock = ^ id (NSArray *values, BOOL *success, NSError **error) {
+		reverseBlock = ^ id (NSArray *values, BOOL *success, NSError * __autoreleasing *error) {
 			if (values == nil) return nil;
 			
 			if (![values isKindOfClass:NSArray.class]) {
@@ -285,7 +285,7 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 + (NSValueTransformer<MTLTransformerErrorHandling> *)mtl_validatingTransformerForClass:(Class)modelClass {
 	NSParameterAssert(modelClass != nil);
 
-	return [MTLValueTransformer transformerUsingForwardBlock:^ id (id value, BOOL *success, NSError **error) {
+	return [MTLValueTransformer transformerUsingForwardBlock:^ id (id value, BOOL *success, NSError * __autoreleasing *error) {
 		if (value != nil && ![value isKindOfClass:modelClass]) {
 			if (error != NULL) {
 				NSDictionary *userInfo = @{
@@ -309,10 +309,10 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 	NSParameterAssert(dictionary.count == [[NSSet setWithArray:dictionary.allValues] count]);
 
 	return [MTLValueTransformer
-			transformerUsingForwardBlock:^ id (id <NSCopying> key, BOOL *success, NSError **error) {
+			transformerUsingForwardBlock:^ id (id <NSCopying> key, BOOL *success, NSError * __autoreleasing *error) {
 				return dictionary[key ?: NSNull.null] ?: defaultValue;
 			}
-			reverseBlock:^ id (id value, BOOL *success, NSError **error) {
+			reverseBlock:^ id (id value, BOOL *success, NSError * __autoreleasing *error) {
 				__block id result = nil;
 				[dictionary enumerateKeysAndObjectsUsingBlock:^(id key, id anObject, BOOL *stop) {
 					if ([value isEqual:anObject]) {

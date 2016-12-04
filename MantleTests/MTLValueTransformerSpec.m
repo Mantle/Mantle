@@ -13,7 +13,7 @@
 QuickSpecBegin(MTLValueTransformerSpec)
 
 it(@"should return a forward transformer with a block", ^{
-	MTLValueTransformer *transformer = [MTLValueTransformer transformerUsingForwardBlock:^(NSString *str, BOOL *success, NSError **error) {
+	MTLValueTransformer *transformer = [MTLValueTransformer transformerUsingForwardBlock:^(NSString *str, BOOL *success, NSError * __autoreleasing *error) {
 		return [str stringByAppendingString:@"bar"];
 	}];
 
@@ -25,7 +25,7 @@ it(@"should return a forward transformer with a block", ^{
 });
 
 it(@"should return a reversible transformer with a block", ^{
-	MTLValueTransformer *transformer = [MTLValueTransformer transformerUsingReversibleBlock:^(NSString *str, BOOL *success, NSError **error) {
+	MTLValueTransformer *transformer = [MTLValueTransformer transformerUsingReversibleBlock:^(NSString *str, BOOL *success, NSError * __autoreleasing *error) {
 		return [str stringByAppendingString:@"bar"];
 	}];
 
@@ -38,10 +38,10 @@ it(@"should return a reversible transformer with a block", ^{
 
 it(@"should return a reversible transformer with forward and reverse blocks", ^{
 	MTLValueTransformer *transformer = [MTLValueTransformer
-		transformerUsingForwardBlock:^(NSString *str, BOOL *success, NSError **error) {
+		transformerUsingForwardBlock:^(NSString *str, BOOL *success, NSError * __autoreleasing *error) {
 			return [str stringByAppendingString:@"bar"];
 		}
-		reverseBlock:^(NSString *str, BOOL *success, NSError **error) {
+		reverseBlock:^(NSString *str, BOOL *success, NSError * __autoreleasing *error) {
 			return [str substringToIndex:str.length - 3];
 		}];
 

@@ -24,7 +24,7 @@ static NSUInteger modelVersion = 1;
 
 #pragma mark Properties
 
-- (BOOL)validateName:(NSString **)name error:(NSError **)error {
+- (BOOL)validateName:(NSString * __autoreleasing *)name error:(NSError * __autoreleasing *)error {
 	if ([*name length] < 10) return YES;
 	if (error != NULL) {
 		*error = [NSError errorWithDomain:MTLTestModelErrorDomain code:MTLTestModelNameTooLong userInfo:nil];
@@ -73,10 +73,10 @@ static NSUInteger modelVersion = 1;
 
 + (NSValueTransformer *)countJSONTransformer {
 	return [MTLValueTransformer
-		transformerUsingForwardBlock:^(NSString *str, BOOL *success, NSError **error) {
+		transformerUsingForwardBlock:^(NSString *str, BOOL *success, NSError * __autoreleasing *error) {
 			return @(str.integerValue);
 		}
-		reverseBlock:^(NSNumber *num, BOOL *success, NSError **error) {
+		reverseBlock:^(NSNumber *num, BOOL *success, NSError * __autoreleasing *error) {
 			return num.stringValue;
 		}];
 }
@@ -176,7 +176,7 @@ static NSUInteger modelVersion = 1;
 	};
 }
 
-- (BOOL)validateName:(NSString **)name error:(NSError **)error {
+- (BOOL)validateName:(NSString * __autoreleasing *)name error:(NSError * __autoreleasing *)error {
 	if (*name != nil) return YES;
 	if (error != NULL) {
 		*error = [NSError errorWithDomain:MTLTestModelErrorDomain code:MTLTestModelNameMissing userInfo:nil];
@@ -189,7 +189,7 @@ static NSUInteger modelVersion = 1;
 
 @implementation MTLSelfValidatingModel
 
-- (BOOL)validateName:(NSString **)name error:(NSError **)error {
+- (BOOL)validateName:(NSString * __autoreleasing *)name error:(NSError * __autoreleasing *)error {
 	if (*name != nil) return YES;
 
 	*name = @"foobar";
@@ -323,7 +323,7 @@ static NSUInteger modelVersion = 1;
 
 @interface MTLConformingModel ()
 
-- (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue error:(NSError **)error;
+- (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue error:(NSError * __autoreleasing *)error;
 
 @end
 
@@ -331,11 +331,11 @@ static NSUInteger modelVersion = 1;
 
 #pragma mark Lifecycle
 
-+ (instancetype)modelWithDictionary:(NSDictionary *)dictionaryValue error:(NSError **)error {
++ (instancetype)modelWithDictionary:(NSDictionary *)dictionaryValue error:(NSError * __autoreleasing *)error {
 	return [[self alloc] initWithDictionary:dictionaryValue error:error];
 }
 
-- (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue error:(NSError **)error {
+- (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue error:(NSError * __autoreleasing *)error {
 	self = [super init];
 	if (self == nil) return nil;
 
@@ -344,7 +344,7 @@ static NSUInteger modelVersion = 1;
 	return self;
 }
 
-- (BOOL)validate:(NSError **)error {
+- (BOOL)validate:(NSError * __autoreleasing *)error {
 	return YES;
 }
 
@@ -428,12 +428,12 @@ static NSUInteger modelVersion = 1;
 
 + (NSValueTransformer *)rangeJSONTransformer {
 	return [MTLValueTransformer
-		transformerUsingForwardBlock:^(NSDictionary *value, BOOL *success, NSError **error) {
+		transformerUsingForwardBlock:^(NSDictionary *value, BOOL *success, NSError * __autoreleasing *error) {
 			NSUInteger location = [value[@"location"] unsignedIntegerValue];
 			NSUInteger length = [value[@"length"] unsignedIntegerValue];
 
 			return [NSValue valueWithRange:NSMakeRange(location, length)];
-		} reverseBlock:^(NSValue *value, BOOL *success, NSError **error) {
+		} reverseBlock:^(NSValue *value, BOOL *success, NSError * __autoreleasing *error) {
 			NSRange range = value.rangeValue;
 
 			return @{
@@ -445,12 +445,12 @@ static NSUInteger modelVersion = 1;
 
 + (NSValueTransformer *)nestedRangeJSONTransformer {
 	return [MTLValueTransformer
-		transformerUsingForwardBlock:^(NSDictionary *value, BOOL *success, NSError **error) {
+		transformerUsingForwardBlock:^(NSDictionary *value, BOOL *success, NSError * __autoreleasing *error) {
 			NSUInteger location = [value[@"nested.location"] unsignedIntegerValue];
 			NSUInteger length = [value[@"nested.length"] unsignedIntegerValue];
 
 			return [NSValue valueWithRange:NSMakeRange(location, length)];
-		} reverseBlock:^(NSValue *value, BOOL *success, NSError **error) {
+		} reverseBlock:^(NSValue *value, BOOL *success, NSError * __autoreleasing *error) {
 			NSRange range = value.rangeValue;
 
 			return @{
@@ -497,12 +497,12 @@ static NSUInteger modelVersion = 1;
 
 + (NSValueTransformer *)bitternessJSONTransformer {
 	return [MTLValueTransformer
-		transformerUsingForwardBlock:^(NSString *string, BOOL *success, NSError **error) {
+		transformerUsingForwardBlock:^(NSString *string, BOOL *success, NSError * __autoreleasing *error) {
 			NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
 
 			return [formatter numberFromString:string];
 		}
-		reverseBlock:^(NSNumber *value, BOOL *success, NSError **error) {
+		reverseBlock:^(NSNumber *value, BOOL *success, NSError * __autoreleasing *error) {
 			return [value description];
 		}];
 }
