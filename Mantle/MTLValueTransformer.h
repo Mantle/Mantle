@@ -50,3 +50,10 @@ typedef id (^MTLValueTransformerBlock)(id value, BOOL *success, NSError **error)
 + (NSValueTransformer *)reversibleTransformerWithForwardBlock:(id (^)(id))forwardBlock reverseBlock:(id (^)(id))reverseBlock __attribute__((deprecated("Replaced by +transformerUsingForwardBlock:reverseBlock:")));
 
 @end
+
+//
+// Any MTLValueTransformer supporting reverse transformation. Necessary because
+// +allowsReverseTransformation is a class method.
+//
+@interface MTLReversibleValueTransformer : MTLValueTransformer
+@end

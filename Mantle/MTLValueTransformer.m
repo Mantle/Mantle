@@ -8,13 +8,6 @@
 
 #import "MTLValueTransformer.h"
 
-//
-// Any MTLValueTransformer supporting reverse transformation. Necessary because
-// +allowsReverseTransformation is a class method.
-//
-@interface MTLReversibleValueTransformer : MTLValueTransformer
-@end
-
 @interface MTLValueTransformer ()
 
 @property (nonatomic, copy, readonly) MTLValueTransformerBlock forwardBlock;
