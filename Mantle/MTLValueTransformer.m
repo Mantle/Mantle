@@ -79,6 +79,10 @@
 	return transformedValue;
 }
 
+- (instancetype)reverse {
+	return [MTLValueTransformer transformerUsingForwardBlock:self.reverseBlock reverseBlock:self.forwardBlock];
+}
+
 @end
 
 @implementation MTLReversibleValueTransformer
