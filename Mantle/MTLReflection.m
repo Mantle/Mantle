@@ -27,20 +27,16 @@ SEL MTLSelectorWithKeyPattern(NSString *key, const char *suffix) {
 SEL MTLSelectorWithCapitalizedKeyPattern(const char *prefix, NSString *key, const char *suffix) {
 	NSUInteger prefixLength = strlen(prefix);
 	NSUInteger suffixLength = strlen(suffix);
+	NSUInteger keyLength = [key maximumLengthOfBytesUsingEncoding:NSUTF8StringEncoding];
+	NSUInteger initialLength = 1; // this is always 1 since we're making just the first character uppercase
+	NSUInteger restLength;
+	char selector[prefixLength + keyLength + suffixLength + 1];
 
-	NSString *initial = [key substringToIndex:1].uppercaseString;
-	NSUInteger initialLength = [initial maximumLengthOfBytesUsingEncoding:NSUTF8StringEncoding];
-
-	NSString *rest = [key substringFromIndex:1];
-	NSUInteger restLength = [rest maximumLengthOfBytesUsingEncoding:NSUTF8StringEncoding];
-
-	char selector[prefixLength + initialLength + restLength + suffixLength + 1];
 	memcpy(selector, prefix, prefixLength);
 
-	BOOL success = [initial getBytes:selector + prefixLength maxLength:initialLength usedLength:&initialLength encoding:NSUTF8StringEncoding options:0 range:NSMakeRange(0, initial.length) remainingRange:NULL];
-	if (!success) return NULL;
+	selector[prefixLength] = (char)toupper([key characterAtIndex:0]); // casting from unichar to char, but sel_registerName only takes a char anyways
 
-	success = [rest getBytes:selector + prefixLength + initialLength maxLength:restLength usedLength:&restLength encoding:NSUTF8StringEncoding options:0 range:NSMakeRange(0, rest.length) remainingRange:NULL];
+	BOOL success = [key getBytes:selector + prefixLength + initialLength maxLength:keyLength - 1 usedLength:&restLength encoding:NSUTF8StringEncoding options:0 range:NSMakeRange(1, key.length - 1) remainingRange:NULL];
 	if (!success) return NULL;
 
 	memcpy(selector + prefixLength + initialLength + restLength, suffix, suffixLength);
