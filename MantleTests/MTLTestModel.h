@@ -55,7 +55,7 @@ extern const NSInteger MTLTestModelNameMissing;
 
 @interface MTLArrayTestModel : MTLModel <MTLJSONSerializing>
 
-// This property is associated with a "users.username" key in JSON.
+// This property is associated with a "users.name" key in JSON.
 @property (nonatomic, copy) NSString *names;
 
 @end

@@ -138,6 +138,13 @@
 		D053177B1A168D7200A5FBE2 /* NSDictionary+MTLMappingAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 547F78531822BCFD00BBAB7B /* NSDictionary+MTLMappingAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D053177E1A168F8B00A5FBE2 /* MTLTestJSONAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = D053177D1A168F8B00A5FBE2 /* MTLTestJSONAdapter.m */; };
 		D053177F1A168F8B00A5FBE2 /* MTLTestJSONAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = D053177D1A168F8B00A5FBE2 /* MTLTestJSONAdapter.m */; };
+		D055C78C1E79E539004D6EFD /* MTLJSONKeyPathSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D055C78B1E79E535004D6EFD /* MTLJSONKeyPathSpec.m */; };
+		D055C78D1E79E539004D6EFD /* MTLJSONKeyPathSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D055C78B1E79E535004D6EFD /* MTLJSONKeyPathSpec.m */; };
+		D055C78E1E79E53A004D6EFD /* MTLJSONKeyPathSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D055C78B1E79E535004D6EFD /* MTLJSONKeyPathSpec.m */; };
+		D055C78F1E79E806004D6EFD /* NSDictionary+MTLJSONKeyPath.h in Headers */ = {isa = PBXBuildFile; fileRef = 54EDCD0818D9B34F005796FC /* NSDictionary+MTLJSONKeyPath.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		D055C7901E79E808004D6EFD /* NSDictionary+MTLJSONKeyPath.h in Headers */ = {isa = PBXBuildFile; fileRef = 54EDCD0818D9B34F005796FC /* NSDictionary+MTLJSONKeyPath.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		D055C7911E79E80A004D6EFD /* NSDictionary+MTLJSONKeyPath.h in Headers */ = {isa = PBXBuildFile; fileRef = 54EDCD0818D9B34F005796FC /* NSDictionary+MTLJSONKeyPath.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		D055C7921E79E80E004D6EFD /* NSDictionary+MTLJSONKeyPath.h in Headers */ = {isa = PBXBuildFile; fileRef = 54EDCD0818D9B34F005796FC /* NSDictionary+MTLJSONKeyPath.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		D058FE2116EFB3D2009DFB47 /* MTLReflection.m in Sources */ = {isa = PBXBuildFile; fileRef = D058FE1E16EFB3D2009DFB47 /* MTLReflection.m */; };
 		D0760E0515FFBD440060F550 /* Mantle.h in Headers */ = {isa = PBXBuildFile; fileRef = D042FC4C15F72B23004E8054 /* Mantle.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D0760E7815FFBF330060F550 /* MTLModel.h in Headers */ = {isa = PBXBuildFile; fileRef = D0760E7615FFBF330060F550 /* MTLModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -309,6 +316,7 @@
 		D042FC5415F72B23004E8054 /* Mantle-MacTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Mantle-MacTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D053177C1A168F8B00A5FBE2 /* MTLTestJSONAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTLTestJSONAdapter.h; sourceTree = "<group>"; };
 		D053177D1A168F8B00A5FBE2 /* MTLTestJSONAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLTestJSONAdapter.m; sourceTree = "<group>"; };
+		D055C78B1E79E535004D6EFD /* MTLJSONKeyPathSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MTLJSONKeyPathSpec.m; sourceTree = "<group>"; };
 		D058FE1D16EFB3D2009DFB47 /* MTLReflection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTLReflection.h; sourceTree = "<group>"; };
 		D058FE1E16EFB3D2009DFB47 /* MTLReflection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLReflection.m; sourceTree = "<group>"; };
 		D0760E7615FFBF330060F550 /* MTLModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTLModel.h; sourceTree = "<group>"; };
@@ -581,6 +589,7 @@
 				D0C27CF5161107E5002FE587 /* MTLDictionaryManipulationSpec.m */,
 				54803A3A17882CCD00011B39 /* MTLErrorModelExceptionSpec.m */,
 				D02E48F016CB8ADB00257645 /* MTLJSONAdapterSpec.m */,
+				D055C78B1E79E535004D6EFD /* MTLJSONKeyPathSpec.m */,
 				D02E48E916CB8ACA00257645 /* MTLModelNSCodingSpec.m */,
 				D0760EC315FFCA250060F550 /* MTLModelSpec.m */,
 				547AE0FC17882ED100F4437D /* MTLModelValidationSpec.m */,
@@ -725,6 +734,7 @@
 				CD7C6DA31D33ACCC002EC294 /* MTLTransformerErrorHandling.h in Headers */,
 				CD7C6DA41D33ACCC002EC294 /* NSDictionary+MTLMappingAdditions.h in Headers */,
 				CD7C6DA51D33ACCC002EC294 /* NSValueTransformer+MTLPredefinedTransformerAdditions.h in Headers */,
+				D055C7921E79E80E004D6EFD /* NSDictionary+MTLJSONKeyPath.h in Headers */,
 				CD7C6DA61D33ACCC002EC294 /* EXTRuntimeExtensions.h in Headers */,
 				CD7C6DA71D33ACCC002EC294 /* MTLJSONAdapter.h in Headers */,
 				CD7C6DA81D33ACCC002EC294 /* MTLModel.h in Headers */,
@@ -748,6 +758,7 @@
 				CDEEABC21D33FC5100240A4B /* MTLTransformerErrorHandling.h in Headers */,
 				CDEEABC31D33FC5100240A4B /* NSDictionary+MTLMappingAdditions.h in Headers */,
 				CDEEABC41D33FC5100240A4B /* NSValueTransformer+MTLPredefinedTransformerAdditions.h in Headers */,
+				D055C7911E79E80A004D6EFD /* NSDictionary+MTLJSONKeyPath.h in Headers */,
 				CDEEABC51D33FC5100240A4B /* EXTRuntimeExtensions.h in Headers */,
 				CDEEABC61D33FC5100240A4B /* MTLJSONAdapter.h in Headers */,
 				CDEEABC71D33FC5100240A4B /* MTLModel.h in Headers */,
@@ -771,6 +782,7 @@
 				D0F117491614C5600092520B /* NSValueTransformer+MTLPredefinedTransformerAdditions.h in Headers */,
 				D053177A1A168D7100A5FBE2 /* NSDictionary+MTLMappingAdditions.h in Headers */,
 				1ED5B5D0163A4E3C0072668E /* NSObject+MTLComparisonAdditions.h in Headers */,
+				D055C7901E79E808004D6EFD /* NSDictionary+MTLJSONKeyPath.h in Headers */,
 				A18397E41BA341C900AB37BA /* EXTRuntimeExtensions.h in Headers */,
 				D01BD09D16CB432D00EC95C7 /* MTLJSONAdapter.h in Headers */,
 				D05317721A168D3D00A5FBE2 /* MTLTransformerErrorHandling.h in Headers */,
@@ -794,6 +806,7 @@
 				D05317741A168D3D00A5FBE2 /* MTLTransformerErrorHandling.h in Headers */,
 				D053177B1A168D7200A5FBE2 /* NSDictionary+MTLMappingAdditions.h in Headers */,
 				D0E9C38D19F6DC5B000D427D /* NSValueTransformer+MTLPredefinedTransformerAdditions.h in Headers */,
+				D055C78F1E79E806004D6EFD /* NSDictionary+MTLJSONKeyPath.h in Headers */,
 				A18397E31BA341C500AB37BA /* EXTRuntimeExtensions.h in Headers */,
 				D0E9C37D19F6DC5B000D427D /* MTLJSONAdapter.h in Headers */,
 				D0E9C37719F6DC5B000D427D /* MTLModel.h in Headers */,
@@ -1090,6 +1103,7 @@
 				CDEEABD91D33FC7900240A4B /* MTLArrayManipulationSpec.m in Sources */,
 				CDEEABDA1D33FC7900240A4B /* MTLJSONAdapterSpec.m in Sources */,
 				CDEEABDB1D33FC7900240A4B /* MTLPredefinedTransformerAdditionsSpec.m in Sources */,
+				D055C78C1E79E539004D6EFD /* MTLJSONKeyPathSpec.m in Sources */,
 				CDEEABDC1D33FC7900240A4B /* MTLModelSpec.m in Sources */,
 				CDEEABDE1D33FC7900240A4B /* MTLTestModel.m in Sources */,
 				CDEEABDF1D33FC7900240A4B /* MTLErrorModelExceptionSpec.m in Sources */,
@@ -1136,6 +1150,7 @@
 				D0760EC915FFCA4E0060F550 /* MTLTestModel.m in Sources */,
 				54803A3B17882CCD00011B39 /* MTLErrorModelExceptionSpec.m in Sources */,
 				D05317711A168D3500A5FBE2 /* MTLTransformerErrorExamples.m in Sources */,
+				D055C78E1E79E53A004D6EFD /* MTLJSONKeyPathSpec.m in Sources */,
 				D0E9C3A919F6E5AA000D427D /* SwiftSpec.swift in Sources */,
 				D08B5AB216002A23001FE685 /* MTLValueTransformerSpec.m in Sources */,
 				88080C1D160A719D00CCABF2 /* MTLArrayManipulationSpec.m in Sources */,
@@ -1182,6 +1197,7 @@
 				D0E9C3AC19F6E733000D427D /* (null) in Sources */,
 				D0E9C39C19F6E04B000D427D /* MTLArrayManipulationSpec.m in Sources */,
 				D0E9C3A019F6E04B000D427D /* MTLJSONAdapterSpec.m in Sources */,
+				D055C78D1E79E539004D6EFD /* MTLJSONKeyPathSpec.m in Sources */,
 				D0E9C3A519F6E04B000D427D /* MTLPredefinedTransformerAdditionsSpec.m in Sources */,
 				D0E9C3A319F6E04B000D427D /* MTLModelSpec.m in Sources */,
 				D0E9C3AB19F6E733000D427D /* (null) in Sources */,

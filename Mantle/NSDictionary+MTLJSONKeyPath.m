@@ -10,11 +10,52 @@
 
 #import "MTLJSONAdapter.h"
 
+static NSArray<NSString *> *componentsFromKeyPath(NSString *keyPath) {
+	BOOL dirty = NO;
+	NSUInteger start = 0, index = 0, length = keyPath.length;
+	NSMutableArray<NSString *> *components = nil;
+	while (index < length) {
+		unichar character = [keyPath characterAtIndex:index];
+		if (character == '\\' && index + 1 < length) {
+			unichar literal = [keyPath characterAtIndex:(index + 1)];
+			if (literal == '.') {
+				index += 2;
+				dirty = YES;
+			}
+		} else if (character == '.') {
+			NSString *component = [keyPath substringWithRange:NSMakeRange(start, index - start)];
+			if (dirty) {
+				component = [component stringByReplacingOccurrencesOfString:@"\\." withString:@"."];
+			}
+			if (components) {
+				[components addObject:component];
+			} else {
+				components = [[NSMutableArray alloc] initWithObjects:component, nil];
+			}
+			dirty = NO;
+			start = ++index;
+		} else {
+			index++;
+		}
+	}
+
+	NSString *component = (start == 0 ? keyPath : [keyPath substringWithRange:NSMakeRange(start, length - start)]);
+	if (dirty) {
+		component = [component stringByReplacingOccurrencesOfString:@"\\." withString:@"."];
+	}
+	if (!components) {
+		return @[component];
+	}
+	
+	[components addObject:component];
+	return components;
+}
+
 @implementation NSDictionary (MTLJSONKeyPath)
 
 - (id)mtl_valueForJSONKeyPath:(NSString *)JSONKeyPath success:(BOOL *)success error:(NSError **)error {
-	NSArray *components = [JSONKeyPath componentsSeparatedByString:@"."];
-
+	NSArray<NSString *> *components = componentsFromKeyPath(JSONKeyPath);
+	
 	id result = self;
 	for (NSString *component in components) {
 		// Check the result before resolving the key path component to not
