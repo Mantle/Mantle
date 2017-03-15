@@ -267,7 +267,11 @@ The problems with the original example all happen to be fixed as well:
 > There's no way to update a `GHIssue` with new data from the server.
 
 `MTLModel` has an extensible `-mergeValuesForKeysFromModel:` method, which makes
-it easy to specify how new model data should be integrated.
+it easy to specify how new model data should be integrated. 
+
+Optionally, you can implement `-merge<Key>FromModel:` in your `MTLModel` subclass
+for customized mergeing behaviour, `-mergeValuesForKeysFromModel:` and `-mergeValueForKey:fromModel:`
+will call it on specific key.
 
 > There's no way to turn a `GHIssue` _back_ into JSON.
 
