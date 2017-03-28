@@ -282,6 +282,97 @@ JSONArrayFromModels:error:]` is the same but turns an array of model objects int
 archival. When unarchiving, `-decodeValueForKey:withCoder:modelVersion:` will
 be invoked if overridden, giving you a convenient hook to upgrade old data.
 
+## Subclassing notes
+
+### `-isEqual:` and `-description`
+
+`MTLModel` provides default implementations for `-isEqual:` and `-description`.
+Since both methods iterator over all properties of the `MTLModel` subclass, you
+need to make sure that no cyclic references exist among the properties.
+For example:
+
+```objc
+@interface XYParent : MTLModel
+
+@property (readonly, nonatomic, strong) XYChild *child1;
+@property (readonly, nonatomic, strong) XYChild *child2;
+
+@end
+
+@interface XYChild : MTLModel
+
+@property (readonly, nonatomic, weak) XYParent *parent;
+
+@end
+```
+
+Here, `[child isEqual:otherChild]` would result in a comparison of their
+parents, invoking `[child.parent isEqual:otherChild.parent]` which in turn
+compares their children, resulting in an infinite loop.
+
+It's recommended that you override `-isEqual:` and `-description` if your
+`MTLModel` subclasses objects hold references to other `MTLModel` subclasses.
+
+### Validation
+
+`MTLModel` has a useful `-validate:` method that allows you to validate your
+model objects. Its default implementation invokes the common KVO validation
+method `-validateValue:forKey:error:` which in turn invokes
+`-validate<Key>:error:`.
+
+Implement `-validate<Key>:error:` to validate individual properties. You can
+also assign default values:
+
+```objc
+@implementation XYUser
+
+- (BOOL)validateUserID:(NSNumber **)userID error:(NSError **)error {
+    if (*userID == nil) {
+        *userID = @(NSNotFound);
+        return YES;
+    }
+
+    if (*userID.integerValue < 0) {
+        if (error != NULL) *error = [NSError xy_illegalIDError];
+        return NO;
+    }
+
+    return YES;
+}
+
+@end
+```
+
+```objc
+XYUser *user = [XYUser modelWithDictionary:@{}];
+
+NSError *error;
+[user validate:&error];
+
+// NSNotFound
+NSUInteger userID = user.userID;
+```
+
+If a more powerful validation is required, override -`validate:` to inspect
+multiple properties at once:
+
+```objc
+@implementation XYMessage
+
+- (BOOL)validate:(NSError **)error {
+    if (![super validate:error]) return NO;
+
+    if (self.attachment.size > self.recipient.maxAttachmentSize) {
+        if (error != NULL) *error = [NSError xy_attachmentTooBigError];
+        return NO;
+    }
+
+    return YES;
+}
+
+@end
+```
+
 ## MTLJSONSerializing
 
 In order to serialize your model objects from or into JSON, you need to
