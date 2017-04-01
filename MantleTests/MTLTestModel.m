@@ -10,6 +10,7 @@
 
 #import "MTLTestModel.h"
 #import "NSDictionary+MTLMappingAdditions.h"
+#import "MTLJSONKeyPath.h"
 
 NSString * const MTLTestModelErrorDomain = @"MTLTestModelErrorDomain";
 const NSInteger MTLTestModelNameTooLong = 1;
@@ -459,6 +460,49 @@ static NSUInteger modelVersion = 1;
 			};
 		}];
 }
+@end
+
+@implementation MTLDotLiteralKeyPathModel
+
++ (NSDictionary *)JSONKeyPathsByPropertyKey {
+	return @{
+			 @"name": MTLKeyPath(@"literal.name"),
+			 @"nestedName": MTLKeyPath(@"nested", @"literal.name"),
+			 @"fullName": @[ MTLKeyPath(@"literal.first_name"), MTLKeyPath(@"literal.last_name") ],
+			 @"nestedFullName": @[ MTLKeyPath(@"nested", @"literal.first_name"), MTLKeyPath(@"nested", @"literal.last_name") ]
+			 };
+}
+
++ (NSValueTransformer *)fullNameJSONTransformer {
+	return [MTLValueTransformer transformerUsingForwardBlock:^id(id value, BOOL *success, NSError *__autoreleasing *error) {
+		NSString *firstName = value[MTLKeyPath(@"literal.first_name")];
+		NSString *lastName = value[MTLKeyPath(@"literal.last_name")];
+		return [@[firstName, lastName] componentsJoinedByString:@" "];
+	} reverseBlock:^(NSString *value, BOOL *success, NSError **error) {
+		NSArray *nameComponents = [value componentsSeparatedByString:@" "];
+		
+		return @{
+				 MTLKeyPath(@"literal.first_name"): nameComponents[0],
+				 MTLKeyPath(@"literal.last_name"): nameComponents[1]
+				 };
+	}];
+}
+
++ (NSValueTransformer *)nestedFullNameJSONTransformer {
+	return [MTLValueTransformer transformerUsingForwardBlock:^id(id value, BOOL *success, NSError *__autoreleasing *error) {
+		NSString *firstName = value[MTLKeyPath(@"nested", @"literal.first_name")];
+		NSString *lastName = value[MTLKeyPath(@"nested", @"literal.last_name")];
+		return [@[firstName, lastName] componentsJoinedByString:@" "];
+	} reverseBlock:^(NSString *value, BOOL *success, NSError **error) {
+		NSArray *nameComponents = [value componentsSeparatedByString:@" "];
+		
+		return @{
+				 MTLKeyPath(@"nested", @"literal.first_name"): nameComponents[0],
+				 MTLKeyPath(@"nested", @"literal.last_name"): nameComponents[1]
+				 };
+	}];
+}
+
 @end
 
 @implementation MTLClassClusterModel : MTLModel

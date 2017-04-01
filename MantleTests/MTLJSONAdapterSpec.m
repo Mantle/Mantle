@@ -106,6 +106,34 @@ it(@"it should initialize properties with multiple key paths from JSON", ^{
 	expect(serializationError).to(beNil());
 });
 
+it(@"it should initialize properties with keys that contain dot literals from JSON", ^{
+	NSDictionary *values = @{
+							 @"literal.name": @"foo",
+							 @"literal.first_name": @"bar",
+							 @"literal.last_name": @"baz",
+							 @"nested": @{
+									 @"literal.name": @"qux",
+									 @"literal.first_name": @"grault",
+									 @"literal.last_name": @"xyzzy"
+									 }
+							 };
+	
+	NSError *error = nil;
+	MTLDotLiteralKeyPathModel *model = [MTLJSONAdapter modelOfClass:MTLDotLiteralKeyPathModel.class fromJSONDictionary:values error:&error];
+	expect(model).notTo(beNil());
+	expect(error).to(beNil());
+	
+	expect(model.name).to(equal(@"foo"));
+	expect(model.nestedName).to(equal(@"qux"));
+	
+	expect(model.fullName).to(equal(@"bar baz"));
+	expect(model.nestedFullName).to(equal(@"grault xyzzy"));
+	
+	__block NSError *serializationError;
+	expect([MTLJSONAdapter JSONDictionaryFromModel:model error:&serializationError]).to(equal(values));
+	expect(serializationError).to(beNil());
+});
+
 it(@"should return nil and error with an invalid key path from JSON",^{
 	NSDictionary *values = @{
 		@"username": @"foo",

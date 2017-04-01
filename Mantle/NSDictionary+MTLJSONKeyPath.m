@@ -9,11 +9,18 @@
 #import "NSDictionary+MTLJSONKeyPath.h"
 
 #import "MTLJSONAdapter.h"
+#import "MTLJSONKeyPath.h"
 
 @implementation NSDictionary (MTLJSONKeyPath)
 
-- (id)mtl_valueForJSONKeyPath:(NSString *)JSONKeyPath success:(BOOL *)success error:(NSError **)error {
-	NSArray *components = [JSONKeyPath componentsSeparatedByString:@"."];
+- (id)mtl_valueForJSONKeyPath:(id)JSONKeyPath success:(BOOL *)success error:(NSError **)error {
+	NSArray *components;
+	
+	if ([JSONKeyPath isKindOfClass:[MTLJSONKeyPath class]]) {
+		components = ((MTLJSONKeyPath *)JSONKeyPath).components;
+	} else {
+		components = [(NSString *)JSONKeyPath componentsSeparatedByString:@"."];
+	}
 
 	id result = self;
 	for (NSString *component in components) {
