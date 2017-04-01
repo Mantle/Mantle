@@ -33,13 +33,15 @@
 ///         return @{
 ///             @"name": @"POI.name",
 ///             @"point": @[ @"latitude", @"longitude" ],
-///             @"starred": @"starred"
+///             @"starred": @"starred",
+///             @"username": MTLKeyPath(@"com.github", @"user", @"username")
 ///         };
 ///     }
 ///
 /// This will map the `starred` property to `JSONDictionary[@"starred"]`, `name`
-/// to `JSONDictionary[@"POI"][@"name"]` and `point` to a dictionary equivalent
-/// to:
+/// to `JSONDictionary[@"POI"][@"name"]`, `username` to
+/// `JSONDictionary[@"com.github"][@"user"][@"username"]`, and `point` to a
+/// dictionary equivalent to:
 ///
 ///     @{
 ///         @"latitude": JSONDictionary[@"latitude"],
@@ -47,7 +49,7 @@
 ///     }
 ///
 /// Returns a dictionary mapping property keys to one or multiple JSON key paths
-/// (as strings or arrays of strings).
+/// (as NSStrings, MTLJSONKeyPaths, or NSArrays of NSStrings or MTLJSONKeyPaths).
 + (NSDictionary *)JSONKeyPathsByPropertyKey;
 
 @optional

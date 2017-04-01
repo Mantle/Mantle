@@ -15,6 +15,7 @@ FOUNDATION_EXPORT double MantleVersionNumber;
 FOUNDATION_EXPORT const unsigned char MantleVersionString[];
 
 #import <Mantle/MTLJSONAdapter.h>
+#import <Mantle/MTLJSONKeyPath.h>
 #import <Mantle/MTLModel.h>
 #import <Mantle/MTLModel+NSCoding.h>
 #import <Mantle/MTLValueTransformer.h>

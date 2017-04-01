@@ -170,6 +170,25 @@ extern const NSInteger MTLTestModelNameMissing;
 
 @end
 
+@interface MTLDotLiteralKeyPathModel : MTLModel <MTLJSONSerializing>
+
+// This property is associated with the "literal.name" key in JSON.
+@property (readonly, nonatomic, assign) NSString *name;
+
+// This property is associated with the "'nested'.'literal.name'" key path
+// in JSON.
+@property (readonly, nonatomic, assign) NSString *nestedName;
+
+// This property is associated with the "literal.first_name" and
+// "literal.last_name" keys in JSON.
+@property (readonly, nonatomic, assign) NSString *fullName;
+
+// This property is associated with the "'nested'.'literal.first_name'" and
+// "'nested'.'literal.last_name'" key paths in JSON.
+@property (readonly, nonatomic, assign) NSString *nestedFullName;
+
+@end
+
 @interface MTLClassClusterModel : MTLModel <MTLJSONSerializing>
 
 @property (readonly, nonatomic, copy) NSString *flavor;

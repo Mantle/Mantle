@@ -13,6 +13,7 @@
 #import <Mantle/EXTRuntimeExtensions.h>
 #import <Mantle/EXTScope.h>
 #import "MTLJSONAdapter.h"
+#import "MTLJSONKeyPath.h"
 #import "MTLModel.h"
 #import "MTLTransformerErrorHandling.h"
 #import "MTLReflection.h"
@@ -155,11 +156,12 @@ NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapterThrownE
 		if ([value isKindOfClass:NSArray.class]) {
 			for (NSString *keyPath in value) {
 				if ([keyPath isKindOfClass:NSString.class]) continue;
+				if ([keyPath isKindOfClass:MTLJSONKeyPath.class]) continue;
 
 				NSAssert(NO, @"%@ must either map to a JSON key path or a JSON array of key paths, got: %@.", mappedPropertyKey, value);
 				return nil;
 			}
-		} else if (![value isKindOfClass:NSString.class]) {
+		} else if (![value isKindOfClass:NSString.class] && ![value isKindOfClass:MTLJSONKeyPath.class]) {
 			NSAssert(NO, @"%@ must either map to a JSON key path or a JSON array of key paths, got: %@.",mappedPropertyKey, value);
 			return nil;
 		}
@@ -217,34 +219,40 @@ NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapterThrownE
 			}
 		}
 
-		void (^createComponents)(id, NSString *) = ^(id obj, NSString *keyPath) {
-			NSArray *keyPathComponents = [keyPath componentsSeparatedByString:@"."];
-
-			// Set up dictionaries at each step of the key path.
-			for (NSString *component in keyPathComponents) {
-				if ([obj valueForKey:component] == nil) {
-					// Insert an empty mutable dictionary at this spot so that we
-					// can set the whole key path afterward.
-					[obj setValue:[NSMutableDictionary dictionary] forKey:component];
-				}
-
-				obj = [obj valueForKey:component];
+		void (^createComponentsAndSetValue)(id, id, id) = ^(NSMutableDictionary *dictionary, id keyPath, id value) {
+			NSArray *keyPathComponents;
+			if ([keyPath isKindOfClass:MTLJSONKeyPath.class]) {
+				keyPathComponents = ((MTLJSONKeyPath *)keyPath).components;
+			} else {
+				keyPathComponents = [(NSString *)keyPath componentsSeparatedByString:@"."];
 			}
+			
+			// Set up dictionaries at each step of the key path
+			__block NSMutableDictionary *currentDictionary = dictionary;
+			NSUInteger componentCount = keyPathComponents.count;
+			[keyPathComponents enumerateObjectsUsingBlock:^(NSString *component, NSUInteger idx, BOOL *stop) {
+				if (idx < componentCount - 1) {
+					if ([currentDictionary valueForKey:component] == nil) {
+						// Insert an empty mutable dictionary at this spot so
+						// that we can set the value at the end.
+						[currentDictionary setValue:[NSMutableDictionary dictionary] forKey:component];
+					}
+					currentDictionary = [currentDictionary valueForKey:component];
+				} else {
+					// Set the actual value at the last key
+					[currentDictionary setValue:value forKey:component];
+				}
+			}];
 		};
 
-		if ([JSONKeyPaths isKindOfClass:NSString.class]) {
-			createComponents(JSONDictionary, JSONKeyPaths);
-
-			[JSONDictionary setValue:value forKeyPath:JSONKeyPaths];
-		}
-
 		if ([JSONKeyPaths isKindOfClass:NSArray.class]) {
-			for (NSString *JSONKeyPath in JSONKeyPaths) {
-				createComponents(JSONDictionary, JSONKeyPath);
-
-				[JSONDictionary setValue:value[JSONKeyPath] forKeyPath:JSONKeyPath];
+			for (id JSONKeyPath in JSONKeyPaths) {
+				createComponentsAndSetValue(JSONDictionary, JSONKeyPath, value[JSONKeyPath]);
 			}
+		} else {
+			createComponentsAndSetValue(JSONDictionary, JSONKeyPaths, value);
 		}
+		
 	}];
 
 	if (success) {
@@ -293,7 +301,7 @@ NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapterThrownE
 		if ([JSONKeyPaths isKindOfClass:NSArray.class]) {
 			NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
 
-			for (NSString *keyPath in JSONKeyPaths) {
+			for (id keyPath in JSONKeyPaths) {
 				BOOL success = NO;
 				id value = [JSONDictionary mtl_valueForJSONKeyPath:keyPath success:&success error:error];
 
