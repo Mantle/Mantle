@@ -219,7 +219,7 @@ NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapterThrownE
 			}
 		}
 
-		void (^createComponentsAndSetValue)(id, id, id) = ^(NSMutableDictionary *dictionary, id keyPath, id value) {
+		void (^createComponentsAndSetValue)(NSMutableDictionary *, id, id) = ^(NSMutableDictionary *dictionary, id keyPath, id value) {
 			NSArray *keyPathComponents;
 			if ([keyPath isKindOfClass:MTLJSONKeyPath.class]) {
 				keyPathComponents = ((MTLJSONKeyPath *)keyPath).components;
