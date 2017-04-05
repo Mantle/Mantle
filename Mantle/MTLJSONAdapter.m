@@ -206,7 +206,7 @@ NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapterThrownE
 			if ([transformer respondsToSelector:@selector(reverseTransformedValue:success:error:)]) {
 				id<MTLTransformerErrorHandling> errorHandlingTransformer = (id)transformer;
 
-				value = [errorHandlingTransformer reverseTransformedValue:value success:&success error:&tmpError];
+				value = [errorHandlingTransformer reverseTransformedValue:value success:&success error:&tmpError] ?: NSNull.null;
 
 				if (!success) {
 					*stop = YES;
