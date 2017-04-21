@@ -689,4 +689,17 @@ it(@"should not automatically transform a property that conforms to MTLModel but
 	expect(@(error.code)).to(equal(@(MTLTransformerErrorHandlingErrorInvalidInput)));
 });
 
+it(@"should omitted null, if it +shouldOmittedNull returns YES", ^{
+	MTLOmittedNullModel *model = [MTLOmittedNullModel new];
+	model.name = @"name";
+	model.groups = nil;
+
+	MTLJSONAdapter *adapter = [[MTLJSONAdapter alloc] initWithModelClass:model.class];
+	expect(adapter).notTo(beNil());
+
+	__block NSError *error = nil;
+	expect([adapter JSONDictionaryFromModel:model error:&error]).to(equal(@{@"name" : @"name"}));
+	expect(error).to(beNil());
+});
+
 QuickSpecEnd

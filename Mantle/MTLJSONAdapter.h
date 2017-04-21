@@ -75,6 +75,11 @@
 /// to abort parsing (e.g., if the data is invalid).
 + (Class)classForParsingJSONDictionary:(NSDictionary *)JSONDictionary;
 
+/// If you want to omitted null when convert from model to json, it specify YES.
+///
+/// For compatibility, the default value is NO.
++ (BOOL)shouldOmittedNull;
+
 @end
 
 /// The domain for errors originating from MTLJSONAdapter.

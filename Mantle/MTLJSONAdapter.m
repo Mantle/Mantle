@@ -45,6 +45,9 @@ NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapterThrownE
 // Used to cache the JSON adapters returned by -JSONAdapterForModelClass:error:.
 @property (nonatomic, strong, readonly) NSMapTable *JSONAdaptersByModelClass;
 
+/// A cached copy of the return value of +shouldOmittedNull.
+@property (nonatomic, assign, readonly) BOOL shouldOmittedNull;
+
 // If +classForParsingJSONDictionary: returns a model class different from the
 // one this adapter was initialized with, use this method to obtain a cached
 // instance of a suitable adapter instead.
@@ -169,6 +172,12 @@ NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapterThrownE
 
 	_JSONAdaptersByModelClass = [NSMapTable strongToStrongObjectsMapTable];
 
+	if ([modelClass respondsToSelector:@selector(shouldOmittedNull)]) {
+		_shouldOmittedNull = [modelClass shouldOmittedNull];
+	} else {
+		_shouldOmittedNull = NO;
+	}
+
 	return self;
 }
 
@@ -215,6 +224,10 @@ NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapterThrownE
 			} else {
 				value = [transformer reverseTransformedValue:value] ?: NSNull.null;
 			}
+		}
+
+		if (self.shouldOmittedNull && (!value || value == NSNull.null)) {
+			return;
 		}
 
 		void (^createComponents)(id, NSString *) = ^(id obj, NSString *keyPath) {

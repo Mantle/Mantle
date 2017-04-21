@@ -572,3 +572,20 @@ static NSUInteger modelVersion = 1;
 }
 
 @end
+
+@implementation MTLOmittedNullModel
+
++ (NSDictionary *)JSONKeyPathsByPropertyKey
+{
+	return @{
+		@"name": @"name",
+		@"groups": @"groups",
+	};
+}
+
++ (BOOL)shouldOmittedNull
+{
+	return YES;
+}
+
+@end

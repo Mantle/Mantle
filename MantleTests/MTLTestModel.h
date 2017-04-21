@@ -227,3 +227,10 @@ extern const NSInteger MTLTestModelNameMissing;
 @property (readwrite, nonatomic, strong) NSString *property;
 
 @end
+
+@interface MTLOmittedNullModel : MTLModel<MTLJSONSerializing>
+
+@property (readwrite, nonatomic, copy) NSString *name;
+@property (readwrite, nonatomic, copy) NSString *groups;
+
+@end
