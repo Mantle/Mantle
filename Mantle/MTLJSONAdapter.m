@@ -241,8 +241,9 @@ NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapterThrownE
 		if ([JSONKeyPaths isKindOfClass:NSArray.class]) {
 			for (NSString *JSONKeyPath in JSONKeyPaths) {
 				createComponents(JSONDictionary, JSONKeyPath);
-
-				[JSONDictionary setValue:value[JSONKeyPath] forKeyPath:JSONKeyPath];
+				
+				id tmpValue = [value mtl_valueForJSONKeyPath:JSONKeyPath success:&success error:&tmpError];
+				[JSONDictionary setValue:tmpValue forKeyPath:JSONKeyPath];
 			}
 		}
 	}];
