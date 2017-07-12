@@ -111,6 +111,9 @@ extern NSString * const MTLBooleanValueTransformerName;
 /// is not a member of class. Otherwise, the value is simply passed through.
 + (NSValueTransformer<MTLTransformerErrorHandling> *)mtl_validatingTransformerForClass:(Class)modelClass;
 
+/// similar to mtl_validatingTransformerForClass: additional property paramter to alert the user which property get unexcept value type.
++ (NSValueTransformer<MTLTransformerErrorHandling> *)mtl_validatingTransformerForClass:(Class)modelClass property:(NSString *)propertyName;
+
 + (NSValueTransformer<MTLTransformerErrorHandling> *)mtl_JSONDictionaryTransformerWithModelClass:(Class)modelClass __attribute__((deprecated("Replaced by +[MTLJSONAdapter dictionaryTransformerWithModelClass:]")));
 
 + (NSValueTransformer<MTLTransformerErrorHandling> *)mtl_JSONArrayTransformerWithModelClass:(Class)modelClass __attribute__((deprecated("Replaced by +[MTLJSONAdapter arrayTransformerWithModelClass:]")));

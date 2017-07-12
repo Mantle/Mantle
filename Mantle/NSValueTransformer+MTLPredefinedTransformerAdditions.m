@@ -304,6 +304,28 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 	}];
 }
 
++ (NSValueTransformer<MTLTransformerErrorHandling> *)mtl_validatingTransformerForClass:(Class)modelClass property:(NSString *)propertyName {
+	NSParameterAssert(modelClass != nil);
+
+	return [MTLValueTransformer transformerUsingForwardBlock:^ id (id value, BOOL *success, NSError **error) {
+		if (value != nil && ![value isKindOfClass:modelClass]) {
+			if (error != NULL) {
+				NSDictionary *userInfo = @{
+					NSLocalizedDescriptionKey: NSLocalizedString(@"Value did not match expected type", @""),
+					NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Property: %@, expected %1$@ to be of class %2$@ but got %3$@", @""), propertyName, value, modelClass, [value class]],
+					MTLTransformerErrorHandlingInputValueErrorKey : value
+				};
+
+				*error = [NSError errorWithDomain:MTLTransformerErrorHandlingErrorDomain code:MTLTransformerErrorHandlingErrorInvalidInput userInfo:userInfo];
+			}
+			*success = NO;
+			return nil;
+		}
+
+		return value;
+	}];
+}
+
 + (NSValueTransformer *)mtl_valueMappingTransformerWithDictionary:(NSDictionary *)dictionary defaultValue:(id)defaultValue reverseDefaultValue:(id)reverseDefaultValue {
 	NSParameterAssert(dictionary != nil);
 	NSParameterAssert(dictionary.count == [[NSSet setWithArray:dictionary.allValues] count]);
