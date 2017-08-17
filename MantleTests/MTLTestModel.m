@@ -415,6 +415,17 @@ static NSUInteger modelVersion = 1;
 
 @end
 
+@implementation MTLMultiKeypathClassModel
+
++ (NSDictionary *)JSONKeyPathsByPropertyKey {
+	return @{
+		@"name" : @"userName",
+		@"age" : @"userAge",
+	};
+}
+
+@end
+
 @implementation MTLMultiKeypathModel
 
 #pragma mark MTLJSONSerializing
@@ -422,7 +433,8 @@ static NSUInteger modelVersion = 1;
 + (NSDictionary *)JSONKeyPathsByPropertyKey {
 	return @{
 		@"range": @[ @"location", @"length" ],
-		@"nestedRange": @[ @"nested.location", @"nested.length" ]
+		@"nestedRange": @[ @"nested.location", @"nested.length" ],
+		@"user": [[MTLMultiKeypathClassModel JSONKeyPathsByPropertyKey] allValues],
 	};
 }
 

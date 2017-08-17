@@ -159,6 +159,13 @@ extern const NSInteger MTLTestModelNameMissing;
 
 @end
 
+@interface MTLMultiKeypathClassModel : MTLModel <MTLJSONSerializing>
+
+@property (readonly, nonatomic, copy) NSString* name;
+@property (readonly, nonatomic, assign) NSUInteger age;
+
+@end
+
 @interface MTLMultiKeypathModel : MTLModel <MTLJSONSerializing>
 
 // This property is associated with the "location" and "length" keys in JSON.
@@ -167,6 +174,8 @@ extern const NSInteger MTLTestModelNameMissing;
 // This property is associated with the "nested.location" and "nested.length"
 // keys in JSON.
 @property (readonly, nonatomic, assign) NSRange nestedRange;
+
+@property (readonly, nonatomic, strong) MTLMultiKeypathClassModel* user;
 
 @end
 

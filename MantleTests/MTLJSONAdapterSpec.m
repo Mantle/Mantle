@@ -87,7 +87,9 @@ it(@"it should initialize properties with multiple key paths from JSON", ^{
 		@"nested": @{
 			@"location": @12,
 			@"length": @34
-		}
+		},
+		@"userName": @"name",
+		@"userAge": @20,
 	};
 
 	NSError *error = nil;
@@ -101,8 +103,40 @@ it(@"it should initialize properties with multiple key paths from JSON", ^{
 	expect(@(model.nestedRange.location)).to(equal(@12));
 	expect(@(model.nestedRange.length)).to(equal(@34));
 
+	expect(model.user.name).to(equal(@"name"));
+	expect(@(model.user.age)).to(equal(@20));
+
 	__block NSError *serializationError;
 	expect([MTLJSONAdapter JSONDictionaryFromModel:model error:&serializationError]).to(equal(values));
+	expect(serializationError).to(beNil());
+});
+
+it(@"should omit processing one, if all JSON keys of a property do not exist", ^{
+	NSDictionary *values = @{};
+
+	NSError *error = nil;
+	MTLMultiKeypathModel *model = [MTLJSONAdapter modelOfClass:MTLMultiKeypathModel.class fromJSONDictionary:values error:&error];
+	expect(model).notTo(beNil());
+	expect(error).to(beNil());
+
+	expect(@(model.range.location)).to(equal(@0));
+	expect(@(model.range.length)).to(equal(@0));
+
+	expect(@(model.nestedRange.location)).to(equal(@0));
+	expect(@(model.nestedRange.length)).to(equal(@0));
+
+	expect(model.user).to(beNil());
+
+	NSDictionary *expectedValues = @{
+		@"location": @0,
+		@"length": @0,
+		@"nested": @{
+			@"location": @0,
+			@"length": @0
+		},
+	};
+	__block NSError *serializationError;
+	expect([MTLJSONAdapter JSONDictionaryFromModel:model error:&serializationError]).to(equal(expectedValues));
 	expect(serializationError).to(beNil());
 });
 
