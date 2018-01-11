@@ -74,6 +74,17 @@ NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapterThrownE
 #pragma mark Convenience methods
 
 + (id)modelOfClass:(Class)modelClass fromJSONDictionary:(NSDictionary *)JSONDictionary error:(NSError **)error {
+	if (JSONDictionary == nil || ![JSONDictionary isKindOfClass:NSDictionary.class]) {
+		if (error != NULL) {
+			NSDictionary *userInfo = @{
+									   NSLocalizedDescriptionKey: NSLocalizedString(@"Missing JSON dictioanry", @""),
+									   NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"%@ could not be created because an invalid JSON dictionary was provided: %@", @""), NSStringFromClass(modelClass), JSONDictionary.class],
+									   };
+			*error = [NSError errorWithDomain:MTLJSONAdapterErrorDomain code:MTLJSONAdapterErrorInvalidJSONDictionary userInfo:userInfo];
+		}
+		return nil;
+	}
+
 	MTLJSONAdapter *adapter = [[self alloc] initWithModelClass:modelClass];
 
 	return [adapter modelFromJSONDictionary:JSONDictionary error:error];
