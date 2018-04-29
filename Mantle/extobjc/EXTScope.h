@@ -88,7 +88,7 @@
     _Pragma("clang diagnostic pop")
 
 /*** implementation details follow ***/
-typedef void (^mtl_cleanupBlock_t)();
+typedef void (^mtl_cleanupBlock_t)(void);
 
 void mtl_executeCleanupBlock (__strong mtl_cleanupBlock_t *block);
 
