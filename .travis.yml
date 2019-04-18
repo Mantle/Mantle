@@ -15,13 +15,13 @@ script:
       | xcpretty
 matrix:
   include:
-    # Xcode 8
+    # Xcode 10.1
     - xcode_scheme: "Mantle Mac"
       osx_image: xcode10.1
       env:
         - XCODE_ACTION=test
         - XCODE_SDK=macosx
-        - XCODE_DESTINATION="arch=x86_64"
+        - XCODE_DESTINATION="macosx10.14"
     - xcode_scheme: "Mantle iOS"
       osx_image: xcode10.1
       env:
@@ -33,20 +33,20 @@ matrix:
       env:
         - XCODE_ACTION=test
         - XCODE_SDK=appletvsimulator
-        - XCODE_DESTINATION="name=Apple TV 1080p"
+        - XCODE_DESTINATION="name=tvOS 12.2"
     - xcode_scheme: "Mantle-watchOS"
       osx_image: xcode10.1
       env:
         - XCODE_ACTION=build
         - XCODE_SDK=watchsimulator
         - XCODE_DESTINATION="name=Apple Watch - 38mm"
-    # Xcode 9
+    # Xcode 10.2
     - xcode_scheme: "Mantle Mac"
       osx_image: xcode10.2
       env:
         - XCODE_ACTION=test
         - XCODE_SDK=macosx
-        - XCODE_DESTINATION="arch=x86_64"
+        - XCODE_DESTINATION="macosx10.14"
     - xcode_scheme: "Mantle iOS"
       osx_image: xcode10.2
       env:
@@ -58,7 +58,7 @@ matrix:
       env:
         - XCODE_ACTION=test
         - XCODE_SDK=appletvsimulator
-        - XCODE_DESTINATION="name=Apple TV 1080p"
+        - XCODE_DESTINATION="name=tvOS 12.2"
     - xcode_scheme: "Mantle-watchOS"
       osx_image: xcode10.2
       env:
