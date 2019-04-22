@@ -21,7 +21,7 @@ matrix:
       env:
         - XCODE_ACTION=test
         - XCODE_SDK=macosx
-        - XCODE_DESTINATION="macosx10.14"
+        - XCODE_DESTINATION="arch=x86_64"
     - xcode_scheme: "Mantle iOS"
       osx_image: xcode10.1
       env:
@@ -33,7 +33,7 @@ matrix:
       env:
         - XCODE_ACTION=test
         - XCODE_SDK=appletvsimulator
-        - XCODE_DESTINATION="name=tvOS 12.2"
+        - XCODE_DESTINATION="OS=10.2,name=Apple TV 1080p"
     - xcode_scheme: "Mantle-watchOS"
       osx_image: xcode10.1
       env:
@@ -46,7 +46,7 @@ matrix:
       env:
         - XCODE_ACTION=test
         - XCODE_SDK=macosx
-        - XCODE_DESTINATION="macosx10.14"
+        - XCODE_DESTINATION="arch=x86_64"
     - xcode_scheme: "Mantle iOS"
       osx_image: xcode10.2
       env:
@@ -58,7 +58,7 @@ matrix:
       env:
         - XCODE_ACTION=test
         - XCODE_SDK=appletvsimulator
-        - XCODE_DESTINATION="name=tvOS 12.2"
+        - XCODE_DESTINATION="OS=12.2,name=Apple TV 4K (at 1080p)"
     - xcode_scheme: "Mantle-watchOS"
       osx_image: xcode10.2
       env:
