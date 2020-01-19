@@ -29,7 +29,7 @@
  * a useless construct in such a case anyways.
  */
 #define onExit \
-    try {} @finally {} \
+    mtl_keywordify \
     __strong mtl_cleanupBlock_t metamacro_concat(mtl_exitBlock_, __LINE__) __attribute__((cleanup(mtl_executeCleanupBlock), unused)) = ^
 
 /**
@@ -43,7 +43,7 @@
  * See #strongify for an example of usage.
  */
 #define weakify(...) \
-    try {} @finally {} \
+    mtl_keywordify \
     metamacro_foreach_cxt(mtl_weakify_,, __weak, __VA_ARGS__)
 
 /**
@@ -51,7 +51,7 @@
  * classes that do not support weak references.
  */
 #define unsafeify(...) \
-    try {} @finally {} \
+    mtl_keywordify \
     metamacro_foreach_cxt(mtl_weakify_,, __unsafe_unretained, __VA_ARGS__)
 
 /**
@@ -81,7 +81,7 @@
  * @endcode
  */
 #define strongify(...) \
-    try {} @finally {} \
+    mtl_keywordify \
     _Pragma("clang diagnostic push") \
     _Pragma("clang diagnostic ignored \"-Wshadow\"") \
     metamacro_foreach(mtl_strongify_,, __VA_ARGS__) \
@@ -90,10 +90,33 @@
 /*** implementation details follow ***/
 typedef void (^mtl_cleanupBlock_t)(void);
 
-void mtl_executeCleanupBlock (__strong mtl_cleanupBlock_t *block);
+#if defined(__cplusplus)
+extern "C" {
+#endif
+    void mtl_executeCleanupBlock (__strong mtl_cleanupBlock_t *block);
+#if defined(__cplusplus)
+}
+#endif
 
 #define mtl_weakify_(INDEX, CONTEXT, VAR) \
     CONTEXT __typeof__(VAR) metamacro_concat(VAR, _weak_) = (VAR);
 
 #define mtl_strongify_(INDEX, VAR) \
     __strong __typeof__(VAR) VAR = metamacro_concat(VAR, _weak_);
+
+// Details about the choice of backing keyword:
+//
+// The use of @try/@catch/@finally can cause the compiler to suppress
+// return-type warnings.
+// The use of @autoreleasepool {} is not optimized away by the compiler,
+// resulting in superfluous creation of autorelease pools.
+//
+// Since neither option is perfect, and with no other alternatives, the
+// compromise is to use @autorelease in DEBUG builds to maintain compiler
+// analysis, and to use @try/@catch otherwise to avoid insertion of unnecessary
+// autorelease pools.
+#if defined(DEBUG) && !defined(NDEBUG)
+#define mtl_keywordify autoreleasepool {}
+#else
+#define mtl_keywordify try {} @catch (...) {}
+#endif

@@ -36,10 +36,17 @@ NSString *lowercaseStringPath = @keypath(NSString.new, lowercaseString);
  * uses of \@keypath.
  */
 #define keypath(...) \
+    _Pragma("clang diagnostic push") \
+    _Pragma("clang diagnostic ignored \"-Warc-repeated-use-of-weak\"") \
+    (NO).boolValue ? ((NSString * _Nonnull)nil) : ((NSString * _Nonnull)@(cStringKeypath(__VA_ARGS__))) \
+    _Pragma("clang diagnostic pop") \
+
+#define cStringKeypath(...) \
     metamacro_if_eq(1, metamacro_argcount(__VA_ARGS__))(keypath1(__VA_ARGS__))(keypath2(__VA_ARGS__))
 
 #define keypath1(PATH) \
-    (((void)(NO && ((void)PATH, NO)), strchr(# PATH, '.') + 1))
+    (((void)(NO && ((void)PATH, NO)), \
+    ({ char *__extobjckeypath__ = strchr(# PATH, '.'); NSCAssert(__extobjckeypath__, @"Provided key path is invalid."); __extobjckeypath__ + 1; })))
 
 #define keypath2(OBJ, PATH) \
     (((void)(NO && ((void)OBJ.PATH, NO)), # PATH))
@@ -49,10 +56,10 @@ NSString *lowercaseStringPath = @keypath(NSString.new, lowercaseString);
  * receiver, collection object receiver and related keypaths:
  *
  * @code
- 
+
  NSString *employeesFirstNamePath = @collectionKeypath(department.employees, Employee.new, firstName)
  // => @"employees.firstName"
- 
+
  NSString *employeesFirstNamePath = @collectionKeypath(Department.new, employees, Employee.new, firstName)
  // => @"employees.firstName"
 
@@ -62,7 +69,9 @@ NSString *lowercaseStringPath = @keypath(NSString.new, lowercaseString);
 #define collectionKeypath(...) \
     metamacro_if_eq(3, metamacro_argcount(__VA_ARGS__))(collectionKeypath3(__VA_ARGS__))(collectionKeypath4(__VA_ARGS__))
 
-#define collectionKeypath3(PATH, COLLECTION_OBJECT, COLLECTION_PATH) ([[NSString stringWithFormat:@"%s.%s",keypath(PATH), keypath(COLLECTION_OBJECT, COLLECTION_PATH)] UTF8String])
+#define collectionKeypath3(PATH, COLLECTION_OBJECT, COLLECTION_PATH) \
+    (YES).boolValue ? (NSString * _Nonnull)@((const char * _Nonnull)[[NSString stringWithFormat:@"%s.%s", cStringKeypath(PATH), cStringKeypath(COLLECTION_OBJECT, COLLECTION_PATH)] UTF8String]) : (NSString * _Nonnull)nil
 
-#define collectionKeypath4(OBJ, PATH, COLLECTION_OBJECT, COLLECTION_PATH) ([[NSString stringWithFormat:@"%s.%s",keypath(OBJ, PATH), keypath(COLLECTION_OBJECT, COLLECTION_PATH)] UTF8String])
+#define collectionKeypath4(OBJ, PATH, COLLECTION_OBJECT, COLLECTION_PATH) \
+    (YES).boolValue ? (NSString * _Nonnull)@((const char * _Nonnull)[[NSString stringWithFormat:@"%s.%s", cStringKeypath(OBJ, PATH), cStringKeypath(COLLECTION_OBJECT, COLLECTION_PATH)] UTF8String]) : (NSString * _Nonnull)nil
 
