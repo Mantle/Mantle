@@ -574,6 +574,14 @@ describe(@"Deserializing multiple models", ^{
 
 		expect(models).to(equal(expected));
 	});
+	
+	it(@"should return empty array on wrong input data", ^{
+		NSError *error = nil;
+		NSArray *models = [MTLJSONAdapter modelsOfClass:MTLTestModel.class fromJSONArray:@[@"foo", @"bar"] error:&error];
+
+		expect(@(models.count)).to(equal(@0));
+		expect(error).notTo(beNil());
+	});
 });
 
 it(@"should return nil and an error if it fails to initialize any model from an array", ^{
