@@ -220,14 +220,14 @@ extern NSString * const MTLJSONAdapterThrownExceptionErrorKey;
 /// A value transformer that should be used for a properties of the given
 /// primitive type.
 ///
-/// If `objCType` matches @encode(id), the value transformer returned by
+/// If `objCType` matches @‎encode(id), the value transformer returned by
 /// +transformerForModelPropertiesOfClass: is used instead.
 ///
-/// The default implementation transforms properties that match @encode(BOOL)
+/// The default implementation transforms properties that match @‎encode(BOOL)
 /// using the MTLBooleanValueTransformerName transformer.
 ///
 /// objCType - The type encoding for the value of this property. This is the type
-///            as it would be returned by the @encode() directive.
+///            as it would be returned by the @‎encode() directive.
 ///
 /// Returns a value transformer or nil if no transformation should be used.
 + (NSValueTransformer *)transformerForModelPropertiesOfObjCType:(const char *)objCType;

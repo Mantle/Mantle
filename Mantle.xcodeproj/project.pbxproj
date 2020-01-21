@@ -57,10 +57,6 @@
 		CD7C6DA91D33ACCC002EC294 /* NSDictionary+MTLManipulationAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = D0C27D0816110973002FE587 /* NSDictionary+MTLManipulationAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CD7C6DAA1D33ACCC002EC294 /* metamacros.h in Headers */ = {isa = PBXBuildFile; fileRef = D094E47A1777617300906BF7 /* metamacros.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		CD7C6DAB1D33ACCC002EC294 /* Mantle.h in Headers */ = {isa = PBXBuildFile; fileRef = D042FC4C15F72B23004E8054 /* Mantle.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CD7C6DB91D33AD72002EC294 /* watchOS-Application.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = CD7C6DB51D33AD72002EC294 /* watchOS-Application.xcconfig */; };
-		CD7C6DBA1D33AD72002EC294 /* watchOS-Base.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = CD7C6DB61D33AD72002EC294 /* watchOS-Base.xcconfig */; };
-		CD7C6DBB1D33AD72002EC294 /* watchOS-Framework.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = CD7C6DB71D33AD72002EC294 /* watchOS-Framework.xcconfig */; };
-		CD7C6DBC1D33AD72002EC294 /* watchOS-StaticLibrary.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = CD7C6DB81D33AD72002EC294 /* watchOS-StaticLibrary.xcconfig */; };
 		CDEEABA91D33FC5100240A4B /* NSError+MTLModelException.m in Sources */ = {isa = PBXBuildFile; fileRef = 54803A31178829A700011B39 /* NSError+MTLModelException.m */; };
 		CDEEABAA1D33FC5100240A4B /* NSValueTransformer+MTLPredefinedTransformerAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F117481614C5600092520B /* NSValueTransformer+MTLPredefinedTransformerAdditions.m */; };
 		CDEEABAB1D33FC5100240A4B /* NSDictionary+MTLMappingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 547F78541822BCFD00BBAB7B /* NSDictionary+MTLMappingAdditions.m */; };
@@ -115,10 +111,6 @@
 		CDEEABF01D33FC7900240A4B /* MTLTestModel-OldArchive.plist in Resources */ = {isa = PBXBuildFile; fileRef = D01BD0B916CB6F5700EC95C7 /* MTLTestModel-OldArchive.plist */; };
 		CDEEABF21D33FC7900240A4B /* Nimble.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = D0E9C39819F6E008000D427D /* Nimble.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CDEEABF31D33FC7900240A4B /* Quick.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = D0E9C39419F6DFD9000D427D /* Quick.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		CDEEAC011D33FCBD00240A4B /* tvOS-Application.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = CDEEABFD1D33FCBD00240A4B /* tvOS-Application.xcconfig */; };
-		CDEEAC021D33FCBD00240A4B /* tvOS-Base.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = CDEEABFE1D33FCBD00240A4B /* tvOS-Base.xcconfig */; };
-		CDEEAC031D33FCBD00240A4B /* tvOS-Framework.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = CDEEABFF1D33FCBD00240A4B /* tvOS-Framework.xcconfig */; };
-		CDEEAC041D33FCBD00240A4B /* tvOS-StaticLibrary.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = CDEEAC001D33FCBD00240A4B /* tvOS-StaticLibrary.xcconfig */; };
 		CDEEAC071D34004100240A4B /* Mantle.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = CDEEABD11D33FC5100240A4B /* Mantle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D01BD09D16CB432D00EC95C7 /* MTLJSONAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = D01BD09B16CB432D00EC95C7 /* MTLJSONAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D01BD09F16CB432D00EC95C7 /* MTLJSONAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = D01BD09C16CB432D00EC95C7 /* MTLJSONAdapter.m */; };
@@ -950,11 +942,15 @@
 			attributes = {
 				LastSwiftUpdateCheck = 0700;
 				LastTestingUpgradeCheck = 0510;
-				LastUpgradeCheck = 0710;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = GitHub;
 				TargetAttributes = {
+					D042FC5315F72B23004E8054 = {
+						LastSwiftMigration = 0800;
+					};
 					D0E9C35619F6DB38000D427D = {
 						CreatedOnToolsVersion = 6.1;
+						LastSwiftMigration = 0800;
 					};
 					D0E9C36019F6DB38000D427D = {
 						CreatedOnToolsVersion = 6.1;
@@ -1011,14 +1007,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CDEEAC041D33FCBD00240A4B /* tvOS-StaticLibrary.xcconfig in Resources */,
-				CD7C6DBC1D33AD72002EC294 /* watchOS-StaticLibrary.xcconfig in Resources */,
-				CDEEAC011D33FCBD00240A4B /* tvOS-Application.xcconfig in Resources */,
-				CDEEAC031D33FCBD00240A4B /* tvOS-Framework.xcconfig in Resources */,
-				CD7C6DBB1D33AD72002EC294 /* watchOS-Framework.xcconfig in Resources */,
-				CD7C6DB91D33AD72002EC294 /* watchOS-Application.xcconfig in Resources */,
-				CD7C6DBA1D33AD72002EC294 /* watchOS-Base.xcconfig in Resources */,
-				CDEEAC021D33FCBD00240A4B /* tvOS-Base.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1360,6 +1348,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.mantle.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -1377,6 +1366,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.mantle.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Test;
 		};
@@ -1393,6 +1383,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.mantle.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -1409,6 +1400,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.mantle.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Profile;
 		};
@@ -1416,6 +1408,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D094E4831777619600906BF7 /* Debug.xcconfig */;
 			buildSettings = {
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1431,6 +1425,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D094E4851777619600906BF7 /* Release.xcconfig */;
 			buildSettings = {
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
@@ -1481,6 +1477,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.mantle.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -1498,6 +1495,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.mantle.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -1505,6 +1503,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D094E4841777619600906BF7 /* Profile.xcconfig */;
 			buildSettings = {
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
@@ -1541,6 +1541,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.mantle.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Profile;
 		};
@@ -1548,6 +1549,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D094E4861777619600906BF7 /* Test.xcconfig */;
 			buildSettings = {
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
@@ -1585,6 +1588,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.mantle.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Test;
 		};
@@ -1592,12 +1596,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D0E9C37419F6DB8A000D427D /* iOS-Framework.xcconfig */;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				INFOPLIST_FILE = Mantle/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.mantle.$(PRODUCT_NAME:rfc1034identifier)";
+				SWIFT_VERSION = 3.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -1607,12 +1612,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D0E9C37419F6DB8A000D427D /* iOS-Framework.xcconfig */;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				INFOPLIST_FILE = Mantle/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.mantle.$(PRODUCT_NAME:rfc1034identifier)";
+				SWIFT_VERSION = 3.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -1622,12 +1628,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D0E9C37419F6DB8A000D427D /* iOS-Framework.xcconfig */;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				INFOPLIST_FILE = Mantle/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.mantle.$(PRODUCT_NAME:rfc1034identifier)";
+				SWIFT_VERSION = 3.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -1637,12 +1644,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D0E9C37419F6DB8A000D427D /* iOS-Framework.xcconfig */;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				INFOPLIST_FILE = Mantle/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.mantle.$(PRODUCT_NAME:rfc1034identifier)";
+				SWIFT_VERSION = 3.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -1663,6 +1671,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.mantle.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -1681,6 +1690,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.mantle.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Test;
 		};
@@ -1698,6 +1708,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.mantle.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -1715,6 +1726,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.mantle.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Profile;
 		};
