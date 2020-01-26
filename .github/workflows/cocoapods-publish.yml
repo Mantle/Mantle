@@ -1,0 +1,34 @@
+name: cocoapods-publish
+
+on:
+  push:
+    tags:
+    - '*'
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Updating submodules
+      run: git submodule update --init --recursive
+    - name: Get the version from tag
+      id: get_version
+      run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+    - name: Publish to Cocoapods
+      env:
+        COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
+        MANTLE_VERSION: ${{ steps.get_version.outputs.VERSION }}
+      run: |
+        mkdir -p tmp
+
+        # Modify the podspec with the version & tag and run lint on it
+        jq --arg VERSION "$MANTLE_VERSION" '. | .version |= $VERSION | .source.tag |= $VERSION' Mantle.podspec.json > tmp/Mantle.podspec.json
+        pod spec lint tmp/Mantle.podspec.json --skip-import-validation --allow-warnings
+
+        # Print out the podspec we'll submit
+        cat tmp/Mantle.podspec.json
+
+        # Time to ship!
+        pod trunk push tmp/Mantle.podspec.json --skip-import-validation --allow-warnings
