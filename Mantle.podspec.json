@@ -1,0 +1,30 @@
+{
+  "name": "Mantle",
+  "summary": "Model framework for Cocoa and Cocoa Touch.",
+  "homepage": "https://github.com/Mantle/Mantle",
+  "license": "MIT",
+  "authors": {
+    "Robert Böhnke": "robb@robb.is",
+    "David Caunt": "dcaunt@gmail.com",
+    "Jan Gorman": "gorman.jan@gmail.com"
+  },
+  "source": {
+    "git": "https://github.com/Mantle/Mantle.git"
+  },
+  "platforms": {
+    "ios": "5.0",
+    "osx": "10.7",
+    "watchos": "2.0",
+    "tvos": "9.0"
+  },
+  "requires_arc": true,
+  "frameworks": "Foundation",
+  "source_files": "Mantle",
+  "subspecs": [
+    {
+      "name": "extobjc",
+      "source_files": "Mantle/extobjc",
+      "private_header_files": "Mantle/extobjc/*.h"
+    }
+  ]
+}
