@@ -21,3 +21,7 @@ All code contributions should match our [coding
 conventions](https://github.com/github/objective-c-conventions).
 
 Thanks for contributing! :boom::camel:
+
+## GitHub Actions
+
+We use GitHub Actions in order to check build quality, automate common tasks, & auto-deploy releases. Learn more in our [ACTIONS.md](https://github.com/Mantle/Mantle/blob/master/ACTIONS.md) documentation.

@@ -476,6 +476,8 @@ Mantle supports OS X 10.9+ and iOS 8.0+.
 
 ## Importing Mantle
 
+### Manually
+
 To add Mantle to your application:
 
  1. Add the Mantle repository as a submodule of your application's repository.
@@ -483,16 +485,29 @@ To add Mantle to your application:
  1. Drag and drop `Mantle.xcodeproj` into your application's Xcode project.
  1. On the "General" tab of your application target, add `Mantle.framework` to the "Embedded Binaries".
 
-[Carthage](https://github.com/Carthage/Carthage) users can simply add Mantle to their `Cartfile`:
+If you’re instead developing Mantle on its own, use the `Mantle.xcworkspace` file.
+
+### [Carthage](https://github.com/Carthage/Carthage)
+
+Simply add Mantle to your `Cartfile`:
+
 ```
 github "Mantle/Mantle"
 ```
 
-If you would prefer to use [CocoaPods](http://cocoapods.org), there are some
-[Mantle podspecs](https://github.com/CocoaPods/Specs/tree/master/Specs/5/d/c/Mantle) that
-have been generously contributed by third parties.
+### [CocoaPods](https://cocoapods.org/pods/Mantle)
 
-If you’re instead developing Mantle on its own, use the `Mantle.xcworkspace` file.
+Add Mantle to your `Podfile` under the build target they want it used in:
+
+```
+target 'MyAppOrFramework' do
+  pod 'Mantle'
+end
+```
+
+Then run a `pod install` within Terminal or the [CocoaPods app](https://cocoapods.org/app).
+
+
 
 ## License
 
