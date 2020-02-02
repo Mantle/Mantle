@@ -1,7 +1,10 @@
-# Mantle [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+# Mantle
 
-Mantle makes it easy to write a simple model layer for your Cocoa or Cocoa Touch
-application.
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+[![CocoaPods Compatible](https://img.shields.io/cocoapods/v/Mantle.svg)](https://img.shields.io/cocoapods/v/Mantle.svg)
+[![Platform](https://img.shields.io/cocoapods/p/Mantle.svg?style=flat)](http://cocoadocs.org/docsets/Mantle)
+
+Mantle makes it easy to write a simple model layer for your Cocoa or Cocoa Touch application.
 
 ## The Typical Model Object
 
@@ -472,7 +475,12 @@ in memory at once, Core Data may be a better choice.
 
 ## System Requirements
 
-Mantle supports OS X 10.9+ and iOS 8.0+.
+Mantle supports the following platform deployment targets:
+
+* macOS 10.10+
+* iOS 8.0+
+* tvOS 9.0+
+* watchOS 2.0+
 
 ## Importing Mantle
 

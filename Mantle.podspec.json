@@ -12,8 +12,8 @@
     "git": "https://github.com/Mantle/Mantle.git"
   },
   "platforms": {
-    "ios": "5.0",
-    "osx": "10.7",
+    "ios": "8.0",
+    "osx": "10.10",
     "watchos": "2.0",
     "tvos": "9.0"
   },
