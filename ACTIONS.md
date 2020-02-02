@@ -1,4 +1,6 @@
-We use GitHub Actions in order to help automate deployment, check build quality, & other tasks. You can add, edit, & view our GitHub actions by running the following commands in Terminal when in the repo's base directory:
+# GitHub Actions in Mantle
+
+We use [GitHub Actions](https://help.github.com/en/actions/automating-your-workflow-with-github-actions) in order to help automate deployment, check build quality, & other tasks. You can add, edit, & view our GitHub actions by running the following commands in Terminal when in the repo's base directory:
 
 ```
 open .github/workflows
