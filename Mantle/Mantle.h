@@ -14,6 +14,10 @@ FOUNDATION_EXPORT double MantleVersionNumber;
 //! Project version string for Mantle.
 FOUNDATION_EXPORT const unsigned char MantleVersionString[];
 
+// These imports should not be visible to SPM & SPM doesn't seem to have the target "exclude" apply to headers
+// & publicHeadersPath is a single string, so can't just list all the headers we want unless we move them into a folder
+#if SWIFT_PACKAGE
+
 #import <Mantle/MTLJSONAdapter.h>
 #import <Mantle/MTLModel.h>
 #import <Mantle/MTLModel+NSCoding.h>
@@ -25,3 +29,5 @@ FOUNDATION_EXPORT const unsigned char MantleVersionString[];
 #import <Mantle/NSObject+MTLComparisonAdditions.h>
 #import <Mantle/NSValueTransformer+MTLInversionAdditions.h>
 #import <Mantle/NSValueTransformer+MTLPredefinedTransformerAdditions.h>
+
+#endif /* SWIFT_PACKAGE */
