@@ -28,10 +28,7 @@ let package = Package(
             exclude: [
                 "extobjc",
             ],
-            publicHeadersPath: ".",
-            cSettings: [
-                .define("MANTLE_SPM", to: "1"),  // Prevent framework import headers
-        ]),
+            publicHeadersPath: "."),
         .target(
             name: "extobjc",
             dependencies: [],
