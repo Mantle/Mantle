@@ -30,7 +30,7 @@ let package = Package(
             ],
             publicHeadersPath: ".",
             cSettings: [
-                .define("SWIFT_PACKAGE", to: "1"),  // Prevent framework import headers
+                .define("MANTLE_SPM", to: "1"),  // Prevent framework import headers
         ]),
         .target(
             name: "extobjc",
