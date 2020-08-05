@@ -195,7 +195,7 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 					if (error != NULL) {
 						NSDictionary *userInfo = @{
 							NSLocalizedDescriptionKey: NSLocalizedString(@"Could not transform array", @""),
-							NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Could not transform value at index %d", @""), index],
+							NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Could not transform value at index %ld", @""), (long)index],
 							NSUnderlyingErrorKey: underlyingError,
 							MTLTransformerErrorHandlingInputValueErrorKey: values
 						};
@@ -254,7 +254,7 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 						if (error != NULL) {
 							NSDictionary *userInfo = @{
 								NSLocalizedDescriptionKey: NSLocalizedString(@"Could not transform array", @""),
-								NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Could not transform value at index %d", @""), index],
+								NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Could not transform value at index %ld", @""), (long)index],
 								NSUnderlyingErrorKey: underlyingError,
 								MTLTransformerErrorHandlingInputValueErrorKey: values
 							};
