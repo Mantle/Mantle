@@ -5,6 +5,8 @@ on: [push]
 jobs:
   build:
     runs-on: macos-latest
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_11.7.app/Contents/Developer
 
     strategy:
       matrix:
@@ -27,12 +29,9 @@ jobs:
             destination: "name=Apple Watch Series 4 - 40mm"
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Updating submodules
       run: git submodule update --init --recursive
-    - name: Select Xcode Version
-      run: sudo xcode-select -s '/Applications/Xcode_11.2.app/Contents/Developer'
-    - name: Show Xcode version
-      run: xcodebuild -version
     - name: Build
       run: xcodebuild ${{ matrix.config.action }} -workspace Mantle.xcworkspace -scheme "${{ matrix.config.scheme }}" -sdk "${{ matrix.config.sdk }}" -destination "${{ matrix.config.destination }}" RUN_CLANG_STATIC_ANALYZER=NO
+      

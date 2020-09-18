@@ -1,0 +1,23 @@
+
+name: CI (pull-requests-only)
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  buildsh:
+    env:
+        DEVELOPER_DIR: /Applications/Xcode_11.7.app/Contents/Developer
+    name: Carthage Build
+    runs-on: macOS-latest
+    steps:
+    - name: Checkout the Git repository
+      uses: actions/checkout@v2
+
+    - name: Update submodules
+      run: git submodule update --init --recursive
+
+    - name: Verify Carthage build
+      run: carthage build --no-skip-current
