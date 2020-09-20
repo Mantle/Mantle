@@ -1,0 +1,55 @@
+
+name: CI (pull-requests-only)
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  Carthage-Build:
+    env:
+        DEVELOPER_DIR: /Applications/Xcode_11.7.app/Contents/Developer
+    name: Carthage Build
+    runs-on: macOS-latest
+    steps:
+    - name: Checkout the Git repository
+      uses: actions/checkout@v2
+
+    - name: Update submodules
+      run: git submodule update --init --recursive
+
+    - name: Verify Carthage build
+      run: carthage build --no-skip-current
+
+  Tests:
+    runs-on: macos-latest
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_11.7.app/Contents/Developer
+
+    strategy:
+      matrix:
+        config:
+          - scheme: "Mantle Mac"
+            action: test
+            sdk: macosx
+            destination: "arch=x86_64"
+          - scheme: "Mantle iOS"
+            action: test
+            sdk: iphonesimulator
+            destination: "name=iPhone 11"
+          - scheme: "Mantle-tvOS"
+            action: test
+            sdk: appletvsimulator
+            destination: "name=Apple TV"
+          - scheme: "Mantle-watchOS"
+            action: build
+            sdk: watchsimulator
+            destination: "name=Apple Watch Series 4 - 40mm"
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Updating submodules
+      run: git submodule update --init --recursive
+    - name: Build
+      run: xcodebuild ${{ matrix.config.action }} -workspace Mantle.xcworkspace -scheme "${{ matrix.config.scheme }}" -sdk "${{ matrix.config.sdk }}" -destination "${{ matrix.config.destination }}" RUN_CLANG_STATIC_ANALYZER=NO
