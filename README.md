@@ -2,6 +2,7 @@
 
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![CocoaPods Compatible](https://img.shields.io/cocoapods/v/Mantle.svg)](https://img.shields.io/cocoapods/v/Mantle.svg)
+[![SPM compatible](https://img.shields.io/badge/SPM-compatible-4BC51D.svg?style=flat)](https://swift.org/package-manager)
 [![Platform](https://img.shields.io/cocoapods/p/Mantle.svg?style=flat)](http://cocoadocs.org/docsets/Mantle)
 
 Mantle makes it easy to write a simple model layer for your Cocoa or Cocoa Touch application.
@@ -515,7 +516,17 @@ end
 
 Then run a `pod install` within Terminal or the [CocoaPods app](https://cocoapods.org/app).
 
+### [Swift Package Manager](https://swift.org/package-manager)
 
+If you are writing an application, add Mantle to your project dependencies [directly within Xcode](https://developer.apple.com/documentation/xcode/adding_package_dependencies_to_your_app).
+
+If you are writing a package that requires Mantle as dependency, add it to the `dependencies` list in its `Package.swift` manifest, for example:
+
+```
+dependencies: [
+    .package(url: "https://github.com/Mantle/Mantle.git", .upToNextMajor(from: "2.0.0"))
+]
+```
 
 ## License
 
