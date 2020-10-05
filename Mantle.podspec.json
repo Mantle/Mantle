@@ -19,12 +19,12 @@
   },
   "requires_arc": true,
   "frameworks": "Foundation",
-  "source_files": "Mantle",
+  "source_files": ["Mantle", "Mantle/include"],
   "subspecs": [
     {
       "name": "extobjc",
-      "source_files": "Mantle/extobjc",
-      "private_header_files": "Mantle/extobjc/*.h"
+      "source_files": ["Mantle/extobjc", "Mantle/extobjc/include/*.h"],
+      "private_header_files": "Mantle/extobjc/include/*.h"
     }
   ]
 }

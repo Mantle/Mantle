@@ -6,7 +6,11 @@
 //  Copyright (c) 2013 GitHub. All rights reserved.
 //
 
+#if __has_include(<Mantle/MTLModel.h>)
+#import <Mantle/MTLModel.h>
+#else
 #import "MTLModel.h"
+#endif
 
 /// Defines how a MTLModel property key should be encoded into an archive.
 ///

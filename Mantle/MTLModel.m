@@ -6,10 +6,10 @@
 //  Copyright (c) 2012 GitHub. All rights reserved.
 //
 
+#import "EXTRuntimeExtensions.h"
+#import "EXTScope.h"
 #import "NSError+MTLModelException.h"
 #import "MTLModel.h"
-#import <Mantle/EXTRuntimeExtensions.h>
-#import <Mantle/EXTScope.h>
 #import "MTLReflection.h"
 #import <objc/runtime.h>
 
