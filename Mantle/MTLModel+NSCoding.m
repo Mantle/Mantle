@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 GitHub. All rights reserved.
 //
 
-#import "EXTRuntimeExtensions.h"
-#import "EXTScope.h"
+#import "MTLEXTRuntimeExtensions.h"
+#import "MTLEXTScope.h"
 #import "MTLModel+NSCoding.h"
 #import "MTLReflection.h"
 
