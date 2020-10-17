@@ -1,5 +1,5 @@
 //
-//  EXTScope.h
+//  MTLEXTScope.h
 //  extobjc
 //
 //  Created by Justin Spahr-Summers on 2011-05-04.
@@ -7,7 +7,7 @@
 //  Released under the MIT license.
 //
 
-#import "metamacros.h"
+#import "MTLMetamacros.h"
 
 /**
  * \@onExit defines some code to be executed when the current scope exits. The

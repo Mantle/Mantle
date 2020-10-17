@@ -1,5 +1,5 @@
 //
-//  EXTKeyPathCoding.h
+//  MTLEXTKeyPathCoding.h
 //  extobjc
 //
 //  Created by Justin Spahr-Summers on 19.06.12.
@@ -8,7 +8,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "metamacros.h"
+#import "MTLMetamacros.h"
 
 /**
  * \@keypath allows compile-time verification of key paths. Given a real object
