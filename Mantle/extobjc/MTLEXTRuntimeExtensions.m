@@ -41,10 +41,10 @@ typedef struct {
     //
     // this does NOT refer to a special protocol having been injected already
     BOOL ready;
-} EXTSpecialProtocol;
+} MTLSpecialProtocol;
 
-// the full list of special protocols (an array of EXTSpecialProtocol structs)
-static EXTSpecialProtocol * restrict specialProtocols = NULL;
+// the full list of special protocols (an array of MTLSpecialProtocol structs)
+static MTLSpecialProtocol * restrict specialProtocols = NULL;
 
 // the number of special protocols stored in the array
 static size_t specialProtocolCount = 0;
@@ -54,7 +54,7 @@ static size_t specialProtocolCount = 0;
 // generally going to be a power-of-two
 static size_t specialProtocolCapacity = 0;
 
-// the number of EXTSpecialProtocols which have been marked as ready for
+// the number of MTLSpecialProtocols which have been marked as ready for
 // injection (though not necessary injected)
 //
 // in other words, the total count which have 'ready' set to YES
@@ -81,16 +81,16 @@ static void mtl_injectSpecialProtocols (void) {
      * a special protocol conforms to another special protocol, the former
      * will be prioritized above the latter.
      */
-    qsort_b(specialProtocols, specialProtocolCount, sizeof(EXTSpecialProtocol), ^(const void *a, const void *b){
+    qsort_b(specialProtocols, specialProtocolCount, sizeof(MTLSpecialProtocol), ^(const void *a, const void *b){
         // if the pointers are equal, it must be the same protocol
         if (a == b)
             return 0;
 
-        const EXTSpecialProtocol *protoA = a;
-        const EXTSpecialProtocol *protoB = b;
+        const MTLSpecialProtocol *protoA = a;
+        const MTLSpecialProtocol *protoB = b;
 
         // A higher return value here means a higher priority
-        int (^protocolInjectionPriority)(const EXTSpecialProtocol *) = ^(const EXTSpecialProtocol *specialProtocol){
+        int (^protocolInjectionPriority)(const MTLSpecialProtocol *) = ^(const MTLSpecialProtocol *specialProtocol){
             int runningTotal = 0;
 
             for (size_t i = 0;i < specialProtocolCount;++i) {
@@ -799,9 +799,9 @@ BOOL mtl_loadSpecialProtocol (Protocol *protocol, void (^injectionBehavior)(Clas
         #ifndef __clang_analyzer__
         mtl_specialProtocolInjectionBlock copiedBlock = [injectionBehavior copy];
 
-        // construct a new EXTSpecialProtocol structure and add it to the first
+        // construct a new MTLSpecialProtocol structure and add it to the first
         // empty space in the array
-        specialProtocols[specialProtocolCount] = (EXTSpecialProtocol){
+        specialProtocols[specialProtocolCount] = (MTLSpecialProtocol){
             .protocol = protocol,
             .injectionBlock = (__bridge_retained void *)copiedBlock,
             .ready = NO
