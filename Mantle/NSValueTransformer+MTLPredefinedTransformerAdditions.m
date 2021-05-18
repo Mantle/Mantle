@@ -287,6 +287,13 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 
 	return [MTLValueTransformer transformerUsingForwardBlock:^ id (id value, BOOL *success, NSError **error) {
 		if (value != nil && ![value isKindOfClass:modelClass]) {
+			if ([value isKindOfClass:NSNumber.class] && modelClass == NSString.class) {
+                return [(NSNumber *)value stringValue];
+            } else if ([value isKindOfClass:NSString.class] && modelClass == NSNumber.class) {
+                NSString *stringValue = (NSString *)value;
+                return [stringValue containsString:@"."] ? @([stringValue doubleValue]) : @([stringValue longLongValue]);
+            }
+            
 			if (error != NULL) {
 				NSDictionary *userInfo = @{
 					NSLocalizedDescriptionKey: NSLocalizedString(@"Value did not match expected type", @""),
