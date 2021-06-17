@@ -479,7 +479,7 @@ in memory at once, Core Data may be a better choice.
 Mantle supports the following platform deployment targets:
 
 * macOS 10.10+
-* iOS 8.0+
+* iOS 9.0+
 * tvOS 9.0+
 * watchOS 2.0+
 
