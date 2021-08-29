@@ -120,7 +120,7 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 	objc_setAssociatedObject(self, MTLModelCachedPermanentPropertyKeysKey, permanentKeys, OBJC_ASSOCIATION_COPY);
 }
 
-+ (instancetype)modelWithDictionary:(NSDictionary *)dictionary error:(NSError **)error {
++ (instancetype)modelWithDictionary:(NSDictionary *)dictionary error:(NSError * __autoreleasing *)error {
 	return [[self alloc] initWithDictionary:dictionary error:error];
 }
 
@@ -129,7 +129,7 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 	return [super init];
 }
 
-- (instancetype)initWithDictionary:(NSDictionary *)dictionary error:(NSError **)error {
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary error:(NSError * __autoreleasing *)error {
 	self = [self init];
 	if (self == nil) return nil;
 
@@ -279,7 +279,7 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 
 #pragma mark Validation
 
-- (BOOL)validate:(NSError **)error {
+- (BOOL)validate:(NSError * __autoreleasing *)error {
 	for (NSString *key in self.class.propertyKeys) {
 		id value = [self valueForKey:key];
 
