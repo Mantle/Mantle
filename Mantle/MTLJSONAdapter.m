@@ -400,7 +400,9 @@ NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapterThrownE
 			}
 		}
 
-		objc_property_t property = class_getProperty(modelClass, key.UTF8String);
+        objc_property_t property = NULL;
+        const char *keyUTF8String = key.UTF8String;
+        if (keyUTF8String != NULL) property = class_getProperty(modelClass, keyUTF8String);
 
 		if (property == NULL) continue;
 
