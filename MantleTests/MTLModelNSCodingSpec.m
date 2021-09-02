@@ -127,8 +127,9 @@ describe(@"archiving", ^{
 	it(@"should unarchive an external representation from the old model format", ^{
 		NSURL *archiveURL = [[NSBundle bundleForClass:self.class] URLForResource:@"MTLTestModel-OldArchive" withExtension:@"plist"];
 		expect(archiveURL).notTo(beNil());
+		expect(archiveURL.path).notTo(beNil());
 
-		MTLTestModel *unarchivedModel = [NSKeyedUnarchiver unarchiveObjectWithFile:archiveURL.path];
+		MTLTestModel *unarchivedModel = [NSKeyedUnarchiver unarchiveObjectWithFile:(NSString *)archiveURL.path];
 		expect(unarchivedModel).notTo(beNil());
 
 		NSDictionary *expectedValues = @{
