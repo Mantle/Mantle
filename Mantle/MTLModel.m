@@ -222,9 +222,9 @@ static BOOL MTLValidateAndSetValue(id obj, NSString *key, id value, BOOL forceUp
 }
 
 + (MTLPropertyStorage)storageBehaviorForPropertyWithKey:(NSString *)propertyKey {
-    objc_property_t property = NULL;
-    const char *propertyKeyUTF8String = propertyKey.UTF8String;
-    if (propertyKeyUTF8String != NULL) property = class_getProperty(self.class, propertyKeyUTF8String);
+	objc_property_t property = NULL;
+	const char *propertyKeyUTF8String = propertyKey.UTF8String;
+	if (propertyKeyUTF8String != NULL) property = class_getProperty(self.class, propertyKeyUTF8String);
 
 	if (property == NULL) return MTLPropertyStorageNone;
 
