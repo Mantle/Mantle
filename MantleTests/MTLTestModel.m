@@ -113,8 +113,8 @@ static NSUInteger modelVersion = 1;
 	NSParameterAssert(fromVersion == 1);
 
 	return @{
-		@"name": externalRepresentation[@"username"] == nil ? [NSNull null] : externalRepresentation[@"username"],
-		@"nestedName": externalRepresentation[@"nested"][@"name"] == nil ? [NSNull null] : externalRepresentation[@"nested"][@"name"],
+		@"name": externalRepresentation[@"username"] ?: [NSNull null],
+		@"nestedName": externalRepresentation[@"nested"][@"name"] ?: [NSNull null],
 		@"count": @([externalRepresentation[@"count"] integerValue])
 	};
 }
