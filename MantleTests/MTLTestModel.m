@@ -102,7 +102,7 @@ static NSUInteger modelVersion = 1;
 	NSParameterAssert(coder != nil);
 
 	if ([key isEqual:@"name"] && fromVersion == 0) {
-		return [@"M: " stringByAppendingString:[coder decodeObjectForKey:@"mtl_name"]];
+		return [NSString stringWithFormat: @"M: %@", [coder decodeObjectOfClass:[NSString class] forKey:@"mtl_name"]];
 	}
 
 	return [super decodeValueForKey:key withCoder:coder modelVersion:fromVersion];
@@ -113,8 +113,8 @@ static NSUInteger modelVersion = 1;
 	NSParameterAssert(fromVersion == 1);
 
 	return @{
-		@"name": externalRepresentation[@"username"],
-		@"nestedName": externalRepresentation[@"nested"][@"name"],
+		@"name": externalRepresentation[@"username"] == nil ? [NSNull null] : externalRepresentation[@"username"],
+		@"nestedName": externalRepresentation[@"nested"][@"name"] == nil ? [NSNull null] : externalRepresentation[@"nested"][@"name"],
 		@"count": @([externalRepresentation[@"count"] integerValue])
 	};
 }
@@ -226,9 +226,11 @@ static NSUInteger modelVersion = 1;
 }
 
 + (NSValueTransformer *)JSONTransformerForKey:(NSString *)key {
+	id otherURLValueTransformer = [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
+	NSParameterAssert(otherURLValueTransformer != nil);
 	return @{
 		// Not provided transformer for self.URL
-		@"otherURL": [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName],
+		@"otherURL": otherURLValueTransformer,
 	}[key];
 }
 
@@ -261,9 +263,11 @@ static NSUInteger modelVersion = 1;
 }
 
 + (NSValueTransformer *)JSONTransformerForKey:(NSString *)key {
+	id otherUUIDValueTransformer = [NSValueTransformer valueTransformerForName:MTLUUIDValueTransformerName];
+	NSParameterAssert(otherUUIDValueTransformer != nil);
 	return @{
 		// Not provided transformer for self.UUID
-		@"otherUUID": [NSValueTransformer valueTransformerForName:MTLUUIDValueTransformerName],
+		@"otherUUID": otherUUIDValueTransformer,
 	}[key];
 }
 

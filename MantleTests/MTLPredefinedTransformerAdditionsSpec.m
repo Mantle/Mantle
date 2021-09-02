@@ -127,9 +127,9 @@ describe(@"+mtl_arrayMappingTransformerWithTransformer:", ^{
 		@"http://apple.com"
 	];
 	NSArray *URLs = @[
-		[NSURL URLWithString:@"https://github.com/"],
-		[NSURL URLWithString:@"https://github.com/MantleFramework"],
-		[NSURL URLWithString:@"http://apple.com"]
+		(NSURL *)[NSURL URLWithString:@"https://github.com/"],
+		(NSURL *)[NSURL URLWithString:@"https://github.com/MantleFramework"],
+		(NSURL *)[NSURL URLWithString:@"http://apple.com"]
 	];
 
 	describe(@"when called with a reversible transformer", ^{
