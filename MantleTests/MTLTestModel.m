@@ -24,7 +24,7 @@ static NSUInteger modelVersion = 1;
 
 #pragma mark Properties
 
-- (BOOL)validateName:(NSString **)name error:(NSError **)error {
+- (BOOL)validateName:(NSString * __autoreleasing *)name error:(NSError * __autoreleasing *)error {
 	if ([*name length] < 10) return YES;
 	if (error != NULL) {
 		*error = [NSError errorWithDomain:MTLTestModelErrorDomain code:MTLTestModelNameTooLong userInfo:nil];
@@ -102,7 +102,7 @@ static NSUInteger modelVersion = 1;
 	NSParameterAssert(coder != nil);
 
 	if ([key isEqual:@"name"] && fromVersion == 0) {
-		return [@"M: " stringByAppendingString:[coder decodeObjectForKey:@"mtl_name"]];
+		return [NSString stringWithFormat: @"M: %@", [coder decodeObjectOfClass:[NSString class] forKey:@"mtl_name"]];
 	}
 
 	return [super decodeValueForKey:key withCoder:coder modelVersion:fromVersion];
@@ -113,8 +113,8 @@ static NSUInteger modelVersion = 1;
 	NSParameterAssert(fromVersion == 1);
 
 	return @{
-		@"name": externalRepresentation[@"username"],
-		@"nestedName": externalRepresentation[@"nested"][@"name"],
+		@"name": externalRepresentation[@"username"] ?: [NSNull null],
+		@"nestedName": externalRepresentation[@"nested"][@"name"] ?: [NSNull null],
 		@"count": @([externalRepresentation[@"count"] integerValue])
 	};
 }
@@ -176,7 +176,7 @@ static NSUInteger modelVersion = 1;
 	};
 }
 
-- (BOOL)validateName:(NSString **)name error:(NSError **)error {
+- (BOOL)validateName:(NSString * __autoreleasing *)name error:(NSError * __autoreleasing *)error {
 	if (*name != nil) return YES;
 	if (error != NULL) {
 		*error = [NSError errorWithDomain:MTLTestModelErrorDomain code:MTLTestModelNameMissing userInfo:nil];
@@ -189,7 +189,7 @@ static NSUInteger modelVersion = 1;
 
 @implementation MTLSelfValidatingModel
 
-- (BOOL)validateName:(NSString **)name error:(NSError **)error {
+- (BOOL)validateName:(NSString * __autoreleasing *)name error:(NSError * __autoreleasing *)error {
 	if (*name != nil) return YES;
 
 	*name = @"foobar";
@@ -226,9 +226,11 @@ static NSUInteger modelVersion = 1;
 }
 
 + (NSValueTransformer *)JSONTransformerForKey:(NSString *)key {
+	id otherURLValueTransformer = [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
+	NSParameterAssert(otherURLValueTransformer != nil);
 	return @{
 		// Not provided transformer for self.URL
-		@"otherURL": [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName],
+		@"otherURL": otherURLValueTransformer,
 	}[key];
 }
 
@@ -261,9 +263,11 @@ static NSUInteger modelVersion = 1;
 }
 
 + (NSValueTransformer *)JSONTransformerForKey:(NSString *)key {
+	id otherUUIDValueTransformer = [NSValueTransformer valueTransformerForName:MTLUUIDValueTransformerName];
+	NSParameterAssert(otherUUIDValueTransformer != nil);
 	return @{
 		// Not provided transformer for self.UUID
-		@"otherUUID": [NSValueTransformer valueTransformerForName:MTLUUIDValueTransformerName],
+		@"otherUUID": otherUUIDValueTransformer,
 	}[key];
 }
 
@@ -331,11 +335,11 @@ static NSUInteger modelVersion = 1;
 
 #pragma mark Lifecycle
 
-+ (instancetype)modelWithDictionary:(NSDictionary *)dictionaryValue error:(NSError **)error {
++ (instancetype)modelWithDictionary:(NSDictionary *)dictionaryValue error:(NSError * __autoreleasing *)error {
 	return [[self alloc] initWithDictionary:dictionaryValue error:error];
 }
 
-- (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue error:(NSError **)error {
+- (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue error:(NSError * __autoreleasing *)error {
 	self = [super init];
 	if (self == nil) return nil;
 
@@ -344,7 +348,7 @@ static NSUInteger modelVersion = 1;
 	return self;
 }
 
-- (BOOL)validate:(NSError **)error {
+- (BOOL)validate:(NSError * __autoreleasing *)error {
 	return YES;
 }
 

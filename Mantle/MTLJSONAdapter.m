@@ -73,13 +73,13 @@ NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapterThrownE
 
 #pragma mark Convenience methods
 
-+ (id)modelOfClass:(Class)modelClass fromJSONDictionary:(NSDictionary *)JSONDictionary error:(NSError **)error {
++ (id)modelOfClass:(Class)modelClass fromJSONDictionary:(NSDictionary *)JSONDictionary error:(NSError * __autoreleasing *)error {
 	MTLJSONAdapter *adapter = [[self alloc] initWithModelClass:modelClass];
 
 	return [adapter modelFromJSONDictionary:JSONDictionary error:error];
 }
 
-+ (NSArray *)modelsOfClass:(Class)modelClass fromJSONArray:(NSArray *)JSONArray error:(NSError **)error {
++ (NSArray *)modelsOfClass:(Class)modelClass fromJSONArray:(NSArray *)JSONArray error:(NSError * __autoreleasing *)error {
 	if (JSONArray == nil || ![JSONArray isKindOfClass:NSArray.class]) {
 		if (error != NULL) {
 			NSDictionary *userInfo = @{
@@ -103,13 +103,13 @@ NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapterThrownE
 	return models;
 }
 
-+ (NSDictionary *)JSONDictionaryFromModel:(id<MTLJSONSerializing>)model error:(NSError **)error {
++ (NSDictionary *)JSONDictionaryFromModel:(id<MTLJSONSerializing>)model error:(NSError * __autoreleasing *)error {
 	MTLJSONAdapter *adapter = [[self alloc] initWithModelClass:model.class];
 
 	return [adapter JSONDictionaryFromModel:model error:error];
 }
 
-+ (NSArray *)JSONArrayFromModels:(NSArray *)models error:(NSError **)error {
++ (NSArray *)JSONArrayFromModels:(NSArray *)models error:(NSError * __autoreleasing *)error {
 	NSParameterAssert(models != nil);
 	NSParameterAssert([models isKindOfClass:NSArray.class]);
 
@@ -174,7 +174,7 @@ NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapterThrownE
 
 #pragma mark Serialization
 
-- (NSDictionary *)JSONDictionaryFromModel:(id<MTLJSONSerializing>)model error:(NSError **)error {
+- (NSDictionary *)JSONDictionaryFromModel:(id<MTLJSONSerializing>)model error:(NSError * __autoreleasing *)error {
 	NSParameterAssert(model != nil);
 	NSParameterAssert([model isKindOfClass:self.modelClass]);
 
@@ -256,7 +256,7 @@ NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapterThrownE
 	}
 }
 
-- (id)modelFromJSONDictionary:(NSDictionary *)JSONDictionary error:(NSError **)error {
+- (id)modelFromJSONDictionary:(NSDictionary *)JSONDictionary error:(NSError * __autoreleasing *)error {
 	if ([self.modelClass respondsToSelector:@selector(classForParsingJSONDictionary:)]) {
 		Class class = [self.modelClass classForParsingJSONDictionary:JSONDictionary];
 		if (class == nil) {
@@ -356,7 +356,7 @@ NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapterThrownE
 				NSDictionary *userInfo = @{
 					NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Caught exception parsing JSON key path \"%@\" for model class: %@", JSONKeyPaths, self.modelClass],
 					NSLocalizedRecoverySuggestionErrorKey: ex.description,
-					NSLocalizedFailureReasonErrorKey: ex.reason,
+					NSLocalizedFailureReasonErrorKey: ex.reason ?: @"",
 					MTLJSONAdapterThrownExceptionErrorKey: ex
 				};
 
@@ -400,7 +400,9 @@ NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapterThrownE
 			}
 		}
 
-		objc_property_t property = class_getProperty(modelClass, key.UTF8String);
+		objc_property_t property = NULL;
+		const char *keyUTF8String = key.UTF8String;
+		if (keyUTF8String != NULL) property = class_getProperty(modelClass, keyUTF8String);
 
 		if (property == NULL) continue;
 
@@ -435,7 +437,7 @@ NSString * const MTLJSONAdapterThrownExceptionErrorKey = @"MTLJSONAdapterThrownE
 	return result;
 }
 
-- (MTLJSONAdapter *)JSONAdapterForModelClass:(Class)modelClass error:(NSError **)error {
+- (MTLJSONAdapter *)JSONAdapterForModelClass:(Class)modelClass error:(NSError * __autoreleasing *)error {
 	NSParameterAssert(modelClass != nil);
 	NSParameterAssert([modelClass conformsToProtocol:@protocol(MTLJSONSerializing)]);
 

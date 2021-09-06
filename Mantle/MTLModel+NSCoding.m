@@ -67,7 +67,9 @@ static void verifyAllowedClassesByPropertyKey(Class modelClass) {
 	NSMutableDictionary *behaviors = [[NSMutableDictionary alloc] initWithCapacity:propertyKeys.count];
 
 	for (NSString *key in propertyKeys) {
-		objc_property_t property = class_getProperty(self, key.UTF8String);
+		objc_property_t property = NULL;
+		const char *keyUTF8String = key.UTF8String;
+		if (keyUTF8String != NULL) property = class_getProperty(self, keyUTF8String);
 		NSAssert(property != NULL, @"Could not find property \"%@\" on %@", key, self);
 
 		mtl_propertyAttributes *attributes = mtl_copyPropertyAttributes(property);
@@ -94,7 +96,9 @@ static void verifyAllowedClassesByPropertyKey(Class modelClass) {
 	NSMutableDictionary *allowedClasses = [[NSMutableDictionary alloc] initWithCapacity:propertyKeys.count];
 
 	for (NSString *key in propertyKeys) {
-		objc_property_t property = class_getProperty(self, key.UTF8String);
+		objc_property_t property = NULL;
+		const char *keyUTF8String = key.UTF8String;
+		if (keyUTF8String != NULL) property = class_getProperty(self, keyUTF8String);
 		NSAssert(property != NULL, @"Could not find property \"%@\" on %@", key, self);
 
 		mtl_propertyAttributes *attributes = mtl_copyPropertyAttributes(property);

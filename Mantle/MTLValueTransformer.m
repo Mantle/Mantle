@@ -67,7 +67,7 @@
 	return self.forwardBlock(value, &success, &error);
 }
 
-- (id)transformedValue:(id)value success:(BOOL *)outerSuccess error:(NSError **)outerError {
+- (id)transformedValue:(id)value success:(BOOL *)outerSuccess error:(NSError * __autoreleasing *)outerError {
 	NSError *error = nil;
 	BOOL success = YES;
 
@@ -103,7 +103,7 @@
 	return self.reverseBlock(value, &success, &error);
 }
 
-- (id)reverseTransformedValue:(id)value success:(BOOL *)outerSuccess error:(NSError **)outerError {
+- (id)reverseTransformedValue:(id)value success:(BOOL *)outerSuccess error:(NSError * __autoreleasing *)outerError {
 	NSError *error = nil;
 	BOOL success = YES;
 

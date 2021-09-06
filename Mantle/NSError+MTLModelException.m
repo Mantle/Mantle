@@ -26,7 +26,7 @@ static NSString * const MTLModelThrownExceptionErrorKey = @"MTLModelThrownExcept
 
 	NSDictionary *userInfo = @{
 		NSLocalizedDescriptionKey: exception.description,
-		NSLocalizedFailureReasonErrorKey: exception.reason,
+		NSLocalizedFailureReasonErrorKey: exception.reason ?: @"",
 		MTLModelThrownExceptionErrorKey: exception
 	};
 
