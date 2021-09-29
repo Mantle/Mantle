@@ -39,6 +39,7 @@ NSString * const MTLBooleanValueTransformerName = @"MTLBooleanValueTransformerNa
 					return nil;
 				}
 
+                str = [str stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 				NSURL *result = [NSURL URLWithString:str];
 
 				if (result == nil) {
