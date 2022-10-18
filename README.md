@@ -3,7 +3,6 @@
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![CocoaPods Compatible](https://img.shields.io/cocoapods/v/Mantle.svg)](https://img.shields.io/cocoapods/v/Mantle.svg)
 [![SPM compatible](https://img.shields.io/badge/SPM-compatible-4BC51D.svg?style=flat)](https://swift.org/package-manager)
-[![Platform](https://img.shields.io/cocoapods/p/Mantle.svg?style=flat)](http://cocoadocs.org/docsets/Mantle)
 
 Mantle makes it easy to write a simple model layer for your Cocoa or Cocoa Touch application.
 
