@@ -10,7 +10,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 ---
 
 **This project uses portions of code from the Proton framework.**
-**Proton is copyright (c) 2012, Bitswift, Inc.**
+**Proton is copyright (c) 2025, Bitswift, Inc.**
 **All rights reserved.**
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
